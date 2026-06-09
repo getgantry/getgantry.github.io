@@ -1,4 +1,44 @@
-/* Docs layout — builds on style.css tokens. */
+/* Docs layout — builds on the landing styles.css design system. */
+
+/* Solid nav (docs pages have no scroll-state JS) */
+.docs-body .nav {
+  background: rgba(8, 14, 22, 0.72);
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+.docs-body .nav-links { margin-left: auto; }
+.docs-body .nav-links a.active { color: var(--text); background: var(--panel-2); }
+
+/* Copy buttons (shared markup with the landing brew chip) */
+.copy {
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text-dim);
+  font-family: var(--sans); font-size: 0.78rem; font-weight: 600;
+  padding: 6px 12px; border-radius: 8px; cursor: pointer;
+  transition: color .18s, border-color .18s, background .18s;
+}
+.copy:hover { color: var(--text); border-color: var(--border-hi); background: var(--panel-3); }
+
+/* Code blocks (styles.css only ships .code-head; supply the frame + pre) */
+.code-block {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: rgba(4, 9, 15, 0.7);
+  overflow: hidden;
+}
+.code-block .code-head span { font-size: 0.8rem; color: var(--text-mut); font-weight: 600; }
+.code-block pre {
+  margin: 0;
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #cfe0ef;
+}
+
 .docs-shell {
   max-width: 1180px;
   margin: 0 auto;
@@ -35,7 +75,7 @@
   font-size: 0.92rem;
   font-weight: 500;
 }
-.docs-nav li a:hover { background: var(--bg-elev); color: var(--text); text-decoration: none; }
+.docs-nav li a:hover { background: var(--panel-2); color: var(--text); text-decoration: none; }
 .docs-nav li a.active {
   background: linear-gradient(135deg, rgba(43,108,176,0.16), rgba(246,134,58,0.12));
   color: var(--text);
@@ -58,10 +98,11 @@
 .docs-article li { margin: 6px 0; }
 .docs-article a { font-weight: 500; }
 .docs-article code {
-  background: var(--border);
+  background: rgba(255,255,255,0.08);
   padding: 1.5px 6px;
   border-radius: 5px;
   font-size: 0.86em;
+  font-family: var(--mono);
 }
 .docs-article .code-block code { background: none; padding: 0; }
 .docs-article .code-block { margin: 16px 0; }
@@ -75,7 +116,7 @@
   padding: 14px 16px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: var(--bg-elev);
+  background: var(--panel-2);
   font-size: 0.95rem;
 }
 .callout div { min-width: 0; }
@@ -115,7 +156,7 @@
   width: 36px; height: 36px;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: var(--bg-elev);
+  background: var(--panel-2);
   color: var(--text);
   cursor: pointer;
 }
@@ -127,11 +168,11 @@
     top: 61px; left: 0;
     width: 280px;
     max-width: 84vw;
-    background: var(--bg-solid);
+    background: var(--bg);
     transform: translateX(-105%);
     transition: transform 0.22s ease;
     z-index: 40;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-window);
   }
   .docs-sidebar.open { transform: none; }
   .docs-menu-btn { display: inline-flex; }

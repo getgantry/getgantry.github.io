@@ -405,13 +405,16 @@ def page_html(slug, title, desc, body):
   <meta property="og:description" content="{html.escape(desc)}">
   <meta property="og:url" content="https://getgantry.github.io/docs/{slug}.html">
   <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
-  <meta name="theme-color" content="#0B2942">
+  <meta name="theme-color" content="#060a10">
   <link rel="icon" type="image/png" href="../assets/icon.png">
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="docs.css">
 </head>
 <body class="docs-body">
-  <header class="nav">
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+  <header class="nav" id="nav">
     <div class="nav-inner">
       <a class="brand" href="../index.html"><img src="../assets/icon.png" alt="Gantry icon" width="28" height="28"><span>Gantry</span></a>
       <nav class="nav-links">
@@ -420,9 +423,6 @@ def page_html(slug, title, desc, body):
         <a href="../index.html#install">Install</a>
         <a href="{GITHUB}">GitHub</a>
       </nav>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle color theme" title="Toggle theme">
-        {THEME_SVGS}
-      </button>
       <button id="docs-menu-btn" class="docs-menu-btn" aria-label="Toggle docs menu" title="Menu">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
@@ -449,16 +449,6 @@ def page_html(slug, title, desc, body):
 
   <script>
     (function () {{
-      var root = document.documentElement;
-      var saved = localStorage.getItem('gantry-theme');
-      if (saved) root.setAttribute('data-theme', saved);
-      var btn = document.getElementById('theme-toggle');
-      btn.addEventListener('click', function () {{
-        var current = root.getAttribute('data-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        var next = current === 'dark' ? 'light' : 'dark';
-        root.setAttribute('data-theme', next);
-        localStorage.setItem('gantry-theme', next);
-      }});
       var mb = document.getElementById('docs-menu-btn');
       var sb = document.getElementById('docs-sidebar');
       mb.addEventListener('click', function () {{ sb.classList.toggle('open'); }});
@@ -478,7 +468,47 @@ def page_html(slug, title, desc, body):
 '''
 
 
-DOCS_CSS = '''/* Docs layout — builds on style.css tokens. */
+DOCS_CSS = '''/* Docs layout — builds on the landing styles.css design system. */
+
+/* Solid nav (docs pages have no scroll-state JS) */
+.docs-body .nav {
+  background: rgba(8, 14, 22, 0.72);
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+.docs-body .nav-links { margin-left: auto; }
+.docs-body .nav-links a.active { color: var(--text); background: var(--panel-2); }
+
+/* Copy buttons (shared markup with the landing brew chip) */
+.copy {
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text-dim);
+  font-family: var(--sans); font-size: 0.78rem; font-weight: 600;
+  padding: 6px 12px; border-radius: 8px; cursor: pointer;
+  transition: color .18s, border-color .18s, background .18s;
+}
+.copy:hover { color: var(--text); border-color: var(--border-hi); background: var(--panel-3); }
+
+/* Code blocks (styles.css only ships .code-head; supply the frame + pre) */
+.code-block {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  background: rgba(4, 9, 15, 0.7);
+  overflow: hidden;
+}
+.code-block .code-head span { font-size: 0.8rem; color: var(--text-mut); font-weight: 600; }
+.code-block pre {
+  margin: 0;
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #cfe0ef;
+}
+
 .docs-shell {
   max-width: 1180px;
   margin: 0 auto;
@@ -515,7 +545,7 @@ DOCS_CSS = '''/* Docs layout — builds on style.css tokens. */
   font-size: 0.92rem;
   font-weight: 500;
 }
-.docs-nav li a:hover { background: var(--bg-elev); color: var(--text); text-decoration: none; }
+.docs-nav li a:hover { background: var(--panel-2); color: var(--text); text-decoration: none; }
 .docs-nav li a.active {
   background: linear-gradient(135deg, rgba(43,108,176,0.16), rgba(246,134,58,0.12));
   color: var(--text);
@@ -538,10 +568,11 @@ DOCS_CSS = '''/* Docs layout — builds on style.css tokens. */
 .docs-article li { margin: 6px 0; }
 .docs-article a { font-weight: 500; }
 .docs-article code {
-  background: var(--border);
+  background: rgba(255,255,255,0.08);
   padding: 1.5px 6px;
   border-radius: 5px;
   font-size: 0.86em;
+  font-family: var(--mono);
 }
 .docs-article .code-block code { background: none; padding: 0; }
 .docs-article .code-block { margin: 16px 0; }
@@ -555,7 +586,7 @@ DOCS_CSS = '''/* Docs layout — builds on style.css tokens. */
   padding: 14px 16px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: var(--bg-elev);
+  background: var(--panel-2);
   font-size: 0.95rem;
 }
 .callout div { min-width: 0; }
@@ -595,7 +626,7 @@ DOCS_CSS = '''/* Docs layout — builds on style.css tokens. */
   width: 36px; height: 36px;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: var(--bg-elev);
+  background: var(--panel-2);
   color: var(--text);
   cursor: pointer;
 }
@@ -607,11 +638,11 @@ DOCS_CSS = '''/* Docs layout — builds on style.css tokens. */
     top: 61px; left: 0;
     width: 280px;
     max-width: 84vw;
-    background: var(--bg-solid);
+    background: var(--bg);
     transform: translateX(-105%);
     transition: transform 0.22s ease;
     z-index: 40;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-window);
   }
   .docs-sidebar.open { transform: none; }
   .docs-menu-btn { display: inline-flex; }

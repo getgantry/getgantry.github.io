@@ -30,6 +30,31 @@
     setTimeout(playCrane, 280);
   });
 
+  /* ---------- Live GitHub star count ---------- */
+  (function () {
+    var el = document.getElementById("ghStars");
+    if (!el) return;
+    function fmt(n) {
+      if (n >= 1000) {
+        var s = (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, "");
+        return "★ " + s + "k";
+      }
+      return "★ " + n;
+    }
+    try {
+      var c = JSON.parse(localStorage.getItem("gantry-stars") || "null");
+      if (c && typeof c.n === "number" && Date.now() - c.t < 21600000) el.textContent = fmt(c.n);
+    } catch (e) {}
+    fetch("https://api.github.com/repos/getgantry/gantry", { headers: { "Accept": "application/vnd.github+json" } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || typeof d.stargazers_count !== "number") return;
+        el.textContent = fmt(d.stargazers_count);
+        try { localStorage.setItem("gantry-stars", JSON.stringify({ n: d.stargazers_count, t: Date.now() })); } catch (e) {}
+      })
+      .catch(function () {});
+  })();
+
   /* ---------- Copy buttons ---------- */
   document.querySelectorAll(".copy").forEach(function (b) {
     b.addEventListener("click", function () {

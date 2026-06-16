@@ -80,16 +80,19 @@
         "description": "Gantry is a free, open-source native macOS app for managing and monitoring Docker — the local daemon and any number of remote hosts over SSH — plus Apple's container runtime. It is agent-ready with a bundled MCP server and App Intents.",
         "featureList": [
           "One dashboard for local, SSH and apple/container hosts",
-          "Live logs with search and follow",
+          "Live logs with regex search, level filter and ANSI color",
+          "Merged Compose stack logs across every service",
           "Real-time CPU, memory, network and disk I/O stats",
-          "Built-in exec terminal into any container",
+          "Built-in exec terminal with color themes",
           "Native macOS notifications when a container crashes, runs out of memory or goes unhealthy",
-          "Remote Docker over SSH with ProxyJump and Keychain secrets",
+          "Remote Docker over SSH with ProxyJump, Keychain secrets and docker context import",
           "Drag-and-drop container file browser",
           "Port forwarding and open-in-browser",
           "Private registry pulls using your docker login credentials",
           "Build images from a Dockerfile and pull with per-layer progress",
-          "Compose-aware grouping",
+          "Run Docker Compose on any host with an inline YAML editor",
+          "Smart cleanup panel to reclaim disk space",
+          "Optional Touch ID confirmation for destructive actions",
           "Bundled MCP server and macOS App Intents for AI agents"
         ],
         "offers": {
@@ -137,6 +140,11 @@
             "@type": "Question",
             "name": "Can Gantry pull from private registries?",
             "acceptedAnswer": { "@type": "Answer", "text": "Yes. Gantry resolves credentials from your ~/.docker/config.json — the same docker login you already ran — including inline auth, credential helpers and the macOS Keychain. Private images pull everywhere: the Pull sheet, create-and-run, Quick Run and Compose." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can Gantry run Docker Compose?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. Gantry brings a compose file up on any host — local Docker, a remote SSH host or apple/container — and adapts per engine. You can edit the YAML inline before running, containers group by project, and a Stack Logs view merges every service's output into one feed." }
           },
           {
             "@type": "Question",
@@ -307,8 +315,8 @@
               <div class="logstream" id="logStream"></div>
             </div>
             <div class="body">
-              <h3>Live logs with search</h3>
-              <p>Real-time follow, ⌘F highlighting, stderr coloring.</p>
+              <h3>Logs on steroids</h3>
+              <p>Real-time follow, <b>regex</b> or literal ⌘F search, a <b>level filter</b> (Error→Trace), <b>ANSI color</b>, a 50k-line buffer — and merged <b>stack logs</b> for a whole Compose project.</p>
             </div>
           </div>
 
@@ -370,7 +378,7 @@
             </div>
             <div class="body">
               <h3>Built-in exec terminal</h3>
-              <p>Full terminal emulation into any running container, local or remote.</p>
+              <p>Full terminal emulation into any running container, local or remote — with color themes (System, Solarized, Dracula, Nord).</p>
             </div>
           </div>
 
@@ -378,7 +386,7 @@
           <div class="cell col-2 cell-feat reveal d2">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/><path d="M9 6h6M9 18h6"/></svg></div>
             <h3>Remote hosts over SSH</h3>
-            <p>Tunnels exactly like <code>docker -H ssh://</code> via <code>dial-stdio</code> — ProxyJump bastions, multi-key auth, auto-reconnect with backoff. Nothing to install on the server. Secrets live in the Keychain.</p>
+            <p>Tunnels exactly like <code>docker -H ssh://</code> via <code>dial-stdio</code> — ProxyJump bastions, multi-key auth, auto-reconnect. Nothing to install on the server, secrets in the Keychain. One-click import from <code>~/.ssh/config</code> and <code>docker context ls</code>.</p>
           </div>
 
           <!-- File browser -->
@@ -398,8 +406,8 @@
           <!-- Compose -->
           <div class="cell col-2 cell-feat reveal d2">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></div>
-            <h3>Compose-aware grouping</h3>
-            <p>Containers group automatically by their Docker Compose project, with collapsible sections and group start / stop / restart.</p>
+            <h3>Compose, anywhere</h3>
+            <p>Containers group by their Compose project. <b>Bring a compose file up on any host</b> — local Docker, SSH or apple/container — with an inline <b>YAML editor</b>; the runner adapts per engine.</p>
           </div>
 
           <!-- Private registries -->
@@ -414,6 +422,27 @@
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></div>
             <h3>Build &amp; pull images</h3>
             <p>Drop a Dockerfile on the window to build with a live log, or pull by reference with per-layer progress. Tag, prune and read layer history right in the app.</p>
+          </div>
+
+          <!-- Smart cleanup -->
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg></div>
+            <h3>Reclaim space</h3>
+            <p>One panel shows what Docker is hoarding — dangling images, stopped containers, unused volumes, build cache — with sizes, and prunes each or all, reporting what it freed.</p>
+          </div>
+
+          <!-- Touch ID -->
+          <div class="cell col-2 cell-feat reveal d1">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 11v3M7 12a5 5 0 0 1 10 0v1a8 8 0 0 1-1 4M9 19a10 10 0 0 0 1-5 2 2 0 0 1 4 0M5 9a8 8 0 0 1 14 0"/></svg></div>
+            <h3>Touch ID on destructive actions</h3>
+            <p>Opt in and Gantry asks for Touch ID — or your login password — before removing a container or deleting a host. Secrets already live in the Keychain.</p>
+          </div>
+
+          <!-- Terminal themes -->
+          <div class="cell col-2 cell-feat reveal d2">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18 4.5 4.5 0 0 1 0-9 4.5 4.5 0 0 0 0-9z"/></svg></div>
+            <h3>Terminal themes</h3>
+            <p>Dress the embedded shell in System, Solarized Dark, Dracula or Nord — a full foreground, background and 16-color ANSI palette, applied live.</p>
           </div>
         </div>
       </div>
@@ -572,6 +601,10 @@
           <details class="faq-item">
             <summary>Can Gantry pull from private registries?</summary>
             <p>Yes. Gantry resolves credentials from your <code>~/.docker/config.json</code> — the same <code>docker login</code> you already ran — including inline auth, credential helpers and the macOS Keychain. Private images pull everywhere: the Pull sheet, create-and-run, Quick Run and Compose.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can Gantry run Docker Compose?</summary>
+            <p>Yes. Gantry brings a compose file up on any host — local Docker, a remote SSH host or apple/container — and adapts per engine. You can edit the YAML inline before running, containers group by project, and a Stack Logs view merges every service's output into one feed.</p>
           </details>
           <details class="faq-item">
             <summary>Is Gantry an Electron app?</summary>

@@ -83,9 +83,12 @@
           "Live logs with search and follow",
           "Real-time CPU, memory, network and disk I/O stats",
           "Built-in exec terminal into any container",
+          "Native macOS notifications when a container crashes, runs out of memory or goes unhealthy",
           "Remote Docker over SSH with ProxyJump and Keychain secrets",
           "Drag-and-drop container file browser",
           "Port forwarding and open-in-browser",
+          "Private registry pulls using your docker login credentials",
+          "Build images from a Dockerfile and pull with per-layer progress",
           "Compose-aware grouping",
           "Bundled MCP server and macOS App Intents for AI agents"
         ],
@@ -124,6 +127,16 @@
             "@type": "Question",
             "name": "Does Gantry support Apple's container runtime?",
             "acceptedAnswer": { "@type": "Answer", "text": "Yes. Gantry is a full GUI for apple/container 1.0 — containers, Machines, live logs, stats, an exec terminal and compose — sitting next to your Docker and SSH hosts on the same dashboard." }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Gantry alert me when a container fails?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. Gantry posts a native macOS notification the moment a container crashes, runs out of memory, or fails its health check on any host — local, SSH or apple/container. Click it to jump straight to the container. Stops and restarts you trigger from Gantry stay quiet, and you can toggle the whole thing in Settings." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can Gantry pull from private registries?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. Gantry resolves credentials from your ~/.docker/config.json — the same docker login you already ran — including inline auth, credential helpers and the macOS Keychain. Private images pull everywhere: the Pull sheet, create-and-run, Quick Run and Compose." }
           },
           {
             "@type": "Question",
@@ -299,6 +312,31 @@
             </div>
           </div>
 
+          <!-- Failure notifications -->
+          <div class="cell col-2 cell-feat reveal" id="notifications">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
+            <div class="mini">
+              <div class="notif">
+                <span class="notif-ico"><img src="assets/icon.png" alt=""></span>
+                <div class="notif-body">
+                  <div class="notif-head"><b>Container stopped</b><span class="notif-time">now</span></div>
+                  <p>web on <b>prod-eu</b> exited with code 1.</p>
+                </div>
+              </div>
+              <div class="notif">
+                <span class="notif-ico"><img src="assets/icon.png" alt=""></span>
+                <div class="notif-body">
+                  <div class="notif-head"><b>Container unhealthy</b><span class="notif-time">2m</span></div>
+                  <p>api on <b>dedic</b> failed its health check.</p>
+                </div>
+              </div>
+            </div>
+            <div class="body">
+              <h3>Know the moment it breaks</h3>
+              <p>A native notification when a container crashes, runs out of memory or goes unhealthy on any host. Click it to jump straight to the container — stops you trigger yourself stay quiet.</p>
+            </div>
+          </div>
+
           <!-- Real-time stats -->
           <div class="cell col-2 cell-feat reveal">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 3v18h18"/><path d="m7 14 3-4 3 3 4-6"/></svg></div>
@@ -362,6 +400,20 @@
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></div>
             <h3>Compose-aware grouping</h3>
             <p>Containers group automatically by their Docker Compose project, with collapsible sections and group start / stop / restart.</p>
+          </div>
+
+          <!-- Private registries -->
+          <div class="cell col-2 cell-feat reveal d1">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/><circle cx="12" cy="16" r="1.4"/></svg></div>
+            <h3>Private registries, automatically</h3>
+            <p>Pulls read the <code>docker login</code> you already did — Gantry resolves credentials from <code>~/.docker/config.json</code>, helpers and the Keychain, on create, Quick Run and Compose alike.</p>
+          </div>
+
+          <!-- Build & pull images -->
+          <div class="cell col-2 cell-feat reveal d2">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></div>
+            <h3>Build &amp; pull images</h3>
+            <p>Drop a Dockerfile on the window to build with a live log, or pull by reference with per-layer progress. Tag, prune and read layer history right in the app.</p>
           </div>
         </div>
       </div>
@@ -512,6 +564,14 @@
           <details class="faq-item">
             <summary>Does Gantry support Apple's container runtime?</summary>
             <p>Yes. Gantry is a full GUI for <a href="#apple">apple/container</a> 1.0 — containers, Machines, live logs, stats, an exec terminal and compose — sitting next to your Docker and SSH hosts on the same dashboard.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Does Gantry alert me when a container fails?</summary>
+            <p>Yes. Gantry posts a native macOS notification the moment a container crashes, runs out of memory, or fails its health check on any host — local, SSH or apple/container. Click it to jump straight to the container. Stops and restarts you trigger from Gantry stay quiet, and you can toggle it in Settings.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can Gantry pull from private registries?</summary>
+            <p>Yes. Gantry resolves credentials from your <code>~/.docker/config.json</code> — the same <code>docker login</code> you already ran — including inline auth, credential helpers and the macOS Keychain. Private images pull everywhere: the Pull sheet, create-and-run, Quick Run and Compose.</p>
           </details>
           <details class="faq-item">
             <summary>Is Gantry an Electron app?</summary>

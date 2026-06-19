@@ -6,19 +6,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gantry Docs — Ports &amp; browser access</title>
-  <meta name="description" content="Open container services in your browser and copy their address, including SSH port forwarding.">
+  <meta name="description" content="Open container services in your browser, copy their address, forward SSH ports, and share a port to the internet over a Cloudflare Tunnel.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="canonical" href="https://getgantry.github.io/docs/ports.html">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Gantry">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="Gantry Docs — Ports &amp; browser access">
-  <meta property="og:description" content="Open container services in your browser and copy their address, including SSH port forwarding.">
+  <meta property="og:description" content="Open container services in your browser, copy their address, forward SSH ports, and share a port to the internet over a Cloudflare Tunnel.">
   <meta property="og:url" content="https://getgantry.github.io/docs/ports.html">
   <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Gantry Docs — Ports &amp; browser access">
-  <meta name="twitter:description" content="Open container services in your browser and copy their address, including SSH port forwarding.">
+  <meta name="twitter:description" content="Open container services in your browser, copy their address, forward SSH ports, and share a port to the internet over a Cloudflare Tunnel.">
   <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta name="theme-color" content="#060a10">
   <link rel="icon" type="image/png" href="../assets/icon.png">
@@ -74,7 +74,7 @@
     <main class="docs-content">
       <article class="docs-article">
         <h1>Ports & browser access</h1>
-<p class="page-lead">Gantry makes a container's service one click away, whichever engine it runs on.</p>
+<p class="page-lead">Gantry makes a container's service one click away, whichever engine it runs on — on your Mac or out on the internet.</p>
 
 <h2>Local Docker</h2>
 <p>Published ports open directly on <code>localhost</code>. Use the open-in-browser button on a port in the container's <strong>Overview → Ports</strong> section, or the <a href="menu-bar.html">menu bar</a>.</p>
@@ -86,6 +86,16 @@
 <p>Remote ports aren't reachable from your Mac directly, so Gantry creates a local <strong>SSH port forward</strong> on demand and opens <code>localhost:&lt;local-port&gt;</code>. Active forwards are listed in the Ports section, where you can change the local port, copy the URL, or tear the forward down.</p>
 
 <div class="callout callout-tip"><span class="callout-tag">Tip</span><div>The copy button puts a paste-ready <code>host:port</code> on your clipboard — handy for database clients and tools that are not browsers.</div></div>
+
+<h2>Share to the internet (Cloudflare Tunnel)</h2>
+<p>The cloud button on a published port exposes it to the internet over a <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/">Cloudflare Tunnel</a> — no inbound ports opened on your network. Gantry installs <code>cloudflared</code> via Homebrew if it isn't already there, then offers two modes:</p>
+<ul>
+  <li><strong>Quick tunnel</strong> — no Cloudflare account; Cloudflare hands out a temporary <code>https://&lt;random&gt;.trycloudflare.com</code> address. Anyone with the link can reach the port while the tunnel is up.</li>
+  <li><strong>Named tunnel</strong> — route a hostname on a domain in your own Cloudflare account. A one-time <code>cloudflared tunnel login</code> (a button in the sheet) authorizes the zone; then enter the hostname and start.</li>
+</ul>
+<p>The public URL appears under the port in the <strong>Ports</strong> section with open / copy / stop controls. Ports on SSH hosts are forwarded to your Mac first and then tunneled, and every tunnel is torn down automatically when you disconnect the host.</p>
+
+<div class="callout callout-note"><span class="callout-tag">Note</span><div>A quick tunnel is public to anyone who has the URL — use it for previews and webhooks, not sensitive services. For access control, use a named tunnel with Cloudflare Access on top.</div></div>
       </article>
       <footer class="docs-foot">
         <a href="https://github.com/getgantry/gantry/blob/main/CHANGELOG.md">Changelog</a>

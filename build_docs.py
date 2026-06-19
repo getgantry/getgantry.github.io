@@ -213,10 +213,10 @@ PAGES["containers"] = ("Containers",
 """)
 
 PAGES["ports"] = ("Ports & browser access",
-  "Open container services in your browser and copy their address, including SSH port forwarding.",
+  "Open container services in your browser, copy their address, forward SSH ports, and share a port to the internet over a Cloudflare Tunnel.",
   f"""
 <h1>Ports & browser access</h1>
-<p class="page-lead">Gantry makes a container's service one click away, whichever engine it runs on.</p>
+<p class="page-lead">Gantry makes a container's service one click away, whichever engine it runs on — on your Mac or out on the internet.</p>
 
 <h2>Local Docker</h2>
 <p>Published ports open directly on <code>localhost</code>. Use the open-in-browser button on a port in the container's <strong>Overview → Ports</strong> section, or the <a href="menu-bar.html">menu bar</a>.</p>
@@ -228,6 +228,16 @@ PAGES["ports"] = ("Ports & browser access",
 <p>Remote ports aren't reachable from your Mac directly, so Gantry creates a local <strong>SSH port forward</strong> on demand and opens <code>localhost:&lt;local-port&gt;</code>. Active forwards are listed in the Ports section, where you can change the local port, copy the URL, or tear the forward down.</p>
 
 {callout("tip", 'The copy button puts a paste-ready <code>host:port</code> on your clipboard — handy for database clients and tools that are not browsers.')}
+
+<h2>Share to the internet (Cloudflare Tunnel)</h2>
+<p>The cloud button on a published port exposes it to the internet over a <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/">Cloudflare Tunnel</a> — no inbound ports opened on your network. Gantry installs <code>cloudflared</code> via Homebrew if it isn't already there, then offers two modes:</p>
+<ul>
+  <li><strong>Quick tunnel</strong> — no Cloudflare account; Cloudflare hands out a temporary <code>https://&lt;random&gt;.trycloudflare.com</code> address. Anyone with the link can reach the port while the tunnel is up.</li>
+  <li><strong>Named tunnel</strong> — route a hostname on a domain in your own Cloudflare account. A one-time <code>cloudflared tunnel login</code> (a button in the sheet) authorizes the zone; then enter the hostname and start.</li>
+</ul>
+<p>The public URL appears under the port in the <strong>Ports</strong> section with open / copy / stop controls. Ports on SSH hosts are forwarded to your Mac first and then tunneled, and every tunnel is torn down automatically when you disconnect the host.</p>
+
+{callout("note", 'A quick tunnel is public to anyone who has the URL — use it for previews and webhooks, not sensitive services. For access control, use a named tunnel with Cloudflare Access on top.')}
 """)
 
 DNS_CLI = '''# 1. create the domain (asks for admin)

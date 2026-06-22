@@ -338,7 +338,17 @@ PAGES["mcp"] = ("AI agents & MCP",
 <h2>The MCP server</h2>
 <p>Gantry bundles a <code>gantry-mcp</code> binary. Register it with Claude in one command:</p>
 {code("Add the Gantry MCP server", "claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp")}
-<p>The agent can then list hosts and containers, read logs, run commands and operate the fleet through Gantry's tools.</p>
+<p>The server gives an agent the same reach as the GUI. Call <code>list_hosts</code> first for host ids, then the other tools. Coverage includes:</p>
+<ul>
+  <li><strong>Containers</strong> — list, start/stop/restart/kill/pause/remove, create, rename, commit, set restart policy, list processes, inspect, logs, a single stats sample, run a command (exec), read/write files, and prune.</li>
+  <li><strong>Images</strong> — pull, build (from a local context), tag, remove, history, inspect and prune.</li>
+  <li><strong>Volumes &amp; networks</strong> — create, remove, inspect, prune, and connect/disconnect a container to a network.</li>
+  <li><strong>System</strong> — disk usage and build-cache prune.</li>
+  <li><strong>apple/container</strong> — machines (list/create/start/stop/delete/inspect/set default/set resources), the background services, and local DNS domains.</li>
+  <li><strong>Compose</strong> — bring a project up from a local compose file.</li>
+  <li><strong>Public sharing</strong> — expose a container port over a <strong>Cloudflare Tunnel</strong> (quick or named) or an <strong>SSH port forward</strong>, and list/stop them.</li>
+</ul>
+<p>Streaming work (pull, build, compose) runs to completion and returns its log; tunnels and forwards live as long as the MCP server process. SSH hosts are reachable headlessly only if their key was already trusted in the app and any secret is in the Keychain.</p>
 
 <h2>Copy as Prompt</h2>
 <p>On any container, <strong>Copy as Prompt</strong> (⌥⌘P) puts a paste-ready prompt on your clipboard: the host and how to reach it, the MCP <code>host_id</code> and the tools to call, the container's current state, and a task matched to the symptom. An unhealthy container asks the agent to fix the failing health check; a crash-looping one, to find the crash. Paste it into Claude Code and let it dig in.</p>

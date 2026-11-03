@@ -76,7 +76,7 @@ PAGES["index"] = ("Introduction",
 <ul>
   <li>macOS 26 or later, Apple Silicon or Intel.</li>
   <li>For local Docker: Docker Desktop, Colima, OrbStack, or any daemon exposing the Docker socket.</li>
-  <li>For Apple's runtime: the <a href="https://github.com/apple/container">apple/container</a> CLI 1.0+ (Gantry can guide you through installing it).</li>
+  <li>For Apple's runtime: a Mac with Apple silicon and the <a href="https://github.com/apple/container">apple/container</a> CLI 1.0+, 1.6.1 recommended (Gantry can guide you through installing it). See the <a href="../apple-container/">apple/container guide</a>.</li>
 </ul>
 
 <h2>Open source</h2>
@@ -161,25 +161,43 @@ PAGES["hosts"] = ("Hosts",
 """)
 
 PAGES["apple-container"] = ("apple/container",
-  "Use Apple's native container runtime in Gantry: services, machines, and local DNS.",
+  "Use Apple's container tool in Gantry: setup, services, system section, Kubernetes clusters, machines and local DNS. Supports CLI 1.0 to 1.6.1.",
   f"""
 <h1>apple/container</h1>
-<p class="page-lead">Gantry is a first-class UI for Apple's <a href="https://github.com/apple/container">container</a> runtime — manage its background services, machines, and local DNS without dropping to a terminal.</p>
+<p class="page-lead">Gantry is a native GUI for Apple's <a href="https://github.com/apple/container">container</a> tool. Manage its services, image builder, registry logins, kernel, Kubernetes clusters, machines and local DNS without the terminal. For the full map of CLI commands to Gantry features, read the <a href="../apple-container/">apple/container guide</a>.</p>
 
 <h2>Setup</h2>
-<p>Install the <code>container</code> CLI 1.0+ from Apple's official signed installer. Gantry detects it automatically and, if it's missing or outdated, offers a guided setup. Then add an <em>Apple Container</em> host from <strong>Add Host…</strong>.</p>
+<p>apple/container needs a Mac with Apple silicon. Install the <code>container</code> CLI 1.0+ (1.6.1 recommended) from Apple's official signed installer. Gantry detects it automatically and, if it's missing or outdated, offers a guided setup. Then add an <em>Apple Container</em> host from <strong>Add Host…</strong>.</p>
 
 {callout("warn", 'Use the official signed installer rather than the Homebrew bottle — the bottle omits the machine API server, so <code>container machine</code> cannot run.')}
 
+<h2>Versions</h2>
+<p>Gantry reads the installed CLI version and turns on only the features that version supports, for example Trim Disk (1.4), Kubernetes clusters (1.5), Commit to Image (1.6) and cluster workers (1.6). The System section warns you when the client and server versions differ.</p>
+
 <h2>Background services</h2>
-<p>apple/container relies on background services that must be running for any container to work. Start or stop them from the menu-bar strip or <strong>Settings → Apple</strong>.</p>
+<p>apple/container relies on background services that must be running for any container to work. Start, stop or restart them from the host's <strong>System</strong> section, the menu-bar strip or <strong>Settings → Apple</strong>.</p>
+
+<h2>The System section</h2>
+<p>Each apple/container host has a <strong>System</strong> section in the sidebar. It works when the host is disconnected.</p>
+<ul>
+  <li><strong>Status and Version</strong> — client and server versions, service start/stop/restart, host facts, resources and paths.</li>
+  <li><strong>Image Builder</strong> — state, image, CPUs, memory and IP. Start with CPU, memory and DNS options, stop, delete.</li>
+  <li><strong>Registry Logins</strong> — list, log in, log out. The password goes to the CLI only on stdin; Gantry keeps no copy.</li>
+  <li><strong>Kernel</strong> — install the recommended kernel, a kernel file or a tar archive. Without a default kernel, the host overview shows a banner with an install action.</li>
+  <li><strong>Service Logs</strong> — live or one-shot logs over 5 minutes to 1 day, filtered by level, service and text.</li>
+  <li><strong>System Properties</strong> — edits go to <code>~/.config/container/config.toml</code>, with a pending-restart flag and a Restart Services button.</li>
+</ul>
+
+<h2>Kubernetes clusters</h2>
+<p>The <strong>Clusters</strong> section creates Kubernetes clusters with <code>container cluster</code> (CLI 1.6.1) or <code>container k8s</code> (CLI 1.5.0 to 1.6.0): workers, CPUs, memory, node image and CNI. It shows the nodes, writes the kubeconfig and copies the <code>kubectl</code> context command. See <a href="../apple-container-kubernetes/">Kubernetes on apple/container</a>.</p>
 
 <h2>What's different from Docker</h2>
 <ul>
   <li>Every container gets its own <strong>routable IP</strong> on your Mac — no port publishing needed to reach it.</li>
   <li>Containers can resolve by name through <a href="dns.html">local DNS domains</a>.</li>
   <li><strong>Machines</strong> are long-lived Linux VMs (comparable to OrbStack machines) — see <a href="resources.html">Machines</a>.</li>
-  <li><strong>Compose</strong> files can be brought up directly on an apple host.</li>
+  <li><strong>Compose</strong> files can be brought up directly on an apple host. Service names resolve through network DNS aliases.</li>
+  <li>Label values that contain <code>=</code> are encoded on create and decoded on read, because the CLI rejects them.</li>
 </ul>
 """)
 
@@ -209,7 +227,7 @@ PAGES["containers"] = ("Containers",
 </ul>
 
 <h2>Actions</h2>
-<p>Start, stop, restart and kill from the toolbar; the overflow menu adds Rename, Commit to Image, Export Filesystem, Restart Policy, Copy ID and <a href="mcp.html">Copy as Prompt</a>. Most actions are also on the right-click menu in the list and the <a href="menu-bar.html">menu bar</a>.</p>
+<p>Start, stop, restart and kill from the toolbar; the overflow menu adds Rename, Commit to Image, Export Filesystem, Restart Policy, Copy ID and <a href="mcp.html">Copy as Prompt</a>. On apple/container hosts, Commit to Image needs CLI 1.6, and <strong>Trim Disk</strong> (CLI 1.4) reclaims disk space of a running container. Most actions are also on the right-click menu in the list and the <a href="menu-bar.html">menu bar</a>.</p>
 """)
 
 PAGES["ports"] = ("Ports & browser access",
@@ -306,6 +324,8 @@ PAGES["images-compose"] = ("Images & Compose",
   <li><strong>Build</strong> from a Dockerfile — pick the context, tag, target stage, build args and cache option, and watch the log stream live. You can also drag a Dockerfile onto the window, or use <strong>Open With → Gantry</strong>.</li>
   <li><strong>Tag</strong> and <strong>remove</strong> images; <strong>prune</strong> dangling or all unused.</li>
   <li>Inspect an image's layers/history and raw JSON, and see which containers use it.</li>
+  <li>A badge marks images (and their containers) built for a different CPU architecture than the host, for example amd64 on Apple silicon.</li>
+  <li>On apple/container hosts, <strong>Load into Cluster</strong> copies a local image into a Kubernetes cluster's nodes.</li>
 </ul>
 
 <h2>Compose</h2>
@@ -324,7 +344,10 @@ PAGES["resources"] = ("Networks, volumes & machines",
 <p>Create and remove volumes, see their driver, labels and mount point, inspect the raw JSON, and prune unused volumes.</p>
 
 <h2>Machines (apple/container)</h2>
-<p>Machines are long-lived Linux VMs managed by <code>container machine</code>. From the <strong>Machines</strong> section you can create one (name + image), start and stop it, open a shell, set it as default, and delete it.</p>
+<p>Machines are long-lived Linux VMs managed by <code>container machine</code>. From the <strong>Machines</strong> section you can create one (name + image), start and stop it, set CPUs and memory, open a shell, set it as default, and delete it. On CLI 1.1+ a machine can boot with nested virtualization (Apple silicon M3 or newer) and a custom kernel.</p>
+
+<h3>Open in VS Code</h3>
+<p><strong>Open in VS Code</strong> on a running machine connects VS Code to it over Remote-SSH, as in Apple's <code>container-machine-vscode</code> example. The machine image must run <code>sshd</code>, and VS Code must be installed.</p>
 
 {callout("note", '<code>container machine</code> requires the official signed apple/container installer — the Homebrew bottle omits the machine API server.')}
 """)
@@ -344,7 +367,7 @@ PAGES["mcp"] = ("AI agents & MCP",
   <li><strong>Images</strong> — pull, build (from a local context), tag, remove, history, inspect and prune.</li>
   <li><strong>Volumes &amp; networks</strong> — create, remove, inspect, prune, and connect/disconnect a container to a network.</li>
   <li><strong>System</strong> — disk usage and build-cache prune.</li>
-  <li><strong>apple/container</strong> — machines (list/create/start/stop/delete/inspect/set default/set resources), the background services, and local DNS domains.</li>
+  <li><strong>apple/container</strong> — machines (list/create/start/stop/delete/inspect/set default/set resources), Kubernetes clusters (<code>list_clusters</code>, <code>create_cluster</code>, <code>delete_cluster</code>), local DNS domains, and <code>apple_*</code> system tools: services, system info, image builder, registries (list and logout; no login tool), system properties, service logs and the recommended kernel install.</li>
   <li><strong>Compose</strong> — bring a project up from a local compose file.</li>
   <li><strong>Public sharing</strong> — expose a container port over a <strong>Cloudflare Tunnel</strong> (quick or named) or an <strong>SSH port forward</strong>, and list/stop them.</li>
 </ul>

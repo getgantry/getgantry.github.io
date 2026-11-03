@@ -6,19 +6,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gantry Docs — apple/container</title>
-  <meta name="description" content="Use Apple&#x27;s native container runtime in Gantry: services, machines, and local DNS.">
+  <meta name="description" content="Use Apple&#x27;s container tool in Gantry: setup, services, system section, Kubernetes clusters, machines and local DNS. Supports CLI 1.0 to 1.6.1.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="canonical" href="https://getgantry.github.io/docs/apple-container.html">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Gantry">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="Gantry Docs — apple/container">
-  <meta property="og:description" content="Use Apple&#x27;s native container runtime in Gantry: services, machines, and local DNS.">
+  <meta property="og:description" content="Use Apple&#x27;s container tool in Gantry: setup, services, system section, Kubernetes clusters, machines and local DNS. Supports CLI 1.0 to 1.6.1.">
   <meta property="og:url" content="https://getgantry.github.io/docs/apple-container.html">
   <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Gantry Docs — apple/container">
-  <meta name="twitter:description" content="Use Apple&#x27;s native container runtime in Gantry: services, machines, and local DNS.">
+  <meta name="twitter:description" content="Use Apple&#x27;s container tool in Gantry: setup, services, system section, Kubernetes clusters, machines and local DNS. Supports CLI 1.0 to 1.6.1.">
   <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta name="theme-color" content="#060a10">
   <link rel="icon" type="image/png" href="../assets/icon.png">
@@ -74,22 +74,40 @@
     <main class="docs-content">
       <article class="docs-article">
         <h1>apple/container</h1>
-<p class="page-lead">Gantry is a first-class UI for Apple's <a href="https://github.com/apple/container">container</a> runtime — manage its background services, machines, and local DNS without dropping to a terminal.</p>
+<p class="page-lead">Gantry is a native GUI for Apple's <a href="https://github.com/apple/container">container</a> tool. Manage its services, image builder, registry logins, kernel, Kubernetes clusters, machines and local DNS without the terminal. For the full map of CLI commands to Gantry features, read the <a href="../apple-container/">apple/container guide</a>.</p>
 
 <h2>Setup</h2>
-<p>Install the <code>container</code> CLI 1.0+ from Apple's official signed installer. Gantry detects it automatically and, if it's missing or outdated, offers a guided setup. Then add an <em>Apple Container</em> host from <strong>Add Host…</strong>.</p>
+<p>apple/container needs a Mac with Apple silicon. Install the <code>container</code> CLI 1.0+ (1.6.1 recommended) from Apple's official signed installer. Gantry detects it automatically and, if it's missing or outdated, offers a guided setup. Then add an <em>Apple Container</em> host from <strong>Add Host…</strong>.</p>
 
 <div class="callout callout-warn"><span class="callout-tag">Heads up</span><div>Use the official signed installer rather than the Homebrew bottle — the bottle omits the machine API server, so <code>container machine</code> cannot run.</div></div>
 
+<h2>Versions</h2>
+<p>Gantry reads the installed CLI version and turns on only the features that version supports, for example Trim Disk (1.4), Kubernetes clusters (1.5), Commit to Image (1.6) and cluster workers (1.6). The System section warns you when the client and server versions differ.</p>
+
 <h2>Background services</h2>
-<p>apple/container relies on background services that must be running for any container to work. Start or stop them from the menu-bar strip or <strong>Settings → Apple</strong>.</p>
+<p>apple/container relies on background services that must be running for any container to work. Start, stop or restart them from the host's <strong>System</strong> section, the menu-bar strip or <strong>Settings → Apple</strong>.</p>
+
+<h2>The System section</h2>
+<p>Each apple/container host has a <strong>System</strong> section in the sidebar. It works when the host is disconnected.</p>
+<ul>
+  <li><strong>Status and Version</strong> — client and server versions, service start/stop/restart, host facts, resources and paths.</li>
+  <li><strong>Image Builder</strong> — state, image, CPUs, memory and IP. Start with CPU, memory and DNS options, stop, delete.</li>
+  <li><strong>Registry Logins</strong> — list, log in, log out. The password goes to the CLI only on stdin; Gantry keeps no copy.</li>
+  <li><strong>Kernel</strong> — install the recommended kernel, a kernel file or a tar archive. Without a default kernel, the host overview shows a banner with an install action.</li>
+  <li><strong>Service Logs</strong> — live or one-shot logs over 5 minutes to 1 day, filtered by level, service and text.</li>
+  <li><strong>System Properties</strong> — edits go to <code>~/.config/container/config.toml</code>, with a pending-restart flag and a Restart Services button.</li>
+</ul>
+
+<h2>Kubernetes clusters</h2>
+<p>The <strong>Clusters</strong> section creates Kubernetes clusters with <code>container cluster</code> (CLI 1.6.1) or <code>container k8s</code> (CLI 1.5.0 to 1.6.0): workers, CPUs, memory, node image and CNI. It shows the nodes, writes the kubeconfig and copies the <code>kubectl</code> context command. See <a href="../apple-container-kubernetes/">Kubernetes on apple/container</a>.</p>
 
 <h2>What's different from Docker</h2>
 <ul>
   <li>Every container gets its own <strong>routable IP</strong> on your Mac — no port publishing needed to reach it.</li>
   <li>Containers can resolve by name through <a href="dns.html">local DNS domains</a>.</li>
   <li><strong>Machines</strong> are long-lived Linux VMs (comparable to OrbStack machines) — see <a href="resources.html">Machines</a>.</li>
-  <li><strong>Compose</strong> files can be brought up directly on an apple host.</li>
+  <li><strong>Compose</strong> files can be brought up directly on an apple host. Service names resolve through network DNS aliases.</li>
+  <li>Label values that contain <code>=</code> are encoded on create and decoded on read, because the CLI rejects them.</li>
 </ul>
       </article>
       <footer class="docs-foot">

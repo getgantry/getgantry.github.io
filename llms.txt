@@ -1,43 +1,56 @@
 # Gantry
 
-> Gantry is a free, open-source (MIT) native macOS app for managing and monitoring Docker — the local daemon and any number of remote hosts over SSH — plus Apple's `container` runtime, all from one dashboard. It is built with SwiftUI and Swift 6 (not Electron), requires macOS 26+, and is agent-ready via a bundled MCP server and macOS App Intents.
+> Gantry is the native macOS GUI for Apple's `container` tool (apple/container) and for Docker. It is a free, open-source (MIT) app built with SwiftUI and Swift 6 (not Electron). It manages apple/container hosts (containers, Kubernetes clusters, machines, compose projects, the image builder, registry logins, kernels, service logs and system properties), the local Docker daemon, and remote Docker hosts over SSH from one window. It ships an MCP server and App Intents for AI agents. Requires macOS 26.
 
 Key facts:
-- Free and open source under the MIT license. No subscription, no account, no limits on hosts or containers.
-- Requirements: macOS 26 or later, Apple Silicon or Intel.
-- Works with any Docker daemon exposing the Engine API over the Unix socket: Docker Desktop, OrbStack, Colima, etc.
-- Manages remote Docker hosts over SSH (like `docker -H ssh://`) with ProxyJump, multi-key auth, auto-reconnect; nothing installed on the server; secrets in the macOS Keychain.
-- Full GUI for Apple's `container` runtime (apple/container 1.0): containers, Machines, logs, stats, exec terminal, compose.
-- Native macOS notifications when a container crashes, runs out of memory, or fails its health check on any host; click to jump to the container; manual stops/restarts stay quiet; toggle in Settings.
-- Private registry pulls: resolves credentials from `~/.docker/config.json` (inline auth, credential helpers, macOS Keychain) so create-and-run, Quick Run and Compose pull private images, not just the manual Pull sheet.
-- Build images from a Dockerfile (drag-and-drop, live build log) and pull by reference with per-layer progress; tag, prune and view layer history.
-- Advanced log viewer: real-time follow, regex or literal search, a minimum-level filter (Error/Warn/Info/Debug/Trace), ANSI color rendering, a 50,000-line buffer, and merged stack logs for a whole Compose project with per-service color tags.
-- Run Docker Compose on any host (local Docker, SSH or apple/container) with an inline YAML editor; the runner adapts per engine (restart policies and multi-network on Docker, remote bind-path warnings over SSH).
-- Share a container's published port to the internet over a Cloudflare Tunnel in one click: Gantry installs `cloudflared` via Homebrew if missing, then starts a quick tunnel (no Cloudflare account, an ephemeral `*.trycloudflare.com` URL) or a named tunnel on your own hostname (after `cloudflared tunnel login`); the public URL shows under the port with open/copy/stop, SSH-host ports are forwarded locally first, and tunnels are torn down on disconnect.
-- Smart Cleanup: a Reclaim Space panel showing dangling images, stopped containers, unused volumes and build cache with sizes, pruning each or all at once.
-- Optional Touch ID (or login password) confirmation before removing a container or deleting a host.
-- Import ssh:// hosts from docker context ls, alongside ~/.ssh/config import.
-- Terminal color themes for the embedded shell: System, Solarized Dark, Dracula, Nord.
-- Install: `brew install --cask getgantry/tap/gantry` or download from GitHub Releases and drag Gantry.app to Applications.
-- AI agents: bundled MCP server + App Intents. Connect with `claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp`. The MCP server has full GUI parity: list hosts/containers/images/volumes/networks; container lifecycle plus create, rename, commit, restart policy, processes, inspect, logs, stats, exec, read/write files, prune; image pull, build, tag, remove, history, inspect, prune; volume and network create/remove/inspect/prune and container connect/disconnect; disk usage and build-cache prune; apple/container machines, services and DNS domains; Docker Compose up; and exposing a container port publicly via a Cloudflare Tunnel or an SSH port forward (list/stop included). SSH hosts are reachable headlessly only when already trusted with secrets in the Keychain.
+- Free and open source under the MIT license. No subscription, no account, no limits on hosts or containers. Free for commercial use.
+- Requirements: macOS 26 or later, Apple silicon or Intel. apple/container itself needs Apple silicon, so on Intel Macs Gantry manages Docker hosts only.
+- Install: `brew install --cask getgantry/tap/gantry`, then `xattr -dr com.apple.quarantine /Applications/Gantry.app` (the app is not notarized). Or download from GitHub Releases.
+- UI languages: English and Simplified Chinese (follows the macOS system language).
+- Gantry is a client, not an engine. For Docker it uses any daemon with the Engine API socket (Docker Desktop, OrbStack, Colima). For apple/container it drives the `container` CLI.
+
+apple/container support (the main focus):
+- Supports `container` CLI 1.0 to 1.6.1; 1.6.1 is recommended. Gantry reads the installed version and shows only the features that version supports.
+- Containers: create, run, start, stop, kill, delete, prune, logs, stats, exec terminal, processes, inspect, export, Commit to Image (`container commit`, CLI 1.6), Trim Disk (`container clean`, CLI 1.4).
+- Files: download and drag out to Finder (`container copy`, container must be started), upload files and folders.
+- Kubernetes clusters (`container cluster` on CLI 1.6.1, `container k8s` on 1.5.0 to 1.6.0): create with name, workers, CPUs, memory, node image and CNI (default kindnet, none, or a custom manifest); nodes view; Write Kubeconfig; Copy kubectl Context Command; Load into Cluster for local images; delete; cancel during creation.
+- Machines (`container machine`): create, start, stop, delete, set default, CPUs and memory, shell, inspect; nested virtualization (Apple silicon M3 or newer) and custom kernels on CLI 1.1+; Open in VS Code over Remote-SSH (machine image must run sshd).
+- Compose: apple/container has no compose command; Gantry runs docker-compose.yml files itself (build services, network, named volumes, depends_on order, Compose labels). Open from Finder, the File menu or drag and drop.
+- Networking: routable IP per container, local DNS domains and a default domain, network DNS aliases (including subtree aliases such as `.gateway`), Compose service names resolve.
+- System section: service start, stop and restart; client and server versions; image builder (start with CPU, memory and DNS options, stop, delete); registry logins (password to the CLI on stdin only, no copy kept); kernel install (recommended, file or tar); live service logs filtered by level, service and text; system properties editor for `~/.config/container/config.toml`.
+- Label values that contain `=` work: Gantry encodes them on create and decodes them on read.
+
+Docker support:
+- Local Docker and remote Docker over SSH (like `docker -H ssh://`), ProxyJump, multi-key auth, auto-reconnect, Keychain secrets, import from ~/.ssh/config and docker context.
+- Containers, images (build, pull, tag, history, foreign-architecture badge), volumes, networks, Compose on any host, merged stack logs, live logs with regex search and level filter, real-time stats, exec terminal, debug shell for containers without a shell, file browser, port forwarding, Cloudflare Tunnel sharing, Reclaim Space panel, private registry pulls from ~/.docker/config.json.
+- Fleet dashboard, menu bar panel, native notifications when a container crashes, runs out of memory or goes unhealthy, optional Touch ID for destructive actions.
+
+AI agents:
+- MCP server: `claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp`. Tools cover containers, images, volumes, networks, Compose up, system disk usage, apple/container machines, Kubernetes clusters (`list_clusters`, `create_cluster`, `delete_cluster`), DNS domains, `apple_*` system tools (services, system info, builder, registries, properties, logs, kernel install), and port sharing over a Cloudflare Tunnel or SSH forward.
+- App Intents for Shortcuts, Siri and Spotlight. Copy as Prompt (Option-Command-P) for any container.
 
 ## Core pages
-- [Gantry homepage](https://getgantry.github.io/): product overview, features, screenshots and install.
-- [Documentation](https://getgantry.github.io/docs/index.html): full docs index.
-- [Install guide](https://getgantry.github.io/docs/install.html): Homebrew and manual install, updates, first launch.
-- [AI agents & MCP](https://getgantry.github.io/docs/mcp.html): the bundled MCP server, App Intents and Copy as Prompt.
+- [Gantry homepage](https://getgantry.github.io/): product overview, features, FAQ and install.
+- [apple/container guide](https://getgantry.github.io/apple-container/): what apple/container is, setup, and a table of each `container` CLI command and its Gantry feature.
+- [Kubernetes on apple/container](https://getgantry.github.io/apple-container-kubernetes/): `container cluster` with Gantry, options, kubectl, image load, CNI.
+- [Compare](https://getgantry.github.io/compare/): Gantry vs Docker Desktop vs OrbStack vs Podman Desktop vs the container CLI, with sources.
+- [Full plain-text description](https://getgantry.github.io/llms-full.txt): every feature and command in one file.
 
-## Features & usage
+## Documentation
+- [Documentation index](https://getgantry.github.io/docs/index.html)
+- [Install guide](https://getgantry.github.io/docs/install.html): Homebrew and manual install, updates, first launch.
+- [apple/container docs](https://getgantry.github.io/docs/apple-container.html): setup, versions, services, System section, clusters.
 - [Hosts](https://getgantry.github.io/docs/hosts.html): local Docker, Docker over SSH, key handling.
-- [apple/container](https://getgantry.github.io/docs/apple-container.html): Apple's runtime, Machines, compose.
 - [Containers](https://getgantry.github.io/docs/containers.html): logs, stats, exec, files, processes.
-- [Ports & browser access](https://getgantry.github.io/docs/ports.html): port forwarding, open-in-browser and public sharing via Cloudflare Tunnel.
+- [Ports & browser access](https://getgantry.github.io/docs/ports.html): port forwarding, open in browser, Cloudflare Tunnel.
 - [Local DNS names](https://getgantry.github.io/docs/dns.html): routable names on apple/container.
 - [Images & Compose](https://getgantry.github.io/docs/images-compose.html): images, pulls, Compose projects.
-- [Networks, volumes & machines](https://getgantry.github.io/docs/resources.html): the rest of the toolbox.
-- [The menu bar](https://getgantry.github.io/docs/menu-bar.html): the compact menu-bar panel.
-- [Troubleshooting](https://getgantry.github.io/docs/troubleshooting.html): common issues and fixes.
+- [Networks, volumes & machines](https://getgantry.github.io/docs/resources.html): including Open in VS Code.
+- [AI agents & MCP](https://getgantry.github.io/docs/mcp.html): MCP server, App Intents, Copy as Prompt.
+- [The menu bar](https://getgantry.github.io/docs/menu-bar.html)
+- [Troubleshooting](https://getgantry.github.io/docs/troubleshooting.html)
 
 ## Source
-- [GitHub repository](https://github.com/getgantry/gantry): source, issues and releases (MIT licensed).
-- [Latest release](https://github.com/getgantry/gantry/releases/latest): download the newest build.
+- [GitHub repository](https://github.com/getgantry/gantry): source, issues and releases (MIT).
+- [Latest release](https://github.com/getgantry/gantry/releases/latest)
+- [Changelog](https://github.com/getgantry/gantry/blob/main/CHANGELOG.md)

@@ -648,6 +648,23 @@ DOCS_CSS = '''/* Docs layout — builds on the landing styles.css design system.
   flex-wrap: wrap;
 }
 
+/* Standalone pages (guide, Kubernetes, compare): one column, no sidebar */
+.page-shell { max-width: 980px; margin: 0 auto; padding: 32px clamp(20px, 4vw, 40px) 90px; }
+.page-article { max-width: none; }
+.crumbs { display: flex; gap: 8px; font-size: 0.86rem; color: var(--text-mut); margin: 0 0 18px; }
+.crumbs a { color: var(--text-dim); }
+.tldr { margin: 22px 0 8px; padding: 16px 18px; border: 1px solid rgba(246,134,58,0.35); border-radius: 12px; background: var(--panel-2); }
+.tldr p { margin: 0; }
+.table-wrap { overflow-x: auto; margin: 18px 0; border: 1px solid var(--border); border-radius: 12px; }
+.docs-article table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.docs-article th, .docs-article td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+.docs-article thead th { background: var(--panel-2); color: var(--text); font-weight: 650; white-space: nowrap; }
+.docs-article tbody th { color: var(--text); font-weight: 600; }
+.docs-article tbody td { color: var(--text-dim); }
+.docs-article tbody tr:last-child th, .docs-article tbody tr:last-child td { border-bottom: none; }
+.docs-article .faq-list { margin: 16px 0; max-width: none; }
+.docs-article .updated { margin-top: 40px; color: var(--text-mut); font-size: 0.86rem; }
+
 .docs-menu-btn {
   display: none;
   align-items: center;

@@ -181,35 +181,35 @@ PAGES = {}
 
 # ------------------------------------------------------------------ guide
 GUIDE_MAP = [
-    ("<code>container run</code>, <code>container create</code>", "New Container sheet and Quick Run: image, name, command, ports, environment, volumes, DNS domain, custom kernel and boot arguments", "1.0"),
-    ("<code>container list --all</code>", "Containers list, grouped by Compose project, with state filters and search", "1.0"),
-    ("<code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code>", "Toolbar, right-click menu and the menu bar panel", "1.0"),
-    ("<code>container logs</code>", "Logs tab: live follow, regex search, level filter, ANSI color", "1.0"),
-    ("<code>container stats</code>", "Stats tab and fleet dashboard sparklines", "1.0"),
-    ("<code>container exec</code>", "Terminal tab (interactive shell) and Processes tab", "1.0"),
-    ("<code>container inspect</code>", "Overview and Inspect tabs", "1.0"),
-    ("<code>container export</code>", "Export Filesystem (tar)", "1.0"),
+    ("<code>container run</code>, <code>container create</code>", "New Container sheet and Quick Run: image, name, command, ports, environment, volumes, DNS domain, custom kernel and boot arguments", "Any"),
+    ("<code>container list --all</code>", "Containers list, grouped by Compose project, with state filters and search", "Any"),
+    ("<code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code>", "Toolbar, right-click menu and the menu bar panel", "Any"),
+    ("<code>container logs</code>", "Logs tab: live follow, regex search, level filter, ANSI color", "Any"),
+    ("<code>container stats</code>", "Stats tab and fleet dashboard sparklines", "Any"),
+    ("<code>container exec</code>", "Terminal tab (interactive shell) and Processes tab", "Any"),
+    ("<code>container inspect</code>", "Overview and Inspect tabs", "Any"),
+    ("<code>container export</code>", "Export Filesystem (tar)", "Any"),
     ("<code>container commit</code>", "Commit to Image", "1.6"),
-    ("<code>container copy</code>", "Files tab: download and drag out to Finder (the container must be started)", "Tested on 1.6.1"),
-    ("<code>container exec</code> with <code>tar</code>", "Files tab: upload files and drop whole folders from Finder", "1.0"),
+    ("<code>container copy</code>", "Files tab: download and drag out to Finder (the container must be started)", "Any; tested on 1.6.1"),
+    ("<code>container exec</code> with <code>tar</code>", "Files tab: upload files and drop whole folders from Finder", "Any"),
     ("<code>container clean</code>", "Trim Disk on a running container, and a row in Reclaim Space", "1.4"),
-    ("<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>", "Images: pull with progress, tag, remove, prune, inspect", "1.0"),
-    ("<code>container build</code>", "Builds the <code>build:</code> services of a Compose file", "1.0"),
-    ("<code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>", "Volumes", "1.0"),
-    ("<code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>", "Networks", "1.0"),
-    ("<code>--network &lt;name&gt;,alias=…</code>", "Network DNS aliases, subtree aliases (<code>.gateway</code>) and Compose service names", "Tested on 1.6.1"),
-    ("<code>container system start</code>, <code>stop</code>", "System section: start, stop and restart the services; also in the menu bar and Settings", "1.0"),
-    ("<code>container system status</code>, <code>version</code>", "System section: status, client and server versions, host facts", "1.0"),
-    ("<code>container system logs</code>", "System section: Service Logs, live or over 5 minutes to 1 day, filtered by level, service and text", "1.0"),
-    ("<code>container system property list</code>", "System section: System Properties editor, saved to <code>~/.config/container/config.toml</code>", "Tested on 1.6.1"),
-    ("<code>container system dns create</code>, <code>delete</code>, <code>list</code>", "Settings ▸ Apple: local DNS domains and a default domain", "1.0"),
-    ("<code>container system kernel set</code>", "System section: install the recommended kernel, a kernel file or a tar archive", "1.0"),
-    ("<code>container system df</code>", "Host overview disk usage and Reclaim Space", "1.0"),
-    ("<code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code>", "System section: Image Builder with CPU, memory and DNS options", "1.0"),
-    ("<code>container registry login</code>, <code>logout</code>, <code>list</code>", "System section: Registry Logins (password on stdin only)", "1.0"),
-    ("<code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code>", "Machines: create, start, stop, delete, default machine, CPUs and memory, shell, inspect, Open in VS Code", "1.0; nested virtualization and kernels 1.1"),
+    ("<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>", "Images: pull with progress, tag, remove, prune, inspect", "Any"),
+    ("<code>container build</code>", "Builds the <code>build:</code> services of a Compose file", "Any"),
+    ("<code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>", "Volumes", "Any"),
+    ("<code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>", "Networks", "Any"),
+    ("<code>--network &lt;name&gt;,alias=…</code>", "Network DNS aliases, subtree aliases (<code>.gateway</code>) and Compose service names", "Any; tested on 1.6.1"),
+    ("<code>container system start</code>, <code>stop</code>", "System section: start, stop and restart the services; also in the menu bar and Settings", "Any"),
+    ("<code>container system status</code>, <code>version</code>", "System section: status, client and server versions, host facts", "Any"),
+    ("<code>container system logs</code>", "System section: Service Logs, live or over 5 minutes to 1 day, filtered by level, service and text", "Any"),
+    ("<code>container system property list</code>", "System section: System Properties editor, saved to <code>~/.config/container/config.toml</code>", "Any; tested on 1.6.1"),
+    ("<code>container system dns create</code>, <code>delete</code>, <code>list</code>", "Settings ▸ Apple: local DNS domains and a default domain", "Any"),
+    ("<code>container system kernel set</code>", "System section: install the recommended kernel, a kernel file or a tar archive", "Any"),
+    ("<code>container system df</code>", "Host overview disk usage and Reclaim Space", "Any"),
+    ("<code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code>", "System section: Image Builder with CPU, memory and DNS options", "Any"),
+    ("<code>container registry login</code>, <code>logout</code>, <code>list</code>", "System section: Registry Logins (password on stdin only)", "Any"),
+    ("<code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code>", "Machines: create, start, stop, delete, default machine, CPUs and memory, shell, inspect, Open in VS Code", "Any; nested virtualization and kernels 1.1"),
     ("<code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code>", "Clusters: Kubernetes clusters, nodes, kubeconfig, kubectl context, Load into Cluster", "1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)"),
-    ("No <code>compose</code> command", "Compose runner: bring up a <code>docker-compose.yml</code> from Finder, the File menu or drag and drop", "1.0"),
+    ("No <code>compose</code> command", "Compose runner: bring up a <code>docker-compose.yml</code> from Finder, the File menu or drag and drop", "Any"),
 ]
 
 GUIDE_FAQ = [
@@ -263,8 +263,8 @@ PAGES["apple-container"] = dict(
 {callout("warn", 'Use the signed installer package, not the Homebrew build. The Homebrew build does not include the machine backend, so <code>container machine</code> cannot run.')}
 
 <h2 id="command-map">Each container command and its Gantry feature</h2>
-<p>This table maps the <code>container</code> CLI to Gantry. The last column is the lowest CLI version that has the feature, or the version it was tested on. Gantry reads your installed version and hides the features that it does not support.</p>
-{table(["CLI command", "Gantry feature", "CLI version"], GUIDE_MAP)}
+<p>This table maps the <code>container</code> CLI to Gantry. The last column shows the CLI version that Gantry needs for the feature. <em>Any</em> means any supported CLI, 1.0 or later. Gantry reads your installed version and hides the features that it does not support.</p>
+{table(["CLI command", "Gantry feature", "CLI version Gantry needs"], GUIDE_MAP)}
 
 <h2 id="features">What Gantry adds on apple/container</h2>
 
@@ -455,7 +455,42 @@ PAGES["compare"] = dict(
 """)
 
 
+def home_faq():
+    with open(os.path.join(ROOT, "index.html")) as f:
+        page = f.read()
+    return re.findall(r"<summary>(.*?)</summary>\s*<p>(.*?)</p>", page, re.S)
+
+
+def llms_full():
+    """Plain-text copy of llms.txt plus the tables and answers of every page."""
+    with open(os.path.join(ROOT, "llms.txt")) as f:
+        intro = f.read().split("\n## ")[0].rstrip()
+    out = [intro, "", f"Last updated: {UPDATED}", ""]
+    out += ["## container CLI command to Gantry feature", ""]
+    out += [f"- {plain(c)}: {plain(g)} (CLI version: {plain(v)})" for c, g, v in GUIDE_MAP]
+    out += ["", "## Kubernetes cluster create options", ""]
+    out += [f"- {plain(o)} ({plain(fl)}): {plain(n)}" for o, fl, n in K8S_OPTIONS]
+    out += ["", f"## Comparison (facts as of {UPDATED}; Unknown means not found in vendor docs)", ""]
+    names = ["Gantry", "Docker Desktop", "OrbStack", "Podman Desktop", "container CLI"]
+    for row in COMPARE:
+        out.append(f"- {plain(row[0])}: " + "; ".join(f"{n}: {plain(c)}" for n, c in zip(names, row[1:])))
+    out += ["", "## Questions and answers", ""]
+    seen = set()
+    for q, a in home_faq() + GUIDE_FAQ + K8S_FAQ + COMPARE_FAQ:
+        q = plain(q)
+        if q in seen:
+            continue
+        seen.add(q)
+        out += [f"Q: {q}", f"A: {' '.join(plain(a).split())}", ""]
+    out += ["## Pages", ""]
+    out += [f"- {SITE}/{slug}/ : {p['title']}" for slug, p in PAGES.items()]
+    out += [f"- {SITE}/ : Home", f"- {SITE}/docs/index.html : Documentation", f"- {GITHUB} : Source code", ""]
+    with open(os.path.join(ROOT, "llms-full.txt"), "w") as f:
+        f.write("\n".join(out))
+
+
 def main():
+    llms_full()
     for slug, p in PAGES.items():
         out_dir = os.path.join(ROOT, slug)
         os.makedirs(out_dir, exist_ok=True)

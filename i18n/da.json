@@ -1,0 +1,936 @@
+{
+  "chrome": {
+    "nav_features": "Funktioner",
+    "nav_compare": "Sammenlign",
+    "nav_faq": "FAQ",
+    "nav_docs": "Dokumentation",
+    "nav_home": "Forside",
+    "star": "Stjerne",
+    "download": "Hent",
+    "download_mac": "Hent til macOS",
+    "copy": "Kopiér",
+    "copied": "Kopieret",
+    "releases": "Udgivelser",
+    "foot_guide": "Guide til apple/container",
+    "foot_license": "MIT-licens · GitHub",
+    "icon_alt": "Gantrys symbol",
+    "page_image_alt": "Gantrys flådeoversigt med Docker- og apple/container-værter",
+    "breadcrumb": "Brødkrummesti",
+    "faq_heading": "Spørgsmål og svar",
+    "updated": "Sidst opdateret {date}.",
+    "callout_warn": "Bemærk",
+    "language": "Sprog",
+    "languages": "Sprog",
+    "hint_text": "Denne side findes også på dansk.",
+    "hint_link": "Læs på dansk",
+    "hint_close": "Luk"
+  },
+  "home": {
+    "ld": {
+      "website_desc": "Den native macOS-GUI til Apple container (apple/container) og Docker, lokalt og over SSH.",
+      "app_alt_name": "Gantry til Apple container",
+      "app_subcategory": "Containeradministration",
+      "app_processor": "Apple-chip eller Intel (apple/container-værter kræver Apple-chip)",
+      "app_keywords": "apple container GUI, apple/container, container cluster, Kubernetes, container machine, Docker Desktop alternative, OrbStack alternative, Docker over SSH, MCP server, GUI til Apple container, alternativ til Docker Desktop, alternativ til OrbStack, Docker over SSH, MCP-server",
+      "app_desc": "Gantry er en gratis, native macOS-app med åben kildekode til Apples containerværktøj (apple/container) og Docker, lokalt og over SSH. På apple/container-værter administrerer den containere, Kubernetes-klynger, maskiner, Compose-projekter, image-builderen, registry-logins, kerner, tjenestelogge og systemegenskaber. Den har en MCP-server og App Intents til agenter.",
+      "features": [
+        "Native macOS-GUI til Apple container (apple/container), CLI 1.0 til 1.6.1 med funktioner, der følger versionen",
+        "Kubernetes-klynger på apple/container (container cluster): flere arbejdsnoder, tilpasset CNI, noder, kubeconfig, kubectl-kontekst",
+        "Indlæs lokale images i en Kubernetes-klynge",
+        "Containermaskiner: opret, start, stop, ressourcer, shell, indlejret virtualisering, tilpassede kerner",
+        "Åbn en containermaskine i VS Code over Remote-SSH",
+        "Docker Compose på apple/container med netværks-DNS-aliasser til tjenestenavne",
+        "Administration af image-builderen i apple/container, registry-logins og installation af kerne",
+        "Styring af apple/container-tjenester, tjenestelogge i realtid og en editor til systemegenskaber",
+        "Commit en container til et image og Trim disk (container clean) på apple/container",
+        "Filbrowser til containere med upload, download og træk ud",
+        "Ét overblik over lokal Docker, Docker over SSH og apple/container-værter",
+        "Logge i realtid med regex-søgning, niveaufilter og ANSI-farver",
+        "Statistik i realtid for CPU, hukommelse, netværk og disk-I/O",
+        "Exec-terminal og fejlfindingsshell",
+        "Native meddelelser, når en container går ned, løber tør for hukommelse eller bliver usund",
+        "Fjern-Docker over SSH med ProxyJump og hemmeligheder i nøgleringen",
+        "Mærker for fremmed arkitektur på images og containere",
+        "Del en containerport via en Cloudflare Tunnel",
+        "MCP-server og App Intents (Genveje, Siri) til AI-agenter",
+        "Brugerflade på engelsk og forenklet kinesisk"
+      ],
+      "howto_name": "Sådan installerer du Gantry på macOS",
+      "howto_desc": "Installer Gantry med Homebrew, og forbind den til Docker eller Apple container.",
+      "howto_supply": "En Mac med macOS 26 eller nyere",
+      "howto_steps": [
+        {
+          "name": "Installer med Homebrew",
+          "text": "Kør: brew install --cask getgantry/tap/gantry. Eller hent den seneste udgivelse fra GitHub, og træk Gantry.app til Programmer."
+        },
+        {
+          "name": "Fjern karantæneflaget",
+          "text": "Appen er ikke notariseret. Kør: xattr -dr com.apple.quarantine /Applications/Gantry.app, eller højreklik på Gantry.app, og vælg Åbn."
+        },
+        {
+          "name": "Tilføj en vært",
+          "text": "Åbn Gantry. Appen finder din lokale Docker-daemon. Vil du bruge Apple container, tilføjer du en Apple Container-vært; mangler container-CLI'en, tilbyder Gantry at installere den."
+        },
+        {
+          "name": "Forbind AI-agenter (valgfrit)",
+          "text": "Kør: claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp"
+        }
+      ]
+    },
+    "faq": {
+      "items": [
+        {
+          "q": "Hvad er den bedste GUI til Apple container?",
+          "a": "Gantry er en gratis, native macOS-GUI med åben kildekode, lavet til Apples værktøj <a href=\"#apple\">container</a> (apple/container). Den dækker containernes livscyklus, logge, statistik og en exec-terminal plus de dele af CLI'en, som andre GUI'er ikke når: Kubernetes-klynger (<code>container cluster</code>), containermaskiner, image-builderen, registry-logins, kerner, tjenestelogge og systemegenskaber. Den understøtter CLI 1.0 til 1.6.1 og slår kun en funktion til, når din CLI understøtter den. Se <a href=\"apple-container/\">guiden til apple/container</a>."
+        },
+        {
+          "q": "Hvad er Apple container (apple/container)?",
+          "a": "apple/container er Apples værktøj med åben kildekode til at køre Linux-containere på en Mac. Hver container kører i sin egen lette virtuelle maskine, bygget på Apples Virtualization-framework. Det kræver en Mac med Apple-chip og leveres som et kommandolinjeværktøj ved navn <code>container</code> uden desktopapp. Gantry er den desktopapp."
+        },
+        {
+          "q": "Understøtter Gantry container cluster og Kubernetes?",
+          "a": "Ja. På en apple/container-vært opretter og sletter Gantry Kubernetes-klynger med <code>container cluster</code> (CLI 1.6.1; CLI 1.5.0 til 1.6.0 bruger <code>container k8s</code>). Du vælger navn, antal arbejdsnoder, CPU'er, hukommelse, node-image og CNI (standard, ingen eller et tilpasset manifest). Gantry viser noderne, skriver kubeconfig, kopierer kommandoen til <code>kubectl</code>-konteksten og indlæser lokale images i klyngen. Se <a href=\"apple-container-kubernetes/\">Kubernetes på apple/container</a>."
+        },
+        {
+          "q": "Kan jeg bruge docker compose med Apple container?",
+          "a": "Ja. apple/container har ingen <code>compose</code>-kommando, så Gantry står for orkestreringen via <code>container</code>-CLI'en: den bygger <code>build:</code>-tjenester, opretter projektets netværk og navngivne volumes og starter hver tjeneste i <code>depends_on</code>-rækkefølge med de almindelige Compose-etiketter. Tjenestenavne slås op via netværks-DNS-aliasser. Åbn en <code>docker-compose.yml</code> fra Finder, menuen Arkiv eller ved at slippe den på vinduet."
+        },
+        {
+          "q": "Hvordan åbner jeg en containermaskine i VS Code?",
+          "a": "Start maskinen i Gantry, og klik på <b>Åbn i VS Code</b>. Gantry åbner maskinen i VS Code over Remote-SSH som i Apples eksempel <code>container-machine-vscode</code>. Maskinens image skal køre <code>sshd</code>, og VS Code med udvidelsen Remote-SSH skal være installeret."
+        },
+        {
+          "q": "Hvilke versioner af apple/container understøtter Gantry?",
+          "a": "Gantry kræver <code>container</code>-CLI 1.0 eller nyere og anbefaler 1.6.1. Appen læser den installerede version og viser kun de funktioner, som versionen understøtter, for eksempel commit (1.6), Trim disk (1.4) og arbejdsnoder i klynger (1.6). Mangler CLI'en, eller er den for gammel, tilbyder Gantry en guidet installation."
+        },
+        {
+          "q": "Kan Gantry administrere builderen, registries og kernen i apple/container?",
+          "a": "Ja. Sektionen System for en apple/container-vært starter, stopper og sletter image-builderen med indstillinger for CPU, hukommelse og DNS; viser, tilføjer og fjerner registry-logins (adgangskoden sendes kun til CLI'en via stdin); installerer den anbefalede kerne, en kernefil eller et tar-arkiv; streamer tjenestelogge; og redigerer systemegenskaberne i <code>config.toml</code>."
+        },
+        {
+          "q": "Er Gantry et alternativ til Docker Desktop, OrbStack eller Podman Desktop?",
+          "a": "Som GUI, ja. Gantry er en gratis, native macOS-app til at administrere containere, images, volumes, netværk, logge og statistik. Det er en klient, ikke en motor: den bruger den Docker-daemon, du allerede kører (Docker Desktop, OrbStack, Colima), eller Apples værktøj <a href=\"#apple\">container</a>, og tilføjer et overblik over flere værter, SSH-værter og en MCP-server. Se <a href=\"compare/\">sammenligningen</a>."
+        },
+        {
+          "q": "Er Gantry gratis?",
+          "a": "Ja. Gantry er gratis og har åben kildekode under MIT-licensen. Der er intet abonnement, ingen konto og ingen grænse for antallet af værter eller containere."
+        },
+        {
+          "q": "Hvad skal jeg bruge for at køre Gantry?",
+          "a": "macOS 26 eller nyere på Apple-chip eller Intel plus en Docker-daemon (Docker Desktop, OrbStack, Colima eller lignende) eller Apples værktøj <a href=\"#apple\">container</a>. apple/container kræver selv Apple-chip, så på en Intel-Mac administrerer Gantry kun Docker-værter."
+        },
+        {
+          "q": "Virker Gantry med OrbStack, Colima og Docker Desktop?",
+          "a": "Ja. Gantry taler direkte med Docker Engine-API'et via Unix-socketten, så den virker med enhver daemon, der stiller det til rådighed, herunder OrbStack, Colima og Docker Desktop."
+        },
+        {
+          "q": "Kan Gantry administrere eksterne Docker-værter?",
+          "a": "Ja. Gantry forbinder til fjerndaemons over SSH på samme måde som <code>docker -H ssh://</code>, med ProxyJump-bastioner, godkendelse med flere nøgler og automatisk genopretning af forbindelsen. Der skal intet installeres på serveren, og hemmelighederne ligger i macOS-nøgleringen."
+        },
+        {
+          "q": "Advarer Gantry mig, når en container fejler?",
+          "a": "Ja. Gantry sender en native macOS-meddelelse, når en container går ned, løber tør for hukommelse eller fejler sit sundhedstjek på en vært: lokal, SSH eller apple/container. Klik på den for at gå til containeren. Stop og genstarter, som du selv sætter i gang fra Gantry, giver ingen meddelelse, og du kan slå funktionen fra i Indstillinger."
+        },
+        {
+          "q": "Kan Gantry hente fra private registries?",
+          "a": "Ja. På Docker-værter læser Gantry loginoplysninger fra din <code>~/.docker/config.json</code> (det samme <code>docker login</code>, som du allerede har kørt), herunder indlejret godkendelse, credential helpers og macOS-nøgleringen. På apple/container-værter administrerer den logins med <code>container registry</code>."
+        },
+        {
+          "q": "Kan Gantry gøre en lokal container tilgængelig på internettet?",
+          "a": "Ja. Ét klik på en publiceret port deler den via en Cloudflare Tunnel. Gantry installerer <code>cloudflared</code> efter behov og starter derefter en hurtig tunnel (ingen Cloudflare-konto, en midlertidig trycloudflare.com-URL) eller en navngiven tunnel på dit eget værtsnavn. Den offentlige URL vises under porten med knapper til at åbne, kopiere og stoppe."
+        },
+        {
+          "q": "Er Gantry en Electron-app?",
+          "a": "Nej. Gantry er en native app bygget med SwiftUI og Swift 6. Brugerfladen findes på engelsk og forenklet kinesisk og følger systemsproget i macOS."
+        },
+        {
+          "q": "Hvordan installerer jeg Gantry?",
+          "a": "Kør <code>brew install --cask getgantry/tap/gantry</code>, eller hent den seneste udgivelse fra <a href=\"https://github.com/getgantry/gantry/releases/latest\" target=\"_blank\" rel=\"noopener\">GitHub</a>, og træk <code>Gantry.app</code> til Programmer."
+        },
+        {
+          "q": "Kan AI-agenter styre Gantry?",
+          "a": "Ja. Gantry har en indbygget <a href=\"#agents\">MCP-server</a> og macOS App Intents, så Claude, Genveje, Siri og scripts når lige så langt som GUI'en på alle værter, også SSH-værter: containere, images, volumes, netværk, Compose, apple/container-maskiner, Kubernetes-klynger, <code>apple_*</code>-systemværktøjer (tjenester, builder, registries, egenskaber, logge, kerne) og portdeling. Tilføj den med <code>claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp</code>."
+        }
+      ],
+      "kicker": "FAQ",
+      "h2": "Spørgsmål og svar",
+      "p": "Alt det, du måske vil vide, før du installerer Gantry."
+    },
+    "apple": {
+      "items": [
+        {
+          "h": "Containere, logge, statistik og exec",
+          "p": "Opret, start, stop, dræb og ryd op; logge og statistik i realtid, en exec-terminal, <code>top</code> og tar-eksport, i samme brugerflade som dine Docker-værter."
+        },
+        {
+          "h": "Kubernetes-klynger",
+          "p": "Opret en Kubernetes-klynge med flere arbejdsnoder med <code>container cluster</code>, vælg CNI (standard, ingen eller dit eget manifest), følg noderne, skriv kubeconfig, og kopiér <code>kubectl</code>-konteksten. <a href=\"apple-container-kubernetes/\">Læs mere</a>"
+        },
+        {
+          "h": "Indlæs lokale images i en klynge",
+          "p": "Højreklik på et image, og vælg <b>Indlæs i klynge</b> for at sende det til hver node, uden push til et registry."
+        },
+        {
+          "h": "Containermaskiner i VS Code",
+          "p": "Opret, start og stop Linux-miljøer med <code>container machine</code>, indstil CPU'er og hukommelse, åbn en shell, eller åbn maskinen i <b>VS Code over Remote-SSH</b>."
+        },
+        {
+          "h": "Indlejret virtualisering og tilpassede kerner",
+          "p": "Start en maskine med indlejret virtualisering (M3 eller nyere) eller din egen kerne. Start containere fra en tilpasset kerne med ekstra startargumenter."
+        },
+        {
+          "h": "Compose til Apple container",
+          "p": "apple/container har ingen <code>compose</code>. Gantry kører din <code>docker-compose.yml</code>: den bygger, opretter netværket og volumes og starter tjenesterne i <code>depends_on</code>-rækkefølge. Tjenestenavne slås op via netværks-DNS-aliasser."
+        },
+        {
+          "h": "Netværks-DNS-aliasser",
+          "p": "Containeraliasser, undertræsaliasser som <code>.gateway</code> og korte navne, når der er angivet et standard-DNS-domæne. Hver container får en routbar IP-adresse og et værtsnavn af typen <code>name.domain</code>."
+        },
+        {
+          "h": "Administrer image-builderen",
+          "p": "Se builderens status, image, CPU'er, hukommelse og IP-adresse. Start den med indstillinger for CPU, hukommelse og DNS, stop den, eller slet den."
+        },
+        {
+          "h": "Registry-logins",
+          "p": "Vis, tilføj og fjern logins med <code>container registry</code>. Adgangskoden sendes kun til CLI'en via stdin, og Gantry gemmer ingen kopi."
+        },
+        {
+          "h": "Installation af kerne",
+          "p": "Installer den anbefalede kerne, en kernefil eller et tar-arkiv, og følg forløbet live. Gantry advarer dig, når der ikke er installeret nogen standardkerne."
+        },
+        {
+          "h": "Tjenester og tjenestelogge",
+          "p": "Start, stop og genstart <code>container</code>-tjenesterne, sammenlign klient- og serverversion, og stream tjenestelogge filtreret efter niveau, tjeneste og tekst."
+        },
+        {
+          "h": "Editor til systemegenskaber",
+          "p": "Rediger systemegenskaberne for <code>container</code> i <code>config.toml</code>. Gantry markerer de ændringer, der kræver genstart, og genstarter tjenesterne for dig."
+        },
+        {
+          "h": "Commit og Trim disk",
+          "p": "Commit en container til et image (<code>container commit</code>), og frigør diskplads med <b>Trim disk</b> (<code>container clean</code>), også i panelet Frigør plads."
+        },
+        {
+          "h": "Filbrowser: upload og download",
+          "p": "Gennemse en containers filer, download dem, eller træk dem ud til Finder (<code>container copy</code>), og slip filer eller hele mapper ind."
+        },
+        {
+          "h": "Hurtig kørsel og Finder",
+          "p": "Vælg et image, del en mappe, tilknyt porte, og vælg et domæne – og kør. Højreklik på en Compose-fil i Finder, og åbn den med Gantry."
+        },
+        {
+          "h": "Etiketter, der indeholder <code>=</code>",
+          "p": "<code>container</code>-CLI'en afviser etiketværdier med <code>=</code>. Gantry koder dem ved oprettelse og afkoder dem ved læsning, så en værdi som <code>a=b</code> forbliver intakt."
+        },
+        {
+          "h": "Én flåde, to runtimes",
+          "p": "apple/container-værter står ved siden af dine lokale Docker- og SSH-værter i ét overblik, med de samme minigrafer, samme sundhedsstatus og samme fejlmeddelelser."
+        },
+        {
+          "h": "MCP-værktøjer til agenter",
+          "p": "Den indbyggede MCP-server giver agenter den samme rækkevidde: containere, maskiner, klynger og <code>apple_*</code>-systemværktøjer til tjenester, builder, registries, egenskaber, logge og kerner."
+        }
+      ],
+      "kicker": "GUI til apple/container",
+      "h2": "Den native macOS-GUI til Apple container",
+      "p": "Apples værktøj <a href=\"https://github.com/apple/container\" target=\"_blank\" rel=\"noopener\">container</a> kører Linux-containere som lette VM'er på Apple-chip, men leveres kun som kommandolinjeværktøj. Gantry er desktopappen til det: Det, Docker Desktop er for Docker, er Gantry for <code>container</code>. Appen understøtter alle versioner af <code>container</code>-CLI'en fra 1.0 op til den anbefalede <b>1.6.1</b> og slår kun en funktion til, når din installerede CLI understøtter den.",
+      "link_guide": "Guiden til apple/container: hver CLI-kommando og den tilhørende funktion i Gantry",
+      "link_k8s": "Kubernetes på apple/container",
+      "link_compare": "Gantry vs. Docker Desktop, OrbStack og Podman Desktop"
+    },
+    "title": "Gantry: den native macOS-GUI til Apple container og Docker",
+    "desc": "Gratis Mac-GUI med åben kildekode til Apple container og Docker: Kubernetes-klynger, maskiner, Compose og image-builder. Alternativ til Docker Desktop og OrbStack.",
+    "keywords": "apple container GUI, apple/container GUI, Apple container desktop app, apple container kubernetes, container machine VS Code, apple container compose, Docker Desktop alternative, OrbStack alternative, Podman Desktop alternative, native Docker GUI Mac, Docker over SSH, MCP server, GUI til Apple container, Apple container app til Mac, alternativ til Docker Desktop, alternativ til OrbStack, alternativ til Podman Desktop, Docker-GUI til Mac, MCP-server",
+    "og_desc": "Gantry er en gratis, native macOS-app med åben kildekode til Apples containerværktøj og Docker, lokalt og over SSH. Kubernetes-klynger, maskiner, Compose, builder, registries og en MCP-server.",
+    "og_image_alt": "Gantrys flådeoversigt med Docker- og apple/container-værter og minigrafer for CPU og hukommelse i realtid",
+    "nav": {
+      "fleet": "Flåde",
+      "agents": "Agenter",
+      "shots": "Skærmbilleder",
+      "install": "Installer"
+    },
+    "hero": {
+      "eyebrow": "Understøtter apple/container 1.6.1. Åben kildekode. Klar til agenter.",
+      "h1": "Den native macOS-GUI til <span class=\"grad\">Apple container</span><br>og Docker – hele din flåde samlet ét sted.",
+      "tagline": "Gantry er en gratis Mac-app med åben kildekode til Apples værktøj <a href=\"#apple\">container</a> og til Docker, lokalt og over SSH. Kør containere, <a href=\"apple-container-kubernetes/\">Kubernetes-klynger</a>, maskiner og Compose-projekter på apple/container fra ét vindue, ved siden af dine Docker-værter. Et native <b>alternativ til Docker Desktop</b> til Mac. Ingen Electron. Intet abonnement. Ingen begrænsninger.",
+      "note": "<b>macOS 26+</b> · Apple-chip &amp; Intel · <b>MIT</b>-licens · engelsk &amp; 简体中文 · MCP-server inkluderet",
+      "window_title": "Gantry – Flåde",
+      "img_alt": "Gantrys flådeoversigt med minigrafer for CPU og hukommelse i realtid på tværs af alle værter",
+      "replay_label": "Afspil animationen igen",
+      "replay": "Afspil igen"
+    },
+    "trust": {
+      "title": "Virker med alt det, du allerede kører",
+      "ssh": "Fjern-SSH"
+    },
+    "features": {
+      "kicker": "Kontrolcentret",
+      "h2": "Alt til Docker og apple/container – på Mac-måden",
+      "p": "Et komplet og fokuseret kontrolcenter til dine containere – altid live og så hurtigt, at det føles lokalt, også når det ikke er.",
+      "fleet": {
+        "lbl": "Flåde · 5 værter",
+        "pill": "5 kræver opmærksomhed",
+        "h3": "Ét overblik over alle værter",
+        "p": "Lokal daemon, SSH-flåde og apple/container på én skærm – minigrafer for CPU og hukommelse i realtid, fordeling af containerstatus og sundhedsproblemer, der fører dig direkte til synderen.",
+        "running": "{n} kører",
+        "unhealthy": "{n} usunde"
+      },
+      "logs": {
+        "lbl": "logge · superset_worker",
+        "pill": "følg",
+        "h3": "Logge på steroider",
+        "p": "Følg i realtid, søg med <b>regex</b> eller bogstaveligt med ⌘F, et <b>niveaufilter</b> (Error→Trace), <b>ANSI-farver</b>, en buffer på 50.000 linjer – og samlede <b>stak-log</b> for et helt Compose-projekt."
+      },
+      "notify": {
+        "n1_title": "Container stoppet",
+        "n1_time": "nu",
+        "n1_text": "web på <b>prod-eu</b> afsluttede med kode 1.",
+        "n2_title": "Container usund",
+        "n2_time": "2 min.",
+        "n2_text": "api på <b>dedic</b> fejlede sit sundhedstjek.",
+        "h3": "Få besked, i samme øjeblik noget går i stykker",
+        "p": "En native meddelelse, når en container går ned, løber tør for hukommelse eller bliver usund på en vært. Klik på den for at gå direkte til containeren – stop, du selv sætter i gang, giver ingen meddelelse."
+      },
+      "stats": {
+        "mem": "Hukommelse",
+        "h3": "Statistik i realtid",
+        "p": "CPU, hukommelse, netværk &amp; disk-I/O vist live i grafer med måling hvert sekund."
+      },
+      "exec": {
+        "h3": "Indbygget exec-terminal",
+        "p": "Fuld terminalemulering i enhver kørende container, lokalt eller på en fjernvært – med farvetemaer (System, Solarized, Dracula, Nord)."
+      },
+      "ssh": {
+        "h3": "Fjernværter over SSH",
+        "p": "Tunnelerer præcis som <code>docker -H ssh://</code> via <code>dial-stdio</code> – ProxyJump-bastioner, godkendelse med flere nøgler, automatisk genopretning af forbindelsen. Intet at installere på serveren, hemmelighederne i nøgleringen. Import med ét klik fra <code>~/.ssh/config</code> og <code>docker context ls</code>."
+      },
+      "files": {
+        "h3": "Filbrowser med træk og slip",
+        "p": "Gennemse en containers filsystem, flyt filer ind og ud, og slip hele mapper direkte fra Finder – på både Docker- og apple/container-værter."
+      },
+      "ports": {
+        "h3": "Åbn i browseren &amp; videresend",
+        "p": "Ét klik åbner en publiceret port. SSH-porte tunneleres automatisk til <code>localhost</code> – og er porten optaget, vælger Gantry en ledig, som du kan ændre."
+      },
+      "tunnel": {
+        "h3": "Del på internettet",
+        "p": "Ét klik gør en publiceret port tilgængelig via en <b>Cloudflare Tunnel</b>. Gantry installerer <code>cloudflared</code> for dig og giver dig derefter en <b>hurtig tunnel</b> (ingen konto, en URL under <code>*.trycloudflare.com</code>) eller en <b>navngiven tunnel</b> på dit eget domæne – perfekt til en udviklingsforhåndsvisning, en webhook eller til at lade en AI-agent nå en container på din Mac."
+      },
+      "compose": {
+        "h3": "Compose, hvor som helst",
+        "p": "Containere grupperes efter deres Compose-projekt. <b>Start en Compose-fil på en hvilken som helst vært</b> – lokal Docker, SSH eller apple/container – med en indbygget <b>YAML-editor</b>; afviklingen tilpasser sig motoren."
+      },
+      "registries": {
+        "h3": "Private registries, automatisk",
+        "p": "Hentninger bruger det <code>docker login</code>, du allerede har lavet – Gantry finder loginoplysninger i <code>~/.docker/config.json</code>, credential helpers og nøgleringen, både ved oprettelse, i Hurtig kørsel og i Compose."
+      },
+      "images": {
+        "h3": "Byg &amp; hent images",
+        "p": "Slip en Dockerfile på vinduet for at bygge med live-log, eller hent via reference med forløb pr. lag. Tilføj tags, ryd op, og læs laghistorikken. Et mærke viser images, der er bygget til en anden CPU-arkitektur end værtens."
+      },
+      "cleanup": {
+        "h3": "Frigør plads",
+        "p": "Ét panel viser, hvad der fylder – images uden tag, stoppede containere, ubrugte volumes, build-cache – med størrelser, og rydder op i hver enkelt eller i det hele på én gang. På apple/container kører det også Trim disk."
+      },
+      "touchid": {
+        "h3": "Touch ID ved destruktive handlinger",
+        "p": "Slå det til, så beder Gantry om Touch ID – eller din login-adgangskode – før en container fjernes, eller en vært slettes. Hemmelighederne ligger allerede i nøgleringen."
+      },
+      "themes": {
+        "h3": "Terminaltemaer",
+        "p": "Giv den indbyggede shell temaet System, Solarized Dark, Dracula eller Nord – en komplet palet til forgrund, baggrund og 16 ANSI-farver, der anvendes med det samme."
+      }
+    },
+    "agents": {
+      "kicker": "Klar til agenter",
+      "h2": "Bygget til at blive styret af AI",
+      "p": "En indbygget MCP-server og App Intents giver Claude, Genveje, Siri og scripts adgang til alle værter – også SSH-værter – med samme rækkevidde som GUI'en: opret og administrer containere, byg og hent images, volumes og netværk, Compose up, apple/container-maskiner og Kubernetes-klynger, <code>apple_*</code>-systemværktøjerne til tjenester, builder, registries og kerner, og endda deling af en port via en Cloudflare Tunnel.",
+      "term_title": "Terminal – tilslut MCP-serveren",
+      "term_added": "✓ MCP-server tilføjet",
+      "term_question": "\"hvorfor er superset_worker usund på dedic?\"",
+      "prompt_h3": "Kopiér som prompt",
+      "prompt_p": "Tryk på <span class=\"kbd\">⌥⌘P</span> på en container, så lægger Gantry en fejlfindingsprompt, klar til at indsætte, på udklipsholderen – værten og hvordan den nås, MCP-<code>host_id</code> og værktøjer, containerens fulde tilstand og en opgave, der passer til symptomet.",
+      "s1_state": "Usund",
+      "s1_text": "“Fejlfind det sundhedstjek, der fejler.”",
+      "s2_state": "Crash-loop",
+      "s2_text": "“Find ud af, hvorfor den bliver ved med at gå ned.”",
+      "s3_state": "Sund",
+      "s3_text": "Giver plads til dit eget spørgsmål."
+    },
+    "shots": {
+      "kicker": "Et nærmere kig",
+      "h2": "Designet til at føles som en del af systemet",
+      "p": "Opdelt visning i tre kolonner, Liquid Glass-materialer, Swift Charts. Ægte skærmbilleder, ingen mockups.",
+      "stats_title": "Containere – Statistik",
+      "stats_alt": "Containerstatistik i realtid: grafer for CPU, hukommelse, netværk og disk-I/O",
+      "stats_caption": "<b>Statistik i realtid.</b> CPU, hukommelse, netværk &amp; disk-I/O, målt hvert sekund.",
+      "overview_title": "Vært – Oversigt",
+      "overview_alt": "Oversigt over en vært med målere for CPU og hukommelse og Dockers diskforbrug",
+      "overview_caption": "<b>Værtsoversigt.</b> Målere, diskforbrug, fakta om daemonen.",
+      "fleet_title": "Flåde – Sundhed",
+      "fleet_alt": "Flådeoversigt over fem værter med synlige sundhedsproblemer",
+      "fleet_caption": "<b>Flådeoversigt.</b> Hver vært, hvert problem, én skærm."
+    },
+    "built": {
+      "kicker": "Bygget anderledes",
+      "h2": "Ingen web-wrappere. Ingen egne daemons.",
+      "p": "Bare en hurtig, native Mac-app, der taler direkte med Docker Engine-API'et og med Apples <code>container</code>-CLI.",
+      "swiftui_n": "100 % native SwiftUI",
+      "swiftui_p": "Ikke Electron. Starter med det samme, bruger lidt hukommelse og føles som en del af systemet.",
+      "swift6_n": "Swift 6",
+      "swift6_p": "Moderne kodebase med sikker samtidighed på den nyeste værktøjskæde.",
+      "api_n": "Direkte på Engine-API'et",
+      "api_p": "Docker via Unix-socketten, ingen Docker-CLI nødvendig. apple/container via sin egen <code>container</code>-CLI.",
+      "updates_n": "Automatiske opdateringer",
+      "updates_p": "Et EdDSA-signeret Sparkle-appcast holder dig opdateret uden at være i vejen."
+    },
+    "install": {
+      "h2": "Installeret på et minut",
+      "sub": "Ingen App Store, ingen konto. Hent og træk – eller én linje Homebrew.",
+      "s1_title": "Installer",
+      "s1_text": "Kør Homebrew-casken, eller hent <code>.zip</code>-filen fra Udgivelser, og træk <code>Gantry.app</code> til Programmer.",
+      "s2_title": "Første start",
+      "s2_text": "Endnu ikke notariseret – højreklik &amp; vælg Åbn, eller fjern karantænen med <code>xattr -dr com.apple.quarantine /Applications/Gantry.app</code>",
+      "s3_title": "Tilføj en vært",
+      "s3_text": "Lokal Docker dukker op af sig selv. Til Apple container tilføjer du en <em>Apple Container</em>-vært; Gantry tilbyder at installere <code>container</code>-CLI'en. Agenter: <code>claude mcp add gantry</code>."
+    },
+    "footer_meta": "MIT-licens · Bygget med SwiftUI · © 2026"
+  },
+  "guide": {
+    "title": "GUI til Apple container på Mac: hele guiden til apple/container",
+    "crumb": "Guide til apple/container",
+    "desc": "Hvad Apples container-værktøj er, hvordan du installerer det, og hvordan Gantry styrer det: hver CLI-kommando og dens Gantry-funktion, fra Compose til Kubernetes.",
+    "table_head": [
+      "CLI-kommando",
+      "Funktion i Gantry",
+      "CLI-version, Gantry kræver"
+    ],
+    "table": [
+      [
+        "<code>container run</code>, <code>container create</code>",
+        "Arket Ny container og Hurtig kørsel: image, navn, kommando, porte, miljøvariabler, volumes, DNS-domæne, tilpasset kerne og startargumenter",
+        "Alle"
+      ],
+      [
+        "<code>container list --all</code>",
+        "Containerlisten, grupperet efter Compose-projekt, med statusfiltre og søgning",
+        "Alle"
+      ],
+      [
+        "<code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code>",
+        "Værktøjslinjen, højrekliksmenuen og panelet i menulinjen",
+        "Alle"
+      ],
+      [
+        "<code>container logs</code>",
+        "Fanen Logge: følg i realtid, regex-søgning, niveaufilter, ANSI-farver",
+        "Alle"
+      ],
+      [
+        "<code>container stats</code>",
+        "Fanen Statistik og minigraferne i flådeoversigten",
+        "Alle"
+      ],
+      [
+        "<code>container exec</code>",
+        "Fanen Terminal (interaktiv shell) og fanen Processer",
+        "Alle"
+      ],
+      [
+        "<code>container inspect</code>",
+        "Fanerne Oversigt og Inspicer",
+        "Alle"
+      ],
+      [
+        "<code>container export</code>",
+        "Eksportér filsystem (tar)",
+        "Alle"
+      ],
+      [
+        "<code>container commit</code>",
+        "Commit til image",
+        "1.6"
+      ],
+      [
+        "<code>container copy</code>",
+        "Fanen Filer: download og træk ud til Finder (containeren skal være startet)",
+        "Alle; testet med 1.6.1"
+      ],
+      [
+        "<code>container exec</code> med <code>tar</code>",
+        "Fanen Filer: upload filer, og slip hele mapper fra Finder",
+        "Alle"
+      ],
+      [
+        "<code>container clean</code>",
+        "Trim disk på en kørende container og en række i Frigør plads",
+        "1.4"
+      ],
+      [
+        "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
+        "Images: hent med forløb, tilføj tag, fjern, ryd op, inspicer",
+        "Alle"
+      ],
+      [
+        "<code>container build</code>",
+        "Bygger <code>build:</code>-tjenesterne i en Compose-fil",
+        "Alle"
+      ],
+      [
+        "<code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>",
+        "Volumes",
+        "Alle"
+      ],
+      [
+        "<code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>",
+        "Netværk",
+        "Alle"
+      ],
+      [
+        "<code>--network &lt;name&gt;,alias=…</code>",
+        "Netværks-DNS-aliasser, undertræsaliasser (<code>.gateway</code>) og tjenestenavne i Compose",
+        "Alle; testet med 1.6.1"
+      ],
+      [
+        "<code>container system start</code>, <code>stop</code>",
+        "Sektionen System: start, stop og genstart tjenesterne; også i menulinjen og Indstillinger",
+        "Alle"
+      ],
+      [
+        "<code>container system status</code>, <code>version</code>",
+        "Sektionen System: status, klient- og serverversion, fakta om værten",
+        "Alle"
+      ],
+      [
+        "<code>container system logs</code>",
+        "Sektionen System: Tjenestelogge, live eller for 5 minutter til 1 døgn, filtreret efter niveau, tjeneste og tekst",
+        "Alle"
+      ],
+      [
+        "<code>container system property list</code>",
+        "Sektionen System: editoren Systemegenskaber, gemt i <code>~/.config/container/config.toml</code>",
+        "Alle; testet med 1.6.1"
+      ],
+      [
+        "<code>container system dns create</code>, <code>delete</code>, <code>list</code>",
+        "Indstillinger ▸ Apple: lokale DNS-domæner og et standarddomæne",
+        "Alle"
+      ],
+      [
+        "<code>container system kernel set</code>",
+        "Sektionen System: installer den anbefalede kerne, en kernefil eller et tar-arkiv",
+        "Alle"
+      ],
+      [
+        "<code>container system df</code>",
+        "Diskforbrug i værtsoversigten og Frigør plads",
+        "Alle"
+      ],
+      [
+        "<code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code>",
+        "Sektionen System: Image-builder med indstillinger for CPU, hukommelse og DNS",
+        "Alle"
+      ],
+      [
+        "<code>container registry login</code>, <code>logout</code>, <code>list</code>",
+        "Sektionen System: Registry-logins (adgangskode kun via stdin)",
+        "Alle"
+      ],
+      [
+        "<code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code>",
+        "Maskiner: opret, start, stop, slet, standardmaskine, CPU'er og hukommelse, shell, inspicer, Åbn i VS Code",
+        "Alle; indlejret virtualisering og kerner 1.1"
+      ],
+      [
+        "<code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code>",
+        "Klynger: Kubernetes-klynger, noder, kubeconfig, kubectl-kontekst, Indlæs i klynge",
+        "1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)"
+      ],
+      [
+        "Ingen <code>compose</code>-kommando",
+        "Compose-afvikling: start en <code>docker-compose.yml</code> fra Finder, menuen Arkiv eller med træk og slip",
+        "Alle"
+      ]
+    ],
+    "callout": "Brug den signerede installationspakke, ikke Homebrew-versionen. Homebrew-versionen indeholder ikke maskine-backenden, så <code>container machine</code> kan ikke køre.",
+    "code_mcp": "Tilføj Gantrys MCP-server",
+    "faq": [
+      {
+        "q": "Hvad er den bedste GUI til Apple container?",
+        "a": "Gantry er en gratis, native macOS-GUI med åben kildekode, lavet til apple/container. Den gør <code>container</code>-CLI'en til en desktopapp: containere, logge, statistik og exec plus Kubernetes-klynger, maskiner, image-builderen, registry-logins, kerner, tjenestelogge og systemegenskaber. Tabellen på denne side viser hver kommando og den funktion i Gantry, der bruger den."
+      },
+      {
+        "q": "Har Apple container en GUI?",
+        "a": "Apple leverer kun <code>container</code> som kommandolinjeværktøj. Gantry er en separat app med åben kildekode, der giver det en GUI, ved siden af dine Docker-værter."
+      },
+      {
+        "q": "Kan jeg bruge docker compose med Apple container?",
+        "a": "apple/container har ingen <code>compose</code>-kommando. Gantry læser en <code>docker-compose.yml</code>, bygger <code>build:</code>-tjenester, opretter netværket og navngivne volumes og starter tjenesterne i <code>depends_on</code>-rækkefølge. Tjenestenavne slås op via netværks-DNS-aliasser."
+      },
+      {
+        "q": "Hvordan åbner jeg en containermaskine i VS Code?",
+        "a": "Start maskinen i Gantry, og klik på <b>Åbn i VS Code</b>. Gantry åbner den over Remote-SSH som i Apples eksempel <code>container-machine-vscode</code>. Maskinens image skal køre <code>sshd</code>."
+      },
+      {
+        "q": "Virker Apple container på Intel-Mac?",
+        "a": "Nej. apple/container kræver en Mac med Apple-chip. Gantry kører også på Intel-Mac, men dér administrerer den kun Docker-værter."
+      },
+      {
+        "q": "Hvilken version af container-CLI'en skal jeg installere?",
+        "a": "Gantry kræver 1.0 eller nyere og er testet med 1.6.1. Installer den med den signerede installationspakke fra <a href=\"https://github.com/apple/container/releases\">udgivelsessiden for apple/container</a>. Homebrew-versionen indeholder ikke maskine-backenden, så <code>container machine</code> virker ikke med den."
+      }
+    ],
+    "body": {
+      "h1": "Apple container på Mac: den komplette guide og GUI",
+      "lead": "apple/container kører Linux-containere på din Mac, hver i sin egen lette virtuelle maskine. Det leveres som kommandolinjeværktøj. Gantry er en native macOS-GUI til det. Denne guide forklarer værktøjet, hvordan du sætter det op, og hvilken funktion i Gantry der dækker hver <code>container</code>-kommando.",
+      "tldr": "<strong>Kort sagt.</strong> Gantry er en gratis macOS-app med åben kildekode (MIT), der styrer Apples værktøj <code>container</code> og Docker fra ét vindue. Den understøtter <code>container</code>-CLI 1.0 til 1.6.1 (anbefalet) og viser kun de funktioner, din CLI-version understøtter. Installer den med <code>brew install --cask getgantry/tap/gantry</code>.",
+      "what-is": {
+        "h": "Hvad er apple/container?",
+        "p1": "<a href=\"https://github.com/apple/container\">apple/container</a> er et værktøj med åben kildekode fra Apple, skrevet i Swift, der opretter og kører Linux-containere på en Mac. Docker Desktop kører alle containere i én fælles Linux-VM; apple/container kører hver container i sin egen lette virtuelle maskine, bygget på Apples Virtualization-framework. Det bruger almindelige OCI-images og henter derfor fra og sender til de samme registries som Docker.",
+        "li1": "<strong>Hardware:</strong> en Mac med Apple-chip.",
+        "li2": "<strong>macOS:</strong> Apple understøtter det på macOS 26.",
+        "li3": "<strong>Brugerflade:</strong> kun <code>container</code>-CLI'en. Der er ingen desktopapp og ingen <code>compose</code>-kommando.",
+        "li4": "<strong>Netværk:</strong> hver container får sin egen IP-adresse på din Mac, og lokale DNS-domæner giver containere navne som <code>web.test</code>."
+      },
+      "why-gui": {
+        "h": "Hvorfor bruge en GUI til apple/container?",
+        "p1": "CLI'en er komplet, men det daglige arbejde kræver mange kommandoer: <code>container list</code>, <code>logs</code>, <code>stats</code>, <code>exec</code> og derefter <code>system</code>, <code>builder</code>, <code>registry</code>, <code>machine</code> og <code>cluster</code> til resten. Gantry samler dem i ét vindue med live-opdateringer, så du ser tilstanden i stedet for at spørge efter den. Appen tilføjer også det, CLI'en mangler: Compose-filer, fejlmeddelelser, en flådeoversigt sammen med dine Docker-værter og en MCP-server til AI-agenter."
+      },
+      "setup": {
+        "h": "Sæt apple/container op med Gantry",
+        "li1": "Installer Gantry: <code>brew install --cask getgantry/tap/gantry</code>, og fjern derefter karantæneflaget (se <a href=\"{root}docs/install.html\">Installation</a>).",
+        "li2": "Installer <code>container</code>-CLI'en fra den signerede <code>.pkg</code>-fil på <a href=\"https://github.com/apple/container/releases\">udgivelsessiden for apple/container</a>. Mangler den, eller er den ældre end 1.0, viser Gantry et installationsark med trinene.",
+        "li3": "Vælg <strong>Tilføj vært…</strong> i Gantry, og tilføj en <em>Apple Container</em>-vært. Når du forbinder, startes <code>container</code>-tjenesterne, hvis de er stoppet.",
+        "li4": "Er der ikke installeret nogen standardkerne, viser værtsoversigten et banner. Klik på det for at installere den anbefalede kerne."
+      },
+      "command-map": {
+        "h": "Hver container-kommando og dens funktion i Gantry",
+        "p1": "Tabellen kobler <code>container</code>-CLI'en til Gantry. Den sidste kolonne viser den CLI-version, Gantry kræver til funktionen. <em>Alle</em> betyder alle understøttede CLI-versioner, 1.0 eller nyere. Gantry læser din installerede version og skjuler de funktioner, den ikke understøtter."
+      },
+      "features": {
+        "h": "Det tilføjer Gantry på apple/container"
+      },
+      "kubernetes": {
+        "h": "Kubernetes-klynger",
+        "p1": "Opret Kubernetes-klynger med flere arbejdsnoder med <code>container cluster</code>, vælg CNI, se hver node, skriv kubeconfig, og indlæs lokale images i klyngen. Se <a href=\"../apple-container-kubernetes/\">Kubernetes på apple/container</a>."
+      },
+      "machines": {
+        "h": "Containermaskiner og VS Code",
+        "p1": "Maskiner er langlivede Linux-miljøer fra <code>container machine</code>. Gantry opretter, starter, stopper og sletter dem, angiver standardmaskinen, ændrer CPU'er og hukommelse og åbner en shell. Med CLI 1.1 eller nyere kan en maskine starte med indlejret virtualisering (Apple-chip M3 eller nyere) og en tilpasset kerne. <strong>Åbn i VS Code</strong> forbinder til en kørende maskine over Remote-SSH; maskinens image skal køre <code>sshd</code>."
+      },
+      "compose": {
+        "h": "Docker Compose på apple/container",
+        "p1": "Åbn en <code>docker-compose.yml</code> fra Finder (<em>Åbn med ▸ Gantry</em> eller <em>Hurtige handlinger ▸ Compose Up i apple/container</em>), fra <strong>Arkiv ▸ Åbn Compose-fil…</strong> eller ved at slippe den på vinduet. Gantry bygger <code>build:</code>-tjenester, opretter projektets netværk og navngivne volumes og starter hver tjeneste i <code>depends_on</code>-rækkefølge med de almindelige <code>com.docker.compose.*</code>-etiketter. Med et standard-DNS-domæne når tjenesterne hinanden via tjenestenavnet takket være netværksaliasser."
+      },
+      "dns": {
+        "h": "Netværks-DNS-aliasser og lokale domæner",
+        "p1": "Gantry sender netværksaliasser til <code>container</code> som <code>--network &lt;name&gt;,alias=…</code>. Uden et standard-DNS-domæne går kun fuldt kvalificerede navne igennem, og et undertræsalias (med et punktum foran, som <code>.gateway</code>) går kun igennem som sit præcise alias. Med et standarddomæne virker korte navne også. Gantry opretter og sletter lokale DNS-domæner, angiver standarddomænet og giver nye containere et værtsnavn af typen <code>name.domain</code>. Se <a href=\"{root}docs/dns.html\">Lokale DNS-navne</a>."
+      },
+      "system": {
+        "h": "System: tjenester, builder, registries, kerne, logge, egenskaber",
+        "p1": "Hver apple/container-vært har en sektion <strong>System</strong>. Den virker, også når værten ikke er forbundet, så du kan starte stoppede tjenester derfra.",
+        "li1": "<strong>Status og version:</strong> klient- og serverversion med en advarsel, når de er forskellige; start, stop og genstart tjenesterne; fakta og stier for værten.",
+        "li2": "<strong>Image-builder:</strong> status, image, CPU'er, hukommelse og IP-adresse; start med indstillinger for CPU, hukommelse og DNS; stop; slet.",
+        "li3": "<strong>Registry-logins:</strong> vis, log ind og log ud. Adgangskoden sendes kun til CLI'en via stdin (<code>--password-stdin</code>), og Gantry gemmer ingen kopi.",
+        "li4": "<strong>Kerne:</strong> installer den anbefalede kerne, en kernefil eller et tar-arkiv, og følg forløbet live.",
+        "li5": "<strong>Tjenestelogge:</strong> live eller én gang, for 5 minutter til 1 døgn, filtreret efter niveau, tjeneste og tekst.",
+        "li6": "<strong>Systemegenskaber:</strong> ændringer gemmes i <code>~/.config/container/config.toml</code> med en markering, når en genstart venter, og en knap <strong>Genstart tjenester</strong>."
+      },
+      "disk": {
+        "h": "Commit, Trim disk og filer",
+        "p1": "<strong>Commit til image</strong> bruger <code>container commit</code> (CLI 1.6). <strong>Trim disk</strong> bruger <code>container clean</code> (CLI 1.4) og vises også som en række i Frigør plads. Fanen Filer downloader filer og lader dig trække dem ud til Finder med <code>container copy</code> (containeren skal være startet), og uploader filer og mapper."
+      },
+      "labels": {
+        "h": "Etiketter, der indeholder <code>=</code>",
+        "p1": "<code>container create</code> afviser en etiketværdi, der indeholder <code>=</code>, også i CLI 1.6.1. Gantry koder sådanne værdier, når containeren oprettes, og afkoder dem, når de læses tilbage, så de etiketter, du angiver, er de etiketter, du ser."
+      },
+      "agents": {
+        "h": "MCP-server og Genveje",
+        "p1": "Den indbyggede server <code>gantry-mcp</code> giver AI-agenter samme rækkevidde på apple/container-værter: containere, images, volumes, netværk, Compose, maskiner (<code>list_machines</code>, <code>create_machine</code> m.fl.), klynger (<code>list_clusters</code>, <code>create_cluster</code>, <code>delete_cluster</code>) og <code>apple_*</code>-systemværktøjer til tjenester, builder, registries (intet login-værktøj), egenskaber, logge og installation af kerne. App Intents tilføjer handlinger til Genveje og Siri. Se <a href=\"{root}docs/mcp.html\">AI-agenter &amp; MCP</a>."
+      },
+      "vs-docker": {
+        "h": "apple/container ved siden af Docker",
+        "p1": "Gantry administrerer apple/container-værter, den lokale Docker-daemon (Docker Desktop, OrbStack, Colima) og Docker-fjernværter over SSH i én indholdsoversigt og én flådeoversigt. Du behøver ikke vælge én runtime. En sammenligning funktion for funktion finder du i <a href=\"../compare/\">Gantry vs. Docker Desktop, OrbStack og Podman Desktop</a>."
+      }
+    }
+  },
+  "k8s": {
+    "title": "Kubernetes på Apple container: GUI til container cluster på Mac",
+    "crumb": "Kubernetes på apple/container",
+    "desc": "Kør Kubernetes på Apples container-værktøj med Gantry: klynger med flere arbejdsnoder via container cluster, valg af CNI, noder, kubeconfig og lokale images.",
+    "table_head": [
+      "Indstilling",
+      "CLI-flag",
+      "Bemærkninger"
+    ],
+    "table": [
+      [
+        "Navn",
+        "<code>--name</code>",
+        "Også navnet på kubeconfig-konteksten"
+      ],
+      [
+        "Arbejdsnoder",
+        "<code>--workers</code>",
+        "Antal arbejdsnoder. CLI 1.6.0+"
+      ],
+      [
+        "CPU'er",
+        "<code>--cpus</code>",
+        "Pr. node"
+      ],
+      [
+        "Hukommelse",
+        "<code>--memory</code>",
+        "Pr. node, for eksempel <code>4G</code>"
+      ],
+      [
+        "Node-image",
+        "<code>--node-image</code>",
+        "Tomt beholder CLI'ens standard"
+      ],
+      [
+        "CNI",
+        "<code>--cni</code>",
+        "Standard (medfølgende kindnet), Ingen (<code>NONE</code>, CLI 1.6.0+) eller sti til et tilpasset manifest"
+      ]
+    ],
+    "code_shell": "Shell",
+    "code_mcp": "Tilføj Gantrys MCP-server",
+    "faq": [
+      {
+        "q": "Understøtter Apple container Kubernetes?",
+        "a": "Ja. <code>container</code>-CLI'en opretter Kubernetes-klynger, hvis noder kører som containere: <code>container cluster</code> i CLI 1.6.1, <code>container k8s</code> i CLI 1.5.0 til 1.6.0. Gantry giver det en GUI."
+      },
+      {
+        "q": "Understøtter Gantry container cluster?",
+        "a": "Ja. Gantry viser, opretter og sletter klynger på apple/container-værter, viser deres noder, skriver kubeconfig, kopierer kommandoen til <code>kubectl</code>-konteksten og indlæser lokale images i en klynge. Den bruger <code>cluster</code> eller <code>k8s</code>, så den passer til din CLI-version."
+      },
+      {
+        "q": "Hvordan bruger jeg kubectl med en apple/container-klynge?",
+        "a": "Når CLI'en opretter en klynge, tilføjer den en kubeconfig-kontekst med klyngens navn til <code>~/.kube/config</code>. Kør <code>kubectl --context &lt;name&gt; get nodes</code>. Vil du have en separat fil, så brug <b>Skriv kubeconfig</b> i Gantry; standardstien er <code>~/.kube/&lt;name&gt;.kubeconfig</code>."
+      },
+      {
+        "q": "Hvordan får jeg et lokalt image ind i klyngen uden et registry?",
+        "a": "Højreklik på imaget under Images i Gantry, og vælg <b>Indlæs i klynge</b>. Gantry kører <code>container cluster load-image</code>, som kopierer imaget ind i containerd på hver node."
+      },
+      {
+        "q": "Kan jeg oprette en klynge med flere noder?",
+        "a": "Ja. Angiv antallet af arbejdsnoder i oprettelsesarket. Arbejdsnoder kræver CLI 1.6.0 eller nyere."
+      },
+      {
+        "q": "Kan jeg bruge min egen CNI som Calico eller Cilium?",
+        "a": "Ja. Vælg <b>Tilpasset manifest</b>, og vælg manifestfilen, eller vælg <b>Ingen</b>, og installer selv en CNI, når klyngen er startet. Noderne forbliver NotReady, indtil en CNI kører. <b>Ingen</b> kræver CLI 1.6.0 eller nyere. Standard-CNI'en er det medfølgende kindnet-manifest."
+      }
+    ],
+    "body": {
+      "h1": "Kubernetes på Apple container",
+      "lead": "apple/container kan køre en Kubernetes-klynge, hvis noder er containere på din Mac. Gantry er en GUI til det: opret en klynge, se noderne starte, forbind <code>kubectl</code>, og indlæs dine lokale images uden lange kommandolinjer med <code>container cluster</code>.",
+      "tldr": "<strong>Kort sagt.</strong> På en apple/container-vært opretter og sletter sektionen <strong>Klynger</strong> i Gantry Kubernetes-klynger med <code>container cluster</code> (CLI 1.6.1) eller <code>container k8s</code> (CLI 1.5.0 til 1.6.0). Den understøtter flere arbejdsnoder, en tilpasset CNI, en nodevisning, kubeconfig og <code>kubectl</code>-kontekst samt <strong>Indlæs i klynge</strong> til lokale images.",
+      "requirements": {
+        "h": "Krav",
+        "li1": "En Mac med Apple-chip, macOS 26 og Gantry (<code>brew install --cask getgantry/tap/gantry</code>).",
+        "li2": "<code>container</code>-CLI 1.5.0 eller nyere; 1.6.1 anbefales. Arbejdsnoder og CNI-valget <em>Ingen</em> kræver 1.6.0 eller nyere.",
+        "li3": "<code>kubectl</code>, hvis du vil bruge klyngen fra terminalen."
+      },
+      "create": {
+        "h": "Opret en klynge",
+        "li1": "Vælg din apple/container-vært, og åbn <strong>Klynger</strong> i indholdsoversigten.",
+        "li2": "Start en ny klynge, og udfyld indstillingerne nedenfor.",
+        "li3": "Opret den. Listen viser den nye klynge med forløbet live. <strong>Annuller</strong> stopper oprettelsen og sletter de noder, der allerede er lavet.",
+        "p1": "Den samme kommando i CLI'en:"
+      },
+      "nodes": {
+        "h": "Noder og klyngedetaljer",
+        "p1": "Klyngelisten viser hver klynge med dens noder: rolle, status og adresse. Detaljevisningen har <strong>Oversigt</strong> (kubectl-kontekst, API-server, arbejdsnoder, nodenetværk), en tabel <strong>Noder</strong>, <strong>Inspicer</strong> med rå nodedata og handlingerne <strong>Skriv kubeconfig</strong>, <strong>Kopiér kubectl-kontekstkommando</strong> og <strong>Slet</strong>."
+      },
+      "kubectl": {
+        "h": "Forbind kubectl",
+        "p1": "CLI'en tilføjer en kontekst med klyngens navn til <code>~/.kube/config</code>, når den opretter klyngen. Brug <strong>Kopiér kubectl-kontekstkommando</strong> i Gantry, eller skriv den selv:",
+        "p2": "Vil du have klyngen i sin egen fil, så brug <strong>Skriv kubeconfig</strong>. Gantry kører <code>container cluster write-config</code>; standardstien er <code>~/.kube/&lt;name&gt;.kubeconfig</code>."
+      },
+      "images": {
+        "h": "Indlæs lokale images i klyngen",
+        "p1": "Byg eller hent et image på apple/container-værten, højreklik derefter på det under <strong>Images</strong>, og vælg <strong>Indlæs i klynge</strong>. Gantry kører <code>container cluster load-image</code>, som kopierer imaget ind i containerd på hver node. Du behøver ikke et registry til lokal udvikling."
+      },
+      "cni": {
+        "h": "Vælg en CNI",
+        "p1": "Standard er det medfølgende kindnet-manifest. Vælg <strong>Tilpasset manifest</strong> for at installere din egen CNI, for eksempel Calico eller Cilium, fra en fil. Vælg <strong>Ingen</strong> for selv at installere en CNI senere; indtil da forbliver noderne NotReady."
+      },
+      "agents": {
+        "h": "Klynger fra AI-agenter",
+        "p1": "Gantrys MCP-server har <code>list_clusters</code>, <code>create_cluster</code> og <code>delete_cluster</code>, så en agent som Claude Code kan oprette en midlertidig klynge til en test og fjerne den bagefter."
+      },
+      "more": {
+        "h": "Mere om apple/container",
+        "p1": "Læs <a href=\"../apple-container/\">guiden til apple/container</a> om hver <code>container</code>-kommando og dens funktion i Gantry, eller se, hvordan Gantry klarer sig over for <a href=\"../compare/\">Docker Desktop, OrbStack og Podman Desktop</a>."
+      }
+    }
+  },
+  "compare": {
+    "title": "Gantry vs. Docker Desktop, OrbStack, Podman Desktop og container-CLI",
+    "crumb": "Sammenligning",
+    "desc": "Saglig sammenligning af Gantry, Docker Desktop, OrbStack, Podman Desktop og Apples container-CLI på macOS: licens, pris, UI, apple/container, Kubernetes, Compose.",
+    "table_head": [
+      "",
+      "Gantry",
+      "Docker Desktop",
+      "OrbStack",
+      "Podman Desktop",
+      "<code>container</code>-CLI"
+    ],
+    "table": [
+      [
+        "Hvad det er",
+        "Native GUI-klient. Bruger den motor, du allerede har",
+        "Docker-motor i en Linux-VM plus en GUI",
+        "Docker- og Linux-motor plus en GUI",
+        "GUI til Podman (og andre motorer)",
+        "Apples CLI og runtime"
+      ],
+      [
+        "Licens og pris",
+        "MIT, gratis til al brug",
+        "Proprietær. Gratis til personlig brug, uddannelse, ikke-kommerciel åben kildekode og små virksomheder (færre end 250 ansatte og under 10 mio. USD i årlig omsætning); ellers betalt abonnement",
+        "Proprietær. Gratis til personlig, ikke-kommerciel brug; betalt licens til kommerciel brug",
+        "Apache 2.0, gratis",
+        "Apache 2.0, gratis"
+      ],
+      [
+        "Kildekode",
+        "Åben",
+        "Lukket",
+        "Lukket",
+        "Åben",
+        "Åben"
+      ],
+      [
+        "UI-teknologi",
+        "SwiftUI (native)",
+        "Electron",
+        "Native macOS-app",
+        "Electron",
+        "Ingen GUI"
+      ],
+      [
+        "Platforme",
+        "macOS 26+, Apple-chip og Intel",
+        "macOS, Windows, Linux",
+        "macOS",
+        "macOS, Windows, Linux",
+        "macOS på Apple-chip"
+      ],
+      [
+        "Administrerer apple/container",
+        "Ja, CLI 1.0 til 1.6.1",
+        "Nej",
+        "Nej",
+        "Ikke ifølge leverandørens dokumentation (tjekket 2026-11-03)",
+        "Det er apple/container"
+      ],
+      [
+        "Kubernetes",
+        "På apple/container via <code>container cluster</code>: flere arbejdsnoder, tilpasset CNI",
+        "Indbygget Kubernetes",
+        "Indbygget Kubernetes",
+        "Via Kind og andre udbydere",
+        "<code>container cluster</code> (1.6.1), <code>container k8s</code> (1.5.0 til 1.6.0)"
+      ],
+      [
+        "Docker Compose",
+        "På Docker-værter og på apple/container (Gantry kører filen)",
+        "Ja",
+        "Ja",
+        "Ja, via en Compose-udbyder",
+        "Ingen <code>compose</code>-kommando"
+      ],
+      [
+        "Langlivede Linux-maskiner",
+        "<code>container machine</code> med Åbn i VS Code",
+        "Nej",
+        "Ja (Linux-maskiner)",
+        "Nej (Podman machine er motorens VM)",
+        "<code>container machine</code>"
+      ],
+      [
+        "Docker-fjernværter over SSH i GUI'en",
+        "Ja, med ProxyJump og hemmeligheder i nøgleringen",
+        "Ukendt",
+        "Ukendt",
+        "Ukendt",
+        "Ikke relevant"
+      ],
+      [
+        "Indbygget MCP-server, der administrerer dine containere",
+        "Ja (<code>gantry-mcp</code>)",
+        "Ukendt",
+        "Ukendt",
+        "Ukendt",
+        "Nej"
+      ]
+    ],
+    "faq": [
+      {
+        "q": "Er Gantry et alternativ til Docker Desktop?",
+        "a": "Som GUI, ja. Gantry administrerer containere, images, volumes, netværk, logge, statistik og Compose. Den indeholder ingen Docker-motor: på en Mac bruger du OrbStack, Colima eller Docker Desktop til det, eller Apples værktøj <code>container</code>, som Gantry også administrerer. Gantry er MIT-licenseret og gratis til kommerciel brug."
+      },
+      {
+        "q": "Er Gantry et alternativ til OrbStack?",
+        "a": "Delvist. OrbStack er en motor og en GUI; Gantry er kun en GUI. Du kan bruge Gantry som GUI oven på OrbStacks Docker-motor eller bruge Gantry med apple/container, som giver dig containere, Linux-maskiner og Kubernetes fra Apples eget værktøj."
+      },
+      {
+        "q": "Hvad er den bedste GUI til Apple container?",
+        "a": "Af værktøjerne på denne side er Gantry det eneste, der administrerer apple/container (tjekket 2026-11-03). Det dækker hele <code>container</code>-CLI'en, herunder klynger, maskiner, builder, registries og systemegenskaber."
+      },
+      {
+        "q": "Kan jeg bruge Gantry og Docker Desktop sammen?",
+        "a": "Ja. Gantry forbinder til Docker Desktops motor via dens socket, så du kan bruge Gantry som GUI og beholde Docker Desktop som motor."
+      }
+    ],
+    "body": {
+      "h1": "Gantry vs. Docker Desktop, OrbStack, Podman Desktop og container-CLI'en",
+      "lead": "Fem måder at køre og administrere containere på en Mac, sammenlignet på fakta, du kan tjekke. Gantry er en GUI-klient. De andre indeholder en motor, undtagen <code>container</code>-CLI'en, som er en motor uden GUI.",
+      "tldr": "<strong>Kort sagt.</strong> Vælg <strong>Gantry</strong>, hvis du vil have en gratis, native GUI med åben kildekode til Apples værktøj <code>container</code> og til Docker (lokalt og over SSH) i én app. Gantry erstatter ikke en Docker-motor; den virker med den, du har, eller med apple/container.",
+      "table": {
+        "h": "Sammenligningstabel",
+        "p1": "Fakta pr. 2026-11-03 fra hver leverandørs offentlige sider (se <a href=\"#sources\">kilder</a>). “Ukendt” betyder, at vi ikke fandt oplysningen i leverandørens dokumentation. Det betyder ikke, at funktionen mangler."
+      },
+      "when": {
+        "h": "Hvornår skal man vælge hvad?",
+        "choose1": {
+          "h": "Vælg Gantry",
+          "p1": "Du bruger Apples værktøj <code>container</code> og vil have en GUI til det hele, herunder Kubernetes-klynger, maskiner og image-builderen. Eller du administrerer flere Docker-værter, lokale og eksterne over SSH, og vil have ét native vindue og fejlmeddelelser for dem alle. Eller du vil have en MCP-server, så AI-agenter kan administrere dine containere."
+        },
+        "choose2": {
+          "h": "Vælg Docker Desktop",
+          "p1": "Du har brug for Docker-motoren med den samme app på macOS, Windows og Linux, Docker-udvidelser og support fra Docker, og din virksomhed har et Docker-abonnement eller opfylder betingelserne for gratis brug."
+        },
+        "choose3": {
+          "h": "Vælg OrbStack",
+          "p1": "Du vil have en Docker-motor og Linux-maskiner på macOS i ét produkt, og en betalt licens til kommerciel brug er acceptabel."
+        },
+        "choose4": {
+          "h": "Vælg Podman Desktop",
+          "p1": "Du bruger Podman, vil have en GUI med åben kildekode på flere styresystemer eller arbejder med værktøjer fra Red Hat."
+        },
+        "choose5": {
+          "h": "Vælg kun container-CLI'en",
+          "p1": "Du scripter alt i terminalen og har ikke brug for en GUI. Gantry bruger den samme CLI, så du kan tilføje GUI'en senere."
+        }
+      },
+      "together": {
+        "h": "Brug dem sammen",
+        "p1": "Gantry er en klient, så den virker side om side med de andre. Den forbinder til Docker-motoren i Docker Desktop, OrbStack eller Colima via Docker-socketten, til Docker-fjernværter over SSH og til apple/container via <code>container</code>-CLI'en – alt sammen i én indholdsoversigt."
+      },
+      "sources": {
+        "h": "Kilder",
+        "li1": "Licensvilkår for Docker Desktop: <a href=\"https://www.docker.com/pricing/faq/\">Dockers FAQ om priser</a>.",
+        "li2": "Licensvilkår for OrbStack: <a href=\"https://docs.orbstack.dev/licensing\">OrbStack licensing</a>.",
+        "li3": "Licens og funktioner for Podman Desktop: <a href=\"https://github.com/podman-desktop/podman-desktop\">podman-desktop på GitHub</a> og <a href=\"https://podman-desktop.io/docs\">dokumentationen til Podman Desktop</a>.",
+        "li4": "apple/container: <a href=\"https://github.com/apple/container\">apple/container på GitHub</a>.",
+        "li5": "Gantry: <a href=\"https://github.com/getgantry/gantry\">kildekode</a> og <a href=\"https://github.com/getgantry/gantry/blob/main/CHANGELOG.md\">ændringslog</a>.",
+        "p1": "Har du fundet en fejl? <a href=\"https://github.com/getgantry/getgantry.github.io/issues\">Opret en sag</a>, så retter vi tabellen."
+      }
+    }
+  }
+}

@@ -1,0 +1,936 @@
+{
+  "chrome": {
+    "nav_features": "Iespējas",
+    "nav_compare": "Salīdzinājums",
+    "nav_faq": "BUJ",
+    "nav_docs": "Dokumentācija",
+    "nav_home": "Sākums",
+    "star": "Zvaigzne",
+    "download": "Lejupielādēt",
+    "download_mac": "Lejupielādēt macOS versiju",
+    "copy": "Kopēt",
+    "copied": "Nokopēts",
+    "releases": "Laidieni",
+    "foot_guide": "apple/container ceļvedis",
+    "foot_license": "MIT licence · GitHub",
+    "icon_alt": "Gantry ikona",
+    "page_image_alt": "Gantry resursdatoru parka informācijas panelis ar Docker un apple/container resursdatoriem",
+    "breadcrumb": "Navigācijas ceļš",
+    "faq_heading": "Jautājumi un atbildes",
+    "updated": "Atjaunināts {date}.",
+    "callout_warn": "Uzmanību",
+    "language": "Valoda",
+    "languages": "Valodas",
+    "hint_text": "Šī lapa ir pieejama arī latviešu valodā.",
+    "hint_link": "Lasīt latviski",
+    "hint_close": "Aizvērt"
+  },
+  "home": {
+    "ld": {
+      "website_desc": "Natīvā macOS grafiskā saskarne (GUI) rīkam Apple container (apple/container) un Docker – lokāli un caur SSH.",
+      "app_alt_name": "Gantry rīkam Apple container",
+      "app_subcategory": "Konteineru pārvaldība",
+      "app_processor": "Apple silicon vai Intel (apple/container resursdatoriem nepieciešams Apple silicon)",
+      "app_keywords": "apple container GUI, apple/container, container cluster, Kubernetes, container machine, Docker Desktop alternative, OrbStack alternative, Docker over SSH, MCP server, Apple container grafiskā saskarne, Docker Desktop alternatīva, OrbStack alternatīva, Docker caur SSH, MCP serveris",
+      "app_desc": "Gantry ir bezmaksas atvērtā koda natīvā macOS lietotne Apple rīkam container (apple/container) un Docker – lokāli un caur SSH. apple/container resursdatoros tā pārvalda konteinerus, Kubernetes klasterus, mašīnas, Compose projektus, attēlu būvētāju, pieteikšanos reģistros, kodolus, pakalpojumu žurnālus un sistēmas rekvizītus. Komplektā ir MCP serveris un App Intents aģentiem.",
+      "features": [
+        "Natīvā macOS grafiskā saskarne rīkam Apple container (apple/container), CLI no 1.0 līdz 1.6.1, iespējas atbilstoši CLI versijai",
+        "Kubernetes klasteri apple/container vidē (container cluster): vairāki darba mezgli, pielāgots CNI, mezgli, kubeconfig, kubectl konteksts",
+        "Lokālu attēlu ielāde Kubernetes klasterī",
+        "Konteineru mašīnas: izveide, startēšana, apturēšana, resursi, čaula, ligzdotā virtualizācija, pielāgoti kodoli",
+        "Konteinera mašīnas atvēršana lietotnē VS Code caur Remote-SSH",
+        "Docker Compose apple/container vidē ar tīkla DNS aizstājvārdiem pakalpojumu nosaukumiem",
+        "apple/container attēlu būvētāja pārvaldība, pieteikšanās reģistros un kodola instalēšana",
+        "apple/container pakalpojumu vadība, pakalpojumu žurnāli reāllaikā un sistēmas rekvizītu redaktors",
+        "Konteinera saglabāšana kā attēlu un diska TRIM (container clean) apple/container vidē",
+        "Konteinera failu pārlūks ar augšupielādi, lejupielādi un izvilkšanu",
+        "Viens informācijas panelis lokālajam Docker, Docker caur SSH un apple/container resursdatoriem",
+        "Žurnāli reāllaikā ar regex meklēšanu, līmeņa filtru un ANSI krāsām",
+        "CPU, atmiņas, tīkla un diska I/O statistika reāllaikā",
+        "Exec terminālis un atkļūdošanas čaula",
+        "Natīvi paziņojumi, kad konteiners avarē, tam pietrūkst atmiņas vai tas kļūst nevesels",
+        "Attālais Docker caur SSH ar ProxyJump un noslēpumiem atslēgu piekariņā",
+        "Svešas arhitektūras emblēmas attēliem un konteineriem",
+        "Konteinera porta kopīgošana caur Cloudflare Tunnel",
+        "MCP serveris un App Intents (Īsceļi, Siri) MI aģentiem",
+        "Lietotāja saskarne angļu un vienkāršotajā ķīniešu valodā"
+      ],
+      "howto_name": "Kā instalēt Gantry operētājsistēmā macOS",
+      "howto_desc": "Instalējiet Gantry ar Homebrew un savienojiet to ar Docker vai Apple container.",
+      "howto_supply": "Mac dators ar macOS 26 vai jaunāku versiju",
+      "howto_steps": [
+        {
+          "name": "Instalējiet ar Homebrew",
+          "text": "Izpildiet: brew install --cask getgantry/tap/gantry. Vai lejupielādējiet jaunāko laidienu no GitHub un ievelciet Gantry.app mapē Lietotnes."
+        },
+        {
+          "name": "Noņemiet karantīnas atzīmi",
+          "text": "Lietotne nav notarizēta. Izpildiet: xattr -dr com.apple.quarantine /Applications/Gantry.app vai ar peles labo pogu noklikšķiniet uz Gantry.app un izvēlieties Atvērt."
+        },
+        {
+          "name": "Pievienojiet resursdatoru",
+          "text": "Atveriet Gantry. Lietotne pati atrod lokālo Docker dēmonu. Lai izmantotu Apple container, pievienojiet Apple Container resursdatoru; ja container CLI nav instalēts, Gantry piedāvās to iestatīt."
+        },
+        {
+          "name": "Pievienojiet MI aģentus (nav obligāti)",
+          "text": "Izpildiet: claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp"
+        }
+      ]
+    },
+    "faq": {
+      "items": [
+        {
+          "q": "Kāda ir labākā Apple container grafiskā saskarne (GUI)?",
+          "a": "Gantry ir bezmaksas atvērtā koda natīvā macOS grafiskā saskarne, kas radīta Apple rīkam <a href=\"#apple\">container</a> (apple/container). Tā aptver konteineru dzīves ciklu, žurnālus, statistiku un exec termināli, kā arī tās CLI daļas, līdz kurām citas grafiskās saskarnes netiek: Kubernetes klasterus (<code>container cluster</code>), konteineru mašīnas, attēlu būvētāju, pieteikšanos reģistros, kodolus, pakalpojumu žurnālus un sistēmas rekvizītus. Tā atbalsta CLI no 1.0 līdz 1.6.1 un ieslēdz katru iespēju tikai tad, ja to atbalsta jūsu CLI. Skatiet <a href=\"apple-container/\">apple/container ceļvedi</a>."
+        },
+        {
+          "q": "Kas ir Apple container (apple/container)?",
+          "a": "apple/container ir Apple atvērtā koda rīks Linux konteineru palaišanai Mac datorā. Katrs konteiners darbojas savā vieglā virtuālajā mašīnā, kas balstīta uz Apple Virtualization ietvaru. Tam nepieciešams Mac dators ar Apple silicon, un tas tiek piegādāts kā komandrindas rīks <code>container</code> bez darbvirsmas lietotnes. Gantry ir šī darbvirsmas lietotne."
+        },
+        {
+          "q": "Vai Gantry atbalsta container cluster un Kubernetes?",
+          "a": "Jā. apple/container resursdatorā Gantry izveido un dzēš Kubernetes klasterus ar <code>container cluster</code> (CLI 1.6.1; CLI no 1.5.0 līdz 1.6.0 izmanto <code>container k8s</code>). Jūs izvēlaties nosaukumu, darba mezglu skaitu, CPU, atmiņu, mezgla attēlu un CNI (noklusējuma, nekādu vai pielāgotu manifestu). Gantry rāda mezglus, ieraksta kubeconfig, kopē <code>kubectl</code> konteksta komandu un ielādē lokālos attēlus klasterī. Skatiet <a href=\"apple-container-kubernetes/\">Kubernetes apple/container vidē</a>."
+        },
+        {
+          "q": "Vai ar Apple container var izmantot docker compose?",
+          "a": "Jā. apple/container nav komandas <code>compose</code>, tāpēc Gantry pati veic orķestrēšanu ar <code>container</code> CLI: būvē <code>build:</code> pakalpojumus, izveido projekta tīklu un nosauktos sējumus un startē katru pakalpojumu <code>depends_on</code> secībā ar standarta Compose etiķetēm. Pakalpojumu nosaukumi tiek atrisināti ar tīkla DNS aizstājvārdiem. Atveriet <code>docker-compose.yml</code> no Finder, izvēlnes Fails vai nometot to logā."
+        },
+        {
+          "q": "Kā atvērt konteinera mašīnu lietotnē VS Code?",
+          "a": "Startējiet mašīnu lietotnē Gantry un noklikšķiniet uz <b>Atvērt lietotnē VS Code</b>. Gantry atver mašīnu lietotnē VS Code caur Remote-SSH, kā Apple piemērā <code>container-machine-vscode</code>. Mašīnas attēlā jādarbojas <code>sshd</code>, un jābūt instalētam VS Code ar paplašinājumu Remote-SSH."
+        },
+        {
+          "q": "Kuras apple/container versijas atbalsta Gantry?",
+          "a": "Gantry nepieciešams <code>container</code> CLI 1.0 vai jaunāka versija, ieteicamā ir 1.6.1. Lietotne nolasa instalēto versiju un rāda tikai tās iespējas, ko šī versija atbalsta, piemēram, saglabāšanu kā attēlu (1.6), diska TRIM (1.4) un klastera darba mezglus (1.6). Ja CLI nav vai tas ir novecojis, Gantry piedāvā iestatīšanu soli pa solim."
+        },
+        {
+          "q": "Vai Gantry var pārvaldīt apple/container būvētāju, reģistrus un kodolu?",
+          "a": "Jā. apple/container resursdatora sadaļa „Sistēma” startē, aptur un dzēš attēlu būvētāju ar CPU, atmiņas un DNS opcijām; rāda, pievieno un noņem pieteikšanos reģistros (parole tiek nodota CLI tikai caur stdin); instalē ieteicamo kodolu, kodola failu vai tar arhīvu; straumē pakalpojumu žurnālus un rediģē sistēmas rekvizītus failā <code>config.toml</code>."
+        },
+        {
+          "q": "Vai Gantry ir Docker Desktop, OrbStack vai Podman Desktop alternatīva?",
+          "a": "Kā grafiskā saskarne – jā. Gantry ir bezmaksas natīvā macOS lietotne konteineru, attēlu, sējumu, tīklu, žurnālu un statistikas pārvaldībai. Tā ir klients, nevis dzinējs: tā izmanto jau darbojošos Docker dēmonu (Docker Desktop, OrbStack, Colima) vai Apple rīku <a href=\"#apple\">container</a> un pievieno vairāku resursdatoru skatu, SSH resursdatorus un MCP serveri. Skatiet <a href=\"compare/\">salīdzinājumu</a>."
+        },
+        {
+          "q": "Vai Gantry ir bezmaksas?",
+          "a": "Jā. Gantry ir bezmaksas un atvērtā koda lietotne ar MIT licenci. Nav abonementa, nav konta un nav ierobežojumu resursdatoru vai konteineru skaitam."
+        },
+        {
+          "q": "Kas nepieciešams, lai palaistu Gantry?",
+          "a": "Mac dators ar Apple silicon vai Intel procesoru un macOS 26 vai jaunāku versiju, kā arī Docker dēmons (Docker Desktop, OrbStack, Colima vai līdzīgs) vai Apple rīks <a href=\"#apple\">container</a>. Pašam apple/container nepieciešams Apple silicon, tāpēc Intel Mac datorā Gantry pārvalda tikai Docker resursdatorus."
+        },
+        {
+          "q": "Vai Gantry darbojas ar OrbStack, Colima un Docker Desktop?",
+          "a": "Jā. Gantry sazinās tieši ar Docker Engine API caur Unix ligzdu, tāpēc darbojas ar jebkuru dēmonu, kas to nodrošina, tostarp OrbStack, Colima un Docker Desktop."
+        },
+        {
+          "q": "Vai Gantry var pārvaldīt attālus Docker resursdatorus?",
+          "a": "Jā. Gantry savienojas ar attāliem dēmoniem caur SSH tāpat kā <code>docker -H ssh://</code>, ar ProxyJump starpniekserveriem, vairāku atslēgu autentifikāciju un automātisku atkārtotu savienošanos. Serverī nekas nav jāinstalē, un noslēpumi glabājas macOS atslēgu piekariņā."
+        },
+        {
+          "q": "Vai Gantry brīdina, ja konteiners avarē?",
+          "a": "Jā. Gantry nosūta natīvu macOS paziņojumu, kad konteiners avarē, tam pietrūkst atmiņas vai tam neizdodas veselības pārbaude jebkurā resursdatorā: lokālā, SSH vai apple/container. Noklikšķiniet uz paziņojuma, lai pārietu uz konteineru. Par apturēšanu un restartēšanu, ko veicat lietotnē Gantry, paziņojumi netiek rādīti, un paziņojumus var izslēgt iestatījumos."
+        },
+        {
+          "q": "Vai Gantry var lejupielādēt attēlus no privātiem reģistriem?",
+          "a": "Jā. Docker resursdatoros Gantry nolasa akreditācijas datus no jūsu <code>~/.docker/config.json</code> (tā paša <code>docker login</code>, ko jau izpildījāt), tostarp iekļautos datus, akreditācijas datu palīgprogrammas un macOS atslēgu piekariņu. apple/container resursdatoros tā pārvalda <code>container registry</code> pieteikšanos."
+        },
+        {
+          "q": "Vai ar Gantry var padarīt lokālu konteineru pieejamu internetā?",
+          "a": "Jā. Ar vienu klikšķi publicētais ports tiek kopīgots caur Cloudflare Tunnel. Gantry vajadzības gadījumā instalē <code>cloudflared</code> un tad startē ātro tuneli (bez Cloudflare konta, ar pagaidu trycloudflare.com URL) vai nosaukto tuneli jūsu domēnā. Publiskais URL tiek rādīts zem porta ar atvēršanas, kopēšanas un apturēšanas pogām."
+        },
+        {
+          "q": "Vai Gantry ir Electron lietotne?",
+          "a": "Nē. Gantry ir natīvā lietotne, kas veidota ar SwiftUI un Swift 6. Saskarne ir angļu un vienkāršotajā ķīniešu valodā, un tā seko macOS sistēmas valodai."
+        },
+        {
+          "q": "Kā instalēt Gantry?",
+          "a": "Izpildiet <code>brew install --cask getgantry/tap/gantry</code> vai lejupielādējiet jaunāko laidienu no <a href=\"https://github.com/getgantry/gantry/releases/latest\" target=\"_blank\" rel=\"noopener\">GitHub</a> un ievelciet <code>Gantry.app</code> mapē Lietotnes."
+        },
+        {
+          "q": "Vai MI aģenti var vadīt Gantry?",
+          "a": "Jā. Gantry komplektā ir <a href=\"#agents\">MCP serveris</a> un macOS App Intents, tāpēc Claude, Īsceļi, Siri un skripti katrā resursdatorā, arī SSH resursdatoros, var tikpat daudz kā grafiskā saskarne: konteineri, attēli, sējumi, tīkli, Compose, apple/container mašīnas, Kubernetes klasteri, <code>apple_*</code> sistēmas rīki (pakalpojumi, būvētājs, reģistri, rekvizīti, žurnāli, kodols) un portu kopīgošana. Pievienojiet to ar <code>claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp</code>."
+        }
+      ],
+      "kicker": "BUJ",
+      "h2": "Jautājumi un atbildes",
+      "p": "Viss, ko varētu vēlēties uzzināt pirms Gantry instalēšanas."
+    },
+    "apple": {
+      "items": [
+        {
+          "h": "Konteineri, žurnāli, statistika un exec",
+          "p": "Izveidojiet, startējiet, apturiet, piespiedu kārtā apturiet un iztīriet; žurnāli un statistika reāllaikā, exec terminālis, <code>top</code> un tar eksports – tajā pašā saskarnē, kur jūsu Docker resursdatori."
+        },
+        {
+          "h": "Kubernetes klasteri",
+          "p": "Izveidojiet Kubernetes klasteri ar vairākiem darba mezgliem, izmantojot <code>container cluster</code>, izvēlieties CNI (noklusējuma, nekādu vai savu manifestu), uzraugiet mezglus, ierakstiet kubeconfig un kopējiet <code>kubectl</code> kontekstu. <a href=\"apple-container-kubernetes/\">Lasīt vairāk</a>"
+        },
+        {
+          "h": "Lokālie attēli klasterī",
+          "p": "Ar peles labo pogu noklikšķiniet uz attēla un izvēlieties <b>Ielādēt klasterī</b>, lai nosūtītu to uz katru mezglu bez augšupielādes reģistrā."
+        },
+        {
+          "h": "Konteineru mašīnas lietotnē VS Code",
+          "p": "Izveidojiet, startējiet un apturiet <code>container machine</code> Linux vides, iestatiet CPU un atmiņu, atveriet čaulu vai atveriet mašīnu <b>VS Code caur Remote-SSH</b>."
+        },
+        {
+          "h": "Ligzdotā virtualizācija un pielāgoti kodoli",
+          "p": "Sāknējiet mašīnu ar ligzdoto virtualizāciju (M3 vai jaunāks) vai savu kodolu. Sāknējiet konteinerus no pielāgota kodola ar papildu sāknēšanas argumentiem."
+        },
+        {
+          "h": "Compose ar Apple container",
+          "p": "apple/container nav <code>compose</code>. Gantry palaiž jūsu <code>docker-compose.yml</code>: būvē, izveido tīklu un sējumus un startē pakalpojumus <code>depends_on</code> secībā. Pakalpojumu nosaukumi tiek atrisināti ar tīkla DNS aizstājvārdiem."
+        },
+        {
+          "h": "Tīkla DNS aizstājvārdi",
+          "p": "Konteineru aizstājvārdi, apakškoka aizstājvārdi, piemēram, <code>.gateway</code>, un īsie nosaukumi, ja iestatīts noklusējuma DNS domēns. Katrs konteiners saņem maršrutējamu IP un resursdatora nosaukumu <code>name.domain</code>."
+        },
+        {
+          "h": "Attēlu būvētāja pārvaldība",
+          "p": "Skatiet būvētāja stāvokli, attēlu, CPU, atmiņu un IP. Startējiet to ar CPU, atmiņas un DNS opcijām, apturiet vai dzēsiet."
+        },
+        {
+          "h": "Pieteikšanās reģistros",
+          "p": "Skatiet, pievienojiet un noņemiet <code>container registry</code> pieteikšanos. Parole tiek nodota CLI tikai caur stdin, un Gantry tās kopiju neglabā."
+        },
+        {
+          "h": "Kodola instalēšana",
+          "p": "Instalējiet ieteicamo kodolu, kodola failu vai tar arhīvu, redzot norisi reāllaikā. Gantry brīdina, ja nav instalēts noklusējuma kodols."
+        },
+        {
+          "h": "Pakalpojumi un pakalpojumu žurnāli",
+          "p": "Startējiet, apturiet un restartējiet <code>container</code> pakalpojumus, salīdziniet klienta un servera versijas un straumējiet pakalpojumu žurnālus, filtrējot pēc līmeņa, pakalpojuma un teksta."
+        },
+        {
+          "h": "Sistēmas rekvizītu redaktors",
+          "p": "Rediģējiet <code>container</code> sistēmas rekvizītus failā <code>config.toml</code>. Gantry atzīmē izmaiņas, kurām nepieciešama restartēšana, un pati restartē pakalpojumus."
+        },
+        {
+          "h": "Saglabāšana kā attēlu un diska TRIM",
+          "p": "Saglabājiet konteineru kā attēlu (<code>container commit</code>) un atgūstiet diska vietu ar <b>Veikt diska TRIM</b> (<code>container clean</code>), kas pieejams arī panelī „Atgūt vietu”."
+        },
+        {
+          "h": "Failu pārlūks: augšupielāde un lejupielāde",
+          "p": "Pārlūkojiet konteinera failus, lejupielādējiet tos vai izvelciet uz Finder (<code>container copy</code>) un nometiet iekšā failus vai veselas mapes."
+        },
+        {
+          "h": "Ātrā palaišana un Finder",
+          "p": "Izvēlieties attēlu, kopīgojiet mapi, piesaistiet portus, izvēlieties domēnu un palaidiet. Finder ar peles labo pogu noklikšķiniet uz Compose faila un atveriet to ar Gantry."
+        },
+        {
+          "h": "Etiķetes, kas satur <code>=</code>",
+          "p": "<code>container</code> CLI noraida etiķešu vērtības ar <code>=</code>. Gantry tās kodē izveidē un atkodē nolasot, tāpēc vērtība, piemēram, <code>a=b</code>, paliek nemainīga."
+        },
+        {
+          "h": "Viens parks, divas izpildes vides",
+          "p": "apple/container resursdatori atrodas blakus jūsu lokālajam Docker un SSH resursdatoriem vienā informācijas panelī ar tām pašām mini diagrammām, veselības stāvokli un paziņojumiem par kļūmēm."
+        },
+        {
+          "h": "MCP rīki aģentiem",
+          "p": "Komplektā iekļautais MCP serveris aģentiem dod tādas pašas iespējas: konteinerus, mašīnas, klasterus un <code>apple_*</code> sistēmas rīkus pakalpojumiem, būvētājam, reģistriem, rekvizītiem, žurnāliem un kodoliem."
+        }
+      ],
+      "kicker": "apple/container GUI",
+      "h2": "Natīvā macOS grafiskā saskarne rīkam Apple container",
+      "p": "Apple rīks <a href=\"https://github.com/apple/container\" target=\"_blank\" rel=\"noopener\">container</a> palaiž Linux konteinerus kā vieglas virtuālās mašīnas uz Apple silicon, taču tiek piegādāts tikai kā komandrindas rīks. Gantry ir tā darbvirsmas lietotne: kas Docker Desktop ir rīkam Docker, tas Gantry ir rīkam <code>container</code>. Tā atbalsta katru <code>container</code> CLI versiju no 1.0 līdz ieteicamajai <b>1.6.1</b> un ieslēdz katru iespēju tikai tad, ja to atbalsta jūsu instalētais CLI.",
+      "link_guide": "apple/container ceļvedis: katra CLI komanda un tai atbilstošā Gantry iespēja",
+      "link_k8s": "Kubernetes apple/container vidē",
+      "link_compare": "Gantry salīdzinājumā ar Docker Desktop, OrbStack un Podman Desktop"
+    },
+    "title": "Gantry: natīvā macOS GUI rīkam Apple container un Docker",
+    "desc": "Bezmaksas atvērtā koda Mac GUI rīkam Apple container un Docker: Kubernetes klasteri, mašīnas, Compose un attēlu būvētājs. Docker Desktop un OrbStack alternatīva.",
+    "keywords": "apple container GUI, apple/container GUI, Apple container desktop app, apple container kubernetes, container machine VS Code, apple container compose, Docker Desktop alternative, OrbStack alternative, Podman Desktop alternative, native Docker GUI Mac, Docker over SSH, MCP server, Apple container grafiskā saskarne, Apple container lietotne Mac, Docker Desktop alternatīva, OrbStack alternatīva, Docker GUI Mac, Docker caur SSH, MCP serveris",
+    "og_desc": "Gantry ir bezmaksas atvērtā koda natīvā macOS lietotne Apple rīkam container un Docker – lokāli un caur SSH. Kubernetes klasteri, mašīnas, Compose, būvētājs, reģistri un MCP serveris.",
+    "og_image_alt": "Gantry resursdatoru parka informācijas panelis ar Docker un apple/container resursdatoriem un CPU un atmiņas mini diagrammām reāllaikā",
+    "nav": {
+      "fleet": "Parks",
+      "agents": "Aģenti",
+      "shots": "Ekrānuzņēmumi",
+      "install": "Instalēšana"
+    },
+    "hero": {
+      "eyebrow": "Atbalsta apple/container 1.6.1. Atvērtais kods. Gatava aģentiem.",
+      "h1": "Natīvā macOS GUI rīkam <span class=\"grad\">Apple container</span><br>un Docker – viss jūsu resursdatoru parks vienuviet.",
+      "tagline": "Gantry ir bezmaksas atvērtā koda Mac lietotne Apple rīkam <a href=\"#apple\">container</a> un Docker – lokāli un caur SSH. Pārvaldiet konteinerus, <a href=\"apple-container-kubernetes/\">Kubernetes klasterus</a>, mašīnas un Compose projektus apple/container vidē no viena loga, blakus saviem Docker resursdatoriem. Natīvā <b>Docker Desktop alternatīva</b> Mac datoram. Bez Electron. Bez abonementa. Bez ierobežojumiem.",
+      "note": "<b>macOS 26+</b> · Apple silicon un Intel · <b>MIT</b> licence · English un 简体中文 · MCP serveris komplektā",
+      "window_title": "Gantry — Parks",
+      "img_alt": "Gantry resursdatoru parka informācijas panelis ar CPU un atmiņas mini diagrammām reāllaikā visiem resursdatoriem",
+      "replay_label": "Atkārtot animāciju",
+      "replay": "Atkārtot"
+    },
+    "trust": {
+      "title": "Darbojas ar visu, ko jau izmantojat",
+      "ssh": "Attālais SSH"
+    },
+    "features": {
+      "kicker": "Vadības centrs",
+      "h2": "Viss par Docker un apple/container – Mac stilā",
+      "p": "Pilnīgs un mērķtiecīgs jūsu konteineru vadības centrs: dati atjaunojas reāllaikā, un viss darbojas tik ātri, ka pat attāls resursdators šķiet lokāls.",
+      "fleet": {
+        "lbl": "Parks · resursdatori: 5",
+        "pill": "uzmanība jāpievērš: 5",
+        "h3": "Viens informācijas panelis visiem resursdatoriem",
+        "p": "Lokālais Docker dēmons, SSH resursdatori un apple/container vienā ekrānā: CPU un atmiņas mini diagrammas reāllaikā, konteineru stāvokļu sadalījums un veselības problēmas, no kurām var uzreiz pāriet uz vaininieku.",
+        "running": "darbojas: {n}",
+        "unhealthy": "neveseli: {n}"
+      },
+      "logs": {
+        "lbl": "žurnāli · superset_worker",
+        "pill": "sekot",
+        "h3": "Žurnāli ar superspējām",
+        "p": "Sekošana reāllaikā, <b>regex</b> vai precīza ⌘F meklēšana, <b>līmeņa filtrs</b> (Error→Trace), <b>ANSI krāsas</b>, 50 tūkst. rindu buferis – un apvienoti <b>steka žurnāli</b> visam Compose projektam."
+      },
+      "notify": {
+        "n1_title": "Konteiners apturēts",
+        "n1_time": "tagad",
+        "n1_text": "Konteiners web resursdatorā <b>prod-eu</b> beidza darbu ar kodu 1.",
+        "n2_title": "Konteiners nevesels",
+        "n2_time": "2 min",
+        "n2_text": "Konteineram api resursdatorā <b>dedic</b> neizdevās veselības pārbaude.",
+        "h3": "Uzziniet uzreiz, kad kas salūzt",
+        "p": "Natīvs paziņojums, kad konteiners jebkurā resursdatorā avarē, tam pietrūkst atmiņas vai tas kļūst nevesels. Noklikšķiniet, lai uzreiz pārietu uz konteineru; par jūsu pašu veiktu apturēšanu paziņojumi netiek rādīti."
+      },
+      "stats": {
+        "mem": "Atmiņa",
+        "h3": "Statistika reāllaikā",
+        "p": "CPU, atmiņas, tīkla un diska I/O diagrammas reāllaikā ar 1 s intervālu."
+      },
+      "exec": {
+        "h3": "Iebūvēts exec terminālis",
+        "p": "Pilnvērtīga termināļa emulācija jebkurā darbojošā konteinerā, lokālā vai attālā, ar krāsu motīviem (System, Solarized, Dracula, Nord)."
+      },
+      "ssh": {
+        "h3": "Attāli resursdatori caur SSH",
+        "p": "Tunelis tieši kā <code>docker -H ssh://</code> caur <code>dial-stdio</code>: ProxyJump starpniekserveri, vairāku atslēgu autentifikācija, automātiska atkārtota savienošanās. Serverī nekas nav jāinstalē, noslēpumi glabājas atslēgu piekariņā. Imports ar vienu klikšķi no <code>~/.ssh/config</code> un <code>docker context ls</code>."
+      },
+      "files": {
+        "h3": "Failu pārlūks ar vilkšanu un nomešanu",
+        "p": "Pārlūkojiet konteinera failu sistēmu, pārvietojiet failus iekšā un ārā un nometiet veselas mapes tieši no Finder – gan Docker, gan apple/container resursdatoros."
+      },
+      "ports": {
+        "h3": "Atvēršana pārlūkā un portu pāradresācija",
+        "p": "Viens klikšķis atver publicēto portu. SSH resursdatoru porti tiek automātiski tunelēti uz <code>localhost</code>, un, ja ports ir aizņemts, Gantry izvēlas brīvu, ko varat mainīt."
+      },
+      "tunnel": {
+        "h3": "Kopīgošana internetā",
+        "p": "Ar vienu klikšķi publicētais ports kļūst pieejams caur <b>Cloudflare Tunnel</b>. Gantry pati instalē <code>cloudflared</code> un tad izveido <b>ātro tuneli</b> (bez konta, ar <code>*.trycloudflare.com</code> URL) vai <b>nosaukto tuneli</b> jūsu domēnā – noder izstrādes priekšskatījumam, webhook vai lai MI aģents piekļūtu konteineram jūsu Mac datorā."
+      },
+      "compose": {
+        "h3": "Compose jebkur",
+        "p": "Konteineri tiek grupēti pēc Compose projekta. <b>Palaidiet Compose failu jebkurā resursdatorā</b> – lokālajā Docker, SSH vai apple/container – ar iebūvētu <b>YAML redaktoru</b>; palaišana pielāgojas katram dzinējam."
+      },
+      "registries": {
+        "h3": "Privātie reģistri automātiski",
+        "p": "Lejupielādes izmanto jūsu jau veikto <code>docker login</code>: Gantry iegūst akreditācijas datus no <code>~/.docker/config.json</code>, palīgprogrammām un atslēgu piekariņa – gan izveidē, gan ātrajā palaišanā, gan Compose."
+      },
+      "images": {
+        "h3": "Attēlu būvēšana un lejupielāde",
+        "p": "Nometiet Dockerfile logā, lai būvētu ar žurnālu reāllaikā, vai lejupielādējiet pēc atsauces, redzot katra slāņa norisi. Pievienojiet tagus, iztīriet un skatiet slāņu vēsturi. Emblēma atzīmē attēlus, kas būvēti citai CPU arhitektūrai nekā resursdatoram."
+      },
+      "cleanup": {
+        "h3": "Atgūstiet vietu",
+        "p": "Viens panelis parāda, kas aizņem vietu – nepiesaistītie attēli, apturētie konteineri, neizmantotie sējumi, būvēšanas kešatmiņa – ar izmēriem un ļauj iztīrīt katru atsevišķi vai visu uzreiz. apple/container vidē tas veic arī diska TRIM."
+      },
+      "touchid": {
+        "h3": "Touch ID bīstamām darbībām",
+        "p": "Ieslēdziet šo opciju, un pirms konteinera noņemšanas vai resursdatora dzēšanas Gantry pieprasīs Touch ID vai jūsu pieteikšanās paroli. Noslēpumi jau tāpat glabājas atslēgu piekariņā."
+      },
+      "themes": {
+        "h3": "Termināļa motīvi",
+        "p": "Ietērpiet iebūvēto čaulu motīvā System, Solarized Dark, Dracula vai Nord: pilna priekšplāna, fona un 16 krāsu ANSI palete, kas tiek lietota uzreiz."
+      }
+    },
+    "agents": {
+      "kicker": "Gatava aģentiem",
+      "h2": "Radīta, lai to vadītu MI",
+      "p": "Komplektā iekļautais MCP serveris un App Intents atver katru resursdatoru, arī SSH, rīkiem Claude, Īsceļi, Siri un skriptiem ar tādām pašām iespējām kā grafiskajā saskarnē: konteineru izveide un pārvaldība, attēlu būvēšana un lejupielāde, sējumi un tīkli, Compose Up, apple/container mašīnas un Kubernetes klasteri, <code>apple_*</code> sistēmas rīki pakalpojumiem, būvētājam, reģistriem un kodoliem, pat porta atvēršana caur Cloudflare Tunnel.",
+      "term_title": "Terminālis – MCP servera pievienošana",
+      "term_added": "✓ MCP serveris pievienots",
+      "term_question": "\"kāpēc superset_worker resursdatorā dedic ir nevesels?\"",
+      "prompt_h3": "Kopēt kā uzvedni",
+      "prompt_p": "Nospiediet <span class=\"kbd\">⌥⌘P</span> uz jebkura konteinera, un Gantry ievietos starpliktuvē gatavu atkļūdošanas uzvedni: resursdatoru un to, kā tam piekļūt, MCP <code>host_id</code> un rīkus, pilnu konteinera stāvokli un simptomam atbilstošu uzdevumu.",
+      "s1_state": "Nevesels",
+      "s1_text": "„Atkļūdo neizdevušos veselības pārbaudi.”",
+      "s2_state": "Avāriju cikls",
+      "s2_text": "„Noskaidro, kāpēc tas atkal un atkal avarē.”",
+      "s3_state": "Vesels",
+      "s3_text": "Atstāj vietu jūsu pašu jautājumam."
+    },
+    "shots": {
+      "kicker": "Tuvāk",
+      "h2": "Veidota tā, it kā būtu daļa no operētājsistēmas",
+      "p": "Trīs kolonnu dalītais skats, Liquid Glass materiāli, Swift Charts. Īsti ekrānuzņēmumi, nevis maketi.",
+      "stats_title": "Konteineri — Statistika",
+      "stats_alt": "Konteinera statistika reāllaikā: CPU, atmiņas, tīkla un diska I/O diagrammas",
+      "stats_caption": "<b>Statistika reāllaikā.</b> CPU, atmiņa, tīkls un diska I/O, nolasīti katru sekundi.",
+      "overview_title": "Resursdators — Pārskats",
+      "overview_alt": "Resursdatora pārskats ar CPU un atmiņas mērītājiem un Docker diska lietojumu",
+      "overview_caption": "<b>Resursdatora pārskats.</b> Mērītāji, diska lietojums, informācija par dēmonu.",
+      "fleet_title": "Parks — Veselība",
+      "fleet_alt": "Piecu resursdatoru parka informācijas panelis ar izceltām veselības problēmām",
+      "fleet_caption": "<b>Parka informācijas panelis.</b> Visi resursdatori, visas problēmas, viens ekrāns."
+    },
+    "built": {
+      "kicker": "Citāda pieeja",
+      "h2": "Nekādu tīmekļa apvalku. Nekādu savu fona procesu.",
+      "p": "Vienkārši ātra natīvā Mac lietotne, kas sazinās tieši ar Docker Engine API un Apple <code>container</code> CLI.",
+      "swiftui_n": "100 % natīvs SwiftUI",
+      "swiftui_p": "Nav Electron. Startē acumirklī, patērē maz atmiņas, darbojas kā pati sistēma.",
+      "swift6_n": "Swift 6",
+      "swift6_p": "Moderns, vienlaicīguma ziņā drošs kods ar jaunākajiem rīkiem.",
+      "api_n": "Tiešs Engine API",
+      "api_p": "Docker caur Unix ligzdu, Docker CLI nav vajadzīgs. apple/container caur tā paša <code>container</code> CLI.",
+      "updates_n": "Automātiski atjauninājumi",
+      "updates_p": "Ar EdDSA parakstīts Sparkle appcast uztur lietotni atjauninātu un netraucē."
+    },
+    "install": {
+      "h2": "Instalējiet minūtes laikā",
+      "sub": "Bez App Store, bez konta. Lejupielādējiet un ievelciet – vai viena Homebrew rinda.",
+      "s1_title": "Instalēšana",
+      "s1_text": "Izpildiet Homebrew cask vai lejupielādējiet <code>.zip</code> no laidienu lapas un ievelciet <code>Gantry.app</code> mapē Lietotnes.",
+      "s2_title": "Pirmā palaišana",
+      "s2_text": "Lietotne vēl nav notarizēta: noklikšķiniet ar peles labo pogu un izvēlieties Atvērt vai noņemiet karantīnu ar <code>xattr -dr com.apple.quarantine /Applications/Gantry.app</code>",
+      "s3_title": "Pievienojiet resursdatoru",
+      "s3_text": "Lokālais Docker parādās pats. Apple container gadījumā pievienojiet <em>Apple Container</em> resursdatoru; Gantry piedāvās iestatīt <code>container</code> CLI. Aģentiem: <code>claude mcp add gantry</code>."
+    },
+    "footer_meta": "MIT licence · Veidota ar SwiftUI · © 2026"
+  },
+  "guide": {
+    "title": "Apple container GUI Mac datoram: pilns apple/container ceļvedis",
+    "crumb": "apple/container ceļvedis",
+    "desc": "Kas ir Apple container, kā to instalēt un kā to pārvalda Gantry: katras container CLI komandas un Gantry iespējas tabula, no Compose līdz Kubernetes.",
+    "table_head": [
+      "CLI komanda",
+      "Gantry iespēja",
+      "Gantry nepieciešamā CLI versija"
+    ],
+    "table": [
+      [
+        "<code>container run</code>, <code>container create</code>",
+        "Jauna konteinera logs un Ātrā palaišana: attēls, nosaukums, komanda, porti, vide, sējumi, DNS domēns, pielāgots kodols un sāknēšanas argumenti",
+        "Jebkura"
+      ],
+      [
+        "<code>container list --all</code>",
+        "Konteineru saraksts, grupēts pēc Compose projekta, ar stāvokļa filtriem un meklēšanu",
+        "Jebkura"
+      ],
+      [
+        "<code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code>",
+        "Rīkjosla, konteksta izvēlne un izvēļņu joslas panelis",
+        "Jebkura"
+      ],
+      [
+        "<code>container logs</code>",
+        "Cilne „Žurnāli”: sekošana reāllaikā, regex meklēšana, līmeņa filtrs, ANSI krāsas",
+        "Jebkura"
+      ],
+      [
+        "<code>container stats</code>",
+        "Cilne „Statistika” un parka informācijas paneļa mini diagrammas",
+        "Jebkura"
+      ],
+      [
+        "<code>container exec</code>",
+        "Cilne „Terminālis” (interaktīva čaula) un cilne „Procesi”",
+        "Jebkura"
+      ],
+      [
+        "<code>container inspect</code>",
+        "Cilnes „Pārskats” un „Pārbaudīt”",
+        "Jebkura"
+      ],
+      [
+        "<code>container export</code>",
+        "Eksportēt failu sistēmu (tar)",
+        "Jebkura"
+      ],
+      [
+        "<code>container commit</code>",
+        "Saglabāt kā attēlu",
+        "1.6"
+      ],
+      [
+        "<code>container copy</code>",
+        "Cilne „Faili”: lejupielāde un izvilkšana uz Finder (konteineram jābūt startētam)",
+        "Jebkura; pārbaudīts ar 1.6.1"
+      ],
+      [
+        "<code>container exec</code> ar <code>tar</code>",
+        "Cilne „Faili”: failu augšupielāde un veselu mapju nomešana no Finder",
+        "Jebkura"
+      ],
+      [
+        "<code>container clean</code>",
+        "Veikt diska TRIM darbojošam konteineram un rinda panelī „Atgūt vietu”",
+        "1.4"
+      ],
+      [
+        "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
+        "Attēli: lejupielāde ar norisi, tagi, noņemšana, iztīrīšana, pārbaude",
+        "Jebkura"
+      ],
+      [
+        "<code>container build</code>",
+        "Būvē Compose faila <code>build:</code> pakalpojumus",
+        "Jebkura"
+      ],
+      [
+        "<code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>",
+        "Sējumi",
+        "Jebkura"
+      ],
+      [
+        "<code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>",
+        "Tīkli",
+        "Jebkura"
+      ],
+      [
+        "<code>--network &lt;name&gt;,alias=…</code>",
+        "Tīkla DNS aizstājvārdi, apakškoka aizstājvārdi (<code>.gateway</code>) un Compose pakalpojumu nosaukumi",
+        "Jebkura; pārbaudīts ar 1.6.1"
+      ],
+      [
+        "<code>container system start</code>, <code>stop</code>",
+        "Sadaļa „Sistēma”: pakalpojumu startēšana, apturēšana un restartēšana; arī izvēļņu joslā un iestatījumos",
+        "Jebkura"
+      ],
+      [
+        "<code>container system status</code>, <code>version</code>",
+        "Sadaļa „Sistēma”: stāvoklis, klienta un servera versijas, informācija par resursdatoru",
+        "Jebkura"
+      ],
+      [
+        "<code>container system logs</code>",
+        "Sadaļa „Sistēma”: pakalpojumu žurnāli reāllaikā vai par periodu no 5 minūtēm līdz 1 dienai, filtrējot pēc līmeņa, pakalpojuma un teksta",
+        "Jebkura"
+      ],
+      [
+        "<code>container system property list</code>",
+        "Sadaļa „Sistēma”: sistēmas rekvizītu redaktors, saglabā failā <code>~/.config/container/config.toml</code>",
+        "Jebkura; pārbaudīts ar 1.6.1"
+      ],
+      [
+        "<code>container system dns create</code>, <code>delete</code>, <code>list</code>",
+        "Iestatījumi ▸ Apple: lokālie DNS domēni un noklusējuma domēns",
+        "Jebkura"
+      ],
+      [
+        "<code>container system kernel set</code>",
+        "Sadaļa „Sistēma”: ieteicamā kodola, kodola faila vai tar arhīva instalēšana",
+        "Jebkura"
+      ],
+      [
+        "<code>container system df</code>",
+        "Diska lietojums resursdatora pārskatā un „Atgūt vietu”",
+        "Jebkura"
+      ],
+      [
+        "<code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code>",
+        "Sadaļa „Sistēma”: attēlu būvētājs ar CPU, atmiņas un DNS opcijām",
+        "Jebkura"
+      ],
+      [
+        "<code>container registry login</code>, <code>logout</code>, <code>list</code>",
+        "Sadaļa „Sistēma”: pieteikšanās reģistros (parole tikai caur stdin)",
+        "Jebkura"
+      ],
+      [
+        "<code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code>",
+        "Mašīnas: izveide, startēšana, apturēšana, dzēšana, noklusējuma mašīna, CPU un atmiņa, čaula, pārbaude, „Atvērt lietotnē VS Code”",
+        "Jebkura; ligzdotajai virtualizācijai un kodoliem 1.1"
+      ],
+      [
+        "<code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code>",
+        "Klasteri: Kubernetes klasteri, mezgli, kubeconfig, kubectl konteksts, „Ielādēt klasterī”",
+        "1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)"
+      ],
+      [
+        "Nav komandas <code>compose</code>",
+        "Compose palaidējs: palaiž <code>docker-compose.yml</code> no Finder, izvēlnes Fails vai ar vilkšanu un nomešanu",
+        "Jebkura"
+      ]
+    ],
+    "callout": "Izmantojiet parakstīto instalācijas pakotni, nevis Homebrew versiju. Homebrew versijā nav mašīnu aizmugursistēmas, tāpēc <code>container machine</code> nevar darboties.",
+    "code_mcp": "Pievienojiet Gantry MCP serveri",
+    "faq": [
+      {
+        "q": "Kāda ir labākā Apple container grafiskā saskarne (GUI)?",
+        "a": "Gantry ir bezmaksas atvērtā koda natīvā macOS grafiskā saskarne, kas radīta rīkam apple/container. Tā pārnes <code>container</code> CLI darbvirsmas lietotnē: konteineri, žurnāli, statistika un exec, kā arī Kubernetes klasteri, mašīnas, attēlu būvētājs, pieteikšanās reģistros, kodoli, pakalpojumu žurnāli un sistēmas rekvizīti. Šīs lapas tabulā norādīta katra komanda un Gantry iespēja, kas to izmanto."
+      },
+      {
+        "q": "Vai rīkam Apple container ir grafiskā saskarne?",
+        "a": "Apple piegādā <code>container</code> tikai kā komandrindas rīku. Gantry ir atsevišķa atvērtā koda lietotne, kas tam piešķir grafisko saskarni blakus jūsu Docker resursdatoriem."
+      },
+      {
+        "q": "Vai ar Apple container var izmantot docker compose?",
+        "a": "apple/container nav komandas <code>compose</code>. Gantry nolasa <code>docker-compose.yml</code>, būvē <code>build:</code> pakalpojumus, izveido tīklu un nosauktos sējumus un startē pakalpojumus <code>depends_on</code> secībā. Pakalpojumu nosaukumi tiek atrisināti ar tīkla DNS aizstājvārdiem."
+      },
+      {
+        "q": "Kā atvērt konteinera mašīnu lietotnē VS Code?",
+        "a": "Startējiet mašīnu lietotnē Gantry un noklikšķiniet uz <b>Atvērt lietotnē VS Code</b>. Gantry to atver caur Remote-SSH, kā Apple piemērā <code>container-machine-vscode</code>. Mašīnas attēlā jādarbojas <code>sshd</code>."
+      },
+      {
+        "q": "Vai Apple container darbojas Intel Mac datoros?",
+        "a": "Nē. apple/container nepieciešams Mac dators ar Apple silicon. Gantry darbojas arī Intel Mac datoros, bet tur pārvalda tikai Docker resursdatorus."
+      },
+      {
+        "q": "Kuru container CLI versiju instalēt?",
+        "a": "Gantry nepieciešama 1.0 vai jaunāka versija, un tā ir pārbaudīta ar 1.6.1. Instalējiet to ar parakstīto instalācijas pakotni no <a href=\"https://github.com/apple/container/releases\">apple/container laidienu lapas</a>. Homebrew versijā nav mašīnu aizmugursistēmas, tāpēc <code>container machine</code> ar to nedarbojas."
+      }
+    ],
+    "body": {
+      "h1": "Apple container Mac datorā: pilns ceļvedis un GUI",
+      "lead": "apple/container palaiž Linux konteinerus jūsu Mac datorā, katru savā vieglā virtuālajā mašīnā. Tas tiek piegādāts kā komandrindas rīks. Gantry ir tam paredzēta natīvā macOS grafiskā saskarne. Šajā ceļvedī paskaidrots, kas ir šis rīks, kā to iestatīt un kura Gantry iespēja atbilst katrai <code>container</code> komandai.",
+      "tldr": "<strong>Īsumā.</strong> Gantry ir bezmaksas atvērtā koda (MIT) macOS lietotne, kas vienā logā pārvalda Apple rīku <code>container</code> un Docker. Tā atbalsta <code>container</code> CLI no 1.0 līdz 1.6.1 (ieteicamā) un rāda tikai tās iespējas, ko atbalsta jūsu CLI versija. Instalējiet to ar <code>brew install --cask getgantry/tap/gantry</code>.",
+      "what-is": {
+        "h": "Kas ir apple/container?",
+        "p1": "<a href=\"https://github.com/apple/container\">apple/container</a> ir Apple atvērtā koda rīks, rakstīts Swift valodā, kas izveido un palaiž Linux konteinerus Mac datorā. Docker Desktop palaiž visus konteinerus vienā kopīgā Linux virtuālajā mašīnā, bet apple/container palaiž katru konteineru savā vieglā virtuālajā mašīnā, kas balstīta uz Apple Virtualization ietvaru. Tas izmanto standarta OCI attēlus, tāpēc lejupielādē no tiem pašiem reģistriem un augšupielādē tajos pašos reģistros, ko Docker.",
+        "li1": "<strong>Aparatūra:</strong> Mac dators ar Apple silicon.",
+        "li2": "<strong>macOS:</strong> Apple to atbalsta operētājsistēmā macOS 26.",
+        "li3": "<strong>Saskarne:</strong> tikai <code>container</code> CLI. Nav ne darbvirsmas lietotnes, ne komandas <code>compose</code>.",
+        "li4": "<strong>Tīkls:</strong> katrs konteiners jūsu Mac datorā saņem savu IP adresi, un lokālie DNS domēni piešķir konteineriem nosaukumus, piemēram, <code>web.test</code>."
+      },
+      "why-gui": {
+        "h": "Kāpēc apple/container izmantot grafisko saskarni?",
+        "p1": "CLI ir pilnīgs, taču ikdienas darbā vajag daudz komandu: <code>container list</code>, <code>logs</code>, <code>stats</code>, <code>exec</code>, bet pārējam – <code>system</code>, <code>builder</code>, <code>registry</code>, <code>machine</code> un <code>cluster</code>. Gantry apvieno tās vienā logā ar atjauninājumiem reāllaikā, tāpēc stāvokli redzat uzreiz, nevis to nepārtraukti pārbaudot. Tā pievieno arī to, kā CLI nav: Compose failus, paziņojumus par kļūmēm, parka skatu kopā ar Docker resursdatoriem un MCP serveri MI aģentiem."
+      },
+      "setup": {
+        "h": "apple/container iestatīšana ar Gantry",
+        "li1": "Instalējiet Gantry: <code>brew install --cask getgantry/tap/gantry</code>, pēc tam noņemiet karantīnas atzīmi (skatiet <a href=\"{root}docs/install.html\">Instalēšana</a>).",
+        "li2": "Instalējiet <code>container</code> CLI no parakstītās <code>.pkg</code> pakotnes <a href=\"https://github.com/apple/container/releases\">apple/container laidienu lapā</a>. Ja CLI nav vai tas ir vecāks par 1.0, Gantry parāda iestatīšanas logu ar soļiem.",
+        "li3": "Lietotnē Gantry izvēlieties <strong>Pievienot resursdatoru…</strong> un pievienojiet <em>Apple Container</em> resursdatoru. Savienojoties <code>container</code> pakalpojumi tiek startēti, ja tie ir apturēti.",
+        "li4": "Ja nav instalēts noklusējuma kodols, resursdatora pārskatā tiek rādīts paziņojums. Noklikšķiniet uz tā, lai instalētu ieteicamo kodolu."
+      },
+      "command-map": {
+        "h": "Katra container komanda un tās Gantry iespēja",
+        "p1": "Šī tabula sasaista <code>container</code> CLI ar Gantry. Pēdējā kolonnā norādīta CLI versija, kas Gantry nepieciešama attiecīgajai iespējai. <em>Jebkura</em> nozīmē jebkuru atbalstītu CLI versiju, 1.0 vai jaunāku. Gantry nolasa jūsu instalēto versiju un paslēpj iespējas, ko tā neatbalsta."
+      },
+      "features": {
+        "h": "Ko Gantry pievieno apple/container"
+      },
+      "kubernetes": {
+        "h": "Kubernetes klasteri",
+        "p1": "Izveidojiet Kubernetes klasterus ar vairākiem darba mezgliem, izmantojot <code>container cluster</code>, izvēlieties CNI, skatiet katru mezglu, ierakstiet kubeconfig un ielādējiet lokālos attēlus klasterī. Skatiet <a href=\"../apple-container-kubernetes/\">Kubernetes apple/container vidē</a>."
+      },
+      "machines": {
+        "h": "Konteineru mašīnas un VS Code",
+        "p1": "Mašīnas ir ilgdzīvojošas Linux vides no <code>container machine</code>. Gantry tās izveido, startē, aptur un dzēš, iestata noklusējuma mašīnu, maina CPU un atmiņu un atver čaulu. Ar CLI 1.1 vai jaunāku mašīnu var sāknēt ar ligzdoto virtualizāciju (Apple silicon M3 vai jaunāks) un pielāgotu kodolu. <strong>Atvērt lietotnē VS Code</strong> savienojas ar darbojošos mašīnu caur Remote-SSH; mašīnas attēlā jādarbojas <code>sshd</code>."
+      },
+      "compose": {
+        "h": "Docker Compose apple/container vidē",
+        "p1": "Atveriet <code>docker-compose.yml</code> no Finder (<em>Atvērt ar ▸ Gantry</em> vai <em>Ātrās darbības ▸ Compose Up apple/container vidē</em>), no <strong>Fails ▸ Atvērt Compose failu…</strong> vai nometot to logā. Gantry būvē <code>build:</code> pakalpojumus, izveido projekta tīklu un nosauktos sējumus un startē katru pakalpojumu <code>depends_on</code> secībā ar standarta <code>com.docker.compose.*</code> etiķetēm. Ja iestatīts noklusējuma DNS domēns, pakalpojumi sasniedz cits citu pēc pakalpojuma nosaukuma, izmantojot tīkla aizstājvārdus."
+      },
+      "dns": {
+        "h": "Tīkla DNS aizstājvārdi un lokālie domēni",
+        "p1": "Gantry nodod tīkla aizstājvārdus rīkam <code>container</code> kā <code>--network &lt;name&gt;,alias=…</code>. Bez noklusējuma DNS domēna darbojas tikai pilnībā kvalificēti nosaukumi, un apakškoka aizstājvārds (ar punktu sākumā, piemēram, <code>.gateway</code>) darbojas tikai kā precīzs aizstājvārds. Ar noklusējuma domēnu darbojas arī īsie nosaukumi. Gantry izveido un dzēš lokālos DNS domēnus, iestata noklusējuma domēnu un piešķir jauniem konteineriem resursdatora nosaukumu <code>name.domain</code>. Skatiet <a href=\"{root}docs/dns.html\">Lokālie DNS nosaukumi</a>."
+      },
+      "system": {
+        "h": "Sistēma: pakalpojumi, būvētājs, reģistri, kodols, žurnāli, rekvizīti",
+        "p1": "Katram apple/container resursdatoram ir sadaļa <strong>Sistēma</strong>. Tā darbojas arī tad, kad resursdators ir atvienots, tāpēc no tās varat startēt apturētos pakalpojumus.",
+        "li1": "<strong>Stāvoklis un versija:</strong> klienta un servera versijas ar brīdinājumu, ja tās atšķiras; pakalpojumu startēšana, apturēšana un restartēšana; informācija par resursdatoru un ceļi.",
+        "li2": "<strong>Attēlu būvētājs:</strong> stāvoklis, attēls, CPU, atmiņa un IP; startēšana ar CPU, atmiņas un DNS opcijām; apturēšana; dzēšana.",
+        "li3": "<strong>Pieteikšanās reģistros:</strong> saraksts, pieteikšanās un izrakstīšanās. Parole tiek nodota CLI tikai caur stdin (<code>--password-stdin</code>), un Gantry tās kopiju neglabā.",
+        "li4": "<strong>Kodols:</strong> ieteicamā kodola, kodola faila vai tar arhīva instalēšana ar norisi reāllaikā.",
+        "li5": "<strong>Pakalpojumu žurnāli:</strong> reāllaikā vai vienreizēji, par periodu no 5 minūtēm līdz 1 dienai, filtrējot pēc līmeņa, pakalpojuma un teksta.",
+        "li6": "<strong>Sistēmas rekvizīti:</strong> izmaiņas tiek saglabātas failā <code>~/.config/container/config.toml</code>, ar atzīmi par gaidāmu restartēšanu un pogu <strong>Restartēt pakalpojumus</strong>."
+      },
+      "disk": {
+        "h": "Saglabāšana kā attēlu, diska TRIM un faili",
+        "p1": "<strong>Saglabāt kā attēlu</strong> izmanto <code>container commit</code> (CLI 1.6). <strong>Veikt diska TRIM</strong> izmanto <code>container clean</code> (CLI 1.4) un tiek rādīts arī kā rinda panelī „Atgūt vietu”. Cilne „Faili” lejupielādē failus un ļauj tos izvilkt uz Finder ar <code>container copy</code> (konteineram jābūt startētam), kā arī augšupielādē failus un mapes."
+      },
+      "labels": {
+        "h": "Etiķetes, kas satur <code>=</code>",
+        "p1": "<code>container create</code> noraida etiķetes vērtību, kas satur <code>=</code>, arī CLI 1.6.1. Gantry šādas vērtības kodē, kad izveido konteineru, un atkodē, kad to nolasa, tāpēc jūs redzat tieši tās etiķetes, ko iestatījāt."
+      },
+      "agents": {
+        "h": "MCP serveris un Īsceļi",
+        "p1": "Komplektā iekļautais <code>gantry-mcp</code> serveris dod MI aģentiem tādas pašas iespējas apple/container resursdatoros: konteineri, attēli, sējumi, tīkli, Compose, mašīnas (<code>list_machines</code>, <code>create_machine</code> un citi), klasteri (<code>list_clusters</code>, <code>create_cluster</code>, <code>delete_cluster</code>) un <code>apple_*</code> sistēmas rīki pakalpojumiem, būvētājam, reģistriem (bez pieteikšanās rīka), rekvizītiem, žurnāliem un kodola instalēšanai. App Intents pievieno Īsceļu un Siri darbības. Skatiet <a href=\"{root}docs/mcp.html\">MI aģenti un MCP</a>."
+      },
+      "vs-docker": {
+        "h": "apple/container blakus Docker",
+        "p1": "Gantry pārvalda apple/container resursdatorus, lokālo Docker dēmonu (Docker Desktop, OrbStack, Colima) un attālos Docker resursdatorus caur SSH vienā sānjoslā un vienā parka informācijas panelī. Jums nav jāizvēlas viena izpildes vide. Rīku salīdzinājumu pa iespējām skatiet lapā <a href=\"../compare/\">Gantry salīdzinājumā ar Docker Desktop, OrbStack un Podman Desktop</a>."
+      }
+    }
+  },
+  "k8s": {
+    "title": "Kubernetes ar Apple container: container cluster GUI Mac datoram",
+    "crumb": "Kubernetes apple/container vidē",
+    "desc": "Kubernetes ar Apple container un Gantry: klasteri ar vairākiem darba mezgliem caur container cluster, CNI izvēle, mezgli, kubeconfig un lokālo attēlu ielāde.",
+    "table_head": [
+      "Opcija",
+      "CLI karodziņš",
+      "Piezīmes"
+    ],
+    "table": [
+      [
+        "Nosaukums",
+        "<code>--name</code>",
+        "Arī kubeconfig konteksta nosaukums"
+      ],
+      [
+        "Darba mezgli",
+        "<code>--workers</code>",
+        "Darba mezglu skaits. CLI 1.6.0+"
+      ],
+      [
+        "CPU",
+        "<code>--cpus</code>",
+        "Katram mezglam"
+      ],
+      [
+        "Atmiņa",
+        "<code>--memory</code>",
+        "Katram mezglam, piemēram, <code>4G</code>"
+      ],
+      [
+        "Mezgla attēls",
+        "<code>--node-image</code>",
+        "Ja tukšs, tiek izmantots CLI noklusējums"
+      ],
+      [
+        "CNI",
+        "<code>--cni</code>",
+        "Noklusējums (komplektā iekļautais kindnet), Nav (<code>NONE</code>, CLI 1.6.0+) vai ceļš uz pielāgotu manifestu"
+      ]
+    ],
+    "code_shell": "Čaula",
+    "code_mcp": "Pievienojiet Gantry MCP serveri",
+    "faq": [
+      {
+        "q": "Vai Apple container atbalsta Kubernetes?",
+        "a": "Jā. <code>container</code> CLI izveido Kubernetes klasterus, kuru mezgli darbojas kā konteineri: <code>container cluster</code> CLI 1.6.1 versijā, <code>container k8s</code> CLI versijās no 1.5.0 līdz 1.6.0. Gantry tam piešķir grafisko saskarni."
+      },
+      {
+        "q": "Vai Gantry atbalsta container cluster?",
+        "a": "Jā. Gantry rāda sarakstu, izveido un dzēš klasterus apple/container resursdatoros, rāda to mezglus, ieraksta kubeconfig, kopē <code>kubectl</code> konteksta komandu un ielādē lokālos attēlus klasterī. Atbilstoši jūsu CLI versijai tā izmanto <code>cluster</code> vai <code>k8s</code>."
+      },
+      {
+        "q": "Kā izmantot kubectl ar apple/container klasteri?",
+        "a": "Kad CLI izveido klasteri, tas failā <code>~/.kube/config</code> pievieno kubeconfig kontekstu ar klastera nosaukumu. Izpildiet <code>kubectl --context &lt;name&gt; get nodes</code>. Lai glabātu atsevišķu failu, lietotnē Gantry izmantojiet <b>Ierakstīt kubeconfig</b>; noklusējuma ceļš ir <code>~/.kube/&lt;name&gt;.kubeconfig</code>."
+      },
+      {
+        "q": "Kā ielādēt lokālu attēlu klasterī bez reģistra?",
+        "a": "Lietotnes Gantry sadaļā „Attēli” ar peles labo pogu noklikšķiniet uz attēla un izvēlieties <b>Ielādēt klasterī</b>. Gantry izpilda <code>container cluster load-image</code>, kas nokopē attēlu uz katra mezgla containerd."
+      },
+      {
+        "q": "Vai var izveidot klasteri ar vairākiem mezgliem?",
+        "a": "Jā. Izveides logā norādiet darba mezglu skaitu. Darba mezgliem nepieciešams CLI 1.6.0 vai jaunāks."
+      },
+      {
+        "q": "Vai var izmantot savu CNI, piemēram, Calico vai Cilium?",
+        "a": "Jā. Izvēlieties <b>Pielāgots manifests</b> un atlasiet manifesta failu vai izvēlieties <b>Nav</b> un pēc klastera startēšanas paši instalējiet CNI. Kamēr CNI nedarbojas, mezgli paliek stāvoklī NotReady. Opcijai <b>Nav</b> nepieciešams CLI 1.6.0 vai jaunāks. Noklusējuma CNI ir komplektā iekļautais kindnet manifests."
+      }
+    ],
+    "body": {
+      "h1": "Kubernetes ar Apple container",
+      "lead": "apple/container var palaist Kubernetes klasteri, kura mezgli ir konteineri jūsu Mac datorā. Gantry tam ir grafiskā saskarne: izveidojiet klasteri, vērojiet, kā startē mezgli, pieslēdziet <code>kubectl</code> un ielādējiet lokālos attēlus bez garām <code>container cluster</code> komandrindām.",
+      "tldr": "<strong>Īsumā.</strong> apple/container resursdatorā Gantry sadaļa <strong>Klasteri</strong> izveido un dzēš Kubernetes klasterus ar <code>container cluster</code> (CLI 1.6.1) vai <code>container k8s</code> (CLI no 1.5.0 līdz 1.6.0). Tā atbalsta vairākus darba mezglus, pielāgotu CNI, mezglu skatu, kubeconfig un <code>kubectl</code> kontekstu, kā arī <strong>Ielādēt klasterī</strong> lokālajiem attēliem.",
+      "requirements": {
+        "h": "Prasības",
+        "li1": "Mac dators ar Apple silicon, macOS 26 un Gantry (<code>brew install --cask getgantry/tap/gantry</code>).",
+        "li2": "<code>container</code> CLI 1.5.0 vai jaunāks; ieteicams 1.6.1. Darba mezgliem un CNI opcijai <em>Nav</em> nepieciešams 1.6.0 vai jaunāks.",
+        "li3": "<code>kubectl</code>, ja vēlaties izmantot klasteri no termināļa."
+      },
+      "create": {
+        "h": "Klastera izveide",
+        "li1": "Atlasiet savu apple/container resursdatoru un sānjoslā atveriet <strong>Klasteri</strong>.",
+        "li2": "Sāciet jauna klastera izveidi un aizpildiet tālāk norādītās opcijas.",
+        "li3": "Izveidojiet to. Sarakstā tiek rādīts jaunais klasteris un norise reāllaikā. <strong>Atcelt</strong> pārtrauc izveidi un dzēš jau izveidotos mezglus.",
+        "p1": "Tā pati komanda CLI:"
+      },
+      "nodes": {
+        "h": "Mezgli un klastera informācija",
+        "p1": "Klasteru sarakstā redzams katrs klasteris ar mezgliem: loma, stāvoklis un adrese. Detalizētajā skatā ir <strong>Pārskats</strong> (kubectl konteksts, API serveris, darba mezgli, mezglu tīkls), tabula <strong>Mezgli</strong>, <strong>Pārbaudīt</strong> neapstrādātiem mezglu datiem un darbības <strong>Ierakstīt kubeconfig</strong>, <strong>Kopēt kubectl konteksta komandu</strong> un <strong>Dzēst</strong>."
+      },
+      "kubectl": {
+        "h": "kubectl pieslēgšana",
+        "p1": "Izveidojot klasteri, CLI failā <code>~/.kube/config</code> pievieno kontekstu ar klastera nosaukumu. Lietotnē Gantry izmantojiet <strong>Kopēt kubectl konteksta komandu</strong> vai ierakstiet to paši:",
+        "p2": "Lai glabātu klasteri atsevišķā failā, izmantojiet <strong>Ierakstīt kubeconfig</strong>. Gantry izpilda <code>container cluster write-config</code>; noklusējuma ceļš ir <code>~/.kube/&lt;name&gt;.kubeconfig</code>."
+      },
+      "images": {
+        "h": "Lokālo attēlu ielāde klasterī",
+        "p1": "Uzbūvējiet vai lejupielādējiet attēlu apple/container resursdatorā, pēc tam sadaļā <strong>Attēli</strong> ar peles labo pogu noklikšķiniet uz tā un izvēlieties <strong>Ielādēt klasterī</strong>. Gantry izpilda <code>container cluster load-image</code>, kas nokopē attēlu uz katra mezgla containerd. Lokālai izstrādei reģistrs nav vajadzīgs."
+      },
+      "cni": {
+        "h": "CNI izvēle",
+        "p1": "Noklusējums ir komplektā iekļautais kindnet manifests. Izvēlieties <strong>Pielāgots manifests</strong>, lai instalētu savu CNI, piemēram, Calico vai Cilium, no faila. Izvēlieties <strong>Nav</strong>, lai vēlāk paši instalētu CNI; līdz tam mezgli paliek stāvoklī NotReady."
+      },
+      "agents": {
+        "h": "Klasteri no MI aģentiem",
+        "p1": "Gantry MCP serverim ir <code>list_clusters</code>, <code>create_cluster</code> un <code>delete_cluster</code>, tāpēc aģents, piemēram, Claude Code, var izveidot pagaidu klasteri testam un pēc tam to noņemt."
+      },
+      "more": {
+        "h": "Vairāk par apple/container",
+        "p1": "Lasiet <a href=\"../apple-container/\">apple/container ceļvedi</a> par katru <code>container</code> komandu un tās Gantry iespēju vai skatiet, kā Gantry salīdzināma ar <a href=\"../compare/\">Docker Desktop, OrbStack un Podman Desktop</a>."
+      }
+    }
+  },
+  "compare": {
+    "title": "Gantry, Docker Desktop, OrbStack, Podman Desktop un container CLI",
+    "crumb": "Salīdzinājums",
+    "desc": "Gantry, Docker Desktop, OrbStack, Podman Desktop un container CLI salīdzinājums macOS vidē: licence, cena, saskarne, apple/container, Kubernetes, Compose, mašīnas.",
+    "table_head": [
+      "",
+      "Gantry",
+      "Docker Desktop",
+      "OrbStack",
+      "Podman Desktop",
+      "<code>container</code> CLI"
+    ],
+    "table": [
+      [
+        "Kas tas ir",
+        "Natīvs GUI klients. Izmanto jau esošo dzinēju",
+        "Docker dzinējs Linux virtuālajā mašīnā ar GUI",
+        "Docker un Linux dzinējs ar GUI",
+        "GUI rīkam Podman (un citiem dzinējiem)",
+        "Apple CLI un izpildes vide"
+      ],
+      [
+        "Licence un cena",
+        "MIT, bez maksas jebkādai lietošanai",
+        "Patentēta. Bez maksas personiskai lietošanai, izglītībai, nekomerciāliem atvērtā koda projektiem un maziem uzņēmumiem (mazāk nekā 250 darbinieku un mazāk nekā 10 milj. USD gada ieņēmumu); citos gadījumos maksas abonements",
+        "Patentēta. Bez maksas personiskai, nekomerciālai lietošanai; komerciālai lietošanai maksas licence",
+        "Apache 2.0, bez maksas",
+        "Apache 2.0, bez maksas"
+      ],
+      [
+        "Pirmkods",
+        "Atvērts",
+        "Slēgts",
+        "Slēgts",
+        "Atvērts",
+        "Atvērts"
+      ],
+      [
+        "Saskarnes tehnoloģija",
+        "SwiftUI (natīva)",
+        "Electron",
+        "Natīva macOS lietotne",
+        "Electron",
+        "Nav GUI"
+      ],
+      [
+        "Platformas",
+        "macOS 26+, Apple silicon un Intel",
+        "macOS, Windows, Linux",
+        "macOS",
+        "macOS, Windows, Linux",
+        "macOS uz Apple silicon"
+      ],
+      [
+        "Pārvalda apple/container",
+        "Jā, CLI no 1.0 līdz 1.6.1",
+        "Nē",
+        "Nē",
+        "Ražotāja dokumentācijā nav minēts (pārbaudīts 2026-11-03)",
+        "Tas ir pats apple/container"
+      ],
+      [
+        "Kubernetes",
+        "apple/container vidē caur <code>container cluster</code>: vairāki darba mezgli, pielāgots CNI",
+        "Iebūvēts Kubernetes",
+        "Iebūvēts Kubernetes",
+        "Caur Kind un citiem nodrošinātājiem",
+        "<code>container cluster</code> (1.6.1), <code>container k8s</code> (no 1.5.0 līdz 1.6.0)"
+      ],
+      [
+        "Docker Compose",
+        "Docker resursdatoros un apple/container vidē (failu izpilda Gantry)",
+        "Jā",
+        "Jā",
+        "Jā, caur Compose nodrošinātāju",
+        "Nav komandas <code>compose</code>"
+      ],
+      [
+        "Ilgdzīvojošas Linux mašīnas",
+        "<code>container machine</code>, ar „Atvērt lietotnē VS Code”",
+        "Nē",
+        "Jā (Linux mašīnas)",
+        "Nē (Podman machine ir dzinēja virtuālā mašīna)",
+        "<code>container machine</code>"
+      ],
+      [
+        "Attāli Docker resursdatori caur SSH grafiskajā saskarnē",
+        "Jā, ar ProxyJump un noslēpumiem atslēgu piekariņā",
+        "Nav zināms",
+        "Nav zināms",
+        "Nav zināms",
+        "Nav attiecināms"
+      ],
+      [
+        "Komplektā iekļauts MCP serveris konteineru pārvaldībai",
+        "Jā (<code>gantry-mcp</code>)",
+        "Nav zināms",
+        "Nav zināms",
+        "Nav zināms",
+        "Nē"
+      ]
+    ],
+    "faq": [
+      {
+        "q": "Vai Gantry ir Docker Desktop alternatīva?",
+        "a": "Kā grafiskā saskarne – jā. Gantry pārvalda konteinerus, attēlus, sējumus, tīklus, žurnālus, statistiku un Compose. Tajā nav Docker dzinēja: Mac datorā šim nolūkam izmantojiet OrbStack, Colima vai Docker Desktop vai Apple rīku <code>container</code>, ko Gantry arī pārvalda. Gantry ir licencēta ar MIT licenci un ir bezmaksas arī komerciālai lietošanai."
+      },
+      {
+        "q": "Vai Gantry ir OrbStack alternatīva?",
+        "a": "Daļēji. OrbStack ir dzinējs un grafiskā saskarne, bet Gantry ir tikai grafiskā saskarne. Gantry var izmantot kā grafisko saskarni virs OrbStack Docker dzinēja vai lietot Gantry ar apple/container, kas sniedz konteinerus, Linux mašīnas un Kubernetes ar pašas Apple rīku."
+      },
+      {
+        "q": "Kāda ir labākā Apple container grafiskā saskarne (GUI)?",
+        "a": "No šajā lapā aplūkotajiem rīkiem apple/container pārvalda tikai Gantry (pārbaudīts 2026-11-03). Tā aptver visu <code>container</code> CLI, tostarp klasterus, mašīnas, būvētāju, reģistrus un sistēmas rekvizītus."
+      },
+      {
+        "q": "Vai Gantry un Docker Desktop var izmantot kopā?",
+        "a": "Jā. Gantry savienojas ar Docker Desktop dzinēju caur tā ligzdu, tāpēc Gantry var izmantot kā grafisko saskarni, bet Docker Desktop paturēt kā dzinēju."
+      }
+    ],
+    "body": {
+      "h1": "Gantry salīdzinājumā ar Docker Desktop, OrbStack, Podman Desktop un container CLI",
+      "lead": "Pieci veidi, kā palaist un pārvaldīt konteinerus Mac datorā, salīdzināti pēc pārbaudāmiem faktiem. Gantry ir GUI klients. Pārējiem ir dzinējs, izņemot <code>container</code> CLI, kas ir dzinējs bez grafiskās saskarnes.",
+      "tldr": "<strong>Īsumā.</strong> Izvēlieties <strong>Gantry</strong>, ja vēlaties bezmaksas natīvu atvērtā koda grafisko saskarni Apple rīkam <code>container</code> un Docker (lokāli un caur SSH) vienā lietotnē. Gantry neaizstāj Docker dzinēju; tā darbojas ar jūsu esošo dzinēju vai ar apple/container.",
+      "table": {
+        "h": "Salīdzinājuma tabula",
+        "p1": "Fakti uz 2026-11-03 no ražotāju publiskajām lapām (skatiet <a href=\"#sources\">avotus</a>). „Nav zināms” nozīmē, ka mēs šo faktu neatradām ražotāja dokumentācijā. Tas nenozīmē, ka iespējas nav."
+      },
+      "when": {
+        "h": "Kad ko izvēlēties",
+        "choose1": {
+          "h": "Izvēlieties Gantry",
+          "p1": "Jūs izmantojat Apple rīku <code>container</code> un vēlaties grafisko saskarni visam tā klāstam, tostarp Kubernetes klasteriem, mašīnām un attēlu būvētājam. Vai arī pārvaldāt vairākus Docker resursdatorus, lokālus un attālus caur SSH, un vēlaties vienu natīvu logu un paziņojumus par kļūmēm visiem. Vai arī vēlaties MCP serveri, lai MI aģenti varētu pārvaldīt jūsu konteinerus."
+        },
+        "choose2": {
+          "h": "Izvēlieties Docker Desktop",
+          "p1": "Jums vajadzīgs Docker dzinējs ar vienu un to pašu lietotni operētājsistēmās macOS, Windows un Linux, Docker paplašinājumi un Docker atbalsts, un jūsu uzņēmumam ir Docker abonements vai tas atbilst bezmaksas lietošanas nosacījumiem."
+        },
+        "choose3": {
+          "h": "Izvēlieties OrbStack",
+          "p1": "Vēlaties Docker dzinēju un Linux mašīnas operētājsistēmā macOS vienā produktā, un maksas licence komerciālai lietošanai jums ir pieņemama."
+        },
+        "choose4": {
+          "h": "Izvēlieties Podman Desktop",
+          "p1": "Jūs izmantojat Podman, vēlaties atvērtā koda grafisko saskarni vairākās operētājsistēmās vai strādājat ar Red Hat rīkiem."
+        },
+        "choose5": {
+          "h": "Izvēlieties tikai container CLI",
+          "p1": "Jūs visu rakstāt skriptos terminālī, un grafiskā saskarne jums nav vajadzīga. Gantry izmanto to pašu CLI, tāpēc grafisko saskarni varat pievienot vēlāk."
+        }
+      },
+      "together": {
+        "h": "Izmantojiet kopā",
+        "p1": "Gantry ir klients, tāpēc darbojas blakus pārējiem. Tā savienojas ar Docker Desktop, OrbStack vai Colima Docker dzinēju caur Docker ligzdu, ar attāliem Docker resursdatoriem caur SSH un ar apple/container caur <code>container</code> CLI – viss vienā sānjoslā."
+      },
+      "sources": {
+        "h": "Avoti",
+        "li1": "Docker Desktop licences noteikumi: <a href=\"https://www.docker.com/pricing/faq/\">Docker cenu BUJ</a>.",
+        "li2": "OrbStack licences noteikumi: <a href=\"https://docs.orbstack.dev/licensing\">OrbStack licencēšana</a>.",
+        "li3": "Podman Desktop licence un iespējas: <a href=\"https://github.com/podman-desktop/podman-desktop\">podman-desktop vietnē GitHub</a> un <a href=\"https://podman-desktop.io/docs\">Podman Desktop dokumentācija</a>.",
+        "li4": "apple/container: <a href=\"https://github.com/apple/container\">apple/container vietnē GitHub</a>.",
+        "li5": "Gantry: <a href=\"https://github.com/getgantry/gantry\">pirmkods</a> un <a href=\"https://github.com/getgantry/gantry/blob/main/CHANGELOG.md\">izmaiņu žurnāls</a>.",
+        "p1": "Atradāt kļūdu? <a href=\"https://github.com/getgantry/getgantry.github.io/issues\">Atveriet pieteikumu</a>, un mēs izlabosim tabulu."
+      }
+    }
+  }
+}

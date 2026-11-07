@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantry nadzorna ploča s Docker i apple/container hostovima">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Apple container GUI za Mac: cjeloviti vodič za apple/container">
   <meta name="twitter:description" content="Što je Appleov alat container, kako ga instalirati i kako njime upravlja Gantry: tablica naredbi CLI-ja container i značajki Gantryja, od Composea do Kubernetesa.">
@@ -67,7 +67,7 @@
       "description": "Što je Appleov alat container, kako ga instalirati i kako njime upravlja Gantry: tablica naredbi CLI-ja container i značajki Gantryja, od Composea do Kubernetesa.",
       "url": "https://getgantry.github.io/hr/apple-container/",
       "inLanguage": "hr",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -157,7 +157,7 @@
           "name": "Koju verziju CLI-ja container instalirati?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Gantry zahtijeva 1.0 ili noviju, a testiran je s 1.6.1. Instalirajte ga potpisanim instalacijskim paketom sa stranice izdanja apple/container. Homebrew verzija ne sadrži pozadinski sustav za strojeve, pa container machine s njom ne radi."
+            "text": "Gantry zahtijeva 1.0 ili noviji, a preporučuje 1.7.1. Instalirajte ga potpisanim instalacijskim paketom sa stranice izdanja apple/containera. Homebrew izgradnja ne uključuje pozadinu za strojeve, a u verziji 1.7.1 ni servise klastera, pa container machine i container cluster s njom ne rade."
           }
         }
       ]
@@ -223,7 +223,7 @@
 <p class="page-lead">apple/container pokreće Linux kontejnere na vašem Macu, svaki u vlastitom laganom virtualnom stroju. Isporučuje se kao alat naredbenog retka. Gantry je nativni macOS GUI za njega. Ovaj vodič objašnjava alat, njegovo postavljanje i koja značajka Gantryja pokriva svaku naredbu <code>container</code>.</p>
 
 <div class="tldr">
-<p><strong>Ukratko.</strong> Gantry je besplatna macOS aplikacija otvorenog koda (MIT) koja iz jednog prozora upravlja Appleovim alatom <code>container</code> i Dockerom. Podržava <code>container</code> CLI od 1.0 do 1.6.1 (preporučeno) i prikazuje samo značajke koje vaša verzija CLI-ja podržava. Instalirajte ga naredbom <code>brew install --cask getgantry/tap/gantry</code>.</p>
+<p><strong>Ukratko.</strong> Gantry je besplatna macOS aplikacija otvorenog koda (MIT) koja iz jednog prozora upravlja Appleovim alatom <code>container</code> i Dockerom. Podržava CLI <code>container</code> od 1.0 do 1.7.1 (preporučeno) i prikazuje samo značajke koje vaša verzija CLI-ja podržava. Instalirajte ga naredbom <code>brew install --cask getgantry/tap/gantry</code>.</p>
 </div>
 
 <h2 id="what-is">Što je apple/container?</h2>
@@ -245,14 +245,14 @@
   <li>U Gantryju odaberite <strong>Dodaj host…</strong> i dodajte host vrste <em>Apple Container</em>. Povezivanje pokreće servise <code>container</code> ako su zaustavljeni.</li>
   <li>Ako nije instalirana zadana jezgra, pregled hosta prikazuje obavijest. Kliknite je za instalaciju preporučene jezgre.</li>
 </ol>
-<div class="callout callout-warn"><span class="callout-tag">Pozor</span><div>Koristite potpisani instalacijski paket, a ne Homebrew verziju. Homebrew verzija ne sadrži pozadinski sustav za strojeve, pa <code>container machine</code> ne može raditi.</div></div>
+<div class="callout callout-warn"><span class="callout-tag">Pozor</span><div>Upotrijebite potpisani instalacijski paket, a ne Homebrew izgradnju. Homebrew izgradnja ne uključuje pozadinu za strojeve, a u verziji 1.7.1 ni servise klastera, pa <code>container machine</code> i <code>container cluster</code> ne mogu raditi.</div></div>
 
 <h2 id="command-map">Svaka naredba container i njezina značajka u Gantryju</h2>
 <p>Ova tablica preslikava CLI <code>container</code> na Gantry. Zadnji stupac prikazuje verziju CLI-ja koju Gantry treba za značajku. <em>Bilo koja</em> znači bilo koji podržani CLI, 1.0 ili noviji. Gantry čita vašu instaliranu verziju i skriva značajke koje ona ne podržava.</p>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">CLI naredba</th><th scope="col">Značajka u Gantryju</th><th scope="col">Verzija CLI-ja koju Gantry treba</th></tr></thead>
 <tbody>
-<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Novi kontejner i Brzo pokretanje: slika, naziv, naredba, portovi, okruženje, volumeni, DNS domena, prilagođena jezgra i argumenti pokretanja</td><td>Bilo koja</td></tr>
+<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Prozor Novi kontejner i Brzo pokretanje: slika, naziv, naredba, portovi, okruženje, volumeni, DNS domena, prilagođena jezgra i argumenti pokretanja; <strong>Zalijepi naredbu…</strong> čita redak <code>docker run</code> ili <code>container run</code></td><td>Bilo koja</td></tr>
 <tr><th scope="row"><code>container list --all</code></th><td>Popis kontejnera, grupiran po Compose projektu, s filtrima stanja i pretraživanjem</td><td>Bilo koja</td></tr>
 <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Alatna traka, kontekstni izbornik i ploča u traci s izbornicima</td><td>Bilo koja</td></tr>
 <tr><th scope="row"><code>container logs</code></th><td>Kartica Zapisnici: praćenje uživo, regex pretraživanje, filtar razine, ANSI boje</td><td>Bilo koja</td></tr>
@@ -272,14 +272,14 @@
 <tr><th scope="row"><code>container system start</code>, <code>stop</code></th><td>Odjeljak Sustav: pokretanje, zaustavljanje i ponovno pokretanje servisa; također u traci s izbornicima i Postavkama</td><td>Bilo koja</td></tr>
 <tr><th scope="row"><code>container system status</code>, <code>version</code></th><td>Odjeljak Sustav: status, verzije klijenta i poslužitelja, podaci o hostu</td><td>Bilo koja</td></tr>
 <tr><th scope="row"><code>container system logs</code></th><td>Odjeljak Sustav: Zapisnici servisa, uživo ili za razdoblje od 5 minuta do 1 dana, filtrirani po razini, servisu i tekstu</td><td>Bilo koja</td></tr>
-<tr><th scope="row"><code>container system property list</code></th><td>Odjeljak Sustav: uređivač Svojstva sustava, sprema se u <code>~/.config/container/config.toml</code></td><td>Bilo koja; testirano na 1.6.1</td></tr>
+<tr><th scope="row"><code>container system property list</code></th><td>Odjeljak Sustav: uređivač Svojstva sustava, sprema se u <code>~/.config/container/config.toml</code></td><td>Bilo koja; popisi <code>[container.dns]</code> od 1.7</td></tr>
 <tr><th scope="row"><code>container system dns create</code>, <code>delete</code>, <code>list</code></th><td>Postavke ▸ Apple: lokalne DNS domene i zadana domena</td><td>Bilo koja</td></tr>
 <tr><th scope="row"><code>container system kernel set</code></th><td>Odjeljak Sustav: instalacija preporučene jezgre, datoteke jezgre ili tar arhive</td><td>Bilo koja</td></tr>
 <tr><th scope="row"><code>container system df</code></th><td>Zauzeće diska u pregledu hosta i Oslobodi prostor</td><td>Bilo koja</td></tr>
 <tr><th scope="row"><code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code></th><td>Odjeljak Sustav: Builder slika s opcijama za CPU, memoriju i DNS</td><td>Bilo koja</td></tr>
 <tr><th scope="row"><code>container registry login</code>, <code>logout</code>, <code>list</code></th><td>Odjeljak Sustav: Prijave u registre (lozinka samo putem stdin)</td><td>Bilo koja</td></tr>
 <tr><th scope="row"><code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code></th><td>Strojevi: stvaranje, pokretanje, zaustavljanje, brisanje, zadani stroj, CPU-ovi i memorija, ljuska, pregled, Otvori u VS Codeu</td><td>Bilo koja; ugniježđena virtualizacija i jezgre od 1.1</td></tr>
-<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Klasteri: Kubernetes klasteri, čvorovi, kubeconfig, kubectl kontekst, Učitaj u klaster</td><td>1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)</td></tr>
+<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Klasteri: Kubernetes klasteri, veličine radnih čvorova i zajedničko spremište slika (1.7), čvorovi, kubeconfig, Pregledaj resurse, Učitaj u klaster (1.5 i 1.6)</td><td>1.5 (<code>k8s</code>), 1.6.1 i 1.7 (<code>cluster</code>)</td></tr>
 <tr><th scope="row">Nema naredbe <code>compose</code></th><td>Compose pokretač: pokretanje <code>docker-compose.yml</code> iz Findera, izbornika Datoteka ili povlačenjem i ispuštanjem</td><td>Bilo koja</td></tr>
 </tbody>
 </table></div>
@@ -287,7 +287,7 @@
 <h2 id="features">Što Gantry dodaje na apple/containeru</h2>
 
 <h3 id="kubernetes">Kubernetes klasteri</h3>
-<p>Stvarajte Kubernetes klastere s više radnih čvorova naredbom <code>container cluster</code>, odaberite CNI, pogledajte svaki čvor, zapišite kubeconfig i učitajte lokalne slike u klaster. Pogledajte <a href="../apple-container-kubernetes/">Kubernetes na apple/containeru</a>.</p>
+<p>Stvarajte Kubernetes klastere naredbom <code>container cluster</code>, odredite veličinu radnih čvorova, dopustite podovima da koriste vaše lokalne slike, odaberite CNI i pratite svaki čvor. Zatim pregledajte klaster u Gantry Kubernetes pregledniku. Pogledajte <a href="../apple-container-kubernetes/">Kubernetes na apple/containeru</a> i vodič korak po korak <a href="../kubernetes-on-mac/">Pokretanje Kubernetesa na Macu</a>.</p>
 
 <h3 id="machines">Container strojevi i VS Code</h3>
 <p>Strojevi su dugotrajna Linux okruženja iz <code>container machine</code>. Gantry ih stvara, pokreće, zaustavlja i briše, postavlja zadani stroj, uređuje CPU-ove i memoriju te otvara ljusku. Na CLI-ju 1.1 ili novijem stroj se može pokrenuti s ugniježđenom virtualizacijom (Apple silicon M3 ili noviji) i prilagođenom jezgrom. <strong>Otvori u VS Codeu</strong> povezuje se s pokrenutim strojem putem Remote-SSH; slika stroja mora pokretati <code>sshd</code>.</p>
@@ -302,11 +302,11 @@
 <p>Svaki apple/container host ima odjeljak <strong>Sustav</strong>. Radi i dok host nije povezan, pa odande možete pokrenuti zaustavljene servise.</p>
 <ul>
   <li><strong>Status i verzija:</strong> verzije klijenta i poslužitelja, s upozorenjem kad se razlikuju; pokretanje, zaustavljanje i ponovno pokretanje servisa; podaci o hostu i putanje.</li>
-  <li><strong>Builder slika:</strong> stanje, slika, CPU-ovi, memorija i IP; pokretanje uz opcije za CPU, memoriju i DNS; zaustavljanje; brisanje.</li>
+  <li><strong>Builder slika:</strong> stanje, slika, CPU-ovi, memorija i IP; pokretanje s opcijama za CPU, memoriju i DNS; zaustavljanje; brisanje. Kartica vas upozorava kad je slika buildera zastarjela i ponovno je stvara.</li>
   <li><strong>Prijave u registre:</strong> prikaz, prijava i odjava. Lozinka ide CLI-ju samo putem stdin (<code>--password-stdin</code>), a Gantry ne čuva njezinu kopiju.</li>
   <li><strong>Jezgra:</strong> instalacija preporučene jezgre, datoteke jezgre ili tar arhive, uz napredak uživo.</li>
   <li><strong>Zapisnici servisa:</strong> uživo ili jednokratno, za razdoblje od 5 minuta do 1 dana, filtrirani po razini, servisu i tekstu.</li>
-  <li><strong>Svojstva sustava:</strong> izmjene se spremaju u <code>~/.config/container/config.toml</code>, uz oznaku da je potrebno ponovno pokretanje i gumb <strong>Ponovno pokreni servise</strong>.</li>
+  <li><strong>Svojstva sustava:</strong> izmjene se spremaju u <code>~/.config/container/config.toml</code>, uz oznaku da je potrebno ponovno pokretanje i gumb <strong>Ponovno pokreni servise</strong>. Na CLI-ju 1.7 poslužitelji imena, domene pretraživanja i opcije u <code>[container.dns]</code> imaju uređivač popisa.</li>
 </ul>
 
 <h3 id="disk">Commit, TRIM diska i datoteke</h3>
@@ -323,7 +323,7 @@
 </div>
 
 <h2 id="vs-docker">apple/container uz Docker</h2>
-<p>Gantry upravlja apple/container hostovima, lokalnim Docker daemonom (Docker Desktop, OrbStack, Colima) i udaljenim Docker hostovima putem SSH-a u jednoj bočnoj traci i na jednoj nadzornoj ploči flote. Ne morate birati samo jedno izvršno okruženje. Za usporedbu alata značajku po značajku pogledajte <a href="../compare/">Gantry u usporedbi s Docker Desktopom, OrbStackom i Podman Desktopom</a>.</p>
+<p>Gantry upravlja apple/container hostovima, lokalnim Docker daemonom (Docker Desktop, OrbStack, Colima) i udaljenim Docker hostovima putem SSH-a u jednoj bočnoj traci i na jednoj nadzornoj ploči flote. Ne morate birati jedno izvršno okruženje. Za usporedbu alata značajku po značajku pogledajte <a href="../compare/">Gantry u usporedbi s Docker Desktopom, OrbStackom i Podman Desktopom</a>. Da biste prenijeli svoj rad, pročitajte <a href="../docker-desktop-to-apple-container/">Prelazak s Docker Desktopa na Apple container</a>.</p>
 
 <h2 id="faq">Pitanja i odgovori</h2>
 <div class="faq-list">
@@ -332,10 +332,10 @@
 <details class="faq-item"><summary>Mogu li koristiti docker compose s Apple containerom?</summary><p>apple/container nema naredbu <code>compose</code>. Gantry čita <code>docker-compose.yml</code>, gradi servise s <code>build:</code>, stvara mrežu i imenovane volumene te pokreće servise redoslijedom iz <code>depends_on</code>. Nazivi servisa razrješavaju se putem mrežnih DNS aliasa.</p></details>
 <details class="faq-item"><summary>Kako otvoriti container stroj u VS Codeu?</summary><p>Pokrenite stroj u Gantryju i kliknite <b>Otvori u VS Codeu</b>. Gantry ga otvara putem Remote-SSH, kao u Appleovu primjeru <code>container-machine-vscode</code>. Slika stroja mora pokretati <code>sshd</code>.</p></details>
 <details class="faq-item"><summary>Radi li Apple container na Intel Macu?</summary><p>Ne. apple/container zahtijeva Mac s Apple siliconom. Gantry radi i na Intel Macovima, ali ondje upravlja samo Docker hostovima.</p></details>
-<details class="faq-item"><summary>Koju verziju CLI-ja container instalirati?</summary><p>Gantry zahtijeva 1.0 ili noviju, a testiran je s 1.6.1. Instalirajte ga potpisanim instalacijskim paketom sa <a href="https://github.com/apple/container/releases">stranice izdanja apple/container</a>. Homebrew verzija ne sadrži pozadinski sustav za strojeve, pa <code>container machine</code> s njom ne radi.</p></details>
+<details class="faq-item"><summary>Koju verziju CLI-ja container instalirati?</summary><p>Gantry zahtijeva 1.0 ili noviji, a preporučuje 1.7.1. Instalirajte ga potpisanim instalacijskim paketom sa <a href="https://github.com/apple/container/releases">stranice izdanja apple/containera</a>. Homebrew izgradnja ne uključuje pozadinu za strojeve, a u verziji 1.7.1 ni servise klastera, pa <code>container machine</code> i <code>container cluster</code> s njom ne rade.</p></details>
 </div>
 
-<p class="updated">Zadnje ažuriranje: 2026-11-03.</p>
+<p class="updated">Zadnje ažuriranje: 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Početna</a>
@@ -345,6 +345,14 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Usporedba</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes na Macu</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">S Docker Desktopa</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Vanjski disk</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Iz docker run</a>
       <span>·</span>
       <a href="../../docs/index.html">Upute</a>
       <span>·</span>

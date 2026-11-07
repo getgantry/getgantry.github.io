@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="hr" data-copied="Kopirano">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JR87M6TNM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontejneri i volumeni na vanjskom disku na Macu</title>
+  <meta name="description" content="Slike, kontejneri i volumeni Apple containera na vanjskom SSD-u: pronađite direktorij podataka, premjestite ga s container system start --app-root, bind mountovi i sigurno odspajanje.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://getgantry.github.io/hr/containers-on-external-drive/">
+  <link rel="alternate" hreflang="en" href="https://getgantry.github.io/containers-on-external-drive/">
+  <link rel="alternate" hreflang="de" href="https://getgantry.github.io/de/containers-on-external-drive/">
+  <link rel="alternate" hreflang="fr" href="https://getgantry.github.io/fr/containers-on-external-drive/">
+  <link rel="alternate" hreflang="es" href="https://getgantry.github.io/es/containers-on-external-drive/">
+  <link rel="alternate" hreflang="it" href="https://getgantry.github.io/it/containers-on-external-drive/">
+  <link rel="alternate" hreflang="pt-PT" href="https://getgantry.github.io/pt-PT/containers-on-external-drive/">
+  <link rel="alternate" hreflang="nl" href="https://getgantry.github.io/nl/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sv" href="https://getgantry.github.io/sv/containers-on-external-drive/">
+  <link rel="alternate" hreflang="da" href="https://getgantry.github.io/da/containers-on-external-drive/">
+  <link rel="alternate" hreflang="nb" href="https://getgantry.github.io/nb/containers-on-external-drive/">
+  <link rel="alternate" hreflang="fi" href="https://getgantry.github.io/fi/containers-on-external-drive/">
+  <link rel="alternate" hreflang="pl" href="https://getgantry.github.io/pl/containers-on-external-drive/">
+  <link rel="alternate" hreflang="cs" href="https://getgantry.github.io/cs/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sk" href="https://getgantry.github.io/sk/containers-on-external-drive/">
+  <link rel="alternate" hreflang="hu" href="https://getgantry.github.io/hu/containers-on-external-drive/">
+  <link rel="alternate" hreflang="ro" href="https://getgantry.github.io/ro/containers-on-external-drive/">
+  <link rel="alternate" hreflang="bg" href="https://getgantry.github.io/bg/containers-on-external-drive/">
+  <link rel="alternate" hreflang="el" href="https://getgantry.github.io/el/containers-on-external-drive/">
+  <link rel="alternate" hreflang="hr" href="https://getgantry.github.io/hr/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sl" href="https://getgantry.github.io/sl/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sr" href="https://getgantry.github.io/sr/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sr-Latn" href="https://getgantry.github.io/sr-Latn/containers-on-external-drive/">
+  <link rel="alternate" hreflang="lt" href="https://getgantry.github.io/lt/containers-on-external-drive/">
+  <link rel="alternate" hreflang="lv" href="https://getgantry.github.io/lv/containers-on-external-drive/">
+  <link rel="alternate" hreflang="et" href="https://getgantry.github.io/et/containers-on-external-drive/">
+  <link rel="alternate" hreflang="uk" href="https://getgantry.github.io/uk/containers-on-external-drive/">
+  <link rel="alternate" hreflang="ru" href="https://getgantry.github.io/ru/containers-on-external-drive/">
+  <link rel="alternate" hreflang="x-default" href="https://getgantry.github.io/containers-on-external-drive/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Gantry">
+  <meta property="og:locale" content="hr_HR">
+  <meta property="og:title" content="Kontejneri i volumeni na vanjskom disku na Macu">
+  <meta property="og:description" content="Slike, kontejneri i volumeni Apple containera na vanjskom SSD-u: pronađite direktorij podataka, premjestite ga s container system start --app-root, bind mountovi i sigurno odspajanje.">
+  <meta property="og:url" content="https://getgantry.github.io/hr/containers-on-external-drive/">
+  <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta property="og:image:width" content="3364">
+  <meta property="og:image:height" content="2116">
+  <meta property="og:image:alt" content="Gantry nadzorna ploča s Docker i apple/container hostovima">
+  <meta property="article:modified_time" content="2026-11-07">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kontejneri i volumeni na vanjskom disku na Macu">
+  <meta name="twitter:description" content="Slike, kontejneri i volumeni Apple containera na vanjskom SSD-u: pronađite direktorij podataka, premjestite ga s container system start --app-root, bind mountovi i sigurno odspajanje.">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta name="theme-color" content="#060a10">
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../docs/docs.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://getgantry.github.io/hr/containers-on-external-drive/#article",
+      "headline": "Kontejneri i volumeni na vanjskom disku na Macu",
+      "description": "Slike, kontejneri i volumeni Apple containera na vanjskom SSD-u: pronađite direktorij podataka, premjestite ga s container system start --app-root, bind mountovi i sigurno odspajanje.",
+      "url": "https://getgantry.github.io/hr/containers-on-external-drive/",
+      "inLanguage": "hr",
+      "dateModified": "2026-11-07",
+      "image": "https://getgantry.github.io/assets/dashboard.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Gantry",
+        "url": "https://getgantry.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://getgantry.github.io/#organization",
+        "name": "Gantry",
+        "logo": "https://getgantry.github.io/assets/icon.png"
+      },
+      "about": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "container (apple/container)",
+          "url": "https://github.com/apple/container",
+          "operatingSystem": "macOS",
+          "applicationCategory": "DeveloperApplication"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Gantry",
+          "url": "https://getgantry.github.io/"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://getgantry.github.io/hr/containers-on-external-drive/#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Gantry",
+          "item": "https://getgantry.github.io/hr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Vanjski disk",
+          "item": "https://getgantry.github.io/hr/containers-on-external-drive/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://getgantry.github.io/hr/containers-on-external-drive/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Mogu li slike Apple containera držati na vanjskom disku?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Da. Pokrenite servise naredbom container system start --app-root /Volumes/Disk/container. Sve slike, kontejneri, snimke stanja i volumeni tada su u toj mapi."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Koji datotečni sustav treba imati vanjski disk?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "APFS. Volumeni su rijetke (sparse) slike diska, a kontejnerima trebaju Unix dozvole, koje exFAT, FAT i NTFS nemaju."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kako kopirati podatke kontejnera, a da se disk ne popuni?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Upotrijebite cp -Rp, koji je u našem testu zadržao rijetke slike volumena malima. ditto je svaku rijetku sliku kopirao u punoj veličini."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Što se događa ako odspojim disk dok kontejneri rade?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Kontejneri koji koriste disk prestaju raditi, a podaci koji još nisu zapisani mogu se izgubiti. Prije izbacivanja diska zaustavite kontejnere i, ako je korijenski direktorij aplikacije na disku, servise."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Pamti li CLI container novu lokaciju?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ne. Navedite --app-root uz svaki container system start. container system status prikazuje korijenski direktorij u upotrebi kao paths.appRoot."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs-body">
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../"><img src="../../assets/icon.png" alt="Ikona aplikacije Gantry" width="30" height="30"><span>Gantry</span></a>
+      <nav class="nav-links">
+        <a href="../#features">Značajke</a>
+        <a href="../apple-container/">apple/container</a>
+        <a href="../apple-container-kubernetes/">Kubernetes</a>
+        <a href="../compare/">Usporedba</a>
+        <a href="../../docs/index.html">Upute</a>
+        <a href="https://github.com/getgantry/gantry">GitHub</a>
+      </nav>
+      <details class="lang-menu">
+        <summary aria-label="Jezik: Hrvatski" title="Jezik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lang-name">Hrvatski</span><span class="lang-code">HR</span></summary>
+        <ul>
+          <li><a href="../../containers-on-external-drive/" hreflang="en" lang="en">English</a></li>
+          <li><a href="../../de/containers-on-external-drive/" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../../fr/containers-on-external-drive/" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../../es/containers-on-external-drive/" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../../it/containers-on-external-drive/" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../../pt-PT/containers-on-external-drive/" hreflang="pt-PT" lang="pt-PT">Português</a></li>
+          <li><a href="../../nl/containers-on-external-drive/" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../../sv/containers-on-external-drive/" hreflang="sv" lang="sv">Svenska</a></li>
+          <li><a href="../../da/containers-on-external-drive/" hreflang="da" lang="da">Dansk</a></li>
+          <li><a href="../../nb/containers-on-external-drive/" hreflang="nb" lang="nb">Norsk bokmål</a></li>
+          <li><a href="../../fi/containers-on-external-drive/" hreflang="fi" lang="fi">Suomi</a></li>
+          <li><a href="../../pl/containers-on-external-drive/" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../../cs/containers-on-external-drive/" hreflang="cs" lang="cs">Čeština</a></li>
+          <li><a href="../../sk/containers-on-external-drive/" hreflang="sk" lang="sk">Slovenčina</a></li>
+          <li><a href="../../hu/containers-on-external-drive/" hreflang="hu" lang="hu">Magyar</a></li>
+          <li><a href="../../ro/containers-on-external-drive/" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../../bg/containers-on-external-drive/" hreflang="bg" lang="bg">Български</a></li>
+          <li><a href="../../el/containers-on-external-drive/" hreflang="el" lang="el">Ελληνικά</a></li>
+          <li><a href="./" hreflang="hr" lang="hr" aria-current="page">Hrvatski</a></li>
+          <li><a href="../../sl/containers-on-external-drive/" hreflang="sl" lang="sl">Slovenščina</a></li>
+          <li><a href="../../sr/containers-on-external-drive/" hreflang="sr" lang="sr">Српски</a></li>
+          <li><a href="../../sr-Latn/containers-on-external-drive/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a></li>
+          <li><a href="../../lt/containers-on-external-drive/" hreflang="lt" lang="lt">Lietuvių</a></li>
+          <li><a href="../../lv/containers-on-external-drive/" hreflang="lv" lang="lv">Latviešu</a></li>
+          <li><a href="../../et/containers-on-external-drive/" hreflang="et" lang="et">Eesti</a></li>
+          <li><a href="../../uk/containers-on-external-drive/" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="../../ru/containers-on-external-drive/" hreflang="ru" lang="ru">Русский</a></li>
+        </ul>
+      </details>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="crumbs" aria-label="Navigacijski put"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Vanjski disk</span></nav>
+    <article class="docs-article page-article">
+<h1>Kontejneri i volumeni na vanjskom disku</h1>
+<p class="page-lead">Slike, kontejneri i volumeni brzo popune mali unutarnji disk. Uz Appleov alat <code>container</code> te podatke možete držati na vanjskom SSD-u: pojedine mape stavite ondje putem bind mountova ili premjestite cijeli korijenski direktorij podataka. Ovaj vodič prikazuje oba načina i kako odspojiti disk bez štete.</p>
+
+<div class="tldr">
+<p><strong>Ukratko.</strong> Formatirajte disk kao APFS. Za jedan projekt bind-mountajte mapu: <code>-v /Volumes/Fast/pg:/data</code>. Za sve podatke zaustavite servise, kopirajte <code>~/Library/Application Support/com.apple.container</code> na disk naredbom <code>cp -Rp</code> i svaki put pokrenite servise naredbom <code>container system start --app-root /Volumes/Fast/container</code>.</p>
+</div>
+
+<h2 id="where">Gdje su podaci sada</h2>
+<p>apple/container drži sve svoje podatke u jednoj mapi, korijenskom direktoriju aplikacije (app root). Zadano je to <code>~/Library/Application Support/com.apple.container</code>, s mapama za kontejnere, sadržaj slika, snimke stanja, volumene, jezgre i mreže. Provjerite putanju i zauzeti prostor:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system status | grep appRoot
+container system df">Kopiraj</button></div>
+  <pre><code>container system status | grep appRoot
+container system df</code></pre>
+</div>
+
+<h2 id="disk">Odabir i formatiranje diska</h2>
+<ul>
+  <li>Upotrijebite SSD na USB-C-u ili Thunderboltu. Tvrdi disk s pločama radi, ali kontejneri se sporije pokreću.</li>
+  <li>Formatirajte ga kao <strong>APFS</strong> (radi i Mac OS Extended). Ne koristite exFAT, FAT ni NTFS: volumeni su rijetke (sparse) slike diska, a ti datotečni sustavi nemaju rijetke datoteke ni Unix dozvole.</li>
+  <li>Za korijenski direktorij aplikacije ne koristite mrežni disk.</li>
+  <li>Dajte disku kratak naziv bez razmaka, npr. <code>Fast</code>. Putanja je tada <code>/Volumes/Fast</code>.</li>
+</ul>
+
+<h2 id="bind">1. mogućnost: podaci projekta na disku putem bind mountova</h2>
+<p>Bind mount dijeli mapu vašeg Maca s kontejnerom, a mapa može biti na bilo kojem disku. To je jednostavan način da velike podatke, kao što su baza podataka ili datoteke modela, držite izvan unutarnjeg diska:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/site
+container run -d --name web -p 8080:80 \
+  -v /Volumes/Fast/site:/usr/share/nginx/html:ro nginx:alpine">Kopiraj</button></div>
+  <pre><code>mkdir -p /Volumes/Fast/site
+container run -d --name web -p 8080:80 \
+  -v /Volumes/Fast/site:/usr/share/nginx/html:ro nginx:alpine</code></pre>
+</div>
+<p>Disk mora biti spojen prije pokretanja kontejnera. Slike i sam kontejner ostaju na unutarnjem disku.</p>
+
+<h2 id="move">2. mogućnost: premještanje svih podataka apple/containera na disk</h2>
+<p>Time se premještaju slike, kontejneri, snimke stanja i volumeni. Najprije zaustavite servise, kako se tijekom kopiranja nijedna datoteka ne bi promijenila:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system stop
+cp -Rp ~/Library/Application\ Support/com.apple.container /Volumes/Fast/container
+container system start --app-root /Volumes/Fast/container
+container system status | grep appRoot
+container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls">Kopiraj</button></div>
+  <pre><code>container system stop
+cp -Rp ~/Library/Application\ Support/com.apple.container /Volumes/Fast/container
+container system start --app-root /Volumes/Fast/container
+container system status | grep appRoot
+container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</code></pre>
+</div>
+<p>Upotrijebite <code>cp -Rp</code>. U našem testu na macOS-u 27 (s APFS-a na APFS putem USB-a) slike volumena ostale su rijetke, a proširena svojstva su sačuvana. <code>ditto</code> je svaku rijetku sliku zapisao u punoj veličini, što može popuniti disk. Zadržite staru mapu dok ne provjerite jesu li vaši kontejneri, slike i volumeni na popisu.</p>
+<div class="callout callout-warn"><span class="callout-tag">Pozor</span><div>CLI ne pamti <code>--app-root</code>. Svaki <code>container system start</code> bez te zastavice ponovno koristi unutarnju mapu. Zastavicu upotrijebite svaki put, npr. u aliasu ljuske, i provjerite <code>paths.appRoot</code> u <code>container system status</code>.</div></div>
+<p>Gantry 0.27.0 pokreće servise bez <code>--app-root</code> kad se poveže s hostom čiji su servisi zaustavljeni. Najprije pokrenite servise iz terminala sa zastavicom; Gantry tada koristi pokrenute servise. Podrška u Gantryju za premješteni korijenski direktorij podataka je u razvoju.</p>
+
+<h2 id="images">Arhiviranje slika na disku</h2>
+<p>Da biste oslobodili prostor bez gubitka slike, spremite je na vanjski disk i izbrišite. Ponovno je učitajte kad vam zatreba:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/images
+container image save -o /Volumes/Fast/images/myapp.tar myapp:dev
+container image delete myapp:dev
+container image load -i /Volumes/Fast/images/myapp.tar">Kopiraj</button></div>
+  <pre><code>mkdir -p /Volumes/Fast/images
+container image save -o /Volumes/Fast/images/myapp.tar myapp:dev
+container image delete myapp:dev
+container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
+</div>
+
+<h2 id="unplug">Sigurno odspajanje diska</h2>
+<ol>
+  <li>Zaustavite kontejnere koji koriste disk: <code>container stop &lt;name&gt;</code>.</li>
+  <li>Ako je korijenski direktorij aplikacije na disku, zaustavite servise: <code>container system stop</code>.</li>
+  <li>Izbacite disk u Finderu, a zatim ga odspojite.</li>
+</ol>
+<p>Ako disk nestane dok s njega rade kontejneri, oni prestaju raditi, a zapisivanja u tijeku mogu se izgubiti. Kad ponovno spojite disk, pokrenite servise s <code>--app-root</code>, a zatim pokrenite kontejnere.</p>
+
+<h2 id="gantry">Vanjski diskovi u Gantryju</h2>
+<p>Gantry već danas pokreće bind mountove s bilo kojeg diska: u prozoru <strong>Novi kontejner</strong> dodajte volumen, odaberite mapu na vanjskom disku i putanju u kontejneru. Podrška u Gantryju za premještanje korijenskog direktorija podataka, volumene na vanjskom disku i upozorenje kad disk nije spojen je u razvoju.</p>
+
+<h2 id="docker">Docker Desktop i OrbStack</h2>
+<p>Docker Desktop premješta svoju sliku diska u <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack je u verziji 0.13.0 dodao postavku lokacije podataka. Pogledajte <a href="../compare/">usporedbu</a>.</p>
+
+<h2 id="related">Povezani vodiči</h2>
+<ul>
+  <li><a href="../kubernetes-on-mac/">Kubernetes na Macu uz Apple container: vodič korak po korak</a></li>
+  <li><a href="../docker-desktop-to-apple-container/">S Docker Desktopa na Apple container: naredbe, Compose, volumeni i nedostaci</a></li>
+  <li><a href="../docker-run-to-container/">Kontejner iz naredbe docker run na Macu (docker run u container run)</a></li>
+  <li><a href="../apple-container/">Apple container GUI za Mac: cjeloviti vodič za apple/container</a></li>
+  <li><a href="../apple-container-kubernetes/">Kubernetes na Apple containeru: GUI za container cluster i Kubernetes preglednik</a></li>
+</ul>
+
+<h2 id="faq">Pitanja i odgovori</h2>
+<div class="faq-list">
+<details class="faq-item"><summary>Mogu li slike Apple containera držati na vanjskom disku?</summary><p>Da. Pokrenite servise naredbom <code>container system start --app-root /Volumes/Disk/container</code>. Sve slike, kontejneri, snimke stanja i volumeni tada su u toj mapi.</p></details>
+<details class="faq-item"><summary>Koji datotečni sustav treba imati vanjski disk?</summary><p>APFS. Volumeni su rijetke (sparse) slike diska, a kontejnerima trebaju Unix dozvole, koje exFAT, FAT i NTFS nemaju.</p></details>
+<details class="faq-item"><summary>Kako kopirati podatke kontejnera, a da se disk ne popuni?</summary><p>Upotrijebite <code>cp -Rp</code>, koji je u našem testu zadržao rijetke slike volumena malima. <code>ditto</code> je svaku rijetku sliku kopirao u punoj veličini.</p></details>
+<details class="faq-item"><summary>Što se događa ako odspojim disk dok kontejneri rade?</summary><p>Kontejneri koji koriste disk prestaju raditi, a podaci koji još nisu zapisani mogu se izgubiti. Prije izbacivanja diska zaustavite kontejnere i, ako je korijenski direktorij aplikacije na disku, servise.</p></details>
+<details class="faq-item"><summary>Pamti li CLI container novu lokaciju?</summary><p>Ne. Navedite <code>--app-root</code> uz svaki <code>container system start</code>. <code>container system status</code> prikazuje korijenski direktorij u upotrebi kao <code>paths.appRoot</code>.</p></details>
+</div>
+
+<p class="updated">Zadnje ažuriranje: 2026-11-07.</p>
+    </article>
+    <footer class="docs-foot">
+      <a href="../">Početna</a>
+      <span>·</span>
+      <a href="../apple-container/">Vodič za apple/container</a>
+      <span>·</span>
+      <a href="../apple-container-kubernetes/">Kubernetes</a>
+      <span>·</span>
+      <a href="../compare/">Usporedba</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes na Macu</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">S Docker Desktopa</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Vanjski disk</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Iz docker run</a>
+      <span>·</span>
+      <a href="../../docs/index.html">Upute</a>
+      <span>·</span>
+      <a href="https://github.com/getgantry/gantry">MIT licenca · GitHub</a>
+    </footer>
+    <nav class="lang-foot" aria-label="Jezici">
+      <a href="../../containers-on-external-drive/" hreflang="en" lang="en">English</a>
+      <a href="../../de/containers-on-external-drive/" hreflang="de" lang="de">Deutsch</a>
+      <a href="../../fr/containers-on-external-drive/" hreflang="fr" lang="fr">Français</a>
+      <a href="../../es/containers-on-external-drive/" hreflang="es" lang="es">Español</a>
+      <a href="../../it/containers-on-external-drive/" hreflang="it" lang="it">Italiano</a>
+      <a href="../../pt-PT/containers-on-external-drive/" hreflang="pt-PT" lang="pt-PT">Português</a>
+      <a href="../../nl/containers-on-external-drive/" hreflang="nl" lang="nl">Nederlands</a>
+      <a href="../../sv/containers-on-external-drive/" hreflang="sv" lang="sv">Svenska</a>
+      <a href="../../da/containers-on-external-drive/" hreflang="da" lang="da">Dansk</a>
+      <a href="../../nb/containers-on-external-drive/" hreflang="nb" lang="nb">Norsk bokmål</a>
+      <a href="../../fi/containers-on-external-drive/" hreflang="fi" lang="fi">Suomi</a>
+      <a href="../../pl/containers-on-external-drive/" hreflang="pl" lang="pl">Polski</a>
+      <a href="../../cs/containers-on-external-drive/" hreflang="cs" lang="cs">Čeština</a>
+      <a href="../../sk/containers-on-external-drive/" hreflang="sk" lang="sk">Slovenčina</a>
+      <a href="../../hu/containers-on-external-drive/" hreflang="hu" lang="hu">Magyar</a>
+      <a href="../../ro/containers-on-external-drive/" hreflang="ro" lang="ro">Română</a>
+      <a href="../../bg/containers-on-external-drive/" hreflang="bg" lang="bg">Български</a>
+      <a href="../../el/containers-on-external-drive/" hreflang="el" lang="el">Ελληνικά</a>
+      <a href="./" hreflang="hr" lang="hr" aria-current="page">Hrvatski</a>
+      <a href="../../sl/containers-on-external-drive/" hreflang="sl" lang="sl">Slovenščina</a>
+      <a href="../../sr/containers-on-external-drive/" hreflang="sr" lang="sr">Српски</a>
+      <a href="../../sr-Latn/containers-on-external-drive/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a>
+      <a href="../../lt/containers-on-external-drive/" hreflang="lt" lang="lt">Lietuvių</a>
+      <a href="../../lv/containers-on-external-drive/" hreflang="lv" lang="lv">Latviešu</a>
+      <a href="../../et/containers-on-external-drive/" hreflang="et" lang="et">Eesti</a>
+      <a href="../../uk/containers-on-external-drive/" hreflang="uk" lang="uk">Українська</a>
+      <a href="../../ru/containers-on-external-drive/" hreflang="ru" lang="ru">Русский</a>
+    </nav>
+  </main>
+
+  <script>
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+          var t = b.textContent; b.textContent = 'Kopirano';
+          setTimeout(function () { b.textContent = t; }, 1400);
+        });
+      });
+    });
+  </script>
+  <script src="../../lang.js" defer></script>
+</body>
+</html>

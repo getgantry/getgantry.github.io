@@ -5,8 +5,8 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kubernetes na Apple containeru: GUI za container cluster na Macu</title>
-  <meta name="description" content="Kubernetes na Appleovu alatu container uz Gantry: klasteri s više radnih čvorova (container cluster), izbor CNI-ja, čvorovi, kubeconfig i lokalne slike.">
+  <title>Kubernetes na Apple containeru: GUI za container cluster i Kubernetes preglednik</title>
+  <meta name="description" content="Kubernetes na Appleovu alatu container uz Gantry: klasteri s radnim čvorovima zadane veličine i zajedničkim spremištem slika, podovi, zapisnici, ljuska, portovi i YAML.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="canonical" href="https://getgantry.github.io/hr/apple-container-kubernetes/">
   <link rel="alternate" hreflang="en" href="https://getgantry.github.io/apple-container-kubernetes/">
@@ -40,17 +40,17 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Gantry">
   <meta property="og:locale" content="hr_HR">
-  <meta property="og:title" content="Kubernetes na Apple containeru: GUI za container cluster na Macu">
-  <meta property="og:description" content="Kubernetes na Appleovu alatu container uz Gantry: klasteri s više radnih čvorova (container cluster), izbor CNI-ja, čvorovi, kubeconfig i lokalne slike.">
+  <meta property="og:title" content="Kubernetes na Apple containeru: GUI za container cluster i Kubernetes preglednik">
+  <meta property="og:description" content="Kubernetes na Appleovu alatu container uz Gantry: klasteri s radnim čvorovima zadane veličine i zajedničkim spremištem slika, podovi, zapisnici, ljuska, portovi i YAML.">
   <meta property="og:url" content="https://getgantry.github.io/hr/apple-container-kubernetes/">
   <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantry nadzorna ploča s Docker i apple/container hostovima">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Kubernetes na Apple containeru: GUI za container cluster na Macu">
-  <meta name="twitter:description" content="Kubernetes na Appleovu alatu container uz Gantry: klasteri s više radnih čvorova (container cluster), izbor CNI-ja, čvorovi, kubeconfig i lokalne slike.">
+  <meta name="twitter:title" content="Kubernetes na Apple containeru: GUI za container cluster i Kubernetes preglednik">
+  <meta name="twitter:description" content="Kubernetes na Appleovu alatu container uz Gantry: klasteri s radnim čvorovima zadane veličine i zajedničkim spremištem slika, podovi, zapisnici, ljuska, portovi i YAML.">
   <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta name="theme-color" content="#060a10">
   <link rel="icon" type="image/png" href="../../assets/icon.png">
@@ -63,11 +63,11 @@
     {
       "@type": "TechArticle",
       "@id": "https://getgantry.github.io/hr/apple-container-kubernetes/#article",
-      "headline": "Kubernetes na Apple containeru: GUI za container cluster na Macu",
-      "description": "Kubernetes na Appleovu alatu container uz Gantry: klasteri s više radnih čvorova (container cluster), izbor CNI-ja, čvorovi, kubeconfig i lokalne slike.",
+      "headline": "Kubernetes na Apple containeru: GUI za container cluster i Kubernetes preglednik",
+      "description": "Kubernetes na Appleovu alatu container uz Gantry: klasteri s radnim čvorovima zadane veličine i zajedničkim spremištem slika, podovi, zapisnici, ljuska, portovi i YAML.",
       "url": "https://getgantry.github.io/hr/apple-container-kubernetes/",
       "inLanguage": "hr",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -122,7 +122,7 @@
           "name": "Podržava li Apple container Kubernetes?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Da. CLI container stvara Kubernetes klastere čiji čvorovi rade kao kontejneri: container cluster u CLI-ju 1.6.1, container k8s u CLI-ju od 1.5.0 do 1.6.0. Gantry tome daje GUI."
+            "text": "Da. CLI container stvara Kubernetes klastere čiji čvorovi rade kao kontejneri: container cluster u CLI-ju 1.6.1 i 1.7, container k8s u CLI-ju od 1.5.0 do 1.6.0. Gantry tome daje GUI."
           }
         },
         {
@@ -130,7 +130,7 @@
           "name": "Podržava li Gantry container cluster?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Da. Gantry prikazuje, stvara i briše klastere na apple/container hostovima, prikazuje njihove čvorove, zapisuje kubeconfig, kopira kubectl naredbu konteksta i učitava lokalne slike u klaster. Koristi cluster ili k8s, ovisno o vašoj verziji CLI-ja."
+            "text": "Da. Gantry prikazuje, stvara i briše klastere na apple/container hostovima, prikazuje njihove čvorove, zapisuje kubeconfig i otvara klaster u svojem Kubernetes pregledniku. Na CLI-ju 1.7 određuje i veličinu radnih čvorova te uključuje zajedničko spremište slika. Koristi cluster ili k8s, ovisno o vašoj verziji CLI-ja."
           }
         },
         {
@@ -146,7 +146,7 @@
           "name": "Kako prenijeti lokalnu sliku u klaster bez registra?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "U Gantryju desnom tipkom kliknite sliku u odjeljku Slike i odaberite Učitaj u klaster. Gantry pokreće container cluster load-image, koji kopira sliku u containerd svakog čvora."
+            "text": "Na CLI-ju 1.7 stvorite klaster s opcijom Koristi lokalne slike (--shared-image-store). Podovi tada po nazivu pokreću slike koje izgradite ili povučete alatom container. Na CLI-ju 1.5 i 1.6 desnom tipkom kliknite sliku u odjeljku Slike i odaberite Učitaj u klaster; Gantry pokreće container cluster load-image. CLI 1.7 uklonio je load-image."
           }
         },
         {
@@ -154,7 +154,7 @@
           "name": "Mogu li stvoriti klaster s više čvorova?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Da. Postavite broj radnih čvorova u prozoru za stvaranje. Radni čvorovi zahtijevaju CLI 1.6.0 ili noviji."
+            "text": "Da. Postavite broj radnih čvorova u prozoru za stvaranje; radni čvorovi zahtijevaju CLI 1.6.0 ili noviji. Na CLI-ju 1.7 CPU-ove i memoriju radnih čvorova postavljate i odvojeno od kontrolne ravnine."
           }
         },
         {
@@ -163,6 +163,22 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Da. Odaberite Prilagođeni manifest i datoteku manifesta ili odaberite Ništa i sami primijenite CNI nakon pokretanja klastera. Čvorovi ostaju u stanju NotReady dok CNI ne proradi. Ništa zahtijeva CLI 1.6.0 ili noviji. Zadani CNI je priloženi kindnet manifest."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Zašto Gantry kaže da servisi klastera nisu dostupni?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Servisi container nisu odgovorili na naredbu klastera. Ako je vaš CLI Homebrew izgradnja bez servisa klastera, Gantry to kaže i daje poveznicu na potpisani instalacijski program na stranici izdanja apple/containera. Inače nudi Ponovno pokreni servise."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Treba li mi kubectl za korištenje klastera u Gantryju?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Zasad da: Gantry Kubernetes preglednik pokreće kubectl. Ako nije instaliran, preglednik prikazuje naredbu brew install kubectl i može je pokrenuti umjesto vas. U razvoju je nativni Kubernetes klijent koji uklanja ovaj korak."
           }
         }
       ]
@@ -225,17 +241,17 @@
     <nav class="crumbs" aria-label="Navigacijski put"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Kubernetes na apple/containeru</span></nav>
     <article class="docs-article page-article">
 <h1>Kubernetes na Apple containeru</h1>
-<p class="page-lead">apple/container može pokrenuti Kubernetes klaster čiji su čvorovi kontejneri na vašem Macu. Gantry je GUI za to: stvorite klaster, pratite kako se čvorovi podižu, povežite <code>kubectl</code> i učitajte lokalne slike, bez dugih naredbi <code>container cluster</code>.</p>
+<p class="page-lead">apple/container može pokrenuti Kubernetes klaster čiji su čvorovi kontejneri na vašem Macu. Gantry je GUI za to: stvorite klaster, pratite kako se čvorovi podižu, pokrećite u njemu svoje lokalne slike i pregledavajte njegove podove, zapisnike i servise, bez dugih naredbi <code>container cluster</code>.</p>
 
 <div class="tldr">
-<p><strong>Ukratko.</strong> Na apple/container hostu odjeljak <strong>Klasteri</strong> u Gantryju stvara i briše Kubernetes klastere naredbom <code>container cluster</code> (CLI 1.6.1) ili <code>container k8s</code> (CLI od 1.5.0 do 1.6.0). Podržava više radnih čvorova, prilagođeni CNI, prikaz čvorova, kubeconfig i <code>kubectl</code> kontekst te <strong>Učitaj u klaster</strong> za lokalne slike.</p>
+<p><strong>Ukratko.</strong> Na apple/container hostu odjeljak <strong>Klasteri</strong> u Gantryju stvara i briše Kubernetes klastere naredbom <code>container cluster</code> (CLI 1.6.1 i 1.7) ili <code>container k8s</code> (CLI od 1.5.0 do 1.6.0). Na CLI-ju 1.7.1 određuje veličinu radnih čvorova odvojeno od kontrolne ravnine i uključuje zajedničko spremište slika. Odjeljak <strong>Kubernetes</strong> pregledava klaster: podovi, zapisnici, ljuska, prosljeđivanje portova, skaliranje i Primijeni YAML.</p>
 </div>
 
 <h2 id="requirements">Preduvjeti</h2>
 <ul>
   <li>Mac s Apple siliconom, macOS 26 i Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
-  <li>CLI <code>container</code> 1.5.0 ili noviji; preporučuje se 1.6.1. Radni čvorovi i CNI <em>Ništa</em> zahtijevaju 1.6.0 ili noviji.</li>
-  <li><code>kubectl</code>, ako klaster želite koristiti iz terminala.</li>
+  <li>CLI <code>container</code> 1.5.0 ili noviji; preporučuje se 1.7.1. Radni čvorovi i CNI <em>Ništa</em> zahtijevaju 1.6.0 ili noviji. Veličine radnih čvorova i zajedničko spremište slika zahtijevaju 1.7.0 ili noviji. Upotrijebite potpisani instalacijski paket: Homebrew izgradnja verzije 1.7.1 nema servise klastera.</li>
+  <li><code>kubectl</code> za Kubernetes preglednik i terminal. Gantry ga može instalirati putem Homebrewa.</li>
 </ul>
 
 <h2 id="create">Stvaranje klastera</h2>
@@ -249,20 +265,36 @@
 <tbody>
 <tr><th scope="row">Naziv</th><td><code>--name</code></td><td>Ujedno naziv konteksta u kubeconfigu</td></tr>
 <tr><th scope="row">Radni čvorovi</th><td><code>--workers</code></td><td>Broj radnih čvorova. CLI 1.6.0+</td></tr>
-<tr><th scope="row">CPU-ovi</th><td><code>--cpus</code></td><td>Po čvoru</td></tr>
-<tr><th scope="row">Memorija</th><td><code>--memory</code></td><td>Po čvoru, npr. <code>4G</code></td></tr>
+<tr><th scope="row">CPU-ovi i memorija radnih čvorova</th><td><code>--workers count=N,cpus=C,memory=M</code></td><td>CLI 1.7+. Prije 1.7 <code>--cpus</code> i <code>--memory</code> vrijede za svaki čvor</td></tr>
+<tr><th scope="row">CPU-ovi</th><td><code>--cpus</code></td><td>Kontrolna ravnina (CLI 1.7+) ili svaki čvor (prije 1.7)</td></tr>
+<tr><th scope="row">Memorija</th><td><code>--memory</code></td><td>Kontrolna ravnina (CLI 1.7+) ili svaki čvor (prije 1.7), npr. <code>4G</code></td></tr>
+<tr><th scope="row">Koristi lokalne slike</th><td><code>--shared-image-store</code></td><td>CLI 1.7+. Čvorovi pokreću slike iz vašeg lokalnog spremišta slika</td></tr>
 <tr><th scope="row">Slika čvora</th><td><code>--node-image</code></td><td>Prazno zadržava zadanu vrijednost CLI-ja</td></tr>
 <tr><th scope="row">CNI</th><td><code>--cni</code></td><td>Zadano (priloženi kindnet), Ništa (<code>NONE</code>, CLI 1.6.0+) ili putanja do prilagođenog manifesta</td></tr>
 </tbody>
 </table></div>
 <p>Ista naredba u CLI-ju:</p>
 <div class="code-block">
-  <div class="code-head"><span>Ljuska</span><button class="copy" data-copy="container cluster create --name dev --workers 2 --cpus 2 --memory 4G">Kopiraj</button></div>
-  <pre><code>container cluster create --name dev --workers 2 --cpus 2 --memory 4G</code></pre>
+  <div class="code-head"><span>Ljuska</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 4G \
+  --workers count=2,cpus=2,memory=4G --shared-image-store">Kopiraj</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 4G \
+  --workers count=2,cpus=2,memory=4G --shared-image-store</code></pre>
 </div>
 
 <h2 id="nodes">Čvorovi i detalji klastera</h2>
-<p>Popis klastera prikazuje svaki klaster s njegovim čvorovima: uloga, stanje i adresa. Prikaz detalja sadrži <strong>Pregled</strong> (kubectl kontekst, API poslužitelj, radni čvorovi, mreža čvorova), tablicu <strong>Čvorovi</strong>, <strong>Pregledaj</strong> za neobrađene podatke čvorova te radnje <strong>Zapiši kubeconfig</strong>, <strong>Kopiraj kubectl naredbu konteksta</strong> i <strong>Izbriši</strong>.</p>
+<p>Popis klastera prikazuje jedan redak za svaki klaster. Prikaz detalja sadrži <strong>Pregled</strong> (kubectl kontekst, API poslužitelj, verzija Kubernetesa, spremište slika, radni čvorovi i njihovi resursi, mreža čvorova), tablicu <strong>Čvorovi</strong> i <strong>Pregledaj</strong> za neobrađene podatke čvorova. Alatna traka ima <strong>Pregledaj resurse</strong>, a izbornik Više ima <strong>Zapiši kubeconfig</strong>, <strong>Kopiraj kubectl naredbu konteksta</strong> i <strong>Izbriši</strong>.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<p>Čvorovi klastera su kontejneri, ali njima upravlja <code>container cluster</code>. Gantry za čvor onemogućuje pokretanje, zaustavljanje, ponovno pokretanje, uklanjanje i preimenovanje te vam kaže zašto, a Pokreni sve i Zaustavi sve preskaču čvorove. Na CLI-ju 1.7 CLI skriva čvorove i iz <code>container list</code>. Klasteri stvoreni CLI-jem 1.6 ili starijim ne prikazuju se na popisu u 1.7; uklonite ih naredbom <code>container cluster delete --name &lt;name&gt;</code>.</p>
+
+<h2 id="browser">Pregledavanje klastera</h2>
+<p>Kliknite <strong>Pregledaj resurse</strong> na pokrenutom klasteru ili otvorite <strong>Kubernetes</strong> u bočnoj traci. Odjeljak ne zahtijeva host i prikazuje svaki kubeconfig kontekst; konteksti apple/container klastera su na vrhu. Odaberite imenski prostor ili sve imenske prostore, a zatim vrstu: podovi, deploymenti, StatefulSetovi, DaemonSetovi, servisi, Ingressi, ConfigMapovi, tajne, čvorovi ili događaji.</p>
+<ul>
+  <li><strong>Podovi:</strong> zapisnici s praćenjem, zadnjim recima i prethodnim kontejnerom; ljuska u podu; prosljeđivanje porta na <code>127.0.0.1</code>.</li>
+  <li><strong>Radna opterećenja:</strong> skaliranje deploymenta i StatefulSetova; ponovno pokretanje uvođenja.</li>
+  <li><strong>Tajne:</strong> vrijednosti su skrivene na popisu i u YAML-u dok ne kliknete Otkrij.</li>
+  <li><strong>Primijeni YAML:</strong> zalijepite manifest ili otvorite datoteku; pogreške se prikazuju u prozoru.</li>
+</ul>
+<p>Preglednik pokreće <code>kubectl</code>. Ako ga Gantry ne pronađe, odjeljak prikazuje <code>brew install kubectl</code> s gumbom koji tu naredbu pokreće. U razvoju je nativni Kubernetes klijent kojemu <code>kubectl</code> ne treba.</p>
 
 <h2 id="kubectl">Povezivanje kubectla</h2>
 <p>CLI pri stvaranju klastera dodaje u <code>~/.kube/config</code> kontekst nazvan po klasteru. Upotrijebite <strong>Kopiraj kubectl naredbu konteksta</strong> u Gantryju ili je upišite:</p>
@@ -272,12 +304,22 @@
 </div>
 <p>Da biste klaster držali u zasebnoj datoteci, upotrijebite <strong>Zapiši kubeconfig</strong>. Gantry pokreće <code>container cluster write-config</code>; zadana putanja je <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p>
 
-<h2 id="images">Učitavanje lokalnih slika u klaster</h2>
-<p>Izgradite ili povucite sliku na apple/container hostu, zatim je desnom tipkom kliknite u odjeljku <strong>Slike</strong> i odaberite <strong>Učitaj u klaster</strong>. Gantry pokreće <code>container cluster load-image</code>, koji kopira sliku u containerd svakog čvora. Za lokalni razvoj registar vam ne treba.</p>
+<h2 id="images">Lokalne slike u klasteru</h2>
+<p>Na CLI-ju 1.7 uključite <strong>Koristi lokalne slike</strong> pri stvaranju klastera. Time se dodaje <code>--shared-image-store</code>, pa čvorovi po nazivu mogu pokrenuti bilo koju sliku koju izgradite ili povučete alatom <code>container</code>, bez registra. Postavka se određuje pri stvaranju i ne može se kasnije promijeniti. Nakon ponovne izgradnje oznake upotrijebite <code>imagePullPolicy: Always</code> ili novu oznaku. Privilegirani podovi mogu čitati svaku sliku u vašem lokalnom spremištu, pa ovo koristite samo za lokalni razvoj.</p>
+<div class="code-block">
+  <div class="code-head"><span>Ljuska</span><button class="copy" data-copy="container build -t myapp:dev .
+kubectl --context dev create deployment myapp --image=myapp:dev">Kopiraj</button></div>
+  <pre><code>container build -t myapp:dev .
+kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
+</div>
+<p>Na CLI-ju 1.5 i 1.6 desnom tipkom kliknite sliku u odjeljku <strong>Slike</strong> i odaberite <strong>Učitaj u klaster</strong>. Gantry pokreće <code>container cluster load-image</code>, koji kopira sliku u containerd svakog čvora. CLI 1.7 uklonio je tu naredbu, pa je Gantry ondje skriva.</p>
 <div class="code-block">
   <div class="code-head"><span>Ljuska</span><button class="copy" data-copy="container cluster load-image --name dev myapp:dev">Kopiraj</button></div>
   <pre><code>container cluster load-image --name dev myapp:dev</code></pre>
 </div>
+
+<h2 id="broken">Kad servisi klastera ne odgovaraju</h2>
+<p>Ako naredba klastera ne uspije s porukom <em>cluster service unavailable</em>, Gantry provjerava kako je CLI instaliran. Za Homebrew izgradnju bez dodataka za klaster dobivate poruku da toj izgradnji nedostaju servisi klastera i poveznicu <strong>Preuzmi instalacijski program…</strong> na potpisani paket. U ostalim slučajevima Gantry nudi <strong>Ponovno pokreni servise…</strong>.</p>
 
 <h2 id="cni">Odabir CNI-ja</h2>
 <p>Zadano je priloženi kindnet manifest. Odaberite <strong>Prilagođeni manifest</strong> da biste iz datoteke instalirali vlastiti CNI, npr. Calico ili Cilium. Odaberite <strong>Ništa</strong> da biste CNI kasnije instalirali sami; do tada čvorovi ostaju u stanju NotReady.</p>
@@ -290,19 +332,21 @@
 </div>
 
 <h2 id="more">Više o apple/containeru</h2>
-<p>Pročitajte <a href="../apple-container/">vodič za apple/container</a> za svaku naredbu <code>container</code> i njezinu značajku u Gantryju ili pogledajte kako se Gantry uspoređuje s <a href="../compare/">Docker Desktopom, OrbStackom i Podman Desktopom</a>.</p>
+<p>Za vodič korak po korak iz terminala pročitajte <a href="../kubernetes-on-mac/">Pokretanje Kubernetesa na Macu uz Apple container</a>. Pročitajte <a href="../apple-container/">vodič za apple/container</a> za svaku naredbu <code>container</code> i odgovarajuću značajku Gantryja ili pogledajte kako se Gantry uspoređuje s <a href="../compare/">Docker Desktopom, OrbStackom i Podman Desktopom</a>.</p>
 
 <h2 id="faq">Pitanja i odgovori</h2>
 <div class="faq-list">
-<details class="faq-item"><summary>Podržava li Apple container Kubernetes?</summary><p>Da. CLI <code>container</code> stvara Kubernetes klastere čiji čvorovi rade kao kontejneri: <code>container cluster</code> u CLI-ju 1.6.1, <code>container k8s</code> u CLI-ju od 1.5.0 do 1.6.0. Gantry tome daje GUI.</p></details>
-<details class="faq-item"><summary>Podržava li Gantry container cluster?</summary><p>Da. Gantry prikazuje, stvara i briše klastere na apple/container hostovima, prikazuje njihove čvorove, zapisuje kubeconfig, kopira <code>kubectl</code> naredbu konteksta i učitava lokalne slike u klaster. Koristi <code>cluster</code> ili <code>k8s</code>, ovisno o vašoj verziji CLI-ja.</p></details>
+<details class="faq-item"><summary>Podržava li Apple container Kubernetes?</summary><p>Da. CLI <code>container</code> stvara Kubernetes klastere čiji čvorovi rade kao kontejneri: <code>container cluster</code> u CLI-ju 1.6.1 i 1.7, <code>container k8s</code> u CLI-ju od 1.5.0 do 1.6.0. Gantry tome daje GUI.</p></details>
+<details class="faq-item"><summary>Podržava li Gantry container cluster?</summary><p>Da. Gantry prikazuje, stvara i briše klastere na apple/container hostovima, prikazuje njihove čvorove, zapisuje kubeconfig i otvara klaster u svojem Kubernetes pregledniku. Na CLI-ju 1.7 određuje i veličinu radnih čvorova te uključuje zajedničko spremište slika. Koristi <code>cluster</code> ili <code>k8s</code>, ovisno o vašoj verziji CLI-ja.</p></details>
 <details class="faq-item"><summary>Kako koristiti kubectl s apple/container klasterom?</summary><p>Kad CLI stvori klaster, u <code>~/.kube/config</code> dodaje kubeconfig kontekst nazvan po klasteru. Pokrenite <code>kubectl --context &lt;name&gt; get nodes</code>. Za zasebnu datoteku upotrijebite <b>Zapiši kubeconfig</b> u Gantryju; zadana putanja je <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p></details>
-<details class="faq-item"><summary>Kako prenijeti lokalnu sliku u klaster bez registra?</summary><p>U Gantryju desnom tipkom kliknite sliku u odjeljku Slike i odaberite <b>Učitaj u klaster</b>. Gantry pokreće <code>container cluster load-image</code>, koji kopira sliku u containerd svakog čvora.</p></details>
-<details class="faq-item"><summary>Mogu li stvoriti klaster s više čvorova?</summary><p>Da. Postavite broj radnih čvorova u prozoru za stvaranje. Radni čvorovi zahtijevaju CLI 1.6.0 ili noviji.</p></details>
+<details class="faq-item"><summary>Kako prenijeti lokalnu sliku u klaster bez registra?</summary><p>Na CLI-ju 1.7 stvorite klaster s opcijom <b>Koristi lokalne slike</b> (<code>--shared-image-store</code>). Podovi tada po nazivu pokreću slike koje izgradite ili povučete alatom <code>container</code>. Na CLI-ju 1.5 i 1.6 desnom tipkom kliknite sliku u odjeljku Slike i odaberite <b>Učitaj u klaster</b>; Gantry pokreće <code>container cluster load-image</code>. CLI 1.7 uklonio je <code>load-image</code>.</p></details>
+<details class="faq-item"><summary>Mogu li stvoriti klaster s više čvorova?</summary><p>Da. Postavite broj radnih čvorova u prozoru za stvaranje; radni čvorovi zahtijevaju CLI 1.6.0 ili noviji. Na CLI-ju 1.7 CPU-ove i memoriju radnih čvorova postavljate i odvojeno od kontrolne ravnine.</p></details>
 <details class="faq-item"><summary>Mogu li koristiti vlastiti CNI, npr. Calico ili Cilium?</summary><p>Da. Odaberite <b>Prilagođeni manifest</b> i datoteku manifesta ili odaberite <b>Ništa</b> i sami primijenite CNI nakon pokretanja klastera. Čvorovi ostaju u stanju NotReady dok CNI ne proradi. <b>Ništa</b> zahtijeva CLI 1.6.0 ili noviji. Zadani CNI je priloženi kindnet manifest.</p></details>
+<details class="faq-item"><summary>Zašto Gantry kaže da servisi klastera nisu dostupni?</summary><p>Servisi <code>container</code> nisu odgovorili na naredbu klastera. Ako je vaš CLI Homebrew izgradnja bez servisa klastera, Gantry to kaže i daje poveznicu na potpisani instalacijski program na stranici izdanja apple/containera. Inače nudi <b>Ponovno pokreni servise</b>.</p></details>
+<details class="faq-item"><summary>Treba li mi kubectl za korištenje klastera u Gantryju?</summary><p>Zasad da: Gantry Kubernetes preglednik pokreće <code>kubectl</code>. Ako nije instaliran, preglednik prikazuje naredbu <code>brew install kubectl</code> i može je pokrenuti umjesto vas. U razvoju je nativni Kubernetes klijent koji uklanja ovaj korak.</p></details>
 </div>
 
-<p class="updated">Zadnje ažuriranje: 2026-11-03.</p>
+<p class="updated">Zadnje ažuriranje: 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Početna</a>
@@ -312,6 +356,14 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Usporedba</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes na Macu</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">S Docker Desktopa</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Vanjski disk</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Iz docker run</a>
       <span>·</span>
       <a href="../../docs/index.html">Upute</a>
       <span>·</span>

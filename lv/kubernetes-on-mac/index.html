@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="lv" data-copied="Nokopēts">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JR87M6TNM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kubernetes palaišana Mac datorā ar Apple container: ceļvedis soli pa solim</title>
+  <meta name="description" content="Lokāls Kubernetes klasteris Mac datorā ar Apple container cluster: darba mezgli, CPU un atmiņa, lokālie attēli bez reģistra, kubectl un GUI podu un žurnālu skatīšanai.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://getgantry.github.io/lv/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="en" href="https://getgantry.github.io/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="de" href="https://getgantry.github.io/de/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="fr" href="https://getgantry.github.io/fr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="es" href="https://getgantry.github.io/es/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="it" href="https://getgantry.github.io/it/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="pt-PT" href="https://getgantry.github.io/pt-PT/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="nl" href="https://getgantry.github.io/nl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sv" href="https://getgantry.github.io/sv/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="da" href="https://getgantry.github.io/da/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="nb" href="https://getgantry.github.io/nb/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="fi" href="https://getgantry.github.io/fi/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="pl" href="https://getgantry.github.io/pl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="cs" href="https://getgantry.github.io/cs/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sk" href="https://getgantry.github.io/sk/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="hu" href="https://getgantry.github.io/hu/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="ro" href="https://getgantry.github.io/ro/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="bg" href="https://getgantry.github.io/bg/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="el" href="https://getgantry.github.io/el/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="hr" href="https://getgantry.github.io/hr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sl" href="https://getgantry.github.io/sl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sr" href="https://getgantry.github.io/sr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sr-Latn" href="https://getgantry.github.io/sr-Latn/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="lt" href="https://getgantry.github.io/lt/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="lv" href="https://getgantry.github.io/lv/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="et" href="https://getgantry.github.io/et/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="uk" href="https://getgantry.github.io/uk/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="ru" href="https://getgantry.github.io/ru/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="x-default" href="https://getgantry.github.io/kubernetes-on-mac/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Gantry">
+  <meta property="og:locale" content="lv_LV">
+  <meta property="og:title" content="Kubernetes palaišana Mac datorā ar Apple container: ceļvedis soli pa solim">
+  <meta property="og:description" content="Lokāls Kubernetes klasteris Mac datorā ar Apple container cluster: darba mezgli, CPU un atmiņa, lokālie attēli bez reģistra, kubectl un GUI podu un žurnālu skatīšanai.">
+  <meta property="og:url" content="https://getgantry.github.io/lv/kubernetes-on-mac/">
+  <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta property="og:image:width" content="3364">
+  <meta property="og:image:height" content="2116">
+  <meta property="og:image:alt" content="Gantry resursdatoru parka informācijas panelis ar Docker un apple/container resursdatoriem">
+  <meta property="article:modified_time" content="2026-11-07">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kubernetes palaišana Mac datorā ar Apple container: ceļvedis soli pa solim">
+  <meta name="twitter:description" content="Lokāls Kubernetes klasteris Mac datorā ar Apple container cluster: darba mezgli, CPU un atmiņa, lokālie attēli bez reģistra, kubectl un GUI podu un žurnālu skatīšanai.">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta name="theme-color" content="#060a10">
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../docs/docs.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://getgantry.github.io/lv/kubernetes-on-mac/#article",
+      "headline": "Kubernetes palaišana Mac datorā ar Apple container: ceļvedis soli pa solim",
+      "description": "Lokāls Kubernetes klasteris Mac datorā ar Apple container cluster: darba mezgli, CPU un atmiņa, lokālie attēli bez reģistra, kubectl un GUI podu un žurnālu skatīšanai.",
+      "url": "https://getgantry.github.io/lv/kubernetes-on-mac/",
+      "inLanguage": "lv",
+      "dateModified": "2026-11-07",
+      "image": "https://getgantry.github.io/assets/dashboard.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Gantry",
+        "url": "https://getgantry.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://getgantry.github.io/#organization",
+        "name": "Gantry",
+        "logo": "https://getgantry.github.io/assets/icon.png"
+      },
+      "about": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "container (apple/container)",
+          "url": "https://github.com/apple/container",
+          "operatingSystem": "macOS",
+          "applicationCategory": "DeveloperApplication"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Kubernetes",
+          "url": "https://kubernetes.io/"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://getgantry.github.io/lv/kubernetes-on-mac/#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Gantry",
+          "item": "https://getgantry.github.io/lv/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Kubernetes Mac datorā",
+          "item": "https://getgantry.github.io/lv/kubernetes-on-mac/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://getgantry.github.io/lv/kubernetes-on-mac/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Vai Mac datorā var palaist Kubernetes bez Docker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Jā. Apple container CLI pats izveido Kubernetes klasterus ar container cluster create. Katrs mezgls darbojas kā viegla virtuālā mašīna, un jums nav vajadzīgs ne Docker, ne Docker Desktop, ne kind, ne minikube."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Cik mezglu var būt container cluster klasterim?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Viena vadības plakne un tik darba mezglu, cik pietiek jūsu Mac datora CPU un atmiņas. Iestatiet tos ar --workers; CLI 1.7 versijā katrai darba mezglu grupai var būt savs CPU un atmiņas apjoms."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kā klasterī izmantot lokāli uzbūvētu attēlu?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Izveidojiet klasteri ar --shared-image-store (CLI 1.7), uzbūvējiet attēlu ar container build -t name:tag . un poda specifikācijā izmantojiet name:tag. Reģistrs nav vajadzīgs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kuru Kubernetes versiju izmanto container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CLI 1.7.1 pēc noklusējuma izmanto mezgla attēlu kindest/node:v1.35.5. Citu versiju izvēlieties ar --node-image, piemēram, docker.io/kindest/node:v1.34.11. Gantry rāda versiju klastera pārskatā."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Vai container cluster ir grafiskā saskarne?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Jā. Gantry izveido un dzēš klasterus, rāda mezglus un savā Kubernetes sadaļā pārlūko podus, Deployments, pakalpojumus, žurnālus un noslēpumus. Tā ir bezmaksas un atvērtā koda lietotne."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs-body">
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../"><img src="../../assets/icon.png" alt="Gantry ikona" width="30" height="30"><span>Gantry</span></a>
+      <nav class="nav-links">
+        <a href="../#features">Iespējas</a>
+        <a href="../apple-container/">apple/container</a>
+        <a href="../apple-container-kubernetes/">Kubernetes</a>
+        <a href="../compare/">Salīdzinājums</a>
+        <a href="../../docs/index.html">Dokumentācija</a>
+        <a href="https://github.com/getgantry/gantry">GitHub</a>
+      </nav>
+      <details class="lang-menu">
+        <summary aria-label="Valoda: Latviešu" title="Valoda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lang-name">Latviešu</span><span class="lang-code">LV</span></summary>
+        <ul>
+          <li><a href="../../kubernetes-on-mac/" hreflang="en" lang="en">English</a></li>
+          <li><a href="../../de/kubernetes-on-mac/" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../../fr/kubernetes-on-mac/" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../../es/kubernetes-on-mac/" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../../it/kubernetes-on-mac/" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../../pt-PT/kubernetes-on-mac/" hreflang="pt-PT" lang="pt-PT">Português</a></li>
+          <li><a href="../../nl/kubernetes-on-mac/" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../../sv/kubernetes-on-mac/" hreflang="sv" lang="sv">Svenska</a></li>
+          <li><a href="../../da/kubernetes-on-mac/" hreflang="da" lang="da">Dansk</a></li>
+          <li><a href="../../nb/kubernetes-on-mac/" hreflang="nb" lang="nb">Norsk bokmål</a></li>
+          <li><a href="../../fi/kubernetes-on-mac/" hreflang="fi" lang="fi">Suomi</a></li>
+          <li><a href="../../pl/kubernetes-on-mac/" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../../cs/kubernetes-on-mac/" hreflang="cs" lang="cs">Čeština</a></li>
+          <li><a href="../../sk/kubernetes-on-mac/" hreflang="sk" lang="sk">Slovenčina</a></li>
+          <li><a href="../../hu/kubernetes-on-mac/" hreflang="hu" lang="hu">Magyar</a></li>
+          <li><a href="../../ro/kubernetes-on-mac/" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../../bg/kubernetes-on-mac/" hreflang="bg" lang="bg">Български</a></li>
+          <li><a href="../../el/kubernetes-on-mac/" hreflang="el" lang="el">Ελληνικά</a></li>
+          <li><a href="../../hr/kubernetes-on-mac/" hreflang="hr" lang="hr">Hrvatski</a></li>
+          <li><a href="../../sl/kubernetes-on-mac/" hreflang="sl" lang="sl">Slovenščina</a></li>
+          <li><a href="../../sr/kubernetes-on-mac/" hreflang="sr" lang="sr">Српски</a></li>
+          <li><a href="../../sr-Latn/kubernetes-on-mac/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a></li>
+          <li><a href="../../lt/kubernetes-on-mac/" hreflang="lt" lang="lt">Lietuvių</a></li>
+          <li><a href="./" hreflang="lv" lang="lv" aria-current="page">Latviešu</a></li>
+          <li><a href="../../et/kubernetes-on-mac/" hreflang="et" lang="et">Eesti</a></li>
+          <li><a href="../../uk/kubernetes-on-mac/" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="../../ru/kubernetes-on-mac/" hreflang="ru" lang="ru">Русский</a></li>
+        </ul>
+      </details>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="crumbs" aria-label="Navigācijas ceļš"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Kubernetes Mac datorā</span></nav>
+    <article class="docs-article page-article">
+<h1>Kubernetes palaišana Mac datorā ar Apple container</h1>
+<p class="page-lead">Apple rīks <code>container</code> var izveidot lokālu Kubernetes klasteri ar vienu komandu. Katrs mezgls ir viegla virtuālā mašīna jūsu Mac datorā. Šis ceļvedis ved no tukša Mac datora līdz darbojošam Deployment – vispirms terminālī un pēc tam lietotnē Gantry.</p>
+
+<div class="tldr">
+<p><strong>Īsumā.</strong> Instalējiet parakstīto <code>container</code> 1.7.1 pakotni, izpildiet <code>container cluster create --name dev --cpus 2 --memory 2g --workers count=2,cpus=2,memory=2g --shared-image-store</code>, uzbūvējiet attēlu ar <code>container build</code> un palaidiet to klasterī pēc nosaukuma. Gantry rāda to pašu klasteri logā: mezglus, podus, žurnālus, čaulu un portu pārsūtīšanu.</p>
+</div>
+
+<h2 id="requirements">Kas jums vajadzīgs</h2>
+<ul>
+  <li>Mac dators ar Apple silicon un macOS 26 vai jaunāku versiju.</li>
+  <li><code>container</code> CLI 1.7.1 no parakstītās <code>.pkg</code> pakotnes <a href="https://github.com/apple/container/releases">apple/container laidienu lapā</a>. 1.7.1 Homebrew versijā nav klastera pakalpojumu, tāpēc <code>container cluster</code> beidzas ar kļūdu <em>cluster service unavailable</em>.</li>
+  <li>Apmēram 6 GB brīvas atmiņas tālāk dotajam piemēram: trīs mezgli, katram 2 GB.</li>
+  <li><code>kubectl</code>, ja vēlaties izmantot klasteri no termināļa (<code>brew install kubectl</code>).</li>
+</ul>
+<p>Pēc pakotnes instalēšanas vienreiz startējiet pakalpojumus:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminālis</span><button class="copy" data-copy="container system start">Kopēt</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<h2 id="create">Klastera izveide</h2>
+<p>Šī komanda izveido klasteri <code>dev</code> ar vienu vadības plaknes mezglu un diviem darba mezgliem. Katrs mezgls saņem 2 CPU un 2 GB atmiņas:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminālis</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Kopēt</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li><code>--workers count=N,cpus=C,memory=M</code> nosaka darba mezglu grupas izmēru. Atkārtojiet to grupām ar dažādiem izmēriem. Bez <code>--workers</code> viens mezgls ir gan vadības plakne, gan darba mezgls.</li>
+  <li><code>--cpus</code> un <code>--memory</code> nosaka vadības plaknes izmēru. Noklusējums ir ceturtdaļa no jūsu Mac datora CPU un atmiņas, vismaz 2 CPU un 2 GB.</li>
+  <li><code>--shared-image-store</code> ļauj mezgliem izmantot jūsu lokālos attēlus (skatiet tālāk). Vēlāk to mainīt nevar: dzēsiet klasteri un izveidojiet to no jauna.</li>
+  <li><code>--cni ./calico.yaml</code> komplektā iekļautā kindnet vietā instalē jūsu CNI; <code>--cni NONE</code> neinstalē nevienu.</li>
+</ul>
+<p>CLI failā <code>~/.kube/config</code> pievieno kontekstu <code>dev</code>. Pārbaudiet mezglus:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminālis</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Kopēt</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<h2 id="images">Lokāla attēla palaišana bez reģistra</h2>
+<p>Ar <code>--shared-image-store</code> mezgli var palaist jebkuru attēlu no jūsu lokālās <code>container</code> attēlu krātuves. Uzbūvējiet attēlu un izmantojiet to pēc nosaukuma:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminālis</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Kopēt</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Piezīme</span><div>Pēc tā paša taga atkārtotas būvēšanas izpildiet <code>kubectl rollout restart</code> ar <code>imagePullPolicy: Always</code> vai izmantojiet jaunu tagu. Ar <code>IfNotPresent</code> mezgls patur jau esošo kopiju. Viss, kam mezglā ir root tiesības, var nolasīt katru attēlu jūsu lokālajā krātuvē, arī privātos attēlus, tāpēc kopīgo krātuvi izmantojiet tikai lokālai izstrādei.</div></div>
+<p>CLI 1.5 un 1.6 versijā kopīgās krātuves nav. Tur izmantojiet <code>container cluster load-image</code> vai lietotnē Gantry <b>Ielādēt klasterī</b>. CLI 1.7 versijā <code>load-image</code> ir noņemts.</p>
+
+<h2 id="reach">Lietotnes atvēršana pārlūkprogrammā</h2>
+<p>Pārsūtiet lokālo portu uz Deployment un pēc tam atveriet <code>http://localhost:8080</code>:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminālis</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Kopēt</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<h2 id="gantry">Klastera pārlūkošana lietotnē Gantry</h2>
+<p>Gantry rāda to pašu klasteri bez komandām. Pievienojiet savu apple/container resursdatoru, atveriet <strong>Klasteri</strong> un atlasiet <code>dev</code>. Pārskatā redzama Kubernetes versija, attēlu krātuve, darba mezgli un to CPU un atmiņa. Noklikšķiniet uz <strong>Pārlūkot resursus</strong>, lai atvērtu sadaļu <strong>Kubernetes</strong> ar šo kontekstu.</p>
+<ul>
+  <li>Podi, Deployments, StatefulSets, DaemonSets, pakalpojumi, Ingresses, ConfigMaps, noslēpumi, mezgli un notikumi vienai nosaukumtelpai vai visām.</li>
+  <li>Podu žurnāli ar sekošanu un pēdējām rindām, čaula podā un portu pārsūtīšana ar sarakstu, kurā to var apturēt.</li>
+  <li>Mērogošana, izvēršanas restartēšana, dzēšana un <strong>Lietot YAML</strong> no ielīmēta manifesta vai faila.</li>
+  <li>Noslēpumu vērtības paliek paslēptas, līdz noklikšķināt uz „Atklāt”.</li>
+</ul>
+<p>Kubernetes pārlūks izpilda <code>kubectl</code>. Ja tā nav, Gantry parāda <code>brew install kubectl</code> un var to izpildīt jūsu vietā. Tiek izstrādāts natīvs klients, kuram <code>kubectl</code> nav vajadzīgs.</p>
+<!-- TODO-SCREENSHOT section="guide kubernetes-on-mac, section #gantry" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Klasteri var izveidot arī lietotnē Gantry: <strong>Klasteri</strong> ▸ <strong>Jauns klasteris</strong> piedāvā skaitītājus vadības plaknei un darba mezgliem un slēdzi <strong>Izmantot lokālos attēlus</strong>. Vairāk lapā <a href="../apple-container-kubernetes/">Kubernetes apple/container vidē</a>.</p>
+
+<h2 id="cleanup">Klastera apturēšana un dzēšana</h2>
+<div class="code-block">
+  <div class="code-head"><span>Terminālis</span><button class="copy" data-copy="container cluster delete --name dev">Kopēt</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Ja vadības plaknes mezgls apstājas, piemēram, pēc <code>container system stop</code>, dzēsiet klasteri un izveidojiet to no jauna. Izveidojiet pagaidu klasteri ar <code>--rm</code>, lai tā mezgli tiktu noņemti, kad tie apstājas.</p>
+
+<h2 id="troubleshooting">Biežākās problēmas</h2>
+<ul>
+  <li><strong>cluster service unavailable:</strong> CLI ir Homebrew versija, vai pakalpojumi nedarbojas. Instalējiet parakstīto pakotni vai restartējiet pakalpojumus ar <code>container system stop</code> un <code>container system start</code>. Gantry sadaļā „Klasteri” sniedz to pašu padomu.</li>
+  <li><strong>Sarakstā nav veca klastera:</strong> CLI 1.7 nerāda klasterus, kas izveidoti ar 1.6 vai vecāku versiju. Noņemiet tādu ar <code>container cluster delete --name &lt;name&gt;</code>.</li>
+  <li><strong>Mezgli paliek stāvoklī NotReady:</strong> jūs izmantojāt <code>--cni NONE</code>. Lietojiet CNI manifestu.</li>
+  <li><strong>Mezgla konteineru nevar apturēt:</strong> tā ir paredzēts. <code>container stop</code> un <code>delete</code> atsakās apstrādāt klastera mezglus; izmantojiet <code>container cluster delete</code>.</li>
+</ul>
+
+<h2 id="compare">Salīdzinājums ar Docker Desktop un OrbStack</h2>
+<p>Docker Desktop ir iebūvēts Kubernetes ar kubeadm (viens mezgls) vai kind (vairāki mezgli), un OrbStack ir iebūvēts klasteris ar vienu mezglu. <code>container cluster</code> palaiž kubeadm uz <code>kindest/node</code> attēliem, katru mezglu savā virtuālajā mašīnā, ar klasteriem no vairākiem mezgliem un kopīgu attēlu krātuvi. Skatiet <a href="../compare/">pilno salīdzinājumu</a>.</p>
+
+<h2 id="related">Saistītie ceļveži</h2>
+<ul>
+  <li><a href="../docker-desktop-to-apple-container/">Pāreja no Docker Desktop uz Apple container: komandas, Compose, sējumi un trūkumi</a></li>
+  <li><a href="../containers-on-external-drive/">Konteineru un sējumu glabāšana ārējā diskā Mac datorā</a></li>
+  <li><a href="../docker-run-to-container/">Konteinera izveide no docker run komandas Mac datorā (docker run uz container run)</a></li>
+  <li><a href="../apple-container/">Apple container GUI Mac datoram: pilns apple/container ceļvedis</a></li>
+  <li><a href="../apple-container-kubernetes/">Kubernetes ar Apple container: container cluster GUI un Kubernetes pārlūks</a></li>
+</ul>
+
+<h2 id="faq">Jautājumi un atbildes</h2>
+<div class="faq-list">
+<details class="faq-item"><summary>Vai Mac datorā var palaist Kubernetes bez Docker?</summary><p>Jā. Apple <code>container</code> CLI pats izveido Kubernetes klasterus ar <code>container cluster create</code>. Katrs mezgls darbojas kā viegla virtuālā mašīna, un jums nav vajadzīgs ne Docker, ne Docker Desktop, ne kind, ne minikube.</p></details>
+<details class="faq-item"><summary>Cik mezglu var būt container cluster klasterim?</summary><p>Viena vadības plakne un tik darba mezglu, cik pietiek jūsu Mac datora CPU un atmiņas. Iestatiet tos ar <code>--workers</code>; CLI 1.7 versijā katrai darba mezglu grupai var būt savs CPU un atmiņas apjoms.</p></details>
+<details class="faq-item"><summary>Kā klasterī izmantot lokāli uzbūvētu attēlu?</summary><p>Izveidojiet klasteri ar <code>--shared-image-store</code> (CLI 1.7), uzbūvējiet attēlu ar <code>container build -t name:tag .</code> un poda specifikācijā izmantojiet <code>name:tag</code>. Reģistrs nav vajadzīgs.</p></details>
+<details class="faq-item"><summary>Kuru Kubernetes versiju izmanto container cluster?</summary><p>CLI 1.7.1 pēc noklusējuma izmanto mezgla attēlu <code>kindest/node:v1.35.5</code>. Citu versiju izvēlieties ar <code>--node-image</code>, piemēram, <code>docker.io/kindest/node:v1.34.11</code>. Gantry rāda versiju klastera pārskatā.</p></details>
+<details class="faq-item"><summary>Vai container cluster ir grafiskā saskarne?</summary><p>Jā. Gantry izveido un dzēš klasterus, rāda mezglus un savā Kubernetes sadaļā pārlūko podus, Deployments, pakalpojumus, žurnālus un noslēpumus. Tā ir bezmaksas un atvērtā koda lietotne.</p></details>
+</div>
+
+<p class="updated">Atjaunināts 2026-11-07.</p>
+    </article>
+    <footer class="docs-foot">
+      <a href="../">Sākums</a>
+      <span>·</span>
+      <a href="../apple-container/">apple/container ceļvedis</a>
+      <span>·</span>
+      <a href="../apple-container-kubernetes/">Kubernetes</a>
+      <span>·</span>
+      <a href="../compare/">Salīdzinājums</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes Mac datorā</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">No Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Ārējais disks</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">No docker run</a>
+      <span>·</span>
+      <a href="../../docs/index.html">Dokumentācija</a>
+      <span>·</span>
+      <a href="https://github.com/getgantry/gantry">MIT licence · GitHub</a>
+    </footer>
+    <nav class="lang-foot" aria-label="Valodas">
+      <a href="../../kubernetes-on-mac/" hreflang="en" lang="en">English</a>
+      <a href="../../de/kubernetes-on-mac/" hreflang="de" lang="de">Deutsch</a>
+      <a href="../../fr/kubernetes-on-mac/" hreflang="fr" lang="fr">Français</a>
+      <a href="../../es/kubernetes-on-mac/" hreflang="es" lang="es">Español</a>
+      <a href="../../it/kubernetes-on-mac/" hreflang="it" lang="it">Italiano</a>
+      <a href="../../pt-PT/kubernetes-on-mac/" hreflang="pt-PT" lang="pt-PT">Português</a>
+      <a href="../../nl/kubernetes-on-mac/" hreflang="nl" lang="nl">Nederlands</a>
+      <a href="../../sv/kubernetes-on-mac/" hreflang="sv" lang="sv">Svenska</a>
+      <a href="../../da/kubernetes-on-mac/" hreflang="da" lang="da">Dansk</a>
+      <a href="../../nb/kubernetes-on-mac/" hreflang="nb" lang="nb">Norsk bokmål</a>
+      <a href="../../fi/kubernetes-on-mac/" hreflang="fi" lang="fi">Suomi</a>
+      <a href="../../pl/kubernetes-on-mac/" hreflang="pl" lang="pl">Polski</a>
+      <a href="../../cs/kubernetes-on-mac/" hreflang="cs" lang="cs">Čeština</a>
+      <a href="../../sk/kubernetes-on-mac/" hreflang="sk" lang="sk">Slovenčina</a>
+      <a href="../../hu/kubernetes-on-mac/" hreflang="hu" lang="hu">Magyar</a>
+      <a href="../../ro/kubernetes-on-mac/" hreflang="ro" lang="ro">Română</a>
+      <a href="../../bg/kubernetes-on-mac/" hreflang="bg" lang="bg">Български</a>
+      <a href="../../el/kubernetes-on-mac/" hreflang="el" lang="el">Ελληνικά</a>
+      <a href="../../hr/kubernetes-on-mac/" hreflang="hr" lang="hr">Hrvatski</a>
+      <a href="../../sl/kubernetes-on-mac/" hreflang="sl" lang="sl">Slovenščina</a>
+      <a href="../../sr/kubernetes-on-mac/" hreflang="sr" lang="sr">Српски</a>
+      <a href="../../sr-Latn/kubernetes-on-mac/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a>
+      <a href="../../lt/kubernetes-on-mac/" hreflang="lt" lang="lt">Lietuvių</a>
+      <a href="./" hreflang="lv" lang="lv" aria-current="page">Latviešu</a>
+      <a href="../../et/kubernetes-on-mac/" hreflang="et" lang="et">Eesti</a>
+      <a href="../../uk/kubernetes-on-mac/" hreflang="uk" lang="uk">Українська</a>
+      <a href="../../ru/kubernetes-on-mac/" hreflang="ru" lang="ru">Русский</a>
+    </nav>
+  </main>
+
+  <script>
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+          var t = b.textContent; b.textContent = 'Nokopēts';
+          setTimeout(function () { b.textContent = t; }, 1400);
+        });
+      });
+    });
+  </script>
+  <script src="../../lang.js" defer></script>
+</body>
+</html>

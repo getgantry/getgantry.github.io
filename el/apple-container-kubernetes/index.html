@@ -5,8 +5,8 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kubernetes στο Apple container: GUI για container cluster σε Mac</title>
-  <meta name="description" content="Kubernetes στο container της Apple με το Gantry: cluster με πολλά worker μέσω container cluster, επιλογή CNI, κόμβοι, kubeconfig, φόρτωση τοπικών εικόνων.">
+  <title>Kubernetes στο Apple container: GUI για container cluster και περιηγητής Kubernetes</title>
+  <meta name="description" content="Kubernetes στο container της Apple με το Gantry: cluster με worker ορισμένου μεγέθους και κοινή αποθήκη εικόνων, pod και αρχεία καταγραφής, shell, προώθηση θυρών, YAML.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="canonical" href="https://getgantry.github.io/el/apple-container-kubernetes/">
   <link rel="alternate" hreflang="en" href="https://getgantry.github.io/apple-container-kubernetes/">
@@ -40,17 +40,17 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Gantry">
   <meta property="og:locale" content="el_GR">
-  <meta property="og:title" content="Kubernetes στο Apple container: GUI για container cluster σε Mac">
-  <meta property="og:description" content="Kubernetes στο container της Apple με το Gantry: cluster με πολλά worker μέσω container cluster, επιλογή CNI, κόμβοι, kubeconfig, φόρτωση τοπικών εικόνων.">
+  <meta property="og:title" content="Kubernetes στο Apple container: GUI για container cluster και περιηγητής Kubernetes">
+  <meta property="og:description" content="Kubernetes στο container της Apple με το Gantry: cluster με worker ορισμένου μεγέθους και κοινή αποθήκη εικόνων, pod και αρχεία καταγραφής, shell, προώθηση θυρών, YAML.">
   <meta property="og:url" content="https://getgantry.github.io/el/apple-container-kubernetes/">
   <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Ο πίνακας ελέγχου στόλου του Gantry με host Docker και apple/container">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Kubernetes στο Apple container: GUI για container cluster σε Mac">
-  <meta name="twitter:description" content="Kubernetes στο container της Apple με το Gantry: cluster με πολλά worker μέσω container cluster, επιλογή CNI, κόμβοι, kubeconfig, φόρτωση τοπικών εικόνων.">
+  <meta name="twitter:title" content="Kubernetes στο Apple container: GUI για container cluster και περιηγητής Kubernetes">
+  <meta name="twitter:description" content="Kubernetes στο container της Apple με το Gantry: cluster με worker ορισμένου μεγέθους και κοινή αποθήκη εικόνων, pod και αρχεία καταγραφής, shell, προώθηση θυρών, YAML.">
   <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta name="theme-color" content="#060a10">
   <link rel="icon" type="image/png" href="../../assets/icon.png">
@@ -63,11 +63,11 @@
     {
       "@type": "TechArticle",
       "@id": "https://getgantry.github.io/el/apple-container-kubernetes/#article",
-      "headline": "Kubernetes στο Apple container: GUI για container cluster σε Mac",
-      "description": "Kubernetes στο container της Apple με το Gantry: cluster με πολλά worker μέσω container cluster, επιλογή CNI, κόμβοι, kubeconfig, φόρτωση τοπικών εικόνων.",
+      "headline": "Kubernetes στο Apple container: GUI για container cluster και περιηγητής Kubernetes",
+      "description": "Kubernetes στο container της Apple με το Gantry: cluster με worker ορισμένου μεγέθους και κοινή αποθήκη εικόνων, pod και αρχεία καταγραφής, shell, προώθηση θυρών, YAML.",
       "url": "https://getgantry.github.io/el/apple-container-kubernetes/",
       "inLanguage": "el",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -122,7 +122,7 @@
           "name": "Υποστηρίζει το Apple container το Kubernetes;",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ναι. Το CLI container δημιουργεί cluster Kubernetes των οποίων οι κόμβοι τρέχουν ως κοντέινερ: container cluster στο CLI 1.6.1, container k8s στο CLI 1.5.0 έως 1.6.0. Το Gantry προσθέτει GUI σε αυτό."
+            "text": "Ναι. Το CLI container δημιουργεί cluster Kubernetes των οποίων οι κόμβοι τρέχουν ως κοντέινερ: container cluster στο CLI 1.6.1 και 1.7, container k8s στο CLI 1.5.0 έως 1.6.0. Το Gantry προσθέτει GUI σε αυτό."
           }
         },
         {
@@ -130,7 +130,7 @@
           "name": "Υποστηρίζει το Gantry το container cluster;",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ναι. Το Gantry εμφανίζει, δημιουργεί και διαγράφει cluster σε host apple/container, δείχνει τους κόμβους τους, γράφει το kubeconfig, αντιγράφει την εντολή context του kubectl και φορτώνει τοπικές εικόνες σε cluster. Χρησιμοποιεί cluster ή k8s ανάλογα με την έκδοση του CLI σας."
+            "text": "Ναι. Το Gantry εμφανίζει, δημιουργεί και διαγράφει cluster σε host apple/container, δείχνει τους κόμβους τους, γράφει το kubeconfig και ανοίγει το cluster στον περιηγητή Kubernetes. Στο CLI 1.7 ορίζει επίσης το μέγεθος των worker και ενεργοποιεί την κοινή αποθήκη εικόνων. Χρησιμοποιεί cluster ή k8s ανάλογα με την έκδοση του CLI σας."
           }
         },
         {
@@ -146,7 +146,7 @@
           "name": "Πώς φορτώνω μια τοπική εικόνα στο cluster χωρίς μητρώο;",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Στο Gantry, κάντε δεξί κλικ στην εικόνα στις «Εικόνες» και επιλέξτε Φόρτωση στο cluster. Το Gantry εκτελεί το container cluster load-image, που αντιγράφει την εικόνα στο containerd κάθε κόμβου."
+            "text": "Στο CLI 1.7, δημιουργήστε το cluster με τη Χρήση τοπικών εικόνων (--shared-image-store). Τα pod εκτελούν τότε με το όνομά τους τις εικόνες που δομείτε ή λαμβάνετε με το container. Στο CLI 1.5 και 1.6, κάντε δεξί κλικ στην εικόνα στις «Εικόνες» και επιλέξτε Φόρτωση στο cluster· το Gantry εκτελεί το container cluster load-image. Το CLI 1.7 αφαίρεσε το load-image."
           }
         },
         {
@@ -154,7 +154,7 @@
           "name": "Μπορώ να δημιουργήσω cluster με πολλούς κόμβους;",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ναι. Ορίστε τον αριθμό των worker στο φύλλο δημιουργίας. Τα worker απαιτούν CLI 1.6.0 ή νεότερο."
+            "text": "Ναι. Ορίστε τον αριθμό των worker στο φύλλο δημιουργίας· τα worker απαιτούν CLI 1.6.0 ή νεότερο. Στο CLI 1.7 ορίζετε επίσης τις CPU και τη μνήμη των worker χωριστά από το control plane."
           }
         },
         {
@@ -163,6 +163,22 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Ναι. Επιλέξτε Προσαρμοσμένο manifest και διαλέξτε το αρχείο manifest ή επιλέξτε Κανένα και εφαρμόστε μόνοι σας ένα CNI αφού ξεκινήσει το cluster. Οι κόμβοι μένουν NotReady μέχρι να τρέξει ένα CNI. Το Κανένα απαιτεί CLI 1.6.0 ή νεότερο. Το προεπιλεγμένο CNI είναι το ενσωματωμένο manifest του kindnet."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Γιατί το Gantry λέει ότι οι υπηρεσίες cluster δεν είναι διαθέσιμες;",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Οι υπηρεσίες του container δεν απάντησαν σε μια εντολή cluster. Αν το CLI σας είναι έκδοση Homebrew χωρίς τις υπηρεσίες cluster, το Gantry το αναφέρει και δίνει σύνδεσμο προς το υπογεγραμμένο πρόγραμμα εγκατάστασης στη σελίδα εκδόσεων του apple/container. Διαφορετικά, προσφέρει Επανεκκίνηση υπηρεσιών."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Χρειάζομαι το kubectl για να χρησιμοποιήσω το cluster στο Gantry;",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Προς το παρόν, ναι: ο περιηγητής Kubernetes του Gantry εκτελεί το kubectl. Αν δεν είναι εγκατεστημένο, ο περιηγητής εμφανίζει την εντολή brew install kubectl και μπορεί να την εκτελέσει για εσάς. Ένας εγγενής πελάτης Kubernetes που καταργεί αυτό το βήμα είναι υπό ανάπτυξη."
           }
         }
       ]
@@ -225,17 +241,17 @@
     <nav class="crumbs" aria-label="Διαδρομή πλοήγησης"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Kubernetes στο apple/container</span></nav>
     <article class="docs-article page-article">
 <h1>Kubernetes στο Apple container</h1>
-<p class="page-lead">Το apple/container μπορεί να εκτελέσει ένα cluster Kubernetes του οποίου οι κόμβοι είναι κοντέινερ στο Mac σας. Το Gantry είναι ένα GUI γι’ αυτό: δημιουργήστε ένα cluster, δείτε τους κόμβους του να ξεκινούν, συνδέστε το <code>kubectl</code> και φορτώστε τις τοπικές εικόνες σας, χωρίς μεγάλες γραμμές εντολών <code>container cluster</code>.</p>
+<p class="page-lead">Το apple/container μπορεί να εκτελέσει ένα cluster Kubernetes του οποίου οι κόμβοι είναι κοντέινερ στο Mac σας. Το Gantry είναι ένα GUI γι' αυτό: δημιουργήστε ένα cluster, δείτε τους κόμβους του να ξεκινούν, εκτελέστε σε αυτό τις τοπικές σας εικόνες και περιηγηθείτε στα pod, στα αρχεία καταγραφής και στις υπηρεσίες του, χωρίς μεγάλες γραμμές εντολών <code>container cluster</code>.</p>
 
 <div class="tldr">
-<p><strong>Με λίγα λόγια.</strong> Σε έναν host apple/container, η ενότητα <strong>Cluster</strong> του Gantry δημιουργεί και διαγράφει cluster Kubernetes με το <code>container cluster</code> (CLI 1.6.1) ή το <code>container k8s</code> (CLI 1.5.0 έως 1.6.0). Υποστηρίζει πολλά worker, προσαρμοσμένο CNI, προβολή κόμβων, kubeconfig και context του <code>kubectl</code>, καθώς και <strong>Φόρτωση στο cluster</strong> για τοπικές εικόνες.</p>
+<p><strong>Με λίγα λόγια.</strong> Σε host apple/container, η ενότητα <strong>Cluster</strong> του Gantry δημιουργεί και διαγράφει cluster Kubernetes με το <code>container cluster</code> (CLI 1.6.1 και 1.7) ή το <code>container k8s</code> (CLI 1.5.0 έως 1.6.0). Στο CLI 1.7.1 ορίζει το μέγεθος των worker χωριστά από το control plane και ενεργοποιεί την κοινή αποθήκη εικόνων. Η ενότητα <strong>Kubernetes</strong> περιηγείται στο cluster: pod, αρχεία καταγραφής, shell, προωθήσεις θυρών, κλιμάκωση και Εφαρμογή YAML.</p>
 </div>
 
 <h2 id="requirements">Απαιτήσεις</h2>
 <ul>
   <li>Mac με Apple silicon, macOS 26 και το Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
-  <li>Το CLI <code>container</code> 1.5.0 ή νεότερο· συνιστάται το 1.6.1. Τα worker και το CNI <em>Κανένα</em> απαιτούν 1.6.0 ή νεότερο.</li>
-  <li>Το <code>kubectl</code>, αν θέλετε να χρησιμοποιείτε το cluster από το τερματικό.</li>
+  <li>CLI <code>container</code> 1.5.0 ή νεότερο· προτείνεται η 1.7.1. Τα worker και το CNI <em>Κανένα</em> απαιτούν 1.6.0 ή νεότερη. Τα μεγέθη worker και η κοινή αποθήκη εικόνων απαιτούν 1.7.0 ή νεότερη. Χρησιμοποιήστε το υπογεγραμμένο πακέτο εγκατάστασης: η έκδοση Homebrew της 1.7.1 δεν έχει υπηρεσίες cluster.</li>
+  <li><code>kubectl</code> για τον περιηγητή Kubernetes και το τερματικό. Το Gantry μπορεί να το εγκαταστήσει με Homebrew.</li>
 </ul>
 
 <h2 id="create">Δημιουργία cluster</h2>
@@ -249,20 +265,36 @@
 <tbody>
 <tr><th scope="row">Όνομα</th><td><code>--name</code></td><td>Και όνομα του context στο kubeconfig</td></tr>
 <tr><th scope="row">Worker</th><td><code>--workers</code></td><td>Αριθμός κόμβων worker. CLI 1.6.0+</td></tr>
-<tr><th scope="row">CPU</th><td><code>--cpus</code></td><td>Ανά κόμβο</td></tr>
-<tr><th scope="row">Μνήμη</th><td><code>--memory</code></td><td>Ανά κόμβο, για παράδειγμα <code>4G</code></td></tr>
+<tr><th scope="row">CPU και μνήμη των worker</th><td><code>--workers count=N,cpus=C,memory=M</code></td><td>CLI 1.7+. Πριν από την 1.7, τα <code>--cpus</code> και <code>--memory</code> ορίζουν κάθε κόμβο</td></tr>
+<tr><th scope="row">CPU</th><td><code>--cpus</code></td><td>Control plane (CLI 1.7+) ή κάθε κόμβος (πριν από την 1.7)</td></tr>
+<tr><th scope="row">Μνήμη</th><td><code>--memory</code></td><td>Control plane (CLI 1.7+) ή κάθε κόμβος (πριν από την 1.7), για παράδειγμα <code>4G</code></td></tr>
+<tr><th scope="row">Χρήση τοπικών εικόνων</th><td><code>--shared-image-store</code></td><td>CLI 1.7+. Οι κόμβοι εκτελούν εικόνες από την τοπική σας αποθήκη εικόνων</td></tr>
 <tr><th scope="row">Εικόνα κόμβου</th><td><code>--node-image</code></td><td>Κενό: κρατά την προεπιλογή του CLI</td></tr>
 <tr><th scope="row">CNI</th><td><code>--cni</code></td><td>Προεπιλογή (ενσωματωμένο kindnet), Κανένα (<code>NONE</code>, CLI 1.6.0+) ή διαδρομή προς προσαρμοσμένο manifest</td></tr>
 </tbody>
 </table></div>
 <p>Η ίδια εντολή στο CLI:</p>
 <div class="code-block">
-  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster create --name dev --workers 2 --cpus 2 --memory 4G">Αντιγραφή</button></div>
-  <pre><code>container cluster create --name dev --workers 2 --cpus 2 --memory 4G</code></pre>
+  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 4G \
+  --workers count=2,cpus=2,memory=4G --shared-image-store">Αντιγραφή</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 4G \
+  --workers count=2,cpus=2,memory=4G --shared-image-store</code></pre>
 </div>
 
 <h2 id="nodes">Κόμβοι και λεπτομέρειες cluster</h2>
-<p>Η λίστα cluster δείχνει κάθε cluster με τους κόμβους του: ρόλο, κατάσταση και διεύθυνση. Η προβολή λεπτομερειών έχει <strong>Επισκόπηση</strong> (context του kubectl, API server, worker, δίκτυο κόμβων), πίνακα <strong>Κόμβοι</strong>, <strong>Επιθεώρηση</strong> για τα ακατέργαστα δεδομένα κόμβων και τις ενέργειες <strong>Εγγραφή kubeconfig</strong>, <strong>Αντιγραφή εντολής context του kubectl</strong> και <strong>Διαγραφή</strong>.</p>
+<p>Η λίστα cluster έχει μία γραμμή για κάθε cluster. Η προβολή λεπτομερειών έχει <strong>Επισκόπηση</strong> (context του kubectl, διακομιστής API, έκδοση Kubernetes, αποθήκη εικόνων, worker και οι πόροι τους, δίκτυο κόμβων), πίνακα <strong>Κόμβοι</strong> και <strong>Επιθεώρηση</strong> για τα ακατέργαστα δεδομένα των κόμβων. Η γραμμή εργαλείων έχει <strong>Περιήγηση στους πόρους</strong> και το μενού «Περισσότερα» έχει <strong>Εγγραφή kubeconfig</strong>, <strong>Αντιγραφή εντολής context του kubectl</strong> και <strong>Διαγραφή</strong>.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<p>Οι κόμβοι του cluster είναι κοντέινερ, αλλά τους διαχειρίζεται το <code>container cluster</code>. Το Gantry απενεργοποιεί την έναρξη, τη διακοπή, την επανεκκίνηση, την αφαίρεση και τη μετονομασία για έναν κόμβο και σας λέει γιατί, και τα «Έναρξη όλων» και «Διακοπή όλων» παραλείπουν τους κόμβους. Στο CLI 1.7 το CLI κρύβει επίσης τους κόμβους από το <code>container list</code>. Τα cluster που δημιουργήθηκαν με CLI 1.6 ή παλαιότερο δεν εμφανίζονται στη λίστα της 1.7· αφαιρέστε τα με <code>container cluster delete --name &lt;name&gt;</code>.</p>
+
+<h2 id="browser">Περιήγηση στο cluster</h2>
+<p>Κάντε κλικ στην <strong>Περιήγηση στους πόρους</strong> σε ένα cluster σε εκτέλεση ή ανοίξτε το <strong>Kubernetes</strong> στην πλαϊνή στήλη. Η ενότητα δεν χρειάζεται host και εμφανίζει κάθε context του kubeconfig· τα context των cluster του apple/container εμφανίζονται πρώτα. Επιλέξτε έναν χώρο ονομάτων ή όλους τους χώρους ονομάτων και, στη συνέχεια, ένα είδος: pod, deployment, StatefulSet, DaemonSet, υπηρεσίες, Ingress, ConfigMap, μυστικά, κόμβους ή συμβάντα.</p>
+<ul>
+  <li><strong>Pod:</strong> αρχεία καταγραφής με παρακολούθηση, tail και το προηγούμενο κοντέινερ· shell στο pod· προώθηση θύρας στο <code>127.0.0.1</code>.</li>
+  <li><strong>Φόρτοι εργασίας:</strong> κλιμάκωση deployment και StatefulSet· επανεκκίνηση rollout.</li>
+  <li><strong>Μυστικά:</strong> οι τιμές είναι κρυφές στη λίστα και στο YAML μέχρι να κάνετε κλικ στην «Εμφάνιση».</li>
+  <li><strong>Εφαρμογή YAML:</strong> επικολλήστε ένα manifest ή ανοίξτε ένα αρχείο· τα σφάλματα εμφανίζονται στο φύλλο.</li>
+</ul>
+<p>Ο περιηγητής εκτελεί το <code>kubectl</code>. Αν το Gantry δεν το βρει, η ενότητα εμφανίζει το <code>brew install kubectl</code> με ένα κουμπί που το εκτελεί. Ένας εγγενής πελάτης Kubernetes που δεν χρειάζεται <code>kubectl</code> είναι υπό ανάπτυξη.</p>
 
 <h2 id="kubectl">Σύνδεση του kubectl</h2>
 <p>Το CLI προσθέτει στο <code>~/.kube/config</code> ένα context με το όνομα του cluster όταν το δημιουργεί. Χρησιμοποιήστε την <strong>Αντιγραφή εντολής context του kubectl</strong> στο Gantry ή πληκτρολογήστε τη:</p>
@@ -272,12 +304,22 @@
 </div>
 <p>Για να κρατήσετε το cluster σε δικό του αρχείο, χρησιμοποιήστε την <strong>Εγγραφή kubeconfig</strong>. Το Gantry εκτελεί το <code>container cluster write-config</code>· η προεπιλεγμένη διαδρομή είναι <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p>
 
-<h2 id="images">Φόρτωση τοπικών εικόνων στο cluster</h2>
-<p>Δομήστε ή κατεβάστε μια εικόνα στον host apple/container, κάντε δεξί κλικ πάνω της στις <strong>Εικόνες</strong> και επιλέξτε <strong>Φόρτωση στο cluster</strong>. Το Gantry εκτελεί το <code>container cluster load-image</code>, που αντιγράφει την εικόνα στο containerd κάθε κόμβου. Για τοπική ανάπτυξη δεν χρειάζεστε μητρώο.</p>
+<h2 id="images">Χρήση τοπικών εικόνων στο cluster</h2>
+<p>Στο CLI 1.7, ενεργοποιήστε τη <strong>Χρήση τοπικών εικόνων</strong> όταν δημιουργείτε το cluster. Προσθέτει το <code>--shared-image-store</code>, ώστε οι κόμβοι να μπορούν να εκτελούν με το όνομά της οποιαδήποτε εικόνα δομείτε ή λαμβάνετε με το <code>container</code>, χωρίς μητρώο. Η ρύθμιση ορίζεται κατά τη δημιουργία και δεν αλλάζει. Αφού δομήσετε ξανά μια ετικέτα, χρησιμοποιήστε <code>imagePullPolicy: Always</code> ή νέα ετικέτα. Τα privileged pod μπορούν να διαβάσουν κάθε εικόνα της τοπικής σας αποθήκης, γι' αυτό κρατήστε τη ρύθμιση για τοπική ανάπτυξη.</p>
+<div class="code-block">
+  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container build -t myapp:dev .
+kubectl --context dev create deployment myapp --image=myapp:dev">Αντιγραφή</button></div>
+  <pre><code>container build -t myapp:dev .
+kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
+</div>
+<p>Στο CLI 1.5 και 1.6, κάντε δεξί κλικ στην εικόνα στις <strong>Εικόνες</strong> και επιλέξτε <strong>Φόρτωση στο cluster</strong>. Το Gantry εκτελεί το <code>container cluster load-image</code>, που αντιγράφει την εικόνα στο containerd κάθε κόμβου. Το CLI 1.7 αφαίρεσε αυτή την εντολή, οπότε εκεί το Gantry κρύβει την ενέργεια.</p>
 <div class="code-block">
   <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster load-image --name dev myapp:dev">Αντιγραφή</button></div>
   <pre><code>container cluster load-image --name dev myapp:dev</code></pre>
 </div>
+
+<h2 id="broken">Όταν οι υπηρεσίες cluster δεν απαντούν</h2>
+<p>Αν μια εντολή cluster αποτύχει με <em>cluster service unavailable</em>, το Gantry ελέγχει πώς είναι εγκατεστημένο το CLI. Για μια έκδοση Homebrew χωρίς τα plugin cluster εμφανίζει μήνυμα ότι της λείπουν οι υπηρεσίες cluster και σύνδεσμο <strong>Λήψη προγράμματος εγκατάστασης…</strong> προς το υπογεγραμμένο πακέτο. Σε άλλες περιπτώσεις, το Gantry προσφέρει <strong>Επανεκκίνηση υπηρεσιών…</strong>.</p>
 
 <h2 id="cni">Επιλογή CNI</h2>
 <p>Η προεπιλογή είναι το ενσωματωμένο manifest του kindnet. Επιλέξτε <strong>Προσαρμοσμένο manifest</strong> για να εγκαταστήσετε το δικό σας CNI από αρχείο, για παράδειγμα Calico ή Cilium. Επιλέξτε <strong>Κανένα</strong> για να εγκαταστήσετε μόνοι σας ένα CNI αργότερα· μέχρι τότε οι κόμβοι μένουν NotReady.</p>
@@ -290,19 +332,21 @@
 </div>
 
 <h2 id="more">Περισσότερα για το apple/container</h2>
-<p>Διαβάστε τον <a href="../apple-container/">οδηγό apple/container</a> για κάθε εντολή <code>container</code> και τη λειτουργία της στο Gantry ή δείτε πώς συγκρίνεται το Gantry με τα <a href="../compare/">Docker Desktop, OrbStack και Podman Desktop</a>.</p>
+<p>Για οδηγό βήμα προς βήμα από το τερματικό, διαβάστε <a href="../kubernetes-on-mac/">Kubernetes σε Mac με το Apple container</a>. Διαβάστε τον <a href="../apple-container/">οδηγό apple/container</a> για κάθε εντολή του <code>container</code> και τη λειτουργία της στο Gantry ή δείτε πώς συγκρίνεται το Gantry με τα <a href="../compare/">Docker Desktop, OrbStack και Podman Desktop</a>.</p>
 
 <h2 id="faq">Ερωτήσεις και απαντήσεις</h2>
 <div class="faq-list">
-<details class="faq-item"><summary>Υποστηρίζει το Apple container το Kubernetes;</summary><p>Ναι. Το CLI <code>container</code> δημιουργεί cluster Kubernetes των οποίων οι κόμβοι τρέχουν ως κοντέινερ: <code>container cluster</code> στο CLI 1.6.1, <code>container k8s</code> στο CLI 1.5.0 έως 1.6.0. Το Gantry προσθέτει GUI σε αυτό.</p></details>
-<details class="faq-item"><summary>Υποστηρίζει το Gantry το container cluster;</summary><p>Ναι. Το Gantry εμφανίζει, δημιουργεί και διαγράφει cluster σε host apple/container, δείχνει τους κόμβους τους, γράφει το kubeconfig, αντιγράφει την εντολή context του <code>kubectl</code> και φορτώνει τοπικές εικόνες σε cluster. Χρησιμοποιεί <code>cluster</code> ή <code>k8s</code> ανάλογα με την έκδοση του CLI σας.</p></details>
+<details class="faq-item"><summary>Υποστηρίζει το Apple container το Kubernetes;</summary><p>Ναι. Το CLI <code>container</code> δημιουργεί cluster Kubernetes των οποίων οι κόμβοι τρέχουν ως κοντέινερ: <code>container cluster</code> στο CLI 1.6.1 και 1.7, <code>container k8s</code> στο CLI 1.5.0 έως 1.6.0. Το Gantry προσθέτει GUI σε αυτό.</p></details>
+<details class="faq-item"><summary>Υποστηρίζει το Gantry το container cluster;</summary><p>Ναι. Το Gantry εμφανίζει, δημιουργεί και διαγράφει cluster σε host apple/container, δείχνει τους κόμβους τους, γράφει το kubeconfig και ανοίγει το cluster στον περιηγητή Kubernetes. Στο CLI 1.7 ορίζει επίσης το μέγεθος των worker και ενεργοποιεί την κοινή αποθήκη εικόνων. Χρησιμοποιεί <code>cluster</code> ή <code>k8s</code> ανάλογα με την έκδοση του CLI σας.</p></details>
 <details class="faq-item"><summary>Πώς χρησιμοποιώ το kubectl με ένα cluster του apple/container;</summary><p>Όταν το CLI δημιουργεί ένα cluster, προσθέτει στο <code>~/.kube/config</code> ένα context kubeconfig με το όνομα του cluster. Εκτελέστε <code>kubectl --context &lt;name&gt; get nodes</code>. Για ξεχωριστό αρχείο, χρησιμοποιήστε την <b>Εγγραφή kubeconfig</b> στο Gantry· η προεπιλεγμένη διαδρομή είναι <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p></details>
-<details class="faq-item"><summary>Πώς φορτώνω μια τοπική εικόνα στο cluster χωρίς μητρώο;</summary><p>Στο Gantry, κάντε δεξί κλικ στην εικόνα στις «Εικόνες» και επιλέξτε <b>Φόρτωση στο cluster</b>. Το Gantry εκτελεί το <code>container cluster load-image</code>, που αντιγράφει την εικόνα στο containerd κάθε κόμβου.</p></details>
-<details class="faq-item"><summary>Μπορώ να δημιουργήσω cluster με πολλούς κόμβους;</summary><p>Ναι. Ορίστε τον αριθμό των worker στο φύλλο δημιουργίας. Τα worker απαιτούν CLI 1.6.0 ή νεότερο.</p></details>
+<details class="faq-item"><summary>Πώς φορτώνω μια τοπική εικόνα στο cluster χωρίς μητρώο;</summary><p>Στο CLI 1.7, δημιουργήστε το cluster με τη <b>Χρήση τοπικών εικόνων</b> (<code>--shared-image-store</code>). Τα pod εκτελούν τότε με το όνομά τους τις εικόνες που δομείτε ή λαμβάνετε με το <code>container</code>. Στο CLI 1.5 και 1.6, κάντε δεξί κλικ στην εικόνα στις «Εικόνες» και επιλέξτε <b>Φόρτωση στο cluster</b>· το Gantry εκτελεί το <code>container cluster load-image</code>. Το CLI 1.7 αφαίρεσε το <code>load-image</code>.</p></details>
+<details class="faq-item"><summary>Μπορώ να δημιουργήσω cluster με πολλούς κόμβους;</summary><p>Ναι. Ορίστε τον αριθμό των worker στο φύλλο δημιουργίας· τα worker απαιτούν CLI 1.6.0 ή νεότερο. Στο CLI 1.7 ορίζετε επίσης τις CPU και τη μνήμη των worker χωριστά από το control plane.</p></details>
 <details class="faq-item"><summary>Μπορώ να χρησιμοποιήσω δικό μου CNI, όπως Calico ή Cilium;</summary><p>Ναι. Επιλέξτε <b>Προσαρμοσμένο manifest</b> και διαλέξτε το αρχείο manifest ή επιλέξτε <b>Κανένα</b> και εφαρμόστε μόνοι σας ένα CNI αφού ξεκινήσει το cluster. Οι κόμβοι μένουν NotReady μέχρι να τρέξει ένα CNI. Το <b>Κανένα</b> απαιτεί CLI 1.6.0 ή νεότερο. Το προεπιλεγμένο CNI είναι το ενσωματωμένο manifest του kindnet.</p></details>
+<details class="faq-item"><summary>Γιατί το Gantry λέει ότι οι υπηρεσίες cluster δεν είναι διαθέσιμες;</summary><p>Οι υπηρεσίες του <code>container</code> δεν απάντησαν σε μια εντολή cluster. Αν το CLI σας είναι έκδοση Homebrew χωρίς τις υπηρεσίες cluster, το Gantry το αναφέρει και δίνει σύνδεσμο προς το υπογεγραμμένο πρόγραμμα εγκατάστασης στη σελίδα εκδόσεων του apple/container. Διαφορετικά, προσφέρει <b>Επανεκκίνηση υπηρεσιών</b>.</p></details>
+<details class="faq-item"><summary>Χρειάζομαι το kubectl για να χρησιμοποιήσω το cluster στο Gantry;</summary><p>Προς το παρόν, ναι: ο περιηγητής Kubernetes του Gantry εκτελεί το <code>kubectl</code>. Αν δεν είναι εγκατεστημένο, ο περιηγητής εμφανίζει την εντολή <code>brew install kubectl</code> και μπορεί να την εκτελέσει για εσάς. Ένας εγγενής πελάτης Kubernetes που καταργεί αυτό το βήμα είναι υπό ανάπτυξη.</p></details>
 </div>
 
-<p class="updated">Τελευταία ενημέρωση: 2026-11-03.</p>
+<p class="updated">Τελευταία ενημέρωση: 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Αρχική</a>
@@ -312,6 +356,14 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Σύγκριση</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes σε Mac</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Από το Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Εξωτερικός δίσκος</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Από docker run</a>
       <span>·</span>
       <a href="../../docs/index.html">Τεκμηρίωση</a>
       <span>·</span>

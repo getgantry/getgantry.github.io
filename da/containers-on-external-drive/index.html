@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="da" data-copied="Kopieret">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JR87M6TNM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gem containere og volumes på et eksternt drev på en Mac</title>
+  <meta name="description" content="Gem images, containere og volumes fra Apple container på en ekstern SSD: find datarodden, flyt den med container system start --app-root, brug bind-mounts, og fjern disken sikkert.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://getgantry.github.io/da/containers-on-external-drive/">
+  <link rel="alternate" hreflang="en" href="https://getgantry.github.io/containers-on-external-drive/">
+  <link rel="alternate" hreflang="de" href="https://getgantry.github.io/de/containers-on-external-drive/">
+  <link rel="alternate" hreflang="fr" href="https://getgantry.github.io/fr/containers-on-external-drive/">
+  <link rel="alternate" hreflang="es" href="https://getgantry.github.io/es/containers-on-external-drive/">
+  <link rel="alternate" hreflang="it" href="https://getgantry.github.io/it/containers-on-external-drive/">
+  <link rel="alternate" hreflang="pt-PT" href="https://getgantry.github.io/pt-PT/containers-on-external-drive/">
+  <link rel="alternate" hreflang="nl" href="https://getgantry.github.io/nl/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sv" href="https://getgantry.github.io/sv/containers-on-external-drive/">
+  <link rel="alternate" hreflang="da" href="https://getgantry.github.io/da/containers-on-external-drive/">
+  <link rel="alternate" hreflang="nb" href="https://getgantry.github.io/nb/containers-on-external-drive/">
+  <link rel="alternate" hreflang="fi" href="https://getgantry.github.io/fi/containers-on-external-drive/">
+  <link rel="alternate" hreflang="pl" href="https://getgantry.github.io/pl/containers-on-external-drive/">
+  <link rel="alternate" hreflang="cs" href="https://getgantry.github.io/cs/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sk" href="https://getgantry.github.io/sk/containers-on-external-drive/">
+  <link rel="alternate" hreflang="hu" href="https://getgantry.github.io/hu/containers-on-external-drive/">
+  <link rel="alternate" hreflang="ro" href="https://getgantry.github.io/ro/containers-on-external-drive/">
+  <link rel="alternate" hreflang="bg" href="https://getgantry.github.io/bg/containers-on-external-drive/">
+  <link rel="alternate" hreflang="el" href="https://getgantry.github.io/el/containers-on-external-drive/">
+  <link rel="alternate" hreflang="hr" href="https://getgantry.github.io/hr/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sl" href="https://getgantry.github.io/sl/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sr" href="https://getgantry.github.io/sr/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sr-Latn" href="https://getgantry.github.io/sr-Latn/containers-on-external-drive/">
+  <link rel="alternate" hreflang="lt" href="https://getgantry.github.io/lt/containers-on-external-drive/">
+  <link rel="alternate" hreflang="lv" href="https://getgantry.github.io/lv/containers-on-external-drive/">
+  <link rel="alternate" hreflang="et" href="https://getgantry.github.io/et/containers-on-external-drive/">
+  <link rel="alternate" hreflang="uk" href="https://getgantry.github.io/uk/containers-on-external-drive/">
+  <link rel="alternate" hreflang="ru" href="https://getgantry.github.io/ru/containers-on-external-drive/">
+  <link rel="alternate" hreflang="x-default" href="https://getgantry.github.io/containers-on-external-drive/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Gantry">
+  <meta property="og:locale" content="da_DK">
+  <meta property="og:title" content="Gem containere og volumes på et eksternt drev på en Mac">
+  <meta property="og:description" content="Gem images, containere og volumes fra Apple container på en ekstern SSD: find datarodden, flyt den med container system start --app-root, brug bind-mounts, og fjern disken sikkert.">
+  <meta property="og:url" content="https://getgantry.github.io/da/containers-on-external-drive/">
+  <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta property="og:image:width" content="3364">
+  <meta property="og:image:height" content="2116">
+  <meta property="og:image:alt" content="Gantrys flådeoversigt med Docker- og apple/container-værter">
+  <meta property="article:modified_time" content="2026-11-07">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gem containere og volumes på et eksternt drev på en Mac">
+  <meta name="twitter:description" content="Gem images, containere og volumes fra Apple container på en ekstern SSD: find datarodden, flyt den med container system start --app-root, brug bind-mounts, og fjern disken sikkert.">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta name="theme-color" content="#060a10">
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../docs/docs.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://getgantry.github.io/da/containers-on-external-drive/#article",
+      "headline": "Gem containere og volumes på et eksternt drev på en Mac",
+      "description": "Gem images, containere og volumes fra Apple container på en ekstern SSD: find datarodden, flyt den med container system start --app-root, brug bind-mounts, og fjern disken sikkert.",
+      "url": "https://getgantry.github.io/da/containers-on-external-drive/",
+      "inLanguage": "da",
+      "dateModified": "2026-11-07",
+      "image": "https://getgantry.github.io/assets/dashboard.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Gantry",
+        "url": "https://getgantry.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://getgantry.github.io/#organization",
+        "name": "Gantry",
+        "logo": "https://getgantry.github.io/assets/icon.png"
+      },
+      "about": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "container (apple/container)",
+          "url": "https://github.com/apple/container",
+          "operatingSystem": "macOS",
+          "applicationCategory": "DeveloperApplication"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Gantry",
+          "url": "https://getgantry.github.io/"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://getgantry.github.io/da/containers-on-external-drive/#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Gantry",
+          "item": "https://getgantry.github.io/da/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Eksternt drev",
+          "item": "https://getgantry.github.io/da/containers-on-external-drive/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://getgantry.github.io/da/containers-on-external-drive/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Kan jeg gemme images fra Apple container på et eksternt drev?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja. Start tjenesterne med container system start --app-root /Volumes/Disk/container. Alle images, containere, snapshots og volumes ligger derefter i den mappe."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hvilket filsystem skal det eksterne drev bruge?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "APFS. Volumes er sparse diskimages, og containere kræver Unix-tilladelser, som exFAT, FAT og NTFS ikke har."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hvordan kopierer jeg containerdataene uden at fylde disken?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Brug cp -Rp, som holdt de sparse volume-images små i vores test. ditto kopierede hvert sparse image i fuld størrelse."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hvad sker der, hvis jeg tager drevet ud, mens containere kører?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "De containere, der bruger disken, fejler, og data, der endnu ikke er skrevet, kan gå tabt. Stop containerne og, hvis app-roden ligger på disken, tjenesterne, før du skubber den ud."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Husker container-CLI'en den nye placering?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nej. Angiv --app-root ved hver container system start. container system status viser den rod, der bruges, som paths.appRoot."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs-body">
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../"><img src="../../assets/icon.png" alt="Gantrys symbol" width="30" height="30"><span>Gantry</span></a>
+      <nav class="nav-links">
+        <a href="../#features">Funktioner</a>
+        <a href="../apple-container/">apple/container</a>
+        <a href="../apple-container-kubernetes/">Kubernetes</a>
+        <a href="../compare/">Sammenlign</a>
+        <a href="../../docs/index.html">Dokumentation</a>
+        <a href="https://github.com/getgantry/gantry">GitHub</a>
+      </nav>
+      <details class="lang-menu">
+        <summary aria-label="Sprog: Dansk" title="Sprog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lang-name">Dansk</span><span class="lang-code">DA</span></summary>
+        <ul>
+          <li><a href="../../containers-on-external-drive/" hreflang="en" lang="en">English</a></li>
+          <li><a href="../../de/containers-on-external-drive/" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../../fr/containers-on-external-drive/" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../../es/containers-on-external-drive/" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../../it/containers-on-external-drive/" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../../pt-PT/containers-on-external-drive/" hreflang="pt-PT" lang="pt-PT">Português</a></li>
+          <li><a href="../../nl/containers-on-external-drive/" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../../sv/containers-on-external-drive/" hreflang="sv" lang="sv">Svenska</a></li>
+          <li><a href="./" hreflang="da" lang="da" aria-current="page">Dansk</a></li>
+          <li><a href="../../nb/containers-on-external-drive/" hreflang="nb" lang="nb">Norsk bokmål</a></li>
+          <li><a href="../../fi/containers-on-external-drive/" hreflang="fi" lang="fi">Suomi</a></li>
+          <li><a href="../../pl/containers-on-external-drive/" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../../cs/containers-on-external-drive/" hreflang="cs" lang="cs">Čeština</a></li>
+          <li><a href="../../sk/containers-on-external-drive/" hreflang="sk" lang="sk">Slovenčina</a></li>
+          <li><a href="../../hu/containers-on-external-drive/" hreflang="hu" lang="hu">Magyar</a></li>
+          <li><a href="../../ro/containers-on-external-drive/" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../../bg/containers-on-external-drive/" hreflang="bg" lang="bg">Български</a></li>
+          <li><a href="../../el/containers-on-external-drive/" hreflang="el" lang="el">Ελληνικά</a></li>
+          <li><a href="../../hr/containers-on-external-drive/" hreflang="hr" lang="hr">Hrvatski</a></li>
+          <li><a href="../../sl/containers-on-external-drive/" hreflang="sl" lang="sl">Slovenščina</a></li>
+          <li><a href="../../sr/containers-on-external-drive/" hreflang="sr" lang="sr">Српски</a></li>
+          <li><a href="../../sr-Latn/containers-on-external-drive/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a></li>
+          <li><a href="../../lt/containers-on-external-drive/" hreflang="lt" lang="lt">Lietuvių</a></li>
+          <li><a href="../../lv/containers-on-external-drive/" hreflang="lv" lang="lv">Latviešu</a></li>
+          <li><a href="../../et/containers-on-external-drive/" hreflang="et" lang="et">Eesti</a></li>
+          <li><a href="../../uk/containers-on-external-drive/" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="../../ru/containers-on-external-drive/" hreflang="ru" lang="ru">Русский</a></li>
+        </ul>
+      </details>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="crumbs" aria-label="Brødkrummesti"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Eksternt drev</span></nav>
+    <article class="docs-article page-article">
+<h1>Gem containere og volumes på et eksternt drev</h1>
+<p class="page-lead">Images, containere og volumes fylder hurtigt en lille intern disk. Med Apples <code>container</code>-værktøj kan du gemme de data på en ekstern SSD: læg enkelte mapper der med bind-mounts, eller flyt hele datarodden. Denne guide viser begge dele, og hvordan du fjerner disken uden skader.</p>
+
+<div class="tldr">
+<p><strong>Kort fortalt.</strong> Formatér disken som APFS. Til ét projekt bind-mounter du en mappe: <code>-v /Volumes/Fast/pg:/data</code>. Til det hele stopper du tjenesterne, kopierer <code>~/Library/Application Support/com.apple.container</code> til disken med <code>cp -Rp</code> og starter tjenesterne med <code>container system start --app-root /Volumes/Fast/container</code> hver gang.</p>
+</div>
+
+<h2 id="where">Hvor dataene ligger nu</h2>
+<p>apple/container gemmer alle sine data i én mappe, app-roden. Som standard er det <code>~/Library/Application Support/com.apple.container</code>, med mapper til containere, image-indhold, snapshots, volumes, kerner og netværk. Tjek stien og den brugte plads:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system status | grep appRoot
+container system df">Kopiér</button></div>
+  <pre><code>container system status | grep appRoot
+container system df</code></pre>
+</div>
+
+<h2 id="disk">Vælg og formatér disken</h2>
+<ul>
+  <li>Brug en SSD på USB-C eller Thunderbolt. En harddisk med roterende plader virker, men containere starter langsommere.</li>
+  <li>Formatér den som <strong>APFS</strong> (Mac OS udvidet virker også). Brug ikke exFAT, FAT eller NTFS: volumes er sparse diskimages, og de filsystemer har hverken sparse filer eller Unix-tilladelser.</li>
+  <li>Brug ikke en netværksdisk til app-roden.</li>
+  <li>Giv disken et kort navn uden mellemrum, for eksempel <code>Fast</code>. Stien er så <code>/Volumes/Fast</code>.</li>
+</ul>
+
+<h2 id="bind">Mulighed 1: gem projektdata på disken med bind-mounts</h2>
+<p>Et bind-mount deler en mappe på din Mac med containeren, og mappen kan ligge på enhver disk. Det er den nemme måde at holde store data, som en database eller modelfiler, væk fra den interne disk:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/site
+container run -d --name web -p 8080:80 \
+  -v /Volumes/Fast/site:/usr/share/nginx/html:ro nginx:alpine">Kopiér</button></div>
+  <pre><code>mkdir -p /Volumes/Fast/site
+container run -d --name web -p 8080:80 \
+  -v /Volumes/Fast/site:/usr/share/nginx/html:ro nginx:alpine</code></pre>
+</div>
+<p>Disken skal være tilsluttet, før containeren starter. Images og selve containeren bliver på den interne disk.</p>
+
+<h2 id="move">Mulighed 2: flyt alle apple/container-data til disken</h2>
+<p>Det flytter images, containere, snapshots og volumes. Stop først tjenesterne, så ingen filer ændres under kopieringen:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system stop
+cp -Rp ~/Library/Application\ Support/com.apple.container /Volumes/Fast/container
+container system start --app-root /Volumes/Fast/container
+container system status | grep appRoot
+container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls">Kopiér</button></div>
+  <pre><code>container system stop
+cp -Rp ~/Library/Application\ Support/com.apple.container /Volumes/Fast/container
+container system start --app-root /Volumes/Fast/container
+container system status | grep appRoot
+container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</code></pre>
+</div>
+<p>Brug <code>cp -Rp</code>. I vores test på macOS 27 (APFS til APFS over USB) forblev volume-imagesene sparse, og de udvidede attributter blev bevaret. <code>ditto</code> skrev hvert sparse image i fuld størrelse, hvilket kan fylde disken. Behold den gamle mappe, indtil du har tjekket, at dine containere, images og volumes vises.</p>
+<div class="callout callout-warn"><span class="callout-tag">Bemærk</span><div>CLI'en husker ikke <code>--app-root</code>. Hver <code>container system start</code> uden flaget bruger igen den interne mappe. Brug flaget hver gang, for eksempel i et shell-alias, og tjek <code>paths.appRoot</code> i <code>container system status</code>.</div></div>
+<p>Gantry 0.27.0 starter tjenesterne uden <code>--app-root</code>, når den forbinder til en vært, hvis tjenester er stoppet. Start først tjenesterne fra terminalen med flaget; så bruger Gantry de kørende tjenester. Understøttelse i Gantry af en flyttet datarod er under udvikling.</p>
+
+<h2 id="images">Arkivér images på disken</h2>
+<p>Vil du frigøre plads uden at miste et image, så gem det på den eksterne disk, og slet det. Indlæs det igen, når du har brug for det:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/images
+container image save -o /Volumes/Fast/images/myapp.tar myapp:dev
+container image delete myapp:dev
+container image load -i /Volumes/Fast/images/myapp.tar">Kopiér</button></div>
+  <pre><code>mkdir -p /Volumes/Fast/images
+container image save -o /Volumes/Fast/images/myapp.tar myapp:dev
+container image delete myapp:dev
+container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
+</div>
+
+<h2 id="unplug">Fjern disken sikkert</h2>
+<ol>
+  <li>Stop de containere, der bruger disken: <code>container stop &lt;name&gt;</code>.</li>
+  <li>Ligger app-roden på disken, så stop tjenesterne: <code>container system stop</code>.</li>
+  <li>Skub disken ud i Finder, og tag den derefter ud.</li>
+</ol>
+<p>Forsvinder disken, mens containere kører fra den, fejler de, og skrivninger, der er i gang, kan gå tabt. Når du har tilsluttet disken igen, så start tjenesterne med <code>--app-root</code>, og start derefter containerne.</p>
+
+<h2 id="gantry">Eksterne drev i Gantry</h2>
+<p>Gantry kører i dag bind-mounts fra enhver disk: i <strong>Ny container</strong> tilføjer du et volume og vælger en mappe på den eksterne disk og en sti i containeren. Understøttelse i Gantry af flytning af datarodden, volumes på en ekstern disk og en advarsel, når disken ikke er tilsluttet, er under udvikling.</p>
+
+<h2 id="docker">Docker Desktop og OrbStack</h2>
+<p>Docker Desktop flytter sit diskimage under <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack fik en indstilling for dataplacering i version 0.13.0. Se <a href="../compare/">sammenligningen</a>.</p>
+
+<h2 id="related">Relaterede guides</h2>
+<ul>
+  <li><a href="../kubernetes-on-mac/">Kør Kubernetes på en Mac med Apple container: trin-for-trin-guide</a></li>
+  <li><a href="../docker-desktop-to-apple-container/">Skift fra Docker Desktop til Apple container: kommandoer, Compose, volumes og mangler</a></li>
+  <li><a href="../docker-run-to-container/">Opret en container ud fra en docker run-kommando på Mac (docker run til container run)</a></li>
+  <li><a href="../apple-container/">GUI til Apple container på Mac: hele guiden til apple/container</a></li>
+  <li><a href="../apple-container-kubernetes/">Kubernetes på Apple container: GUI til container cluster og en Kubernetes-browser</a></li>
+</ul>
+
+<h2 id="faq">Spørgsmål og svar</h2>
+<div class="faq-list">
+<details class="faq-item"><summary>Kan jeg gemme images fra Apple container på et eksternt drev?</summary><p>Ja. Start tjenesterne med <code>container system start --app-root /Volumes/Disk/container</code>. Alle images, containere, snapshots og volumes ligger derefter i den mappe.</p></details>
+<details class="faq-item"><summary>Hvilket filsystem skal det eksterne drev bruge?</summary><p>APFS. Volumes er sparse diskimages, og containere kræver Unix-tilladelser, som exFAT, FAT og NTFS ikke har.</p></details>
+<details class="faq-item"><summary>Hvordan kopierer jeg containerdataene uden at fylde disken?</summary><p>Brug <code>cp -Rp</code>, som holdt de sparse volume-images små i vores test. <code>ditto</code> kopierede hvert sparse image i fuld størrelse.</p></details>
+<details class="faq-item"><summary>Hvad sker der, hvis jeg tager drevet ud, mens containere kører?</summary><p>De containere, der bruger disken, fejler, og data, der endnu ikke er skrevet, kan gå tabt. Stop containerne og, hvis app-roden ligger på disken, tjenesterne, før du skubber den ud.</p></details>
+<details class="faq-item"><summary>Husker container-CLI&#x27;en den nye placering?</summary><p>Nej. Angiv <code>--app-root</code> ved hver <code>container system start</code>. <code>container system status</code> viser den rod, der bruges, som <code>paths.appRoot</code>.</p></details>
+</div>
+
+<p class="updated">Sidst opdateret 2026-11-07.</p>
+    </article>
+    <footer class="docs-foot">
+      <a href="../">Forside</a>
+      <span>·</span>
+      <a href="../apple-container/">Guide til apple/container</a>
+      <span>·</span>
+      <a href="../apple-container-kubernetes/">Kubernetes</a>
+      <span>·</span>
+      <a href="../compare/">Sammenlign</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes på en Mac</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Fra Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Eksternt drev</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Fra docker run</a>
+      <span>·</span>
+      <a href="../../docs/index.html">Dokumentation</a>
+      <span>·</span>
+      <a href="https://github.com/getgantry/gantry">MIT-licens · GitHub</a>
+    </footer>
+    <nav class="lang-foot" aria-label="Sprog">
+      <a href="../../containers-on-external-drive/" hreflang="en" lang="en">English</a>
+      <a href="../../de/containers-on-external-drive/" hreflang="de" lang="de">Deutsch</a>
+      <a href="../../fr/containers-on-external-drive/" hreflang="fr" lang="fr">Français</a>
+      <a href="../../es/containers-on-external-drive/" hreflang="es" lang="es">Español</a>
+      <a href="../../it/containers-on-external-drive/" hreflang="it" lang="it">Italiano</a>
+      <a href="../../pt-PT/containers-on-external-drive/" hreflang="pt-PT" lang="pt-PT">Português</a>
+      <a href="../../nl/containers-on-external-drive/" hreflang="nl" lang="nl">Nederlands</a>
+      <a href="../../sv/containers-on-external-drive/" hreflang="sv" lang="sv">Svenska</a>
+      <a href="./" hreflang="da" lang="da" aria-current="page">Dansk</a>
+      <a href="../../nb/containers-on-external-drive/" hreflang="nb" lang="nb">Norsk bokmål</a>
+      <a href="../../fi/containers-on-external-drive/" hreflang="fi" lang="fi">Suomi</a>
+      <a href="../../pl/containers-on-external-drive/" hreflang="pl" lang="pl">Polski</a>
+      <a href="../../cs/containers-on-external-drive/" hreflang="cs" lang="cs">Čeština</a>
+      <a href="../../sk/containers-on-external-drive/" hreflang="sk" lang="sk">Slovenčina</a>
+      <a href="../../hu/containers-on-external-drive/" hreflang="hu" lang="hu">Magyar</a>
+      <a href="../../ro/containers-on-external-drive/" hreflang="ro" lang="ro">Română</a>
+      <a href="../../bg/containers-on-external-drive/" hreflang="bg" lang="bg">Български</a>
+      <a href="../../el/containers-on-external-drive/" hreflang="el" lang="el">Ελληνικά</a>
+      <a href="../../hr/containers-on-external-drive/" hreflang="hr" lang="hr">Hrvatski</a>
+      <a href="../../sl/containers-on-external-drive/" hreflang="sl" lang="sl">Slovenščina</a>
+      <a href="../../sr/containers-on-external-drive/" hreflang="sr" lang="sr">Српски</a>
+      <a href="../../sr-Latn/containers-on-external-drive/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a>
+      <a href="../../lt/containers-on-external-drive/" hreflang="lt" lang="lt">Lietuvių</a>
+      <a href="../../lv/containers-on-external-drive/" hreflang="lv" lang="lv">Latviešu</a>
+      <a href="../../et/containers-on-external-drive/" hreflang="et" lang="et">Eesti</a>
+      <a href="../../uk/containers-on-external-drive/" hreflang="uk" lang="uk">Українська</a>
+      <a href="../../ru/containers-on-external-drive/" hreflang="ru" lang="ru">Русский</a>
+    </nav>
+  </main>
+
+  <script>
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+          var t = b.textContent; b.textContent = 'Kopieret';
+          setTimeout(function () { b.textContent = t; }, 1400);
+        });
+      });
+    });
+  </script>
+  <script src="../../lang.js" defer></script>
+</body>
+</html>

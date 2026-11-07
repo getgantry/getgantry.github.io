@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="sr" data-copied="Копирано">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JR87M6TNM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kubernetes на Mac-у уз Apple container: водич корак по корак</title>
+  <meta name="description" content="Локални Kubernetes кластер на Mac-у уз Apple-ов container cluster: радни чворови, CPU и меморија, локалне слике без регистра, kubectl и GUI за подове и логове.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://getgantry.github.io/sr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="en" href="https://getgantry.github.io/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="de" href="https://getgantry.github.io/de/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="fr" href="https://getgantry.github.io/fr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="es" href="https://getgantry.github.io/es/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="it" href="https://getgantry.github.io/it/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="pt-PT" href="https://getgantry.github.io/pt-PT/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="nl" href="https://getgantry.github.io/nl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sv" href="https://getgantry.github.io/sv/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="da" href="https://getgantry.github.io/da/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="nb" href="https://getgantry.github.io/nb/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="fi" href="https://getgantry.github.io/fi/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="pl" href="https://getgantry.github.io/pl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="cs" href="https://getgantry.github.io/cs/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sk" href="https://getgantry.github.io/sk/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="hu" href="https://getgantry.github.io/hu/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="ro" href="https://getgantry.github.io/ro/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="bg" href="https://getgantry.github.io/bg/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="el" href="https://getgantry.github.io/el/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="hr" href="https://getgantry.github.io/hr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sl" href="https://getgantry.github.io/sl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sr" href="https://getgantry.github.io/sr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sr-Latn" href="https://getgantry.github.io/sr-Latn/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="lt" href="https://getgantry.github.io/lt/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="lv" href="https://getgantry.github.io/lv/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="et" href="https://getgantry.github.io/et/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="uk" href="https://getgantry.github.io/uk/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="ru" href="https://getgantry.github.io/ru/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="x-default" href="https://getgantry.github.io/kubernetes-on-mac/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Gantry">
+  <meta property="og:locale" content="sr_RS">
+  <meta property="og:title" content="Kubernetes на Mac-у уз Apple container: водич корак по корак">
+  <meta property="og:description" content="Локални Kubernetes кластер на Mac-у уз Apple-ов container cluster: радни чворови, CPU и меморија, локалне слике без регистра, kubectl и GUI за подове и логове.">
+  <meta property="og:url" content="https://getgantry.github.io/sr/kubernetes-on-mac/">
+  <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta property="og:image:width" content="3364">
+  <meta property="og:image:height" content="2116">
+  <meta property="og:image:alt" content="Gantry контролна табла са Docker и apple/container хостовима">
+  <meta property="article:modified_time" content="2026-11-07">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kubernetes на Mac-у уз Apple container: водич корак по корак">
+  <meta name="twitter:description" content="Локални Kubernetes кластер на Mac-у уз Apple-ов container cluster: радни чворови, CPU и меморија, локалне слике без регистра, kubectl и GUI за подове и логове.">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta name="theme-color" content="#060a10">
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../docs/docs.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://getgantry.github.io/sr/kubernetes-on-mac/#article",
+      "headline": "Kubernetes на Mac-у уз Apple container: водич корак по корак",
+      "description": "Локални Kubernetes кластер на Mac-у уз Apple-ов container cluster: радни чворови, CPU и меморија, локалне слике без регистра, kubectl и GUI за подове и логове.",
+      "url": "https://getgantry.github.io/sr/kubernetes-on-mac/",
+      "inLanguage": "sr",
+      "dateModified": "2026-11-07",
+      "image": "https://getgantry.github.io/assets/dashboard.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Gantry",
+        "url": "https://getgantry.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://getgantry.github.io/#organization",
+        "name": "Gantry",
+        "logo": "https://getgantry.github.io/assets/icon.png"
+      },
+      "about": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "container (apple/container)",
+          "url": "https://github.com/apple/container",
+          "operatingSystem": "macOS",
+          "applicationCategory": "DeveloperApplication"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Kubernetes",
+          "url": "https://kubernetes.io/"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://getgantry.github.io/sr/kubernetes-on-mac/#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Gantry",
+          "item": "https://getgantry.github.io/sr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Kubernetes на Mac-у",
+          "item": "https://getgantry.github.io/sr/kubernetes-on-mac/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://getgantry.github.io/sr/kubernetes-on-mac/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Могу ли да покрећем Kubernetes на Mac-у без Docker-а?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да. Apple-ов container CLI сам креира Kubernetes кластере командом container cluster create. Сваки чвор ради као лака VM, а нису вам потребни Docker, Docker Desktop, kind ни minikube."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Колико чворова може да има container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Једну контролну раван и онолико радних чворова колико ваш Mac има CPU-ова и меморије. Подесите их опцијом --workers; на CLI-ју 1.7 свака група радних чворова може да има сопствени CPU и меморију."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Како да користим локално изграђену слику у кластеру?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Креирајте кластер уз --shared-image-store (CLI 1.7), изградите слику командом container build -t name:tag . и користите name:tag у спецификацији пода. Регистар није потребан."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Коју верзију Kubernetes-а користи container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CLI 1.7.1 подразумевано користи слику чвора kindest/node:v1.35.5. Другу верзију изаберите опцијом --node-image, на пример docker.io/kindest/node:v1.34.11. Gantry приказује верзију у прегледу кластера."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Да ли постоји GUI за container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да. Gantry креира и брише кластере, приказује чворове и у свом одељку Kubernetes прегледа подове, deployment-е, сервисе, логове и тајне. Бесплатан је и отвореног кода."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs-body">
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../"><img src="../../assets/icon.png" alt="Иконица апликације Gantry" width="30" height="30"><span>Gantry</span></a>
+      <nav class="nav-links">
+        <a href="../#features">Могућности</a>
+        <a href="../apple-container/">apple/container</a>
+        <a href="../apple-container-kubernetes/">Kubernetes</a>
+        <a href="../compare/">Поређење</a>
+        <a href="../../docs/index.html">Упутства</a>
+        <a href="https://github.com/getgantry/gantry">GitHub</a>
+      </nav>
+      <details class="lang-menu">
+        <summary aria-label="Језик: Српски" title="Језик"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lang-name">Српски</span><span class="lang-code">SR</span></summary>
+        <ul>
+          <li><a href="../../kubernetes-on-mac/" hreflang="en" lang="en">English</a></li>
+          <li><a href="../../de/kubernetes-on-mac/" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../../fr/kubernetes-on-mac/" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../../es/kubernetes-on-mac/" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../../it/kubernetes-on-mac/" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../../pt-PT/kubernetes-on-mac/" hreflang="pt-PT" lang="pt-PT">Português</a></li>
+          <li><a href="../../nl/kubernetes-on-mac/" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../../sv/kubernetes-on-mac/" hreflang="sv" lang="sv">Svenska</a></li>
+          <li><a href="../../da/kubernetes-on-mac/" hreflang="da" lang="da">Dansk</a></li>
+          <li><a href="../../nb/kubernetes-on-mac/" hreflang="nb" lang="nb">Norsk bokmål</a></li>
+          <li><a href="../../fi/kubernetes-on-mac/" hreflang="fi" lang="fi">Suomi</a></li>
+          <li><a href="../../pl/kubernetes-on-mac/" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../../cs/kubernetes-on-mac/" hreflang="cs" lang="cs">Čeština</a></li>
+          <li><a href="../../sk/kubernetes-on-mac/" hreflang="sk" lang="sk">Slovenčina</a></li>
+          <li><a href="../../hu/kubernetes-on-mac/" hreflang="hu" lang="hu">Magyar</a></li>
+          <li><a href="../../ro/kubernetes-on-mac/" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../../bg/kubernetes-on-mac/" hreflang="bg" lang="bg">Български</a></li>
+          <li><a href="../../el/kubernetes-on-mac/" hreflang="el" lang="el">Ελληνικά</a></li>
+          <li><a href="../../hr/kubernetes-on-mac/" hreflang="hr" lang="hr">Hrvatski</a></li>
+          <li><a href="../../sl/kubernetes-on-mac/" hreflang="sl" lang="sl">Slovenščina</a></li>
+          <li><a href="./" hreflang="sr" lang="sr" aria-current="page">Српски</a></li>
+          <li><a href="../../sr-Latn/kubernetes-on-mac/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a></li>
+          <li><a href="../../lt/kubernetes-on-mac/" hreflang="lt" lang="lt">Lietuvių</a></li>
+          <li><a href="../../lv/kubernetes-on-mac/" hreflang="lv" lang="lv">Latviešu</a></li>
+          <li><a href="../../et/kubernetes-on-mac/" hreflang="et" lang="et">Eesti</a></li>
+          <li><a href="../../uk/kubernetes-on-mac/" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="../../ru/kubernetes-on-mac/" hreflang="ru" lang="ru">Русский</a></li>
+        </ul>
+      </details>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="crumbs" aria-label="Путања навигације"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Kubernetes на Mac-у</span></nav>
+    <article class="docs-article page-article">
+<h1>Kubernetes на Mac-у уз Apple container</h1>
+<p class="page-lead">Apple-ов алат <code>container</code> може једном командом да креира локални Kubernetes кластер. Сваки чвор је лака виртуелна машина на вашем Mac-у. Овај водич води од празног Mac-а до покренутог deployment-а, прво у терминалу, а затим у Gantry-ју.</p>
+
+<div class="tldr">
+<p><strong>Укратко.</strong> Инсталирајте потписани пакет <code>container</code> 1.7.1, покрените <code>container cluster create --name dev --cpus 2 --memory 2g --workers count=2,cpus=2,memory=2g --shared-image-store</code>, изградите слику командом <code>container build</code> и покрените је у кластеру по имену. Gantry приказује исти кластер у прозору: чворове, подове, логове, љуску и прослеђене портове.</p>
+</div>
+
+<h2 id="requirements">Шта вам је потребно</h2>
+<ul>
+  <li>Mac са Apple silicon-ом и macOS-ом 26 или новијим.</li>
+  <li><code>container</code> CLI 1.7.1 из потписаног <code>.pkg</code> пакета са <a href="https://github.com/apple/container/releases">странице издања apple/container-а</a>. Homebrew верзија 1.7.1 не садржи сервисе кластера, па <code>container cluster</code> не успева са поруком <em>cluster service unavailable</em>.</li>
+  <li>Око 6 GB слободне меморије за пример испод: три чвора са по 2 GB.</li>
+  <li><code>kubectl</code> ако желите да кластер користите из терминала (<code>brew install kubectl</code>).</li>
+</ul>
+<p>Покрените сервисе једном, након инсталације пакета:</p>
+<div class="code-block">
+  <div class="code-head"><span>Терминал</span><button class="copy" data-copy="container system start">Копирај</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<h2 id="create">Креирање кластера</h2>
+<p>Ова команда прави кластер под именом <code>dev</code> са једним чвором контролне равни и два радна чвора. Сваки чвор добија 2 CPU-а и 2 GB меморије:</p>
+<div class="code-block">
+  <div class="code-head"><span>Терминал</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Копирај</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li><code>--workers count=N,cpus=C,memory=M</code> одређује величину групе радних чворова. Поновите је за групе различитих величина. Без <code>--workers</code> један чвор је и контролна раван и радни чвор.</li>
+  <li><code>--cpus</code> и <code>--memory</code> одређују величину контролне равни. Подразумевано је четвртина CPU-ова и меморије вашег Mac-а, најмање 2 CPU-а и 2 GB.</li>
+  <li><code>--shared-image-store</code> дозвољава чворовима да користе ваше локалне слике (погледајте испод). Касније не можете да га промените: обришите кластер и креирајте га поново.</li>
+  <li><code>--cni ./calico.yaml</code> инсталира ваш CNI уместо приложеног kindnet-а; <code>--cni NONE</code> не инсталира ниједан.</li>
+</ul>
+<p>CLI додаје контекст под именом <code>dev</code> у <code>~/.kube/config</code>. Проверите чворове:</p>
+<div class="code-block">
+  <div class="code-head"><span>Терминал</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Копирај</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<h2 id="images">Покретање локалне слике без регистра</h2>
+<p>Уз <code>--shared-image-store</code> чворови могу да покрену било коју слику из вашег локалног <code>container</code> складишта слика. Изградите слику и користите је по имену:</p>
+<div class="code-block">
+  <div class="code-head"><span>Терминал</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Копирај</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Напомена</span><div>Када поново изградите исту ознаку, покрените <code>kubectl rollout restart</code> уз <code>imagePullPolicy: Always</code> или користите нову ознаку. Уз <code>IfNotPresent</code> чвор задржава копију коју већ има. Све што има root приступ на чвору може да чита сваку слику у вашем локалном складишту, укључујући приватне слике, па заједничко складиште користите само за локални развој.</div></div>
+<p>На CLI-ју 1.5 и 1.6 нема заједничког складишта. Тамо користите <code>container cluster load-image</code> или <b>Учитај у кластер</b> у Gantry-ју. CLI 1.7 је уклонио <code>load-image</code>.</p>
+
+<h2 id="reach">Отварање апликације у прегледачу</h2>
+<p>Проследите локални порт ка deployment-у, а затим отворите <code>http://localhost:8080</code>:</p>
+<div class="code-block">
+  <div class="code-head"><span>Терминал</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Копирај</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<h2 id="gantry">Преглед кластера у Gantry-ју</h2>
+<p>Gantry приказује исти кластер без команди. Додајте свој apple/container хост, отворите <strong>Кластери</strong> и изаберите <code>dev</code>. Преглед приказује верзију Kubernetes-а, складиште слика, радне чворове и њихов CPU и меморију. Кликните <strong>Прегледај ресурсе</strong> да бисте отворили одељак <strong>Kubernetes</strong> на том контексту.</p>
+<ul>
+  <li>Подови, deployment-и, stateful set-ови, daemon set-ови, сервиси, ingress-и, config map-е, тајне, чворови и догађаји, за један простор имена или за све.</li>
+  <li>Логови пода уз праћење и последње редове, љуска у поду и прослеђивање портова са листом из које можете да их зауставите.</li>
+  <li>Скалирање, rollout restart, брисање и <strong>Примени YAML</strong> из налепљеног манифеста или датотеке.</li>
+  <li>Вредности тајни остају скривене док не кликнете Откриј.</li>
+</ul>
+<p>Kubernetes прегледач покреће <code>kubectl</code>. Ако недостаје, Gantry приказује <code>brew install kubectl</code> и може да га покрене уместо вас. Нативни клијент коме није потребан <code>kubectl</code> је у развоју.</p>
+<!-- TODO-SCREENSHOT section="guide kubernetes-on-mac, section #gantry" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Кластер можете да креирате и у Gantry-ју: <strong>Кластери</strong> ▸ <strong>Нови кластер</strong> има бројаче за контролну раван и радне чворове и прекидач <strong>Користи локалне слике</strong>. Више на страници <a href="../apple-container-kubernetes/">Kubernetes на apple/container-у</a>.</p>
+
+<h2 id="cleanup">Заустављање и брисање кластера</h2>
+<div class="code-block">
+  <div class="code-head"><span>Терминал</span><button class="copy" data-copy="container cluster delete --name dev">Копирај</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Ако се чвор контролне равни заустави, на пример након <code>container system stop</code>, обришите кластер и креирајте га поново. Привремени кластер креирајте уз <code>--rm</code>, да би се његови чворови уклонили када се зауставе.</p>
+
+<h2 id="troubleshooting">Чести проблеми</h2>
+<ul>
+  <li><strong>cluster service unavailable:</strong> CLI је Homebrew верзија или сервиси нису покренути. Инсталирајте потписани пакет или поново покрените сервисе командама <code>container system stop</code> и <code>container system start</code>. Gantry исти савет приказује у одељку Кластери.</li>
+  <li><strong>Стари кластер недостаје на листи:</strong> CLI 1.7 не приказује кластере креиране у 1.6 или старијем. Уклоните такав кластер командом <code>container cluster delete --name &lt;name&gt;</code>.</li>
+  <li><strong>Чворови остају NotReady:</strong> користили сте <code>--cni NONE</code>. Примените CNI манифест.</li>
+  <li><strong>Не можете да зауставите контејнер чвора:</strong> то је намерно. <code>container stop</code> и <code>delete</code> одбијају чворове кластера; користите <code>container cluster delete</code>.</li>
+</ul>
+
+<h2 id="compare">Поређење са Docker Desktop-ом и OrbStack-ом</h2>
+<p>Docker Desktop има уграђени Kubernetes са kubeadm-ом (један чвор) или kind-ом (више чворова), а OrbStack има уграђени кластер са једним чвором. <code>container cluster</code> покреће kubeadm на сликама <code>kindest/node</code>, сваки чвор у сопственој VM, са кластерима од више чворова и заједничким складиштем слика. Погледајте <a href="../compare/">потпуно поређење</a>.</p>
+
+<h2 id="related">Сродна упутства</h2>
+<ul>
+  <li><a href="../docker-desktop-to-apple-container/">Прелазак са Docker Desktop-а на Apple container: команде, Compose, волумени и недостаци</a></li>
+  <li><a href="../containers-on-external-drive/">Контејнери и волумени на спољном диску на Mac-у</a></li>
+  <li><a href="../docker-run-to-container/">Контејнер из docker run команде на Mac-у (docker run у container run)</a></li>
+  <li><a href="../apple-container/">Apple container GUI за Mac: комплетан водич за apple/container</a></li>
+  <li><a href="../apple-container-kubernetes/">Kubernetes на Apple container-у: GUI за container cluster и Kubernetes прегледач</a></li>
+</ul>
+
+<h2 id="faq">Питања и одговори</h2>
+<div class="faq-list">
+<details class="faq-item"><summary>Могу ли да покрећем Kubernetes на Mac-у без Docker-а?</summary><p>Да. Apple-ов <code>container</code> CLI сам креира Kubernetes кластере командом <code>container cluster create</code>. Сваки чвор ради као лака VM, а нису вам потребни Docker, Docker Desktop, kind ни minikube.</p></details>
+<details class="faq-item"><summary>Колико чворова може да има container cluster?</summary><p>Једну контролну раван и онолико радних чворова колико ваш Mac има CPU-ова и меморије. Подесите их опцијом <code>--workers</code>; на CLI-ју 1.7 свака група радних чворова може да има сопствени CPU и меморију.</p></details>
+<details class="faq-item"><summary>Како да користим локално изграђену слику у кластеру?</summary><p>Креирајте кластер уз <code>--shared-image-store</code> (CLI 1.7), изградите слику командом <code>container build -t name:tag .</code> и користите <code>name:tag</code> у спецификацији пода. Регистар није потребан.</p></details>
+<details class="faq-item"><summary>Коју верзију Kubernetes-а користи container cluster?</summary><p>CLI 1.7.1 подразумевано користи слику чвора <code>kindest/node:v1.35.5</code>. Другу верзију изаберите опцијом <code>--node-image</code>, на пример <code>docker.io/kindest/node:v1.34.11</code>. Gantry приказује верзију у прегледу кластера.</p></details>
+<details class="faq-item"><summary>Да ли постоји GUI за container cluster?</summary><p>Да. Gantry креира и брише кластере, приказује чворове и у свом одељку Kubernetes прегледа подове, deployment-е, сервисе, логове и тајне. Бесплатан је и отвореног кода.</p></details>
+</div>
+
+<p class="updated">Последње ажурирање: 2026-11-07.</p>
+    </article>
+    <footer class="docs-foot">
+      <a href="../">Почетна</a>
+      <span>·</span>
+      <a href="../apple-container/">Водич за apple/container</a>
+      <span>·</span>
+      <a href="../apple-container-kubernetes/">Kubernetes</a>
+      <span>·</span>
+      <a href="../compare/">Поређење</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes на Mac-у</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Са Docker Desktop-а</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Спољни диск</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Из docker run</a>
+      <span>·</span>
+      <a href="../../docs/index.html">Упутства</a>
+      <span>·</span>
+      <a href="https://github.com/getgantry/gantry">MIT лиценца · GitHub</a>
+    </footer>
+    <nav class="lang-foot" aria-label="Језици">
+      <a href="../../kubernetes-on-mac/" hreflang="en" lang="en">English</a>
+      <a href="../../de/kubernetes-on-mac/" hreflang="de" lang="de">Deutsch</a>
+      <a href="../../fr/kubernetes-on-mac/" hreflang="fr" lang="fr">Français</a>
+      <a href="../../es/kubernetes-on-mac/" hreflang="es" lang="es">Español</a>
+      <a href="../../it/kubernetes-on-mac/" hreflang="it" lang="it">Italiano</a>
+      <a href="../../pt-PT/kubernetes-on-mac/" hreflang="pt-PT" lang="pt-PT">Português</a>
+      <a href="../../nl/kubernetes-on-mac/" hreflang="nl" lang="nl">Nederlands</a>
+      <a href="../../sv/kubernetes-on-mac/" hreflang="sv" lang="sv">Svenska</a>
+      <a href="../../da/kubernetes-on-mac/" hreflang="da" lang="da">Dansk</a>
+      <a href="../../nb/kubernetes-on-mac/" hreflang="nb" lang="nb">Norsk bokmål</a>
+      <a href="../../fi/kubernetes-on-mac/" hreflang="fi" lang="fi">Suomi</a>
+      <a href="../../pl/kubernetes-on-mac/" hreflang="pl" lang="pl">Polski</a>
+      <a href="../../cs/kubernetes-on-mac/" hreflang="cs" lang="cs">Čeština</a>
+      <a href="../../sk/kubernetes-on-mac/" hreflang="sk" lang="sk">Slovenčina</a>
+      <a href="../../hu/kubernetes-on-mac/" hreflang="hu" lang="hu">Magyar</a>
+      <a href="../../ro/kubernetes-on-mac/" hreflang="ro" lang="ro">Română</a>
+      <a href="../../bg/kubernetes-on-mac/" hreflang="bg" lang="bg">Български</a>
+      <a href="../../el/kubernetes-on-mac/" hreflang="el" lang="el">Ελληνικά</a>
+      <a href="../../hr/kubernetes-on-mac/" hreflang="hr" lang="hr">Hrvatski</a>
+      <a href="../../sl/kubernetes-on-mac/" hreflang="sl" lang="sl">Slovenščina</a>
+      <a href="./" hreflang="sr" lang="sr" aria-current="page">Српски</a>
+      <a href="../../sr-Latn/kubernetes-on-mac/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a>
+      <a href="../../lt/kubernetes-on-mac/" hreflang="lt" lang="lt">Lietuvių</a>
+      <a href="../../lv/kubernetes-on-mac/" hreflang="lv" lang="lv">Latviešu</a>
+      <a href="../../et/kubernetes-on-mac/" hreflang="et" lang="et">Eesti</a>
+      <a href="../../uk/kubernetes-on-mac/" hreflang="uk" lang="uk">Українська</a>
+      <a href="../../ru/kubernetes-on-mac/" hreflang="ru" lang="ru">Русский</a>
+    </nav>
+  </main>
+
+  <script>
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+          var t = b.textContent; b.textContent = 'Копирано';
+          setTimeout(function () { b.textContent = t; }, 1400);
+        });
+      });
+    });
+  </script>
+  <script src="../../lang.js" defer></script>
+</body>
+</html>

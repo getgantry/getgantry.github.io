@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="hu" data-copied="Másolva">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JR87M6TNM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kubernetes futtatása Macen az Apple containerrel: lépésről lépésre</title>
+  <meta name="description" content="Helyi Kubernetes-klaszter Macen az Apple container cluster paranccsal: workerek, CPU és memória, helyi image-ek registry nélkül, kubectl, és GUI a podok és naplók böngészéséhez.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://getgantry.github.io/hu/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="en" href="https://getgantry.github.io/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="de" href="https://getgantry.github.io/de/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="fr" href="https://getgantry.github.io/fr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="es" href="https://getgantry.github.io/es/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="it" href="https://getgantry.github.io/it/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="pt-PT" href="https://getgantry.github.io/pt-PT/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="nl" href="https://getgantry.github.io/nl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sv" href="https://getgantry.github.io/sv/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="da" href="https://getgantry.github.io/da/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="nb" href="https://getgantry.github.io/nb/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="fi" href="https://getgantry.github.io/fi/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="pl" href="https://getgantry.github.io/pl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="cs" href="https://getgantry.github.io/cs/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sk" href="https://getgantry.github.io/sk/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="hu" href="https://getgantry.github.io/hu/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="ro" href="https://getgantry.github.io/ro/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="bg" href="https://getgantry.github.io/bg/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="el" href="https://getgantry.github.io/el/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="hr" href="https://getgantry.github.io/hr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sl" href="https://getgantry.github.io/sl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sr" href="https://getgantry.github.io/sr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sr-Latn" href="https://getgantry.github.io/sr-Latn/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="lt" href="https://getgantry.github.io/lt/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="lv" href="https://getgantry.github.io/lv/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="et" href="https://getgantry.github.io/et/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="uk" href="https://getgantry.github.io/uk/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="ru" href="https://getgantry.github.io/ru/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="x-default" href="https://getgantry.github.io/kubernetes-on-mac/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Gantry">
+  <meta property="og:locale" content="hu_HU">
+  <meta property="og:title" content="Kubernetes futtatása Macen az Apple containerrel: lépésről lépésre">
+  <meta property="og:description" content="Helyi Kubernetes-klaszter Macen az Apple container cluster paranccsal: workerek, CPU és memória, helyi image-ek registry nélkül, kubectl, és GUI a podok és naplók böngészéséhez.">
+  <meta property="og:url" content="https://getgantry.github.io/hu/kubernetes-on-mac/">
+  <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta property="og:image:width" content="3364">
+  <meta property="og:image:height" content="2116">
+  <meta property="og:image:alt" content="A Gantry flottairányítópultja Docker- és apple/container-gazdagépekkel">
+  <meta property="article:modified_time" content="2026-11-07">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kubernetes futtatása Macen az Apple containerrel: lépésről lépésre">
+  <meta name="twitter:description" content="Helyi Kubernetes-klaszter Macen az Apple container cluster paranccsal: workerek, CPU és memória, helyi image-ek registry nélkül, kubectl, és GUI a podok és naplók böngészéséhez.">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta name="theme-color" content="#060a10">
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../docs/docs.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://getgantry.github.io/hu/kubernetes-on-mac/#article",
+      "headline": "Kubernetes futtatása Macen az Apple containerrel: lépésről lépésre",
+      "description": "Helyi Kubernetes-klaszter Macen az Apple container cluster paranccsal: workerek, CPU és memória, helyi image-ek registry nélkül, kubectl, és GUI a podok és naplók böngészéséhez.",
+      "url": "https://getgantry.github.io/hu/kubernetes-on-mac/",
+      "inLanguage": "hu",
+      "dateModified": "2026-11-07",
+      "image": "https://getgantry.github.io/assets/dashboard.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Gantry",
+        "url": "https://getgantry.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://getgantry.github.io/#organization",
+        "name": "Gantry",
+        "logo": "https://getgantry.github.io/assets/icon.png"
+      },
+      "about": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "container (apple/container)",
+          "url": "https://github.com/apple/container",
+          "operatingSystem": "macOS",
+          "applicationCategory": "DeveloperApplication"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Kubernetes",
+          "url": "https://kubernetes.io/"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://getgantry.github.io/hu/kubernetes-on-mac/#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Gantry",
+          "item": "https://getgantry.github.io/hu/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Kubernetes Macen",
+          "item": "https://getgantry.github.io/hu/kubernetes-on-mac/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://getgantry.github.io/hu/kubernetes-on-mac/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Futtatható Kubernetes Macen Docker nélkül?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen. Az Apple container CLI-je maga hoz létre Kubernetes-klasztereket a container cluster create paranccsal. Minden csomópont könnyű VM-ként fut, és nincs szükség Dockerre, Docker Desktopra, kindra vagy minikube-ra."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hány csomópontja lehet egy container clusternek?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Egy vezérlősík és annyi worker, amennyihez a Macen elég CPU és memória van. Ezeket a --workers kapcsolóval adhatja meg; a CLI 1.7-ben a workerek minden csoportja saját CPU- és memóriabeállítást kaphat."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hogyan használható egy helyben buildelt image a klaszterben?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Hozza létre a klasztert a --shared-image-store kapcsolóval (CLI 1.7), buildelje az image-et a container build -t name:tag . paranccsal, és használja a name:tag nevet a pod specifikációjában. Nincs szükség registryre."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Melyik Kubernetes-verziót használja a container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A CLI 1.7.1 alapértelmezés szerint a kindest/node:v1.35.5 csomópont-image-et használja. Más verziót a --node-image kapcsolóval választhat, például docker.io/kindest/node:v1.34.11. A Gantry a klaszter-áttekintésben mutatja a verziót."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Van GUI a container clusterhez?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen. A Gantry létrehozza és törli a klasztereket, megmutatja a csomópontokat, és a Kubernetes szakaszában böngészi a podokat, a deploymenteket, a szolgáltatásokat, a naplókat és a Secreteket. Ingyenes és nyílt forráskódú."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs-body">
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../"><img src="../../assets/icon.png" alt="Gantry-ikon" width="30" height="30"><span>Gantry</span></a>
+      <nav class="nav-links">
+        <a href="../#features">Funkciók</a>
+        <a href="../apple-container/">apple/container</a>
+        <a href="../apple-container-kubernetes/">Kubernetes</a>
+        <a href="../compare/">Összevetés</a>
+        <a href="../../docs/index.html">Leírás</a>
+        <a href="https://github.com/getgantry/gantry">GitHub</a>
+      </nav>
+      <details class="lang-menu">
+        <summary aria-label="Nyelv: Magyar" title="Nyelv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lang-name">Magyar</span><span class="lang-code">HU</span></summary>
+        <ul>
+          <li><a href="../../kubernetes-on-mac/" hreflang="en" lang="en">English</a></li>
+          <li><a href="../../de/kubernetes-on-mac/" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../../fr/kubernetes-on-mac/" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../../es/kubernetes-on-mac/" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../../it/kubernetes-on-mac/" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../../pt-PT/kubernetes-on-mac/" hreflang="pt-PT" lang="pt-PT">Português</a></li>
+          <li><a href="../../nl/kubernetes-on-mac/" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../../sv/kubernetes-on-mac/" hreflang="sv" lang="sv">Svenska</a></li>
+          <li><a href="../../da/kubernetes-on-mac/" hreflang="da" lang="da">Dansk</a></li>
+          <li><a href="../../nb/kubernetes-on-mac/" hreflang="nb" lang="nb">Norsk bokmål</a></li>
+          <li><a href="../../fi/kubernetes-on-mac/" hreflang="fi" lang="fi">Suomi</a></li>
+          <li><a href="../../pl/kubernetes-on-mac/" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../../cs/kubernetes-on-mac/" hreflang="cs" lang="cs">Čeština</a></li>
+          <li><a href="../../sk/kubernetes-on-mac/" hreflang="sk" lang="sk">Slovenčina</a></li>
+          <li><a href="./" hreflang="hu" lang="hu" aria-current="page">Magyar</a></li>
+          <li><a href="../../ro/kubernetes-on-mac/" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../../bg/kubernetes-on-mac/" hreflang="bg" lang="bg">Български</a></li>
+          <li><a href="../../el/kubernetes-on-mac/" hreflang="el" lang="el">Ελληνικά</a></li>
+          <li><a href="../../hr/kubernetes-on-mac/" hreflang="hr" lang="hr">Hrvatski</a></li>
+          <li><a href="../../sl/kubernetes-on-mac/" hreflang="sl" lang="sl">Slovenščina</a></li>
+          <li><a href="../../sr/kubernetes-on-mac/" hreflang="sr" lang="sr">Српски</a></li>
+          <li><a href="../../sr-Latn/kubernetes-on-mac/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a></li>
+          <li><a href="../../lt/kubernetes-on-mac/" hreflang="lt" lang="lt">Lietuvių</a></li>
+          <li><a href="../../lv/kubernetes-on-mac/" hreflang="lv" lang="lv">Latviešu</a></li>
+          <li><a href="../../et/kubernetes-on-mac/" hreflang="et" lang="et">Eesti</a></li>
+          <li><a href="../../uk/kubernetes-on-mac/" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="../../ru/kubernetes-on-mac/" hreflang="ru" lang="ru">Русский</a></li>
+        </ul>
+      </details>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="crumbs" aria-label="Morzsamenü"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Kubernetes Macen</span></nav>
+    <article class="docs-article page-article">
+<h1>Kubernetes futtatása Macen az Apple containerrel</h1>
+<p class="page-lead">Az Apple <code>container</code> eszköze egyetlen paranccsal létrehoz egy helyi Kubernetes-klasztert. Minden csomópont egy könnyű virtuális gép a Macen. Ez az útmutató az üres Mactől egy futó deploymentig vezet, először a terminálban, majd a Gantryben.</p>
+
+<div class="tldr">
+<p><strong>Röviden.</strong> Telepítse az aláírt <code>container</code> 1.7.1-csomagot, futtassa a <code>container cluster create --name dev --cpus 2 --memory 2g --workers count=2,cpus=2,memory=2g --shared-image-store</code> parancsot, buildeljen egy image-et a <code>container build</code> paranccsal, és futtassa név szerint a klaszterben. A Gantry ugyanezt a klasztert egy ablakban mutatja: csomópontok, podok, naplók, shell és porttovábbítás.</p>
+</div>
+
+<h2 id="requirements">Amire szükség van</h2>
+<ul>
+  <li>Apple chipes Mac macOS 26-tal vagy újabbal.</li>
+  <li>A <code>container</code> CLI 1.7.1 az aláírt <code>.pkg</code> csomagból, az <a href="https://github.com/apple/container/releases">apple/container kiadási oldaláról</a>. Az 1.7.1 Homebrew-buildje nem tartalmazza a klaszterszolgáltatásokat, ezért a <code>container cluster</code> a <em>cluster service unavailable</em> hibával leáll.</li>
+  <li>Az alábbi példához körülbelül 6 GB szabad memória: három csomópont, egyenként 2 GB.</li>
+  <li><code>kubectl</code>, ha a terminálból szeretné használni a klasztert (<code>brew install kubectl</code>).</li>
+</ul>
+<p>A csomag telepítése után egyszer indítsa el a szolgáltatásokat:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="container system start">Másolás</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<h2 id="create">A klaszter létrehozása</h2>
+<p>Ez a parancs <code>dev</code> nevű klasztert hoz létre egy vezérlősík-csomóponttal és két workerrel. Minden csomópont 2 CPU-t és 2 GB memóriát kap:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Másolás</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li>A <code>--workers count=N,cpus=C,memory=M</code> workerek egy csoportját méretezi. Eltérő méretű csoportokhoz ismételje meg. <code>--workers</code> nélkül egyetlen csomópont a vezérlősík és a worker is.</li>
+  <li>A <code>--cpus</code> és a <code>--memory</code> a vezérlősíkot méretezi. Az alapérték a Mac CPU-inak és memóriájának negyede, legalább 2 CPU és 2 GB.</li>
+  <li>A <code>--shared-image-store</code> lehetővé teszi, hogy a csomópontok a helyi image-eket használják (lásd lent). Később nem módosítható: törölje a klasztert, és hozza létre újra.</li>
+  <li>A <code>--cni ./calico.yaml</code> a beépített kindnet helyett saját CNI-t telepít; a <code>--cni NONE</code> nem telepít CNI-t.</li>
+</ul>
+<p>A CLI egy <code>dev</code> nevű környezetet ad a <code>~/.kube/config</code> fájlhoz. Ellenőrizze a csomópontokat:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Másolás</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<h2 id="images">Helyi image futtatása registry nélkül</h2>
+<p>A <code>--shared-image-store</code> kapcsolóval a csomópontok a helyi <code>container</code> image-tár bármely image-ét futtathatják. Buildeljen egy image-et, és használja név szerint:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Másolás</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Megjegyzés</span><div>Ha ugyanazt a címkét újrabuildeli, futtassa a <code>kubectl rollout restart</code> parancsot <code>imagePullPolicy: Always</code> beállítással, vagy használjon új címkét. <code>IfNotPresent</code> esetén a csomópont megtartja a már meglévő példányt. Bármi, ami root jogosultsággal fut egy csomóponton, a helyi tár összes image-ét olvashatja, a privát image-eket is, ezért a közös tárat csak helyi fejlesztéshez használja.</div></div>
+<p>A CLI 1.5-ben és 1.6-ban nincs közös tár. Ott használja a <code>container cluster load-image</code> parancsot, vagy a Gantryben a <b>Betöltés a klaszterbe</b> parancsot. A CLI 1.7-ből kikerült a <code>load-image</code>.</p>
+
+<h2 id="reach">Az alkalmazás megnyitása böngészőben</h2>
+<p>Továbbítson egy helyi portot a deploymenthez, majd nyissa meg a <code>http://localhost:8080</code> címet:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Másolás</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<h2 id="gantry">A klaszter böngészése a Gantryben</h2>
+<p>A Gantry parancsok nélkül mutatja meg ugyanezt a klasztert. Adja hozzá az apple/container-gazdagépet, nyissa meg a <strong>Klaszterek</strong> szakaszt, és jelölje ki a <code>dev</code> klasztert. Az áttekintés mutatja a Kubernetes-verziót, az image-tárat, a workereket, valamint azok CPU-it és memóriáját. Kattintson az <strong>Erőforrások böngészése</strong> gombra, hogy ezzel a környezettel megnyíljon a <strong>Kubernetes</strong> szakasz.</p>
+<ul>
+  <li>Podok, deploymentek, StatefulSetek, DaemonSetek, szolgáltatások, ingressek, ConfigMapek, Secretek, csomópontok és események, egy névtérben vagy az összesben.</li>
+  <li>Podnaplók követéssel és a végük megjelenítésével, shell a podban, valamint porttovábbítás egy listával, amelyből leállíthatja őket.</li>
+  <li>Skálázás, rollout-újraindítás, törlés és <strong>YAML alkalmazása</strong> beillesztett manifestből vagy fájlból.</li>
+  <li>A Secretek értékei rejtve maradnak, amíg a Megjelenítés gombra nem kattint.</li>
+</ul>
+<p>A Kubernetes-böngésző a <code>kubectl</code> eszközt futtatja. Ha hiányzik, a Gantry megmutatja a <code>brew install kubectl</code> parancsot, és le is tudja futtatni. Fejlesztés alatt áll egy natív kliens, amelyhez nem kell <code>kubectl</code>.</p>
+<!-- TODO-SCREENSHOT section="guide kubernetes-on-mac, section #gantry" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>A klasztert a Gantryben is létrehozhatja: a <strong>Klaszterek</strong> ▸ <strong>Új klaszter</strong> lapon léptetők vannak a vezérlősíkhoz és a workerekhez, valamint egy <strong>Helyi image-ek használata</strong> kapcsoló. Bővebben a <a href="../apple-container-kubernetes/">Kubernetes az apple/containeren</a> oldalon.</p>
+
+<h2 id="cleanup">A klaszter leállítása és törlése</h2>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="container cluster delete --name dev">Másolás</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Ha a vezérlősík-csomópont leáll, például a <code>container system stop</code> után, törölje a klasztert, és hozza létre újra. Ideiglenes klasztert a <code>--rm</code> kapcsolóval hozhat létre: ekkor a csomópontjai leálláskor törlődnek.</p>
+
+<h2 id="troubleshooting">Gyakori problémák</h2>
+<ul>
+  <li><strong>cluster service unavailable:</strong> a CLI Homebrew-build, vagy a szolgáltatások nem futnak. Telepítse az aláírt csomagot, vagy indítsa újra a szolgáltatásokat a <code>container system stop</code> és a <code>container system start</code> paranccsal. A Gantry ugyanezt a tanácsot adja a Klaszterek szakaszban.</li>
+  <li><strong>Egy régi klaszter hiányzik a listából:</strong> a CLI 1.7 nem listázza az 1.6-tal vagy korábbival létrehozott klasztereket. Ezeket a <code>container cluster delete --name &lt;name&gt;</code> paranccsal távolíthatja el.</li>
+  <li><strong>A csomópontok NotReady állapotban maradnak:</strong> a <code>--cni NONE</code> kapcsolót használta. Alkalmazzon egy CNI-manifestet.</li>
+  <li><strong>Egy csomópont-konténer nem állítható le:</strong> ez szándékos. A <code>container stop</code> és a <code>delete</code> elutasítja a klaszter csomópontjait; használja a <code>container cluster delete</code> parancsot.</li>
+</ul>
+
+<h2 id="compare">Összevetés a Docker Desktoppal és az OrbStackkel</h2>
+<p>A Docker Desktopban beépített Kubernetes van kubeadm-mel (egy csomópont) vagy kinddal (több csomópont), az OrbStackben pedig beépített egycsomópontos klaszter. A <code>container cluster</code> kubeadm-et futtat <code>kindest/node</code> image-eken, minden csomópontot saját VM-ben, több csomópontos klaszterekkel és közös image-tárral. Lásd a <a href="../compare/">teljes összevetést</a>.</p>
+
+<h2 id="related">Kapcsolódó útmutatók</h2>
+<ul>
+  <li><a href="../docker-desktop-to-apple-container/">Átállás a Docker Desktopról az Apple containerre: parancsok, Compose, kötetek és hiányok</a></li>
+  <li><a href="../containers-on-external-drive/">Konténerek és kötetek tárolása külső meghajtón Macen</a></li>
+  <li><a href="../docker-run-to-container/">Konténer létrehozása docker run parancsból Macen (docker run → container run)</a></li>
+  <li><a href="../apple-container/">Apple container GUI Macre: a teljes apple/container-útmutató</a></li>
+  <li><a href="../apple-container-kubernetes/">Kubernetes az Apple containeren: GUI a container clusterhez és Kubernetes-böngésző</a></li>
+</ul>
+
+<h2 id="faq">Kérdések és válaszok</h2>
+<div class="faq-list">
+<details class="faq-item"><summary>Futtatható Kubernetes Macen Docker nélkül?</summary><p>Igen. Az Apple <code>container</code> CLI-je maga hoz létre Kubernetes-klasztereket a <code>container cluster create</code> paranccsal. Minden csomópont könnyű VM-ként fut, és nincs szükség Dockerre, Docker Desktopra, kindra vagy minikube-ra.</p></details>
+<details class="faq-item"><summary>Hány csomópontja lehet egy container clusternek?</summary><p>Egy vezérlősík és annyi worker, amennyihez a Macen elég CPU és memória van. Ezeket a <code>--workers</code> kapcsolóval adhatja meg; a CLI 1.7-ben a workerek minden csoportja saját CPU- és memóriabeállítást kaphat.</p></details>
+<details class="faq-item"><summary>Hogyan használható egy helyben buildelt image a klaszterben?</summary><p>Hozza létre a klasztert a <code>--shared-image-store</code> kapcsolóval (CLI 1.7), buildelje az image-et a <code>container build -t name:tag .</code> paranccsal, és használja a <code>name:tag</code> nevet a pod specifikációjában. Nincs szükség registryre.</p></details>
+<details class="faq-item"><summary>Melyik Kubernetes-verziót használja a container cluster?</summary><p>A CLI 1.7.1 alapértelmezés szerint a <code>kindest/node:v1.35.5</code> csomópont-image-et használja. Más verziót a <code>--node-image</code> kapcsolóval választhat, például <code>docker.io/kindest/node:v1.34.11</code>. A Gantry a klaszter-áttekintésben mutatja a verziót.</p></details>
+<details class="faq-item"><summary>Van GUI a container clusterhez?</summary><p>Igen. A Gantry létrehozza és törli a klasztereket, megmutatja a csomópontokat, és a Kubernetes szakaszában böngészi a podokat, a deploymenteket, a szolgáltatásokat, a naplókat és a Secreteket. Ingyenes és nyílt forráskódú.</p></details>
+</div>
+
+<p class="updated">Utoljára frissítve: 2026-11-07.</p>
+    </article>
+    <footer class="docs-foot">
+      <a href="../">Kezdőlap</a>
+      <span>·</span>
+      <a href="../apple-container/">apple/container-útmutató</a>
+      <span>·</span>
+      <a href="../apple-container-kubernetes/">Kubernetes</a>
+      <span>·</span>
+      <a href="../compare/">Összevetés</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes Macen</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Docker Desktopról</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Külső meghajtó</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">docker run parancsból</a>
+      <span>·</span>
+      <a href="../../docs/index.html">Leírás</a>
+      <span>·</span>
+      <a href="https://github.com/getgantry/gantry">MIT-licenc · GitHub</a>
+    </footer>
+    <nav class="lang-foot" aria-label="Nyelvek">
+      <a href="../../kubernetes-on-mac/" hreflang="en" lang="en">English</a>
+      <a href="../../de/kubernetes-on-mac/" hreflang="de" lang="de">Deutsch</a>
+      <a href="../../fr/kubernetes-on-mac/" hreflang="fr" lang="fr">Français</a>
+      <a href="../../es/kubernetes-on-mac/" hreflang="es" lang="es">Español</a>
+      <a href="../../it/kubernetes-on-mac/" hreflang="it" lang="it">Italiano</a>
+      <a href="../../pt-PT/kubernetes-on-mac/" hreflang="pt-PT" lang="pt-PT">Português</a>
+      <a href="../../nl/kubernetes-on-mac/" hreflang="nl" lang="nl">Nederlands</a>
+      <a href="../../sv/kubernetes-on-mac/" hreflang="sv" lang="sv">Svenska</a>
+      <a href="../../da/kubernetes-on-mac/" hreflang="da" lang="da">Dansk</a>
+      <a href="../../nb/kubernetes-on-mac/" hreflang="nb" lang="nb">Norsk bokmål</a>
+      <a href="../../fi/kubernetes-on-mac/" hreflang="fi" lang="fi">Suomi</a>
+      <a href="../../pl/kubernetes-on-mac/" hreflang="pl" lang="pl">Polski</a>
+      <a href="../../cs/kubernetes-on-mac/" hreflang="cs" lang="cs">Čeština</a>
+      <a href="../../sk/kubernetes-on-mac/" hreflang="sk" lang="sk">Slovenčina</a>
+      <a href="./" hreflang="hu" lang="hu" aria-current="page">Magyar</a>
+      <a href="../../ro/kubernetes-on-mac/" hreflang="ro" lang="ro">Română</a>
+      <a href="../../bg/kubernetes-on-mac/" hreflang="bg" lang="bg">Български</a>
+      <a href="../../el/kubernetes-on-mac/" hreflang="el" lang="el">Ελληνικά</a>
+      <a href="../../hr/kubernetes-on-mac/" hreflang="hr" lang="hr">Hrvatski</a>
+      <a href="../../sl/kubernetes-on-mac/" hreflang="sl" lang="sl">Slovenščina</a>
+      <a href="../../sr/kubernetes-on-mac/" hreflang="sr" lang="sr">Српски</a>
+      <a href="../../sr-Latn/kubernetes-on-mac/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a>
+      <a href="../../lt/kubernetes-on-mac/" hreflang="lt" lang="lt">Lietuvių</a>
+      <a href="../../lv/kubernetes-on-mac/" hreflang="lv" lang="lv">Latviešu</a>
+      <a href="../../et/kubernetes-on-mac/" hreflang="et" lang="et">Eesti</a>
+      <a href="../../uk/kubernetes-on-mac/" hreflang="uk" lang="uk">Українська</a>
+      <a href="../../ru/kubernetes-on-mac/" hreflang="ru" lang="ru">Русский</a>
+    </nav>
+  </main>
+
+  <script>
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+          var t = b.textContent; b.textContent = 'Másolva';
+          setTimeout(function () { b.textContent = t; }, 1400);
+        });
+      });
+    });
+  </script>
+  <script src="../../lang.js" defer></script>
+</body>
+</html>

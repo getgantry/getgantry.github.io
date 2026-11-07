@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fi" data-copied="Kopioitu">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JR87M6TNM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kubernetes Macilla Apple containerin avulla: vaiheittainen opas</title>
+  <meta name="description" content="Luo paikallinen Kubernetes-klusteri Maciin Applen container clusterilla: työsolmut, CPU:t ja muisti, paikalliset levykuvat ilman rekisteriä, kubectl ja GUI podeille ja lokeille.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://getgantry.github.io/fi/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="en" href="https://getgantry.github.io/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="de" href="https://getgantry.github.io/de/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="fr" href="https://getgantry.github.io/fr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="es" href="https://getgantry.github.io/es/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="it" href="https://getgantry.github.io/it/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="pt-PT" href="https://getgantry.github.io/pt-PT/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="nl" href="https://getgantry.github.io/nl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sv" href="https://getgantry.github.io/sv/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="da" href="https://getgantry.github.io/da/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="nb" href="https://getgantry.github.io/nb/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="fi" href="https://getgantry.github.io/fi/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="pl" href="https://getgantry.github.io/pl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="cs" href="https://getgantry.github.io/cs/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sk" href="https://getgantry.github.io/sk/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="hu" href="https://getgantry.github.io/hu/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="ro" href="https://getgantry.github.io/ro/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="bg" href="https://getgantry.github.io/bg/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="el" href="https://getgantry.github.io/el/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="hr" href="https://getgantry.github.io/hr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sl" href="https://getgantry.github.io/sl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sr" href="https://getgantry.github.io/sr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sr-Latn" href="https://getgantry.github.io/sr-Latn/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="lt" href="https://getgantry.github.io/lt/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="lv" href="https://getgantry.github.io/lv/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="et" href="https://getgantry.github.io/et/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="uk" href="https://getgantry.github.io/uk/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="ru" href="https://getgantry.github.io/ru/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="x-default" href="https://getgantry.github.io/kubernetes-on-mac/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Gantry">
+  <meta property="og:locale" content="fi_FI">
+  <meta property="og:title" content="Kubernetes Macilla Apple containerin avulla: vaiheittainen opas">
+  <meta property="og:description" content="Luo paikallinen Kubernetes-klusteri Maciin Applen container clusterilla: työsolmut, CPU:t ja muisti, paikalliset levykuvat ilman rekisteriä, kubectl ja GUI podeille ja lokeille.">
+  <meta property="og:url" content="https://getgantry.github.io/fi/kubernetes-on-mac/">
+  <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta property="og:image:width" content="3364">
+  <meta property="og:image:height" content="2116">
+  <meta property="og:image:alt" content="Gantryn kojelauta, jossa Docker- ja apple/container-isäntiä">
+  <meta property="article:modified_time" content="2026-11-07">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kubernetes Macilla Apple containerin avulla: vaiheittainen opas">
+  <meta name="twitter:description" content="Luo paikallinen Kubernetes-klusteri Maciin Applen container clusterilla: työsolmut, CPU:t ja muisti, paikalliset levykuvat ilman rekisteriä, kubectl ja GUI podeille ja lokeille.">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta name="theme-color" content="#060a10">
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../docs/docs.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://getgantry.github.io/fi/kubernetes-on-mac/#article",
+      "headline": "Kubernetes Macilla Apple containerin avulla: vaiheittainen opas",
+      "description": "Luo paikallinen Kubernetes-klusteri Maciin Applen container clusterilla: työsolmut, CPU:t ja muisti, paikalliset levykuvat ilman rekisteriä, kubectl ja GUI podeille ja lokeille.",
+      "url": "https://getgantry.github.io/fi/kubernetes-on-mac/",
+      "inLanguage": "fi",
+      "dateModified": "2026-11-07",
+      "image": "https://getgantry.github.io/assets/dashboard.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Gantry",
+        "url": "https://getgantry.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://getgantry.github.io/#organization",
+        "name": "Gantry",
+        "logo": "https://getgantry.github.io/assets/icon.png"
+      },
+      "about": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "container (apple/container)",
+          "url": "https://github.com/apple/container",
+          "operatingSystem": "macOS",
+          "applicationCategory": "DeveloperApplication"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Kubernetes",
+          "url": "https://kubernetes.io/"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://getgantry.github.io/fi/kubernetes-on-mac/#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Gantry",
+          "item": "https://getgantry.github.io/fi/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Kubernetes Macilla",
+          "item": "https://getgantry.github.io/fi/kubernetes-on-mac/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://getgantry.github.io/fi/kubernetes-on-mac/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Voiko Kubernetesia ajaa Macilla ilman Dockeria?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Kyllä. Applen container-CLI luo Kubernetes-klustereita itse komennolla container cluster create. Jokainen solmu toimii kevyenä virtuaalikoneena, etkä tarvitse Dockeria, Docker Desktopia, kindiä tai minikubea."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Montako solmua container clusterissa voi olla?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yksi ohjaustaso ja niin monta työsolmua kuin Macisi CPU:t ja muisti riittävät. Aseta ne valinnalla --workers; CLI 1.7:ssä jokaisella työsolmuryhmällä voi olla omat CPU:t ja muisti."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Miten paikallisesti koostettua levykuvaa käytetään klusterissa?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Luo klusteri valinnalla --shared-image-store (CLI 1.7), koosta levykuva komennolla container build -t name:tag . ja käytä podin määrittelyssä nimeä name:tag. Rekisteriä ei tarvita."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mitä Kubernetes-versiota container cluster käyttää?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CLI 1.7.1 käyttää oletuksena solmun levykuvaa kindest/node:v1.35.5. Valitse toinen versio valinnalla --node-image, esimerkiksi docker.io/kindest/node:v1.34.11. Gantry näyttää version klusterin yleiskatsauksessa."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Onko container clusterille GUI:ta?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On. Gantry luo ja poistaa klustereita, näyttää solmut ja selaa Kubernetes-osiossaan podeja, deploymentteja, palveluja, lokeja ja secretejä. Se on ilmainen ja avointa lähdekoodia."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs-body">
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../"><img src="../../assets/icon.png" alt="Gantryn kuvake" width="30" height="30"><span>Gantry</span></a>
+      <nav class="nav-links">
+        <a href="../#features">Ominaisuudet</a>
+        <a href="../apple-container/">apple/container</a>
+        <a href="../apple-container-kubernetes/">Kubernetes</a>
+        <a href="../compare/">Vertailu</a>
+        <a href="../../docs/index.html">Ohjeet</a>
+        <a href="https://github.com/getgantry/gantry">GitHub</a>
+      </nav>
+      <details class="lang-menu">
+        <summary aria-label="Kieli: Suomi" title="Kieli"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lang-name">Suomi</span><span class="lang-code">FI</span></summary>
+        <ul>
+          <li><a href="../../kubernetes-on-mac/" hreflang="en" lang="en">English</a></li>
+          <li><a href="../../de/kubernetes-on-mac/" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../../fr/kubernetes-on-mac/" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../../es/kubernetes-on-mac/" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../../it/kubernetes-on-mac/" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../../pt-PT/kubernetes-on-mac/" hreflang="pt-PT" lang="pt-PT">Português</a></li>
+          <li><a href="../../nl/kubernetes-on-mac/" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../../sv/kubernetes-on-mac/" hreflang="sv" lang="sv">Svenska</a></li>
+          <li><a href="../../da/kubernetes-on-mac/" hreflang="da" lang="da">Dansk</a></li>
+          <li><a href="../../nb/kubernetes-on-mac/" hreflang="nb" lang="nb">Norsk bokmål</a></li>
+          <li><a href="./" hreflang="fi" lang="fi" aria-current="page">Suomi</a></li>
+          <li><a href="../../pl/kubernetes-on-mac/" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../../cs/kubernetes-on-mac/" hreflang="cs" lang="cs">Čeština</a></li>
+          <li><a href="../../sk/kubernetes-on-mac/" hreflang="sk" lang="sk">Slovenčina</a></li>
+          <li><a href="../../hu/kubernetes-on-mac/" hreflang="hu" lang="hu">Magyar</a></li>
+          <li><a href="../../ro/kubernetes-on-mac/" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../../bg/kubernetes-on-mac/" hreflang="bg" lang="bg">Български</a></li>
+          <li><a href="../../el/kubernetes-on-mac/" hreflang="el" lang="el">Ελληνικά</a></li>
+          <li><a href="../../hr/kubernetes-on-mac/" hreflang="hr" lang="hr">Hrvatski</a></li>
+          <li><a href="../../sl/kubernetes-on-mac/" hreflang="sl" lang="sl">Slovenščina</a></li>
+          <li><a href="../../sr/kubernetes-on-mac/" hreflang="sr" lang="sr">Српски</a></li>
+          <li><a href="../../sr-Latn/kubernetes-on-mac/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a></li>
+          <li><a href="../../lt/kubernetes-on-mac/" hreflang="lt" lang="lt">Lietuvių</a></li>
+          <li><a href="../../lv/kubernetes-on-mac/" hreflang="lv" lang="lv">Latviešu</a></li>
+          <li><a href="../../et/kubernetes-on-mac/" hreflang="et" lang="et">Eesti</a></li>
+          <li><a href="../../uk/kubernetes-on-mac/" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="../../ru/kubernetes-on-mac/" hreflang="ru" lang="ru">Русский</a></li>
+        </ul>
+      </details>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="crumbs" aria-label="Murupolku"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Kubernetes Macilla</span></nav>
+    <article class="docs-article page-article">
+<h1>Kubernetes Macilla Apple containerin avulla</h1>
+<p class="page-lead">Applen <code>container</code>-työkalu luo paikallisen Kubernetes-klusterin yhdellä komennolla. Jokainen solmu on kevyt virtuaalikone Macillasi. Tämä opas vie tyhjästä Macista toimivaan deploymenttiin, ensin päätteessä ja sitten Gantryssa.</p>
+
+<div class="tldr">
+<p><strong>Lyhyesti.</strong> Asenna allekirjoitettu <code>container</code> 1.7.1 -paketti, suorita <code>container cluster create --name dev --cpus 2 --memory 2g --workers count=2,cpus=2,memory=2g --shared-image-store</code>, koosta levykuva komennolla <code>container build</code> ja aja se klusterissa nimellä. Gantry näyttää saman klusterin ikkunassa: solmut, podit, lokit, komentotulkin ja porttien välitykset.</p>
+</div>
+
+<h2 id="requirements">Mitä tarvitset</h2>
+<ul>
+  <li>Mac, jossa on Apple-siru ja macOS 26 tai uudempi.</li>
+  <li><code>container</code>-CLI 1.7.1 allekirjoitetusta <code>.pkg</code>-paketista <a href="https://github.com/apple/container/releases">apple/containerin julkaisusivulta</a>. Version 1.7.1 Homebrew-koonnissa ei ole klusteripalveluja, joten <code>container cluster</code> epäonnistuu virheellä <em>cluster service unavailable</em>.</li>
+  <li>Noin 6 Gt vapaata muistia alla olevaa esimerkkiä varten: kolme solmua, kullakin 2 Gt.</li>
+  <li><code>kubectl</code>, jos haluat käyttää klusteria päätteestä (<code>brew install kubectl</code>).</li>
+</ul>
+<p>Käynnistä palvelut kerran paketin asennuksen jälkeen:</p>
+<div class="code-block">
+  <div class="code-head"><span>Pääte</span><button class="copy" data-copy="container system start">Kopioi</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<h2 id="create">Luo klusteri</h2>
+<p>Tämä komento luo klusterin nimeltä <code>dev</code>, jossa on yksi ohjaustason solmu ja kaksi työsolmua. Jokainen solmu saa 2 CPU:ta ja 2 Gt muistia:</p>
+<div class="code-block">
+  <div class="code-head"><span>Pääte</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Kopioi</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li><code>--workers count=N,cpus=C,memory=M</code> mitoittaa työsolmujen ryhmän. Toista se, jos haluat erikokoisia ryhmiä. Ilman valintaa <code>--workers</code> yksi solmu on sekä ohjaustaso että työsolmu.</li>
+  <li><code>--cpus</code> ja <code>--memory</code> mitoittavat ohjaustason. Oletus on neljännes Macisi CPU:ista ja muistista, vähintään 2 CPU:ta ja 2 Gt.</li>
+  <li><code>--shared-image-store</code> antaa solmujen käyttää paikallisia levykuviasi (katso alta). Sitä ei voi muuttaa myöhemmin: poista klusteri ja luo se uudelleen.</li>
+  <li><code>--cni ./calico.yaml</code> asentaa oman CNI:si mukana tulevan kindnetin sijaan; <code>--cni NONE</code> ei asenna mitään.</li>
+</ul>
+<p>CLI lisää tiedostoon <code>~/.kube/config</code> kontekstin nimeltä <code>dev</code>. Tarkista solmut:</p>
+<div class="code-block">
+  <div class="code-head"><span>Pääte</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Kopioi</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<h2 id="images">Aja paikallinen levykuva ilman rekisteriä</h2>
+<p>Valinnalla <code>--shared-image-store</code> solmut voivat ajaa mitä tahansa levykuvaa paikallisesta <code>container</code>-levykuvavarastostasi. Koosta levykuva ja käytä sitä nimellä:</p>
+<div class="code-block">
+  <div class="code-head"><span>Pääte</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Kopioi</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Huomautus</span><div>Kun koostat saman tagin uudelleen, suorita <code>kubectl rollout restart</code> asetuksella <code>imagePullPolicy: Always</code> tai käytä uutta tagia. Asetuksella <code>IfNotPresent</code> solmu säilyttää kopion, joka sillä jo on. Mikä tahansa, jolla on root-oikeudet solmussa, voi lukea jokaisen paikallisen varastosi levykuvan, myös yksityiset levykuvat, joten käytä jaettua varastoa vain paikallisessa kehityksessä.</div></div>
+<p>CLI 1.5:ssä ja 1.6:ssa jaettua varastoa ei ole. Käytä niissä komentoa <code>container cluster load-image</code> tai Gantryssa toimintoa <b>Siirrä klusteriin</b>. CLI 1.7 poisti komennon <code>load-image</code>.</p>
+
+<h2 id="reach">Avaa sovellus selaimessa</h2>
+<p>Välitä paikallinen portti deploymenttiin ja avaa sitten <code>http://localhost:8080</code>:</p>
+<div class="code-block">
+  <div class="code-head"><span>Pääte</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Kopioi</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<h2 id="gantry">Selaa klusteria Gantryssa</h2>
+<p>Gantry näyttää saman klusterin ilman komentoja. Lisää apple/container-isäntäsi, avaa <strong>Klusterit</strong> ja valitse <code>dev</code>. Yleiskatsaus näyttää Kubernetes-version, levykuvavaraston, työsolmut sekä niiden CPU:t ja muistin. Napsauta <strong>Selaa resursseja</strong>, niin <strong>Kubernetes</strong>-osio avautuu tähän kontekstiin.</p>
+<ul>
+  <li>Podit, deploymentit, StatefulSetit, DaemonSetit, palvelut, ingressit, ConfigMapit, secretit, solmut ja tapahtumat yhdestä nimiavaruudesta tai kaikista.</li>
+  <li>Podien lokit seurannalla ja lopun näytöllä, komentotulkki podissa ja porttien välitykset luettelossa, josta voit pysäyttää ne.</li>
+  <li>Skaalaus, käyttöönoton uudelleenkäynnistys, poisto ja <strong>Käytä YAML</strong> sijoitetusta manifestista tai tiedostosta.</li>
+  <li>Secretien arvot pysyvät peitettyinä, kunnes napsautat Näytä.</li>
+</ul>
+<p>Kubernetes-selain käyttää <code>kubectl</code>:ää. Jos sitä ei ole, Gantry näyttää komennon <code>brew install kubectl</code> ja voi suorittaa sen puolestasi. Natiivi asiakasohjelma, joka ei tarvitse <code>kubectl</code>:ää, on kehitteillä.</p>
+<!-- TODO-SCREENSHOT section="guide kubernetes-on-mac, section #gantry" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Voit luoda klusterin myös Gantryssa: kohdassa <strong>Klusterit</strong> ▸ <strong>Uusi klusteri</strong> on säätimet ohjaustasolle ja työsolmuille sekä <strong>Käytä paikallisia levykuvia</strong> -kytkin. Lisää sivulla <a href="../apple-container-kubernetes/">Kubernetes apple/containerilla</a>.</p>
+
+<h2 id="cleanup">Pysäytä ja poista klusteri</h2>
+<div class="code-block">
+  <div class="code-head"><span>Pääte</span><button class="copy" data-copy="container cluster delete --name dev">Kopioi</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Jos ohjaustason solmu pysähtyy, esimerkiksi komennon <code>container system stop</code> jälkeen, poista klusteri ja luo se uudelleen. Luo kertakäyttöinen klusteri valinnalla <code>--rm</code>, niin sen solmut poistetaan, kun ne pysähtyvät.</p>
+
+<h2 id="troubleshooting">Yleisiä ongelmia</h2>
+<ul>
+  <li><strong>cluster service unavailable:</strong> CLI on Homebrew-koonti, tai palvelut eivät ole käynnissä. Asenna allekirjoitettu paketti tai käynnistä palvelut uudelleen komennoilla <code>container system stop</code> ja <code>container system start</code>. Gantry antaa saman neuvon Klusterit-osiossa.</li>
+  <li><strong>Vanha klusteri puuttuu luettelosta:</strong> CLI 1.7 ei luettele klustereita, jotka on luotu versiolla 1.6 tai vanhemmalla. Poista sellainen komennolla <code>container cluster delete --name &lt;name&gt;</code>.</li>
+  <li><strong>Solmut pysyvät NotReady-tilassa:</strong> käytit valintaa <code>--cni NONE</code>. Ota CNI-manifesti käyttöön.</li>
+  <li><strong>Solmukonttia ei voi pysäyttää:</strong> tämä on tarkoituksellista. <code>container stop</code> ja <code>delete</code> eivät käsittele klusterin solmuja; käytä komentoa <code>container cluster delete</code>.</li>
+</ul>
+
+<h2 id="compare">Vertailu Docker Desktopiin ja OrbStackiin</h2>
+<p>Docker Desktopissa on sisäänrakennettu Kubernetes kubeadmilla (yksi solmu) tai kindillä (useita solmuja), ja OrbStackissa on sisäänrakennettu yhden solmun klusteri. <code>container cluster</code> ajaa kubeadmia <code>kindest/node</code>-levykuvilla, jokainen solmu omassa virtuaalikoneessaan, ja tukee usean solmun klustereita ja jaettua levykuvavarastoa. Katso <a href="../compare/">koko vertailu</a>.</p>
+
+<h2 id="related">Aiheeseen liittyvät oppaat</h2>
+<ul>
+  <li><a href="../docker-desktop-to-apple-container/">Siirtyminen Docker Desktopista Apple containeriin: komennot, Compose, taltiot ja puutteet</a></li>
+  <li><a href="../containers-on-external-drive/">Kontit ja taltiot ulkoisella levyllä Macissa</a></li>
+  <li><a href="../docker-run-to-container/">Kontin luonti docker run -komennosta Macilla (docker run container runiksi)</a></li>
+  <li><a href="../apple-container/">Apple container -GUI Macille: kattava apple/container-opas</a></li>
+  <li><a href="../apple-container-kubernetes/">Kubernetes Apple containerilla: GUI container clusterille ja Kubernetes-selain</a></li>
+</ul>
+
+<h2 id="faq">Kysymyksiä ja vastauksia</h2>
+<div class="faq-list">
+<details class="faq-item"><summary>Voiko Kubernetesia ajaa Macilla ilman Dockeria?</summary><p>Kyllä. Applen <code>container</code>-CLI luo Kubernetes-klustereita itse komennolla <code>container cluster create</code>. Jokainen solmu toimii kevyenä virtuaalikoneena, etkä tarvitse Dockeria, Docker Desktopia, kindiä tai minikubea.</p></details>
+<details class="faq-item"><summary>Montako solmua container clusterissa voi olla?</summary><p>Yksi ohjaustaso ja niin monta työsolmua kuin Macisi CPU:t ja muisti riittävät. Aseta ne valinnalla <code>--workers</code>; CLI 1.7:ssä jokaisella työsolmuryhmällä voi olla omat CPU:t ja muisti.</p></details>
+<details class="faq-item"><summary>Miten paikallisesti koostettua levykuvaa käytetään klusterissa?</summary><p>Luo klusteri valinnalla <code>--shared-image-store</code> (CLI 1.7), koosta levykuva komennolla <code>container build -t name:tag .</code> ja käytä podin määrittelyssä nimeä <code>name:tag</code>. Rekisteriä ei tarvita.</p></details>
+<details class="faq-item"><summary>Mitä Kubernetes-versiota container cluster käyttää?</summary><p>CLI 1.7.1 käyttää oletuksena solmun levykuvaa <code>kindest/node:v1.35.5</code>. Valitse toinen versio valinnalla <code>--node-image</code>, esimerkiksi <code>docker.io/kindest/node:v1.34.11</code>. Gantry näyttää version klusterin yleiskatsauksessa.</p></details>
+<details class="faq-item"><summary>Onko container clusterille GUI:ta?</summary><p>On. Gantry luo ja poistaa klustereita, näyttää solmut ja selaa Kubernetes-osiossaan podeja, deploymentteja, palveluja, lokeja ja secretejä. Se on ilmainen ja avointa lähdekoodia.</p></details>
+</div>
+
+<p class="updated">Päivitetty viimeksi 2026-11-07.</p>
+    </article>
+    <footer class="docs-foot">
+      <a href="../">Etusivu</a>
+      <span>·</span>
+      <a href="../apple-container/">apple/container-opas</a>
+      <span>·</span>
+      <a href="../apple-container-kubernetes/">Kubernetes</a>
+      <span>·</span>
+      <a href="../compare/">Vertailu</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes Macilla</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Docker Desktopista</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Ulkoinen levy</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">docker run -komennosta</a>
+      <span>·</span>
+      <a href="../../docs/index.html">Ohjeet</a>
+      <span>·</span>
+      <a href="https://github.com/getgantry/gantry">MIT-lisenssi · GitHub</a>
+    </footer>
+    <nav class="lang-foot" aria-label="Kielet">
+      <a href="../../kubernetes-on-mac/" hreflang="en" lang="en">English</a>
+      <a href="../../de/kubernetes-on-mac/" hreflang="de" lang="de">Deutsch</a>
+      <a href="../../fr/kubernetes-on-mac/" hreflang="fr" lang="fr">Français</a>
+      <a href="../../es/kubernetes-on-mac/" hreflang="es" lang="es">Español</a>
+      <a href="../../it/kubernetes-on-mac/" hreflang="it" lang="it">Italiano</a>
+      <a href="../../pt-PT/kubernetes-on-mac/" hreflang="pt-PT" lang="pt-PT">Português</a>
+      <a href="../../nl/kubernetes-on-mac/" hreflang="nl" lang="nl">Nederlands</a>
+      <a href="../../sv/kubernetes-on-mac/" hreflang="sv" lang="sv">Svenska</a>
+      <a href="../../da/kubernetes-on-mac/" hreflang="da" lang="da">Dansk</a>
+      <a href="../../nb/kubernetes-on-mac/" hreflang="nb" lang="nb">Norsk bokmål</a>
+      <a href="./" hreflang="fi" lang="fi" aria-current="page">Suomi</a>
+      <a href="../../pl/kubernetes-on-mac/" hreflang="pl" lang="pl">Polski</a>
+      <a href="../../cs/kubernetes-on-mac/" hreflang="cs" lang="cs">Čeština</a>
+      <a href="../../sk/kubernetes-on-mac/" hreflang="sk" lang="sk">Slovenčina</a>
+      <a href="../../hu/kubernetes-on-mac/" hreflang="hu" lang="hu">Magyar</a>
+      <a href="../../ro/kubernetes-on-mac/" hreflang="ro" lang="ro">Română</a>
+      <a href="../../bg/kubernetes-on-mac/" hreflang="bg" lang="bg">Български</a>
+      <a href="../../el/kubernetes-on-mac/" hreflang="el" lang="el">Ελληνικά</a>
+      <a href="../../hr/kubernetes-on-mac/" hreflang="hr" lang="hr">Hrvatski</a>
+      <a href="../../sl/kubernetes-on-mac/" hreflang="sl" lang="sl">Slovenščina</a>
+      <a href="../../sr/kubernetes-on-mac/" hreflang="sr" lang="sr">Српски</a>
+      <a href="../../sr-Latn/kubernetes-on-mac/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a>
+      <a href="../../lt/kubernetes-on-mac/" hreflang="lt" lang="lt">Lietuvių</a>
+      <a href="../../lv/kubernetes-on-mac/" hreflang="lv" lang="lv">Latviešu</a>
+      <a href="../../et/kubernetes-on-mac/" hreflang="et" lang="et">Eesti</a>
+      <a href="../../uk/kubernetes-on-mac/" hreflang="uk" lang="uk">Українська</a>
+      <a href="../../ru/kubernetes-on-mac/" hreflang="ru" lang="ru">Русский</a>
+    </nav>
+  </main>
+
+  <script>
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+          var t = b.textContent; b.textContent = 'Kopioitu';
+          setTimeout(function () { b.textContent = t; }, 1400);
+        });
+      });
+    });
+  </script>
+  <script src="../../lang.js" defer></script>
+</body>
+</html>

@@ -5,8 +5,8 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kubernetes på Apple container: GUI til container cluster på Mac</title>
-  <meta name="description" content="Kør Kubernetes på Apples container-værktøj med Gantry: klynger med flere arbejdsnoder via container cluster, valg af CNI, noder, kubeconfig og lokale images.">
+  <title>Kubernetes på Apple container: GUI til container cluster og en Kubernetes-browser</title>
+  <meta name="description" content="Kør Kubernetes på Apples container-værktøj med Gantry: opret klynger med arbejdsnoder i valgfri størrelse og delt image-lager, gennemse pods og logge, åbn en shell, videresend porte, anvend YAML.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="canonical" href="https://getgantry.github.io/da/apple-container-kubernetes/">
   <link rel="alternate" hreflang="en" href="https://getgantry.github.io/apple-container-kubernetes/">
@@ -40,17 +40,17 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Gantry">
   <meta property="og:locale" content="da_DK">
-  <meta property="og:title" content="Kubernetes på Apple container: GUI til container cluster på Mac">
-  <meta property="og:description" content="Kør Kubernetes på Apples container-værktøj med Gantry: klynger med flere arbejdsnoder via container cluster, valg af CNI, noder, kubeconfig og lokale images.">
+  <meta property="og:title" content="Kubernetes på Apple container: GUI til container cluster og en Kubernetes-browser">
+  <meta property="og:description" content="Kør Kubernetes på Apples container-værktøj med Gantry: opret klynger med arbejdsnoder i valgfri størrelse og delt image-lager, gennemse pods og logge, åbn en shell, videresend porte, anvend YAML.">
   <meta property="og:url" content="https://getgantry.github.io/da/apple-container-kubernetes/">
   <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantrys flådeoversigt med Docker- og apple/container-værter">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Kubernetes på Apple container: GUI til container cluster på Mac">
-  <meta name="twitter:description" content="Kør Kubernetes på Apples container-værktøj med Gantry: klynger med flere arbejdsnoder via container cluster, valg af CNI, noder, kubeconfig og lokale images.">
+  <meta name="twitter:title" content="Kubernetes på Apple container: GUI til container cluster og en Kubernetes-browser">
+  <meta name="twitter:description" content="Kør Kubernetes på Apples container-værktøj med Gantry: opret klynger med arbejdsnoder i valgfri størrelse og delt image-lager, gennemse pods og logge, åbn en shell, videresend porte, anvend YAML.">
   <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta name="theme-color" content="#060a10">
   <link rel="icon" type="image/png" href="../../assets/icon.png">
@@ -63,11 +63,11 @@
     {
       "@type": "TechArticle",
       "@id": "https://getgantry.github.io/da/apple-container-kubernetes/#article",
-      "headline": "Kubernetes på Apple container: GUI til container cluster på Mac",
-      "description": "Kør Kubernetes på Apples container-værktøj med Gantry: klynger med flere arbejdsnoder via container cluster, valg af CNI, noder, kubeconfig og lokale images.",
+      "headline": "Kubernetes på Apple container: GUI til container cluster og en Kubernetes-browser",
+      "description": "Kør Kubernetes på Apples container-værktøj med Gantry: opret klynger med arbejdsnoder i valgfri størrelse og delt image-lager, gennemse pods og logge, åbn en shell, videresend porte, anvend YAML.",
       "url": "https://getgantry.github.io/da/apple-container-kubernetes/",
       "inLanguage": "da",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -122,7 +122,7 @@
           "name": "Understøtter Apple container Kubernetes?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja. container-CLI'en opretter Kubernetes-klynger, hvis noder kører som containere: container cluster i CLI 1.6.1, container k8s i CLI 1.5.0 til 1.6.0. Gantry giver det en GUI."
+            "text": "Ja. container-CLI'en opretter Kubernetes-klynger, hvis noder kører som containere: container cluster i CLI 1.6.1 og 1.7, container k8s i CLI 1.5.0 til 1.6.0. Gantry giver det en GUI."
           }
         },
         {
@@ -130,7 +130,7 @@
           "name": "Understøtter Gantry container cluster?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja. Gantry viser, opretter og sletter klynger på apple/container-værter, viser deres noder, skriver kubeconfig, kopierer kommandoen til kubectl-konteksten og indlæser lokale images i en klynge. Den bruger cluster eller k8s, så den passer til din CLI-version."
+            "text": "Ja. Gantry viser, opretter og sletter klynger på apple/container-værter, viser deres noder, skriver kubeconfig og åbner klyngen i sin Kubernetes-browser. På CLI 1.7 giver den også arbejdsnoderne en størrelse og slår det delte image-lager til. Den bruger cluster eller k8s, så den passer til din CLI-version."
           }
         },
         {
@@ -146,7 +146,7 @@
           "name": "Hvordan får jeg et lokalt image ind i klyngen uden et registry?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Højreklik på imaget under Images i Gantry, og vælg Indlæs i klynge. Gantry kører container cluster load-image, som kopierer imaget ind i containerd på hver node."
+            "text": "På CLI 1.7 opretter du klyngen med Brug lokale images (--shared-image-store). Pods kører så de images, du bygger eller henter med container, ved navn. På CLI 1.5 og 1.6 højreklikker du på imaget under Images og vælger Indlæs i klynge; Gantry kører container cluster load-image. CLI 1.7 har fjernet load-image."
           }
         },
         {
@@ -154,7 +154,7 @@
           "name": "Kan jeg oprette en klynge med flere noder?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja. Angiv antallet af arbejdsnoder i oprettelsesarket. Arbejdsnoder kræver CLI 1.6.0 eller nyere."
+            "text": "Ja. Angiv antallet af arbejdsnoder i oprettelsesarket; arbejdsnoder kræver CLI 1.6.0 eller nyere. På CLI 1.7 angiver du også CPU'er og hukommelse til arbejdsnoderne adskilt fra kontrolplanet."
           }
         },
         {
@@ -163,6 +163,22 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Ja. Vælg Tilpasset manifest, og vælg manifestfilen, eller vælg Ingen, og installer selv en CNI, når klyngen er startet. Noderne forbliver NotReady, indtil en CNI kører. Ingen kræver CLI 1.6.0 eller nyere. Standard-CNI'en er det medfølgende kindnet-manifest."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hvorfor siger Gantry, at klyngetjenesterne ikke er tilgængelige?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "container-tjenesterne svarede ikke på en klyngekommando. Er din CLI et Homebrew-build uden klyngetjenesterne, siger Gantry det og linker til det signerede installationsprogram på udgivelsessiden for apple/container. Ellers tilbyder den Genstart tjenester."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Skal jeg bruge kubectl for at bruge klyngen i Gantry?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Indtil videre, ja: Gantrys Kubernetes-browser kører kubectl. Er det ikke installeret, viser browseren kommandoen brew install kubectl og kan køre den for dig. En native Kubernetes-klient, der fjerner dette trin, er under udvikling."
           }
         }
       ]
@@ -225,17 +241,17 @@
     <nav class="crumbs" aria-label="Brødkrummesti"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Kubernetes på apple/container</span></nav>
     <article class="docs-article page-article">
 <h1>Kubernetes på Apple container</h1>
-<p class="page-lead">apple/container kan køre en Kubernetes-klynge, hvis noder er containere på din Mac. Gantry er en GUI til det: opret en klynge, se noderne starte, forbind <code>kubectl</code>, og indlæs dine lokale images uden lange kommandolinjer med <code>container cluster</code>.</p>
+<p class="page-lead">apple/container kan køre en Kubernetes-klynge, hvis noder er containere på din Mac. Gantry er en GUI til det: opret en klynge, se noderne starte, kør dine lokale images i den, og gennemse dens pods, logge og services, uden lange <code>container cluster</code>-kommandolinjer.</p>
 
 <div class="tldr">
-<p><strong>Kort sagt.</strong> På en apple/container-vært opretter og sletter sektionen <strong>Klynger</strong> i Gantry Kubernetes-klynger med <code>container cluster</code> (CLI 1.6.1) eller <code>container k8s</code> (CLI 1.5.0 til 1.6.0). Den understøtter flere arbejdsnoder, en tilpasset CNI, en nodevisning, kubeconfig og <code>kubectl</code>-kontekst samt <strong>Indlæs i klynge</strong> til lokale images.</p>
+<p><strong>Kort fortalt.</strong> På en apple/container-vært opretter og sletter Gantrys sektion <strong>Klynger</strong> Kubernetes-klynger med <code>container cluster</code> (CLI 1.6.1 og 1.7) eller <code>container k8s</code> (CLI 1.5.0 til 1.6.0). På CLI 1.7.1 giver den arbejdsnoderne en størrelse adskilt fra kontrolplanet og slår det delte image-lager til. Sektionen <strong>Kubernetes</strong> gennemser klyngen: pods, logge, shell, portvideresendelser, skalering og Anvend YAML.</p>
 </div>
 
 <h2 id="requirements">Krav</h2>
 <ul>
   <li>En Mac med Apple-chip, macOS 26 og Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
-  <li><code>container</code>-CLI 1.5.0 eller nyere; 1.6.1 anbefales. Arbejdsnoder og CNI-valget <em>Ingen</em> kræver 1.6.0 eller nyere.</li>
-  <li><code>kubectl</code>, hvis du vil bruge klyngen fra terminalen.</li>
+  <li><code>container</code>-CLI 1.5.0 eller nyere; 1.7.1 anbefales. Arbejdsnoder og CNI'en <em>Ingen</em> kræver 1.6.0 eller nyere. Størrelser på arbejdsnoder og det delte image-lager kræver 1.7.0 eller nyere. Brug den signerede installationspakke: Homebrew-buildet af 1.7.1 har ingen klyngetjenester.</li>
+  <li><code>kubectl</code> til Kubernetes-browseren og terminalen. Gantry kan installere det med Homebrew.</li>
 </ul>
 
 <h2 id="create">Opret en klynge</h2>
@@ -249,20 +265,36 @@
 <tbody>
 <tr><th scope="row">Navn</th><td><code>--name</code></td><td>Også navnet på kubeconfig-konteksten</td></tr>
 <tr><th scope="row">Arbejdsnoder</th><td><code>--workers</code></td><td>Antal arbejdsnoder. CLI 1.6.0+</td></tr>
-<tr><th scope="row">CPU'er</th><td><code>--cpus</code></td><td>Pr. node</td></tr>
-<tr><th scope="row">Hukommelse</th><td><code>--memory</code></td><td>Pr. node, for eksempel <code>4G</code></td></tr>
+<tr><th scope="row">CPU'er og hukommelse til arbejdsnoder</th><td><code>--workers count=N,cpus=C,memory=M</code></td><td>CLI 1.7+. Før 1.7 gælder <code>--cpus</code> og <code>--memory</code> for alle noder</td></tr>
+<tr><th scope="row">CPU'er</th><td><code>--cpus</code></td><td>Kontrolplanet (CLI 1.7+) eller alle noder (før 1.7)</td></tr>
+<tr><th scope="row">Hukommelse</th><td><code>--memory</code></td><td>Kontrolplanet (CLI 1.7+) eller alle noder (før 1.7), for eksempel <code>4G</code></td></tr>
+<tr><th scope="row">Brug lokale images</th><td><code>--shared-image-store</code></td><td>CLI 1.7+. Noderne kører images fra dit lokale image-lager</td></tr>
 <tr><th scope="row">Node-image</th><td><code>--node-image</code></td><td>Tomt beholder CLI'ens standard</td></tr>
 <tr><th scope="row">CNI</th><td><code>--cni</code></td><td>Standard (medfølgende kindnet), Ingen (<code>NONE</code>, CLI 1.6.0+) eller sti til et tilpasset manifest</td></tr>
 </tbody>
 </table></div>
 <p>Den samme kommando i CLI'en:</p>
 <div class="code-block">
-  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster create --name dev --workers 2 --cpus 2 --memory 4G">Kopiér</button></div>
-  <pre><code>container cluster create --name dev --workers 2 --cpus 2 --memory 4G</code></pre>
+  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 4G \
+  --workers count=2,cpus=2,memory=4G --shared-image-store">Kopiér</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 4G \
+  --workers count=2,cpus=2,memory=4G --shared-image-store</code></pre>
 </div>
 
 <h2 id="nodes">Noder og klyngedetaljer</h2>
-<p>Klyngelisten viser hver klynge med dens noder: rolle, status og adresse. Detaljevisningen har <strong>Oversigt</strong> (kubectl-kontekst, API-server, arbejdsnoder, nodenetværk), en tabel <strong>Noder</strong>, <strong>Inspicer</strong> med rå nodedata og handlingerne <strong>Skriv kubeconfig</strong>, <strong>Kopiér kubectl-kontekstkommando</strong> og <strong>Slet</strong>.</p>
+<p>Klyngelisten viser én række pr. klynge. Detaljevisningen har en <strong>Oversigt</strong> (kubectl-kontekst, API-server, Kubernetes-version, image-lager, arbejdsnoder og deres ressourcer, nodenetværk), en tabel med <strong>Noder</strong> og <strong>Inspicer</strong> til de rå nodedata. Værktøjslinjen har <strong>Gennemse ressourcer</strong>, og menuen Mere har <strong>Skriv kubeconfig</strong>, <strong>Kopiér kubectl-kontekstkommando</strong> og <strong>Slet</strong>.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<p>Klyngens noder er containere, men det er <code>container cluster</code>, der ejer dem. Gantry slår start, stop, genstart, fjern og omdøb fra for en node og fortæller dig hvorfor, og Start alle og Stop alle springer noder over. På CLI 1.7 skjuler CLI'en også noder i <code>container list</code>. Klynger, der er oprettet med CLI 1.6 eller ældre, vises ikke i listen i 1.7; fjern dem med <code>container cluster delete --name &lt;name&gt;</code>.</p>
+
+<h2 id="browser">Gennemse klyngen</h2>
+<p>Klik på <strong>Gennemse ressourcer</strong> på en kørende klynge, eller åbn <strong>Kubernetes</strong> i indholdsoversigten. Sektionen kræver ingen vært og viser alle kubeconfig-kontekster; konteksterne for apple/container-klynger vises først. Vælg et navnerum eller alle navnerum og derefter en art: pods, deployments, StatefulSets, DaemonSets, services, ingresses, ConfigMaps, secrets, noder eller hændelser.</p>
+<ul>
+  <li><strong>Pods:</strong> logge med følg, tail og den forrige container; en shell i poden; portvideresendelse til <code>127.0.0.1</code>.</li>
+  <li><strong>Arbejdsbelastninger:</strong> skalér deployments og StatefulSets; genstart en udrulning.</li>
+  <li><strong>Secrets:</strong> værdierne er maskerede i listen og i YAML, indtil du klikker på Vis.</li>
+  <li><strong>Anvend YAML:</strong> indsæt et manifest, eller åbn en fil; fejl vises i arket.</li>
+</ul>
+<p>Browseren kører <code>kubectl</code>. Kan Gantry ikke finde det, viser sektionen <code>brew install kubectl</code> med en knap, der kører kommandoen. En native Kubernetes-klient, der ikke kræver <code>kubectl</code>, er under udvikling.</p>
 
 <h2 id="kubectl">Forbind kubectl</h2>
 <p>CLI'en tilføjer en kontekst med klyngens navn til <code>~/.kube/config</code>, når den opretter klyngen. Brug <strong>Kopiér kubectl-kontekstkommando</strong> i Gantry, eller skriv den selv:</p>
@@ -272,12 +304,22 @@
 </div>
 <p>Vil du have klyngen i sin egen fil, så brug <strong>Skriv kubeconfig</strong>. Gantry kører <code>container cluster write-config</code>; standardstien er <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p>
 
-<h2 id="images">Indlæs lokale images i klyngen</h2>
-<p>Byg eller hent et image på apple/container-værten, højreklik derefter på det under <strong>Images</strong>, og vælg <strong>Indlæs i klynge</strong>. Gantry kører <code>container cluster load-image</code>, som kopierer imaget ind i containerd på hver node. Du behøver ikke et registry til lokal udvikling.</p>
+<h2 id="images">Brug lokale images i klyngen</h2>
+<p>På CLI 1.7 slår du <strong>Brug lokale images</strong> til, når du opretter klyngen. Det tilføjer <code>--shared-image-store</code>, så noderne kan køre ethvert image, du bygger eller henter med <code>container</code>, ved navn, uden registry. Indstillingen ligger fast, når klyngen er oprettet. Når du har bygget et tag igen, så brug <code>imagePullPolicy: Always</code> eller et nyt tag. Privilegerede pods kan læse alle images i dit lokale lager, så brug det kun til lokal udvikling.</p>
+<div class="code-block">
+  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container build -t myapp:dev .
+kubectl --context dev create deployment myapp --image=myapp:dev">Kopiér</button></div>
+  <pre><code>container build -t myapp:dev .
+kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
+</div>
+<p>På CLI 1.5 og 1.6 højreklikker du på imaget under <strong>Images</strong> og vælger <strong>Indlæs i klynge</strong>. Gantry kører <code>container cluster load-image</code>, som kopierer imaget ind i containerd på hver node. CLI 1.7 har fjernet denne kommando, så der skjuler Gantry handlingen.</p>
 <div class="code-block">
   <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster load-image --name dev myapp:dev">Kopiér</button></div>
   <pre><code>container cluster load-image --name dev myapp:dev</code></pre>
 </div>
+
+<h2 id="broken">Når klyngetjenesterne ikke svarer</h2>
+<p>Fejler en klyngekommando med <em>cluster service unavailable</em>, tjekker Gantry, hvordan CLI'en er installeret. Et Homebrew-build uden klynge-plugins får beskeden om, at buildet mangler klyngetjenesterne, og et link, <strong>Download installationsprogram…</strong>, til den signerede pakke. I andre tilfælde tilbyder Gantry <strong>Genstart tjenester…</strong>.</p>
 
 <h2 id="cni">Vælg en CNI</h2>
 <p>Standard er det medfølgende kindnet-manifest. Vælg <strong>Tilpasset manifest</strong> for at installere din egen CNI, for eksempel Calico eller Cilium, fra en fil. Vælg <strong>Ingen</strong> for selv at installere en CNI senere; indtil da forbliver noderne NotReady.</p>
@@ -290,19 +332,21 @@
 </div>
 
 <h2 id="more">Mere om apple/container</h2>
-<p>Læs <a href="../apple-container/">guiden til apple/container</a> om hver <code>container</code>-kommando og dens funktion i Gantry, eller se, hvordan Gantry klarer sig over for <a href="../compare/">Docker Desktop, OrbStack og Podman Desktop</a>.</p>
+<p>Vil du have en trin-for-trin-gennemgang fra terminalen, så læs <a href="../kubernetes-on-mac/">Kør Kubernetes på en Mac med Apple container</a>. Læs <a href="../apple-container/">guiden til apple/container</a> for hver <code>container</code>-kommando og dens funktion i Gantry, eller se, hvordan Gantry klarer sig mod <a href="../compare/">Docker Desktop, OrbStack og Podman Desktop</a>.</p>
 
 <h2 id="faq">Spørgsmål og svar</h2>
 <div class="faq-list">
-<details class="faq-item"><summary>Understøtter Apple container Kubernetes?</summary><p>Ja. <code>container</code>-CLI'en opretter Kubernetes-klynger, hvis noder kører som containere: <code>container cluster</code> i CLI 1.6.1, <code>container k8s</code> i CLI 1.5.0 til 1.6.0. Gantry giver det en GUI.</p></details>
-<details class="faq-item"><summary>Understøtter Gantry container cluster?</summary><p>Ja. Gantry viser, opretter og sletter klynger på apple/container-værter, viser deres noder, skriver kubeconfig, kopierer kommandoen til <code>kubectl</code>-konteksten og indlæser lokale images i en klynge. Den bruger <code>cluster</code> eller <code>k8s</code>, så den passer til din CLI-version.</p></details>
+<details class="faq-item"><summary>Understøtter Apple container Kubernetes?</summary><p>Ja. <code>container</code>-CLI'en opretter Kubernetes-klynger, hvis noder kører som containere: <code>container cluster</code> i CLI 1.6.1 og 1.7, <code>container k8s</code> i CLI 1.5.0 til 1.6.0. Gantry giver det en GUI.</p></details>
+<details class="faq-item"><summary>Understøtter Gantry container cluster?</summary><p>Ja. Gantry viser, opretter og sletter klynger på apple/container-værter, viser deres noder, skriver kubeconfig og åbner klyngen i sin Kubernetes-browser. På CLI 1.7 giver den også arbejdsnoderne en størrelse og slår det delte image-lager til. Den bruger <code>cluster</code> eller <code>k8s</code>, så den passer til din CLI-version.</p></details>
 <details class="faq-item"><summary>Hvordan bruger jeg kubectl med en apple/container-klynge?</summary><p>Når CLI'en opretter en klynge, tilføjer den en kubeconfig-kontekst med klyngens navn til <code>~/.kube/config</code>. Kør <code>kubectl --context &lt;name&gt; get nodes</code>. Vil du have en separat fil, så brug <b>Skriv kubeconfig</b> i Gantry; standardstien er <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p></details>
-<details class="faq-item"><summary>Hvordan får jeg et lokalt image ind i klyngen uden et registry?</summary><p>Højreklik på imaget under Images i Gantry, og vælg <b>Indlæs i klynge</b>. Gantry kører <code>container cluster load-image</code>, som kopierer imaget ind i containerd på hver node.</p></details>
-<details class="faq-item"><summary>Kan jeg oprette en klynge med flere noder?</summary><p>Ja. Angiv antallet af arbejdsnoder i oprettelsesarket. Arbejdsnoder kræver CLI 1.6.0 eller nyere.</p></details>
+<details class="faq-item"><summary>Hvordan får jeg et lokalt image ind i klyngen uden et registry?</summary><p>På CLI 1.7 opretter du klyngen med <b>Brug lokale images</b> (<code>--shared-image-store</code>). Pods kører så de images, du bygger eller henter med <code>container</code>, ved navn. På CLI 1.5 og 1.6 højreklikker du på imaget under Images og vælger <b>Indlæs i klynge</b>; Gantry kører <code>container cluster load-image</code>. CLI 1.7 har fjernet <code>load-image</code>.</p></details>
+<details class="faq-item"><summary>Kan jeg oprette en klynge med flere noder?</summary><p>Ja. Angiv antallet af arbejdsnoder i oprettelsesarket; arbejdsnoder kræver CLI 1.6.0 eller nyere. På CLI 1.7 angiver du også CPU'er og hukommelse til arbejdsnoderne adskilt fra kontrolplanet.</p></details>
 <details class="faq-item"><summary>Kan jeg bruge min egen CNI som Calico eller Cilium?</summary><p>Ja. Vælg <b>Tilpasset manifest</b>, og vælg manifestfilen, eller vælg <b>Ingen</b>, og installer selv en CNI, når klyngen er startet. Noderne forbliver NotReady, indtil en CNI kører. <b>Ingen</b> kræver CLI 1.6.0 eller nyere. Standard-CNI'en er det medfølgende kindnet-manifest.</p></details>
+<details class="faq-item"><summary>Hvorfor siger Gantry, at klyngetjenesterne ikke er tilgængelige?</summary><p><code>container</code>-tjenesterne svarede ikke på en klyngekommando. Er din CLI et Homebrew-build uden klyngetjenesterne, siger Gantry det og linker til det signerede installationsprogram på udgivelsessiden for apple/container. Ellers tilbyder den <b>Genstart tjenester</b>.</p></details>
+<details class="faq-item"><summary>Skal jeg bruge kubectl for at bruge klyngen i Gantry?</summary><p>Indtil videre, ja: Gantrys Kubernetes-browser kører <code>kubectl</code>. Er det ikke installeret, viser browseren kommandoen <code>brew install kubectl</code> og kan køre den for dig. En native Kubernetes-klient, der fjerner dette trin, er under udvikling.</p></details>
 </div>
 
-<p class="updated">Sidst opdateret 2026-11-03.</p>
+<p class="updated">Sidst opdateret 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Forside</a>
@@ -312,6 +356,14 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Sammenlign</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes på en Mac</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Fra Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Eksternt drev</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Fra docker run</a>
       <span>·</span>
       <a href="../../docs/index.html">Dokumentation</a>
       <span>·</span>

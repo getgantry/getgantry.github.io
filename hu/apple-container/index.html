@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="A Gantry flottairányítópultja Docker- és apple/container-gazdagépekkel">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Apple container GUI Macre: a teljes apple/container-útmutató">
   <meta name="twitter:description" content="Mi az Apple container eszköze, hogyan telepíthető, és hogyan kezeli a Gantry: minden container CLI-parancs és Gantry-funkció egy táblázatban, a Compose-tól a Kubernetesig.">
@@ -67,7 +67,7 @@
       "description": "Mi az Apple container eszköze, hogyan telepíthető, és hogyan kezeli a Gantry: minden container CLI-parancs és Gantry-funkció egy táblázatban, a Compose-tól a Kubernetesig.",
       "url": "https://getgantry.github.io/hu/apple-container/",
       "inLanguage": "hu",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -157,7 +157,7 @@
           "name": "Melyik container CLI-verziót érdemes telepíteni?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A Gantryhez 1.0-s vagy újabb verzió kell, és az 1.6.1-es verzióval tesztelték. Telepítse az aláírt telepítőcsomaggal az apple/container kiadási oldaláról. A Homebrew-build nem tartalmazza a gépek háttérrendszerét, így a container machine azzal nem működik."
+            "text": "A Gantryhez 1.0-s vagy újabb verzió kell, az ajánlott az 1.7.1. Telepítse az aláírt telepítőcsomaggal az apple/container kiadási oldaláról. A Homebrew-build nem tartalmazza a gépek háttérrendszerét, az 1.7.1-ben pedig a klaszterszolgáltatásokat sem, így a container machine és a container cluster nem működik vele."
           }
         }
       ]
@@ -223,7 +223,7 @@
 <p class="page-lead">Az apple/container Linux-konténereket futtat a Macen, mindegyiket saját, könnyű virtuális gépen. Parancssori eszközként érkezik. A Gantry natív macOS GUI hozzá. Ez az útmutató bemutatja az eszközt, a beállítását, és azt, hogy melyik Gantry-funkció melyik <code>container</code> parancsot fedi le.</p>
 
 <div class="tldr">
-<p><strong>Röviden.</strong> A Gantry ingyenes, nyílt forráskódú (MIT) macOS-app, amely egyetlen ablakból kezeli az Apple <code>container</code> eszközét és a Dockert. A <code>container</code> CLI 1.0–1.6.1 (ajánlott) verzióit támogatja, és csak azokat a funkciókat mutatja, amelyeket az Ön CLI-verziója támogat. Telepítés: <code>brew install --cask getgantry/tap/gantry</code>.</p>
+<p><strong>Röviden.</strong> A Gantry ingyenes, nyílt forráskódú (MIT) macOS-app, amely egyetlen ablakból kezeli az Apple <code>container</code> eszközét és a Dockert. A <code>container</code> CLI 1.0–1.7.1 (ajánlott) verzióit támogatja, és csak azokat a funkciókat mutatja, amelyeket az Ön CLI-verziója támogat. Telepítés: <code>brew install --cask getgantry/tap/gantry</code>.</p>
 </div>
 
 <h2 id="what-is">Mi az apple/container?</h2>
@@ -245,14 +245,14 @@
   <li>A Gantryben válassza a <strong>Gazdagép hozzáadása…</strong> parancsot, és adjon hozzá egy <em>Apple Container</em>-gazdagépet. A csatlakozás elindítja a <code>container</code> szolgáltatásokat, ha le vannak állítva.</li>
   <li>Ha nincs telepítve alapértelmezett kernel, a gazdagép áttekintésében egy sáv jelenik meg. Kattintson rá az ajánlott kernel telepítéséhez.</li>
 </ol>
-<div class="callout callout-warn"><span class="callout-tag">Figyelem</span><div>Az aláírt telepítőcsomagot használja, ne a Homebrew-buildet. A Homebrew-build nem tartalmazza a gépek háttérrendszerét, így a <code>container machine</code> nem tud futni.</div></div>
+<div class="callout callout-warn"><span class="callout-tag">Figyelem</span><div>Az aláírt telepítőcsomagot használja, ne a Homebrew-buildet. A Homebrew-build nem tartalmazza a gépek háttérrendszerét, az 1.7.1-ben pedig a klaszterszolgáltatásokat sem, így a <code>container machine</code> és a <code>container cluster</code> nem tud futni.</div></div>
 
 <h2 id="command-map">Minden container parancs és a hozzá tartozó Gantry-funkció</h2>
 <p>Ez a táblázat a <code>container</code> CLI-t a Gantryhez rendeli. Az utolsó oszlop azt a CLI-verziót mutatja, amelyre a Gantrynek az adott funkcióhoz szüksége van. A <em>Bármely</em> bármely támogatott, 1.0-s vagy újabb CLI-t jelent. A Gantry kiolvassa a telepített verziót, és elrejti azokat a funkciókat, amelyeket az nem támogat.</p>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">CLI-parancs</th><th scope="col">Gantry-funkció</th><th scope="col">A Gantry által igényelt CLI-verzió</th></tr></thead>
 <tbody>
-<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Új konténer lap és Gyorsfuttatás: image, név, parancs, portok, környezet, kötetek, DNS-tartomány, egyéni kernel és rendszerindítási argumentumok</td><td>Bármely</td></tr>
+<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Új konténer lap és Gyorsfuttatás: image, név, parancs, portok, környezet, kötetek, DNS-tartomány, egyéni kernel és rendszerindítási argumentumok; a <strong>Parancs beillesztése…</strong> beolvas egy <code>docker run</code> vagy <code>container run</code> sort</td><td>Bármely</td></tr>
 <tr><th scope="row"><code>container list --all</code></th><td>Konténerlista Compose-projekt szerint csoportosítva, állapotszűrőkkel és kereséssel</td><td>Bármely</td></tr>
 <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Eszközsor, helyi menü és a menüsor panelje</td><td>Bármely</td></tr>
 <tr><th scope="row"><code>container logs</code></th><td>Naplók lap: élő követés, regex-keresés, szintszűrő, ANSI-színek</td><td>Bármely</td></tr>
@@ -272,14 +272,14 @@
 <tr><th scope="row"><code>container system start</code>, <code>stop</code></th><td>Rendszer szakasz: a szolgáltatások indítása, leállítása és újraindítása; a menüsorban és a Beállításokban is</td><td>Bármely</td></tr>
 <tr><th scope="row"><code>container system status</code>, <code>version</code></th><td>Rendszer szakasz: állapot, kliens- és szerververzió, gazdagépadatok</td><td>Bármely</td></tr>
 <tr><th scope="row"><code>container system logs</code></th><td>Rendszer szakasz: Szolgáltatásnaplók élőben vagy 5 perctől 1 napig visszamenőleg, szint, szolgáltatás és szöveg szerint szűrve</td><td>Bármely</td></tr>
-<tr><th scope="row"><code>container system property list</code></th><td>Rendszer szakasz: Rendszertulajdonságok-szerkesztő, mentés ide: <code>~/.config/container/config.toml</code></td><td>Bármely; tesztelve: 1.6.1</td></tr>
+<tr><th scope="row"><code>container system property list</code></th><td>Rendszer szakasz: Rendszertulajdonságok-szerkesztő, mentés ide: <code>~/.config/container/config.toml</code></td><td>Bármely; a <code>[container.dns]</code> listákhoz 1.7</td></tr>
 <tr><th scope="row"><code>container system dns create</code>, <code>delete</code>, <code>list</code></th><td>Beállítások ▸ Apple: helyi DNS-tartományok és alapértelmezett tartomány</td><td>Bármely</td></tr>
 <tr><th scope="row"><code>container system kernel set</code></th><td>Rendszer szakasz: az ajánlott kernel, egy kernelfájl vagy egy tar-archívum telepítése</td><td>Bármely</td></tr>
 <tr><th scope="row"><code>container system df</code></th><td>A gazdagép-áttekintés lemezhasználata és Hely felszabadítása</td><td>Bármely</td></tr>
 <tr><th scope="row"><code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code></th><td>Rendszer szakasz: Image-builder CPU-, memória- és DNS-beállításokkal</td><td>Bármely</td></tr>
 <tr><th scope="row"><code>container registry login</code>, <code>logout</code>, <code>list</code></th><td>Rendszer szakasz: Registry-bejelentkezések (jelszó csak stdinen)</td><td>Bármely</td></tr>
 <tr><th scope="row"><code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code></th><td>Gépek: létrehozás, indítás, leállítás, törlés, alapértelmezett gép, CPU-k és memória, shell, vizsgálat, Megnyitás a VS Code-ban</td><td>Bármely; beágyazott virtualizáció és kernelek: 1.1</td></tr>
-<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Klaszterek: Kubernetes-klaszterek, csomópontok, kubeconfig, kubectl-környezet, Betöltés a klaszterbe</td><td>1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)</td></tr>
+<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Klaszterek: Kubernetes-klaszterek, workerméretek és közös image-tár (1.7), csomópontok, kubeconfig, Erőforrások böngészése, Betöltés a klaszterbe (1.5 és 1.6)</td><td>1.5 (<code>k8s</code>), 1.6.1 és 1.7 (<code>cluster</code>)</td></tr>
 <tr><th scope="row">Nincs <code>compose</code> parancs</th><td>Compose-futtató: <code>docker-compose.yml</code> indítása a Finderből, a Fájl menüből vagy húzással</td><td>Bármely</td></tr>
 </tbody>
 </table></div>
@@ -287,7 +287,7 @@
 <h2 id="features">Amit a Gantry hozzáad az apple/containerhez</h2>
 
 <h3 id="kubernetes">Kubernetes-klaszterek</h3>
-<p>Hozzon létre több workeres Kubernetes-klasztereket a <code>container cluster</code> paranccsal, válassza ki a CNI-t, lássa az összes csomópontot, írja ki a kubeconfigot, és töltse be a helyi image-eket a klaszterbe. Lásd: <a href="../apple-container-kubernetes/">Kubernetes az apple/containeren</a>.</p>
+<p>Hozzon létre Kubernetes-klasztereket a <code>container cluster</code> paranccsal, méretezze a workereket, engedje, hogy a podok a helyi image-eket használják, válassza ki a CNI-t, és nézze meg az egyes csomópontokat. Ezután böngéssze a klasztert a Gantry Kubernetes-böngészőjében. Lásd: <a href="../apple-container-kubernetes/">Kubernetes az apple/containeren</a> és a lépésről lépésre haladó útmutató: <a href="../kubernetes-on-mac/">Kubernetes futtatása Macen</a>.</p>
 
 <h3 id="machines">Konténergépek és VS Code</h3>
 <p>A gépek a <code>container machine</code> által létrehozott, hosszú életű Linux-környezetek. A Gantry létrehozza, elindítja, leállítja és törli őket, beállítja az alapértelmezett gépet, szerkeszti a CPU-kat és a memóriát, és shellt nyit. A CLI 1.1-es vagy újabb verziójával a gép beágyazott virtualizációval (Apple chip, M3 vagy újabb) és egyéni kernellel is indulhat. A <strong>Megnyitás a VS Code-ban</strong> Remote-SSH-n keresztül csatlakozik a futó géphez; a gép image-ében futnia kell az <code>sshd</code>-nek.</p>
@@ -302,11 +302,11 @@
 <p>Minden apple/container-gazdagépnek van egy <strong>Rendszer</strong> szakasza. Akkor is működik, ha a gazdagép nincs csatlakoztatva, így innen elindíthatók a leállított szolgáltatások.</p>
 <ul>
   <li><strong>Állapot és verzió:</strong> kliens- és szerververzió, figyelmeztetéssel, ha eltérnek; a szolgáltatások indítása, leállítása és újraindítása; gazdagépadatok és elérési utak.</li>
-  <li><strong>Image-builder:</strong> állapot, image, CPU-k, memória és IP; indítás CPU-, memória- és DNS-beállításokkal; leállítás; törlés.</li>
+  <li><strong>Image-builder:</strong> állapot, image, CPU-k, memória és IP-cím; indítás CPU-, memória- és DNS-beállításokkal; leállítás; törlés. Egy kártya jelzi, ha a builder image-e elavult, és újra is létrehozza.</li>
   <li><strong>Registry-bejelentkezések:</strong> listázás, bejelentkezés és kijelentkezés. A jelszó csak stdinen (<code>--password-stdin</code>) jut el a CLI-hez, és a Gantry nem tart meg róla másolatot.</li>
   <li><strong>Kernel:</strong> az ajánlott kernel, egy kernelfájl vagy egy tar-archívum telepítése, élő folyamatjelzéssel.</li>
   <li><strong>Szolgáltatásnaplók:</strong> élőben vagy egyszeri lekérdezéssel, 5 perctől 1 napig visszamenőleg, szint, szolgáltatás és szöveg szerint szűrve.</li>
-  <li><strong>Rendszertulajdonságok:</strong> a módosítások a <code>~/.config/container/config.toml</code> fájlba kerülnek, függő újraindítást jelző jelzővel és <strong>Szolgáltatások újraindítása</strong> gombbal.</li>
+  <li><strong>Rendszertulajdonságok:</strong> a módosítások a <code>~/.config/container/config.toml</code> fájlba kerülnek, függőben lévő újraindítás jelzéssel és <strong>Szolgáltatások újraindítása</strong> gombbal. A CLI 1.7-ben a <code>[container.dns]</code> névszervereihez, keresési tartományaihoz és beállításaihoz listaszerkesztő tartozik.</li>
 </ul>
 
 <h3 id="disk">Commit, Lemez TRIM-elése és fájlok</h3>
@@ -323,7 +323,7 @@
 </div>
 
 <h2 id="vs-docker">apple/container a Docker mellett</h2>
-<p>A Gantry az apple/container-gazdagépeket, a helyi Docker-démont (Docker Desktop, OrbStack, Colima) és az SSH-n elért távoli Docker-gazdagépeket egyetlen oldalsávban és egyetlen flottairányítópulton kezeli. Nem kell egyetlen futtatókörnyezetet választania. Az eszközök funkciónkénti összevetése: <a href="../compare/">Gantry vs. Docker Desktop, OrbStack és Podman Desktop</a>.</p>
+<p>A Gantry egyetlen oldalsávban és egyetlen flottairányítópulton kezeli az apple/container-gazdagépeket, a helyi Docker-démont (Docker Desktop, OrbStack, Colima) és az SSH-n elért távoli Docker-gazdagépeket. Nem kell egyetlen futtatókörnyezet mellett döntenie. Az eszközök funkciónkénti összevetése: <a href="../compare/">Gantry vs. Docker Desktop, OrbStack és Podman Desktop</a>. Az átálláshoz olvassa el: <a href="../docker-desktop-to-apple-container/">Átállás a Docker Desktopról az Apple containerre</a>.</p>
 
 <h2 id="faq">Kérdések és válaszok</h2>
 <div class="faq-list">
@@ -332,10 +332,10 @@
 <details class="faq-item"><summary>Használható a docker compose az Apple containerrel?</summary><p>Az apple/containernek nincs <code>compose</code> parancsa. A Gantry beolvassa a <code>docker-compose.yml</code> fájlt, buildeli a <code>build:</code> szolgáltatásokat, létrehozza a hálózatot és a névvel ellátott köteteket, majd <code>depends_on</code> sorrendben elindítja a szolgáltatásokat. A szolgáltatásnevek hálózati DNS-aliasokon keresztül oldódnak fel.</p></details>
 <details class="faq-item"><summary>Hogyan nyitható meg egy konténergép a VS Code-ban?</summary><p>Indítsa el a gépet a Gantryben, és kattintson a <b>Megnyitás a VS Code-ban</b> gombra. A Gantry Remote-SSH-n keresztül nyitja meg, ahogy az Apple <code>container-machine-vscode</code> példájában. A gép image-ében futnia kell az <code>sshd</code>-nek.</p></details>
 <details class="faq-item"><summary>Működik az Apple container Intel-alapú Macen?</summary><p>Nem. Az apple/containerhez Apple chipes Mac kell. A Gantry Intel-alapú Macen is fut, de ott csak Docker-gazdagépeket kezel.</p></details>
-<details class="faq-item"><summary>Melyik container CLI-verziót érdemes telepíteni?</summary><p>A Gantryhez 1.0-s vagy újabb verzió kell, és az 1.6.1-es verzióval tesztelték. Telepítse az aláírt telepítőcsomaggal az <a href="https://github.com/apple/container/releases">apple/container kiadási oldaláról</a>. A Homebrew-build nem tartalmazza a gépek háttérrendszerét, így a <code>container machine</code> azzal nem működik.</p></details>
+<details class="faq-item"><summary>Melyik container CLI-verziót érdemes telepíteni?</summary><p>A Gantryhez 1.0-s vagy újabb verzió kell, az ajánlott az 1.7.1. Telepítse az aláírt telepítőcsomaggal az <a href="https://github.com/apple/container/releases">apple/container kiadási oldaláról</a>. A Homebrew-build nem tartalmazza a gépek háttérrendszerét, az 1.7.1-ben pedig a klaszterszolgáltatásokat sem, így a <code>container machine</code> és a <code>container cluster</code> nem működik vele.</p></details>
 </div>
 
-<p class="updated">Utoljára frissítve: 2026-11-03.</p>
+<p class="updated">Utoljára frissítve: 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Kezdőlap</a>
@@ -345,6 +345,14 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Összevetés</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes Macen</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Docker Desktopról</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Külső meghajtó</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">docker run parancsból</a>
       <span>·</span>
       <a href="../../docs/index.html">Leírás</a>
       <span>·</span>

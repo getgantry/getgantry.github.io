@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="nl" data-copied="Gekopieerd">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JR87M6TNM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overstappen van Docker Desktop naar Apple container: commando&#x27;s, Compose, volumes en ontbrekende functies</title>
+  <meta name="description" content="Stap op een Mac over van Docker Desktop naar Apples container-tool: welk docker-commando bij welk container-commando hoort, images, volumes en Compose-bestanden meenemen, en wat nog ontbreekt.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://getgantry.github.io/nl/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="en" href="https://getgantry.github.io/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="de" href="https://getgantry.github.io/de/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="fr" href="https://getgantry.github.io/fr/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="es" href="https://getgantry.github.io/es/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="it" href="https://getgantry.github.io/it/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="pt-PT" href="https://getgantry.github.io/pt-PT/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="nl" href="https://getgantry.github.io/nl/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="sv" href="https://getgantry.github.io/sv/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="da" href="https://getgantry.github.io/da/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="nb" href="https://getgantry.github.io/nb/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="fi" href="https://getgantry.github.io/fi/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="pl" href="https://getgantry.github.io/pl/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="cs" href="https://getgantry.github.io/cs/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="sk" href="https://getgantry.github.io/sk/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="hu" href="https://getgantry.github.io/hu/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="ro" href="https://getgantry.github.io/ro/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="bg" href="https://getgantry.github.io/bg/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="el" href="https://getgantry.github.io/el/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="hr" href="https://getgantry.github.io/hr/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="sl" href="https://getgantry.github.io/sl/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="sr" href="https://getgantry.github.io/sr/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="sr-Latn" href="https://getgantry.github.io/sr-Latn/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="lt" href="https://getgantry.github.io/lt/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="lv" href="https://getgantry.github.io/lv/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="et" href="https://getgantry.github.io/et/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="uk" href="https://getgantry.github.io/uk/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="ru" href="https://getgantry.github.io/ru/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="x-default" href="https://getgantry.github.io/docker-desktop-to-apple-container/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Gantry">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:title" content="Overstappen van Docker Desktop naar Apple container: commando&#x27;s, Compose, volumes en ontbrekende functies">
+  <meta property="og:description" content="Stap op een Mac over van Docker Desktop naar Apples container-tool: welk docker-commando bij welk container-commando hoort, images, volumes en Compose-bestanden meenemen, en wat nog ontbreekt.">
+  <meta property="og:url" content="https://getgantry.github.io/nl/docker-desktop-to-apple-container/">
+  <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta property="og:image:width" content="3364">
+  <meta property="og:image:height" content="2116">
+  <meta property="og:image:alt" content="Gantry-vlootdashboard met Docker- en apple/container-hosts">
+  <meta property="article:modified_time" content="2026-11-07">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Overstappen van Docker Desktop naar Apple container: commando&#x27;s, Compose, volumes en ontbrekende functies">
+  <meta name="twitter:description" content="Stap op een Mac over van Docker Desktop naar Apples container-tool: welk docker-commando bij welk container-commando hoort, images, volumes en Compose-bestanden meenemen, en wat nog ontbreekt.">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta name="theme-color" content="#060a10">
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../docs/docs.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://getgantry.github.io/nl/docker-desktop-to-apple-container/#article",
+      "headline": "Overstappen van Docker Desktop naar Apple container: commando's, Compose, volumes en ontbrekende functies",
+      "description": "Stap op een Mac over van Docker Desktop naar Apples container-tool: welk docker-commando bij welk container-commando hoort, images, volumes en Compose-bestanden meenemen, en wat nog ontbreekt.",
+      "url": "https://getgantry.github.io/nl/docker-desktop-to-apple-container/",
+      "inLanguage": "nl",
+      "dateModified": "2026-11-07",
+      "image": "https://getgantry.github.io/assets/dashboard.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Gantry",
+        "url": "https://getgantry.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://getgantry.github.io/#organization",
+        "name": "Gantry",
+        "logo": "https://getgantry.github.io/assets/icon.png"
+      },
+      "about": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "container (apple/container)",
+          "url": "https://github.com/apple/container",
+          "operatingSystem": "macOS",
+          "applicationCategory": "DeveloperApplication"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Gantry",
+          "url": "https://getgantry.github.io/"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://getgantry.github.io/nl/docker-desktop-to-apple-container/#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Gantry",
+          "item": "https://getgantry.github.io/nl/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Van Docker Desktop",
+          "item": "https://getgantry.github.io/nl/docker-desktop-to-apple-container/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://getgantry.github.io/nl/docker-desktop-to-apple-container/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Kan Apple container Docker Desktop vervangen?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Voor het draaien, bouwen en pullen van containers op Apple silicon: ja. Het heeft geen Docker Engine-API, geen herstartbeleid, geen extensies en geen compose-commando. Gantry voegt Compose-bestanden en een GUI toe."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Werken Docker-images met Apple container?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja. apple/container gebruikt standaard OCI-images en pullt uit dezelfde registry's. arm64-images draaien native; amd64-images draaien via Rosetta met --arch amd64."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Werkt docker compose met Apple container?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Niet vanuit de CLI: er is geen container compose. Gantry leest de docker-compose.yml en draait de services voor je op apple/container."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kan ik Docker Desktop en Apple container tegelijk gebruiken?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja. Ze delen geen images of volumes, maar ze kunnen naast elkaar draaien. Gantry toont beide in één venster."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Apple container gratis voor commercieel gebruik?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja. apple/container is open source onder de Apache 2.0-licentie, en Gantry valt onder de MIT-licentie. Beide zijn gratis voor bedrijven van elke grootte."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs-body">
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../"><img src="../../assets/icon.png" alt="Gantry-symbool" width="30" height="30"><span>Gantry</span></a>
+      <nav class="nav-links">
+        <a href="../#features">Functies</a>
+        <a href="../apple-container/">apple/container</a>
+        <a href="../apple-container-kubernetes/">Kubernetes</a>
+        <a href="../compare/">Vergelijken</a>
+        <a href="../../docs/index.html">Docs</a>
+        <a href="https://github.com/getgantry/gantry">GitHub</a>
+      </nav>
+      <details class="lang-menu">
+        <summary aria-label="Taal: Nederlands" title="Taal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lang-name">Nederlands</span><span class="lang-code">NL</span></summary>
+        <ul>
+          <li><a href="../../docker-desktop-to-apple-container/" hreflang="en" lang="en">English</a></li>
+          <li><a href="../../de/docker-desktop-to-apple-container/" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../../fr/docker-desktop-to-apple-container/" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../../es/docker-desktop-to-apple-container/" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../../it/docker-desktop-to-apple-container/" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../../pt-PT/docker-desktop-to-apple-container/" hreflang="pt-PT" lang="pt-PT">Português</a></li>
+          <li><a href="./" hreflang="nl" lang="nl" aria-current="page">Nederlands</a></li>
+          <li><a href="../../sv/docker-desktop-to-apple-container/" hreflang="sv" lang="sv">Svenska</a></li>
+          <li><a href="../../da/docker-desktop-to-apple-container/" hreflang="da" lang="da">Dansk</a></li>
+          <li><a href="../../nb/docker-desktop-to-apple-container/" hreflang="nb" lang="nb">Norsk bokmål</a></li>
+          <li><a href="../../fi/docker-desktop-to-apple-container/" hreflang="fi" lang="fi">Suomi</a></li>
+          <li><a href="../../pl/docker-desktop-to-apple-container/" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../../cs/docker-desktop-to-apple-container/" hreflang="cs" lang="cs">Čeština</a></li>
+          <li><a href="../../sk/docker-desktop-to-apple-container/" hreflang="sk" lang="sk">Slovenčina</a></li>
+          <li><a href="../../hu/docker-desktop-to-apple-container/" hreflang="hu" lang="hu">Magyar</a></li>
+          <li><a href="../../ro/docker-desktop-to-apple-container/" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../../bg/docker-desktop-to-apple-container/" hreflang="bg" lang="bg">Български</a></li>
+          <li><a href="../../el/docker-desktop-to-apple-container/" hreflang="el" lang="el">Ελληνικά</a></li>
+          <li><a href="../../hr/docker-desktop-to-apple-container/" hreflang="hr" lang="hr">Hrvatski</a></li>
+          <li><a href="../../sl/docker-desktop-to-apple-container/" hreflang="sl" lang="sl">Slovenščina</a></li>
+          <li><a href="../../sr/docker-desktop-to-apple-container/" hreflang="sr" lang="sr">Српски</a></li>
+          <li><a href="../../sr-Latn/docker-desktop-to-apple-container/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a></li>
+          <li><a href="../../lt/docker-desktop-to-apple-container/" hreflang="lt" lang="lt">Lietuvių</a></li>
+          <li><a href="../../lv/docker-desktop-to-apple-container/" hreflang="lv" lang="lv">Latviešu</a></li>
+          <li><a href="../../et/docker-desktop-to-apple-container/" hreflang="et" lang="et">Eesti</a></li>
+          <li><a href="../../uk/docker-desktop-to-apple-container/" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="../../ru/docker-desktop-to-apple-container/" hreflang="ru" lang="ru">Русский</a></li>
+        </ul>
+      </details>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="crumbs" aria-label="Kruimelpad"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Van Docker Desktop</span></nav>
+    <article class="docs-article page-article">
+<h1>Overstappen van Docker Desktop naar Apple container</h1>
+<p class="page-lead">Apples <code>container</code>-tool draait dezelfde OCI-images als Docker, dus het meeste werk verhuist mee met een paar gewijzigde commando's. Deze gids zet Docker naast <code>container</code>, verhuist images en volumes, en noemt de ontbrekende functies die je moet kennen voordat je overstapt.</p>
+
+<div class="tldr">
+<p><strong>Kort gezegd.</strong> Installeer het ondertekende <code>container</code>-pakket, vervang <code>docker</code> door <code>container</code> voor run, build, logs, exec en images, kopieer benoemde volumes via een tar-bestand en open je <code>docker-compose.yml</code> in Gantry, want de CLI heeft geen <code>compose</code>. Docker Desktop kan geïnstalleerd blijven terwijl je het uitprobeert.</p>
+</div>
+
+<h2 id="why">Wat er verandert</h2>
+<ul>
+  <li><strong>Eén VM per container.</strong> Docker Desktop draait alle containers in één Linux-VM. apple/container start een kleine VM per container, dus elke container krijgt een eigen IP-adres op je Mac.</li>
+  <li><strong>Dezelfde images en registry's.</strong> Images zijn OCI-images; je pullt zoals voorheen van Docker Hub, GHCR en privé-registry's.</li>
+  <li><strong>Geen licentiekosten.</strong> apple/container valt onder Apache 2.0. Docker Desktop vereist een betaald abonnement in organisaties met 250 of meer medewerkers of $ 10 mln. of meer omzet.</li>
+  <li><strong>Alleen Apple silicon en macOS 26.</strong> Op Intel-Macs blijf je bij een Docker-engine.</li>
+</ul>
+
+<h2 id="commands">Docker-commando's en hun container-equivalenten</h2>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Docker</th><th scope="col">apple/container</th><th scope="col">Opmerkingen</th></tr></thead>
+<tbody>
+<tr><th scope="row"><code>docker run</code>, <code>create</code></th><td><code>container run</code>, <code>create</code></td><td>De meeste flags zijn hetzelfde</td></tr>
+<tr><th scope="row"><code>docker ps</code>, <code>ps -a</code></th><td><code>container ls</code>, <code>ls -a</code></td><td></td></tr>
+<tr><th scope="row"><code>docker logs -f</code></th><td><code>container logs -f</code></td><td></td></tr>
+<tr><th scope="row"><code>docker exec -it</code></th><td><code>container exec -it</code></td><td></td></tr>
+<tr><th scope="row"><code>docker build</code></th><td><code>container build</code></td><td>Draait in een builder-VM (<code>container builder</code>)</td></tr>
+<tr><th scope="row"><code>docker images</code>, <code>pull</code>, <code>push</code>, <code>tag</code></th><td><code>container image ls</code>, <code>pull</code>, <code>push</code>, <code>tag</code></td><td></td></tr>
+<tr><th scope="row"><code>docker save</code>, <code>load</code></th><td><code>container image save</code>, <code>load</code></td><td>OCI-archieven</td></tr>
+<tr><th scope="row"><code>docker cp</code></th><td><code>container cp</code></td><td></td></tr>
+<tr><th scope="row"><code>docker stats</code>, <code>inspect</code></th><td><code>container stats</code>, <code>inspect</code></td><td></td></tr>
+<tr><th scope="row"><code>docker commit</code></th><td><code>container commit</code></td><td>CLI 1.6 of nieuwer</td></tr>
+<tr><th scope="row"><code>docker volume …</code></th><td><code>container volume …</code></td><td>Volumes zijn ext4-schijfkopieën</td></tr>
+<tr><th scope="row"><code>docker network …</code></th><td><code>container network …</code></td><td></td></tr>
+<tr><th scope="row"><code>docker login</code></th><td><code>container registry login</code></td><td></td></tr>
+<tr><th scope="row"><code>docker system df</code>, <code>prune</code></th><td><code>container system df</code>, <code>container prune</code></td><td></td></tr>
+<tr><th scope="row"><code>docker compose up</code></th><td>Geen</td><td>Gantry voert Compose-bestanden uit</td></tr>
+<tr><th scope="row">Kubernetes in Docker Desktop</th><td><code>container cluster</code></td><td>CLI 1.6.1 of nieuwer</td></tr>
+<tr><th scope="row"><code>docker context</code>, <code>-H ssh://</code></th><td>Geen</td><td>Gantry toont Docker-hosts naast apple/container</td></tr>
+</tbody>
+</table></div>
+<p>De meeste flags van <code>run</code> zijn hetzelfde: <code>-d</code>, <code>-p</code>, <code>-e</code>, <code>-v</code>, <code>--name</code>, <code>--rm</code>, <code>-it</code>, <code>-w</code>, <code>--entrypoint</code>, <code>--cpus</code> en <code>-m</code>. Plak een lang commando in Gantry om het om te zetten: zie <a href="../docker-run-to-container/">Een container maken van een docker run-commando</a>.</p>
+
+<h2 id="images">Je images meenemen</h2>
+<p>Images uit een registry: pull ze opnieuw met <code>container image pull</code>. Lokale images die alleen in Docker bestaan: sla ze op in een archief en laad dat. <code>container image load</code> leest OCI-archieven, en recente Docker-versies schrijven met <code>docker save</code> een OCI-layout. Mislukt het laden, push de image dan naar een registry en pull hem.</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="docker save -o app.tar app:dev
+container image load -i app.tar
+container image pull nginx:alpine">Kopieer</button></div>
+  <pre><code>docker save -o app.tar app:dev
+container image load -i app.tar
+container image pull nginx:alpine</code></pre>
+</div>
+
+<h2 id="volumes">Benoemde volumes verhuizen</h2>
+<p>Docker bewaart volumegegevens in zijn VM. Kopieer elk volume met een kortlevende container naar een tar-bestand en pak het daarna uit in een nieuw apple/container-volume:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="docker run --rm -v data:/from -v &quot;$PWD&quot;:/to alpine tar -C /from -cf /to/data.tar .
+container volume create data
+container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /from/data.tar">Kopieer</button></div>
+  <pre><code>docker run --rm -v data:/from -v &quot;$PWD&quot;:/to alpine tar -C /from -cf /to/data.tar .
+container volume create data
+container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /from/data.tar</code></pre>
+</div>
+<p>Een benoemd volume in apple/container is een sparse ext4-schijfkopie van standaard maximaal 512 GB. Stel een andere grootte in met <code>--opt size=20g</code>. Bind mounts van mappen op je Mac werken zoals in Docker: <code>-v ~/project:/app</code>.</p>
+
+<h2 id="compose">Compose-bestanden</h2>
+<p>De <code>container</code>-CLI heeft geen <code>compose</code>-commando. Open de <code>docker-compose.yml</code> in plaats daarvan in Gantry (Finder, <strong>Archief ▸ Open Compose-bestand…</strong> of slepen). Gantry bouwt de <code>build:</code>-services, maakt het projectnetwerk en de benoemde volumes aan en start de services in de volgorde van <code>depends_on</code>. Services bereiken elkaar op servicenaam via netwerk-DNS-aliassen.</p>
+
+<h2 id="networks">Netwerken en poorten</h2>
+<ul>
+  <li><code>-p 8080:80</code> publiceert een poort op <code>localhost</code>, zoals in Docker.</li>
+  <li>Elke container heeft ook een eigen IP-adres. Maak een lokaal DNS-domein met <code>sudo container system dns create test</code> en draai containers met <code>--dns-domain test</code>: ze krijgen namen zoals <code>web.test</code>.</li>
+  <li><code>container network create</code> maakt gebruikersnetwerken; containers op hetzelfde netwerk bereiken elkaar.</li>
+  <li>Er is geen modus <code>--network host</code>, <code>none</code> of <code>container:</code>.</li>
+</ul>
+
+<h2 id="missing">Wat er ontbreekt</h2>
+<ul>
+  <li><strong>Geen Docker Engine-API.</strong> Tools die met <code>/var/run/docker.sock</code> praten, zoals Testcontainers, de Docker-SDK's of Dev Containers, zien apple/container niet.</li>
+  <li><strong>Geen herstartbeleid.</strong> <code>--restart</code> is niet beschikbaar; een container start niet vanzelf opnieuw.</li>
+  <li><strong>Geen Compose in de CLI.</strong> Gantry voert Compose-bestanden uit: zie <a href="#compose">Compose-bestanden</a>.</li>
+  <li><strong>Geen extensies van Docker Desktop.</strong></li>
+  <li><strong>Alleen hele CPU's:</strong> <code>--cpus 0.5</code> werkt niet.</li>
+  <li><strong>Kubernetes werkt anders:</strong> gebruik <code>container cluster</code>, zie <a href="../kubernetes-on-mac/">Kubernetes draaien op een Mac</a>.</li>
+</ul>
+
+<h2 id="both">Houd beide tijdens de overstap</h2>
+<p>Gantry beheert apple/container en elke Docker-engine (Docker Desktop, OrbStack, Colima of Docker via SSH) in één navigatiekolom. Verhuis één project tegelijk en houd Docker voor de tools die de API ervan nodig hebben. Heb je het niet meer nodig, dan kun je Docker Desktop verwijderen.</p>
+
+<h2 id="related">Verwante gidsen</h2>
+<ul>
+  <li><a href="../kubernetes-on-mac/">Kubernetes draaien op een Mac met Apple container: een stapsgewijze gids</a></li>
+  <li><a href="../containers-on-external-drive/">Containers en volumes op een externe schijf bewaren op een Mac</a></li>
+  <li><a href="../docker-run-to-container/">Een container maken van een docker run-commando op de Mac (docker run naar container run)</a></li>
+  <li><a href="../apple-container/">Apple container GUI voor Mac: de complete apple/container-gids</a></li>
+  <li><a href="../apple-container-kubernetes/">Kubernetes op Apple container: een GUI voor container cluster en een Kubernetes-browser</a></li>
+</ul>
+
+<h2 id="faq">Vragen en antwoorden</h2>
+<div class="faq-list">
+<details class="faq-item"><summary>Kan Apple container Docker Desktop vervangen?</summary><p>Voor het draaien, bouwen en pullen van containers op Apple silicon: ja. Het heeft geen Docker Engine-API, geen herstartbeleid, geen extensies en geen <code>compose</code>-commando. Gantry voegt Compose-bestanden en een GUI toe.</p></details>
+<details class="faq-item"><summary>Werken Docker-images met Apple container?</summary><p>Ja. apple/container gebruikt standaard OCI-images en pullt uit dezelfde registry's. arm64-images draaien native; amd64-images draaien via Rosetta met <code>--arch amd64</code>.</p></details>
+<details class="faq-item"><summary>Werkt docker compose met Apple container?</summary><p>Niet vanuit de CLI: er is geen <code>container compose</code>. Gantry leest de <code>docker-compose.yml</code> en draait de services voor je op apple/container.</p></details>
+<details class="faq-item"><summary>Kan ik Docker Desktop en Apple container tegelijk gebruiken?</summary><p>Ja. Ze delen geen images of volumes, maar ze kunnen naast elkaar draaien. Gantry toont beide in één venster.</p></details>
+<details class="faq-item"><summary>Is Apple container gratis voor commercieel gebruik?</summary><p>Ja. apple/container is open source onder de Apache 2.0-licentie, en Gantry valt onder de MIT-licentie. Beide zijn gratis voor bedrijven van elke grootte.</p></details>
+</div>
+
+<p class="updated">Laatst bijgewerkt op 2026-11-07.</p>
+    </article>
+    <footer class="docs-foot">
+      <a href="../">Home</a>
+      <span>·</span>
+      <a href="../apple-container/">apple/container-gids</a>
+      <span>·</span>
+      <a href="../apple-container-kubernetes/">Kubernetes</a>
+      <span>·</span>
+      <a href="../compare/">Vergelijken</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes op de Mac</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Van Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Externe schijf</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Van docker run</a>
+      <span>·</span>
+      <a href="../../docs/index.html">Docs</a>
+      <span>·</span>
+      <a href="https://github.com/getgantry/gantry">MIT-licentie · GitHub</a>
+    </footer>
+    <nav class="lang-foot" aria-label="Talen">
+      <a href="../../docker-desktop-to-apple-container/" hreflang="en" lang="en">English</a>
+      <a href="../../de/docker-desktop-to-apple-container/" hreflang="de" lang="de">Deutsch</a>
+      <a href="../../fr/docker-desktop-to-apple-container/" hreflang="fr" lang="fr">Français</a>
+      <a href="../../es/docker-desktop-to-apple-container/" hreflang="es" lang="es">Español</a>
+      <a href="../../it/docker-desktop-to-apple-container/" hreflang="it" lang="it">Italiano</a>
+      <a href="../../pt-PT/docker-desktop-to-apple-container/" hreflang="pt-PT" lang="pt-PT">Português</a>
+      <a href="./" hreflang="nl" lang="nl" aria-current="page">Nederlands</a>
+      <a href="../../sv/docker-desktop-to-apple-container/" hreflang="sv" lang="sv">Svenska</a>
+      <a href="../../da/docker-desktop-to-apple-container/" hreflang="da" lang="da">Dansk</a>
+      <a href="../../nb/docker-desktop-to-apple-container/" hreflang="nb" lang="nb">Norsk bokmål</a>
+      <a href="../../fi/docker-desktop-to-apple-container/" hreflang="fi" lang="fi">Suomi</a>
+      <a href="../../pl/docker-desktop-to-apple-container/" hreflang="pl" lang="pl">Polski</a>
+      <a href="../../cs/docker-desktop-to-apple-container/" hreflang="cs" lang="cs">Čeština</a>
+      <a href="../../sk/docker-desktop-to-apple-container/" hreflang="sk" lang="sk">Slovenčina</a>
+      <a href="../../hu/docker-desktop-to-apple-container/" hreflang="hu" lang="hu">Magyar</a>
+      <a href="../../ro/docker-desktop-to-apple-container/" hreflang="ro" lang="ro">Română</a>
+      <a href="../../bg/docker-desktop-to-apple-container/" hreflang="bg" lang="bg">Български</a>
+      <a href="../../el/docker-desktop-to-apple-container/" hreflang="el" lang="el">Ελληνικά</a>
+      <a href="../../hr/docker-desktop-to-apple-container/" hreflang="hr" lang="hr">Hrvatski</a>
+      <a href="../../sl/docker-desktop-to-apple-container/" hreflang="sl" lang="sl">Slovenščina</a>
+      <a href="../../sr/docker-desktop-to-apple-container/" hreflang="sr" lang="sr">Српски</a>
+      <a href="../../sr-Latn/docker-desktop-to-apple-container/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a>
+      <a href="../../lt/docker-desktop-to-apple-container/" hreflang="lt" lang="lt">Lietuvių</a>
+      <a href="../../lv/docker-desktop-to-apple-container/" hreflang="lv" lang="lv">Latviešu</a>
+      <a href="../../et/docker-desktop-to-apple-container/" hreflang="et" lang="et">Eesti</a>
+      <a href="../../uk/docker-desktop-to-apple-container/" hreflang="uk" lang="uk">Українська</a>
+      <a href="../../ru/docker-desktop-to-apple-container/" hreflang="ru" lang="ru">Русский</a>
+    </nav>
+  </main>
+
+  <script>
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+          var t = b.textContent; b.textContent = 'Gekopieerd';
+          setTimeout(function () { b.textContent = t; }, 1400);
+        });
+      });
+    });
+  </script>
+  <script src="../../lang.js" defer></script>
+</body>
+</html>

@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Přehled flotily v Gantry s hostiteli Docker a apple/container">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GUI pro Apple container na Macu: kompletní průvodce apple/container">
   <meta name="twitter:description" content="Co je nástroj container od Applu, jak ho nainstalovat a jak ho Gantry spravuje: tabulka příkazů CLI container a funkcí Gantry, od Compose po Kubernetes.">
@@ -67,7 +67,7 @@
       "description": "Co je nástroj container od Applu, jak ho nainstalovat a jak ho Gantry spravuje: tabulka příkazů CLI container a funkcí Gantry, od Compose po Kubernetes.",
       "url": "https://getgantry.github.io/cs/apple-container/",
       "inLanguage": "cs",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -157,7 +157,7 @@
           "name": "Kterou verzi CLI container nainstalovat?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Gantry vyžaduje verzi 1.0 nebo novější a je testovaná s 1.6.1. CLI nainstalujte z podepsaného instalačního balíčku na stránce vydání apple/container. Sestavení z Homebrew neobsahuje backend strojů, takže s ním container machine nefunguje."
+            "text": "Gantry vyžaduje verzi 1.0 nebo novější a doporučuje 1.7.1. Nainstalujte ji z podepsaného instalačního balíčku ze stránky vydání apple/container. Build z Homebrew neobsahuje backend strojů ani, ve verzi 1.7.1, služby clusteru, takže container machine a container cluster s ním nefungují."
           }
         }
       ]
@@ -223,7 +223,7 @@
 <p class="page-lead">apple/container spouští linuxové kontejnery na vašem Macu, každý ve vlastním odlehčeném virtuálním stroji. Dodává se jako nástroj příkazového řádku. Gantry je pro něj nativní GUI pro macOS. Tento průvodce vysvětluje, co nástroj umí, jak ho nastavit a která funkce Gantry pokrývá jednotlivé příkazy <code>container</code>.</p>
 
 <div class="tldr">
-<p><strong>Ve zkratce.</strong> Gantry je bezplatná open-source (MIT) aplikace pro macOS, která z jednoho okna spravuje nástroj <code>container</code> od Applu i Docker. Podporuje CLI <code>container</code> 1.0 až 1.6.1 (doporučeno) a zobrazuje jen funkce, které vaše verze CLI podporuje. Nainstalujte ji příkazem <code>brew install --cask getgantry/tap/gantry</code>.</p>
+<p><strong>Ve zkratce.</strong> Gantry je bezplatná open-source (MIT) aplikace pro macOS, která z jednoho okna spravuje nástroj <code>container</code> od Applu i Docker. Podporuje CLI <code>container</code> 1.0 až 1.7.1 (doporučeno) a zobrazuje jen funkce, které vaše verze CLI podporuje. Nainstalujte ji příkazem <code>brew install --cask getgantry/tap/gantry</code>.</p>
 </div>
 
 <h2 id="what-is">Co je apple/container?</h2>
@@ -245,14 +245,14 @@
   <li>V Gantry zvolte <strong>Přidat hostitele…</strong> a přidejte hostitele <em>Apple Container</em>. Při připojení se spustí služby <code>container</code>, pokud jsou zastavené.</li>
   <li>Pokud není nainstalováno výchozí jádro, přehled hostitele zobrazí banner. Klikněte na něj a nainstalujte doporučené jádro.</li>
 </ol>
-<div class="callout callout-warn"><span class="callout-tag">Pozor</span><div>Použijte podepsaný instalační balíček, ne sestavení z Homebrew. Sestavení z Homebrew neobsahuje backend strojů, takže <code>container machine</code> nepoběží.</div></div>
+<div class="callout callout-warn"><span class="callout-tag">Pozor</span><div>Použijte podepsaný instalační balíček, ne build z Homebrew. Build z Homebrew neobsahuje backend strojů a ve verzi 1.7.1 ani služby clusteru, takže <code>container machine</code> a <code>container cluster</code> nefungují.</div></div>
 
 <h2 id="command-map">Příkazy container a jejich funkce v Gantry</h2>
 <p>Tato tabulka mapuje CLI <code>container</code> na Gantry. Poslední sloupec uvádí verzi CLI, kterou Gantry pro danou funkci potřebuje. <em>Libovolná</em> znamená jakékoli podporované CLI, tedy 1.0 nebo novější. Gantry přečte nainstalovanou verzi a skryje funkce, které nepodporuje.</p>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Příkaz CLI</th><th scope="col">Funkce Gantry</th><th scope="col">Verze CLI, kterou Gantry vyžaduje</th></tr></thead>
 <tbody>
-<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>List Nový kontejner a Rychlé spuštění: image, název, příkaz, porty, prostředí, svazky, doména DNS, vlastní jádro a spouštěcí argumenty</td><td>Libovolná</td></tr>
+<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>List Nový kontejner a Rychlé spuštění: image, název, příkaz, porty, prostředí, svazky, doména DNS, vlastní jádro a spouštěcí argumenty; <strong>Vložit příkaz…</strong> přečte řádek <code>docker run</code> nebo <code>container run</code></td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container list --all</code></th><td>Seznam kontejnerů seskupený podle projektu Compose, s filtry stavu a hledáním</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Panel nástrojů, kontextová nabídka a panel v řádku nabídek</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container logs</code></th><td>Karta Logy: živé sledování, hledání pomocí regexu, filtr úrovní, barvy ANSI</td><td>Libovolná</td></tr>
@@ -272,14 +272,14 @@
 <tr><th scope="row"><code>container system start</code>, <code>stop</code></th><td>Sekce Systém: spuštění, zastavení a restart služeb; také v řádku nabídek a v Nastavení</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container system status</code>, <code>version</code></th><td>Sekce Systém: stav, verze klienta a serveru, údaje o hostiteli</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container system logs</code></th><td>Sekce Systém: Logy služeb živě nebo za posledních 5 minut až 1 den, filtrované podle úrovně, služby a textu</td><td>Libovolná</td></tr>
-<tr><th scope="row"><code>container system property list</code></th><td>Sekce Systém: editor Systémové vlastnosti, ukládá do <code>~/.config/container/config.toml</code></td><td>Libovolná; testováno na 1.6.1</td></tr>
+<tr><th scope="row"><code>container system property list</code></th><td>Sekce Systém: editor Systémové vlastnosti, ukládá do <code>~/.config/container/config.toml</code></td><td>Libovolná; <code>[container.dns]</code> od 1.7</td></tr>
 <tr><th scope="row"><code>container system dns create</code>, <code>delete</code>, <code>list</code></th><td>Nastavení ▸ Apple: místní domény DNS a výchozí doména</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container system kernel set</code></th><td>Sekce Systém: instalace doporučeného jádra, souboru jádra nebo archivu tar</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container system df</code></th><td>Využití disku v přehledu hostitele a panel Uvolnit místo</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code></th><td>Sekce Systém: Builder imagů s možnostmi CPU, paměti a DNS</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container registry login</code>, <code>logout</code>, <code>list</code></th><td>Sekce Systém: Přihlášení k registrům (heslo jen přes stdin)</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code></th><td>Stroje: vytvoření, spuštění, zastavení, smazání, výchozí stroj, CPU a paměť, shell, inspekce, Otevřít ve VS Code</td><td>Libovolná; vnořená virtualizace a jádra 1.1</td></tr>
-<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Clustery: clustery Kubernetes, uzly, kubeconfig, kontext kubectl, Načíst do clusteru</td><td>1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)</td></tr>
+<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Clustery: clustery Kubernetes, velikosti pracovních uzlů a sdílené úložiště imagů (1.7), uzly, kubeconfig, Procházet zdroje, Načíst do clusteru (1.5 a 1.6)</td><td>1.5 (<code>k8s</code>), 1.6.1 a 1.7 (<code>cluster</code>)</td></tr>
 <tr><th scope="row">Žádný příkaz <code>compose</code></th><td>Spouštění Compose: spustí <code>docker-compose.yml</code> z Finderu, z nabídky Soubor nebo přetažením</td><td>Libovolná</td></tr>
 </tbody>
 </table></div>
@@ -287,7 +287,7 @@
 <h2 id="features">Co Gantry přidává k apple/container</h2>
 
 <h3 id="kubernetes">Clustery Kubernetes</h3>
-<p>Vytvářejte clustery Kubernetes s více pracovními uzly pomocí <code>container cluster</code>, volte CNI, sledujte jednotlivé uzly, zapisujte kubeconfig a načítejte místní image do clusteru. Viz <a href="../apple-container-kubernetes/">Kubernetes na apple/container</a>.</p>
+<p>Vytvářejte clustery Kubernetes pomocí <code>container cluster</code>, nastavte velikost pracovních uzlů, nechte pody používat vaše místní image, zvolte CNI a sledujte každý uzel. Pak cluster procházejte v prohlížeči Kubernetes v Gantry. Viz <a href="../apple-container-kubernetes/">Kubernetes na apple/container</a> a podrobný návod <a href="../kubernetes-on-mac/">Kubernetes na Macu</a>.</p>
 
 <h3 id="machines">Stroje container a VS Code</h3>
 <p>Stroje jsou dlouhodobá linuxová prostředí z <code>container machine</code>. Gantry je vytváří, spouští, zastavuje a maže, nastavuje výchozí stroj, upravuje CPU a paměť a otevírá shell. Od CLI 1.1 může stroj nastartovat s vnořenou virtualizací (Apple silicon M3 nebo novější) a vlastním jádrem. <strong>Otevřít ve VS Code</strong> se připojí k běžícímu stroji přes Remote-SSH; v image stroje musí běžet <code>sshd</code>.</p>
@@ -302,11 +302,11 @@
 <p>Každý hostitel apple/container má sekci <strong>Systém</strong>. Funguje i tehdy, když je hostitel odpojený, takže z ní můžete spustit zastavené služby.</p>
 <ul>
   <li><strong>Stav a verze:</strong> verze klienta a serveru s upozorněním, když se liší; spuštění, zastavení a restart služeb; údaje o hostiteli a cesty.</li>
-  <li><strong>Builder imagů:</strong> stav, image, CPU, paměť a IP; spuštění s možnostmi CPU, paměti a DNS; zastavení; smazání.</li>
+  <li><strong>Builder imagů:</strong> stav, image, CPU, paměť a IP; spuštění s možnostmi CPU, paměti a DNS; zastavení; smazání. Karta upozorní, když je image builderu zastaralý, a vytvoří ho znovu.</li>
   <li><strong>Přihlášení k registrům:</strong> výpis, přihlášení a odhlášení. Heslo jde do CLI výhradně přes stdin (<code>--password-stdin</code>) a Gantry si žádnou kopii neponechává.</li>
   <li><strong>Jádro:</strong> instalace doporučeného jádra, souboru jádra nebo archivu tar s průběhem v reálném čase.</li>
   <li><strong>Logy služeb:</strong> živě nebo jednorázově, za posledních 5 minut až 1 den, filtrované podle úrovně, služby a textu.</li>
-  <li><strong>Systémové vlastnosti:</strong> změny se ukládají do <code>~/.config/container/config.toml</code>, s příznakem čekajícího restartu a tlačítkem <strong>Restartovat služby</strong>.</li>
+  <li><strong>Systémové vlastnosti:</strong> úpravy se ukládají do <code>~/.config/container/config.toml</code>, s příznakem čekajícího restartu a tlačítkem <strong>Restartovat služby</strong>. V CLI 1.7 mají jmenné servery, vyhledávací domény a možnosti <code>[container.dns]</code> editor seznamu.</li>
 </ul>
 
 <h3 id="disk">Uložení jako image, Zmenšit disk a soubory</h3>
@@ -323,7 +323,7 @@
 </div>
 
 <h2 id="vs-docker">apple/container vedle Dockeru</h2>
-<p>Gantry spravuje hostitele apple/container, místního démona Dockeru (Docker Desktop, OrbStack, Colima) a vzdálené hostitele Docker přes SSH v jednom postranním panelu a jednom přehledu flotily. Nemusíte si vybírat jeden runtime. Srovnání nástrojů funkci po funkci najdete na stránce <a href="../compare/">Gantry vs. Docker Desktop, OrbStack a Podman Desktop</a>.</p>
+<p>Gantry spravuje hostitele apple/container, místního démona Dockeru (Docker Desktop, OrbStack, Colima) a vzdálené hostitele Docker přes SSH v jednom postranním panelu a jednom přehledu flotily. Nemusíte si vybírat jedno běhové prostředí. Srovnání nástrojů funkci po funkci najdete na stránce <a href="../compare/">Gantry vs. Docker Desktop, OrbStack a Podman Desktop</a>. Jak přenést svou práci, popisuje průvodce <a href="../docker-desktop-to-apple-container/">Z Docker Desktop na Apple container</a>.</p>
 
 <h2 id="faq">Otázky a odpovědi</h2>
 <div class="faq-list">
@@ -332,10 +332,10 @@
 <details class="faq-item"><summary>Jde používat docker compose s Apple container?</summary><p>apple/container nemá příkaz <code>compose</code>. Gantry načte <code>docker-compose.yml</code>, sestaví služby s <code>build:</code>, vytvoří síť a pojmenované svazky a spustí služby v pořadí podle <code>depends_on</code>. Názvy služeb se překládají přes aliasy DNS v síti.</p></details>
 <details class="faq-item"><summary>Jak otevřít stroj container ve VS Code?</summary><p>Spusťte stroj v Gantry a klikněte na <b>Otevřít ve VS Code</b>. Gantry ho otevře přes Remote-SSH, stejně jako v ukázce <code>container-machine-vscode</code> od Applu. V image stroje musí běžet <code>sshd</code>.</p></details>
 <details class="faq-item"><summary>Funguje Apple container na Macu s Intelem?</summary><p>Ne. apple/container vyžaduje Mac s Apple silicon. Gantry běží i na Macích s Intelem, tam ale spravuje jen hostitele Docker.</p></details>
-<details class="faq-item"><summary>Kterou verzi CLI container nainstalovat?</summary><p>Gantry vyžaduje verzi 1.0 nebo novější a je testovaná s 1.6.1. CLI nainstalujte z podepsaného instalačního balíčku na <a href="https://github.com/apple/container/releases">stránce vydání apple/container</a>. Sestavení z Homebrew neobsahuje backend strojů, takže s ním <code>container machine</code> nefunguje.</p></details>
+<details class="faq-item"><summary>Kterou verzi CLI container nainstalovat?</summary><p>Gantry vyžaduje verzi 1.0 nebo novější a doporučuje 1.7.1. Nainstalujte ji z podepsaného instalačního balíčku ze <a href="https://github.com/apple/container/releases">stránky vydání apple/container</a>. Build z Homebrew neobsahuje backend strojů ani, ve verzi 1.7.1, služby clusteru, takže <code>container machine</code> a <code>container cluster</code> s ním nefungují.</p></details>
 </div>
 
-<p class="updated">Naposledy aktualizováno 2026-11-03.</p>
+<p class="updated">Naposledy aktualizováno 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Domů</a>
@@ -345,6 +345,14 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Srovnání</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes na Macu</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Z Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Externí disk</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Z docker run</a>
       <span>·</span>
       <a href="../../docs/index.html">Dokumentace</a>
       <span>·</span>

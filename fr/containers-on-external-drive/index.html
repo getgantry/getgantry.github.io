@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr" data-copied="Copié">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JR87M6TNM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stocker conteneurs et volumes sur un disque externe sur Mac</title>
+  <meta name="description" content="Gardez les images, conteneurs et volumes d&#x27;Apple container sur un SSD externe : racine des données, container system start --app-root, montages liés, éjection du disque sans risque.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://getgantry.github.io/fr/containers-on-external-drive/">
+  <link rel="alternate" hreflang="en" href="https://getgantry.github.io/containers-on-external-drive/">
+  <link rel="alternate" hreflang="de" href="https://getgantry.github.io/de/containers-on-external-drive/">
+  <link rel="alternate" hreflang="fr" href="https://getgantry.github.io/fr/containers-on-external-drive/">
+  <link rel="alternate" hreflang="es" href="https://getgantry.github.io/es/containers-on-external-drive/">
+  <link rel="alternate" hreflang="it" href="https://getgantry.github.io/it/containers-on-external-drive/">
+  <link rel="alternate" hreflang="pt-PT" href="https://getgantry.github.io/pt-PT/containers-on-external-drive/">
+  <link rel="alternate" hreflang="nl" href="https://getgantry.github.io/nl/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sv" href="https://getgantry.github.io/sv/containers-on-external-drive/">
+  <link rel="alternate" hreflang="da" href="https://getgantry.github.io/da/containers-on-external-drive/">
+  <link rel="alternate" hreflang="nb" href="https://getgantry.github.io/nb/containers-on-external-drive/">
+  <link rel="alternate" hreflang="fi" href="https://getgantry.github.io/fi/containers-on-external-drive/">
+  <link rel="alternate" hreflang="pl" href="https://getgantry.github.io/pl/containers-on-external-drive/">
+  <link rel="alternate" hreflang="cs" href="https://getgantry.github.io/cs/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sk" href="https://getgantry.github.io/sk/containers-on-external-drive/">
+  <link rel="alternate" hreflang="hu" href="https://getgantry.github.io/hu/containers-on-external-drive/">
+  <link rel="alternate" hreflang="ro" href="https://getgantry.github.io/ro/containers-on-external-drive/">
+  <link rel="alternate" hreflang="bg" href="https://getgantry.github.io/bg/containers-on-external-drive/">
+  <link rel="alternate" hreflang="el" href="https://getgantry.github.io/el/containers-on-external-drive/">
+  <link rel="alternate" hreflang="hr" href="https://getgantry.github.io/hr/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sl" href="https://getgantry.github.io/sl/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sr" href="https://getgantry.github.io/sr/containers-on-external-drive/">
+  <link rel="alternate" hreflang="sr-Latn" href="https://getgantry.github.io/sr-Latn/containers-on-external-drive/">
+  <link rel="alternate" hreflang="lt" href="https://getgantry.github.io/lt/containers-on-external-drive/">
+  <link rel="alternate" hreflang="lv" href="https://getgantry.github.io/lv/containers-on-external-drive/">
+  <link rel="alternate" hreflang="et" href="https://getgantry.github.io/et/containers-on-external-drive/">
+  <link rel="alternate" hreflang="uk" href="https://getgantry.github.io/uk/containers-on-external-drive/">
+  <link rel="alternate" hreflang="ru" href="https://getgantry.github.io/ru/containers-on-external-drive/">
+  <link rel="alternate" hreflang="x-default" href="https://getgantry.github.io/containers-on-external-drive/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Gantry">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Stocker conteneurs et volumes sur un disque externe sur Mac">
+  <meta property="og:description" content="Gardez les images, conteneurs et volumes d&#x27;Apple container sur un SSD externe : racine des données, container system start --app-root, montages liés, éjection du disque sans risque.">
+  <meta property="og:url" content="https://getgantry.github.io/fr/containers-on-external-drive/">
+  <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta property="og:image:width" content="3364">
+  <meta property="og:image:height" content="2116">
+  <meta property="og:image:alt" content="Tableau de bord de la flotte Gantry avec des hôtes Docker et apple/container">
+  <meta property="article:modified_time" content="2026-11-07">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stocker conteneurs et volumes sur un disque externe sur Mac">
+  <meta name="twitter:description" content="Gardez les images, conteneurs et volumes d&#x27;Apple container sur un SSD externe : racine des données, container system start --app-root, montages liés, éjection du disque sans risque.">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta name="theme-color" content="#060a10">
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../docs/docs.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://getgantry.github.io/fr/containers-on-external-drive/#article",
+      "headline": "Stocker conteneurs et volumes sur un disque externe sur Mac",
+      "description": "Gardez les images, conteneurs et volumes d'Apple container sur un SSD externe : racine des données, container system start --app-root, montages liés, éjection du disque sans risque.",
+      "url": "https://getgantry.github.io/fr/containers-on-external-drive/",
+      "inLanguage": "fr",
+      "dateModified": "2026-11-07",
+      "image": "https://getgantry.github.io/assets/dashboard.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Gantry",
+        "url": "https://getgantry.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://getgantry.github.io/#organization",
+        "name": "Gantry",
+        "logo": "https://getgantry.github.io/assets/icon.png"
+      },
+      "about": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "container (apple/container)",
+          "url": "https://github.com/apple/container",
+          "operatingSystem": "macOS",
+          "applicationCategory": "DeveloperApplication"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Gantry",
+          "url": "https://getgantry.github.io/"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://getgantry.github.io/fr/containers-on-external-drive/#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Gantry",
+          "item": "https://getgantry.github.io/fr/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Disque externe",
+          "item": "https://getgantry.github.io/fr/containers-on-external-drive/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://getgantry.github.io/fr/containers-on-external-drive/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Peut-on stocker les images d'Apple container sur un disque externe ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui. Démarrez les services avec container system start --app-root /Volumes/Disk/container. Toutes les images, tous les conteneurs, instantanés et volumes se trouvent alors dans ce dossier."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quel système de fichiers utiliser sur le disque externe ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "APFS. Les volumes sont des images disque creuses et les conteneurs ont besoin des permissions Unix, que exFAT, FAT et NTFS n'ont pas."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Comment copier les données des conteneurs sans remplir le disque ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Utilisez cp -Rp, qui a gardé les images creuses des volumes compactes lors de notre test. ditto a copié chaque image creuse à sa taille complète."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Que se passe-t-il si je débranche le disque pendant que des conteneurs tournent ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Les conteneurs qui utilisent le disque échouent, et les données pas encore écrites peuvent être perdues. Avant d'éjecter le disque, arrêtez les conteneurs et, si la racine de l'app se trouve sur le disque, les services."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "La CLI container mémorise-t-elle le nouvel emplacement ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Non. Passez --app-root à chaque container system start. container system status affiche la racine utilisée sous paths.appRoot."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs-body">
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../"><img src="../../assets/icon.png" alt="Icône de Gantry" width="30" height="30"><span>Gantry</span></a>
+      <nav class="nav-links">
+        <a href="../#features">Fonctionnalités</a>
+        <a href="../apple-container/">apple/container</a>
+        <a href="../apple-container-kubernetes/">Kubernetes</a>
+        <a href="../compare/">Comparatif</a>
+        <a href="../../docs/index.html">Docs</a>
+        <a href="https://github.com/getgantry/gantry">GitHub</a>
+      </nav>
+      <details class="lang-menu">
+        <summary aria-label="Langue: Français" title="Langue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lang-name">Français</span><span class="lang-code">FR</span></summary>
+        <ul>
+          <li><a href="../../containers-on-external-drive/" hreflang="en" lang="en">English</a></li>
+          <li><a href="../../de/containers-on-external-drive/" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="./" hreflang="fr" lang="fr" aria-current="page">Français</a></li>
+          <li><a href="../../es/containers-on-external-drive/" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../../it/containers-on-external-drive/" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../../pt-PT/containers-on-external-drive/" hreflang="pt-PT" lang="pt-PT">Português</a></li>
+          <li><a href="../../nl/containers-on-external-drive/" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../../sv/containers-on-external-drive/" hreflang="sv" lang="sv">Svenska</a></li>
+          <li><a href="../../da/containers-on-external-drive/" hreflang="da" lang="da">Dansk</a></li>
+          <li><a href="../../nb/containers-on-external-drive/" hreflang="nb" lang="nb">Norsk bokmål</a></li>
+          <li><a href="../../fi/containers-on-external-drive/" hreflang="fi" lang="fi">Suomi</a></li>
+          <li><a href="../../pl/containers-on-external-drive/" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../../cs/containers-on-external-drive/" hreflang="cs" lang="cs">Čeština</a></li>
+          <li><a href="../../sk/containers-on-external-drive/" hreflang="sk" lang="sk">Slovenčina</a></li>
+          <li><a href="../../hu/containers-on-external-drive/" hreflang="hu" lang="hu">Magyar</a></li>
+          <li><a href="../../ro/containers-on-external-drive/" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../../bg/containers-on-external-drive/" hreflang="bg" lang="bg">Български</a></li>
+          <li><a href="../../el/containers-on-external-drive/" hreflang="el" lang="el">Ελληνικά</a></li>
+          <li><a href="../../hr/containers-on-external-drive/" hreflang="hr" lang="hr">Hrvatski</a></li>
+          <li><a href="../../sl/containers-on-external-drive/" hreflang="sl" lang="sl">Slovenščina</a></li>
+          <li><a href="../../sr/containers-on-external-drive/" hreflang="sr" lang="sr">Српски</a></li>
+          <li><a href="../../sr-Latn/containers-on-external-drive/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a></li>
+          <li><a href="../../lt/containers-on-external-drive/" hreflang="lt" lang="lt">Lietuvių</a></li>
+          <li><a href="../../lv/containers-on-external-drive/" hreflang="lv" lang="lv">Latviešu</a></li>
+          <li><a href="../../et/containers-on-external-drive/" hreflang="et" lang="et">Eesti</a></li>
+          <li><a href="../../uk/containers-on-external-drive/" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="../../ru/containers-on-external-drive/" hreflang="ru" lang="ru">Русский</a></li>
+        </ul>
+      </details>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="crumbs" aria-label="Fil d&#x27;Ariane"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Disque externe</span></nav>
+    <article class="docs-article page-article">
+<h1>Stocker les conteneurs et les volumes sur un disque externe</h1>
+<p class="page-lead">Les images, les conteneurs et les volumes remplissent vite un petit disque interne. Avec l'outil <code>container</code> d'Apple, vous pouvez garder ces données sur un SSD externe : placez-y des dossiers isolés avec des montages liés, ou déplacez toute la racine des données. Ce guide montre les deux méthodes, et comment débrancher le disque sans dégâts.</p>
+
+<div class="tldr">
+<p><strong>En bref.</strong> Formatez le disque en APFS. Pour un seul projet, utilisez un montage lié vers un dossier : <code>-v /Volumes/Fast/pg:/data</code>. Pour tout déplacer, arrêtez les services, copiez <code>~/Library/Application Support/com.apple.container</code> sur le disque avec <code>cp -Rp</code>, puis démarrez les services à chaque fois avec <code>container system start --app-root /Volumes/Fast/container</code>.</p>
+</div>
+
+<h2 id="where">Où sont les données actuellement</h2>
+<p>apple/container garde toutes ses données dans un seul dossier, la racine de l'app (app root). Par défaut, c'est <code>~/Library/Application Support/com.apple.container</code>, avec des dossiers pour les conteneurs, le contenu des images, les instantanés, les volumes, les noyaux et les réseaux. Vérifiez le chemin et l'espace occupé :</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system status | grep appRoot
+container system df">Copier</button></div>
+  <pre><code>container system status | grep appRoot
+container system df</code></pre>
+</div>
+
+<h2 id="disk">Choisir et formater le disque</h2>
+<ul>
+  <li>Utilisez un SSD en USB-C ou Thunderbolt. Un disque dur à plateaux fonctionne, mais les conteneurs démarrent plus lentement.</li>
+  <li>Formatez-le en <strong>APFS</strong> (Mac OS étendu fonctionne aussi). N'utilisez pas exFAT, FAT ni NTFS : les volumes sont des images disque creuses, et ces systèmes de fichiers n'ont ni fichiers creux ni permissions Unix.</li>
+  <li>N'utilisez pas de disque réseau pour la racine de l'app.</li>
+  <li>Donnez au disque un nom court sans espaces, par exemple <code>Fast</code>. Le chemin est alors <code>/Volumes/Fast</code>.</li>
+</ul>
+
+<h2 id="bind">Option 1 : garder les données d'un projet sur le disque avec des montages liés</h2>
+<p>Un montage lié partage un dossier de votre Mac avec le conteneur, et ce dossier peut se trouver sur n'importe quel disque. C'est la façon simple de garder de grosses données, comme une base de données ou des fichiers de modèles, hors du disque interne :</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/site
+container run -d --name web -p 8080:80 \
+  -v /Volumes/Fast/site:/usr/share/nginx/html:ro nginx:alpine">Copier</button></div>
+  <pre><code>mkdir -p /Volumes/Fast/site
+container run -d --name web -p 8080:80 \
+  -v /Volumes/Fast/site:/usr/share/nginx/html:ro nginx:alpine</code></pre>
+</div>
+<p>Le disque doit être connecté avant le démarrage du conteneur. Les images et le conteneur lui-même restent sur le disque interne.</p>
+
+<h2 id="move">Option 2 : déplacer toutes les données d'apple/container sur le disque</h2>
+<p>Cette méthode déplace les images, les conteneurs, les instantanés et les volumes. Arrêtez d'abord les services, pour qu'aucun fichier ne change pendant la copie :</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system stop
+cp -Rp ~/Library/Application\ Support/com.apple.container /Volumes/Fast/container
+container system start --app-root /Volumes/Fast/container
+container system status | grep appRoot
+container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls">Copier</button></div>
+  <pre><code>container system stop
+cp -Rp ~/Library/Application\ Support/com.apple.container /Volumes/Fast/container
+container system start --app-root /Volumes/Fast/container
+container system status | grep appRoot
+container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</code></pre>
+</div>
+<p>Utilisez <code>cp -Rp</code>. Lors de notre test sous macOS 27 (d'APFS vers APFS en USB), cette commande a gardé les images des volumes creuses et conservé les attributs étendus. <code>ditto</code> a écrit chaque image creuse à sa taille complète, ce qui peut remplir le disque. Gardez l'ancien dossier tant que vous n'avez pas vérifié que vos conteneurs, images et volumes sont listés.</p>
+<div class="callout callout-warn"><span class="callout-tag">Attention</span><div>La CLI ne mémorise pas <code>--app-root</code>. Chaque <code>container system start</code> sans cette option réutilise le dossier interne. Utilisez l'option à chaque fois, par exemple dans un alias de shell, et vérifiez <code>paths.appRoot</code> dans <code>container system status</code>.</div></div>
+<p>Gantry 0.27.0 démarre les services sans <code>--app-root</code> quand il se connecte à un hôte dont les services sont arrêtés. Démarrez d'abord les services depuis le terminal avec l'option ; Gantry utilise ensuite les services en cours d'exécution. La prise en charge d'une racine des données déplacée dans Gantry est en développement.</p>
+
+<h2 id="images">Archiver des images sur le disque</h2>
+<p>Pour libérer de l'espace sans perdre une image, enregistrez-la sur le disque externe et supprimez-la. Rechargez-la quand vous en avez besoin :</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/images
+container image save -o /Volumes/Fast/images/myapp.tar myapp:dev
+container image delete myapp:dev
+container image load -i /Volumes/Fast/images/myapp.tar">Copier</button></div>
+  <pre><code>mkdir -p /Volumes/Fast/images
+container image save -o /Volumes/Fast/images/myapp.tar myapp:dev
+container image delete myapp:dev
+container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
+</div>
+
+<h2 id="unplug">Débrancher le disque sans risque</h2>
+<ol>
+  <li>Arrêtez les conteneurs qui utilisent le disque : <code>container stop &lt;name&gt;</code>.</li>
+  <li>Si la racine de l'app est sur le disque, arrêtez les services : <code>container system stop</code>.</li>
+  <li>Éjectez le disque dans le Finder, puis débranchez-le.</li>
+</ol>
+<p>Si le disque disparaît pendant que des conteneurs s'exécutent depuis celui-ci, ils échouent, et les écritures en cours peuvent être perdues. Après avoir reconnecté le disque, démarrez les services avec <code>--app-root</code>, puis démarrez les conteneurs.</p>
+
+<h2 id="gantry">Les disques externes dans Gantry</h2>
+<p>Gantry exécute dès aujourd'hui des montages liés depuis n'importe quel disque : dans <strong>Nouveau conteneur</strong>, ajoutez un volume, choisissez un dossier sur le disque externe et un chemin dans le conteneur. La prise en charge dans Gantry du déplacement de la racine des données, des volumes sur un disque externe et d'un avertissement quand le disque n'est pas connecté est en développement.</p>
+
+<h2 id="docker">Docker Desktop et OrbStack</h2>
+<p>Docker Desktop déplace son image disque dans <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack a ajouté un réglage d'emplacement des données dans la version 0.13.0. Voir le <a href="../compare/">comparatif</a>.</p>
+
+<h2 id="related">Guides associés</h2>
+<ul>
+  <li><a href="../kubernetes-on-mac/">Kubernetes sur Mac avec Apple container : le guide pas à pas</a></li>
+  <li><a href="../docker-desktop-to-apple-container/">Passer de Docker Desktop à Apple container : commandes, Compose, volumes et limites</a></li>
+  <li><a href="../docker-run-to-container/">Créer un conteneur à partir d'une commande docker run sur Mac (docker run vers container run)</a></li>
+  <li><a href="../apple-container/">GUI Apple container pour Mac : le guide complet d'apple/container</a></li>
+  <li><a href="../apple-container-kubernetes/">Kubernetes sur Apple container : GUI pour container cluster et navigateur Kubernetes</a></li>
+</ul>
+
+<h2 id="faq">Questions et réponses</h2>
+<div class="faq-list">
+<details class="faq-item"><summary>Peut-on stocker les images d&#x27;Apple container sur un disque externe ?</summary><p>Oui. Démarrez les services avec <code>container system start --app-root /Volumes/Disk/container</code>. Toutes les images, tous les conteneurs, instantanés et volumes se trouvent alors dans ce dossier.</p></details>
+<details class="faq-item"><summary>Quel système de fichiers utiliser sur le disque externe ?</summary><p>APFS. Les volumes sont des images disque creuses et les conteneurs ont besoin des permissions Unix, que exFAT, FAT et NTFS n'ont pas.</p></details>
+<details class="faq-item"><summary>Comment copier les données des conteneurs sans remplir le disque ?</summary><p>Utilisez <code>cp -Rp</code>, qui a gardé les images creuses des volumes compactes lors de notre test. <code>ditto</code> a copié chaque image creuse à sa taille complète.</p></details>
+<details class="faq-item"><summary>Que se passe-t-il si je débranche le disque pendant que des conteneurs tournent ?</summary><p>Les conteneurs qui utilisent le disque échouent, et les données pas encore écrites peuvent être perdues. Avant d'éjecter le disque, arrêtez les conteneurs et, si la racine de l'app se trouve sur le disque, les services.</p></details>
+<details class="faq-item"><summary>La CLI container mémorise-t-elle le nouvel emplacement ?</summary><p>Non. Passez <code>--app-root</code> à chaque <code>container system start</code>. <code>container system status</code> affiche la racine utilisée sous <code>paths.appRoot</code>.</p></details>
+</div>
+
+<p class="updated">Dernière mise à jour : 2026-11-07.</p>
+    </article>
+    <footer class="docs-foot">
+      <a href="../">Accueil</a>
+      <span>·</span>
+      <a href="../apple-container/">Guide apple/container</a>
+      <span>·</span>
+      <a href="../apple-container-kubernetes/">Kubernetes</a>
+      <span>·</span>
+      <a href="../compare/">Comparatif</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes sur Mac</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Depuis Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Disque externe</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Depuis docker run</a>
+      <span>·</span>
+      <a href="../../docs/index.html">Docs</a>
+      <span>·</span>
+      <a href="https://github.com/getgantry/gantry">Licence MIT · GitHub</a>
+    </footer>
+    <nav class="lang-foot" aria-label="Langues">
+      <a href="../../containers-on-external-drive/" hreflang="en" lang="en">English</a>
+      <a href="../../de/containers-on-external-drive/" hreflang="de" lang="de">Deutsch</a>
+      <a href="./" hreflang="fr" lang="fr" aria-current="page">Français</a>
+      <a href="../../es/containers-on-external-drive/" hreflang="es" lang="es">Español</a>
+      <a href="../../it/containers-on-external-drive/" hreflang="it" lang="it">Italiano</a>
+      <a href="../../pt-PT/containers-on-external-drive/" hreflang="pt-PT" lang="pt-PT">Português</a>
+      <a href="../../nl/containers-on-external-drive/" hreflang="nl" lang="nl">Nederlands</a>
+      <a href="../../sv/containers-on-external-drive/" hreflang="sv" lang="sv">Svenska</a>
+      <a href="../../da/containers-on-external-drive/" hreflang="da" lang="da">Dansk</a>
+      <a href="../../nb/containers-on-external-drive/" hreflang="nb" lang="nb">Norsk bokmål</a>
+      <a href="../../fi/containers-on-external-drive/" hreflang="fi" lang="fi">Suomi</a>
+      <a href="../../pl/containers-on-external-drive/" hreflang="pl" lang="pl">Polski</a>
+      <a href="../../cs/containers-on-external-drive/" hreflang="cs" lang="cs">Čeština</a>
+      <a href="../../sk/containers-on-external-drive/" hreflang="sk" lang="sk">Slovenčina</a>
+      <a href="../../hu/containers-on-external-drive/" hreflang="hu" lang="hu">Magyar</a>
+      <a href="../../ro/containers-on-external-drive/" hreflang="ro" lang="ro">Română</a>
+      <a href="../../bg/containers-on-external-drive/" hreflang="bg" lang="bg">Български</a>
+      <a href="../../el/containers-on-external-drive/" hreflang="el" lang="el">Ελληνικά</a>
+      <a href="../../hr/containers-on-external-drive/" hreflang="hr" lang="hr">Hrvatski</a>
+      <a href="../../sl/containers-on-external-drive/" hreflang="sl" lang="sl">Slovenščina</a>
+      <a href="../../sr/containers-on-external-drive/" hreflang="sr" lang="sr">Српски</a>
+      <a href="../../sr-Latn/containers-on-external-drive/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a>
+      <a href="../../lt/containers-on-external-drive/" hreflang="lt" lang="lt">Lietuvių</a>
+      <a href="../../lv/containers-on-external-drive/" hreflang="lv" lang="lv">Latviešu</a>
+      <a href="../../et/containers-on-external-drive/" hreflang="et" lang="et">Eesti</a>
+      <a href="../../uk/containers-on-external-drive/" hreflang="uk" lang="uk">Українська</a>
+      <a href="../../ru/containers-on-external-drive/" hreflang="ru" lang="ru">Русский</a>
+    </nav>
+  </main>
+
+  <script>
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+          var t = b.textContent; b.textContent = 'Copié';
+          setTimeout(function () { b.textContent = t; }, 1400);
+        });
+      });
+    });
+  </script>
+  <script src="../../lang.js" defer></script>
+</body>
+</html>

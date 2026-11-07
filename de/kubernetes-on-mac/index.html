@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="de" data-copied="Kopiert">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JR87M6TNM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kubernetes auf dem Mac mit Apple container: Schritt-für-Schritt-Anleitung</title>
+  <meta name="description" content="Lokalen Kubernetes-Cluster auf dem Mac mit Apples container cluster erstellen: Worker, CPUs und Arbeitsspeicher, lokale Images ohne Registry, kubectl und eine GUI für Pods und Logs.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://getgantry.github.io/de/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="en" href="https://getgantry.github.io/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="de" href="https://getgantry.github.io/de/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="fr" href="https://getgantry.github.io/fr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="es" href="https://getgantry.github.io/es/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="it" href="https://getgantry.github.io/it/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="pt-PT" href="https://getgantry.github.io/pt-PT/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="nl" href="https://getgantry.github.io/nl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sv" href="https://getgantry.github.io/sv/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="da" href="https://getgantry.github.io/da/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="nb" href="https://getgantry.github.io/nb/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="fi" href="https://getgantry.github.io/fi/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="pl" href="https://getgantry.github.io/pl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="cs" href="https://getgantry.github.io/cs/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sk" href="https://getgantry.github.io/sk/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="hu" href="https://getgantry.github.io/hu/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="ro" href="https://getgantry.github.io/ro/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="bg" href="https://getgantry.github.io/bg/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="el" href="https://getgantry.github.io/el/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="hr" href="https://getgantry.github.io/hr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sl" href="https://getgantry.github.io/sl/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sr" href="https://getgantry.github.io/sr/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="sr-Latn" href="https://getgantry.github.io/sr-Latn/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="lt" href="https://getgantry.github.io/lt/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="lv" href="https://getgantry.github.io/lv/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="et" href="https://getgantry.github.io/et/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="uk" href="https://getgantry.github.io/uk/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="ru" href="https://getgantry.github.io/ru/kubernetes-on-mac/">
+  <link rel="alternate" hreflang="x-default" href="https://getgantry.github.io/kubernetes-on-mac/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Gantry">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:title" content="Kubernetes auf dem Mac mit Apple container: Schritt-für-Schritt-Anleitung">
+  <meta property="og:description" content="Lokalen Kubernetes-Cluster auf dem Mac mit Apples container cluster erstellen: Worker, CPUs und Arbeitsspeicher, lokale Images ohne Registry, kubectl und eine GUI für Pods und Logs.">
+  <meta property="og:url" content="https://getgantry.github.io/de/kubernetes-on-mac/">
+  <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta property="og:image:width" content="3364">
+  <meta property="og:image:height" content="2116">
+  <meta property="og:image:alt" content="Gantry-Flotten-Dashboard mit Docker- und apple/container-Hosts">
+  <meta property="article:modified_time" content="2026-11-07">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kubernetes auf dem Mac mit Apple container: Schritt-für-Schritt-Anleitung">
+  <meta name="twitter:description" content="Lokalen Kubernetes-Cluster auf dem Mac mit Apples container cluster erstellen: Worker, CPUs und Arbeitsspeicher, lokale Images ohne Registry, kubectl und eine GUI für Pods und Logs.">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta name="theme-color" content="#060a10">
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../docs/docs.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://getgantry.github.io/de/kubernetes-on-mac/#article",
+      "headline": "Kubernetes auf dem Mac mit Apple container: Schritt-für-Schritt-Anleitung",
+      "description": "Lokalen Kubernetes-Cluster auf dem Mac mit Apples container cluster erstellen: Worker, CPUs und Arbeitsspeicher, lokale Images ohne Registry, kubectl und eine GUI für Pods und Logs.",
+      "url": "https://getgantry.github.io/de/kubernetes-on-mac/",
+      "inLanguage": "de",
+      "dateModified": "2026-11-07",
+      "image": "https://getgantry.github.io/assets/dashboard.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Gantry",
+        "url": "https://getgantry.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://getgantry.github.io/#organization",
+        "name": "Gantry",
+        "logo": "https://getgantry.github.io/assets/icon.png"
+      },
+      "about": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "container (apple/container)",
+          "url": "https://github.com/apple/container",
+          "operatingSystem": "macOS",
+          "applicationCategory": "DeveloperApplication"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Kubernetes",
+          "url": "https://kubernetes.io/"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://getgantry.github.io/de/kubernetes-on-mac/#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Gantry",
+          "item": "https://getgantry.github.io/de/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Kubernetes auf dem Mac",
+          "item": "https://getgantry.github.io/de/kubernetes-on-mac/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://getgantry.github.io/de/kubernetes-on-mac/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Kann ich Kubernetes auf dem Mac ohne Docker ausführen?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja. Apples container-CLI erstellt Kubernetes-Cluster selbst mit container cluster create. Jeder Node läuft als leichtgewichtige VM, und du brauchst weder Docker noch Docker Desktop, kind oder minikube."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Wie viele Nodes kann ein container cluster haben?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Eine Control Plane und so viele Worker, wie CPUs und Arbeitsspeicher deines Mac hergeben. Lege sie mit --workers fest; in CLI 1.7 kann jede Gruppe von Workern eigene CPUs und eigenen Arbeitsspeicher haben."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Wie verwende ich ein lokal gebautes Image im Cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Erstelle den Cluster mit --shared-image-store (CLI 1.7), baue das Image mit container build -t name:tag . und verwende name:tag in der Pod-Spezifikation. Eine Registry ist nicht nötig."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Welche Kubernetes-Version verwendet container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CLI 1.7.1 verwendet standardmäßig das Node-Image kindest/node:v1.35.5. Wähle mit --node-image eine andere Version, zum Beispiel docker.io/kindest/node:v1.34.11. Gantry zeigt die Version in der Cluster-Übersicht."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Gibt es eine GUI für container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja. Gantry erstellt und löscht Cluster, zeigt die Nodes und durchsucht im Bereich „Kubernetes“ Pods, Deployments, Services, Logs und Secrets. Es ist kostenlos und Open Source."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs-body">
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../"><img src="../../assets/icon.png" alt="Gantry-Symbol" width="30" height="30"><span>Gantry</span></a>
+      <nav class="nav-links">
+        <a href="../#features">Funktionen</a>
+        <a href="../apple-container/">apple/container</a>
+        <a href="../apple-container-kubernetes/">Kubernetes</a>
+        <a href="../compare/">Vergleich</a>
+        <a href="../../docs/index.html">Doku</a>
+        <a href="https://github.com/getgantry/gantry">GitHub</a>
+      </nav>
+      <details class="lang-menu">
+        <summary aria-label="Sprache: Deutsch" title="Sprache"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lang-name">Deutsch</span><span class="lang-code">DE</span></summary>
+        <ul>
+          <li><a href="../../kubernetes-on-mac/" hreflang="en" lang="en">English</a></li>
+          <li><a href="./" hreflang="de" lang="de" aria-current="page">Deutsch</a></li>
+          <li><a href="../../fr/kubernetes-on-mac/" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../../es/kubernetes-on-mac/" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../../it/kubernetes-on-mac/" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../../pt-PT/kubernetes-on-mac/" hreflang="pt-PT" lang="pt-PT">Português</a></li>
+          <li><a href="../../nl/kubernetes-on-mac/" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../../sv/kubernetes-on-mac/" hreflang="sv" lang="sv">Svenska</a></li>
+          <li><a href="../../da/kubernetes-on-mac/" hreflang="da" lang="da">Dansk</a></li>
+          <li><a href="../../nb/kubernetes-on-mac/" hreflang="nb" lang="nb">Norsk bokmål</a></li>
+          <li><a href="../../fi/kubernetes-on-mac/" hreflang="fi" lang="fi">Suomi</a></li>
+          <li><a href="../../pl/kubernetes-on-mac/" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../../cs/kubernetes-on-mac/" hreflang="cs" lang="cs">Čeština</a></li>
+          <li><a href="../../sk/kubernetes-on-mac/" hreflang="sk" lang="sk">Slovenčina</a></li>
+          <li><a href="../../hu/kubernetes-on-mac/" hreflang="hu" lang="hu">Magyar</a></li>
+          <li><a href="../../ro/kubernetes-on-mac/" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../../bg/kubernetes-on-mac/" hreflang="bg" lang="bg">Български</a></li>
+          <li><a href="../../el/kubernetes-on-mac/" hreflang="el" lang="el">Ελληνικά</a></li>
+          <li><a href="../../hr/kubernetes-on-mac/" hreflang="hr" lang="hr">Hrvatski</a></li>
+          <li><a href="../../sl/kubernetes-on-mac/" hreflang="sl" lang="sl">Slovenščina</a></li>
+          <li><a href="../../sr/kubernetes-on-mac/" hreflang="sr" lang="sr">Српски</a></li>
+          <li><a href="../../sr-Latn/kubernetes-on-mac/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a></li>
+          <li><a href="../../lt/kubernetes-on-mac/" hreflang="lt" lang="lt">Lietuvių</a></li>
+          <li><a href="../../lv/kubernetes-on-mac/" hreflang="lv" lang="lv">Latviešu</a></li>
+          <li><a href="../../et/kubernetes-on-mac/" hreflang="et" lang="et">Eesti</a></li>
+          <li><a href="../../uk/kubernetes-on-mac/" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="../../ru/kubernetes-on-mac/" hreflang="ru" lang="ru">Русский</a></li>
+        </ul>
+      </details>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="crumbs" aria-label="Navigationspfad"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Kubernetes auf dem Mac</span></nav>
+    <article class="docs-article page-article">
+<h1>Kubernetes auf dem Mac mit Apple container ausführen</h1>
+<p class="page-lead">Apples <code>container</code>-Tool erstellt einen lokalen Kubernetes-Cluster mit einem einzigen Befehl. Jeder Node ist eine leichtgewichtige virtuelle Maschine auf deinem Mac. Diese Anleitung führt von einem leeren Mac bis zu einem laufenden Deployment, zuerst im Terminal und dann in Gantry.</p>
+
+<div class="tldr">
+<p><strong>Kurz gesagt.</strong> Installiere das signierte Paket von <code>container</code> 1.7.1, führe <code>container cluster create --name dev --cpus 2 --memory 2g --workers count=2,cpus=2,memory=2g --shared-image-store</code> aus, baue ein Image mit <code>container build</code> und führe es über seinen Namen im Cluster aus. Gantry zeigt denselben Cluster in einem Fenster: Nodes, Pods, Logs, eine Shell und Portweiterleitungen.</p>
+</div>
+
+<h2 id="requirements">Was du brauchst</h2>
+<ul>
+  <li>Einen Mac mit Apple Silicon und macOS 26 oder neuer.</li>
+  <li>Die <code>container</code>-CLI 1.7.1 aus dem signierten <code>.pkg</code> auf der <a href="https://github.com/apple/container/releases">Release-Seite von apple/container</a>. Dem Homebrew-Build von 1.7.1 fehlen die Cluster-Dienste, daher schlägt <code>container cluster</code> mit <em>cluster service unavailable</em> fehl.</li>
+  <li>Etwa 6 GB freien Arbeitsspeicher für das Beispiel unten: drei Nodes mit je 2 GB.</li>
+  <li><code>kubectl</code>, wenn du den Cluster im Terminal nutzen willst (<code>brew install kubectl</code>).</li>
+</ul>
+<p>Starte die Dienste einmal, nachdem du das Paket installiert hast:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system start">Kopieren</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<h2 id="create">Den Cluster erstellen</h2>
+<p>Dieser Befehl erstellt einen Cluster namens <code>dev</code> mit einem Control-Plane-Node und zwei Workern. Jeder Node bekommt 2 CPUs und 2 GB Arbeitsspeicher:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Kopieren</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li><code>--workers count=N,cpus=C,memory=M</code> legt die Größe einer Gruppe von Workern fest. Wiederhole es für Gruppen unterschiedlicher Größe. Ohne <code>--workers</code> ist ein einziger Node zugleich Control Plane und Worker.</li>
+  <li><code>--cpus</code> und <code>--memory</code> legen die Größe der Control Plane fest. Standard ist ein Viertel der CPUs und des Arbeitsspeichers deines Mac, mindestens 2 CPUs und 2 GB.</li>
+  <li><code>--shared-image-store</code> lässt die Nodes deine lokalen Images verwenden (siehe unten). Du kannst das später nicht ändern: Lösche den Cluster und erstelle ihn neu.</li>
+  <li><code>--cni ./calico.yaml</code> installiert dein eigenes CNI statt des mitgelieferten kindnet; <code>--cni NONE</code> installiert keines.</li>
+</ul>
+<p>Die CLI fügt in <code>~/.kube/config</code> einen Kontext namens <code>dev</code> hinzu. Prüfe die Nodes:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Kopieren</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<h2 id="images">Ein lokales Image ohne Registry ausführen</h2>
+<p>Mit <code>--shared-image-store</code> können die Nodes jedes Image aus deinem lokalen <code>container</code>-Image-Speicher ausführen. Baue ein Image und verwende es über seinen Namen:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Kopieren</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Hinweis</span><div>Nachdem du dasselbe Tag neu gebaut hast, führe <code>kubectl rollout restart</code> mit <code>imagePullPolicy: Always</code> aus oder verwende ein neues Tag. Mit <code>IfNotPresent</code> behält ein Node die Kopie, die er schon hat. Alles mit Root-Rechten auf einem Node kann jedes Image in deinem lokalen Speicher lesen, auch private Images. Nutze den gemeinsamen Speicher also nur für die lokale Entwicklung.</div></div>
+<p>In CLI 1.5 und 1.6 gibt es keinen gemeinsamen Speicher. Verwende dort <code>container cluster load-image</code> oder <b>In Cluster laden</b> in Gantry. CLI 1.7 hat <code>load-image</code> entfernt.</p>
+
+<h2 id="reach">Die App im Browser öffnen</h2>
+<p>Leite einen lokalen Port an das Deployment weiter und öffne dann <code>http://localhost:8080</code>:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Kopieren</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<h2 id="gantry">Den Cluster in Gantry durchsuchen</h2>
+<p>Gantry zeigt denselben Cluster ohne Befehle. Füge deinen apple/container-Host hinzu, öffne <strong>Cluster</strong> und wähle <code>dev</code> aus. Die Übersicht zeigt die Kubernetes-Version, den Image-Speicher, die Worker und ihre CPUs und ihren Arbeitsspeicher. Klicke auf <strong>Ressourcen durchsuchen</strong>, um den Bereich <strong>Kubernetes</strong> mit diesem Kontext zu öffnen.</p>
+<ul>
+  <li>Pods, Deployments, StatefulSets, DaemonSets, Services, Ingresses, ConfigMaps, Secrets, Nodes und Ereignisse, für einen Namespace oder alle.</li>
+  <li>Pod-Logs mit Verfolgen und Tail, eine Shell im Pod und Portweiterleitungen mit einer Liste, in der du sie stoppen kannst.</li>
+  <li>Skalieren, Rollout-Neustart, Löschen und <strong>YAML anwenden</strong> aus einem eingesetzten Manifest oder einer Datei.</li>
+  <li>Werte von Secrets bleiben maskiert, bis du auf „Einblenden“ klickst.</li>
+</ul>
+<p>Der Kubernetes-Browser führt <code>kubectl</code> aus. Fehlt es, zeigt Gantry <code>brew install kubectl</code> und kann den Befehl für dich ausführen. Ein nativer Client, der kein <code>kubectl</code> braucht, ist in Entwicklung.</p>
+<!-- TODO-SCREENSHOT section="guide kubernetes-on-mac, section #gantry" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Du kannst den Cluster auch in Gantry erstellen: <strong>Cluster</strong> ▸ <strong>Neuer Cluster</strong> hat Regler für die Control Plane und die Worker und einen Schalter <strong>Lokale Images verwenden</strong>. Mehr dazu auf der Seite <a href="../apple-container-kubernetes/">Kubernetes auf apple/container</a>.</p>
+
+<h2 id="cleanup">Den Cluster stoppen und löschen</h2>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster delete --name dev">Kopieren</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Wenn der Control-Plane-Node stoppt, zum Beispiel nach <code>container system stop</code>, lösche den Cluster und erstelle ihn neu. Erstelle einen Wegwerf-Cluster mit <code>--rm</code>, damit seine Nodes beim Stoppen entfernt werden.</p>
+
+<h2 id="troubleshooting">Häufige Probleme</h2>
+<ul>
+  <li><strong>cluster service unavailable:</strong> Die CLI ist der Homebrew-Build, oder die Dienste laufen nicht. Installiere das signierte Paket oder starte die Dienste mit <code>container system stop</code> und <code>container system start</code> neu. Gantry zeigt denselben Rat unter „Cluster“.</li>
+  <li><strong>Ein alter Cluster fehlt in der Liste:</strong> CLI 1.7 listet keine Cluster, die mit 1.6 oder älter erstellt wurden. Entferne einen solchen Cluster mit <code>container cluster delete --name &lt;name&gt;</code>.</li>
+  <li><strong>Nodes bleiben NotReady:</strong> Du hast <code>--cni NONE</code> verwendet. Wende ein CNI-Manifest an.</li>
+  <li><strong>Du kannst einen Node-Container nicht stoppen:</strong> Das ist Absicht. <code>container stop</code> und <code>delete</code> verweigern Cluster-Nodes; verwende <code>container cluster delete</code>.</li>
+</ul>
+
+<h2 id="compare">Im Vergleich zu Docker Desktop und OrbStack</h2>
+<p>Docker Desktop hat integriertes Kubernetes mit kubeadm (ein Node) oder kind (mehrere Nodes), OrbStack hat einen integrierten Cluster mit einem Node. <code>container cluster</code> führt kubeadm auf <code>kindest/node</code>-Images aus, jeden Node in einer eigenen VM, mit Clustern aus mehreren Nodes und dem gemeinsamen Image-Speicher. Siehe den <a href="../compare/">vollständigen Vergleich</a>.</p>
+
+<h2 id="related">Weitere Anleitungen</h2>
+<ul>
+  <li><a href="../docker-desktop-to-apple-container/">Von Docker Desktop zu Apple container wechseln: Befehle, Compose, Volumes und Lücken</a></li>
+  <li><a href="../containers-on-external-drive/">Container und Volumes auf dem Mac auf einer externen Festplatte speichern</a></li>
+  <li><a href="../docker-run-to-container/">Container aus einem docker run-Befehl auf dem Mac erstellen (docker run zu container run)</a></li>
+  <li><a href="../apple-container/">Apple container GUI für Mac: kompletter apple/container-Leitfaden</a></li>
+  <li><a href="../apple-container-kubernetes/">Kubernetes auf Apple container: GUI für container cluster und ein Kubernetes-Browser</a></li>
+</ul>
+
+<h2 id="faq">Fragen und Antworten</h2>
+<div class="faq-list">
+<details class="faq-item"><summary>Kann ich Kubernetes auf dem Mac ohne Docker ausführen?</summary><p>Ja. Apples <code>container</code>-CLI erstellt Kubernetes-Cluster selbst mit <code>container cluster create</code>. Jeder Node läuft als leichtgewichtige VM, und du brauchst weder Docker noch Docker Desktop, kind oder minikube.</p></details>
+<details class="faq-item"><summary>Wie viele Nodes kann ein container cluster haben?</summary><p>Eine Control Plane und so viele Worker, wie CPUs und Arbeitsspeicher deines Mac hergeben. Lege sie mit <code>--workers</code> fest; in CLI 1.7 kann jede Gruppe von Workern eigene CPUs und eigenen Arbeitsspeicher haben.</p></details>
+<details class="faq-item"><summary>Wie verwende ich ein lokal gebautes Image im Cluster?</summary><p>Erstelle den Cluster mit <code>--shared-image-store</code> (CLI 1.7), baue das Image mit <code>container build -t name:tag .</code> und verwende <code>name:tag</code> in der Pod-Spezifikation. Eine Registry ist nicht nötig.</p></details>
+<details class="faq-item"><summary>Welche Kubernetes-Version verwendet container cluster?</summary><p>CLI 1.7.1 verwendet standardmäßig das Node-Image <code>kindest/node:v1.35.5</code>. Wähle mit <code>--node-image</code> eine andere Version, zum Beispiel <code>docker.io/kindest/node:v1.34.11</code>. Gantry zeigt die Version in der Cluster-Übersicht.</p></details>
+<details class="faq-item"><summary>Gibt es eine GUI für container cluster?</summary><p>Ja. Gantry erstellt und löscht Cluster, zeigt die Nodes und durchsucht im Bereich „Kubernetes“ Pods, Deployments, Services, Logs und Secrets. Es ist kostenlos und Open Source.</p></details>
+</div>
+
+<p class="updated">Zuletzt aktualisiert am 2026-11-07.</p>
+    </article>
+    <footer class="docs-foot">
+      <a href="../">Start</a>
+      <span>·</span>
+      <a href="../apple-container/">apple/container-Leitfaden</a>
+      <span>·</span>
+      <a href="../apple-container-kubernetes/">Kubernetes</a>
+      <span>·</span>
+      <a href="../compare/">Vergleich</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes auf dem Mac</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Von Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Externe Festplatte</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Aus docker run</a>
+      <span>·</span>
+      <a href="../../docs/index.html">Doku</a>
+      <span>·</span>
+      <a href="https://github.com/getgantry/gantry">MIT-Lizenz · GitHub</a>
+    </footer>
+    <nav class="lang-foot" aria-label="Sprachen">
+      <a href="../../kubernetes-on-mac/" hreflang="en" lang="en">English</a>
+      <a href="./" hreflang="de" lang="de" aria-current="page">Deutsch</a>
+      <a href="../../fr/kubernetes-on-mac/" hreflang="fr" lang="fr">Français</a>
+      <a href="../../es/kubernetes-on-mac/" hreflang="es" lang="es">Español</a>
+      <a href="../../it/kubernetes-on-mac/" hreflang="it" lang="it">Italiano</a>
+      <a href="../../pt-PT/kubernetes-on-mac/" hreflang="pt-PT" lang="pt-PT">Português</a>
+      <a href="../../nl/kubernetes-on-mac/" hreflang="nl" lang="nl">Nederlands</a>
+      <a href="../../sv/kubernetes-on-mac/" hreflang="sv" lang="sv">Svenska</a>
+      <a href="../../da/kubernetes-on-mac/" hreflang="da" lang="da">Dansk</a>
+      <a href="../../nb/kubernetes-on-mac/" hreflang="nb" lang="nb">Norsk bokmål</a>
+      <a href="../../fi/kubernetes-on-mac/" hreflang="fi" lang="fi">Suomi</a>
+      <a href="../../pl/kubernetes-on-mac/" hreflang="pl" lang="pl">Polski</a>
+      <a href="../../cs/kubernetes-on-mac/" hreflang="cs" lang="cs">Čeština</a>
+      <a href="../../sk/kubernetes-on-mac/" hreflang="sk" lang="sk">Slovenčina</a>
+      <a href="../../hu/kubernetes-on-mac/" hreflang="hu" lang="hu">Magyar</a>
+      <a href="../../ro/kubernetes-on-mac/" hreflang="ro" lang="ro">Română</a>
+      <a href="../../bg/kubernetes-on-mac/" hreflang="bg" lang="bg">Български</a>
+      <a href="../../el/kubernetes-on-mac/" hreflang="el" lang="el">Ελληνικά</a>
+      <a href="../../hr/kubernetes-on-mac/" hreflang="hr" lang="hr">Hrvatski</a>
+      <a href="../../sl/kubernetes-on-mac/" hreflang="sl" lang="sl">Slovenščina</a>
+      <a href="../../sr/kubernetes-on-mac/" hreflang="sr" lang="sr">Српски</a>
+      <a href="../../sr-Latn/kubernetes-on-mac/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a>
+      <a href="../../lt/kubernetes-on-mac/" hreflang="lt" lang="lt">Lietuvių</a>
+      <a href="../../lv/kubernetes-on-mac/" hreflang="lv" lang="lv">Latviešu</a>
+      <a href="../../et/kubernetes-on-mac/" hreflang="et" lang="et">Eesti</a>
+      <a href="../../uk/kubernetes-on-mac/" hreflang="uk" lang="uk">Українська</a>
+      <a href="../../ru/kubernetes-on-mac/" hreflang="ru" lang="ru">Русский</a>
+    </nav>
+  </main>
+
+  <script>
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+          var t = b.textContent; b.textContent = 'Kopiert';
+          setTimeout(function () { b.textContent = t; }, 1400);
+        });
+      });
+    });
+  </script>
+  <script src="../../lang.js" defer></script>
+</body>
+</html>

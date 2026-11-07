@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Tableau de bord de la flotte Gantry avec des hôtes Docker et apple/container">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GUI Apple container pour Mac : le guide complet d&#x27;apple/container">
   <meta name="twitter:description" content="L&#x27;outil container d&#x27;Apple, son installation et sa gestion avec Gantry : chaque commande de la CLI container et sa fonctionnalité Gantry, de Compose à Kubernetes.">
@@ -67,7 +67,7 @@
       "description": "L'outil container d'Apple, son installation et sa gestion avec Gantry : chaque commande de la CLI container et sa fonctionnalité Gantry, de Compose à Kubernetes.",
       "url": "https://getgantry.github.io/fr/apple-container/",
       "inLanguage": "fr",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -157,7 +157,7 @@
           "name": "Quelle version de la CLI container installer ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Gantry nécessite la 1.0 ou ultérieure et est testé avec la 1.6.1. Installez-la avec le paquet d'installation signé depuis la page des versions d'apple/container. La version Homebrew n'inclut pas le backend des machines : container machine n'y fonctionne donc pas."
+            "text": "Gantry nécessite la 1.0 ou ultérieure et recommande la 1.7.1. Installez-la avec le paquet d'installation signé de la page des versions d'apple/container. Le build Homebrew ne contient pas le backend des machines ni, dans la 1.7.1, les services de cluster : container machine et container cluster ne fonctionnent donc pas avec lui."
           }
         }
       ]
@@ -223,7 +223,7 @@
 <p class="page-lead">apple/container exécute des conteneurs Linux sur votre Mac, chacun dans sa propre machine virtuelle légère. Il se présente comme un outil en ligne de commande. Gantry en est une GUI macOS native. Ce guide présente l'outil, explique comment le configurer et indique quelle fonctionnalité de Gantry couvre chaque commande <code>container</code>.</p>
 
 <div class="tldr">
-<p><strong>En bref.</strong> Gantry est une app macOS gratuite et open source (MIT) qui gère l'outil <code>container</code> d'Apple et Docker depuis une seule fenêtre. Il prend en charge la CLI <code>container</code> 1.0 à 1.6.1 (recommandée) et n'affiche que les fonctionnalités prises en charge par votre version de la CLI. Installez-le avec <code>brew install --cask getgantry/tap/gantry</code>.</p>
+<p><strong>En bref.</strong> Gantry est une app macOS gratuite et open source (MIT) qui gère l'outil <code>container</code> d'Apple et Docker depuis une seule fenêtre. Il prend en charge les CLI <code>container</code> 1.0 à 1.7.1 (recommandée) et n'affiche que les fonctionnalités prises en charge par votre version de la CLI. Installez-le avec <code>brew install --cask getgantry/tap/gantry</code>.</p>
 </div>
 
 <h2 id="what-is">Qu'est-ce qu'apple/container ?</h2>
@@ -245,14 +245,14 @@
   <li>Dans Gantry, choisissez <strong>Ajouter un hôte…</strong> et ajoutez un hôte <em>Apple Container</em>. La connexion démarre les services <code>container</code> s'ils sont arrêtés.</li>
   <li>Si aucun noyau par défaut n'est installé, l'aperçu de l'hôte affiche une bannière. Cliquez dessus pour installer le noyau recommandé.</li>
 </ol>
-<div class="callout callout-warn"><span class="callout-tag">Attention</span><div>Utilisez le paquet d'installation signé, pas la version Homebrew. La version Homebrew n'inclut pas le backend des machines : <code>container machine</code> ne peut donc pas fonctionner.</div></div>
+<div class="callout callout-warn"><span class="callout-tag">Attention</span><div>Utilisez le paquet d'installation signé, pas le build Homebrew. Le build Homebrew ne contient pas le backend des machines ni, dans la 1.7.1, les services de cluster : <code>container machine</code> et <code>container cluster</code> ne peuvent donc pas fonctionner.</div></div>
 
 <h2 id="command-map">Chaque commande container et sa fonctionnalité Gantry</h2>
 <p>Ce tableau fait correspondre la CLI <code>container</code> et Gantry. La dernière colonne indique la version de la CLI dont Gantry a besoin pour la fonctionnalité. <em>Toutes</em> signifie toute CLI prise en charge, 1.0 ou ultérieure. Gantry lit la version installée et masque les fonctionnalités qu'elle ne prend pas en charge.</p>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Commande CLI</th><th scope="col">Fonctionnalité Gantry</th><th scope="col">Version de CLI requise par Gantry</th></tr></thead>
 <tbody>
-<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Feuille Nouveau conteneur et Exécution rapide : image, nom, commande, ports, environnement, volumes, domaine DNS, noyau personnalisé et arguments de démarrage</td><td>Toutes</td></tr>
+<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Feuille Nouveau conteneur et Exécution rapide : image, nom, commande, ports, environnement, volumes, domaine DNS, noyau personnalisé et arguments de démarrage ; <strong>Coller une commande…</strong> lit une ligne <code>docker run</code> ou <code>container run</code></td><td>Toutes</td></tr>
 <tr><th scope="row"><code>container list --all</code></th><td>Liste des conteneurs, regroupés par projet Compose, avec filtres d'état et recherche</td><td>Toutes</td></tr>
 <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Barre d'outils, menu contextuel et panneau de la barre des menus</td><td>Toutes</td></tr>
 <tr><th scope="row"><code>container logs</code></th><td>Onglet Journaux : suivi en direct, recherche regex, filtre par niveau, couleurs ANSI</td><td>Toutes</td></tr>
@@ -272,14 +272,14 @@
 <tr><th scope="row"><code>container system start</code>, <code>stop</code></th><td>Section Système : démarrer, arrêter et redémarrer les services ; aussi dans la barre des menus et les Réglages</td><td>Toutes</td></tr>
 <tr><th scope="row"><code>container system status</code>, <code>version</code></th><td>Section Système : état, versions client et serveur, infos sur l'hôte</td><td>Toutes</td></tr>
 <tr><th scope="row"><code>container system logs</code></th><td>Section Système : Journaux des services, en direct ou sur une période de 5 minutes à 1 jour, filtrés par niveau, service et texte</td><td>Toutes</td></tr>
-<tr><th scope="row"><code>container system property list</code></th><td>Section Système : éditeur Propriétés système, enregistré dans <code>~/.config/container/config.toml</code></td><td>Toutes ; testé avec 1.6.1</td></tr>
+<tr><th scope="row"><code>container system property list</code></th><td>Section Système : éditeur Propriétés système, enregistré dans <code>~/.config/container/config.toml</code></td><td>Toutes ; listes <code>[container.dns]</code> : 1.7</td></tr>
 <tr><th scope="row"><code>container system dns create</code>, <code>delete</code>, <code>list</code></th><td>Réglages ▸ Apple : domaines DNS locaux et domaine par défaut</td><td>Toutes</td></tr>
 <tr><th scope="row"><code>container system kernel set</code></th><td>Section Système : installer le noyau recommandé, un fichier de noyau ou une archive tar</td><td>Toutes</td></tr>
 <tr><th scope="row"><code>container system df</code></th><td>Utilisation du disque dans l'aperçu de l'hôte et Récupérer de l'espace</td><td>Toutes</td></tr>
 <tr><th scope="row"><code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code></th><td>Section Système : Builder d'images avec options de CPU, de mémoire et de DNS</td><td>Toutes</td></tr>
 <tr><th scope="row"><code>container registry login</code>, <code>logout</code>, <code>list</code></th><td>Section Système : Connexions aux registres (mot de passe via stdin uniquement)</td><td>Toutes</td></tr>
 <tr><th scope="row"><code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code></th><td>Machines : créer, démarrer, arrêter, supprimer, machine par défaut, CPU et mémoire, shell, inspection, Ouvrir dans VS Code</td><td>Toutes ; virtualisation imbriquée et noyaux : 1.1</td></tr>
-<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Clusters : clusters Kubernetes, nœuds, kubeconfig, contexte kubectl, Charger dans le cluster</td><td>1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)</td></tr>
+<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Clusters : clusters Kubernetes, taille des workers et stockage d'images partagé (1.7), nœuds, kubeconfig, Parcourir les ressources, Charger dans le cluster (1.5 et 1.6)</td><td>1.5 (<code>k8s</code>), 1.6.1 et 1.7 (<code>cluster</code>)</td></tr>
 <tr><th scope="row">Aucune commande <code>compose</code></th><td>Exécution Compose : lancer un <code>docker-compose.yml</code> depuis le Finder, le menu Fichier ou par glisser-déposer</td><td>Toutes</td></tr>
 </tbody>
 </table></div>
@@ -287,7 +287,7 @@
 <h2 id="features">Ce que Gantry ajoute à apple/container</h2>
 
 <h3 id="kubernetes">Clusters Kubernetes</h3>
-<p>Créez des clusters Kubernetes à plusieurs workers avec <code>container cluster</code>, choisissez le CNI, consultez chaque nœud, écrivez le kubeconfig et chargez des images locales dans le cluster. Voir <a href="../apple-container-kubernetes/">Kubernetes sur apple/container</a>.</p>
+<p>Créez des clusters Kubernetes avec <code>container cluster</code>, dimensionnez les workers, laissez les pods utiliser vos images locales, choisissez le CNI et consultez chaque nœud. Parcourez ensuite le cluster dans le navigateur Kubernetes de Gantry. Voir <a href="../apple-container-kubernetes/">Kubernetes sur apple/container</a> et le guide pas à pas <a href="../kubernetes-on-mac/">Exécuter Kubernetes sur un Mac</a>.</p>
 
 <h3 id="machines">Machines container et VS Code</h3>
 <p>Les machines sont des environnements Linux durables créés avec <code>container machine</code>. Gantry les crée, les démarre, les arrête et les supprime, définit la machine par défaut, modifie les CPU et la mémoire, et ouvre un shell. Avec la CLI 1.1 ou ultérieure, une machine peut démarrer avec la virtualisation imbriquée (puce Apple M3 ou plus récente) et un noyau personnalisé. <strong>Ouvrir dans VS Code</strong> se connecte à une machine en cours d'exécution via Remote-SSH ; l'image de la machine doit exécuter <code>sshd</code>.</p>
@@ -302,11 +302,11 @@
 <p>Chaque hôte apple/container a une section <strong>Système</strong>. Elle fonctionne même quand l'hôte est déconnecté : vous pouvez donc y démarrer des services arrêtés.</p>
 <ul>
   <li><strong>État et version :</strong> versions client et serveur, avec un avertissement si elles diffèrent ; démarrer, arrêter et redémarrer les services ; infos et chemins de l'hôte.</li>
-  <li><strong>Builder d'images :</strong> état, image, CPU, mémoire et IP ; démarrage avec options de CPU, de mémoire et de DNS ; arrêt ; suppression.</li>
+  <li><strong>Builder d'images :</strong> état, image, CPU, mémoire et IP ; démarrage avec des options de CPU, de mémoire et de DNS ; arrêt ; suppression. Une carte vous signale quand l'image du builder est obsolète et le recrée.</li>
   <li><strong>Connexions aux registres :</strong> lister, se connecter et se déconnecter. Le mot de passe n'est transmis à la CLI que via stdin (<code>--password-stdin</code>), et Gantry n'en garde aucune copie.</li>
   <li><strong>Noyau :</strong> installer le noyau recommandé, un fichier de noyau ou une archive tar, avec la progression en continu.</li>
   <li><strong>Journaux des services :</strong> en direct ou ponctuels, sur une période de 5 minutes à 1 jour, filtrés par niveau, service et texte.</li>
-  <li><strong>Propriétés système :</strong> les modifications vont dans <code>~/.config/container/config.toml</code>, avec un indicateur de redémarrage en attente et un bouton <strong>Redémarrer les services</strong>.</li>
+  <li><strong>Propriétés système :</strong> les modifications vont dans <code>~/.config/container/config.toml</code>, avec un indicateur de redémarrage en attente et un bouton <strong>Redémarrer les services</strong>. Avec la CLI 1.7, les serveurs de noms, domaines de recherche et options de <code>[container.dns]</code> ont un éditeur de liste.</li>
 </ul>
 
 <h3 id="disk">Enregistrer comme image, Compacter le disque et fichiers</h3>
@@ -323,7 +323,7 @@
 </div>
 
 <h2 id="vs-docker">apple/container à côté de Docker</h2>
-<p>Gantry gère les hôtes apple/container, le daemon Docker local (Docker Desktop, OrbStack, Colima) et les hôtes Docker distants via SSH dans une seule barre latérale et un seul tableau de bord de flotte. Inutile de choisir un seul runtime. Pour une comparaison fonctionnalité par fonctionnalité, voir <a href="../compare/">Gantry face à Docker Desktop, OrbStack et Podman Desktop</a>.</p>
+<p>Gantry gère les hôtes apple/container, le daemon Docker local (Docker Desktop, OrbStack, Colima) et les hôtes Docker distants via SSH dans une seule barre latérale et un seul tableau de bord de la flotte. Vous n'avez pas à choisir un seul runtime. Pour comparer les outils fonctionnalité par fonctionnalité, voir <a href="../compare/">Gantry, Docker Desktop, OrbStack et Podman Desktop comparés</a>. Pour migrer votre travail, lisez <a href="../docker-desktop-to-apple-container/">Passer de Docker Desktop à Apple container</a>.</p>
 
 <h2 id="faq">Questions et réponses</h2>
 <div class="faq-list">
@@ -332,10 +332,10 @@
 <details class="faq-item"><summary>Peut-on utiliser docker compose avec Apple container ?</summary><p>apple/container n'a pas de commande <code>compose</code>. Gantry lit un <code>docker-compose.yml</code>, construit les services <code>build:</code>, crée le réseau et les volumes nommés, puis démarre les services dans l'ordre de <code>depends_on</code>. Les noms de services sont résolus via des alias DNS réseau.</p></details>
 <details class="faq-item"><summary>Comment ouvrir une machine container dans VS Code ?</summary><p>Démarrez la machine dans Gantry et cliquez sur <b>Ouvrir dans VS Code</b>. Gantry l'ouvre via Remote-SSH, comme dans l'exemple <code>container-machine-vscode</code> d'Apple. L'image de la machine doit exécuter <code>sshd</code>.</p></details>
 <details class="faq-item"><summary>Apple container fonctionne-t-il sur un Mac Intel ?</summary><p>Non. apple/container nécessite un Mac à puce Apple. Gantry fonctionne aussi sur les Mac Intel, mais il n'y gère que des hôtes Docker.</p></details>
-<details class="faq-item"><summary>Quelle version de la CLI container installer ?</summary><p>Gantry nécessite la 1.0 ou ultérieure et est testé avec la 1.6.1. Installez-la avec le paquet d'installation signé depuis la <a href="https://github.com/apple/container/releases">page des versions d'apple/container</a>. La version Homebrew n'inclut pas le backend des machines : <code>container machine</code> n'y fonctionne donc pas.</p></details>
+<details class="faq-item"><summary>Quelle version de la CLI container installer ?</summary><p>Gantry nécessite la 1.0 ou ultérieure et recommande la 1.7.1. Installez-la avec le paquet d'installation signé de la <a href="https://github.com/apple/container/releases">page des versions d'apple/container</a>. Le build Homebrew ne contient pas le backend des machines ni, dans la 1.7.1, les services de cluster : <code>container machine</code> et <code>container cluster</code> ne fonctionnent donc pas avec lui.</p></details>
 </div>
 
-<p class="updated">Dernière mise à jour : 2026-11-03.</p>
+<p class="updated">Dernière mise à jour : 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Accueil</a>
@@ -345,6 +345,14 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Comparatif</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes sur Mac</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Depuis Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Disque externe</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Depuis docker run</a>
       <span>·</span>
       <a href="../../docs/index.html">Docs</a>
       <span>·</span>

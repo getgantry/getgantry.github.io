@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantry juhtpaneel Dockeri ja apple/containeri hostidega">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Apple containeri GUI Macile: täielik apple/containeri juhend">
   <meta name="twitter:description" content="Mis on Apple&#x27;i container-tööriist, kuidas see installida ja kuidas Gantry seda haldab: iga container CLI käsk ja Gantry funktsioon, Compose&#x27;ist Kubernetesini.">
@@ -67,7 +67,7 @@
       "description": "Mis on Apple'i container-tööriist, kuidas see installida ja kuidas Gantry seda haldab: iga container CLI käsk ja Gantry funktsioon, Compose'ist Kubernetesini.",
       "url": "https://getgantry.github.io/et/apple-container/",
       "inLanguage": "et",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -157,7 +157,7 @@
           "name": "Millise container CLI versiooni peaks installima?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Gantry vajab versiooni 1.0 või uuemat ja on testitud versiooniga 1.6.1. Installige see allkirjastatud installipaketiga apple/containeri väljalasete lehelt. Homebrew-versioonis pole masinate taustasüsteemi, seega container machine sellega ei tööta."
+            "text": "Gantry vajab versiooni 1.0 või uuemat ja soovitab versiooni 1.7.1. Installige see allkirjastatud installipaketiga apple/containeri väljalasete lehelt. Homebrew-versioonis pole masinate taustasüsteemi ega versioonis 1.7.1 klastriteenuseid, seega container machine ja container cluster sellega ei tööta."
           }
         }
       ]
@@ -223,7 +223,7 @@
 <p class="page-lead">apple/container käitab Linuxi konteinereid teie Macis, igaüht oma kerges virtuaalmasinas. See tuleb käsureatööriistana. Gantry on selle jaoks natiivne macOS-i GUI. See juhend selgitab tööriista, selle seadistamist ja seda, milline Gantry funktsioon katab iga <code>container</code> käsu.</p>
 
 <div class="tldr">
-<p><strong>Lühidalt.</strong> Gantry on tasuta avatud lähtekoodiga (MIT) macOS-i rakendus, mis haldab Apple'i <code>container</code>-tööriista ja Dockerit ühest aknast. See toetab <code>container</code> CLI versioone 1.0 kuni 1.6.1 (soovitatud) ja näitab ainult neid funktsioone, mida teie CLI versioon toetab. Installige see käsuga <code>brew install --cask getgantry/tap/gantry</code>.</p>
+<p><strong>Lühidalt.</strong> Gantry on tasuta avatud lähtekoodiga (MIT) macOS-i rakendus, mis haldab Apple'i <code>container</code>-tööriista ja Dockerit ühest aknast. See toetab <code>container</code> CLI versioone 1.0 kuni 1.7.1 (soovitatud) ja näitab ainult neid funktsioone, mida teie CLI versioon toetab. Installige see käsuga <code>brew install --cask getgantry/tap/gantry</code>.</p>
 </div>
 
 <h2 id="what-is">Mis on apple/container?</h2>
@@ -245,14 +245,14 @@
   <li>Valige Gantrys <strong>Lisa host…</strong> ja lisage <em>Apple Containeri</em> host. Ühendamine käivitab <code>container</code> teenused, kui need on peatatud.</li>
   <li>Kui vaikimisi tuuma pole installitud, kuvatakse hosti ülevaates teaderiba. Klõpsake sellel, et installida soovitatud tuum.</li>
 </ol>
-<div class="callout callout-warn"><span class="callout-tag">Tähelepanu</span><div>Kasutage allkirjastatud installipaketti, mitte Homebrew-versiooni. Homebrew-versioonis pole masinate taustasüsteemi, seega <code>container machine</code> ei tööta.</div></div>
+<div class="callout callout-warn"><span class="callout-tag">Tähelepanu</span><div>Kasutage allkirjastatud installipaketti, mitte Homebrew-versiooni. Homebrew-versioonis pole masinate taustasüsteemi ega versioonis 1.7.1 klastriteenuseid, seega <code>container machine</code> ja <code>container cluster</code> ei saa töötada.</div></div>
 
 <h2 id="command-map">Iga container käsk ja sellele vastav Gantry funktsioon</h2>
 <p>See tabel seob <code>container</code> CLI Gantryga. Viimane veerg näitab CLI versiooni, mida Gantry funktsiooni jaoks vajab. <em>Kõik</em> tähendab kõiki toetatud CLI versioone, 1.0 või uuemaid. Gantry loeb installitud versiooni ja peidab funktsioonid, mida see ei toeta.</p>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">CLI käsk</th><th scope="col">Gantry funktsioon</th><th scope="col">Gantry jaoks vajalik CLI versioon</th></tr></thead>
 <tbody>
-<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Leht Uus konteiner ja Kiirkäivitus: tõmmis, nimi, käsk, pordid, keskkond, köited, DNS-domeen, kohandatud tuum ja buutimisargumendid</td><td>Kõik</td></tr>
+<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Leht Uus konteiner ja Kiirkäivitus: tõmmis, nimi, käsk, pordid, keskkond, köited, DNS-domeen, kohandatud tuum ja buutimisargumendid; <strong>Kleebi käsk…</strong> loeb rea <code>docker run</code> või <code>container run</code></td><td>Kõik</td></tr>
 <tr><th scope="row"><code>container list --all</code></th><td>Konteinerite loend, rühmitatud Compose'i projekti järgi, olekufiltrite ja otsinguga</td><td>Kõik</td></tr>
 <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Tööriistariba, paremklõpsu menüü ja menüüriba paneel</td><td>Kõik</td></tr>
 <tr><th scope="row"><code>container logs</code></th><td>Vahekaart Logid: reaalajas jälgimine, regex-otsing, tasemefilter, ANSI-värvid</td><td>Kõik</td></tr>
@@ -272,14 +272,14 @@
 <tr><th scope="row"><code>container system start</code>, <code>stop</code></th><td>Jaotis Süsteem: teenuste käivitamine, peatamine ja taaskäivitamine; ka menüüribal ja Seadetes</td><td>Kõik</td></tr>
 <tr><th scope="row"><code>container system status</code>, <code>version</code></th><td>Jaotis Süsteem: olek, kliendi ja serveri versioonid, hosti andmed</td><td>Kõik</td></tr>
 <tr><th scope="row"><code>container system logs</code></th><td>Jaotis Süsteem: Teenuste logid reaalajas või 5 minuti kuni 1 päeva kohta, filtreerimine taseme, teenuse ja teksti järgi</td><td>Kõik</td></tr>
-<tr><th scope="row"><code>container system property list</code></th><td>Jaotis Süsteem: Süsteemiatribuutide redaktor, salvestab faili <code>~/.config/container/config.toml</code></td><td>Kõik; testitud versiooniga 1.6.1</td></tr>
+<tr><th scope="row"><code>container system property list</code></th><td>Jaotis Süsteem: Süsteemiatribuutide redaktor, salvestab faili <code>~/.config/container/config.toml</code></td><td>Kõik; <code>[container.dns]</code> loendid 1.7</td></tr>
 <tr><th scope="row"><code>container system dns create</code>, <code>delete</code>, <code>list</code></th><td>Seaded ▸ Apple: kohalikud DNS-domeenid ja vaikimisi domeen</td><td>Kõik</td></tr>
 <tr><th scope="row"><code>container system kernel set</code></th><td>Jaotis Süsteem: soovitatud tuuma, tuumafaili või tar-arhiivi installimine</td><td>Kõik</td></tr>
 <tr><th scope="row"><code>container system df</code></th><td>Hosti ülevaate kettakasutus ja Vabasta ruumi</td><td>Kõik</td></tr>
 <tr><th scope="row"><code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code></th><td>Jaotis Süsteem: Tõmmisekoostaja CPU, mälu ja DNS-i valikutega</td><td>Kõik</td></tr>
 <tr><th scope="row"><code>container registry login</code>, <code>logout</code>, <code>list</code></th><td>Jaotis Süsteem: Registritesse sisselogimised (parool ainult stdin-i kaudu)</td><td>Kõik</td></tr>
 <tr><th scope="row"><code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code></th><td>Masinad: loomine, käivitamine, peatamine, kustutamine, vaikimisi masin, CPU-d ja mälu, shell, uurimine, Ava VS Code'is</td><td>Kõik; pesastatud virtualiseerimine ja tuumad 1.1</td></tr>
-<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Klastrid: Kubernetese klastrid, sõlmed, kubeconfig, kubectl-i kontekst, Laadi klastrisse</td><td>1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)</td></tr>
+<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Klastrid: Kubernetese klastrid, töösõlmede suurused ja jagatud tõmmisehoidla (1.7), sõlmed, kubeconfig, Sirvi ressursse, Laadi klastrisse (1.5 ja 1.6)</td><td>1.5 (<code>k8s</code>), 1.6.1 ja 1.7 (<code>cluster</code>)</td></tr>
 <tr><th scope="row">Käsku <code>compose</code> pole</th><td>Compose'i käivitaja: käivitage <code>docker-compose.yml</code> Finderist, menüüst Fail või lohistades</td><td>Kõik</td></tr>
 </tbody>
 </table></div>
@@ -287,7 +287,7 @@
 <h2 id="features">Mida Gantry apple/containerile lisab</h2>
 
 <h3 id="kubernetes">Kubernetese klastrid</h3>
-<p>Looge mitme töösõlmega Kubernetese klastreid käsuga <code>container cluster</code>, valige CNI, vaadake iga sõlme, kirjutage kubeconfig ja laadige kohalikud tõmmised klastrisse. Vt <a href="../apple-container-kubernetes/">Kubernetes apple/containeris</a>.</p>
+<p>Looge Kubernetese klastreid käsuga <code>container cluster</code>, määrake töösõlmede suurus, laske podidel kasutada teie kohalikke tõmmiseid, valige CNI ja vaadake iga sõlme. Seejärel sirvige klastrit Gantry Kubernetese brauseris. Vaadake lehte <a href="../apple-container-kubernetes/">Kubernetes apple/containeris</a> ja samm-sammulist juhendit <a href="../kubernetes-on-mac/">Kubernetes Macis</a>.</p>
 
 <h3 id="machines">Konteinermasinad ja VS Code</h3>
 <p>Masinad on pikaealised Linuxi keskkonnad, mis luuakse käsuga <code>container machine</code>. Gantry loob, käivitab, peatab ja kustutab neid, määrab vaikimisi masina, muudab CPU-sid ja mälu ning avab shelli. CLI 1.1 või uuemaga saab masina buutida pesastatud virtualiseerimisega (Apple'i kiip M3 või uuem) ja kohandatud tuumaga. <strong>Ava VS Code'is</strong> ühendub töötava masinaga Remote-SSH kaudu; masina tõmmises peab töötama <code>sshd</code>.</p>
@@ -302,11 +302,11 @@
 <p>Igal apple/containeri hostil on jaotis <strong>Süsteem</strong>. See töötab ka siis, kui host pole ühendatud, nii et peatatud teenused saab käivitada sealt.</p>
 <ul>
   <li><strong>Olek ja versioon:</strong> kliendi ja serveri versioonid ning hoiatus, kui need erinevad; teenuste käivitamine, peatamine ja taaskäivitamine; hosti andmed ja teed.</li>
-  <li><strong>Tõmmisekoostaja:</strong> olek, tõmmis, CPU-d, mälu ja IP; käivitamine CPU, mälu ja DNS-i valikutega; peatamine; kustutamine.</li>
+  <li><strong>Tõmmisekoostaja:</strong> olek, tõmmis, CPU-d, mälu ja IP; käivitamine CPU, mälu ja DNS-i valikutega; peatamine; kustutamine. Kaart annab teada, kui koostaja tõmmis on aegunud, ja loob selle uuesti.</li>
   <li><strong>Registritesse sisselogimised:</strong> loend, sisse- ja väljalogimine. Parool läheb CLI-le ainult stdin-i kaudu (<code>--password-stdin</code>) ja Gantry ei hoia sellest koopiat.</li>
   <li><strong>Tuum:</strong> soovitatud tuuma, tuumafaili või tar-arhiivi installimine, edenemine reaalajas.</li>
   <li><strong>Teenuste logid:</strong> reaalajas või ühekordselt, 5 minuti kuni 1 päeva kohta, filtreerimine taseme, teenuse ja teksti järgi.</li>
-  <li><strong>Süsteemiatribuudid:</strong> muudatused salvestatakse faili <code>~/.config/container/config.toml</code>, ootava taaskäivituse märgi ja nupuga <strong>Taaskäivita teenused</strong>.</li>
+  <li><strong>Süsteemiatribuudid:</strong> muudatused lähevad faili <code>~/.config/container/config.toml</code>, ootel taaskäivituse märgi ja nupuga <strong>Taaskäivita teenused</strong>. CLI 1.7-s on <code>[container.dns]</code> nimeserverite, otsingudomeenide ja valikute jaoks loendiredaktor.</li>
 </ul>
 
 <h3 id="disk">Tõmmisena salvestamine, Kärbi ketast ja failid</h3>
@@ -323,7 +323,7 @@
 </div>
 
 <h2 id="vs-docker">apple/container Dockeri kõrval</h2>
-<p>Gantry haldab apple/containeri hoste, kohalikku Dockeri deemonit (Docker Desktop, OrbStack, Colima) ja SSH kaudu ühendatud kaug-Dockeri hoste ühes külgribas ja ühel juhtpaneelil. Te ei pea valima ühte käituskeskkonda. Tööriistade funktsioonipõhist võrdlust vaadake lehelt <a href="../compare/">Gantry vs Docker Desktop, OrbStack ja Podman Desktop</a>.</p>
+<p>Gantry haldab apple/containeri hoste, kohalikku Dockeri deemonit (Docker Desktop, OrbStack, Colima) ja SSH kaudu ühendatud kaug-Dockeri hoste ühes külgribas ja ühel taristu töölaual. Te ei pea valima ühte käituskeskkonda. Tööriistade funktsioonipõhise võrdluse leiate lehelt <a href="../compare/">Gantry vs Docker Desktop, OrbStack ja Podman Desktop</a>. Oma töö üleviimiseks lugege juhendit <a href="../docker-desktop-to-apple-container/">Docker Desktopilt Apple containerile</a>.</p>
 
 <h2 id="faq">Küsimused ja vastused</h2>
 <div class="faq-list">
@@ -332,10 +332,10 @@
 <details class="faq-item"><summary>Kas docker compose&#x27;i saab kasutada Apple containeriga?</summary><p>apple/containeril pole käsku <code>compose</code>. Gantry loeb faili <code>docker-compose.yml</code>, koostab <code>build:</code>-teenused, loob võrgu ja nimega köited ning käivitab teenused <code>depends_on</code> järjekorras. Teenuste nimed lahendatakse võrgu DNS-aliaste kaudu.</p></details>
 <details class="faq-item"><summary>Kuidas avada konteinermasin VS Code&#x27;is?</summary><p>Käivitage masin Gantrys ja klõpsake <b>Ava VS Code'is</b>. Gantry avab selle Remote-SSH kaudu, nagu Apple'i näites <code>container-machine-vscode</code>. Masina tõmmises peab töötama <code>sshd</code>.</p></details>
 <details class="faq-item"><summary>Kas Apple container töötab Inteliga Macis?</summary><p>Ei. apple/container vajab Apple'i kiibiga Maci. Gantry töötab ka Inteliga Macides, kuid seal haldab see ainult Dockeri hoste.</p></details>
-<details class="faq-item"><summary>Millise container CLI versiooni peaks installima?</summary><p>Gantry vajab versiooni 1.0 või uuemat ja on testitud versiooniga 1.6.1. Installige see allkirjastatud installipaketiga <a href="https://github.com/apple/container/releases">apple/containeri väljalasete lehelt</a>. Homebrew-versioonis pole masinate taustasüsteemi, seega <code>container machine</code> sellega ei tööta.</p></details>
+<details class="faq-item"><summary>Millise container CLI versiooni peaks installima?</summary><p>Gantry vajab versiooni 1.0 või uuemat ja soovitab versiooni 1.7.1. Installige see allkirjastatud installipaketiga <a href="https://github.com/apple/container/releases">apple/containeri väljalasete lehelt</a>. Homebrew-versioonis pole masinate taustasüsteemi ega versioonis 1.7.1 klastriteenuseid, seega <code>container machine</code> ja <code>container cluster</code> sellega ei tööta.</p></details>
 </div>
 
-<p class="updated">Viimati uuendatud 2026-11-03.</p>
+<p class="updated">Viimati uuendatud 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Avaleht</a>
@@ -345,6 +345,14 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Võrdlus</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes Macis</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Docker Desktopilt</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Väline ketas</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">docker run käsust</a>
       <span>·</span>
       <a href="../../docs/index.html">Juhendid</a>
       <span>·</span>

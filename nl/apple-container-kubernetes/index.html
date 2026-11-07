@@ -5,8 +5,8 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kubernetes op Apple container: GUI voor container cluster op de Mac</title>
-  <meta name="description" content="Kubernetes op Apples container-tool met Gantry: maak clusters met meerdere workers via container cluster, kies een CNI, bekijk nodes, schrijf de kubeconfig en laad lokale images.">
+  <title>Kubernetes op Apple container: een GUI voor container cluster en een Kubernetes-browser</title>
+  <meta name="description" content="Kubernetes op Apples container-tool met Gantry: maak clusters met workergroottes en gedeelde imageopslag, blader door pods en logs, open een shell, stuur poorten door, pas YAML toe.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="canonical" href="https://getgantry.github.io/nl/apple-container-kubernetes/">
   <link rel="alternate" hreflang="en" href="https://getgantry.github.io/apple-container-kubernetes/">
@@ -40,17 +40,17 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Gantry">
   <meta property="og:locale" content="nl_NL">
-  <meta property="og:title" content="Kubernetes op Apple container: GUI voor container cluster op de Mac">
-  <meta property="og:description" content="Kubernetes op Apples container-tool met Gantry: maak clusters met meerdere workers via container cluster, kies een CNI, bekijk nodes, schrijf de kubeconfig en laad lokale images.">
+  <meta property="og:title" content="Kubernetes op Apple container: een GUI voor container cluster en een Kubernetes-browser">
+  <meta property="og:description" content="Kubernetes op Apples container-tool met Gantry: maak clusters met workergroottes en gedeelde imageopslag, blader door pods en logs, open een shell, stuur poorten door, pas YAML toe.">
   <meta property="og:url" content="https://getgantry.github.io/nl/apple-container-kubernetes/">
   <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantry-vlootdashboard met Docker- en apple/container-hosts">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Kubernetes op Apple container: GUI voor container cluster op de Mac">
-  <meta name="twitter:description" content="Kubernetes op Apples container-tool met Gantry: maak clusters met meerdere workers via container cluster, kies een CNI, bekijk nodes, schrijf de kubeconfig en laad lokale images.">
+  <meta name="twitter:title" content="Kubernetes op Apple container: een GUI voor container cluster en een Kubernetes-browser">
+  <meta name="twitter:description" content="Kubernetes op Apples container-tool met Gantry: maak clusters met workergroottes en gedeelde imageopslag, blader door pods en logs, open een shell, stuur poorten door, pas YAML toe.">
   <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta name="theme-color" content="#060a10">
   <link rel="icon" type="image/png" href="../../assets/icon.png">
@@ -63,11 +63,11 @@
     {
       "@type": "TechArticle",
       "@id": "https://getgantry.github.io/nl/apple-container-kubernetes/#article",
-      "headline": "Kubernetes op Apple container: GUI voor container cluster op de Mac",
-      "description": "Kubernetes op Apples container-tool met Gantry: maak clusters met meerdere workers via container cluster, kies een CNI, bekijk nodes, schrijf de kubeconfig en laad lokale images.",
+      "headline": "Kubernetes op Apple container: een GUI voor container cluster en een Kubernetes-browser",
+      "description": "Kubernetes op Apples container-tool met Gantry: maak clusters met workergroottes en gedeelde imageopslag, blader door pods en logs, open een shell, stuur poorten door, pas YAML toe.",
       "url": "https://getgantry.github.io/nl/apple-container-kubernetes/",
       "inLanguage": "nl",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -122,7 +122,7 @@
           "name": "Ondersteunt Apple container Kubernetes?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja. De container-CLI maakt Kubernetes-clusters waarvan de nodes als containers draaien: container cluster in CLI 1.6.1, container k8s in CLI 1.5.0 tot en met 1.6.0. Gantry voegt er een GUI aan toe."
+            "text": "Ja. De container-CLI maakt Kubernetes-clusters waarvan de nodes als containers draaien: container cluster in CLI 1.6.1 en 1.7, container k8s in CLI 1.5.0 tot en met 1.6.0. Gantry voegt er een GUI aan toe."
           }
         },
         {
@@ -130,7 +130,7 @@
           "name": "Ondersteunt Gantry container cluster?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja. Gantry geeft een overzicht van clusters op apple/container-hosts, maakt en verwijdert ze, toont hun nodes, schrijft de kubeconfig, kopieert het kubectl-contextcommando en laadt lokale images in een cluster. Het gebruikt cluster of k8s, afhankelijk van je CLI-versie."
+            "text": "Ja. Gantry geeft een overzicht van clusters op apple/container-hosts, maakt en verwijdert ze, toont hun nodes, schrijft de kubeconfig en opent het cluster in de Kubernetes-browser. Op CLI 1.7 stelt het ook de grootte van de workers in en zet het de gedeelde imageopslag aan. Het gebruikt cluster of k8s, afhankelijk van je CLI-versie."
           }
         },
         {
@@ -146,7 +146,7 @@
           "name": "Hoe krijg ik een lokale image in het cluster zonder registry?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Klik in Gantry onder Images met de rechtermuisknop op de image en kies Laad in cluster. Gantry voert container cluster load-image uit, dat de image naar de containerd van elke node kopieert."
+            "text": "Maak op CLI 1.7 het cluster met Gebruik lokale images (--shared-image-store). Pods draaien dan de images die je met container bouwt of pullt, op naam. Op CLI 1.5 en 1.6 klik je onder Images met de rechtermuisknop op de image en kies je Laad in cluster; Gantry voert container cluster load-image uit. CLI 1.7 heeft load-image verwijderd."
           }
         },
         {
@@ -154,7 +154,7 @@
           "name": "Kan ik een cluster met meerdere nodes maken?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja. Stel het aantal workers in bij het aanmaken. Workers vereisen CLI 1.6.0 of nieuwer."
+            "text": "Ja. Stel het aantal workers in bij het aanmaken; workers vereisen CLI 1.6.0 of nieuwer. Op CLI 1.7 stel je ook de CPU's en het geheugen van de workers in, los van de control plane."
           }
         },
         {
@@ -163,6 +163,22 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Ja. Kies Aangepast manifest en selecteer het manifestbestand, of kies Geen en installeer zelf een CNI nadat het cluster is gestart. Nodes blijven NotReady tot er een CNI draait. Geen vereist CLI 1.6.0 of nieuwer. De standaard-CNI is het meegeleverde kindnet-manifest."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Waarom meldt Gantry dat de clusterservices niet beschikbaar zijn?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "De container-services hebben niet geantwoord op een clustercommando. Is je CLI een Homebrew-build zonder clusterservices, dan zegt Gantry dat en linkt het naar het ondertekende installatieprogramma op de releasepagina van apple/container. Anders biedt het Herstart services aan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Heb ik kubectl nodig om het cluster in Gantry te gebruiken?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Voorlopig wel: de Kubernetes-browser van Gantry voert kubectl uit. Is dat niet geïnstalleerd, dan toont de browser het commando brew install kubectl en kan hij het voor je uitvoeren. Een native Kubernetes-client die deze stap overbodig maakt, is in ontwikkeling."
           }
         }
       ]
@@ -225,17 +241,17 @@
     <nav class="crumbs" aria-label="Kruimelpad"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Kubernetes op apple/container</span></nav>
     <article class="docs-article page-article">
 <h1>Kubernetes op Apple container</h1>
-<p class="page-lead">apple/container kan een Kubernetes-cluster draaien waarvan de nodes containers op je Mac zijn. Gantry is daar een GUI voor: maak een cluster, zie de nodes opkomen, verbind <code>kubectl</code> en laad je lokale images, zonder lange <code>container cluster</code>-opdrachtregels.</p>
+<p class="page-lead">apple/container kan een Kubernetes-cluster draaien waarvan de nodes containers op je Mac zijn. Gantry is er een GUI voor: maak een cluster, zie de nodes opstarten, draai je lokale images erin en blader door de pods, logs en services, zonder lange <code>container cluster</code>-commandoregels.</p>
 
 <div class="tldr">
-<p><strong>Kort gezegd.</strong> Op een apple/container-host maakt en verwijdert het onderdeel <strong>Clusters</strong> van Gantry Kubernetes-clusters met <code>container cluster</code> (CLI 1.6.1) of <code>container k8s</code> (CLI 1.5.0 tot en met 1.6.0). Het ondersteunt meerdere workers, een eigen CNI, een nodeoverzicht, kubeconfig en <code>kubectl</code>-context, en <strong>Laad in cluster</strong> voor lokale images.</p>
+<p><strong>Kort gezegd.</strong> Op een apple/container-host maakt en verwijdert het onderdeel <strong>Clusters</strong> van Gantry Kubernetes-clusters met <code>container cluster</code> (CLI 1.6.1 en 1.7) of <code>container k8s</code> (CLI 1.5.0 tot en met 1.6.0). Op CLI 1.7.1 stelt het de grootte van de workers apart van de control plane in en zet het de gedeelde imageopslag aan. Het onderdeel <strong>Kubernetes</strong> bladert door het cluster: pods, logs, shell, poortdoorsturingen, schalen en Pas YAML toe.</p>
 </div>
 
 <h2 id="requirements">Vereisten</h2>
 <ul>
   <li>Een Mac met Apple silicon, macOS 26 en Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
-  <li>De <code>container</code>-CLI 1.5.0 of nieuwer; 1.6.1 wordt aanbevolen. Workers en de CNI <em>Geen</em> vereisen 1.6.0 of nieuwer.</li>
-  <li><code>kubectl</code>, als je het cluster vanuit de terminal wilt gebruiken.</li>
+  <li>De <code>container</code>-CLI 1.5.0 of nieuwer; 1.7.1 wordt aanbevolen. Workers en de CNI <em>Geen</em> vereisen 1.6.0 of nieuwer. Workergroottes en de gedeelde imageopslag vereisen 1.7.0 of nieuwer. Gebruik het ondertekende installatiepakket: de Homebrew-build van 1.7.1 heeft geen clusterservices.</li>
+  <li><code>kubectl</code> voor de Kubernetes-browser en de terminal. Gantry kan het met Homebrew installeren.</li>
 </ul>
 
 <h2 id="create">Een cluster maken</h2>
@@ -249,20 +265,36 @@
 <tbody>
 <tr><th scope="row">Naam</th><td><code>--name</code></td><td>Ook de naam van de kubeconfig-context</td></tr>
 <tr><th scope="row">Workers</th><td><code>--workers</code></td><td>Aantal workernodes. CLI 1.6.0+</td></tr>
-<tr><th scope="row">CPU's</th><td><code>--cpus</code></td><td>Per node</td></tr>
-<tr><th scope="row">Geheugen</th><td><code>--memory</code></td><td>Per node, bijvoorbeeld <code>4G</code></td></tr>
+<tr><th scope="row">CPU's en geheugen van workers</th><td><code>--workers count=N,cpus=C,memory=M</code></td><td>CLI 1.7+. Vóór 1.7 stellen <code>--cpus</code> en <code>--memory</code> elke node in</td></tr>
+<tr><th scope="row">CPU's</th><td><code>--cpus</code></td><td>Control plane (CLI 1.7+), of elke node (vóór 1.7)</td></tr>
+<tr><th scope="row">Geheugen</th><td><code>--memory</code></td><td>Control plane (CLI 1.7+), of elke node (vóór 1.7), bijvoorbeeld <code>4G</code></td></tr>
+<tr><th scope="row">Gebruik lokale images</th><td><code>--shared-image-store</code></td><td>CLI 1.7+. Nodes draaien images uit je lokale imageopslag</td></tr>
 <tr><th scope="row">Node-image</th><td><code>--node-image</code></td><td>Leeg laten voor de standaard van de CLI</td></tr>
 <tr><th scope="row">CNI</th><td><code>--cni</code></td><td>Standaard (meegeleverde kindnet), Geen (<code>NONE</code>, CLI 1.6.0+) of een pad naar een aangepast manifest</td></tr>
 </tbody>
 </table></div>
 <p>Hetzelfde commando in de CLI:</p>
 <div class="code-block">
-  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster create --name dev --workers 2 --cpus 2 --memory 4G">Kopieer</button></div>
-  <pre><code>container cluster create --name dev --workers 2 --cpus 2 --memory 4G</code></pre>
+  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 4G \
+  --workers count=2,cpus=2,memory=4G --shared-image-store">Kopieer</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 4G \
+  --workers count=2,cpus=2,memory=4G --shared-image-store</code></pre>
 </div>
 
 <h2 id="nodes">Nodes en clusterdetails</h2>
-<p>De clusterlijst toont elk cluster met zijn nodes: rol, status en adres. De detailweergave heeft een <strong>Overzicht</strong> (kubectl-context, API-server, workers, nodenetwerk), een tabel <strong>Nodes</strong>, <strong>Inspecteren</strong> voor de ruwe nodegegevens, en de acties <strong>Schrijf Kubeconfig</strong>, <strong>Kopieer kubectl-contextcommando</strong> en <strong>Verwijder</strong>.</p>
+<p>De clusterlijst toont één rij per cluster. De detailweergave heeft een <strong>Overzicht</strong> (kubectl-context, API-server, Kubernetes-versie, imageopslag, workers en hun bronnen, nodenetwerk), een tabel <strong>Nodes</strong> en <strong>Inspecteren</strong> voor de ruwe nodegegevens. De knoppenbalk heeft <strong>Blader door resources</strong>, en het menu Meer heeft <strong>Schrijf Kubeconfig</strong>, <strong>Kopieer kubectl-contextcommando</strong> en <strong>Verwijder</strong>.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<p>Clusternodes zijn containers, maar <code>container cluster</code> is de eigenaar. Gantry schakelt starten, stoppen, herstarten, verwijderen en hernoemen voor een node uit en vertelt je waarom, en Start alle en Stop alle slaan nodes over. Op CLI 1.7 verbergt de CLI nodes ook in <code>container list</code>. Clusters die met CLI 1.6 of ouder zijn gemaakt, staan niet in de lijst van 1.7; verwijder ze met <code>container cluster delete --name &lt;name&gt;</code>.</p>
+
+<h2 id="browser">Door het cluster bladeren</h2>
+<p>Klik op <strong>Blader door resources</strong> bij een actief cluster, of open <strong>Kubernetes</strong> in de navigatiekolom. Het onderdeel heeft geen host nodig en toont elke kubeconfig-context; de contexten van apple/container-clusters staan bovenaan. Kies een namespace of alle namespaces, en dan een soort: pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets, nodes of gebeurtenissen.</p>
+<ul>
+  <li><strong>Pods:</strong> logs met volgen, tail en de vorige container; een shell in de pod; poortdoorsturing naar <code>127.0.0.1</code>.</li>
+  <li><strong>Workloads:</strong> deployments en stateful sets schalen; een rollout herstarten.</li>
+  <li><strong>Secrets:</strong> waarden zijn gemaskeerd in de lijst en in de YAML tot je op Toon klikt.</li>
+  <li><strong>Pas YAML toe:</strong> plak een manifest of open een bestand; fouten verschijnen in het venster.</li>
+</ul>
+<p>De browser voert <code>kubectl</code> uit. Vindt Gantry het niet, dan toont het onderdeel <code>brew install kubectl</code> met een knop die het uitvoert. Een native Kubernetes-client die geen <code>kubectl</code> nodig heeft, is in ontwikkeling.</p>
 
 <h2 id="kubectl">kubectl verbinden</h2>
 <p>De CLI voegt bij het aanmaken van het cluster een context met de naam van het cluster toe aan <code>~/.kube/config</code>. Gebruik <strong>Kopieer kubectl-contextcommando</strong> in Gantry, of typ het zelf:</p>
@@ -272,12 +304,22 @@
 </div>
 <p>Wil je het cluster in een eigen bestand, gebruik dan <strong>Schrijf Kubeconfig</strong>. Gantry voert <code>container cluster write-config</code> uit; het standaardpad is <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p>
 
-<h2 id="images">Lokale images in het cluster laden</h2>
-<p>Bouw of pull een image op de apple/container-host, klik er dan met de rechtermuisknop op in <strong>Images</strong> en kies <strong>Laad in cluster</strong>. Gantry voert <code>container cluster load-image</code> uit, dat de image naar de containerd van elke node kopieert. Voor lokale ontwikkeling heb je geen registry nodig.</p>
+<h2 id="images">Lokale images gebruiken in het cluster</h2>
+<p>Zet op CLI 1.7 <strong>Gebruik lokale images</strong> aan wanneer je het cluster maakt. Dat voegt <code>--shared-image-store</code> toe, zodat de nodes elke image die je met <code>container</code> bouwt of pullt op naam kunnen draaien, zonder registry. De instelling ligt vast bij het aanmaken. Gebruik na het opnieuw bouwen van een tag <code>imagePullPolicy: Always</code> of een nieuwe tag. Geprivilegieerde pods kunnen elke image in je lokale opslag lezen, dus gebruik dit alleen voor lokale ontwikkeling.</p>
+<div class="code-block">
+  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container build -t myapp:dev .
+kubectl --context dev create deployment myapp --image=myapp:dev">Kopieer</button></div>
+  <pre><code>container build -t myapp:dev .
+kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
+</div>
+<p>Op CLI 1.5 en 1.6 klik je in <strong>Images</strong> met de rechtermuisknop op de image en kies je <strong>Laad in cluster</strong>. Gantry voert <code>container cluster load-image</code> uit, dat de image naar de containerd van elke node kopieert. CLI 1.7 heeft dit commando verwijderd, dus daar verbergt Gantry de actie.</p>
 <div class="code-block">
   <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster load-image --name dev myapp:dev">Kopieer</button></div>
   <pre><code>container cluster load-image --name dev myapp:dev</code></pre>
 </div>
+
+<h2 id="broken">Als de clusterservices niet antwoorden</h2>
+<p>Mislukt een clustercommando met <em>cluster service unavailable</em>, dan controleert Gantry hoe de CLI is geïnstalleerd. Bij een Homebrew-build zonder de clusterplug-ins krijg je de melding dat de build geen clusterservices heeft en een link <strong>Download installatieprogramma…</strong> naar het ondertekende pakket. In andere gevallen biedt Gantry <strong>Herstart services…</strong> aan.</p>
 
 <h2 id="cni">Een CNI kiezen</h2>
 <p>De standaard is het meegeleverde kindnet-manifest. Kies <strong>Aangepast manifest</strong> om je eigen CNI, bijvoorbeeld Calico of Cilium, uit een bestand te installeren. Kies <strong>Geen</strong> om later zelf een CNI te installeren; tot die tijd blijven de nodes NotReady.</p>
@@ -290,19 +332,21 @@
 </div>
 
 <h2 id="more">Meer over apple/container</h2>
-<p>Lees de <a href="../apple-container/">apple/container-gids</a> voor elk <code>container</code>-commando en de bijbehorende Gantry-functie, of bekijk hoe Gantry zich verhoudt tot <a href="../compare/">Docker Desktop, OrbStack en Podman Desktop</a>.</p>
+<p>Voor een stapsgewijze uitleg vanuit de terminal, lees <a href="../kubernetes-on-mac/">Kubernetes draaien op een Mac met Apple container</a>. Lees de <a href="../apple-container/">apple/container-gids</a> voor elk <code>container</code>-commando en de bijbehorende functie in Gantry, of bekijk hoe Gantry zich verhoudt tot <a href="../compare/">Docker Desktop, OrbStack en Podman Desktop</a>.</p>
 
 <h2 id="faq">Vragen en antwoorden</h2>
 <div class="faq-list">
-<details class="faq-item"><summary>Ondersteunt Apple container Kubernetes?</summary><p>Ja. De <code>container</code>-CLI maakt Kubernetes-clusters waarvan de nodes als containers draaien: <code>container cluster</code> in CLI 1.6.1, <code>container k8s</code> in CLI 1.5.0 tot en met 1.6.0. Gantry voegt er een GUI aan toe.</p></details>
-<details class="faq-item"><summary>Ondersteunt Gantry container cluster?</summary><p>Ja. Gantry geeft een overzicht van clusters op apple/container-hosts, maakt en verwijdert ze, toont hun nodes, schrijft de kubeconfig, kopieert het <code>kubectl</code>-contextcommando en laadt lokale images in een cluster. Het gebruikt <code>cluster</code> of <code>k8s</code>, afhankelijk van je CLI-versie.</p></details>
+<details class="faq-item"><summary>Ondersteunt Apple container Kubernetes?</summary><p>Ja. De <code>container</code>-CLI maakt Kubernetes-clusters waarvan de nodes als containers draaien: <code>container cluster</code> in CLI 1.6.1 en 1.7, <code>container k8s</code> in CLI 1.5.0 tot en met 1.6.0. Gantry voegt er een GUI aan toe.</p></details>
+<details class="faq-item"><summary>Ondersteunt Gantry container cluster?</summary><p>Ja. Gantry geeft een overzicht van clusters op apple/container-hosts, maakt en verwijdert ze, toont hun nodes, schrijft de kubeconfig en opent het cluster in de Kubernetes-browser. Op CLI 1.7 stelt het ook de grootte van de workers in en zet het de gedeelde imageopslag aan. Het gebruikt <code>cluster</code> of <code>k8s</code>, afhankelijk van je CLI-versie.</p></details>
 <details class="faq-item"><summary>Hoe gebruik ik kubectl met een apple/container-cluster?</summary><p>Wanneer de CLI een cluster maakt, voegt hij een kubeconfig-context met de naam van het cluster toe aan <code>~/.kube/config</code>. Voer <code>kubectl --context &lt;name&gt; get nodes</code> uit. Wil je een apart bestand, gebruik dan <b>Schrijf Kubeconfig</b> in Gantry; het standaardpad is <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p></details>
-<details class="faq-item"><summary>Hoe krijg ik een lokale image in het cluster zonder registry?</summary><p>Klik in Gantry onder Images met de rechtermuisknop op de image en kies <b>Laad in cluster</b>. Gantry voert <code>container cluster load-image</code> uit, dat de image naar de containerd van elke node kopieert.</p></details>
-<details class="faq-item"><summary>Kan ik een cluster met meerdere nodes maken?</summary><p>Ja. Stel het aantal workers in bij het aanmaken. Workers vereisen CLI 1.6.0 of nieuwer.</p></details>
+<details class="faq-item"><summary>Hoe krijg ik een lokale image in het cluster zonder registry?</summary><p>Maak op CLI 1.7 het cluster met <b>Gebruik lokale images</b> (<code>--shared-image-store</code>). Pods draaien dan de images die je met <code>container</code> bouwt of pullt, op naam. Op CLI 1.5 en 1.6 klik je onder Images met de rechtermuisknop op de image en kies je <b>Laad in cluster</b>; Gantry voert <code>container cluster load-image</code> uit. CLI 1.7 heeft <code>load-image</code> verwijderd.</p></details>
+<details class="faq-item"><summary>Kan ik een cluster met meerdere nodes maken?</summary><p>Ja. Stel het aantal workers in bij het aanmaken; workers vereisen CLI 1.6.0 of nieuwer. Op CLI 1.7 stel je ook de CPU's en het geheugen van de workers in, los van de control plane.</p></details>
 <details class="faq-item"><summary>Kan ik mijn eigen CNI gebruiken, zoals Calico of Cilium?</summary><p>Ja. Kies <b>Aangepast manifest</b> en selecteer het manifestbestand, of kies <b>Geen</b> en installeer zelf een CNI nadat het cluster is gestart. Nodes blijven NotReady tot er een CNI draait. <b>Geen</b> vereist CLI 1.6.0 of nieuwer. De standaard-CNI is het meegeleverde kindnet-manifest.</p></details>
+<details class="faq-item"><summary>Waarom meldt Gantry dat de clusterservices niet beschikbaar zijn?</summary><p>De <code>container</code>-services hebben niet geantwoord op een clustercommando. Is je CLI een Homebrew-build zonder clusterservices, dan zegt Gantry dat en linkt het naar het ondertekende installatieprogramma op de releasepagina van apple/container. Anders biedt het <b>Herstart services</b> aan.</p></details>
+<details class="faq-item"><summary>Heb ik kubectl nodig om het cluster in Gantry te gebruiken?</summary><p>Voorlopig wel: de Kubernetes-browser van Gantry voert <code>kubectl</code> uit. Is dat niet geïnstalleerd, dan toont de browser het commando <code>brew install kubectl</code> en kan hij het voor je uitvoeren. Een native Kubernetes-client die deze stap overbodig maakt, is in ontwikkeling.</p></details>
 </div>
 
-<p class="updated">Laatst bijgewerkt op 2026-11-03.</p>
+<p class="updated">Laatst bijgewerkt op 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Home</a>
@@ -312,6 +356,14 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Vergelijken</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes op de Mac</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Van Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Externe schijf</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Van docker run</a>
       <span>·</span>
       <a href="../../docs/index.html">Docs</a>
       <span>·</span>

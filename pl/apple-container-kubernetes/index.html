@@ -5,8 +5,8 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kubernetes na Apple container: GUI dla container cluster na Maca</title>
-  <meta name="description" content="Kubernetes na narzędziu container od Apple z Gantry: klastry z wieloma węzłami przez container cluster, wybór CNI, węzły, zapis kubeconfig i lokalne obrazy.">
+  <title>Kubernetes na Apple container: GUI dla container cluster i przeglądarka Kubernetes</title>
+  <meta name="description" content="Kubernetes na narzędziu container od Apple z Gantry: klastry z węzłami roboczymi o wybranym rozmiarze i współdzielonym magazynem obrazów, pody, logi, powłoka, porty i YAML.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="canonical" href="https://getgantry.github.io/pl/apple-container-kubernetes/">
   <link rel="alternate" hreflang="en" href="https://getgantry.github.io/apple-container-kubernetes/">
@@ -40,17 +40,17 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Gantry">
   <meta property="og:locale" content="pl_PL">
-  <meta property="og:title" content="Kubernetes na Apple container: GUI dla container cluster na Maca">
-  <meta property="og:description" content="Kubernetes na narzędziu container od Apple z Gantry: klastry z wieloma węzłami przez container cluster, wybór CNI, węzły, zapis kubeconfig i lokalne obrazy.">
+  <meta property="og:title" content="Kubernetes na Apple container: GUI dla container cluster i przeglądarka Kubernetes">
+  <meta property="og:description" content="Kubernetes na narzędziu container od Apple z Gantry: klastry z węzłami roboczymi o wybranym rozmiarze i współdzielonym magazynem obrazów, pody, logi, powłoka, porty i YAML.">
   <meta property="og:url" content="https://getgantry.github.io/pl/apple-container-kubernetes/">
   <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Pulpit floty w Gantry z hostami Docker i apple/container">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Kubernetes na Apple container: GUI dla container cluster na Maca">
-  <meta name="twitter:description" content="Kubernetes na narzędziu container od Apple z Gantry: klastry z wieloma węzłami przez container cluster, wybór CNI, węzły, zapis kubeconfig i lokalne obrazy.">
+  <meta name="twitter:title" content="Kubernetes na Apple container: GUI dla container cluster i przeglądarka Kubernetes">
+  <meta name="twitter:description" content="Kubernetes na narzędziu container od Apple z Gantry: klastry z węzłami roboczymi o wybranym rozmiarze i współdzielonym magazynem obrazów, pody, logi, powłoka, porty i YAML.">
   <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta name="theme-color" content="#060a10">
   <link rel="icon" type="image/png" href="../../assets/icon.png">
@@ -63,11 +63,11 @@
     {
       "@type": "TechArticle",
       "@id": "https://getgantry.github.io/pl/apple-container-kubernetes/#article",
-      "headline": "Kubernetes na Apple container: GUI dla container cluster na Maca",
-      "description": "Kubernetes na narzędziu container od Apple z Gantry: klastry z wieloma węzłami przez container cluster, wybór CNI, węzły, zapis kubeconfig i lokalne obrazy.",
+      "headline": "Kubernetes na Apple container: GUI dla container cluster i przeglądarka Kubernetes",
+      "description": "Kubernetes na narzędziu container od Apple z Gantry: klastry z węzłami roboczymi o wybranym rozmiarze i współdzielonym magazynem obrazów, pody, logi, powłoka, porty i YAML.",
       "url": "https://getgantry.github.io/pl/apple-container-kubernetes/",
       "inLanguage": "pl",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -122,7 +122,7 @@
           "name": "Czy Apple container obsługuje Kubernetes?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Tak. CLI container tworzy klastry Kubernetes, których węzły działają jako kontenery: container cluster w CLI 1.6.1, container k8s w CLI od 1.5.0 do 1.6.0. Gantry dodaje do tego GUI."
+            "text": "Tak. CLI container tworzy klastry Kubernetes, których węzły działają jako kontenery: container cluster w CLI 1.6.1 i 1.7, container k8s w CLI od 1.5.0 do 1.6.0. Gantry dodaje do tego GUI."
           }
         },
         {
@@ -130,7 +130,7 @@
           "name": "Czy Gantry obsługuje container cluster?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Tak. Gantry wyświetla, tworzy i usuwa klastry na hostach apple/container, pokazuje ich węzły, zapisuje kubeconfig, kopiuje polecenie kontekstu kubectl i wczytuje lokalne obrazy do klastra. Używa cluster lub k8s zależnie od wersji CLI."
+            "text": "Tak. Gantry wyświetla, tworzy i usuwa klastry na hostach apple/container, pokazuje ich węzły, zapisuje kubeconfig i otwiera klaster w swojej przeglądarce Kubernetes. W CLI 1.7 ustawia też rozmiar węzłów roboczych i włącza współdzielony magazyn obrazów. Używa cluster lub k8s zależnie od wersji CLI."
           }
         },
         {
@@ -146,7 +146,7 @@
           "name": "Jak wczytać lokalny obraz do klastra bez rejestru?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "W Gantry kliknij obraz prawym przyciskiem w sekcji Obrazy i wybierz Wczytaj do klastra. Gantry uruchamia container cluster load-image, które kopiuje obraz do containerd każdego węzła."
+            "text": "W CLI 1.7 utwórz klaster z opcją Używaj lokalnych obrazów (--shared-image-store). Pody uruchamiają wtedy obrazy, które budujesz lub pobierasz poleceniem container, po nazwie. W CLI 1.5 i 1.6 kliknij obraz prawym przyciskiem w sekcji Obrazy i wybierz Wczytaj do klastra; Gantry uruchamia container cluster load-image. CLI 1.7 usunęło load-image."
           }
         },
         {
@@ -154,7 +154,7 @@
           "name": "Czy można utworzyć klaster z wieloma węzłami?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Tak. Ustaw liczbę węzłów roboczych w arkuszu tworzenia. Węzły robocze wymagają CLI 1.6.0 lub nowszego."
+            "text": "Tak. Ustaw liczbę węzłów roboczych w arkuszu tworzenia; węzły robocze wymagają CLI 1.6.0 lub nowszego. W CLI 1.7 ustawiasz też procesory i pamięć węzłów roboczych niezależnie od warstwy sterowania."
           }
         },
         {
@@ -163,6 +163,22 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Tak. Wybierz Własny manifest i wskaż plik manifestu albo wybierz Brak i zainstaluj CNI samodzielnie po uruchomieniu klastra. Węzły pozostają w stanie NotReady, dopóki CNI nie działa. Brak wymaga CLI 1.6.0 lub nowszego. Domyślny CNI to wbudowany manifest kindnet."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Dlaczego Gantry podaje, że usługi klastra są niedostępne?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usługi container nie odpowiedziały na polecenie klastra. Jeśli Twoje CLI to wersja z Homebrew bez usług klastra, Gantry o tym informuje i podaje link do podpisanego instalatora na stronie wydań apple/container. W przeciwnym razie proponuje Uruchom ponownie usługi."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Czy do pracy z klastrem w Gantry potrzebuję kubectl?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Na razie tak: przeglądarka Kubernetes w Gantry uruchamia kubectl. Jeśli go nie ma, przeglądarka pokazuje polecenie brew install kubectl i może je uruchomić za Ciebie. Trwają prace nad natywnym klientem Kubernetes, który usunie ten krok."
           }
         }
       ]
@@ -225,17 +241,17 @@
     <nav class="crumbs" aria-label="Ścieżka nawigacji"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Kubernetes na apple/container</span></nav>
     <article class="docs-article page-article">
 <h1>Kubernetes na Apple container</h1>
-<p class="page-lead">apple/container potrafi uruchomić klaster Kubernetes, którego węzły są kontenerami na Twoim Macu. Gantry to dla niego GUI: utwórz klaster, obserwuj, jak startują węzły, podłącz <code>kubectl</code> i wczytaj lokalne obrazy – bez długich poleceń <code>container cluster</code>.</p>
+<p class="page-lead">apple/container potrafi uruchomić klaster Kubernetes, którego węzły są kontenerami na Twoim Macu. Gantry to dla niego GUI: utwórz klaster, obserwuj, jak startują węzły, uruchamiaj w nim lokalne obrazy i przeglądaj jego pody, logi i usługi – bez długich poleceń <code>container cluster</code>.</p>
 
 <div class="tldr">
-<p><strong>W skrócie.</strong> Na hoście apple/container sekcja <strong>Klastry</strong> w Gantry tworzy i usuwa klastry Kubernetes poleceniem <code>container cluster</code> (CLI 1.6.1) lub <code>container k8s</code> (CLI od 1.5.0 do 1.6.0). Obsługuje wiele węzłów roboczych, własny CNI, widok węzłów, kubeconfig i kontekst <code>kubectl</code> oraz <strong>Wczytaj do klastra</strong> dla lokalnych obrazów.</p>
+<p><strong>W skrócie.</strong> Na hoście apple/container sekcja <strong>Klastry</strong> w Gantry tworzy i usuwa klastry Kubernetes poleceniem <code>container cluster</code> (CLI 1.6.1 i 1.7) lub <code>container k8s</code> (CLI od 1.5.0 do 1.6.0). W CLI 1.7.1 ustawia rozmiar węzłów roboczych niezależnie od warstwy sterowania i włącza współdzielony magazyn obrazów. Sekcja <strong>Kubernetes</strong> służy do przeglądania klastra: pody, logi, powłoka, przekierowania portów, skalowanie i Zastosuj YAML.</p>
 </div>
 
 <h2 id="requirements">Wymagania</h2>
 <ul>
   <li>Mac z Apple silicon, macOS 26 i Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
-  <li>CLI <code>container</code> 1.5.0 lub nowsze; zalecane 1.6.1. Węzły robocze i CNI <em>Brak</em> wymagają 1.6.0 lub nowszego.</li>
-  <li><code>kubectl</code>, jeśli chcesz korzystać z klastra w terminalu.</li>
+  <li>CLI <code>container</code> 1.5.0 lub nowsze; zalecane 1.7.1. Węzły robocze i CNI <em>Brak</em> wymagają 1.6.0 lub nowszego. Rozmiary węzłów roboczych i współdzielony magazyn obrazów wymagają 1.7.0 lub nowszego. Użyj podpisanego pakietu instalacyjnego: wersja 1.7.1 z Homebrew nie ma usług klastra.</li>
+  <li><code>kubectl</code> dla przeglądarki Kubernetes i terminala. Gantry może go zainstalować przez Homebrew.</li>
 </ul>
 
 <h2 id="create">Tworzenie klastra</h2>
@@ -249,20 +265,36 @@
 <tbody>
 <tr><th scope="row">Nazwa</th><td><code>--name</code></td><td>Także nazwa kontekstu kubeconfig</td></tr>
 <tr><th scope="row">Węzły robocze</th><td><code>--workers</code></td><td>Liczba węzłów roboczych. CLI 1.6.0+</td></tr>
-<tr><th scope="row">Procesory</th><td><code>--cpus</code></td><td>Na węzeł</td></tr>
-<tr><th scope="row">Pamięć</th><td><code>--memory</code></td><td>Na węzeł, np. <code>4G</code></td></tr>
+<tr><th scope="row">Procesory i pamięć węzłów roboczych</th><td><code>--workers count=N,cpus=C,memory=M</code></td><td>CLI 1.7+. Przed 1.7 <code>--cpus</code> i <code>--memory</code> ustawiają każdy węzeł</td></tr>
+<tr><th scope="row">Procesory</th><td><code>--cpus</code></td><td>Warstwa sterowania (CLI 1.7+) lub każdy węzeł (przed 1.7)</td></tr>
+<tr><th scope="row">Pamięć</th><td><code>--memory</code></td><td>Warstwa sterowania (CLI 1.7+) lub każdy węzeł (przed 1.7), np. <code>4G</code></td></tr>
+<tr><th scope="row">Używaj lokalnych obrazów</th><td><code>--shared-image-store</code></td><td>CLI 1.7+. Węzły uruchamiają obrazy z Twojego lokalnego magazynu obrazów</td></tr>
 <tr><th scope="row">Obraz węzła</th><td><code>--node-image</code></td><td>Puste pole zachowuje domyślny obraz CLI</td></tr>
 <tr><th scope="row">CNI</th><td><code>--cni</code></td><td>Domyślny (wbudowany kindnet), Brak (<code>NONE</code>, CLI 1.6.0+) lub ścieżka do własnego manifestu</td></tr>
 </tbody>
 </table></div>
 <p>To samo polecenie w CLI:</p>
 <div class="code-block">
-  <div class="code-head"><span>Powłoka</span><button class="copy" data-copy="container cluster create --name dev --workers 2 --cpus 2 --memory 4G">Kopiuj</button></div>
-  <pre><code>container cluster create --name dev --workers 2 --cpus 2 --memory 4G</code></pre>
+  <div class="code-head"><span>Powłoka</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 4G \
+  --workers count=2,cpus=2,memory=4G --shared-image-store">Kopiuj</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 4G \
+  --workers count=2,cpus=2,memory=4G --shared-image-store</code></pre>
 </div>
 
 <h2 id="nodes">Węzły i szczegóły klastra</h2>
-<p>Lista klastrów pokazuje każdy klaster z jego węzłami: rolą, stanem i adresem. Widok szczegółów zawiera <strong>Przegląd</strong> (kontekst kubectl, serwer API, węzły robocze, sieć węzłów), tabelę <strong>Węzły</strong>, kartę <strong>Inspekcja</strong> z surowymi danymi węzłów oraz akcje <strong>Zapisz kubeconfig</strong>, <strong>Kopiuj polecenie kontekstu kubectl</strong> i <strong>Usuń</strong>.</p>
+<p>Lista klastrów ma jeden wiersz dla każdego klastra. Widok szczegółów zawiera <strong>Przegląd</strong> (kontekst kubectl, serwer API, wersja Kubernetes, magazyn obrazów, węzły robocze i ich zasoby, sieć węzłów), tabelę <strong>Węzły</strong> i kartę <strong>Inspekcja</strong> z surowymi danymi węzłów. Na pasku narzędzi jest <strong>Przeglądaj zasoby</strong>, a w menu Więcej <strong>Zapisz kubeconfig</strong>, <strong>Kopiuj polecenie kontekstu kubectl</strong> i <strong>Usuń</strong>.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<p>Węzły klastra są kontenerami, ale należą do <code>container cluster</code>. Gantry blokuje dla węzła uruchamianie, zatrzymywanie, ponowne uruchamianie, usuwanie i zmianę nazwy i wyjaśnia dlaczego, a Uruchom wszystkie i Zatrzymaj wszystkie pomijają węzły. W CLI 1.7 samo CLI ukrywa też węzły w <code>container list</code>. Klastry utworzone w CLI 1.6 lub starszym nie pojawiają się na liście w 1.7; usuń je poleceniem <code>container cluster delete --name &lt;name&gt;</code>.</p>
+
+<h2 id="browser">Przeglądanie klastra</h2>
+<p>Kliknij <strong>Przeglądaj zasoby</strong> przy działającym klastrze albo otwórz <strong>Kubernetes</strong> na pasku bocznym. Sekcja nie wymaga hosta i wyświetla każdy kontekst kubeconfig; konteksty klastrów apple/container są na początku. Wybierz przestrzeń nazw lub wszystkie przestrzenie nazw, a potem rodzaj zasobu: pody, deploymenty, StatefulSety, DaemonSety, usługi, ingressy, ConfigMapy, sekrety, węzły lub zdarzenia.</p>
+<ul>
+  <li><strong>Pody:</strong> logi ze śledzeniem, końcówką i poprzednim kontenerem; powłoka w podzie; przekierowanie portu na <code>127.0.0.1</code>.</li>
+  <li><strong>Workloady:</strong> skalowanie deploymentów i StatefulSetów; restart wdrożenia.</li>
+  <li><strong>Sekrety:</strong> wartości są zamaskowane na liście i w YAML, dopóki nie klikniesz Pokaż.</li>
+  <li><strong>Zastosuj YAML:</strong> wklej manifest lub otwórz plik; błędy pojawiają się w arkuszu.</li>
+</ul>
+<p>Przeglądarka uruchamia <code>kubectl</code>. Jeśli Gantry go nie znajdzie, sekcja pokazuje <code>brew install kubectl</code> z przyciskiem, który je uruchamia. Trwają prace nad natywnym klientem Kubernetes, który nie wymaga <code>kubectl</code>.</p>
 
 <h2 id="kubectl">Podłączenie kubectl</h2>
 <p>Tworząc klaster, CLI dodaje do <code>~/.kube/config</code> kontekst o nazwie klastra. Użyj w Gantry <strong>Kopiuj polecenie kontekstu kubectl</strong> albo wpisz je ręcznie:</p>
@@ -273,11 +305,21 @@
 <p>Aby trzymać klaster w osobnym pliku, użyj <strong>Zapisz kubeconfig</strong>. Gantry uruchamia <code>container cluster write-config</code>; domyślna ścieżka to <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p>
 
 <h2 id="images">Lokalne obrazy w klastrze</h2>
-<p>Zbuduj lub pobierz obraz na hoście apple/container, a następnie kliknij go prawym przyciskiem w sekcji <strong>Obrazy</strong> i wybierz <strong>Wczytaj do klastra</strong>. Gantry uruchamia <code>container cluster load-image</code>, które kopiuje obraz do containerd każdego węzła. Do lokalnej pracy nie potrzebujesz rejestru.</p>
+<p>W CLI 1.7 włącz <strong>Używaj lokalnych obrazów</strong> przy tworzeniu klastra. Opcja dodaje <code>--shared-image-store</code>, więc węzły mogą uruchomić po nazwie każdy obraz, który budujesz lub pobierasz poleceniem <code>container</code>, bez rejestru. Ustawienia nie można zmienić po utworzeniu klastra. Po ponownym zbudowaniu tagu użyj <code>imagePullPolicy: Always</code> lub nowego tagu. Pody uprzywilejowane mogą odczytać każdy obraz z Twojego lokalnego magazynu, więc używaj tej opcji tylko do pracy lokalnej.</p>
+<div class="code-block">
+  <div class="code-head"><span>Powłoka</span><button class="copy" data-copy="container build -t myapp:dev .
+kubectl --context dev create deployment myapp --image=myapp:dev">Kopiuj</button></div>
+  <pre><code>container build -t myapp:dev .
+kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
+</div>
+<p>W CLI 1.5 i 1.6 kliknij obraz prawym przyciskiem w sekcji <strong>Obrazy</strong> i wybierz <strong>Wczytaj do klastra</strong>. Gantry uruchamia <code>container cluster load-image</code>, które kopiuje obraz do containerd każdego węzła. CLI 1.7 usunęło to polecenie, więc Gantry ukrywa tam tę akcję.</p>
 <div class="code-block">
   <div class="code-head"><span>Powłoka</span><button class="copy" data-copy="container cluster load-image --name dev myapp:dev">Kopiuj</button></div>
   <pre><code>container cluster load-image --name dev myapp:dev</code></pre>
 </div>
+
+<h2 id="broken">Gdy usługi klastra nie odpowiadają</h2>
+<p>Jeśli polecenie klastra kończy się błędem <em>cluster service unavailable</em>, Gantry sprawdza, jak zainstalowano CLI. Wersja z Homebrew bez wtyczek klastra dostaje komunikat, że brakuje w niej usług klastra, oraz link <strong>Pobierz instalator…</strong> do podpisanego pakietu. W pozostałych przypadkach Gantry proponuje <strong>Uruchom ponownie usługi…</strong>.</p>
 
 <h2 id="cni">Wybór CNI</h2>
 <p>Domyślnie używany jest wbudowany manifest kindnet. Wybierz <strong>Własny manifest</strong>, aby zainstalować własny CNI z pliku, na przykład Calico lub Cilium. Wybierz <strong>Brak</strong>, aby zainstalować CNI samodzielnie później; do tego czasu węzły pozostają w stanie NotReady.</p>
@@ -290,19 +332,21 @@
 </div>
 
 <h2 id="more">Więcej o apple/container</h2>
-<p>Przeczytaj <a href="../apple-container/">przewodnik po apple/container</a>, aby poznać każde polecenie <code>container</code> i jego funkcję w Gantry, albo zobacz, jak Gantry wypada na tle <a href="../compare/">Docker Desktop, OrbStack i Podman Desktop</a>.</p>
+<p>Opis krok po kroku z poziomu terminala znajdziesz w przewodniku <a href="../kubernetes-on-mac/">Kubernetes na Macu z Apple container</a>. Przeczytaj <a href="../apple-container/">przewodnik po apple/container</a>, aby poznać każde polecenie <code>container</code> i jego funkcję w Gantry, albo zobacz, jak Gantry wypada na tle <a href="../compare/">Docker Desktop, OrbStack i Podman Desktop</a>.</p>
 
 <h2 id="faq">Pytania i odpowiedzi</h2>
 <div class="faq-list">
-<details class="faq-item"><summary>Czy Apple container obsługuje Kubernetes?</summary><p>Tak. CLI <code>container</code> tworzy klastry Kubernetes, których węzły działają jako kontenery: <code>container cluster</code> w CLI 1.6.1, <code>container k8s</code> w CLI od 1.5.0 do 1.6.0. Gantry dodaje do tego GUI.</p></details>
-<details class="faq-item"><summary>Czy Gantry obsługuje container cluster?</summary><p>Tak. Gantry wyświetla, tworzy i usuwa klastry na hostach apple/container, pokazuje ich węzły, zapisuje kubeconfig, kopiuje polecenie kontekstu <code>kubectl</code> i wczytuje lokalne obrazy do klastra. Używa <code>cluster</code> lub <code>k8s</code> zależnie od wersji CLI.</p></details>
+<details class="faq-item"><summary>Czy Apple container obsługuje Kubernetes?</summary><p>Tak. CLI <code>container</code> tworzy klastry Kubernetes, których węzły działają jako kontenery: <code>container cluster</code> w CLI 1.6.1 i 1.7, <code>container k8s</code> w CLI od 1.5.0 do 1.6.0. Gantry dodaje do tego GUI.</p></details>
+<details class="faq-item"><summary>Czy Gantry obsługuje container cluster?</summary><p>Tak. Gantry wyświetla, tworzy i usuwa klastry na hostach apple/container, pokazuje ich węzły, zapisuje kubeconfig i otwiera klaster w swojej przeglądarce Kubernetes. W CLI 1.7 ustawia też rozmiar węzłów roboczych i włącza współdzielony magazyn obrazów. Używa <code>cluster</code> lub <code>k8s</code> zależnie od wersji CLI.</p></details>
 <details class="faq-item"><summary>Jak używać kubectl z klastrem apple/container?</summary><p>Gdy CLI tworzy klaster, dodaje do <code>~/.kube/config</code> kontekst kubeconfig o nazwie klastra. Uruchom <code>kubectl --context &lt;name&gt; get nodes</code>. Aby trzymać klaster w osobnym pliku, użyj w Gantry <b>Zapisz kubeconfig</b>; domyślna ścieżka to <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p></details>
-<details class="faq-item"><summary>Jak wczytać lokalny obraz do klastra bez rejestru?</summary><p>W Gantry kliknij obraz prawym przyciskiem w sekcji Obrazy i wybierz <b>Wczytaj do klastra</b>. Gantry uruchamia <code>container cluster load-image</code>, które kopiuje obraz do containerd każdego węzła.</p></details>
-<details class="faq-item"><summary>Czy można utworzyć klaster z wieloma węzłami?</summary><p>Tak. Ustaw liczbę węzłów roboczych w arkuszu tworzenia. Węzły robocze wymagają CLI 1.6.0 lub nowszego.</p></details>
+<details class="faq-item"><summary>Jak wczytać lokalny obraz do klastra bez rejestru?</summary><p>W CLI 1.7 utwórz klaster z opcją <b>Używaj lokalnych obrazów</b> (<code>--shared-image-store</code>). Pody uruchamiają wtedy obrazy, które budujesz lub pobierasz poleceniem <code>container</code>, po nazwie. W CLI 1.5 i 1.6 kliknij obraz prawym przyciskiem w sekcji Obrazy i wybierz <b>Wczytaj do klastra</b>; Gantry uruchamia <code>container cluster load-image</code>. CLI 1.7 usunęło <code>load-image</code>.</p></details>
+<details class="faq-item"><summary>Czy można utworzyć klaster z wieloma węzłami?</summary><p>Tak. Ustaw liczbę węzłów roboczych w arkuszu tworzenia; węzły robocze wymagają CLI 1.6.0 lub nowszego. W CLI 1.7 ustawiasz też procesory i pamięć węzłów roboczych niezależnie od warstwy sterowania.</p></details>
 <details class="faq-item"><summary>Czy mogę użyć własnego CNI, np. Calico lub Cilium?</summary><p>Tak. Wybierz <b>Własny manifest</b> i wskaż plik manifestu albo wybierz <b>Brak</b> i zainstaluj CNI samodzielnie po uruchomieniu klastra. Węzły pozostają w stanie NotReady, dopóki CNI nie działa. <b>Brak</b> wymaga CLI 1.6.0 lub nowszego. Domyślny CNI to wbudowany manifest kindnet.</p></details>
+<details class="faq-item"><summary>Dlaczego Gantry podaje, że usługi klastra są niedostępne?</summary><p>Usługi <code>container</code> nie odpowiedziały na polecenie klastra. Jeśli Twoje CLI to wersja z Homebrew bez usług klastra, Gantry o tym informuje i podaje link do podpisanego instalatora na stronie wydań apple/container. W przeciwnym razie proponuje <b>Uruchom ponownie usługi</b>.</p></details>
+<details class="faq-item"><summary>Czy do pracy z klastrem w Gantry potrzebuję kubectl?</summary><p>Na razie tak: przeglądarka Kubernetes w Gantry uruchamia <code>kubectl</code>. Jeśli go nie ma, przeglądarka pokazuje polecenie <code>brew install kubectl</code> i może je uruchomić za Ciebie. Trwają prace nad natywnym klientem Kubernetes, który usunie ten krok.</p></details>
 </div>
 
-<p class="updated">Ostatnia aktualizacja: 2026-11-03.</p>
+<p class="updated">Ostatnia aktualizacja: 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Start</a>
@@ -312,6 +356,14 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Porównanie</a>
+      <span>·</span>
+      <a href="../kubernetes-on-mac/">Kubernetes na Macu</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Z Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Dysk zewnętrzny</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Z docker run</a>
       <span>·</span>
       <a href="../../docs/index.html">Dokumentacja</a>
       <span>·</span>

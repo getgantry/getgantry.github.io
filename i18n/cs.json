@@ -1,0 +1,936 @@
+{
+  "chrome": {
+    "nav_features": "Funkce",
+    "nav_compare": "Srovnání",
+    "nav_faq": "FAQ",
+    "nav_docs": "Dokumentace",
+    "nav_home": "Domů",
+    "star": "Hvězdička",
+    "download": "Stáhnout",
+    "download_mac": "Stáhnout pro macOS",
+    "copy": "Kopírovat",
+    "copied": "Zkopírováno",
+    "releases": "Vydání",
+    "foot_guide": "Průvodce apple/container",
+    "foot_license": "Licence MIT · GitHub",
+    "icon_alt": "Ikona Gantry",
+    "page_image_alt": "Přehled flotily v Gantry s hostiteli Docker a apple/container",
+    "breadcrumb": "Drobečková navigace",
+    "faq_heading": "Otázky a odpovědi",
+    "updated": "Naposledy aktualizováno {date}.",
+    "callout_warn": "Pozor",
+    "language": "Jazyk",
+    "languages": "Jazyky",
+    "hint_text": "Tato stránka je k dispozici také v češtině.",
+    "hint_link": "Číst česky",
+    "hint_close": "Zavřít"
+  },
+  "home": {
+    "ld": {
+      "website_desc": "Nativní GUI pro Apple container (apple/container) a Docker na macOS, lokálně i přes SSH.",
+      "app_alt_name": "Gantry pro Apple container",
+      "app_subcategory": "Správa kontejnerů",
+      "app_processor": "Apple silicon nebo Intel (hostitelé apple/container vyžadují Apple silicon)",
+      "app_keywords": "apple container GUI, apple/container, container cluster, Kubernetes, container machine, alternativa k Docker Desktop, alternativa k OrbStack, Docker přes SSH, MCP server",
+      "app_desc": "Gantry je bezplatná nativní open-source aplikace pro macOS, která spravuje nástroj container od Applu (apple/container) a Docker, lokálně i přes SSH. Na hostitelích apple/container spravuje kontejnery, clustery Kubernetes, stroje, projekty Compose, builder imagů, přihlášení k registrům, jádra, logy služeb a systémové vlastnosti. Obsahuje server MCP a App Intents pro agenty.",
+      "features": [
+        "Nativní GUI pro Apple container (apple/container) na macOS, CLI 1.0 až 1.6.1, funkce podle verze",
+        "Clustery Kubernetes na apple/container (container cluster): více pracovních uzlů, vlastní CNI, uzly, kubeconfig, kontext kubectl",
+        "Načtení místních imagů do clusteru Kubernetes",
+        "Stroje container: vytvoření, spuštění, zastavení, prostředky, shell, vnořená virtualizace, vlastní jádra",
+        "Otevření stroje container ve VS Code přes Remote-SSH",
+        "Docker Compose na apple/container s aliasy DNS v síti pro názvy služeb",
+        "Správa builderu imagů apple/container, přihlášení k registrům a instalace jádra",
+        "Ovládání služeb apple/container, živé logy služeb a editor systémových vlastností",
+        "Uložení kontejneru jako image a Zmenšit disk (container clean) na apple/container",
+        "Prohlížeč souborů kontejneru s nahráváním, ukládáním do Macu a přetahováním ven",
+        "Jeden přehled pro místní Docker, Docker přes SSH a hostitele apple/container",
+        "Živé logy s hledáním pomocí regexu, filtrem úrovní a barvami ANSI",
+        "Statistiky CPU, paměti, sítě a diskových I/O v reálném čase",
+        "Terminál exec a ladicí shell",
+        "Nativní oznámení, když kontejner spadne, vyčerpá paměť nebo se stane nezdravým",
+        "Vzdálený Docker přes SSH s ProxyJump a tajnými údaji v Klíčence",
+        "Označení cizí architektury u imagů a kontejnerů",
+        "Sdílení portu kontejneru přes Cloudflare Tunnel",
+        "Server MCP a App Intents (Zkratky, Siri) pro AI agenty",
+        "Uživatelské rozhraní v 28 jazycích"
+      ],
+      "howto_name": "Jak nainstalovat Gantry na macOS",
+      "howto_desc": "Nainstalujte Gantry přes Homebrew a připojte ji k Dockeru nebo Apple container.",
+      "howto_supply": "Mac se systémem macOS 26 nebo novějším",
+      "howto_steps": [
+        {
+          "name": "Instalace přes Homebrew",
+          "text": "Spusťte: brew install --cask getgantry/tap/gantry. Nebo stáhněte nejnovější vydání z GitHubu a přetáhněte Gantry.app do složky Aplikace."
+        },
+        {
+          "name": "Odstranění příznaku karantény",
+          "text": "Aplikace není notarizovaná. Spusťte: xattr -dr com.apple.quarantine /Applications/Gantry.app, nebo na Gantry.app klikněte pravým tlačítkem a zvolte Otevřít."
+        },
+        {
+          "name": "Přidání hostitele",
+          "text": "Otevřete Gantry. Místního démona Dockeru najde sama. Chcete-li používat Apple container, přidejte hostitele Apple Container; pokud CLI container chybí, Gantry nabídne jeho instalaci."
+        },
+        {
+          "name": "Připojení AI agentů (volitelné)",
+          "text": "Spusťte: claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp"
+        }
+      ]
+    },
+    "faq": {
+      "items": [
+        {
+          "q": "Jaké je nejlepší GUI pro Apple container?",
+          "a": "Gantry je bezplatné nativní open-source GUI pro macOS, vytvořené pro nástroj <a href=\"#apple\">container</a> od Applu (apple/container). Pokrývá životní cyklus kontejnerů, logy, statistiky a terminál exec a navíc části CLI, kam jiná GUI nedosáhnou: clustery Kubernetes (<code>container cluster</code>), stroje container, builder imagů, přihlášení k registrům, jádra, logy služeb a systémové vlastnosti. Podporuje CLI 1.0 až 1.6.1 a každou funkci zapne, až když ji vaše CLI podporuje. Viz <a href=\"apple-container/\">průvodce apple/container</a>."
+        },
+        {
+          "q": "Co je Apple container (apple/container)?",
+          "a": "apple/container je open-source nástroj od Applu pro spouštění linuxových kontejnerů na Macu. Každý kontejner běží ve vlastním odlehčeném virtuálním stroji postaveném na frameworku Virtualization od Applu. Vyžaduje Mac s Apple silicon a dodává se jako nástroj příkazového řádku <code>container</code>, bez desktopové aplikace. Gantry je ta desktopová aplikace."
+        },
+        {
+          "q": "Podporuje Gantry container cluster a Kubernetes?",
+          "a": "Ano. Na hostiteli apple/container Gantry vytváří a maže clustery Kubernetes pomocí <code>container cluster</code> (CLI 1.6.1; CLI 1.5.0 až 1.6.0 používá <code>container k8s</code>). Zvolíte název, počet pracovních uzlů, CPU, paměť, image uzlu a CNI (výchozí, žádný nebo vlastní manifest). Gantry zobrazí uzly, zapíše kubeconfig, zkopíruje příkaz pro kontext <code>kubectl</code> a načte místní image do clusteru. Viz <a href=\"apple-container-kubernetes/\">Kubernetes na apple/container</a>."
+        },
+        {
+          "q": "Jde používat docker compose s Apple container?",
+          "a": "Ano. apple/container nemá příkaz <code>compose</code>, a tak orchestraci přes CLI <code>container</code> zajišťuje Gantry: sestaví služby s <code>build:</code>, vytvoří síť projektu a pojmenované svazky a spustí služby v pořadí podle <code>depends_on</code> se standardními štítky Compose. Názvy služeb se překládají přes aliasy DNS v síti. Soubor <code>docker-compose.yml</code> otevřete z Finderu, z nabídky Soubor nebo přetažením do okna."
+        },
+        {
+          "q": "Jak otevřít stroj container ve VS Code?",
+          "a": "Spusťte stroj v Gantry a klikněte na <b>Otevřít ve VS Code</b>. Gantry stroj otevře ve VS Code přes Remote-SSH, stejně jako v ukázce <code>container-machine-vscode</code> od Applu. V image stroje musí běžet <code>sshd</code> a musí být nainstalován VS Code s rozšířením Remote-SSH."
+        },
+        {
+          "q": "Které verze apple/container Gantry podporuje?",
+          "a": "Gantry vyžaduje CLI <code>container</code> 1.0 nebo novější a doporučuje 1.6.1. Přečte nainstalovanou verzi a zobrazí jen funkce, které tato verze podporuje, například uložení jako image (1.6), Zmenšit disk (1.4) a pracovní uzly clusteru (1.6). Pokud CLI chybí nebo je zastaralé, Gantry nabídne průvodce instalací."
+        },
+        {
+          "q": "Umí Gantry spravovat builder, registry a jádro apple/container?",
+          "a": "Ano. Sekce Systém hostitele apple/container spouští, zastavuje a maže builder imagů s možnostmi CPU, paměti a DNS; vypisuje, přidává a odebírá přihlášení k registrům (heslo jde do CLI výhradně přes stdin); instaluje doporučené jádro, soubor jádra nebo archiv tar; streamuje logy služeb a upravuje systémové vlastnosti v <code>config.toml</code>."
+        },
+        {
+          "q": "Je Gantry alternativa k Docker Desktop, OrbStack nebo Podman Desktop?",
+          "a": "Jako GUI ano. Gantry je bezplatná nativní aplikace pro macOS ke správě kontejnerů, imagů, svazků, sítí, logů a statistik. Je to klient, ne engine: používá démona Dockeru, kterého už provozujete (Docker Desktop, OrbStack, Colima), nebo nástroj <a href=\"#apple\">container</a> od Applu, a přidává pohled na více hostitelů, hostitele SSH a server MCP. Viz <a href=\"compare/\">srovnání</a>."
+        },
+        {
+          "q": "Je Gantry zdarma?",
+          "a": "Ano. Gantry je zdarma a open source pod licencí MIT. Žádné předplatné, žádný účet a žádný limit počtu hostitelů ani kontejnerů."
+        },
+        {
+          "q": "Co potřebuji ke spuštění Gantry?",
+          "a": "macOS 26 nebo novější na Apple silicon nebo Intelu a k tomu démona Dockeru (Docker Desktop, OrbStack, Colima nebo podobný) nebo nástroj <a href=\"#apple\">container</a> od Applu. Samotný apple/container vyžaduje Apple silicon, takže na Macu s Intelem Gantry spravuje jen hostitele Docker."
+        },
+        {
+          "q": "Funguje Gantry s OrbStack, Colima a Docker Desktop?",
+          "a": "Ano. Gantry komunikuje přímo s Docker Engine API přes unixový socket, takže funguje s každým démonem, který ho zpřístupňuje, včetně OrbStack, Colima a Docker Desktop."
+        },
+        {
+          "q": "Umí Gantry spravovat vzdálené hostitele Docker?",
+          "a": "Ano. Gantry se ke vzdáleným démonům připojuje přes SSH stejně jako <code>docker -H ssh://</code>, s bastiony ProxyJump, ověřováním více klíči a automatickým opětovným připojením. Na server nemusíte nic instalovat a tajné údaje zůstávají v Klíčence macOS."
+        },
+        {
+          "q": "Upozorní mě Gantry, když kontejner selže?",
+          "a": "Ano. Gantry pošle nativní oznámení macOS, když kontejner na kterémkoli hostiteli – místním, SSH nebo apple/container – spadne, vyčerpá paměť nebo neprojde kontrolou stavu. Kliknutím na oznámení přejdete ke kontejneru. Zastavení a restarty spuštěné z Gantry se nehlásí a oznámení můžete vypnout v Nastavení."
+        },
+        {
+          "q": "Umí Gantry stahovat ze soukromých registrů?",
+          "a": "Ano. Na hostitelích Docker čte Gantry přihlašovací údaje z vašeho <code>~/.docker/config.json</code> (tedy z <code>docker login</code>, který jste už spustili), včetně vložených údajů, credential helperů a Klíčenky macOS. Na hostitelích apple/container spravuje přihlášení <code>container registry</code>."
+        },
+        {
+          "q": "Umí Gantry zpřístupnit místní kontejner na internetu?",
+          "a": "Ano. Jedno kliknutí na publikovaný port ho zpřístupní přes Cloudflare Tunnel. Gantry v případě potřeby nainstaluje <code>cloudflared</code> a pak spustí rychlý tunel (bez účtu Cloudflare, s dočasnou URL na trycloudflare.com) nebo pojmenovaný tunel s vaším vlastním názvem hostitele. Veřejná URL se zobrazí pod portem s ovládáním pro otevření, zkopírování a zastavení."
+        },
+        {
+          "q": "Je Gantry aplikace v Electronu?",
+          "a": "Ne. Gantry je nativní aplikace postavená na SwiftUI a Swift 6. Rozhraní je k dispozici v 28 jazycích: v angličtině, zjednodušené čínštině a 26 evropských jazycích, například v srbštině v cyrilici i latince. Řídí se jazykem systému macOS."
+        },
+        {
+          "q": "Jak nainstalovat Gantry?",
+          "a": "Spusťte <code>brew install --cask getgantry/tap/gantry</code> nebo stáhněte nejnovější vydání z <a href=\"https://github.com/getgantry/gantry/releases/latest\" target=\"_blank\" rel=\"noopener\">GitHubu</a> a přetáhněte <code>Gantry.app</code> do složky Aplikace."
+        },
+        {
+          "q": "Mohou Gantry ovládat AI agenti?",
+          "a": "Ano. Gantry obsahuje <a href=\"#agents\">server MCP</a> a App Intents pro macOS, takže Claude, Zkratky, Siri a skripty mají na každém hostiteli, včetně hostitelů SSH, stejné možnosti jako GUI: kontejnery, image, svazky, sítě, Compose, stroje apple/container, clustery Kubernetes, systémové nástroje <code>apple_*</code> (služby, builder, registry, vlastnosti, logy, jádro) a sdílení portů. Přidejte ho příkazem <code>claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp</code>."
+        }
+      ],
+      "kicker": "FAQ",
+      "h2": "Otázky a odpovědi",
+      "p": "Vše, co byste mohli chtít vědět, než Gantry nainstalujete."
+    },
+    "apple": {
+      "items": [
+        {
+          "h": "Kontejnery, logy, statistiky a exec",
+          "p": "Vytváření, spouštění, zastavování, vynucené ukončení a pročištění; živé logy, statistiky, terminál exec, <code>top</code> a export do taru – ve stejném rozhraní jako vaši hostitelé Docker."
+        },
+        {
+          "h": "Clustery Kubernetes",
+          "p": "Vytvořte cluster Kubernetes s více pracovními uzly pomocí <code>container cluster</code>, zvolte CNI (výchozí, žádný nebo vlastní manifest), sledujte uzly, zapište kubeconfig a zkopírujte kontext <code>kubectl</code>. <a href=\"apple-container-kubernetes/\">Více</a>"
+        },
+        {
+          "h": "Místní image v clusteru",
+          "p": "Klikněte na image pravým tlačítkem a zvolte <b>Načíst do clusteru</b> – image se dostane na všechny uzly bez odeslání do registru."
+        },
+        {
+          "h": "Stroje container ve VS Code",
+          "p": "Vytvářejte, spouštějte a zastavujte linuxová prostředí <code>container machine</code>, nastavte CPU a paměť, otevřete shell nebo otevřete stroj ve <b>VS Code přes Remote-SSH</b>."
+        },
+        {
+          "h": "Vnořená virtualizace a vlastní jádra",
+          "p": "Spusťte stroj s vnořenou virtualizací (M3 nebo novější) nebo s vlastním jádrem. Spouštějte kontejnery z vlastního jádra s dalšími spouštěcími argumenty."
+        },
+        {
+          "h": "Compose pro Apple container",
+          "p": "apple/container nemá <code>compose</code>. Gantry spustí váš <code>docker-compose.yml</code>: sestaví, vytvoří síť a svazky a spustí služby v pořadí podle <code>depends_on</code>. Názvy služeb se překládají přes aliasy DNS v síti."
+        },
+        {
+          "h": "Aliasy DNS v síti",
+          "p": "Aliasy kontejnerů, aliasy podstromu jako <code>.gateway</code> a krátké názvy, když je nastavena výchozí doména DNS. Každý kontejner dostane směrovatelnou IP adresu a název hostitele <code>name.domain</code>."
+        },
+        {
+          "h": "Správa builderu imagů",
+          "p": "Zobrazte stav builderu, image, CPU, paměť a IP. Spusťte ho s možnostmi CPU, paměti a DNS, zastavte ho nebo smažte."
+        },
+        {
+          "h": "Přihlášení k registrům",
+          "p": "Vypisujte, přidávejte a odebírejte přihlášení <code>container registry</code>. Heslo jde do CLI výhradně přes stdin a Gantry si žádnou kopii neponechává."
+        },
+        {
+          "h": "Instalace jádra",
+          "p": "Nainstalujte doporučené jádro, soubor jádra nebo archiv tar s průběhem v reálném čase. Gantry upozorní, když není nainstalováno žádné výchozí jádro."
+        },
+        {
+          "h": "Služby a logy služeb",
+          "p": "Spouštějte, zastavujte a restartujte služby <code>container</code>, porovnávejte verze klienta a serveru a streamujte logy služeb filtrované podle úrovně, služby a textu."
+        },
+        {
+          "h": "Editor systémových vlastností",
+          "p": "Upravujte systémové vlastnosti <code>container</code> v <code>config.toml</code>. Gantry označí změny, které vyžadují restart, a služby restartuje za vás."
+        },
+        {
+          "h": "Uložení jako image a Zmenšit disk",
+          "p": "Uložte kontejner jako image (<code>container commit</code>) a uvolněte místo na disku funkcí <b>Zmenšit disk</b> (<code>container clean</code>), dostupnou i v panelu Uvolnit místo."
+        },
+        {
+          "h": "Prohlížeč souborů: nahrávání a ukládání",
+          "p": "Procházejte soubory kontejneru, ukládejte je do Macu nebo je přetáhněte do Finderu (<code>container copy</code>) a vkládejte soubory i celé složky přetažením."
+        },
+        {
+          "h": "Rychlé spuštění a Finder",
+          "p": "Vyberte image, sdílejte složku, namapujte porty a zvolte doménu – a spusťte. Na soubor Compose ve Finderu klikněte pravým tlačítkem a otevřete ho v Gantry."
+        },
+        {
+          "h": "Štítky se znakem <code>=</code>",
+          "p": "CLI <code>container</code> odmítá hodnoty štítků se znakem <code>=</code>. Gantry je při vytváření zakóduje a při čtení dekóduje, takže hodnota jako <code>a=b</code> zůstane beze změny."
+        },
+        {
+          "h": "Jedna flotila, dva runtimy",
+          "p": "Hostitelé apple/container jsou na jednom přehledu vedle místního Dockeru a hostitelů SSH, se stejnými grafy, stavem zdraví a oznámeními o selhání."
+        },
+        {
+          "h": "Nástroje MCP pro agenty",
+          "p": "Vestavěný server MCP dává agentům stejné možnosti: kontejnery, stroje, clustery a systémové nástroje <code>apple_*</code> pro služby, builder, registry, vlastnosti, logy a jádra."
+        }
+      ],
+      "kicker": "GUI pro apple/container",
+      "h2": "Nativní GUI pro Apple container na macOS",
+      "p": "Nástroj <a href=\"https://github.com/apple/container\" target=\"_blank\" rel=\"noopener\">container</a> od Applu spouští linuxové kontejnery jako odlehčené virtuální stroje na Apple silicon, ale dodává se jen jako nástroj příkazového řádku. Gantry je k němu desktopová aplikace: čím je Docker Desktop pro Docker, tím je Gantry pro <code>container</code>. Podporuje každé CLI <code>container</code> od 1.0 až po doporučené <b>1.6.1</b> a každou funkci zapne, až když ji nainstalované CLI podporuje.",
+      "link_guide": "Průvodce apple/container: každý příkaz CLI a odpovídající funkce Gantry",
+      "link_k8s": "Kubernetes na apple/container",
+      "link_compare": "Gantry vs. Docker Desktop, OrbStack a Podman Desktop"
+    },
+    "title": "Gantry: nativní GUI pro Apple container a Docker na macOS",
+    "desc": "Bezplatné open-source GUI pro Apple container a Docker na Macu: clustery Kubernetes, stroje, Compose a builder imagů. Alternativa k Docker Desktop a OrbStack.",
+    "keywords": "apple container GUI, apple/container GUI, Apple container desktop app, apple container kubernetes, container machine VS Code, apple container compose, Docker Desktop alternative, OrbStack alternative, Podman Desktop alternative, native Docker GUI Mac, Docker over SSH, MCP server, GUI pro Apple container, aplikace pro Apple container na Mac, alternativa k Docker Desktop, alternativa k OrbStack, alternativa k Podman Desktop, nativní Docker GUI pro Mac, Docker přes SSH, MCP server",
+    "og_desc": "Gantry je bezplatná nativní open-source aplikace pro macOS pro nástroj container od Applu a Docker, lokálně i přes SSH. Clustery Kubernetes, stroje, Compose, builder, registry a server MCP.",
+    "og_image_alt": "Přehled flotily v Gantry s hostiteli Docker a apple/container a živými grafy CPU a paměti",
+    "nav": {
+      "fleet": "Flotila",
+      "agents": "Agenti",
+      "shots": "Snímky",
+      "install": "Instalace"
+    },
+    "hero": {
+      "eyebrow": "Podporuje apple/container 1.6.1. Open source. Připraveno pro agenty.",
+      "h1": "Nativní GUI pro <span class=\"grad\">Apple container</span><br>a Docker na macOS – celá flotila v jednom okně.",
+      "tagline": "Gantry je bezplatná open-source aplikace pro Mac, která spravuje nástroj <a href=\"#apple\">container</a> od Applu i Docker, lokálně i přes SSH. Spouštějte kontejnery, <a href=\"apple-container-kubernetes/\">clustery Kubernetes</a>, stroje a projekty Compose na apple/container z jednoho okna, hned vedle hostitelů Docker. Nativní <b>alternativa k Docker Desktop</b> pro Mac. Žádný Electron. Žádné předplatné. Žádné limity.",
+      "note": "<b>macOS 26+</b> · Apple silicon a Intel · licence <b>MIT</b> · 28 jazyků · včetně serveru MCP",
+      "window_title": "Gantry — Přehled",
+      "img_alt": "Přehled flotily v Gantry s živými grafy CPU a paměti všech hostitelů",
+      "replay_label": "Přehrát animaci znovu",
+      "replay": "Znovu"
+    },
+    "trust": {
+      "title": "Funguje se vším, co už používáte",
+      "ssh": "Vzdálené SSH"
+    },
+    "features": {
+      "kicker": "Řídicí centrum",
+      "h2": "Vše pro Docker a apple/container, po macovsku",
+      "p": "Ucelené a soustředěné řídicí centrum pro vaše kontejnery – ve výchozím nastavení živé a tak rychlé, že i vzdálený hostitel působí jako místní.",
+      "fleet": {
+        "lbl": "Flotila · 5 hostitelů",
+        "pill": "5 vyžaduje pozornost",
+        "h3": "Jeden přehled pro všechny hostitele",
+        "p": "Místní démon, flotila SSH a apple/container na jedné obrazovce – živé grafy CPU a paměti, rozpad kontejnerů podle stavu a problémy se zdravím, které vás dovedou rovnou k viníkovi.",
+        "running": "Běží: {n}",
+        "unhealthy": "Nezdravé: {n}"
+      },
+      "logs": {
+        "lbl": "logy · superset_worker",
+        "pill": "sledovat",
+        "h3": "Logy na steroidech",
+        "p": "Sledování v reálném čase, hledání ⌘F pomocí <b>regexu</b> nebo doslovně, <b>filtr úrovní</b> (Error→Trace), <b>barvy ANSI</b>, buffer na 50 000 řádků – a sloučené <b>logy stacku</b> pro celý projekt Compose."
+      },
+      "notify": {
+        "n1_title": "Kontejner zastaven",
+        "n1_time": "nyní",
+        "n1_text": "web na <b>prod-eu</b> skončil s kódem 1.",
+        "n2_title": "Kontejner je nezdravý",
+        "n2_time": "před 2 min",
+        "n2_text": "api na <b>dedic</b> neprošel kontrolou stavu.",
+        "h3": "Dozvíte se to hned, jak se něco rozbije",
+        "p": "Nativní oznámení, když kontejner na kterémkoli hostiteli spadne, vyčerpá paměť nebo se stane nezdravým. Kliknutím přejdete rovnou ke kontejneru – zastavení, která spustíte sami, se nehlásí."
+      },
+      "stats": {
+        "mem": "Paměť",
+        "h3": "Statistiky v reálném čase",
+        "p": "CPU, paměť, síť a diskové I/O v živých grafech se vzorkováním po 1 s."
+      },
+      "exec": {
+        "h3": "Vestavěný terminál exec",
+        "p": "Plnohodnotná emulace terminálu v jakémkoli běžícím kontejneru, místním i vzdáleném – s barevnými motivy (System, Solarized, Dracula, Nord)."
+      },
+      "ssh": {
+        "h3": "Vzdálení hostitelé přes SSH",
+        "p": "Tunelování přesně jako <code>docker -H ssh://</code> přes <code>dial-stdio</code> – bastiony ProxyJump, ověřování více klíči, automatické opětovné připojení. Na serveru nic neinstalujete, tajné údaje jsou v Klíčence. Import jedním kliknutím z <code>~/.ssh/config</code> a <code>docker context ls</code>."
+      },
+      "files": {
+        "h3": "Prohlížeč souborů s přetahováním",
+        "p": "Procházejte souborový systém kontejneru, přesouvejte soubory dovnitř i ven a vkládejte celé složky přímo z Finderu – na hostitelích Docker i apple/container."
+      },
+      "ports": {
+        "h3": "Otevření v prohlížeči a přesměrování",
+        "p": "Jedno kliknutí otevře publikovaný port. Porty přes SSH se automaticky tunelují na <code>localhost</code> – a pokud je port obsazený, Gantry vybere volný, který můžete změnit."
+      },
+      "tunnel": {
+        "h3": "Sdílení na internet",
+        "p": "Jedno kliknutí zpřístupní publikovaný port přes <b>Cloudflare Tunnel</b>. Gantry za vás nainstaluje <code>cloudflared</code> a pak nabídne <b>rychlý tunel</b> (bez účtu, URL <code>*.trycloudflare.com</code>) nebo <b>pojmenovaný tunel</b> na vaší vlastní doméně – ideální pro náhled vývojové verze, webhook nebo přístup AI agenta ke kontejneru na vašem Macu."
+      },
+      "compose": {
+        "h3": "Compose kdekoli",
+        "p": "Kontejnery se seskupují podle projektu Compose. <b>Spusťte soubor Compose na libovolném hostiteli</b> – místním Dockeru, SSH nebo apple/container – s vestavěným <b>editorem YAML</b>; spouštění se přizpůsobí danému enginu."
+      },
+      "registries": {
+        "h3": "Soukromé registry automaticky",
+        "p": "Stahování využívá <code>docker login</code>, který už máte za sebou – Gantry načte přihlašovací údaje z <code>~/.docker/config.json</code>, credential helperů a Klíčenky, při vytváření kontejneru, v Rychlém spuštění i v Compose."
+      },
+      "images": {
+        "h3": "Sestavení a stahování imagů",
+        "p": "Přetáhněte Dockerfile do okna a sestavte image s živým logem, nebo stáhněte image podle reference s průběhem pro každou vrstvu. Přidávejte tagy, pročišťujte a čtěte historii vrstev. Štítek označí image sestavené pro jinou architekturu CPU, než má hostitel."
+      },
+      "cleanup": {
+        "h3": "Uvolněte místo",
+        "p": "Jeden panel ukáže, co zabírá místo – nepojmenované image, zastavené kontejnery, nepoužívané svazky, mezipaměť sestavení – včetně velikostí, a odstraní každou položku zvlášť nebo vše najednou. Na apple/container spustí i Zmenšit disk."
+      },
+      "touchid": {
+        "h3": "Touch ID u destruktivních akcí",
+        "p": "Zapněte si to a Gantry si před odstraněním kontejneru nebo smazáním hostitele vyžádá Touch ID – nebo přihlašovací heslo. Tajné údaje už stejně leží v Klíčence."
+      },
+      "themes": {
+        "h3": "Motivy terminálu",
+        "p": "Oblečte vestavěný shell do motivu System, Solarized Dark, Dracula nebo Nord – kompletní paleta popředí, pozadí a 16 barev ANSI, použitá okamžitě."
+      }
+    },
+    "agents": {
+      "kicker": "Připraveno pro agenty",
+      "h2": "Navrženo pro ovládání umělou inteligencí",
+      "p": "Vestavěný server MCP a App Intents zpřístupní každého hostitele – včetně hostitelů SSH – pro Claude, Zkratky, Siri a skripty se stejnými možnostmi jako GUI: vytváření a správa kontejnerů, sestavení a stahování imagů, svazky a sítě, Compose up, stroje apple/container a clustery Kubernetes, systémové nástroje <code>apple_*</code> pro služby, builder, registry a jádra, a dokonce i zpřístupnění portu přes Cloudflare Tunnel.",
+      "term_title": "Terminál – připojení serveru MCP",
+      "term_added": "✓ Server MCP přidán",
+      "term_question": "\"proč je superset_worker na dedic nezdravý?\"",
+      "prompt_h3": "Kopírovat jako prompt",
+      "prompt_p": "Stiskněte <span class=\"kbd\">⌥⌘P</span> u libovolného kontejneru a Gantry vám do schránky vloží prompt pro ladění připravený k vložení – hostitele a způsob, jak se k němu dostat, MCP <code>host_id</code> a nástroje, úplný stav kontejneru a úkol odpovídající příznaku.",
+      "s1_state": "Nezdravý",
+      "s1_text": "„Zjisti, proč neprochází kontrola stavu.“",
+      "s2_state": "Opakované pády",
+      "s2_text": "„Najdi, proč pořád padá.“",
+      "s3_state": "Zdravý",
+      "s3_text": "Nechává prostor pro vaši vlastní otázku."
+    },
+    "shots": {
+      "kicker": "Zblízka",
+      "h2": "Působí, jako by byla součástí systému",
+      "p": "Rozdělené zobrazení se třemi sloupci, materiály Liquid Glass, Swift Charts. Skutečné snímky obrazovky, žádné makety.",
+      "stats_title": "Kontejnery — Statistiky",
+      "stats_alt": "Živé statistiky kontejneru: grafy CPU, paměti, sítě a diskových I/O",
+      "stats_caption": "<b>Živé statistiky.</b> CPU, paměť, síť a diskové I/O, vzorkované každou sekundu.",
+      "overview_title": "Hostitel — Přehled",
+      "overview_alt": "Přehled hostitele s ukazateli CPU a paměti a využitím disku Dockerem",
+      "overview_caption": "<b>Přehled hostitele.</b> Ukazatele, využití disku, údaje o démonovi.",
+      "fleet_title": "Přehled — Zdraví",
+      "fleet_alt": "Přehled flotily s pěti hostiteli a zobrazenými problémy se zdravím",
+      "fleet_caption": "<b>Přehled flotily.</b> Každý hostitel, každý problém, jedna obrazovka."
+    },
+    "built": {
+      "kicker": "Postaveno jinak",
+      "h2": "Žádné webové obaly. Žádní vlastní démoni.",
+      "p": "Jen rychlá nativní aplikace pro Mac, která mluví přímo s Docker Engine API a s CLI <code>container</code> od Applu.",
+      "swiftui_n": "100% nativní SwiftUI",
+      "swiftui_p": "Žádný Electron. Spustí se okamžitě, šetří paměť, působí jako součást systému.",
+      "swift6_n": "Swift 6",
+      "swift6_p": "Moderní kód bezpečný pro souběžnost na nejnovějších vývojových nástrojích.",
+      "api_n": "Přímo Engine API",
+      "api_p": "Docker přes unixový socket, bez Docker CLI. apple/container přes jeho vlastní CLI <code>container</code>.",
+      "updates_n": "Automatické aktualizace",
+      "updates_p": "Appcast Sparkle podepsaný EdDSA udržuje aplikaci aktuální a neruší vás."
+    },
+    "install": {
+      "h2": "Nainstalováno za minutu",
+      "sub": "Žádný App Store, žádný účet. Stáhněte a přetáhněte – nebo jeden řádek v Homebrew.",
+      "s1_title": "Instalace",
+      "s1_text": "Spusťte cask z Homebrew, nebo stáhněte <code>.zip</code> z Vydání a přetáhněte <code>Gantry.app</code> do složky Aplikace.",
+      "s2_title": "První spuštění",
+      "s2_text": "Zatím není notarizovaná – klikněte pravým tlačítkem a zvolte Otevřít, nebo odstraňte karanténu příkazem <code>xattr -dr com.apple.quarantine /Applications/Gantry.app</code>",
+      "s3_title": "Přidání hostitele",
+      "s3_text": "Místní Docker se objeví sám. Pro Apple container přidejte hostitele <em>Apple Container</em>; Gantry nabídne instalaci CLI <code>container</code>. Agenti: <code>claude mcp add gantry</code>."
+    },
+    "footer_meta": "Licence MIT · Postaveno na SwiftUI · © 2026"
+  },
+  "guide": {
+    "title": "GUI pro Apple container na Macu: kompletní průvodce apple/container",
+    "crumb": "Průvodce apple/container",
+    "desc": "Co je nástroj container od Applu, jak ho nainstalovat a jak ho Gantry spravuje: tabulka příkazů CLI container a funkcí Gantry, od Compose po Kubernetes.",
+    "table_head": [
+      "Příkaz CLI",
+      "Funkce Gantry",
+      "Verze CLI, kterou Gantry vyžaduje"
+    ],
+    "table": [
+      [
+        "<code>container run</code>, <code>container create</code>",
+        "List Nový kontejner a Rychlé spuštění: image, název, příkaz, porty, prostředí, svazky, doména DNS, vlastní jádro a spouštěcí argumenty",
+        "Libovolná"
+      ],
+      [
+        "<code>container list --all</code>",
+        "Seznam kontejnerů seskupený podle projektu Compose, s filtry stavu a hledáním",
+        "Libovolná"
+      ],
+      [
+        "<code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code>",
+        "Panel nástrojů, kontextová nabídka a panel v řádku nabídek",
+        "Libovolná"
+      ],
+      [
+        "<code>container logs</code>",
+        "Karta Logy: živé sledování, hledání pomocí regexu, filtr úrovní, barvy ANSI",
+        "Libovolná"
+      ],
+      [
+        "<code>container stats</code>",
+        "Karta Statistiky a grafy v přehledu flotily",
+        "Libovolná"
+      ],
+      [
+        "<code>container exec</code>",
+        "Karta Terminál (interaktivní shell) a karta Procesy",
+        "Libovolná"
+      ],
+      [
+        "<code>container inspect</code>",
+        "Karty Přehled a Inspekce",
+        "Libovolná"
+      ],
+      [
+        "<code>container export</code>",
+        "Exportovat souborový systém (tar)",
+        "Libovolná"
+      ],
+      [
+        "<code>container commit</code>",
+        "Uložit jako image",
+        "1.6"
+      ],
+      [
+        "<code>container copy</code>",
+        "Karta Soubory: uložení do Macu a přetažení do Finderu (kontejner musí být spuštěný)",
+        "Libovolná; testováno na 1.6.1"
+      ],
+      [
+        "<code>container exec</code> s <code>tar</code>",
+        "Karta Soubory: nahrávání souborů a vkládání celých složek z Finderu",
+        "Libovolná"
+      ],
+      [
+        "<code>container clean</code>",
+        "Zmenšit disk u běžícího kontejneru a řádek v panelu Uvolnit místo",
+        "1.4"
+      ],
+      [
+        "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
+        "Image: stahování s průběhem, označení tagem, odstranění, pročištění, inspekce",
+        "Libovolná"
+      ],
+      [
+        "<code>container build</code>",
+        "Sestaví služby <code>build:</code> ze souboru Compose",
+        "Libovolná"
+      ],
+      [
+        "<code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>",
+        "Svazky",
+        "Libovolná"
+      ],
+      [
+        "<code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>",
+        "Sítě",
+        "Libovolná"
+      ],
+      [
+        "<code>--network &lt;name&gt;,alias=…</code>",
+        "Aliasy DNS v síti, aliasy podstromu (<code>.gateway</code>) a názvy služeb Compose",
+        "Libovolná; testováno na 1.6.1"
+      ],
+      [
+        "<code>container system start</code>, <code>stop</code>",
+        "Sekce Systém: spuštění, zastavení a restart služeb; také v řádku nabídek a v Nastavení",
+        "Libovolná"
+      ],
+      [
+        "<code>container system status</code>, <code>version</code>",
+        "Sekce Systém: stav, verze klienta a serveru, údaje o hostiteli",
+        "Libovolná"
+      ],
+      [
+        "<code>container system logs</code>",
+        "Sekce Systém: Logy služeb živě nebo za posledních 5 minut až 1 den, filtrované podle úrovně, služby a textu",
+        "Libovolná"
+      ],
+      [
+        "<code>container system property list</code>",
+        "Sekce Systém: editor Systémové vlastnosti, ukládá do <code>~/.config/container/config.toml</code>",
+        "Libovolná; testováno na 1.6.1"
+      ],
+      [
+        "<code>container system dns create</code>, <code>delete</code>, <code>list</code>",
+        "Nastavení ▸ Apple: místní domény DNS a výchozí doména",
+        "Libovolná"
+      ],
+      [
+        "<code>container system kernel set</code>",
+        "Sekce Systém: instalace doporučeného jádra, souboru jádra nebo archivu tar",
+        "Libovolná"
+      ],
+      [
+        "<code>container system df</code>",
+        "Využití disku v přehledu hostitele a panel Uvolnit místo",
+        "Libovolná"
+      ],
+      [
+        "<code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code>",
+        "Sekce Systém: Builder imagů s možnostmi CPU, paměti a DNS",
+        "Libovolná"
+      ],
+      [
+        "<code>container registry login</code>, <code>logout</code>, <code>list</code>",
+        "Sekce Systém: Přihlášení k registrům (heslo jen přes stdin)",
+        "Libovolná"
+      ],
+      [
+        "<code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code>",
+        "Stroje: vytvoření, spuštění, zastavení, smazání, výchozí stroj, CPU a paměť, shell, inspekce, Otevřít ve VS Code",
+        "Libovolná; vnořená virtualizace a jádra 1.1"
+      ],
+      [
+        "<code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code>",
+        "Clustery: clustery Kubernetes, uzly, kubeconfig, kontext kubectl, Načíst do clusteru",
+        "1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)"
+      ],
+      [
+        "Žádný příkaz <code>compose</code>",
+        "Spouštění Compose: spustí <code>docker-compose.yml</code> z Finderu, z nabídky Soubor nebo přetažením",
+        "Libovolná"
+      ]
+    ],
+    "callout": "Použijte podepsaný instalační balíček, ne sestavení z Homebrew. Sestavení z Homebrew neobsahuje backend strojů, takže <code>container machine</code> nepoběží.",
+    "code_mcp": "Přidání serveru MCP Gantry",
+    "faq": [
+      {
+        "q": "Jaké je nejlepší GUI pro Apple container?",
+        "a": "Gantry je bezplatné nativní open-source GUI pro macOS, vytvořené pro apple/container. Převádí CLI <code>container</code> do desktopové aplikace: kontejnery, logy, statistiky a exec, a k tomu clustery Kubernetes, stroje, builder imagů, přihlášení k registrům, jádra, logy služeb a systémové vlastnosti. Tabulka na této stránce uvádí každý příkaz a funkci Gantry, která ho používá."
+      },
+      {
+        "q": "Má Apple container GUI?",
+        "a": "Apple dodává <code>container</code> jen jako nástroj příkazového řádku. Gantry je samostatná open-source aplikace, která mu dává GUI, hned vedle vašich hostitelů Docker."
+      },
+      {
+        "q": "Jde používat docker compose s Apple container?",
+        "a": "apple/container nemá příkaz <code>compose</code>. Gantry načte <code>docker-compose.yml</code>, sestaví služby s <code>build:</code>, vytvoří síť a pojmenované svazky a spustí služby v pořadí podle <code>depends_on</code>. Názvy služeb se překládají přes aliasy DNS v síti."
+      },
+      {
+        "q": "Jak otevřít stroj container ve VS Code?",
+        "a": "Spusťte stroj v Gantry a klikněte na <b>Otevřít ve VS Code</b>. Gantry ho otevře přes Remote-SSH, stejně jako v ukázce <code>container-machine-vscode</code> od Applu. V image stroje musí běžet <code>sshd</code>."
+      },
+      {
+        "q": "Funguje Apple container na Macu s Intelem?",
+        "a": "Ne. apple/container vyžaduje Mac s Apple silicon. Gantry běží i na Macích s Intelem, tam ale spravuje jen hostitele Docker."
+      },
+      {
+        "q": "Kterou verzi CLI container nainstalovat?",
+        "a": "Gantry vyžaduje verzi 1.0 nebo novější a je testovaná s 1.6.1. CLI nainstalujte z podepsaného instalačního balíčku na <a href=\"https://github.com/apple/container/releases\">stránce vydání apple/container</a>. Sestavení z Homebrew neobsahuje backend strojů, takže s ním <code>container machine</code> nefunguje."
+      }
+    ],
+    "body": {
+      "h1": "Apple container na Macu: kompletní průvodce a GUI",
+      "lead": "apple/container spouští linuxové kontejnery na vašem Macu, každý ve vlastním odlehčeném virtuálním stroji. Dodává se jako nástroj příkazového řádku. Gantry je pro něj nativní GUI pro macOS. Tento průvodce vysvětluje, co nástroj umí, jak ho nastavit a která funkce Gantry pokrývá jednotlivé příkazy <code>container</code>.",
+      "tldr": "<strong>Ve zkratce.</strong> Gantry je bezplatná open-source (MIT) aplikace pro macOS, která z jednoho okna spravuje nástroj <code>container</code> od Applu i Docker. Podporuje CLI <code>container</code> 1.0 až 1.6.1 (doporučeno) a zobrazuje jen funkce, které vaše verze CLI podporuje. Nainstalujte ji příkazem <code>brew install --cask getgantry/tap/gantry</code>.",
+      "what-is": {
+        "h": "Co je apple/container?",
+        "p1": "<a href=\"https://github.com/apple/container\">apple/container</a> je open-source nástroj od Applu napsaný ve Swiftu, který vytváří a spouští linuxové kontejnery na Macu. Docker Desktop spouští všechny kontejnery v jednom sdíleném linuxovém virtuálním stroji; apple/container spouští každý kontejner ve vlastním odlehčeném virtuálním stroji postaveném na frameworku Virtualization od Applu. Používá standardní image OCI, takže stahuje ze stejných registrů jako Docker a odesílá do nich.",
+        "li1": "<strong>Hardware:</strong> Mac s Apple silicon.",
+        "li2": "<strong>macOS:</strong> Apple ho podporuje na macOS 26.",
+        "li3": "<strong>Rozhraní:</strong> jen CLI <code>container</code>. Neexistuje desktopová aplikace ani příkaz <code>compose</code>.",
+        "li4": "<strong>Síť:</strong> každý kontejner dostane na vašem Macu vlastní IP adresu a místní domény DNS dávají kontejnerům názvy jako <code>web.test</code>."
+      },
+      "why-gui": {
+        "h": "Proč používat GUI pro apple/container?",
+        "p1": "CLI je kompletní, ale každodenní práce znamená spoustu příkazů: <code>container list</code>, <code>logs</code>, <code>stats</code>, <code>exec</code> a na zbytek <code>system</code>, <code>builder</code>, <code>registry</code>, <code>machine</code> a <code>cluster</code>. Gantry je soustředí do jednoho okna s živými aktualizacemi, takže stav vidíte a nemusíte se na něj neustále dotazovat. Přidává i to, co CLI nemá: soubory Compose, oznámení o selhání, přehled flotily s vašimi hostiteli Docker a server MCP pro AI agenty."
+      },
+      "setup": {
+        "h": "Nastavení apple/container s Gantry",
+        "li1": "Nainstalujte Gantry: <code>brew install --cask getgantry/tap/gantry</code> a pak odstraňte příznak karantény (viz <a href=\"{root}docs/install.html\">Instalace</a>).",
+        "li2": "Nainstalujte CLI <code>container</code> z podepsaného balíčku <code>.pkg</code> na <a href=\"https://github.com/apple/container/releases\">stránce vydání apple/container</a>. Pokud chybí nebo je starší než 1.0, Gantry zobrazí list s postupem instalace.",
+        "li3": "V Gantry zvolte <strong>Přidat hostitele…</strong> a přidejte hostitele <em>Apple Container</em>. Při připojení se spustí služby <code>container</code>, pokud jsou zastavené.",
+        "li4": "Pokud není nainstalováno výchozí jádro, přehled hostitele zobrazí banner. Klikněte na něj a nainstalujte doporučené jádro."
+      },
+      "command-map": {
+        "h": "Příkazy container a jejich funkce v Gantry",
+        "p1": "Tato tabulka mapuje CLI <code>container</code> na Gantry. Poslední sloupec uvádí verzi CLI, kterou Gantry pro danou funkci potřebuje. <em>Libovolná</em> znamená jakékoli podporované CLI, tedy 1.0 nebo novější. Gantry přečte nainstalovanou verzi a skryje funkce, které nepodporuje."
+      },
+      "features": {
+        "h": "Co Gantry přidává k apple/container"
+      },
+      "kubernetes": {
+        "h": "Clustery Kubernetes",
+        "p1": "Vytvářejte clustery Kubernetes s více pracovními uzly pomocí <code>container cluster</code>, volte CNI, sledujte jednotlivé uzly, zapisujte kubeconfig a načítejte místní image do clusteru. Viz <a href=\"../apple-container-kubernetes/\">Kubernetes na apple/container</a>."
+      },
+      "machines": {
+        "h": "Stroje container a VS Code",
+        "p1": "Stroje jsou dlouhodobá linuxová prostředí z <code>container machine</code>. Gantry je vytváří, spouští, zastavuje a maže, nastavuje výchozí stroj, upravuje CPU a paměť a otevírá shell. Od CLI 1.1 může stroj nastartovat s vnořenou virtualizací (Apple silicon M3 nebo novější) a vlastním jádrem. <strong>Otevřít ve VS Code</strong> se připojí k běžícímu stroji přes Remote-SSH; v image stroje musí běžet <code>sshd</code>."
+      },
+      "compose": {
+        "h": "Docker Compose na apple/container",
+        "p1": "Otevřete <code>docker-compose.yml</code> z Finderu (<em>Otevřít v aplikaci ▸ Gantry</em> nebo <em>Rychlé akce ▸ Compose Up v apple/container</em>), z nabídky <strong>Soubor ▸ Otevřít soubor Compose…</strong> nebo přetažením do okna. Gantry sestaví služby s <code>build:</code>, vytvoří síť projektu a pojmenované svazky a spustí služby v pořadí podle <code>depends_on</code> se standardními štítky <code>com.docker.compose.*</code>. Když je nastavena výchozí doména DNS, služby se navzájem najdou podle názvu služby přes síťové aliasy."
+      },
+      "dns": {
+        "h": "Aliasy DNS v síti a místní domény",
+        "p1": "Gantry předává síťové aliasy do <code>container</code> jako <code>--network &lt;name&gt;,alias=…</code>. Bez výchozí domény DNS projdou jen plně kvalifikované názvy a alias podstromu (s tečkou na začátku, například <code>.gateway</code>) projde jen jako přesný alias. S výchozí doménou fungují i krátké názvy. Gantry vytváří a maže místní domény DNS, nastavuje výchozí doménu a novým kontejnerům přiděluje název hostitele <code>name.domain</code>. Viz <a href=\"{root}docs/dns.html\">Místní názvy DNS</a>."
+      },
+      "system": {
+        "h": "Systém: služby, builder, registry, jádro, logy, vlastnosti",
+        "p1": "Každý hostitel apple/container má sekci <strong>Systém</strong>. Funguje i tehdy, když je hostitel odpojený, takže z ní můžete spustit zastavené služby.",
+        "li1": "<strong>Stav a verze:</strong> verze klienta a serveru s upozorněním, když se liší; spuštění, zastavení a restart služeb; údaje o hostiteli a cesty.",
+        "li2": "<strong>Builder imagů:</strong> stav, image, CPU, paměť a IP; spuštění s možnostmi CPU, paměti a DNS; zastavení; smazání.",
+        "li3": "<strong>Přihlášení k registrům:</strong> výpis, přihlášení a odhlášení. Heslo jde do CLI výhradně přes stdin (<code>--password-stdin</code>) a Gantry si žádnou kopii neponechává.",
+        "li4": "<strong>Jádro:</strong> instalace doporučeného jádra, souboru jádra nebo archivu tar s průběhem v reálném čase.",
+        "li5": "<strong>Logy služeb:</strong> živě nebo jednorázově, za posledních 5 minut až 1 den, filtrované podle úrovně, služby a textu.",
+        "li6": "<strong>Systémové vlastnosti:</strong> změny se ukládají do <code>~/.config/container/config.toml</code>, s příznakem čekajícího restartu a tlačítkem <strong>Restartovat služby</strong>."
+      },
+      "disk": {
+        "h": "Uložení jako image, Zmenšit disk a soubory",
+        "p1": "<strong>Uložit jako image</strong> používá <code>container commit</code> (CLI 1.6). <strong>Zmenšit disk</strong> používá <code>container clean</code> (CLI 1.4) a zobrazuje se i jako řádek v panelu Uvolnit místo. Karta Soubory ukládá soubory do Macu a umožňuje je přetáhnout do Finderu pomocí <code>container copy</code> (kontejner musí být spuštěný) a také nahrává soubory a složky."
+      },
+      "labels": {
+        "h": "Štítky se znakem <code>=</code>",
+        "p1": "<code>container create</code> odmítá hodnotu štítku se znakem <code>=</code>, a to i v CLI 1.6.1. Gantry takové hodnoty při vytváření kontejneru zakóduje a při zpětném čtení dekóduje, takže vidíte přesně ty štítky, které jste nastavili."
+      },
+      "agents": {
+        "h": "Server MCP a Zkratky",
+        "p1": "Vestavěný server <code>gantry-mcp</code> dává AI agentům na hostitelích apple/container stejné možnosti: kontejnery, image, svazky, sítě, Compose, stroje (<code>list_machines</code>, <code>create_machine</code> a další), clustery (<code>list_clusters</code>, <code>create_cluster</code>, <code>delete_cluster</code>) a systémové nástroje <code>apple_*</code> pro služby, builder, registry (bez nástroje pro přihlášení), vlastnosti, logy a instalaci jádra. App Intents přidávají akce pro Zkratky a Siri. Viz <a href=\"{root}docs/mcp.html\">AI agenti a MCP</a>."
+      },
+      "vs-docker": {
+        "h": "apple/container vedle Dockeru",
+        "p1": "Gantry spravuje hostitele apple/container, místního démona Dockeru (Docker Desktop, OrbStack, Colima) a vzdálené hostitele Docker přes SSH v jednom postranním panelu a jednom přehledu flotily. Nemusíte si vybírat jeden runtime. Srovnání nástrojů funkci po funkci najdete na stránce <a href=\"../compare/\">Gantry vs. Docker Desktop, OrbStack a Podman Desktop</a>."
+      }
+    }
+  },
+  "k8s": {
+    "title": "Kubernetes na Apple container: GUI pro container cluster na Macu",
+    "crumb": "Kubernetes na apple/container",
+    "desc": "Kubernetes na nástroji container od Applu s Gantry: clustery s více uzly přes container cluster, volba CNI, uzly, zápis kubeconfig a místní image.",
+    "table_head": [
+      "Možnost",
+      "Příznak CLI",
+      "Poznámky"
+    ],
+    "table": [
+      [
+        "Název",
+        "<code>--name</code>",
+        "Zároveň název kontextu v kubeconfig"
+      ],
+      [
+        "Pracovní uzly",
+        "<code>--workers</code>",
+        "Počet pracovních uzlů. CLI 1.6.0+"
+      ],
+      [
+        "CPU",
+        "<code>--cpus</code>",
+        "Na uzel"
+      ],
+      [
+        "Paměť",
+        "<code>--memory</code>",
+        "Na uzel, například <code>4G</code>"
+      ],
+      [
+        "Image uzlu",
+        "<code>--node-image</code>",
+        "Prázdné pole ponechá výchozí hodnotu CLI"
+      ],
+      [
+        "CNI",
+        "<code>--cni</code>",
+        "Výchozí (vestavěný kindnet), Žádný (<code>NONE</code>, CLI 1.6.0+) nebo cesta k vlastnímu manifestu"
+      ]
+    ],
+    "code_shell": "Shell",
+    "code_mcp": "Přidání serveru MCP Gantry",
+    "faq": [
+      {
+        "q": "Podporuje Apple container Kubernetes?",
+        "a": "Ano. CLI <code>container</code> vytváří clustery Kubernetes, jejichž uzly běží jako kontejnery: <code>container cluster</code> v CLI 1.6.1, <code>container k8s</code> v CLI 1.5.0 až 1.6.0. Gantry k tomu přidává GUI."
+      },
+      {
+        "q": "Podporuje Gantry container cluster?",
+        "a": "Ano. Gantry vypisuje, vytváří a maže clustery na hostitelích apple/container, zobrazuje jejich uzly, zapisuje kubeconfig, kopíruje příkaz pro kontext <code>kubectl</code> a načítá místní image do clusteru. Podle verze vašeho CLI použije <code>cluster</code> nebo <code>k8s</code>."
+      },
+      {
+        "q": "Jak používat kubectl s clusterem apple/container?",
+        "a": "Když CLI vytvoří cluster, přidá do <code>~/.kube/config</code> kontext kubeconfig pojmenovaný podle clusteru. Spusťte <code>kubectl --context &lt;name&gt; get nodes</code>. Chcete-li mít samostatný soubor, použijte v Gantry <b>Zapsat kubeconfig</b>; výchozí cesta je <code>~/.kube/&lt;name&gt;.kubeconfig</code>."
+      },
+      {
+        "q": "Jak dostat místní image do clusteru bez registru?",
+        "a": "V Gantry klikněte pravým tlačítkem na image v sekci Image a zvolte <b>Načíst do clusteru</b>. Gantry spustí <code>container cluster load-image</code>, který zkopíruje image do containerd každého uzlu."
+      },
+      {
+        "q": "Jde vytvořit cluster s více uzly?",
+        "a": "Ano. Počet pracovních uzlů nastavte v listu pro vytvoření. Pracovní uzly vyžadují CLI 1.6.0 nebo novější."
+      },
+      {
+        "q": "Můžu použít vlastní CNI, například Calico nebo Cilium?",
+        "a": "Ano. Zvolte <b>Vlastní manifest</b> a vyberte soubor manifestu, nebo zvolte <b>Žádný</b> a CNI nasaďte sami po spuštění clusteru. Dokud CNI neběží, uzly zůstávají ve stavu NotReady. <b>Žádný</b> vyžaduje CLI 1.6.0 nebo novější. Výchozí CNI je vestavěný manifest kindnet."
+      }
+    ],
+    "body": {
+      "h1": "Kubernetes na Apple container",
+      "lead": "apple/container umí spustit cluster Kubernetes, jehož uzly jsou kontejnery na vašem Macu. Gantry je pro něj GUI: vytvořte cluster, sledujte, jak se uzly rozbíhají, připojte <code>kubectl</code> a načtěte místní image – bez dlouhých příkazů <code>container cluster</code>.",
+      "tldr": "<strong>Ve zkratce.</strong> Na hostiteli apple/container vytváří a maže sekce <strong>Clustery</strong> v Gantry clustery Kubernetes pomocí <code>container cluster</code> (CLI 1.6.1) nebo <code>container k8s</code> (CLI 1.5.0 až 1.6.0). Podporuje více pracovních uzlů, vlastní CNI, zobrazení uzlů, kubeconfig a kontext <code>kubectl</code> a <strong>Načíst do clusteru</strong> pro místní image.",
+      "requirements": {
+        "h": "Požadavky",
+        "li1": "Mac s Apple silicon, macOS 26 a Gantry (<code>brew install --cask getgantry/tap/gantry</code>).",
+        "li2": "CLI <code>container</code> 1.5.0 nebo novější; doporučeno 1.6.1. Pracovní uzly a CNI <em>Žádný</em> vyžadují 1.6.0 nebo novější.",
+        "li3": "<code>kubectl</code>, pokud chcete cluster používat z terminálu."
+      },
+      "create": {
+        "h": "Vytvoření clusteru",
+        "li1": "Vyberte hostitele apple/container a v postranním panelu otevřete <strong>Clustery</strong>.",
+        "li2": "Založte nový cluster a vyplňte možnosti níže.",
+        "li3": "Vytvořte ho. Seznam zobrazí nový cluster s průběhem v reálném čase. <strong>Zrušit</strong> vytváření zastaví a smaže uzly, které už vznikly.",
+        "p1": "Stejný příkaz v CLI:"
+      },
+      "nodes": {
+        "h": "Uzly a podrobnosti clusteru",
+        "p1": "Seznam clusterů zobrazuje každý cluster s jeho uzly: roli, stav a adresu. Podrobné zobrazení obsahuje <strong>Přehled</strong> (kontext kubectl, server API, pracovní uzly, síť uzlů), tabulku <strong>Uzly</strong>, kartu <strong>Inspekce</strong> se surovými daty uzlů a akce <strong>Zapsat kubeconfig</strong>, <strong>Kopírovat příkaz kubectl pro kontext</strong> a <strong>Smazat</strong>."
+      },
+      "kubectl": {
+        "h": "Připojení kubectl",
+        "p1": "Při vytváření clusteru přidá CLI do <code>~/.kube/config</code> kontext pojmenovaný podle clusteru. Použijte v Gantry <strong>Kopírovat příkaz kubectl pro kontext</strong>, nebo ho napište ručně:",
+        "p2": "Chcete-li mít cluster v samostatném souboru, použijte <strong>Zapsat kubeconfig</strong>. Gantry spustí <code>container cluster write-config</code>; výchozí cesta je <code>~/.kube/&lt;name&gt;.kubeconfig</code>."
+      },
+      "images": {
+        "h": "Načtení místních imagů do clusteru",
+        "p1": "Sestavte nebo stáhněte image na hostiteli apple/container, pak na něj v sekci <strong>Image</strong> klikněte pravým tlačítkem a zvolte <strong>Načíst do clusteru</strong>. Gantry spustí <code>container cluster load-image</code>, který zkopíruje image do containerd každého uzlu. Pro místní vývoj nepotřebujete registr."
+      },
+      "cni": {
+        "h": "Volba CNI",
+        "p1": "Výchozí je vestavěný manifest kindnet. Zvolte <strong>Vlastní manifest</strong> a nainstalujte vlastní CNI ze souboru, například Calico nebo Cilium. Zvolte <strong>Žádný</strong>, pokud chcete CNI nainstalovat sami později; do té doby zůstanou uzly ve stavu NotReady."
+      },
+      "agents": {
+        "h": "Clustery z AI agentů",
+        "p1": "Server MCP Gantry nabízí <code>list_clusters</code>, <code>create_cluster</code> a <code>delete_cluster</code>, takže agent jako Claude Code si může vytvořit dočasný cluster pro test a potom ho odstranit."
+      },
+      "more": {
+        "h": "Více o apple/container",
+        "p1": "Přečtěte si <a href=\"../apple-container/\">průvodce apple/container</a> s každým příkazem <code>container</code> a jeho funkcí v Gantry, nebo se podívejte, jak si Gantry stojí ve srovnání s <a href=\"../compare/\">Docker Desktop, OrbStack a Podman Desktop</a>."
+      }
+    }
+  },
+  "compare": {
+    "title": "Gantry vs. Docker Desktop, OrbStack, Podman Desktop a container CLI",
+    "crumb": "Srovnání",
+    "desc": "Věcné srovnání Gantry, Docker Desktop, OrbStack, Podman Desktop a CLI container od Applu na macOS: licence, cena, UI, apple/container, Kubernetes, Compose a stroje.",
+    "table_head": [
+      "",
+      "Gantry",
+      "Docker Desktop",
+      "OrbStack",
+      "Podman Desktop",
+      "CLI <code>container</code>"
+    ],
+    "table": [
+      [
+        "Co to je",
+        "Nativní GUI klient. Používá engine, který už máte",
+        "Engine Docker v linuxovém VM a k tomu GUI",
+        "Engine pro Docker a Linux a k tomu GUI",
+        "GUI pro Podman (a další enginy)",
+        "CLI a runtime od Applu"
+      ],
+      [
+        "Licence a cena",
+        "MIT, zdarma pro jakékoli použití",
+        "Proprietární. Zdarma pro osobní použití, vzdělávání, nekomerční open source a malé firmy (méně než 250 zaměstnanců a roční obrat pod 10 mil. USD); jinak placené předplatné",
+        "Proprietární. Zdarma pro osobní nekomerční použití; pro komerční použití placená licence",
+        "Apache 2.0, zdarma",
+        "Apache 2.0, zdarma"
+      ],
+      [
+        "Zdrojový kód",
+        "Otevřený",
+        "Uzavřený",
+        "Uzavřený",
+        "Otevřený",
+        "Otevřený"
+      ],
+      [
+        "Technologie UI",
+        "SwiftUI (nativní)",
+        "Electron",
+        "Nativní aplikace pro macOS",
+        "Electron",
+        "Bez GUI"
+      ],
+      [
+        "Platformy",
+        "macOS 26+, Apple silicon a Intel",
+        "macOS, Windows, Linux",
+        "macOS",
+        "macOS, Windows, Linux",
+        "macOS na Apple silicon"
+      ],
+      [
+        "Spravuje apple/container",
+        "Ano, CLI 1.0 až 1.6.1",
+        "Ne",
+        "Ne",
+        "V dokumentaci výrobce neuvedeno (ověřeno 2026-11-03)",
+        "Je to apple/container"
+      ],
+      [
+        "Kubernetes",
+        "Na apple/container přes <code>container cluster</code>: více pracovních uzlů, vlastní CNI",
+        "Vestavěný Kubernetes",
+        "Vestavěný Kubernetes",
+        "Přes Kind a další poskytovatele",
+        "<code>container cluster</code> (1.6.1), <code>container k8s</code> (1.5.0 až 1.6.0)"
+      ],
+      [
+        "Docker Compose",
+        "Na hostitelích Docker i na apple/container (soubor spouští Gantry)",
+        "Ano",
+        "Ano",
+        "Ano, přes poskytovatele Compose",
+        "Žádný příkaz <code>compose</code>"
+      ],
+      [
+        "Dlouhodobé linuxové stroje",
+        "<code>container machine</code>, s funkcí Otevřít ve VS Code",
+        "Ne",
+        "Ano (linuxové stroje)",
+        "Ne (Podman machine je VM enginu)",
+        "<code>container machine</code>"
+      ],
+      [
+        "Vzdálení hostitelé Docker přes SSH v GUI",
+        "Ano, s ProxyJump a tajnými údaji v Klíčence",
+        "Neznámé",
+        "Neznámé",
+        "Neznámé",
+        "Netýká se"
+      ],
+      [
+        "Vestavěný server MCP pro správu kontejnerů",
+        "Ano (<code>gantry-mcp</code>)",
+        "Neznámé",
+        "Neznámé",
+        "Neznámé",
+        "Ne"
+      ]
+    ],
+    "faq": [
+      {
+        "q": "Je Gantry alternativa k Docker Desktop?",
+        "a": "Jako GUI ano. Gantry spravuje kontejnery, image, svazky, sítě, logy, statistiky a Compose. Neobsahuje engine Docker: ten vám na Macu zajistí OrbStack, Colima nebo Docker Desktop, případně nástroj <code>container</code> od Applu, který Gantry také spravuje. Gantry má licenci MIT a je zdarma i pro komerční použití."
+      },
+      {
+        "q": "Je Gantry alternativa k OrbStacku?",
+        "a": "Částečně. OrbStack je engine a GUI, Gantry je jen GUI. Gantry můžete používat jako GUI nad enginem Docker z OrbStacku, nebo s apple/container, který vám dá kontejnery, linuxové stroje a Kubernetes přímo z nástroje od Applu."
+      },
+      {
+        "q": "Které GUI je pro Apple container nejlepší?",
+        "a": "Z nástrojů na této stránce spravuje apple/container jen Gantry (ověřeno 2026-11-03). Pokrývá celé CLI <code>container</code> včetně clusterů, strojů, builderu, registrů a systémových vlastností."
+      },
+      {
+        "q": "Můžu používat Gantry a Docker Desktop společně?",
+        "a": "Ano. Gantry se připojí k enginu Docker Desktop přes jeho socket, takže Gantry můžete používat jako GUI a Docker Desktop si ponechat jako engine."
+      }
+    ],
+    "body": {
+      "h1": "Gantry vs. Docker Desktop, OrbStack, Podman Desktop a CLI container",
+      "lead": "Pět způsobů, jak na Macu spouštět a spravovat kontejnery, porovnaných podle ověřitelných faktů. Gantry je GUI klient. Ostatní obsahují engine, kromě CLI <code>container</code>, které je enginem bez GUI.",
+      "tldr": "<strong>Ve zkratce.</strong> Zvolte <strong>Gantry</strong>, pokud chcete bezplatné, nativní open-source GUI pro nástroj <code>container</code> od Applu i pro Docker (lokálně i přes SSH) v jedné aplikaci. Gantry nenahrazuje engine Docker; pracuje s tím, který máte, nebo s apple/container.",
+      "table": {
+        "h": "Srovnávací tabulka",
+        "p1": "Údaje ke dni 2026-11-03 z veřejných stránek jednotlivých výrobců (viz <a href=\"#sources\">zdroje</a>). „Neznámé“ znamená, že jsme údaj v dokumentaci výrobce nenašli. Neznamená to, že funkce chybí."
+      },
+      "when": {
+        "h": "Kdy zvolit kterou možnost",
+        "choose1": {
+          "h": "Zvolte Gantry",
+          "p1": "Používáte nástroj <code>container</code> od Applu a chcete GUI pro všechny jeho části, včetně clusterů Kubernetes, strojů a builderu imagů. Nebo spravujete několik hostitelů Docker, místních i vzdálených přes SSH, a chcete pro všechny jedno nativní okno a oznámení o selhání. Nebo chcete server MCP, aby vaše kontejnery mohli spravovat AI agenti."
+        },
+        "choose2": {
+          "h": "Zvolte Docker Desktop",
+          "p1": "Potřebujete engine Docker se stejnou aplikací na macOS, Windows i Linuxu, rozšíření Dockeru a podporu od Dockeru a vaše firma má předplatné Dockeru nebo splňuje podmínky pro bezplatné použití."
+        },
+        "choose3": {
+          "h": "Zvolte OrbStack",
+          "p1": "Chcete engine Docker a linuxové stroje na macOS v jednom produktu a placená licence pro komerční použití vám nevadí."
+        },
+        "choose4": {
+          "h": "Zvolte Podman Desktop",
+          "p1": "Používáte Podman, chcete open-source GUI na více operačních systémech nebo pracujete s nástroji Red Hat."
+        },
+        "choose5": {
+          "h": "Zvolte jen CLI container",
+          "p1": "Vše skriptujete v terminálu a GUI nepotřebujete. Gantry používá stejné CLI, takže GUI můžete přidat později."
+        }
+      },
+      "together": {
+        "h": "Používejte je společně",
+        "p1": "Gantry je klient, takže funguje vedle ostatních. Připojuje se k enginu Docker z Docker Desktop, OrbStacku nebo Colimy přes socket Dockeru, ke vzdáleným hostitelům Docker přes SSH a k apple/container přes CLI <code>container</code>, vše v jednom postranním panelu."
+      },
+      "sources": {
+        "h": "Zdroje",
+        "li1": "Licenční podmínky Docker Desktop: <a href=\"https://www.docker.com/pricing/faq/\">Docker pricing FAQ</a>.",
+        "li2": "Licenční podmínky OrbStacku: <a href=\"https://docs.orbstack.dev/licensing\">OrbStack licensing</a>.",
+        "li3": "Licence a funkce Podman Desktop: <a href=\"https://github.com/podman-desktop/podman-desktop\">podman-desktop na GitHubu</a> a <a href=\"https://podman-desktop.io/docs\">dokumentace Podman Desktop</a>.",
+        "li4": "apple/container: <a href=\"https://github.com/apple/container\">apple/container na GitHubu</a>.",
+        "li5": "Gantry: <a href=\"https://github.com/getgantry/gantry\">zdrojový kód</a> a <a href=\"https://github.com/getgantry/gantry/blob/main/CHANGELOG.md\">seznam změn</a>.",
+        "p1": "Našli jste chybu? <a href=\"https://github.com/getgantry/getgantry.github.io/issues\">Nahlaste ji</a> a tabulku opravíme."
+      }
+    }
+  }
+}

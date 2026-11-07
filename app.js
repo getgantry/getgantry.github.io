@@ -61,7 +61,7 @@
       var text = b.getAttribute("data-copy") || "";
       navigator.clipboard.writeText(text).then(function () {
         var prev = b.textContent;
-        b.textContent = "Copied";
+        b.textContent = document.documentElement.getAttribute("data-copied") || "Copied";
         b.classList.add("done");
         setTimeout(function () { b.textContent = prev; b.classList.remove("done"); }, 1400);
       });
@@ -162,6 +162,8 @@
       }
       return d;
     }
+    var runText = hostList.getAttribute("data-running") || "{n} running";
+    var unhText = hostList.getAttribute("data-unhealthy") || "{n} unhealthy";
     HOSTS.forEach(function (h, idx) {
       var row = document.createElement("div");
       row.style.cssText = "display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--border);";
@@ -172,7 +174,7 @@
         '<svg viewBox="0 0 64 16" preserveAspectRatio="none" style="width:64px;height:16px;flex:none"><path d="' + sparkPath(idx) + '" fill="none" stroke="' + h.color + '" stroke-width="1.4"/></svg>' +
         '<div style="margin-left:auto;text-align:right">' +
         '<div style="font-size:0.8rem;font-weight:650;color:var(--text)">' + h.cpu + '</div>' +
-        '<div style="font-size:0.66rem;color:' + (h.unh ? "var(--red)" : "var(--text-mut)") + '">' + h.run + ' running' + (h.unh ? " · " + h.unh + " unhealthy" : "") + '</div></div>';
+        '<div style="font-size:0.66rem;color:' + (h.unh ? "var(--red)" : "var(--text-mut)") + '">' + runText.replace("{n}", h.run) + (h.unh ? " · " + unhText.replace("{n}", h.unh) : "") + '</div></div>';
       hostList.appendChild(row);
     });
     hostList.lastChild.style.borderBottom = "none";

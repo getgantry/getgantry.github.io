@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="hu" data-copied="Másolva">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JR87M6TNM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kubernetes az Apple containeren: GUI a container clusterhez Macen</title>
+  <meta name="description" content="Kubernetes az Apple container eszközén a Gantryvel: több workeres klaszterek container clusterrel, CNI-választás, csomópontok, kubeconfig, helyi image-ek.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://getgantry.github.io/hu/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="en" href="https://getgantry.github.io/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="de" href="https://getgantry.github.io/de/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="fr" href="https://getgantry.github.io/fr/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="es" href="https://getgantry.github.io/es/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="it" href="https://getgantry.github.io/it/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="pt-PT" href="https://getgantry.github.io/pt-PT/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="nl" href="https://getgantry.github.io/nl/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="sv" href="https://getgantry.github.io/sv/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="da" href="https://getgantry.github.io/da/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="nb" href="https://getgantry.github.io/nb/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="fi" href="https://getgantry.github.io/fi/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="pl" href="https://getgantry.github.io/pl/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="cs" href="https://getgantry.github.io/cs/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="sk" href="https://getgantry.github.io/sk/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="hu" href="https://getgantry.github.io/hu/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="ro" href="https://getgantry.github.io/ro/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="bg" href="https://getgantry.github.io/bg/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="el" href="https://getgantry.github.io/el/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="hr" href="https://getgantry.github.io/hr/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="sl" href="https://getgantry.github.io/sl/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="sr" href="https://getgantry.github.io/sr/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="sr-Latn" href="https://getgantry.github.io/sr-Latn/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="lt" href="https://getgantry.github.io/lt/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="lv" href="https://getgantry.github.io/lv/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="et" href="https://getgantry.github.io/et/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="uk" href="https://getgantry.github.io/uk/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="ru" href="https://getgantry.github.io/ru/apple-container-kubernetes/">
+  <link rel="alternate" hreflang="x-default" href="https://getgantry.github.io/apple-container-kubernetes/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Gantry">
+  <meta property="og:locale" content="hu_HU">
+  <meta property="og:title" content="Kubernetes az Apple containeren: GUI a container clusterhez Macen">
+  <meta property="og:description" content="Kubernetes az Apple container eszközén a Gantryvel: több workeres klaszterek container clusterrel, CNI-választás, csomópontok, kubeconfig, helyi image-ek.">
+  <meta property="og:url" content="https://getgantry.github.io/hu/apple-container-kubernetes/">
+  <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta property="og:image:width" content="3364">
+  <meta property="og:image:height" content="2116">
+  <meta property="og:image:alt" content="A Gantry flottairányítópultja Docker- és apple/container-gazdagépekkel">
+  <meta property="article:modified_time" content="2026-11-03">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kubernetes az Apple containeren: GUI a container clusterhez Macen">
+  <meta name="twitter:description" content="Kubernetes az Apple container eszközén a Gantryvel: több workeres klaszterek container clusterrel, CNI-választás, csomópontok, kubeconfig, helyi image-ek.">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta name="theme-color" content="#060a10">
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../docs/docs.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://getgantry.github.io/hu/apple-container-kubernetes/#article",
+      "headline": "Kubernetes az Apple containeren: GUI a container clusterhez Macen",
+      "description": "Kubernetes az Apple container eszközén a Gantryvel: több workeres klaszterek container clusterrel, CNI-választás, csomópontok, kubeconfig, helyi image-ek.",
+      "url": "https://getgantry.github.io/hu/apple-container-kubernetes/",
+      "inLanguage": "hu",
+      "dateModified": "2026-11-03",
+      "image": "https://getgantry.github.io/assets/dashboard.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Gantry",
+        "url": "https://getgantry.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://getgantry.github.io/#organization",
+        "name": "Gantry",
+        "logo": "https://getgantry.github.io/assets/icon.png"
+      },
+      "about": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "container (apple/container)",
+          "url": "https://github.com/apple/container",
+          "operatingSystem": "macOS",
+          "applicationCategory": "DeveloperApplication"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Kubernetes",
+          "url": "https://kubernetes.io/"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://getgantry.github.io/hu/apple-container-kubernetes/#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Gantry",
+          "item": "https://getgantry.github.io/hu/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Kubernetes az apple/containeren",
+          "item": "https://getgantry.github.io/hu/apple-container-kubernetes/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://getgantry.github.io/hu/apple-container-kubernetes/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Támogatja az Apple container a Kubernetest?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen. A container CLI olyan Kubernetes-klasztereket hoz létre, amelyek csomópontjai konténerként futnak: container cluster a CLI 1.6.1-ben, container k8s a CLI 1.5.0–1.6.0-ban. A Gantry ehhez ad GUI-t."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Támogatja a Gantry a container clustert?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen. A Gantry listázza, létrehozza és törli a klasztereket az apple/container-gazdagépeken, megmutatja a csomópontjaikat, kiírja a kubeconfigot, kimásolja a kubectl-környezetváltó parancsot, és helyi image-eket tölt be a klaszterbe. A CLI-verziótól függően a cluster vagy a k8s parancsot használja."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hogyan használható a kubectl egy apple/container-klaszterrel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Amikor a CLI létrehoz egy klasztert, a ~/.kube/config fájlhoz hozzáad egy, a klaszterről elnevezett kubeconfig-környezetet. Futtassa: kubectl --context <name> get nodes. Külön fájlhoz használja a Gantry Kubeconfig kiírása parancsát; az alapértelmezett útvonal ~/.kube/<name>.kubeconfig."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hogyan juttatható egy helyi image a klaszterbe registry nélkül?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A Gantryben kattintson jobb gombbal az image-re az Image-ek között, és válassza a Betöltés a klaszterbe parancsot. A Gantry lefuttatja a container cluster load-image parancsot, amely minden csomópont containerd-jébe átmásolja az image-et."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Létrehozható több csomópontos klaszter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen. Adja meg a workerek számát a létrehozási lapon. A workerekhez CLI 1.6.0 vagy újabb kell."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Használhatok saját CNI-t, például Calicót vagy Ciliumot?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen. Válassza az Egyéni manifest lehetőséget, és jelölje ki a manifestfájlt, vagy válassza a Nincs lehetőséget, és a klaszter indulása után telepítsen saját maga egy CNI-t. A csomópontok NotReady állapotban maradnak, amíg nem fut CNI. A Nincs beállításhoz CLI 1.6.0 vagy újabb kell. Az alapértelmezett CNI a beépített kindnet-manifest."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs-body">
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../"><img src="../../assets/icon.png" alt="Gantry-ikon" width="30" height="30"><span>Gantry</span></a>
+      <nav class="nav-links">
+        <a href="../#features">Funkciók</a>
+        <a href="../apple-container/">apple/container</a>
+        <a href="../apple-container-kubernetes/" class="active">Kubernetes</a>
+        <a href="../compare/">Összevetés</a>
+        <a href="../../docs/index.html">Leírás</a>
+        <a href="https://github.com/getgantry/gantry">GitHub</a>
+      </nav>
+      <details class="lang-menu">
+        <summary aria-label="Nyelv: Magyar" title="Nyelv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lang-name">Magyar</span><span class="lang-code">HU</span></summary>
+        <ul>
+          <li><a href="../../apple-container-kubernetes/" hreflang="en" lang="en">English</a></li>
+          <li><a href="../../de/apple-container-kubernetes/" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../../fr/apple-container-kubernetes/" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../../es/apple-container-kubernetes/" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../../it/apple-container-kubernetes/" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../../pt-PT/apple-container-kubernetes/" hreflang="pt-PT" lang="pt-PT">Português</a></li>
+          <li><a href="../../nl/apple-container-kubernetes/" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../../sv/apple-container-kubernetes/" hreflang="sv" lang="sv">Svenska</a></li>
+          <li><a href="../../da/apple-container-kubernetes/" hreflang="da" lang="da">Dansk</a></li>
+          <li><a href="../../nb/apple-container-kubernetes/" hreflang="nb" lang="nb">Norsk bokmål</a></li>
+          <li><a href="../../fi/apple-container-kubernetes/" hreflang="fi" lang="fi">Suomi</a></li>
+          <li><a href="../../pl/apple-container-kubernetes/" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../../cs/apple-container-kubernetes/" hreflang="cs" lang="cs">Čeština</a></li>
+          <li><a href="../../sk/apple-container-kubernetes/" hreflang="sk" lang="sk">Slovenčina</a></li>
+          <li><a href="./" hreflang="hu" lang="hu" aria-current="page">Magyar</a></li>
+          <li><a href="../../ro/apple-container-kubernetes/" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../../bg/apple-container-kubernetes/" hreflang="bg" lang="bg">Български</a></li>
+          <li><a href="../../el/apple-container-kubernetes/" hreflang="el" lang="el">Ελληνικά</a></li>
+          <li><a href="../../hr/apple-container-kubernetes/" hreflang="hr" lang="hr">Hrvatski</a></li>
+          <li><a href="../../sl/apple-container-kubernetes/" hreflang="sl" lang="sl">Slovenščina</a></li>
+          <li><a href="../../sr/apple-container-kubernetes/" hreflang="sr" lang="sr">Српски</a></li>
+          <li><a href="../../sr-Latn/apple-container-kubernetes/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a></li>
+          <li><a href="../../lt/apple-container-kubernetes/" hreflang="lt" lang="lt">Lietuvių</a></li>
+          <li><a href="../../lv/apple-container-kubernetes/" hreflang="lv" lang="lv">Latviešu</a></li>
+          <li><a href="../../et/apple-container-kubernetes/" hreflang="et" lang="et">Eesti</a></li>
+          <li><a href="../../uk/apple-container-kubernetes/" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="../../ru/apple-container-kubernetes/" hreflang="ru" lang="ru">Русский</a></li>
+        </ul>
+      </details>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="crumbs" aria-label="Morzsamenü"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Kubernetes az apple/containeren</span></nav>
+    <article class="docs-article page-article">
+<h1>Kubernetes az Apple containeren</h1>
+<p class="page-lead">Az apple/container képes olyan Kubernetes-klasztert futtatni, amelynek csomópontjai konténerek a Macen. A Gantry ehhez ad GUI-t: hozzon létre klasztert, kövesse a csomópontok indulását, csatlakoztassa a <code>kubectl</code>-t, és töltse be a helyi image-eket, hosszú <code>container cluster</code> parancssorok nélkül.</p>
+
+<div class="tldr">
+<p><strong>Röviden.</strong> Az apple/container-gazdagépen a Gantry <strong>Klaszterek</strong> szakasza a <code>container cluster</code> (CLI 1.6.1) vagy a <code>container k8s</code> (CLI 1.5.0–1.6.0) paranccsal hoz létre és töröl Kubernetes-klasztereket. Támogatja a több workert, az egyéni CNI-t, a csomópontnézetet, a kubeconfigot és a <code>kubectl</code>-környezetet, valamint a <strong>Betöltés a klaszterbe</strong> parancsot a helyi image-ekhez.</p>
+</div>
+
+<h2 id="requirements">Követelmények</h2>
+<ul>
+  <li>Apple chipes Mac, macOS 26 és Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
+  <li>A <code>container</code> CLI 1.5.0-s vagy újabb verziója; az 1.6.1 ajánlott. A workerekhez és a <em>Nincs</em> CNI-hez 1.6.0 vagy újabb kell.</li>
+  <li><code>kubectl</code>, ha a terminálból szeretné használni a klasztert.</li>
+</ul>
+
+<h2 id="create">Klaszter létrehozása</h2>
+<ol>
+  <li>Válassza ki az apple/container-gazdagépet, és nyissa meg az oldalsávban a <strong>Klaszterek</strong> szakaszt.</li>
+  <li>Indítson új klasztert, és töltse ki az alábbi beállításokat.</li>
+  <li>Hozza létre. A lista élő folyamatjelzéssel mutatja az új klasztert. A <strong>Mégse</strong> leállítja a létrehozást, és törli a már elkészült csomópontokat.</li>
+</ol>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Beállítás</th><th scope="col">CLI-kapcsoló</th><th scope="col">Megjegyzés</th></tr></thead>
+<tbody>
+<tr><th scope="row">Név</th><td><code>--name</code></td><td>Egyben a kubeconfig-környezet neve</td></tr>
+<tr><th scope="row">Workerek</th><td><code>--workers</code></td><td>A worker csomópontok száma. CLI 1.6.0+</td></tr>
+<tr><th scope="row">CPU-k</th><td><code>--cpus</code></td><td>Csomópontonként</td></tr>
+<tr><th scope="row">Memória</th><td><code>--memory</code></td><td>Csomópontonként, például <code>4G</code></td></tr>
+<tr><th scope="row">Csomópont-image</th><td><code>--node-image</code></td><td>Üresen a CLI alapértéke marad</td></tr>
+<tr><th scope="row">CNI</th><td><code>--cni</code></td><td>Alapértelmezett (beépített kindnet), Nincs (<code>NONE</code>, CLI 1.6.0+) vagy egyéni manifest elérési útja</td></tr>
+</tbody>
+</table></div>
+<p>Ugyanez a parancs a CLI-ben:</p>
+<div class="code-block">
+  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster create --name dev --workers 2 --cpus 2 --memory 4G">Másolás</button></div>
+  <pre><code>container cluster create --name dev --workers 2 --cpus 2 --memory 4G</code></pre>
+</div>
+
+<h2 id="nodes">Csomópontok és klaszteradatok</h2>
+<p>A klaszterlista minden klasztert a csomópontjaival együtt mutat: szerep, állapot és cím. A részletes nézetben van <strong>Áttekintés</strong> (kubectl-környezet, API-szerver, workerek, csomóponthálózat), <strong>Csomópontok</strong> táblázat, <strong>Vizsgálat</strong> a nyers csomópontadatokhoz, valamint a <strong>Kubeconfig kiírása</strong>, a <strong>kubectl-környezetváltó parancs másolása</strong> és a <strong>Törlés</strong> művelet.</p>
+
+<h2 id="kubectl">A kubectl csatlakoztatása</h2>
+<p>A CLI a klaszter létrehozásakor egy, a klaszterről elnevezett környezetet ad a <code>~/.kube/config</code> fájlhoz. Használja a Gantryben a <strong>kubectl-környezetváltó parancs másolása</strong> parancsot, vagy írja be:</p>
+<div class="code-block">
+  <div class="code-head"><span>Shell</span><button class="copy" data-copy="kubectl --context dev get nodes">Másolás</button></div>
+  <pre><code>kubectl --context dev get nodes</code></pre>
+</div>
+<p>Ha a klasztert külön fájlban szeretné tartani, használja a <strong>Kubeconfig kiírása</strong> parancsot. A Gantry lefuttatja a <code>container cluster write-config</code> parancsot; az alapértelmezett útvonal <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p>
+
+<h2 id="images">Helyi image-ek betöltése a klaszterbe</h2>
+<p>Buildeljen vagy töltsön le egy image-et az apple/container-gazdagépen, majd az <strong>Image-ek</strong> között kattintson rá jobb gombbal, és válassza a <strong>Betöltés a klaszterbe</strong> parancsot. A Gantry lefuttatja a <code>container cluster load-image</code> parancsot, amely minden csomópont containerd-jébe átmásolja az image-et. Helyi fejlesztéshez nincs szükség registryre.</p>
+<div class="code-block">
+  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster load-image --name dev myapp:dev">Másolás</button></div>
+  <pre><code>container cluster load-image --name dev myapp:dev</code></pre>
+</div>
+
+<h2 id="cni">CNI kiválasztása</h2>
+<p>Az alapértelmezett a beépített kindnet-manifest. Válassza az <strong>Egyéni manifest</strong> lehetőséget, ha saját CNI-t, például Calicót vagy Ciliumot telepítene fájlból. Válassza a <strong>Nincs</strong> lehetőséget, ha később saját maga telepít CNI-t; addig a csomópontok NotReady állapotban maradnak.</p>
+
+<h2 id="agents">Klaszterek MI-ügynökökkel</h2>
+<p>A Gantry MCP-szerverében megtalálható a <code>list_clusters</code>, a <code>create_cluster</code> és a <code>delete_cluster</code>, így egy ügynök, például a Claude Code, ideiglenes klasztert hozhat létre egy teszthez, majd utána eltávolíthatja.</p>
+<div class="code-block">
+  <div class="code-head"><span>A Gantry MCP-szerver hozzáadása</span><button class="copy" data-copy="claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp">Másolás</button></div>
+  <pre><code>claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp</code></pre>
+</div>
+
+<h2 id="more">További tudnivalók az apple/containerről</h2>
+<p>Olvassa el az <a href="../apple-container/">apple/container-útmutatót</a>, amely minden <code>container</code> parancsot és a hozzá tartozó Gantry-funkciót bemutatja, vagy nézze meg, hogyan viszonyul a Gantry a <a href="../compare/">Docker Desktophoz, az OrbStackhez és a Podman Desktophoz</a>.</p>
+
+<h2 id="faq">Kérdések és válaszok</h2>
+<div class="faq-list">
+<details class="faq-item"><summary>Támogatja az Apple container a Kubernetest?</summary><p>Igen. A <code>container</code> CLI olyan Kubernetes-klasztereket hoz létre, amelyek csomópontjai konténerként futnak: <code>container cluster</code> a CLI 1.6.1-ben, <code>container k8s</code> a CLI 1.5.0–1.6.0-ban. A Gantry ehhez ad GUI-t.</p></details>
+<details class="faq-item"><summary>Támogatja a Gantry a container clustert?</summary><p>Igen. A Gantry listázza, létrehozza és törli a klasztereket az apple/container-gazdagépeken, megmutatja a csomópontjaikat, kiírja a kubeconfigot, kimásolja a <code>kubectl</code>-környezetváltó parancsot, és helyi image-eket tölt be a klaszterbe. A CLI-verziótól függően a <code>cluster</code> vagy a <code>k8s</code> parancsot használja.</p></details>
+<details class="faq-item"><summary>Hogyan használható a kubectl egy apple/container-klaszterrel?</summary><p>Amikor a CLI létrehoz egy klasztert, a <code>~/.kube/config</code> fájlhoz hozzáad egy, a klaszterről elnevezett kubeconfig-környezetet. Futtassa: <code>kubectl --context &lt;name&gt; get nodes</code>. Külön fájlhoz használja a Gantry <b>Kubeconfig kiírása</b> parancsát; az alapértelmezett útvonal <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p></details>
+<details class="faq-item"><summary>Hogyan juttatható egy helyi image a klaszterbe registry nélkül?</summary><p>A Gantryben kattintson jobb gombbal az image-re az Image-ek között, és válassza a <b>Betöltés a klaszterbe</b> parancsot. A Gantry lefuttatja a <code>container cluster load-image</code> parancsot, amely minden csomópont containerd-jébe átmásolja az image-et.</p></details>
+<details class="faq-item"><summary>Létrehozható több csomópontos klaszter?</summary><p>Igen. Adja meg a workerek számát a létrehozási lapon. A workerekhez CLI 1.6.0 vagy újabb kell.</p></details>
+<details class="faq-item"><summary>Használhatok saját CNI-t, például Calicót vagy Ciliumot?</summary><p>Igen. Válassza az <b>Egyéni manifest</b> lehetőséget, és jelölje ki a manifestfájlt, vagy válassza a <b>Nincs</b> lehetőséget, és a klaszter indulása után telepítsen saját maga egy CNI-t. A csomópontok NotReady állapotban maradnak, amíg nem fut CNI. A <b>Nincs</b> beállításhoz CLI 1.6.0 vagy újabb kell. Az alapértelmezett CNI a beépített kindnet-manifest.</p></details>
+</div>
+
+<p class="updated">Utoljára frissítve: 2026-11-03.</p>
+    </article>
+    <footer class="docs-foot">
+      <a href="../">Kezdőlap</a>
+      <span>·</span>
+      <a href="../apple-container/">apple/container-útmutató</a>
+      <span>·</span>
+      <a href="../apple-container-kubernetes/">Kubernetes</a>
+      <span>·</span>
+      <a href="../compare/">Összevetés</a>
+      <span>·</span>
+      <a href="../../docs/index.html">Leírás</a>
+      <span>·</span>
+      <a href="https://github.com/getgantry/gantry">MIT-licenc · GitHub</a>
+    </footer>
+    <nav class="lang-foot" aria-label="Nyelvek">
+      <a href="../../apple-container-kubernetes/" hreflang="en" lang="en">English</a>
+      <a href="../../de/apple-container-kubernetes/" hreflang="de" lang="de">Deutsch</a>
+      <a href="../../fr/apple-container-kubernetes/" hreflang="fr" lang="fr">Français</a>
+      <a href="../../es/apple-container-kubernetes/" hreflang="es" lang="es">Español</a>
+      <a href="../../it/apple-container-kubernetes/" hreflang="it" lang="it">Italiano</a>
+      <a href="../../pt-PT/apple-container-kubernetes/" hreflang="pt-PT" lang="pt-PT">Português</a>
+      <a href="../../nl/apple-container-kubernetes/" hreflang="nl" lang="nl">Nederlands</a>
+      <a href="../../sv/apple-container-kubernetes/" hreflang="sv" lang="sv">Svenska</a>
+      <a href="../../da/apple-container-kubernetes/" hreflang="da" lang="da">Dansk</a>
+      <a href="../../nb/apple-container-kubernetes/" hreflang="nb" lang="nb">Norsk bokmål</a>
+      <a href="../../fi/apple-container-kubernetes/" hreflang="fi" lang="fi">Suomi</a>
+      <a href="../../pl/apple-container-kubernetes/" hreflang="pl" lang="pl">Polski</a>
+      <a href="../../cs/apple-container-kubernetes/" hreflang="cs" lang="cs">Čeština</a>
+      <a href="../../sk/apple-container-kubernetes/" hreflang="sk" lang="sk">Slovenčina</a>
+      <a href="./" hreflang="hu" lang="hu" aria-current="page">Magyar</a>
+      <a href="../../ro/apple-container-kubernetes/" hreflang="ro" lang="ro">Română</a>
+      <a href="../../bg/apple-container-kubernetes/" hreflang="bg" lang="bg">Български</a>
+      <a href="../../el/apple-container-kubernetes/" hreflang="el" lang="el">Ελληνικά</a>
+      <a href="../../hr/apple-container-kubernetes/" hreflang="hr" lang="hr">Hrvatski</a>
+      <a href="../../sl/apple-container-kubernetes/" hreflang="sl" lang="sl">Slovenščina</a>
+      <a href="../../sr/apple-container-kubernetes/" hreflang="sr" lang="sr">Српски</a>
+      <a href="../../sr-Latn/apple-container-kubernetes/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a>
+      <a href="../../lt/apple-container-kubernetes/" hreflang="lt" lang="lt">Lietuvių</a>
+      <a href="../../lv/apple-container-kubernetes/" hreflang="lv" lang="lv">Latviešu</a>
+      <a href="../../et/apple-container-kubernetes/" hreflang="et" lang="et">Eesti</a>
+      <a href="../../uk/apple-container-kubernetes/" hreflang="uk" lang="uk">Українська</a>
+      <a href="../../ru/apple-container-kubernetes/" hreflang="ru" lang="ru">Русский</a>
+    </nav>
+  </main>
+
+  <script>
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+          var t = b.textContent; b.textContent = 'Másolva';
+          setTimeout(function () { b.textContent = t; }, 1400);
+        });
+      });
+    });
+  </script>
+  <script src="../../lang.js" defer></script>
+</body>
+</html>

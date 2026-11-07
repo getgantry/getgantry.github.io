@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="hu" data-copied="Másolva">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JR87M6TNM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-3JR87M6TNM');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gantry: natív macOS GUI az Apple containerhez és a Dockerhez</title>
+  <meta name="description" content="Ingyenes, nyílt forráskódú Mac GUI az Apple containerhez és a Dockerhez: Kubernetes-klaszterek, gépek, Compose, builder. Docker Desktop- és OrbStack-alternatíva.">
+  <meta name="keywords" content="apple container GUI, apple/container GUI, Apple container desktop app, apple container kubernetes, container machine VS Code, apple container compose, Docker Desktop alternative, OrbStack alternative, Podman Desktop alternative, native Docker GUI Mac, Docker over SSH, MCP server, apple container grafikus felület, apple container asztali alkalmazás, Docker Desktop alternatíva, OrbStack alternatíva, Podman Desktop alternatíva, Docker GUI Macre, Docker SSH-n keresztül, MCP-szerver">
+  <meta name="author" content="Gantry">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://getgantry.github.io/hu/">
+  <link rel="alternate" hreflang="en" href="https://getgantry.github.io/">
+  <link rel="alternate" hreflang="de" href="https://getgantry.github.io/de/">
+  <link rel="alternate" hreflang="fr" href="https://getgantry.github.io/fr/">
+  <link rel="alternate" hreflang="es" href="https://getgantry.github.io/es/">
+  <link rel="alternate" hreflang="it" href="https://getgantry.github.io/it/">
+  <link rel="alternate" hreflang="pt-PT" href="https://getgantry.github.io/pt-PT/">
+  <link rel="alternate" hreflang="nl" href="https://getgantry.github.io/nl/">
+  <link rel="alternate" hreflang="sv" href="https://getgantry.github.io/sv/">
+  <link rel="alternate" hreflang="da" href="https://getgantry.github.io/da/">
+  <link rel="alternate" hreflang="nb" href="https://getgantry.github.io/nb/">
+  <link rel="alternate" hreflang="fi" href="https://getgantry.github.io/fi/">
+  <link rel="alternate" hreflang="pl" href="https://getgantry.github.io/pl/">
+  <link rel="alternate" hreflang="cs" href="https://getgantry.github.io/cs/">
+  <link rel="alternate" hreflang="sk" href="https://getgantry.github.io/sk/">
+  <link rel="alternate" hreflang="hu" href="https://getgantry.github.io/hu/">
+  <link rel="alternate" hreflang="ro" href="https://getgantry.github.io/ro/">
+  <link rel="alternate" hreflang="bg" href="https://getgantry.github.io/bg/">
+  <link rel="alternate" hreflang="el" href="https://getgantry.github.io/el/">
+  <link rel="alternate" hreflang="hr" href="https://getgantry.github.io/hr/">
+  <link rel="alternate" hreflang="sl" href="https://getgantry.github.io/sl/">
+  <link rel="alternate" hreflang="sr" href="https://getgantry.github.io/sr/">
+  <link rel="alternate" hreflang="sr-Latn" href="https://getgantry.github.io/sr-Latn/">
+  <link rel="alternate" hreflang="lt" href="https://getgantry.github.io/lt/">
+  <link rel="alternate" hreflang="lv" href="https://getgantry.github.io/lv/">
+  <link rel="alternate" hreflang="et" href="https://getgantry.github.io/et/">
+  <link rel="alternate" hreflang="uk" href="https://getgantry.github.io/uk/">
+  <link rel="alternate" hreflang="ru" href="https://getgantry.github.io/ru/">
+  <link rel="alternate" hreflang="x-default" href="https://getgantry.github.io/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Gantry">
+  <meta property="og:locale" content="hu_HU">
+  <meta property="og:title" content="Gantry: natív macOS GUI az Apple containerhez és a Dockerhez">
+  <meta property="og:description" content="A Gantry ingyenes, nyílt forráskódú natív macOS-app az Apple container eszközéhez és a Dockerhez, helyben és SSH-n keresztül. Kubernetes-klaszterek, gépek, Compose, builder, registryk és MCP-szerver.">
+  <meta property="og:url" content="https://getgantry.github.io/hu/">
+  <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta property="og:image:width" content="3364">
+  <meta property="og:image:height" content="2116">
+  <meta property="og:image:alt" content="A Gantry flottairányítópultja Docker- és apple/container-gazdagépekkel, élő CPU- és memória-minigrafikonokkal">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gantry: natív macOS GUI az Apple containerhez és a Dockerhez">
+  <meta name="twitter:description" content="A Gantry ingyenes, nyílt forráskódú natív macOS-app az Apple container eszközéhez és a Dockerhez, helyben és SSH-n keresztül. Kubernetes-klaszterek, gépek, Compose, builder, registryk és MCP-szerver.">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta name="twitter:image:alt" content="A Gantry flottairányítópultja Docker- és apple/container-gazdagépekkel, élő CPU- és memória-minigrafikonokkal">
+  <meta name="theme-color" content="#060a10">
+  <link rel="icon" type="image/png" href="../assets/icon.png">
+  <link rel="apple-touch-icon" href="../assets/icon.png">
+  <link rel="stylesheet" href="../styles.css">
+
+  <!-- Structured data for search engines and AI agents -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://getgantry.github.io/#organization",
+        "name": "Gantry",
+        "url": "https://getgantry.github.io/",
+        "logo": "https://getgantry.github.io/assets/icon.png",
+        "sameAs": [
+          "https://github.com/getgantry/gantry"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://getgantry.github.io/#website",
+        "url": "https://getgantry.github.io/",
+        "name": "Gantry",
+        "description": "Natív macOS GUI az Apple containerhez (apple/container) és a Dockerhez, helyben és SSH-n keresztül.",
+        "publisher": {
+          "@id": "https://getgantry.github.io/#organization"
+        },
+        "inLanguage": [
+          "en",
+          "de",
+          "fr",
+          "es",
+          "it",
+          "pt-PT",
+          "nl",
+          "sv",
+          "da",
+          "nb",
+          "fi",
+          "pl",
+          "cs",
+          "sk",
+          "hu",
+          "ro",
+          "bg",
+          "el",
+          "hr",
+          "sl",
+          "sr",
+          "sr-Latn",
+          "lt",
+          "lv",
+          "et",
+          "uk",
+          "ru"
+        ]
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://getgantry.github.io/hu/#webpage",
+        "url": "https://getgantry.github.io/hu/",
+        "name": "Gantry: natív macOS GUI az Apple containerhez és a Dockerhez",
+        "description": "Ingyenes, nyílt forráskódú Mac GUI az Apple containerhez és a Dockerhez: Kubernetes-klaszterek, gépek, Compose, builder. Docker Desktop- és OrbStack-alternatíva.",
+        "inLanguage": "hu",
+        "isPartOf": {
+          "@id": "https://getgantry.github.io/#website"
+        },
+        "about": {
+          "@id": "https://getgantry.github.io/#app"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://getgantry.github.io/#app",
+        "name": "Gantry",
+        "alternateName": "Gantry az Apple containerhez",
+        "applicationCategory": "DeveloperApplication",
+        "applicationSubCategory": "Konténerkezelés",
+        "operatingSystem": "macOS 26",
+        "processorRequirements": "Apple chip vagy Intel (az apple/container-gazdagépekhez Apple chip kell)",
+        "softwareVersion": "0.25.0",
+        "inLanguage": [
+          "en",
+          "zh-Hans",
+          "de",
+          "fr",
+          "es",
+          "it",
+          "pt-PT",
+          "nl",
+          "sv",
+          "da",
+          "nb",
+          "fi",
+          "pl",
+          "cs",
+          "sk",
+          "hu",
+          "ro",
+          "bg",
+          "el",
+          "hr",
+          "sl",
+          "sr",
+          "sr-Latn",
+          "lt",
+          "lv",
+          "et",
+          "uk",
+          "ru"
+        ],
+        "keywords": "apple container GUI, apple/container, container cluster, Kubernetes, container machine, Docker Desktop alternative, OrbStack alternative, Docker over SSH, MCP server, apple container grafikus felület, Docker Desktop alternatíva, OrbStack alternatíva, Docker SSH-n keresztül, MCP-szerver",
+        "url": "https://getgantry.github.io/hu/",
+        "downloadUrl": "https://github.com/getgantry/gantry/releases/latest",
+        "installUrl": "https://getgantry.github.io/docs/install.html",
+        "releaseNotes": "https://github.com/getgantry/gantry/blob/main/CHANGELOG.md",
+        "softwareHelp": {
+          "@type": "CreativeWork",
+          "url": "https://getgantry.github.io/docs/"
+        },
+        "screenshot": "https://getgantry.github.io/assets/dashboard.png",
+        "license": "https://github.com/getgantry/gantry/blob/main/LICENSE",
+        "codeRepository": "https://github.com/getgantry/gantry",
+        "isAccessibleForFree": true,
+        "description": "A Gantry ingyenes, nyílt forráskódú natív macOS-app az Apple container eszközéhez (apple/container) és a Dockerhez, helyben és SSH-n keresztül. Az apple/container-gazdagépeken kezeli a konténereket, a Kubernetes-klasztereket, a gépeket, a Compose-projekteket, az image-buildert, a registry-bejelentkezéseket, a kerneleket, a szolgáltatásnaplókat és a rendszertulajdonságokat. Az ügynököknek MCP-szervert és App Intents-támogatást kínál.",
+        "featureList": [
+          "Natív macOS GUI az Apple containerhez (apple/container), CLI 1.0–1.6.1, verziófüggő funkciókkal",
+          "Kubernetes-klaszterek az apple/containeren (container cluster): több worker, egyéni CNI, csomópontok, kubeconfig, kubectl-környezet",
+          "Helyi image-ek betöltése Kubernetes-klaszterbe",
+          "Konténergépek: létrehozás, indítás, leállítás, erőforrások, shell, beágyazott virtualizáció, egyéni kernelek",
+          "Konténergép megnyitása a VS Code-ban Remote-SSH-n keresztül",
+          "Docker Compose az apple/containeren, szolgáltatásnevek hálózati DNS-aliasokon keresztül",
+          "Az apple/container image-builderének kezelése, registry-bejelentkezések és kerneltelepítés",
+          "Az apple/container szolgáltatásainak vezérlése, élő szolgáltatásnaplók és rendszertulajdonság-szerkesztő",
+          "Konténer commitolása image-be és Lemez TRIM-elése (container clean) az apple/containeren",
+          "Konténeres fájlböngésző feltöltéssel, letöltéssel és kihúzással",
+          "Egy irányítópult a helyi Dockerhez, az SSH-n elért Dockerhez és az apple/container-gazdagépekhez",
+          "Élő naplók regex-kereséssel, szintszűrővel és ANSI-színekkel",
+          "Valós idejű CPU-, memória-, hálózati és lemez-I/O-statisztika",
+          "Exec-terminál és hibakereső shell",
+          "Natív értesítések, ha egy konténer összeomlik, kifogy a memóriából vagy nem egészségessé válik",
+          "Távoli Docker SSH-n keresztül, ProxyJumppal és Kulcskarikában tárolt titkokkal",
+          "Idegen architektúrát jelző címkék az image-eken és konténereken",
+          "Konténerport megosztása Cloudflare Tunnelen keresztül",
+          "MCP-szerver és App Intents (Parancsok, Siri) MI-ügynököknek",
+          "Felhasználói felület 28 nyelven"
+        ],
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "publisher": {
+          "@id": "https://getgantry.github.io/#organization"
+        }
+      },
+      {
+        "@type": "HowTo",
+        "@id": "https://getgantry.github.io/hu/#install-howto",
+        "name": "A Gantry telepítése macOS-re",
+        "description": "Telepítse a Gantryt Homebrew-val, és csatlakoztassa a Dockerhez vagy az Apple containerhez.",
+        "tool": [
+          {
+            "@type": "HowToTool",
+            "name": "Homebrew"
+          }
+        ],
+        "supply": [
+          {
+            "@type": "HowToSupply",
+            "name": "Mac macOS 26-tal vagy újabbal"
+          }
+        ],
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "Telepítés Homebrew-val",
+            "text": "Futtassa: brew install --cask getgantry/tap/gantry. Vagy töltse le a legújabb kiadást a GitHubról, és húzza a Gantry.app-ot az Alkalmazások mappába.",
+            "url": "https://getgantry.github.io/hu/#install"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "A karanténjelző törlése",
+            "text": "Az app nincs hitelesítve (notarizálva). Futtassa: xattr -dr com.apple.quarantine /Applications/Gantry.app, vagy kattintson jobb gombbal a Gantry.app-ra, és válassza a Megnyitás parancsot.",
+            "url": "https://getgantry.github.io/hu/#install"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "Gazdagép hozzáadása",
+            "text": "Nyissa meg a Gantryt. Megtalálja a helyi Docker-démont. Az Apple container használatához adjon hozzá egy Apple Container-gazdagépet; ha a container CLI hiányzik, a Gantry felajánlja a telepítését.",
+            "url": "https://getgantry.github.io/docs/install.html"
+          },
+          {
+            "@type": "HowToStep",
+            "position": 4,
+            "name": "MI-ügynökök csatlakoztatása (nem kötelező)",
+            "text": "Futtassa: claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp",
+            "url": "https://getgantry.github.io/docs/mcp.html"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://getgantry.github.io/hu/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Melyik a legjobb GUI az Apple containerhez?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A Gantry ingyenes, nyílt forráskódú natív macOS GUI, amely az Apple container eszközéhez (apple/container) készült. Lefedi a konténerek életciklusát, a naplókat, a statisztikát és az exec-terminált, valamint a CLI azon részeit is, amelyekig más GUI-k nem jutnak el: Kubernetes-klaszterek (container cluster), konténergépek, image-builder, registry-bejelentkezések, kernelek, szolgáltatásnaplók és rendszertulajdonságok. A CLI 1.0–1.6.1 verzióit támogatja, és minden funkciót csak akkor kapcsol be, ha a telepített CLI támogatja. Lásd az apple/container-útmutatót."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Mi az Apple container (apple/container)?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Az apple/container az Apple nyílt forráskódú eszköze Linux-konténerek futtatására Macen. Minden konténer saját, könnyű virtuális gépen fut, amely az Apple Virtualization keretrendszerére épül. Apple chipes Mac kell hozzá, és container nevű parancssori eszközként érkezik, asztali app nélkül. Ezt az asztali appot adja hozzá a Gantry."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Támogatja a Gantry a container clustert és a Kubernetest?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Igen. Az apple/container-gazdagépen a Gantry a container cluster paranccsal hoz létre és töröl Kubernetes-klasztereket (CLI 1.6.1; a CLI 1.5.0–1.6.0 a container k8s parancsot használja). Ön választja ki a nevet, a workerek számát, a CPU-kat, a memóriát, a csomópont-image-et és a CNI-t (alapértelmezett, nincs vagy egyéni manifest). A Gantry megmutatja a csomópontokat, kiírja a kubeconfigot, kimásolja a kubectl-környezetváltó parancsot, és betölti a helyi image-eket a klaszterbe. Lásd: Kubernetes az apple/containeren."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Használható a docker compose az Apple containerrel?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Igen. Az apple/containernek nincs compose parancsa, ezért a Gantry a container CLI-n keresztül végzi az orkesztrációt: buildeli a build: szolgáltatásokat, létrehozza a projekt hálózatát és a névvel ellátott köteteket, majd a depends_on sorrendjében elindítja a szolgáltatásokat a szabványos Compose-címkékkel. A szolgáltatásnevek hálózati DNS-aliasokon keresztül oldódnak fel. Egy docker-compose.yml fájlt a Finderből, a Fájl menüből vagy az ablakra húzva nyithat meg."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Hogyan nyitható meg egy konténergép a VS Code-ban?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Indítsa el a gépet a Gantryben, és kattintson a Megnyitás a VS Code-ban gombra. A Gantry Remote-SSH-n keresztül nyitja meg a gépet a VS Code-ban, ahogy az Apple container-machine-vscode példájában. A gép image-ében futnia kell az sshd-nek, és telepítve kell lennie a VS Code-nak a Remote-SSH bővítménnyel."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Mely apple/container-verziókat támogatja a Gantry?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "A Gantryhez a container CLI 1.0-s vagy újabb verziója kell, az ajánlott verzió az 1.6.1. Kiolvassa a telepített verziót, és csak azokat a funkciókat mutatja, amelyeket az a verzió támogat, például a commitot (1.6), a Lemez TRIM-elését (1.4) és a klaszterworkereket (1.6). Ha a CLI hiányzik vagy régi, a Gantry irányított telepítést kínál."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kezelhető a Gantryvel az apple/container buildere, registryjei és kernele?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Igen. Az apple/container-gazdagép Rendszer szakasza CPU-, memória- és DNS-beállításokkal indítja, leállítja és törli az image-buildert; listázza, hozzáadja és eltávolítja a registry-bejelentkezéseket (a jelszó csak stdinen jut el a CLI-hez); telepíti az ajánlott kernelt, egy kernelfájlt vagy egy tar-archívumot; streameli a szolgáltatásnaplókat, és szerkeszti a rendszertulajdonságokat a config.toml fájlban."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Alternatívája a Gantry a Docker Desktopnak, az OrbStacknek vagy a Podman Desktopnak?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "GUI-ként igen. A Gantry ingyenes natív macOS-app konténerek, image-ek, kötetek, hálózatok, naplók és statisztikák kezelésére. Kliens, nem motor: a már futó Docker-démont (Docker Desktop, OrbStack, Colima) vagy az Apple container eszközét használja, és többgazdagépes nézetet, SSH-gazdagépeket és MCP-szervert ad hozzá. Lásd az összevetést."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Ingyenes a Gantry?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Igen. A Gantry ingyenes és nyílt forráskódú, MIT-licenc alatt. Nincs előfizetés, nincs fiók, és nincs korlátja a gazdagépek vagy a konténerek számának."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Mi kell a Gantry futtatásához?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "macOS 26 vagy újabb Apple chippel vagy Intellel, továbbá egy Docker-démon (Docker Desktop, OrbStack, Colima vagy hasonló) vagy az Apple container eszköze. Maga az apple/container Apple chipet igényel, így Intel-alapú Macen a Gantry csak Docker-gazdagépeket kezel."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Működik a Gantry az OrbStackkel, a Colimával és a Docker Desktoppal?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Igen. A Gantry közvetlenül a Docker Engine API-val kommunikál a Unix socketen keresztül, így minden démonnal működik, amely ezt elérhetővé teszi, köztük az OrbStackkel, a Colimával és a Docker Desktoppal."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Kezelhetők a Gantryvel távoli Docker-gazdagépek?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Igen. A Gantry SSH-n keresztül csatlakozik a távoli démonokhoz, ugyanúgy, mint a docker -H ssh://, ProxyJump ugrógépekkel, többkulcsos hitelesítéssel és automatikus újracsatlakozással. A szerverre semmit sem kell telepíteni, a titkok pedig a macOS Kulcskarikájában vannak."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Értesít a Gantry, ha egy konténer meghibásodik?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Igen. A Gantry natív macOS-értesítést küld, ha bármely gazdagépen – helyin, SSH-n vagy apple/containeren – egy konténer összeomlik, kifogy a memóriából, vagy nem felel meg az állapotellenőrzésnek. Az értesítésre kattintva a konténerhez ugorhat. A Gantryből indított leállítások és újraindítások nem váltanak ki értesítést, és a funkció a Beállításokban kikapcsolható."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Tud a Gantry privát registryből image-et letölteni?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Igen. Docker-gazdagépeken a Gantry a ~/.docker/config.json fájlból olvassa ki a hitelesítő adatokat (ugyanaz a docker login, amelyet már lefuttatott), beleértve a beágyazott hitelesítést, a credential helpereket és a macOS Kulcskarikáját. Az apple/container-gazdagépeken a container registry bejelentkezéseket kezeli."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Elérhetővé tehető a Gantryvel egy helyi konténer az internetről?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Igen. Egy közzétett port egyetlen kattintással megosztható egy Cloudflare Tunnelen keresztül. A Gantry szükség esetén telepíti a cloudflared eszközt, majd elindít egy gyors tunnelt (Cloudflare-fiók nélkül, ideiglenes trycloudflare.com URL-lel) vagy egy elnevezett tunnelt a saját gazdagépnevén. A nyilvános URL a port alatt jelenik meg, megnyitás, másolás és leállítás vezérlőkkel."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Electron-app a Gantry?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nem. A Gantry SwiftUI-jal és Swift 6-tal készült natív app. A felület 28 nyelven érhető el: angolul, egyszerűsített kínaiul és 26 európai nyelven, például szerbül cirill és latin betűkkel. A macOS rendszernyelvét követi."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Hogyan telepíthető a Gantry?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Futtassa a brew install --cask getgantry/tap/gantry parancsot, vagy töltse le a legújabb kiadást a GitHubról, és húzza a Gantry.app fájlt az Alkalmazások mappába."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Vezérelhetik MI-ügynökök a Gantryt?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Igen. A Gantry beépített MCP-szervert és macOS App Intents-támogatást kínál, így a Claude, a Parancsok, a Siri és a szkriptek ugyanazt érik el minden gazdagépen, az SSH-gazdagépeket is beleértve, mint a GUI: konténerek, image-ek, kötetek, hálózatok, Compose, apple/container-gépek, Kubernetes-klaszterek, apple_* rendszereszközök (szolgáltatások, builder, registryk, tulajdonságok, naplók, kernel) és portmegosztás. Hozzáadás: claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+
+  <!-- ===================== NAV ===================== -->
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">
+        <img src="../assets/icon.png" alt="Gantry-ikon" width="30" height="30">
+        <span>Gantry</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#features">Funkciók</a>
+        <a href="#fleet">Flotta</a>
+        <a href="apple-container/">apple/container</a>
+        <a href="compare/">Összevetés</a>
+        <a href="#agents">Ügynökök</a>
+        <a href="#shots">Képernyőképek</a>
+        <a href="#faq">GYIK</a>
+        <a href="../docs/index.html">Leírás</a>
+      </nav>
+      <div class="nav-right">
+        <details class="lang-menu">
+          <summary aria-label="Nyelv: Magyar" title="Nyelv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lang-name">Magyar</span><span class="lang-code">HU</span></summary>
+          <ul>
+            <li><a href="../" hreflang="en" lang="en">English</a></li>
+            <li><a href="../de/" hreflang="de" lang="de">Deutsch</a></li>
+            <li><a href="../fr/" hreflang="fr" lang="fr">Français</a></li>
+            <li><a href="../es/" hreflang="es" lang="es">Español</a></li>
+            <li><a href="../it/" hreflang="it" lang="it">Italiano</a></li>
+            <li><a href="../pt-PT/" hreflang="pt-PT" lang="pt-PT">Português</a></li>
+            <li><a href="../nl/" hreflang="nl" lang="nl">Nederlands</a></li>
+            <li><a href="../sv/" hreflang="sv" lang="sv">Svenska</a></li>
+            <li><a href="../da/" hreflang="da" lang="da">Dansk</a></li>
+            <li><a href="../nb/" hreflang="nb" lang="nb">Norsk bokmål</a></li>
+            <li><a href="../fi/" hreflang="fi" lang="fi">Suomi</a></li>
+            <li><a href="../pl/" hreflang="pl" lang="pl">Polski</a></li>
+            <li><a href="../cs/" hreflang="cs" lang="cs">Čeština</a></li>
+            <li><a href="../sk/" hreflang="sk" lang="sk">Slovenčina</a></li>
+            <li><a href="./" hreflang="hu" lang="hu" aria-current="page">Magyar</a></li>
+            <li><a href="../ro/" hreflang="ro" lang="ro">Română</a></li>
+            <li><a href="../bg/" hreflang="bg" lang="bg">Български</a></li>
+            <li><a href="../el/" hreflang="el" lang="el">Ελληνικά</a></li>
+            <li><a href="../hr/" hreflang="hr" lang="hr">Hrvatski</a></li>
+            <li><a href="../sl/" hreflang="sl" lang="sl">Slovenščina</a></li>
+            <li><a href="../sr/" hreflang="sr" lang="sr">Српски</a></li>
+            <li><a href="../sr-Latn/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a></li>
+            <li><a href="../lt/" hreflang="lt" lang="lt">Lietuvių</a></li>
+            <li><a href="../lv/" hreflang="lv" lang="lv">Latviešu</a></li>
+            <li><a href="../et/" hreflang="et" lang="et">Eesti</a></li>
+            <li><a href="../uk/" hreflang="uk" lang="uk">Українська</a></li>
+            <li><a href="../ru/" hreflang="ru" lang="ru">Русский</a></li>
+          </ul>
+        </details>
+        <a class="gh-pill" href="https://github.com/getgantry/gantry" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58l-.01-2.04c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.95 0-1.31.47-2.39 1.24-3.23-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.92 1.23 3.23 0 4.62-2.81 5.64-5.49 5.94.43.37.81 1.1.81 2.22l-.01 3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12.5C24 5.87 18.63.5 12 .5z"/></svg>
+          <span>Csillag</span> <span class="star" id="ghStars">★ 16</span>
+        </a>
+        <a class="btn btn-primary" href="https://github.com/getgantry/gantry/releases/latest" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          Letöltés
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <a id="top"></a>
+
+  <main>
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow reveal">
+          <span class="tag">macOS 26</span>
+          <span>Támogatja az apple/container 1.6.1-et. Nyílt forráskód. Ügynökökre felkészítve.</span>
+        </div>
+        <h1 class="reveal d1">Natív macOS GUI az <span class="grad">Apple containerhez</span><br>és a Dockerhez – a teljes flotta egyetlen pulton.</h1>
+        <p class="tagline reveal d2">A Gantry ingyenes, nyílt forráskódú Mac-app az Apple <a href="#apple">container</a> eszközéhez és a Dockerhez, helyben és SSH-n keresztül. Futtasson konténereket, <a href="apple-container-kubernetes/">Kubernetes-klasztereket</a>, gépeket és Compose-projekteket az apple/containeren egyetlen ablakból, a Docker-gazdagépei mellett. Natív <b>Docker Desktop-alternatíva</b> Macre. Nincs Electron. Nincs előfizetés. Nincsenek korlátok.</p>
+        <div class="cta-row reveal d3">
+          <a class="btn btn-primary btn-lg" href="https://github.com/getgantry/gantry/releases/latest" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            Letöltés macOS-re
+          </a>
+          <div class="brew">
+            <span><span class="dollar">$</span> brew install --cask getgantry/tap/gantry</span>
+            <button class="copy" data-copy="brew install --cask getgantry/tap/gantry">Másolás</button>
+          </div>
+        </div>
+        <p class="hero-note reveal d3"><b>macOS 26+</b> · Apple chip &amp; Intel · <b>MIT</b>-licenc · 28 nyelv · MCP-szerverrel</p>
+      </div>
+
+      <!-- Crane → container → dashboard stage -->
+      <div class="wrap">
+        <div class="stage-wrap reveal d2" id="stageWrap">
+          <div class="glow-floor"></div>
+          <div class="stage" id="stage">
+            <svg class="crane-svg" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+              <!-- feet -->
+              <path class="foot draw" style="--len:100" d="M78 566 H172"/>
+              <path class="foot draw" style="--len:100" d="M828 566 H922"/>
+              <!-- legs -->
+              <path class="leg draw" style="--len:520" d="M125 70 V566"/>
+              <path class="leg draw" style="--len:520" d="M875 70 V566"/>
+              <!-- beam -->
+              <path class="beam draw" style="--len:980" d="M44 64 H956"/>
+              <!-- waves -->
+              <path class="wave draw" style="--len:1100" d="M60 600 q40 -16 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0"/>
+              <path class="wave draw" style="--len:1100" d="M40 620 q40 -16 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t40 0"/>
+            </svg>
+
+            <div class="cable"></div>
+
+            <div class="payload" id="payload">
+              <div class="spreader"><span class="hook"></span></div>
+              <div class="window">
+                <div class="titlebar">
+                  <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+                  <span class="tb-title">Gantry – Flotta</span>
+                </div>
+                <div class="window-body">
+                  <div class="container-skin"></div>
+                  <img src="../assets/dashboard.png" alt="A Gantry flottairányítópultja élő CPU- és memória-minigrafikonokkal minden gazdagépről" width="1200" height="755" decoding="async" fetchpriority="high">
+                </div>
+              </div>
+            </div>
+
+            <button class="replay" id="replay" aria-label="Animáció újrajátszása">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>
+              Újra
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TRUST ===================== -->
+    <section class="trust">
+      <div class="wrap reveal">
+        <p>Működik mindazzal, amit már használ</p>
+        <div class="trust-row">
+          <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="9" width="18" height="9" rx="1"/><path d="M6 9V6h3M11 9V6h3M16 9V5h3M3 18h18"/></svg>Docker</span>
+          <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 3a14 14 0 0 1 0 18M3 12h18"/></svg>OrbStack</span>
+          <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 4 7v10l8 4 8-4V7z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg>Colima</span>
+          <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/></svg>apple/container</span>
+          <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg>Kubernetes</span>
+          <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>Távoli SSH</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FEATURES ===================== -->
+    <section class="section" id="features">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">A vezérlőpult</span>
+          <h2>Minden a Dockerhez és az apple/containerhez, Mac-módra</h2>
+          <p>Teljes, letisztult vezérlőközpont a konténereihez – alapból élő adatokkal, és olyan gyors, hogy a távoli gép is helyinek tűnik.</p>
+        </div>
+
+        <div class="bento">
+          <!-- Fleet dashboard -->
+          <div class="cell col-4 tall cell-feat reveal" id="fleet">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 14 3-3 2.5 2L15 9l3 3"/><path d="M3 8h18"/></svg></div>
+            <div class="mini">
+              <div class="mini-head"><span class="lbl">Flotta · 5 gazdagép</span><span class="pill pill-unh">5 figyelmet igényel</span></div>
+              <div id="hostList" data-running="{n} fut" data-unhealthy="{n} nem egészséges"></div>
+            </div>
+            <div class="body">
+              <h3>Egy irányítópult minden gazdagéphez</h3>
+              <p>Helyi démon, SSH-flotta és apple/container egy képernyőn – élő CPU- és memória-minigrafikonok, konténerállapot-bontás és állapotproblémák, amelyekről egyenesen a hibás konténerhez ugorhat.</p>
+            </div>
+          </div>
+
+          <!-- Live logs -->
+          <div class="cell col-2 tall cell-feat reveal d1">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h16M4 12h10M4 18h13"/><circle cx="19" cy="16" r="3"/><path d="m22 19-1.5-1.5"/></svg></div>
+            <div class="mini">
+              <div class="mini-head"><span class="lbl">naplók · superset_worker</span><span class="pill pill-run">követés</span></div>
+              <div class="logstream" id="logStream"></div>
+            </div>
+            <div class="body">
+              <h3>Naplók felturbózva</h3>
+              <p>Valós idejű követés, <b>regex</b> vagy szó szerinti ⌘F keresés, <b>szintszűrő</b> (Error→Trace), <b>ANSI-színek</b>, 50 ezer soros puffer – és egy teljes Compose-projekt összefésült <b>stack-naplói</b>.</p>
+            </div>
+          </div>
+
+          <!-- Failure notifications -->
+          <div class="cell col-2 cell-feat reveal" id="notifications">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
+            <div class="mini">
+              <div class="notif">
+                <span class="notif-ico"><img src="../assets/icon.png" alt="" width="26" height="26"></span>
+                <div class="notif-body">
+                  <div class="notif-head"><b>A konténer leállt</b><span class="notif-time">most</span></div>
+                  <p>web (<b>prod-eu</b>) kilépett, kód: 1.</p>
+                </div>
+              </div>
+              <div class="notif">
+                <span class="notif-ico"><img src="../assets/icon.png" alt="" width="26" height="26"></span>
+                <div class="notif-body">
+                  <div class="notif-head"><b>A konténer nem egészséges</b><span class="notif-time">2 perce</span></div>
+                  <p>api (<b>dedic</b>) nem felelt meg az állapotellenőrzésnek.</p>
+                </div>
+              </div>
+            </div>
+            <div class="body">
+              <h3>Azonnal tudja, ha valami elromlik</h3>
+              <p>Natív értesítés, ha bármely gazdagépen egy konténer összeomlik, kifogy a memóriából vagy nem egészségessé válik. Kattintson rá, és egyenesen a konténerhez ugrik – a saját leállításai nem váltanak ki értesítést.</p>
+            </div>
+          </div>
+
+          <!-- Real-time stats -->
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 3v18h18"/><path d="m7 14 3-4 3 3 4-6"/></svg></div>
+            <div class="mini">
+              <div class="spark-row">
+                <div class="spark-card">
+                  <div class="k">CPU</div><div class="v" style="color:var(--steel)">6.7%</div>
+                  <svg class="spark" viewBox="0 0 120 38" preserveAspectRatio="none"><path class="area" id="cpuArea"></path><path class="line" id="cpuLine" style="stroke:var(--steel)"></path></svg>
+                </div>
+                <div class="spark-card">
+                  <div class="k">Memória</div><div class="v" style="color:var(--green)">1.42 GB</div>
+                  <svg class="spark" viewBox="0 0 120 38" preserveAspectRatio="none"><path class="area" id="memArea"></path><path class="line" id="memLine" style="stroke:var(--green)"></path></svg>
+                </div>
+              </div>
+            </div>
+            <div class="body">
+              <h3>Valós idejű statisztika</h3>
+              <p>CPU, memória, hálózat &amp; lemez-I/O élő grafikonokon, másodpercenkénti mintavétellel.</p>
+            </div>
+          </div>
+
+          <!-- Exec terminal -->
+          <div class="cell col-2 cell-feat reveal d1">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></svg></div>
+            <div class="mini">
+              <div class="term">
+                <div><span class="dim">~ #</span> <span class="prompt">gantry exec</span> <span class="cmd">clickhouse-server-1</span></div>
+                <div class="out">root@clickhouse:/# <span class="acc">ps aux | head</span></div>
+                <div class="dim">807 PIDs · 6.7% cpu · 1.42 GB<span class="cursor"></span></div>
+              </div>
+            </div>
+            <div class="body">
+              <h3>Beépített exec-terminál</h3>
+              <p>Teljes terminálemuláció bármely futó konténerbe, helyibe vagy távoliba – színtémákkal (System, Solarized, Dracula, Nord).</p>
+            </div>
+          </div>
+
+          <!-- SSH -->
+          <div class="cell col-2 cell-feat reveal d2">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/><path d="M9 6h6M9 18h6"/></svg></div>
+            <h3>Távoli gazdagépek SSH-n</h3>
+            <p>Pontosan úgy tunnelez, mint a <code>docker -H ssh://</code>, a <code>dial-stdio</code> segítségével – ProxyJump ugrógépek, többkulcsos hitelesítés, automatikus újracsatlakozás. A szerverre semmit sem kell telepíteni, a titkok a Kulcskarikában vannak. Importálás egy kattintással a <code>~/.ssh/config</code> fájlból és a <code>docker context ls</code> parancsból.</p>
+          </div>
+
+          <!-- File browser -->
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v5M9.5 13.5 12 16l2.5-2.5"/></svg></div>
+            <h3>Fájlböngésző fogd és vidd módszerrel</h3>
+            <p>Böngéssze a konténer fájlrendszerét, mozgasson fájlokat be és ki, és húzzon be teljes mappákat egyenesen a Finderből – Docker- és apple/container-gazdagépeken egyaránt.</p>
+          </div>
+
+          <!-- Ports -->
+          <div class="cell col-2 cell-feat reveal d1">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+            <h3>Megnyitás böngészőben &amp; továbbítás</h3>
+            <p>Egy kattintás megnyit egy közzétett portot. Az SSH-portok automatikusan a <code>localhost</code> címre tunnelezve érkeznek – ha pedig foglalt, a Gantry választ egy szabadot, amelyet módosíthat.</p>
+          </div>
+
+          <!-- Cloudflare Tunnel -->
+          <div class="cell col-2 cell-feat reveal d2">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M7 18a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.5A3.5 3.5 0 0 1 18 18z"/></svg></div>
+            <h3>Megosztás az interneten</h3>
+            <p>Egyetlen kattintással elérhetővé tehet egy közzétett portot egy <b>Cloudflare Tunnelen</b> keresztül. A Gantry telepíti Ön helyett a <code>cloudflared</code> eszközt, majd <b>gyors tunnelt</b> (fiók nélkül, <code>*.trycloudflare.com</code> URL-lel) vagy <b>elnevezett tunnelt</b> ad a saját domainjén – ideális fejlesztői előnézethez, webhookhoz, vagy ahhoz, hogy egy MI-ügynök elérjen egy konténert a Macén.</p>
+          </div>
+
+          <!-- Compose -->
+          <div class="cell col-2 cell-feat reveal d2">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></div>
+            <h3>Compose bárhol</h3>
+            <p>A konténerek Compose-projekt szerint csoportosulnak. <b>Indítson Compose-fájlt bármely gazdagépen</b> – helyi Dockeren, SSH-n vagy apple/containeren – a beépített <b>YAML-szerkesztővel</b>; a futtató motoronként alkalmazkodik.</p>
+          </div>
+
+          <!-- Private registries -->
+          <div class="cell col-2 cell-feat reveal d1">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/><circle cx="12" cy="16" r="1.4"/></svg></div>
+            <h3>Privát registryk, automatikusan</h3>
+            <p>A letöltések a már elvégzett <code>docker login</code> bejelentkezést használják – a Gantry a <code>~/.docker/config.json</code> fájlból, a helperekből és a Kulcskarikából olvassa ki a hitelesítő adatokat, létrehozáskor, Gyorsfuttatáskor és Compose-nál egyaránt.</p>
+          </div>
+
+          <!-- Build & pull images -->
+          <div class="cell col-2 cell-feat reveal d2">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></div>
+            <h3>Image-ek buildelése &amp; letöltése</h3>
+            <p>Húzzon egy Dockerfile-t az ablakra, és a Gantry élő naplóval buildeli, vagy töltsön le hivatkozás alapján rétegenkénti folyamatjelzéssel. Címkézés, takarítás és a rétegelőzmények megtekintése. Egy jelvény mutatja azokat az image-eket, amelyek a gazdagéptől eltérő CPU-architektúrára készültek.</p>
+          </div>
+
+          <!-- Smart cleanup -->
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M6 7l1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13"/></svg></div>
+            <h3>Hely felszabadítása</h3>
+            <p>Egy panel mutatja, mi foglalja a helyet – gazdátlan image-ek, leállított konténerek, nem használt kötetek, build-gyorsítótár – méretekkel együtt, és egyenként vagy egyszerre takarítja őket. Az apple/containeren a Lemez TRIM-elését is elvégzi.</p>
+          </div>
+
+          <!-- Touch ID -->
+          <div class="cell col-2 cell-feat reveal d1">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 11v3M7 12a5 5 0 0 1 10 0v1a8 8 0 0 1-1 4M9 19a10 10 0 0 0 1-5 2 2 0 0 1 4 0M5 9a8 8 0 0 1 14 0"/></svg></div>
+            <h3>Touch ID a romboló műveletekhez</h3>
+            <p>Ha bekapcsolja, a Gantry Touch ID-t – vagy a bejelentkezési jelszavát – kéri, mielőtt eltávolít egy konténert vagy töröl egy gazdagépet. A titkok eleve a Kulcskarikában vannak.</p>
+          </div>
+
+          <!-- Terminal themes -->
+          <div class="cell col-2 cell-feat reveal d2">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18 4.5 4.5 0 0 1 0-9 4.5 4.5 0 0 0 0-9z"/></svg></div>
+            <h3>Terminál-témák</h3>
+            <p>Adjon a beépített shellnek System, Solarized Dark, Dracula vagy Nord témát – teljes előtér-, háttér- és 16 színű ANSI-paletta, azonnal alkalmazva.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== APPLE/CONTAINER ===================== -->
+    <section class="section" id="apple">
+      <div class="wrap">
+        <div class="ac-panel reveal">
+          <div class="section-head" style="margin-bottom:0; max-width:780px;">
+            <span class="kicker">apple/container GUI</span>
+            <h2>Natív macOS GUI az Apple containerhez</h2>
+            <p>Az Apple <a href="https://github.com/apple/container" target="_blank" rel="noopener">container</a> eszköze könnyű virtuális gépekként futtatja a Linux-konténereket Apple chipen, de csak parancssori eszközként érhető el. A Gantry ehhez az asztali app: ami a Docker Desktop a Dockernek, az a Gantry a <code>container</code> eszköznek. A <code>container</code> CLI minden verzióját támogatja az 1.0-tól az ajánlott <b>1.6.1</b>-ig, és minden funkciót csak akkor kapcsol be, ha a telepített CLI támogatja.</p>
+          </div>
+          <div class="ac-grid">
+            <div class="ac-item"><h3>Konténerek, naplók, statisztika és exec</h3><p>Létrehozás, indítás, leállítás, kilövés és takarítás; élő naplók, statisztika, exec-terminál, <code>top</code> és tar-export ugyanazon a felületen, mint a Docker-gazdagépei.</p></div>
+            <div class="ac-item"><h3>Kubernetes-klaszterek</h3><p>Hozzon létre több workeres Kubernetes-klasztert a <code>container cluster</code> paranccsal, válassza ki a CNI-t (alapértelmezett, nincs vagy saját manifest), kövesse a csomópontokat, írja ki a kubeconfigot, és másolja ki a <code>kubectl</code>-környezetet. <a href="apple-container-kubernetes/">Bővebben</a></p></div>
+            <div class="ac-item"><h3>Helyi image-ek betöltése klaszterbe</h3><p>Kattintson jobb gombbal egy image-re, és válassza a <b>Betöltés a klaszterbe</b> parancsot: minden csomópontra eljut, registrybe pusholás nélkül.</p></div>
+            <div class="ac-item"><h3>Konténergépek a VS Code-ban</h3><p>Hozzon létre, indítson és állítson le <code>container machine</code> Linux-környezeteket, állítsa be a CPU-kat és a memóriát, nyisson shellt, vagy nyissa meg a gépet a <b>VS Code-ban Remote-SSH-n keresztül</b>.</p></div>
+            <div class="ac-item"><h3>Beágyazott virtualizáció és egyéni kernelek</h3><p>Indítson gépet beágyazott virtualizációval (M3 vagy újabb) vagy saját kernellel. Indítson konténereket egyéni kernelről, további rendszerindítási argumentumokkal.</p></div>
+            <div class="ac-item"><h3>Compose az Apple containeren</h3><p>Az apple/containernek nincs <code>compose</code> parancsa. A Gantry futtatja a <code>docker-compose.yml</code> fájlt: buildel, létrehozza a hálózatot és a köteteket, majd <code>depends_on</code> sorrendben elindítja a szolgáltatásokat. A szolgáltatásnevek hálózati DNS-aliasokon keresztül oldódnak fel.</p></div>
+            <div class="ac-item"><h3>Hálózati DNS-aliasok</h3><p>Konténeraliasok, altartomány-aliasok, például <code>.gateway</code>, és rövid nevek, ha be van állítva alapértelmezett DNS-tartomány. Minden konténer routolható IP-címet és <code>name.domain</code> gazdagépnevet kap.</p></div>
+            <div class="ac-item"><h3>Az image-builder kezelése</h3><p>Megtekintheti a builder állapotát, image-ét, CPU-it, memóriáját és IP-címét. Indítsa CPU-, memória- és DNS-beállításokkal, állítsa le vagy törölje.</p></div>
+            <div class="ac-item"><h3>Registry-bejelentkezések</h3><p><code>container registry</code> bejelentkezések listázása, hozzáadása és eltávolítása. A jelszó csak stdinen jut el a CLI-hez, és a Gantry nem tart meg róla másolatot.</p></div>
+            <div class="ac-item"><h3>Kerneltelepítés</h3><p>Telepítse az ajánlott kernelt, egy kernelfájlt vagy egy tar-archívumot, élő folyamatjelzéssel. A Gantry figyelmeztet, ha nincs telepítve alapértelmezett kernel.</p></div>
+            <div class="ac-item"><h3>Szolgáltatások és szolgáltatásnaplók</h3><p>Indítsa, állítsa le és indítsa újra a <code>container</code> szolgáltatásokat, vesse össze a kliens- és a szerververziót, és streamelje a szolgáltatásnaplókat szint, szolgáltatás és szöveg szerint szűrve.</p></div>
+            <div class="ac-item"><h3>Rendszertulajdonság-szerkesztő</h3><p>Szerkessze a <code>container</code> rendszertulajdonságait a <code>config.toml</code> fájlban. A Gantry megjelöli az újraindítást igénylő módosításokat, és újraindítja Ön helyett a szolgáltatásokat.</p></div>
+            <div class="ac-item"><h3>Commit és Lemez TRIM-elése</h3><p>Commitoljon egy konténert image-be (<code>container commit</code>), és szabadítson fel lemezterületet a <b>Lemez TRIM-elése</b> paranccsal (<code>container clean</code>), amely a Hely felszabadítása panelen is elérhető.</p></div>
+            <div class="ac-item"><h3>Fájlböngésző: feltöltés és letöltés</h3><p>Böngéssze a konténer fájljait, töltse le őket vagy húzza ki a Finderbe (<code>container copy</code>), és húzzon be fájlokat vagy teljes mappákat.</p></div>
+            <div class="ac-item"><h3>Gyorsfuttatás és Finder</h3><p>Válasszon image-et, osszon meg egy mappát, rendelje hozzá a portokat, válasszon tartományt, majd indítsa. Kattintson jobb gombbal egy Compose-fájlra a Finderben, és nyissa meg a Gantryvel.</p></div>
+            <div class="ac-item"><h3><code>=</code> jelet tartalmazó címkék</h3><p>A <code>container</code> CLI elutasítja a <code>=</code> jelet tartalmazó címkeértékeket. A Gantry létrehozáskor kódolja, olvasáskor visszafejti őket, így egy <code>a=b</code> érték változatlan marad.</p></div>
+            <div class="ac-item"><h3>Egy flotta, két futtatókörnyezet</h3><p>Az apple/container-gazdagépek egy irányítópulton jelennek meg a helyi Docker- és SSH-gazdagépek mellett, ugyanazokkal a minigrafikonokkal, állapotjelzéssel és hibaértesítésekkel.</p></div>
+            <div class="ac-item"><h3>MCP-eszközök ügynököknek</h3><p>A beépített MCP-szerver ugyanazt a hatókört adja az ügynököknek: konténerek, gépek, klaszterek és <code>apple_*</code> rendszereszközök szolgáltatásokhoz, builderhez, registrykhez, tulajdonságokhoz, naplókhoz és kernelekhez.</p></div>
+          </div>
+          <p class="ac-links">
+            <a href="apple-container/">Az apple/container-útmutató: minden CLI-parancs és a hozzá tartozó Gantry-funkció</a>
+            <a href="apple-container-kubernetes/">Kubernetes az apple/containeren</a>
+            <a href="compare/">Gantry vs. Docker Desktop, OrbStack és Podman Desktop</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== AGENTS ===================== -->
+    <section class="section" id="agents">
+      <div class="wrap">
+        <div class="section-head center reveal">
+          <span class="kicker">Ügynökökre felkészítve</span>
+          <h2>MI általi vezérlésre tervezve</h2>
+          <p>A beépített MCP-szerver és az App Intents minden gazdagépet – az SSH-gazdagépeket is – elérhetővé tesz a Claude, a Parancsok, a Siri és a szkriptek számára, ugyanazzal a hatókörrel, mint a GUI: konténerek létrehozása és kezelése, image-ek buildelése és letöltése, kötetek és hálózatok, Compose up, apple/container-gépek és Kubernetes-klaszterek, <code>apple_*</code> rendszereszközök szolgáltatásokhoz, builderhez, registrykhez és kernelekhez, sőt egy port megosztása Cloudflare Tunnelen keresztül.</p>
+        </div>
+        <div class="agent-grid">
+          <div class="code-card reveal">
+            <div class="code-head">
+              <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+              <span class="name">Terminál – az MCP-szerver bekötése</span>
+              <button class="copy" data-copy="claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp">Copy</button>
+            </div>
+            <div class="code-body">
+<pre><span class="prompt">$</span> claude mcp add gantry -- \
+    /Applications/Gantry.app/Contents/Resources/gantry-mcp
+
+<span style="color:var(--green)">✓ MCP-szerver hozzáadva</span> <span style="color:var(--crane-2)">gantry</span>
+  tools: hosts · containers · images · volumes
+         networks · logs · stats · exec · df
+
+<span class="prompt">$</span> claude <span style="color:#cfe0ef">"miért nem egészséges a superset_worker a dedic gazdagépen?"</span><span class="cursor"></span></pre>
+            </div>
+          </div>
+          <div class="prompt-card reveal d1">
+            <h3>Másolás promptként</h3>
+            <p>Nyomja meg a <span class="kbd">⌥⌘P</span> billentyűket bármely konténeren, és a Gantry beilleszthető hibakereső promptot tesz a vágólapra – a gazdagépet és elérésének módját, az MCP <code>host_id</code> azonosítót és az eszközöket, a konténer teljes állapotát, valamint a tünethez illő feladatot.</p>
+            <div class="symptom-row">
+              <div class="symptom"><div class="state unh">Nem egészséges</div><p>„Derítsd ki, miért bukik el az állapotellenőrzés.”</p></div>
+              <div class="symptom"><div class="state crash">Összeomlási ciklus</div><p>„Nézd meg, miért omlik össze folyton.”</p></div>
+              <div class="symptom"><div class="state ok">Egészséges</div><p>Helyet hagy a saját kérdésének.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SCREENSHOTS ===================== -->
+    <section class="section" id="shots">
+      <div class="wrap">
+        <div class="section-head center reveal">
+          <span class="kicker">Közelebbről</span>
+          <h2>Úgy tervezve, mintha a rendszerrel együtt érkezett volna</h2>
+          <p>Háromoszlopos osztott nézet, Liquid Glass-anyagok, Swift Charts. Valódi képernyőképek, nem látványtervek.</p>
+        </div>
+        <div class="shots">
+          <div class="shot wide reveal">
+            <figure>
+              <div class="window dark-chrome" data-parallax="0.04">
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Konténerek – Statisztika</span></div>
+                <div class="window-body"><img src="../assets/stats.png" alt="Élő konténerstatisztika: CPU-, memória-, hálózati és lemez-I/O-grafikonok" width="3364" height="2116" loading="lazy" decoding="async"></div>
+              </div>
+              <figcaption><b>Élő statisztika.</b> CPU, memória, hálózat &amp; lemez-I/O, másodpercenként mérve.</figcaption>
+            </figure>
+          </div>
+          <div class="shot reveal">
+            <figure>
+              <div class="window dark-chrome" data-parallax="0.06">
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Gazdagép – Áttekintés</span></div>
+                <div class="window-body"><img src="../assets/overview.png" alt="Gazdagép-áttekintés CPU- és memóriamérőkkel és a Docker lemezhasználatával" width="3364" height="2116" loading="lazy" decoding="async"></div>
+              </div>
+              <figcaption><b>Gazdagép-áttekintés.</b> Mérők, lemezhasználat, a démon adatai.</figcaption>
+            </figure>
+          </div>
+          <div class="shot reveal d1">
+            <figure>
+              <div class="window dark-chrome" data-parallax="0.06">
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Flotta – Állapot</span></div>
+                <div class="window-body"><img src="../assets/dashboard.png" alt="Flottairányítópult öt gazdagéppel, kiemelt állapotproblémákkal" width="3364" height="2116" loading="lazy" decoding="async"></div>
+              </div>
+              <figcaption><b>Flottairányítópult.</b> Minden gazdagép, minden probléma, egy képernyő.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== BUILT DIFFERENT ===================== -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Másképp építve</span>
+          <h2>Nincs webes burok. Nincs saját démon.</h2>
+          <p>Csak egy gyors, natív Mac-app, amely közvetlenül a Docker Engine API-val és az Apple <code>container</code> CLI-jével kommunikál.</p>
+        </div>
+        <div class="specs">
+          <div class="spec reveal"><p class="n">100%-ban natív SwiftUI</p><p>Nem Electron. Azonnal indul, kevés memóriát használ, olyan, mint maga a rendszer.</p></div>
+          <div class="spec reveal d1"><p class="n">Swift 6</p><p>Modern, párhuzamosság szempontjából biztonságos kódbázis a legújabb eszközláncon.</p></div>
+          <div class="spec reveal d2"><p class="n">Közvetlen Engine API</p><p>Docker a Unix socketen át, Docker CLI nélkül. Az apple/container a saját <code>container</code> CLI-jén keresztül.</p></div>
+          <div class="spec reveal d3"><p class="n">Automatikus frissítés</p><p>Az EdDSA-val aláírt Sparkle-appcast naprakészen tartja az appot, észrevétlenül.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section class="section" id="faq">
+      <div class="wrap">
+        <div class="section-head center reveal">
+          <span class="kicker">GYIK</span>
+          <h2>Kérdések és válaszok</h2>
+          <p>Minden, amit érdemes tudni a Gantry telepítése előtt.</p>
+        </div>
+        <div class="faq-list reveal">
+          <details class="faq-item">
+            <summary>Melyik a legjobb GUI az Apple containerhez?</summary>
+            <p>A Gantry ingyenes, nyílt forráskódú natív macOS GUI, amely az Apple <a href="#apple">container</a> eszközéhez (apple/container) készült. Lefedi a konténerek életciklusát, a naplókat, a statisztikát és az exec-terminált, valamint a CLI azon részeit is, amelyekig más GUI-k nem jutnak el: Kubernetes-klaszterek (<code>container cluster</code>), konténergépek, image-builder, registry-bejelentkezések, kernelek, szolgáltatásnaplók és rendszertulajdonságok. A CLI 1.0–1.6.1 verzióit támogatja, és minden funkciót csak akkor kapcsol be, ha a telepített CLI támogatja. Lásd az <a href="apple-container/">apple/container-útmutatót</a>.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Mi az Apple container (apple/container)?</summary>
+            <p>Az apple/container az Apple nyílt forráskódú eszköze Linux-konténerek futtatására Macen. Minden konténer saját, könnyű virtuális gépen fut, amely az Apple Virtualization keretrendszerére épül. Apple chipes Mac kell hozzá, és <code>container</code> nevű parancssori eszközként érkezik, asztali app nélkül. Ezt az asztali appot adja hozzá a Gantry.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Támogatja a Gantry a container clustert és a Kubernetest?</summary>
+            <p>Igen. Az apple/container-gazdagépen a Gantry a <code>container cluster</code> paranccsal hoz létre és töröl Kubernetes-klasztereket (CLI 1.6.1; a CLI 1.5.0–1.6.0 a <code>container k8s</code> parancsot használja). Ön választja ki a nevet, a workerek számát, a CPU-kat, a memóriát, a csomópont-image-et és a CNI-t (alapértelmezett, nincs vagy egyéni manifest). A Gantry megmutatja a csomópontokat, kiírja a kubeconfigot, kimásolja a <code>kubectl</code>-környezetváltó parancsot, és betölti a helyi image-eket a klaszterbe. Lásd: <a href="apple-container-kubernetes/">Kubernetes az apple/containeren</a>.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Használható a docker compose az Apple containerrel?</summary>
+            <p>Igen. Az apple/containernek nincs <code>compose</code> parancsa, ezért a Gantry a <code>container</code> CLI-n keresztül végzi az orkesztrációt: buildeli a <code>build:</code> szolgáltatásokat, létrehozza a projekt hálózatát és a névvel ellátott köteteket, majd a <code>depends_on</code> sorrendjében elindítja a szolgáltatásokat a szabványos Compose-címkékkel. A szolgáltatásnevek hálózati DNS-aliasokon keresztül oldódnak fel. Egy <code>docker-compose.yml</code> fájlt a Finderből, a Fájl menüből vagy az ablakra húzva nyithat meg.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Hogyan nyitható meg egy konténergép a VS Code-ban?</summary>
+            <p>Indítsa el a gépet a Gantryben, és kattintson a <b>Megnyitás a VS Code-ban</b> gombra. A Gantry Remote-SSH-n keresztül nyitja meg a gépet a VS Code-ban, ahogy az Apple <code>container-machine-vscode</code> példájában. A gép image-ében futnia kell az <code>sshd</code>-nek, és telepítve kell lennie a VS Code-nak a Remote-SSH bővítménnyel.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Mely apple/container-verziókat támogatja a Gantry?</summary>
+            <p>A Gantryhez a <code>container</code> CLI 1.0-s vagy újabb verziója kell, az ajánlott verzió az 1.6.1. Kiolvassa a telepített verziót, és csak azokat a funkciókat mutatja, amelyeket az a verzió támogat, például a commitot (1.6), a Lemez TRIM-elését (1.4) és a klaszterworkereket (1.6). Ha a CLI hiányzik vagy régi, a Gantry irányított telepítést kínál.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Kezelhető a Gantryvel az apple/container buildere, registryjei és kernele?</summary>
+            <p>Igen. Az apple/container-gazdagép Rendszer szakasza CPU-, memória- és DNS-beállításokkal indítja, leállítja és törli az image-buildert; listázza, hozzáadja és eltávolítja a registry-bejelentkezéseket (a jelszó csak stdinen jut el a CLI-hez); telepíti az ajánlott kernelt, egy kernelfájlt vagy egy tar-archívumot; streameli a szolgáltatásnaplókat, és szerkeszti a rendszertulajdonságokat a <code>config.toml</code> fájlban.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Alternatívája a Gantry a Docker Desktopnak, az OrbStacknek vagy a Podman Desktopnak?</summary>
+            <p>GUI-ként igen. A Gantry ingyenes natív macOS-app konténerek, image-ek, kötetek, hálózatok, naplók és statisztikák kezelésére. Kliens, nem motor: a már futó Docker-démont (Docker Desktop, OrbStack, Colima) vagy az Apple <a href="#apple">container</a> eszközét használja, és többgazdagépes nézetet, SSH-gazdagépeket és MCP-szervert ad hozzá. Lásd az <a href="compare/">összevetést</a>.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Ingyenes a Gantry?</summary>
+            <p>Igen. A Gantry ingyenes és nyílt forráskódú, MIT-licenc alatt. Nincs előfizetés, nincs fiók, és nincs korlátja a gazdagépek vagy a konténerek számának.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Mi kell a Gantry futtatásához?</summary>
+            <p>macOS 26 vagy újabb Apple chippel vagy Intellel, továbbá egy Docker-démon (Docker Desktop, OrbStack, Colima vagy hasonló) vagy az Apple <a href="#apple">container</a> eszköze. Maga az apple/container Apple chipet igényel, így Intel-alapú Macen a Gantry csak Docker-gazdagépeket kezel.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Működik a Gantry az OrbStackkel, a Colimával és a Docker Desktoppal?</summary>
+            <p>Igen. A Gantry közvetlenül a Docker Engine API-val kommunikál a Unix socketen keresztül, így minden démonnal működik, amely ezt elérhetővé teszi, köztük az OrbStackkel, a Colimával és a Docker Desktoppal.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Kezelhetők a Gantryvel távoli Docker-gazdagépek?</summary>
+            <p>Igen. A Gantry SSH-n keresztül csatlakozik a távoli démonokhoz, ugyanúgy, mint a <code>docker -H ssh://</code>, ProxyJump ugrógépekkel, többkulcsos hitelesítéssel és automatikus újracsatlakozással. A szerverre semmit sem kell telepíteni, a titkok pedig a macOS Kulcskarikájában vannak.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Értesít a Gantry, ha egy konténer meghibásodik?</summary>
+            <p>Igen. A Gantry natív macOS-értesítést küld, ha bármely gazdagépen – helyin, SSH-n vagy apple/containeren – egy konténer összeomlik, kifogy a memóriából, vagy nem felel meg az állapotellenőrzésnek. Az értesítésre kattintva a konténerhez ugorhat. A Gantryből indított leállítások és újraindítások nem váltanak ki értesítést, és a funkció a Beállításokban kikapcsolható.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Tud a Gantry privát registryből image-et letölteni?</summary>
+            <p>Igen. Docker-gazdagépeken a Gantry a <code>~/.docker/config.json</code> fájlból olvassa ki a hitelesítő adatokat (ugyanaz a <code>docker login</code>, amelyet már lefuttatott), beleértve a beágyazott hitelesítést, a credential helpereket és a macOS Kulcskarikáját. Az apple/container-gazdagépeken a <code>container registry</code> bejelentkezéseket kezeli.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Elérhetővé tehető a Gantryvel egy helyi konténer az internetről?</summary>
+            <p>Igen. Egy közzétett port egyetlen kattintással megosztható egy Cloudflare Tunnelen keresztül. A Gantry szükség esetén telepíti a <code>cloudflared</code> eszközt, majd elindít egy gyors tunnelt (Cloudflare-fiók nélkül, ideiglenes trycloudflare.com URL-lel) vagy egy elnevezett tunnelt a saját gazdagépnevén. A nyilvános URL a port alatt jelenik meg, megnyitás, másolás és leállítás vezérlőkkel.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Electron-app a Gantry?</summary>
+            <p>Nem. A Gantry SwiftUI-jal és Swift 6-tal készült natív app. A felület 28 nyelven érhető el: angolul, egyszerűsített kínaiul és 26 európai nyelven, például szerbül cirill és latin betűkkel. A macOS rendszernyelvét követi.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Hogyan telepíthető a Gantry?</summary>
+            <p>Futtassa a <code>brew install --cask getgantry/tap/gantry</code> parancsot, vagy töltse le a legújabb kiadást a <a href="https://github.com/getgantry/gantry/releases/latest" target="_blank" rel="noopener">GitHubról</a>, és húzza a <code>Gantry.app</code> fájlt az Alkalmazások mappába.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Vezérelhetik MI-ügynökök a Gantryt?</summary>
+            <p>Igen. A Gantry beépített <a href="#agents">MCP-szervert</a> és macOS App Intents-támogatást kínál, így a Claude, a Parancsok, a Siri és a szkriptek ugyanazt érik el minden gazdagépen, az SSH-gazdagépeket is beleértve, mint a GUI: konténerek, image-ek, kötetek, hálózatok, Compose, apple/container-gépek, Kubernetes-klaszterek, <code>apple_*</code> rendszereszközök (szolgáltatások, builder, registryk, tulajdonságok, naplók, kernel) és portmegosztás. Hozzáadás: <code>claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp</code>.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== INSTALL ===================== -->
+    <section class="section" id="install">
+      <div class="wrap">
+        <div class="install-card reveal">
+          <h2>Telepítés egy perc alatt</h2>
+          <p class="sub">Nincs App Store, nincs fiók. Letöltés és áthúzás – vagy egyetlen Homebrew-sor.</p>
+          <div class="cta-row" style="justify-content:center">
+            <a class="btn btn-primary btn-lg" href="https://github.com/getgantry/gantry/releases/latest" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+              Letöltés macOS-re
+            </a>
+            <div class="brew">
+              <span><span class="dollar">$</span> brew install --cask getgantry/tap/gantry</span>
+              <button class="copy" data-copy="brew install --cask getgantry/tap/gantry">Másolás</button>
+            </div>
+          </div>
+          <div class="install-steps">
+            <div class="istep"><div class="num">1</div><b>Telepítés</b><p>Futtassa a Homebrew caskot, vagy töltse le a <code>.zip</code> fájlt a Kiadások oldalról, és húzza a <code>Gantry.app</code> fájlt az Alkalmazások mappába.</p></div>
+            <div class="istep"><div class="num">2</div><b>Első indítás</b><p>Még nincs hitelesítve – kattintson jobb gombbal &amp; válassza a Megnyitás parancsot, vagy törölje a karanténjelzőt: <code>xattr -dr com.apple.quarantine /Applications/Gantry.app</code></p></div>
+            <div class="istep"><div class="num">3</div><b>Gazdagép hozzáadása</b><p>A helyi Docker magától megjelenik. Az Apple containerhez adjon hozzá egy <em>Apple Container</em>-gazdagépet; a Gantry felajánlja a <code>container</code> CLI telepítését. Ügynökök: <code>claude mcp add gantry</code>.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <span class="footer-brand"><img src="../assets/icon.png" alt="Gantry-ikon" width="26" height="26">Gantry</span>
+      <p class="footer-meta">MIT-licenc · SwiftUI-jal készült · © 2026</p>
+      <nav class="footer-links">
+        <a href="https://github.com/getgantry/gantry" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/getgantry/gantry/releases/latest" target="_blank" rel="noopener">Kiadások</a>
+        <a href="../docs/index.html">Leírás</a>
+        <a href="apple-container/">apple/container-útmutató</a>
+        <a href="apple-container-kubernetes/">Kubernetes</a>
+        <a href="compare/">Összevetés</a>
+        <a href="../llms.txt">llms.txt</a>
+        <a href="#faq">GYIK</a>
+        <a href="#features">Funkciók</a>
+        <a href="#install">Telepítés</a>
+      </nav>
+      <nav class="lang-foot" aria-label="Nyelvek">
+        <a href="../" hreflang="en" lang="en">English</a>
+        <a href="../de/" hreflang="de" lang="de">Deutsch</a>
+        <a href="../fr/" hreflang="fr" lang="fr">Français</a>
+        <a href="../es/" hreflang="es" lang="es">Español</a>
+        <a href="../it/" hreflang="it" lang="it">Italiano</a>
+        <a href="../pt-PT/" hreflang="pt-PT" lang="pt-PT">Português</a>
+        <a href="../nl/" hreflang="nl" lang="nl">Nederlands</a>
+        <a href="../sv/" hreflang="sv" lang="sv">Svenska</a>
+        <a href="../da/" hreflang="da" lang="da">Dansk</a>
+        <a href="../nb/" hreflang="nb" lang="nb">Norsk bokmål</a>
+        <a href="../fi/" hreflang="fi" lang="fi">Suomi</a>
+        <a href="../pl/" hreflang="pl" lang="pl">Polski</a>
+        <a href="../cs/" hreflang="cs" lang="cs">Čeština</a>
+        <a href="../sk/" hreflang="sk" lang="sk">Slovenčina</a>
+        <a href="./" hreflang="hu" lang="hu" aria-current="page">Magyar</a>
+        <a href="../ro/" hreflang="ro" lang="ro">Română</a>
+        <a href="../bg/" hreflang="bg" lang="bg">Български</a>
+        <a href="../el/" hreflang="el" lang="el">Ελληνικά</a>
+        <a href="../hr/" hreflang="hr" lang="hr">Hrvatski</a>
+        <a href="../sl/" hreflang="sl" lang="sl">Slovenščina</a>
+        <a href="../sr/" hreflang="sr" lang="sr">Српски</a>
+        <a href="../sr-Latn/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a>
+        <a href="../lt/" hreflang="lt" lang="lt">Lietuvių</a>
+        <a href="../lv/" hreflang="lv" lang="lv">Latviešu</a>
+        <a href="../et/" hreflang="et" lang="et">Eesti</a>
+        <a href="../uk/" hreflang="uk" lang="uk">Українська</a>
+        <a href="../ru/" hreflang="ru" lang="ru">Русский</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="../app.js"></script>
+  <script src="../lang.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,936 @@
+{
+  "chrome": {
+    "nav_features": "Funcionalidades",
+    "nav_compare": "Comparar",
+    "nav_faq": "FAQ",
+    "nav_docs": "Documentação",
+    "nav_home": "Início",
+    "star": "Star",
+    "download": "Descarregar",
+    "download_mac": "Descarregar para macOS",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "releases": "Versões",
+    "foot_guide": "Guia do apple/container",
+    "foot_license": "Licença MIT · GitHub",
+    "icon_alt": "Ícone do Gantry",
+    "page_image_alt": "Painel de frota do Gantry com hosts Docker e apple/container",
+    "breadcrumb": "Navegação estrutural",
+    "faq_heading": "Perguntas e respostas",
+    "updated": "Última atualização: {date}.",
+    "callout_warn": "Atenção",
+    "language": "Idioma",
+    "languages": "Idiomas",
+    "hint_text": "Esta página também está disponível em português.",
+    "hint_link": "Ler em português",
+    "hint_close": "Fechar"
+  },
+  "home": {
+    "ld": {
+      "website_desc": "A GUI nativa do macOS para o Apple container (apple/container) e o Docker, localmente e por SSH.",
+      "app_alt_name": "Gantry para Apple container",
+      "app_subcategory": "Gestão de contentores",
+      "app_processor": "Apple silicon ou Intel (os hosts apple/container requerem Apple silicon)",
+      "app_keywords": "apple container GUI, apple/container, container cluster, Kubernetes, container machine, Docker Desktop alternative, alternativa ao Docker Desktop, alternativa ao OrbStack, Docker por SSH, servidor MCP",
+      "app_desc": "O Gantry é uma app nativa do macOS, gratuita e de código aberto, para a ferramenta container da Apple (apple/container) e para o Docker, localmente e por SSH. Nos hosts apple/container, gere contentores, clusters Kubernetes, máquinas, projetos Compose, o builder de imagens, as sessões em registos, os kernels, os logs dos serviços e as propriedades de sistema. Inclui um servidor MCP e App Intents para agentes.",
+      "features": [
+        "GUI nativa do macOS para o Apple container (apple/container), CLI 1.0 a 1.6.1, com funcionalidades adaptadas à versão",
+        "Clusters Kubernetes no apple/container (container cluster): vários workers, CNI personalizada, nós, kubeconfig, contexto kubectl",
+        "Carregar imagens locais num cluster Kubernetes",
+        "Máquinas do container: criar, iniciar, parar, recursos, shell, virtualização aninhada, kernels personalizados",
+        "Abrir uma máquina do container no VS Code por Remote-SSH",
+        "Docker Compose no apple/container, com aliases DNS de rede para os nomes dos serviços",
+        "Gestão do builder de imagens do apple/container, sessões em registos e instalação de kernels",
+        "Controlo dos serviços do apple/container, logs dos serviços em direto e editor de propriedades de sistema",
+        "Guardar um contentor como imagem e Compactar disco (container clean) no apple/container",
+        "Explorador de ficheiros do contentor com envio, transferência e arrastamento para fora",
+        "Um único painel para Docker local, Docker por SSH e hosts apple/container",
+        "Logs em direto com pesquisa por regex, filtro por nível e cores ANSI",
+        "Estatísticas de CPU, memória, rede e E/S de disco em tempo real",
+        "Terminal exec e shell de depuração",
+        "Notificações nativas quando um contentor falha, fica sem memória ou passa a estar em mau estado",
+        "Docker remoto por SSH com ProxyJump e segredos no porta-chaves",
+        "Indicadores de arquitetura diferente em imagens e contentores",
+        "Partilhar uma porta de um contentor através de um Cloudflare Tunnel",
+        "Servidor MCP e App Intents (Atalhos, Siri) para agentes de IA",
+        "Interface em 28 idiomas"
+      ],
+      "howto_name": "Como instalar o Gantry no macOS",
+      "howto_desc": "Instale o Gantry com o Homebrew e ligue-o ao Docker ou ao Apple container.",
+      "howto_supply": "Um Mac com macOS 26 ou posterior",
+      "howto_steps": [
+        {
+          "name": "Instalar com o Homebrew",
+          "text": "Execute: brew install --cask getgantry/tap/gantry. Ou descarregue a versão mais recente do GitHub e arraste o Gantry.app para Aplicações."
+        },
+        {
+          "name": "Remover o atributo de quarentena",
+          "text": "A app não está notarizada. Execute: xattr -dr com.apple.quarantine /Applications/Gantry.app, ou clique com o botão direito em Gantry.app e escolha Abrir."
+        },
+        {
+          "name": "Adicionar um host",
+          "text": "Abra o Gantry. Ele encontra o daemon Docker local. Para usar o Apple container, adicione um host Apple Container; se a CLI container não estiver instalada, o Gantry propõe configurá-la."
+        },
+        {
+          "name": "Ligar agentes de IA (opcional)",
+          "text": "Execute: claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp"
+        }
+      ]
+    },
+    "faq": {
+      "items": [
+        {
+          "q": "Qual é a melhor GUI para o Apple container?",
+          "a": "O Gantry é uma GUI nativa do macOS, gratuita e de código aberto, criada para a ferramenta <a href=\"#apple\">container</a> da Apple (apple/container). Cobre o ciclo de vida dos contentores, os logs, as estatísticas e um terminal exec, e ainda as partes da CLI a que outras GUI não chegam: clusters Kubernetes (<code>container cluster</code>), máquinas do container, o builder de imagens, as sessões em registos, os kernels, os logs dos serviços e as propriedades de sistema. Suporta a CLI 1.0 a 1.6.1 e só ativa cada funcionalidade quando a sua CLI a suporta. Consulte o <a href=\"apple-container/\">guia do apple/container</a>."
+        },
+        {
+          "q": "O que é o Apple container (apple/container)?",
+          "a": "O apple/container é a ferramenta de código aberto da Apple para executar contentores Linux num Mac. Cada contentor é executado na sua própria máquina virtual leve, baseada na framework Virtualization da Apple. Requer um Mac com Apple silicon e é distribuído como uma ferramenta de linha de comandos chamada <code>container</code>, sem app de secretária. O Gantry acrescenta essa app de secretária."
+        },
+        {
+          "q": "O Gantry suporta o container cluster e o Kubernetes?",
+          "a": "Sim. Num host apple/container, o Gantry cria e elimina clusters Kubernetes com <code>container cluster</code> (CLI 1.6.1; as CLI 1.5.0 a 1.6.0 usam <code>container k8s</code>). Pode escolher o nome, o número de workers, as CPU, a memória, a imagem dos nós e a CNI (predefinida, nenhuma ou um manifesto personalizado). O Gantry mostra os nós, escreve o kubeconfig, copia o comando de contexto <code>kubectl</code> e carrega imagens locais no cluster. Consulte <a href=\"apple-container-kubernetes/\">Kubernetes no apple/container</a>."
+        },
+        {
+          "q": "É possível usar o docker compose com o Apple container?",
+          "a": "Sim. O apple/container não tem um comando <code>compose</code>, por isso o Gantry faz a orquestração através da CLI <code>container</code>: compila os serviços com <code>build:</code>, cria a rede do projeto e os volumes com nome, e inicia cada serviço pela ordem de <code>depends_on</code> com as etiquetas padrão do Compose. Os nomes dos serviços são resolvidos através de aliases DNS de rede. Abra um <code>docker-compose.yml</code> a partir do Finder, do menu Ficheiro ou largando-o na janela."
+        },
+        {
+          "q": "Como abrir uma máquina do container no VS Code?",
+          "a": "Inicie a máquina no Gantry e clique em <b>Abrir no VS Code</b>. O Gantry abre a máquina no VS Code por Remote-SSH, como no exemplo <code>container-machine-vscode</code> da Apple. A imagem da máquina tem de executar o <code>sshd</code>, e o VS Code com a extensão Remote-SSH tem de estar instalado."
+        },
+        {
+          "q": "Que versões do apple/container são suportadas pelo Gantry?",
+          "a": "O Gantry requer a CLI <code>container</code> 1.0 ou posterior e recomenda a 1.6.1. Lê a versão instalada e mostra apenas as funcionalidades que essa versão suporta, por exemplo Guardar como imagem (1.6), Compactar disco (1.4) e workers de cluster (1.6). Se a CLI não estiver instalada ou for antiga, o Gantry propõe uma configuração guiada."
+        },
+        {
+          "q": "O Gantry consegue gerir o builder, os registos e o kernel do apple/container?",
+          "a": "Sim. A secção Sistema de um host apple/container inicia, para e elimina o builder de imagens com opções de CPU, memória e DNS; lista, adiciona e remove sessões em registos (a palavra-passe chega à CLI apenas por stdin); instala o kernel recomendado, um ficheiro de kernel ou um arquivo tar; transmite em direto os logs dos serviços; e edita as propriedades de sistema em <code>config.toml</code>."
+        },
+        {
+          "q": "O Gantry é uma alternativa ao Docker Desktop, OrbStack ou Podman Desktop?",
+          "a": "Como GUI, sim. O Gantry é uma app nativa e gratuita do macOS para gerir contentores, imagens, volumes, redes, logs e estatísticas. É um cliente, não um motor: usa o daemon Docker que já tem em execução (Docker Desktop, OrbStack, Colima) ou a ferramenta <a href=\"#apple\">container</a> da Apple, e acrescenta uma vista multi-host, hosts SSH e um servidor MCP. Consulte a <a href=\"compare/\">comparação</a>."
+        },
+        {
+          "q": "O Gantry é gratuito?",
+          "a": "Sim. O Gantry é gratuito e de código aberto, com licença MIT. Não tem subscrição, não exige conta e não tem limite de hosts nem de contentores."
+        },
+        {
+          "q": "O que é preciso para usar o Gantry?",
+          "a": "macOS 26 ou posterior num Mac com Apple silicon ou Intel, e ainda um daemon Docker (Docker Desktop, OrbStack, Colima ou semelhante) ou a ferramenta <a href=\"#apple\">container</a> da Apple. O próprio apple/container requer Apple silicon, por isso num Mac Intel o Gantry gere apenas hosts Docker."
+        },
+        {
+          "q": "O Gantry funciona com o OrbStack, o Colima e o Docker Desktop?",
+          "a": "Sim. O Gantry comunica diretamente com a API do Docker Engine através do socket Unix, por isso funciona com qualquer daemon que a exponha, incluindo o OrbStack, o Colima e o Docker Desktop."
+        },
+        {
+          "q": "O Gantry consegue gerir hosts Docker remotos?",
+          "a": "Sim. O Gantry liga-se a daemons remotos por SSH, da mesma forma que <code>docker -H ssh://</code>, com bastiões ProxyJump, autenticação com várias chaves e religação automática. Não é preciso instalar nada no servidor, e os segredos ficam no porta-chaves do macOS."
+        },
+        {
+          "q": "O Gantry avisa quando um contentor falha?",
+          "a": "Sim. O Gantry envia uma notificação nativa do macOS quando um contentor falha, fica sem memória ou falha a verificação de estado em qualquer host: local, SSH ou apple/container. Clique na notificação para ir para o contentor. As paragens e os reinícios feitos a partir do Gantry não são notificados, e pode desativar os avisos nas Definições."
+        },
+        {
+          "q": "O Gantry consegue descarregar imagens de registos privados?",
+          "a": "Sim. Nos hosts Docker, o Gantry lê as credenciais do seu <code>~/.docker/config.json</code> (o mesmo <code>docker login</code> que já executou), incluindo autenticação inline, credential helpers e o porta-chaves do macOS. Nos hosts apple/container, gere as sessões do <code>container registry</code>."
+        },
+        {
+          "q": "O Gantry consegue expor um contentor local à Internet?",
+          "a": "Sim. Um clique numa porta publicada partilha-a através de um Cloudflare Tunnel. O Gantry instala o <code>cloudflared</code> se for preciso e depois inicia um túnel rápido (sem conta Cloudflare, com um URL temporário trycloudflare.com) ou um túnel com nome no seu próprio nome de host. O URL público aparece por baixo da porta, com controlos para abrir, copiar e parar."
+        },
+        {
+          "q": "O Gantry é uma app Electron?",
+          "a": "Não. O Gantry é uma app nativa criada com SwiftUI e Swift 6. A interface está disponível em 28 idiomas: inglês, chinês simplificado e 26 idiomas europeus, por exemplo o sérvio em alfabeto cirílico e latino. Segue o idioma do sistema macOS."
+        },
+        {
+          "q": "Como instalar o Gantry?",
+          "a": "Execute <code>brew install --cask getgantry/tap/gantry</code>, ou descarregue a versão mais recente do <a href=\"https://github.com/getgantry/gantry/releases/latest\" target=\"_blank\" rel=\"noopener\">GitHub</a> e arraste o <code>Gantry.app</code> para Aplicações."
+        },
+        {
+          "q": "Os agentes de IA podem controlar o Gantry?",
+          "a": "Sim. O Gantry inclui um <a href=\"#agents\">servidor MCP</a> e App Intents do macOS, por isso o Claude, os Atalhos, a Siri e os scripts chegam onde a GUI chega em todos os hosts, incluindo os hosts SSH: contentores, imagens, volumes, redes, Compose, máquinas do apple/container, clusters Kubernetes, ferramentas de sistema <code>apple_*</code> (serviços, builder, registos, propriedades, logs, kernel) e partilha de portas. Adicione-o com <code>claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp</code>."
+        }
+      ],
+      "kicker": "Perguntas frequentes",
+      "h2": "As respostas às suas perguntas",
+      "p": "Tudo o que pode querer saber antes de instalar o Gantry."
+    },
+    "apple": {
+      "items": [
+        {
+          "h": "Contentores, logs, estatísticas e exec",
+          "p": "Crie, inicie, pare, termine à força e limpe; logs em direto, estatísticas, um terminal exec, <code>top</code> e exportação para tar, na mesma interface dos seus hosts Docker."
+        },
+        {
+          "h": "Clusters Kubernetes",
+          "p": "Crie com <code>container cluster</code> um cluster Kubernetes com vários workers, escolha a CNI (predefinida, nenhuma ou o seu próprio manifesto), acompanhe os nós, escreva o kubeconfig e copie o contexto <code>kubectl</code>. <a href=\"apple-container-kubernetes/\">Saiba mais</a>"
+        },
+        {
+          "h": "Carregar imagens locais num cluster",
+          "p": "Clique com o botão direito numa imagem e escolha <b>Carregar no cluster</b> para a enviar para todos os nós, sem enviar para um registo."
+        },
+        {
+          "h": "Máquinas do container no VS Code",
+          "p": "Crie, inicie e pare ambientes Linux com <code>container machine</code>, defina CPU e memória, abra uma shell ou abra a máquina no <b>VS Code por Remote-SSH</b>."
+        },
+        {
+          "h": "Virtualização aninhada e kernels personalizados",
+          "p": "Arranque uma máquina com virtualização aninhada (M3 ou posterior) ou com o seu próprio kernel. Arranque contentores a partir de um kernel personalizado com argumentos de arranque adicionais."
+        },
+        {
+          "h": "Compose para o Apple container",
+          "p": "O apple/container não tem <code>compose</code>. O Gantry executa o seu <code>docker-compose.yml</code>: compila, cria a rede e os volumes, e inicia os serviços pela ordem de <code>depends_on</code>. Os nomes dos serviços são resolvidos através de aliases DNS de rede."
+        },
+        {
+          "h": "Aliases DNS de rede",
+          "p": "Aliases de contentor, aliases de subárvore como <code>.gateway</code> e nomes curtos quando há um domínio DNS predefinido. Cada contentor recebe um IP encaminhável e um nome de host <code>name.domain</code>."
+        },
+        {
+          "h": "Gerir o builder de imagens",
+          "p": "Veja o estado, a imagem, as CPU, a memória e o IP do builder. Inicie-o com opções de CPU, memória e DNS, pare-o ou elimine-o."
+        },
+        {
+          "h": "Sessões em registos",
+          "p": "Liste, adicione e remova sessões do <code>container registry</code>. A palavra-passe chega à CLI apenas por stdin, e o Gantry não guarda nenhuma cópia."
+        },
+        {
+          "h": "Instalação do kernel",
+          "p": "Instale o kernel recomendado, um ficheiro de kernel ou um arquivo tar, com o progresso em direto. O Gantry avisa quando não há nenhum kernel predefinido instalado."
+        },
+        {
+          "h": "Serviços e logs dos serviços",
+          "p": "Inicie, pare e reinicie os serviços do <code>container</code>, compare as versões do cliente e do servidor, e acompanhe em direto os logs dos serviços filtrados por nível, serviço e texto."
+        },
+        {
+          "h": "Editor de propriedades de sistema",
+          "p": "Edite as propriedades de sistema do <code>container</code> em <code>config.toml</code>. O Gantry assinala as alterações que exigem reinício e reinicia os serviços por si."
+        },
+        {
+          "h": "Guardar como imagem e Compactar disco",
+          "p": "Guarde um contentor como imagem (<code>container commit</code>) e recupere espaço em disco com <b>Compactar disco</b> (<code>container clean</code>), também disponível no painel Recuperar espaço."
+        },
+        {
+          "h": "Explorador de ficheiros: envio e transferência",
+          "p": "Explore os ficheiros de um contentor, transfira-os ou arraste-os para o Finder (<code>container copy</code>), e largue lá dentro ficheiros ou pastas inteiras."
+        },
+        {
+          "h": "Execução rápida e Finder",
+          "p": "Escolha uma imagem, partilhe uma pasta, mapeie portas, escolha um domínio e execute. Clique com o botão direito num ficheiro Compose no Finder e abra-o com o Gantry."
+        },
+        {
+          "h": "Etiquetas que contêm <code>=</code>",
+          "p": "A CLI <code>container</code> rejeita valores de etiqueta com <code>=</code>. O Gantry codifica-os ao criar e descodifica-os ao ler, por isso um valor como <code>a=b</code> fica intacto."
+        },
+        {
+          "h": "Uma frota, dois runtimes",
+          "p": "Os hosts apple/container ficam ao lado dos seus hosts Docker locais e SSH num único painel, com os mesmos minigráficos, o mesmo estado de saúde e as mesmas notificações de falhas."
+        },
+        {
+          "h": "Ferramentas MCP para agentes",
+          "p": "O servidor MCP incluído dá aos agentes o mesmo alcance: contentores, máquinas, clusters e as ferramentas de sistema <code>apple_*</code> para serviços, builder, registos, propriedades, logs e kernels."
+        }
+      ],
+      "kicker": "GUI para o apple/container",
+      "h2": "A GUI nativa do macOS para o Apple container",
+      "p": "A ferramenta <a href=\"https://github.com/apple/container\" target=\"_blank\" rel=\"noopener\">container</a> da Apple executa contentores Linux como máquinas virtuais leves em Macs com Apple silicon, mas só é distribuída como ferramenta de linha de comandos. O Gantry é a app de secretária para ela: o que o Docker Desktop é para o Docker, o Gantry é para o <code>container</code>. Suporta todas as CLI <code>container</code> desde a 1.0 até à <b>1.6.1</b> recomendada, e só ativa cada funcionalidade quando a CLI instalada a suporta.",
+      "link_guide": "Guia do apple/container: cada comando da CLI e a funcionalidade do Gantry correspondente",
+      "link_k8s": "Kubernetes no apple/container",
+      "link_compare": "Gantry vs Docker Desktop, OrbStack e Podman Desktop"
+    },
+    "title": "Gantry: a GUI nativa do macOS para Apple container e Docker",
+    "desc": "GUI gratuita e de código aberto para Apple container e Docker no Mac: clusters Kubernetes, máquinas, Compose e builder. Alternativa ao Docker Desktop e OrbStack.",
+    "keywords": "apple container GUI, apple/container GUI, Apple container desktop app, apple container kubernetes, container machine VS Code, apple container compose, Docker Desktop alternative, OrbStack alternative, alternativa ao Docker Desktop, alternativa ao OrbStack, alternativa ao Podman Desktop, GUI Docker para Mac, interface gráfica Docker Mac, GUI para Apple container, Docker por SSH, servidor MCP",
+    "og_desc": "O Gantry é uma app nativa do macOS, gratuita e de código aberto, para a ferramenta container da Apple e para o Docker, localmente e por SSH. Clusters Kubernetes, máquinas, Compose, builder, registos e um servidor MCP.",
+    "og_image_alt": "Painel de frota do Gantry com hosts Docker e apple/container e minigráficos de CPU e memória em direto",
+    "nav": {
+      "fleet": "Frota",
+      "agents": "Agentes",
+      "shots": "Capturas",
+      "install": "Instalar"
+    },
+    "hero": {
+      "eyebrow": "Suporta o apple/container 1.6.1. Código aberto. Pronto para agentes.",
+      "h1": "A GUI nativa do macOS para o <span class=\"grad\">Apple container</span><br>e o Docker: toda a sua frota num só painel.",
+      "tagline": "O Gantry é uma app gratuita e de código aberto para Mac, para a ferramenta <a href=\"#apple\">container</a> da Apple e para o Docker, localmente e por SSH. Execute contentores, <a href=\"apple-container-kubernetes/\">clusters Kubernetes</a>, máquinas e projetos Compose no apple/container a partir de uma só janela, ao lado dos seus hosts Docker. Uma <b>alternativa nativa ao Docker Desktop</b> para Mac. Sem Electron. Sem subscrição. Sem limites.",
+      "note": "<b>macOS 26+</b> · Apple silicon e Intel · Licença <b>MIT</b> · 28 idiomas · Servidor MCP incluído",
+      "window_title": "Gantry — Frota",
+      "img_alt": "Painel de frota do Gantry com minigráficos de CPU e memória em direto de todos os hosts",
+      "replay_label": "Repetir a animação",
+      "replay": "Repetir"
+    },
+    "trust": {
+      "title": "Funciona com tudo o que já utiliza",
+      "ssh": "SSH remoto"
+    },
+    "features": {
+      "kicker": "O plano de controlo",
+      "h2": "Tudo do Docker e do apple/container, à maneira do Mac",
+      "p": "Um centro de comando completo e sem distrações para os seus contentores: em direto por predefinição e tão rápido que parece local, mesmo quando não é.",
+      "fleet": {
+        "lbl": "Frota · 5 hosts",
+        "pill": "5 requerem atenção",
+        "h3": "Um painel para todos os hosts",
+        "p": "Daemon local, frota SSH e apple/container num só ecrã: minigráficos de CPU e memória em direto, contentores divididos por estado e problemas de saúde que levam diretamente ao culpado.",
+        "running": "{n} em execução",
+        "unhealthy": "{n} em mau estado"
+      },
+      "logs": {
+        "lbl": "logs · superset_worker",
+        "pill": "acompanhar",
+        "h3": "Logs com superpoderes",
+        "p": "Acompanhamento em tempo real, pesquisa ⌘F por <b>regex</b> ou texto literal, <b>filtro por nível</b> (Error→Trace), <b>cores ANSI</b>, um buffer de 50 mil linhas e <b>logs da stack</b> combinados de todo um projeto Compose."
+      },
+      "notify": {
+        "n1_title": "Contentor parado",
+        "n1_time": "agora",
+        "n1_text": "web em <b>prod-eu</b> terminou com o código 1.",
+        "n2_title": "Contentor em mau estado",
+        "n2_time": "2 min",
+        "n2_text": "api em <b>dedic</b> falhou a verificação de estado.",
+        "h3": "Saiba no momento em que falha",
+        "p": "Uma notificação nativa quando um contentor falha, fica sem memória ou passa a estar em mau estado em qualquer host. Clique para ir diretamente para o contentor; as paragens feitas por si não são notificadas."
+      },
+      "stats": {
+        "mem": "Memória",
+        "h3": "Estatísticas em tempo real",
+        "p": "CPU, memória, rede e E/S de disco em gráficos em direto, com amostragem a cada segundo."
+      },
+      "exec": {
+        "h3": "Terminal exec integrado",
+        "p": "Emulação de terminal completa em qualquer contentor em execução, local ou remoto, com temas de cores (Sistema, Solarized, Dracula, Nord)."
+      },
+      "ssh": {
+        "h3": "Hosts remotos por SSH",
+        "p": "Túneis exatamente como <code>docker -H ssh://</code> através de <code>dial-stdio</code>: bastiões ProxyJump, autenticação com várias chaves, religação automática. Nada a instalar no servidor, segredos no porta-chaves. Importação com um clique a partir de <code>~/.ssh/config</code> e <code>docker context ls</code>."
+      },
+      "files": {
+        "h3": "Explorador de ficheiros com arrastar e largar",
+        "p": "Explore o sistema de ficheiros de um contentor, mova ficheiros para dentro e para fora, e largue pastas inteiras diretamente do Finder, tanto em hosts Docker como apple/container."
+      },
+      "ports": {
+        "h3": "Abrir no navegador e reencaminhar",
+        "p": "Um clique abre uma porta publicada. As portas SSH são encaminhadas automaticamente por túnel para <code>localhost</code> e, se a porta estiver ocupada, o Gantry escolhe uma livre que pode editar."
+      },
+      "tunnel": {
+        "h3": "Partilhar na Internet",
+        "p": "Um clique expõe uma porta publicada através de um <b>Cloudflare Tunnel</b>. O Gantry instala o <code>cloudflared</code> por si e depois disponibiliza um <b>túnel rápido</b> (sem conta, com um URL <code>*.trycloudflare.com</code>) ou um <b>túnel com nome</b> no seu próprio domínio: ideal para uma pré-visualização de desenvolvimento, um webhook ou para um agente de IA chegar a um contentor no seu Mac."
+      },
+      "compose": {
+        "h3": "Compose em qualquer host",
+        "p": "Os contentores são agrupados pelo projeto Compose. <b>Execute um ficheiro Compose em qualquer host</b> (Docker local, SSH ou apple/container) com um <b>editor YAML</b> integrado; o executor adapta-se a cada motor."
+      },
+      "registries": {
+        "h3": "Registos privados, automaticamente",
+        "p": "Os descarregamentos usam o <code>docker login</code> que já fez: o Gantry obtém as credenciais de <code>~/.docker/config.json</code>, dos helpers e do porta-chaves, ao criar, na Execução rápida e no Compose."
+      },
+      "images": {
+        "h3": "Compilar e descarregar imagens",
+        "p": "Largue um Dockerfile na janela para compilar com log em direto, ou descarregue por referência com o progresso de cada camada. Adicione tags, limpe e consulte o histórico de camadas. Um indicador assinala as imagens compiladas para uma arquitetura de CPU diferente da do host."
+      },
+      "cleanup": {
+        "h3": "Recuperar espaço",
+        "p": "Um painel mostra o que está a ocupar espaço (imagens órfãs, contentores parados, volumes não utilizados, cache de compilação) com os respetivos tamanhos, e limpa cada item ou todos. No apple/container, também executa Compactar disco."
+      },
+      "touchid": {
+        "h3": "Touch ID em ações destrutivas",
+        "p": "Se ativar esta opção, o Gantry pede o Touch ID (ou a palavra-passe de início de sessão) antes de remover um contentor ou eliminar um host. Os segredos já ficam no porta-chaves."
+      },
+      "themes": {
+        "h3": "Temas do terminal",
+        "p": "Vista a shell integrada com Sistema, Solarized Dark, Dracula ou Nord: uma paleta completa de primeiro plano, fundo e 16 cores ANSI, aplicada em direto."
+      }
+    },
+    "agents": {
+      "kicker": "Pronto para agentes",
+      "h2": "Feito para ser controlado por IA",
+      "p": "Um servidor MCP incluído e App Intents expõem todos os hosts, incluindo os SSH, ao Claude, aos Atalhos, à Siri e a scripts, com o mesmo alcance da GUI: criar e gerir contentores, compilar e descarregar imagens, volumes e redes, Compose Up, máquinas e clusters Kubernetes do apple/container, as ferramentas de sistema <code>apple_*</code> para serviços, builder, registos e kernels, e até expor uma porta através de um Cloudflare Tunnel.",
+      "term_title": "Terminal: ligar o servidor MCP",
+      "term_added": "✓ Servidor MCP adicionado",
+      "term_question": "\"porque é que o superset_worker está em mau estado no dedic?\"",
+      "prompt_h3": "Copiar como prompt",
+      "prompt_p": "Prima <span class=\"kbd\">⌥⌘P</span> em qualquer contentor e o Gantry coloca na área de transferência um prompt de depuração pronto a colar: o host e como lá chegar, o <code>host_id</code> e as ferramentas MCP, o estado completo do contentor e uma tarefa adequada ao sintoma.",
+      "s1_state": "Em mau estado",
+      "s1_text": "«Depurar a verificação de estado que está a falhar»",
+      "s2_state": "Falhas em ciclo",
+      "s2_text": "«Descobrir porque é que continua a falhar»",
+      "s3_state": "Em bom estado",
+      "s3_text": "Deixa espaço para a sua própria pergunta."
+    },
+    "shots": {
+      "kicker": "Um olhar mais atento",
+      "h2": "Concebido para parecer parte do sistema",
+      "p": "Vista dividida em três colunas, materiais Liquid Glass, Swift Charts. Capturas de ecrã reais, sem maquetas.",
+      "stats_title": "Contentores — Estatísticas",
+      "stats_alt": "Estatísticas de contentores em direto: gráficos de CPU, memória, rede e E/S de disco",
+      "stats_caption": "<b>Estatísticas em direto.</b> CPU, memória, rede e E/S de disco, com amostragem a cada segundo.",
+      "overview_title": "Host — Vista geral",
+      "overview_alt": "Vista geral do host com indicadores de CPU e memória e utilização de disco do Docker",
+      "overview_caption": "<b>Vista geral do host.</b> Indicadores, utilização de disco, dados do daemon.",
+      "fleet_title": "Frota — Estado de saúde",
+      "fleet_alt": "Painel de frota com cinco hosts e os problemas de saúde em destaque",
+      "fleet_caption": "<b>Painel de frota.</b> Todos os hosts, todos os problemas, um só ecrã."
+    },
+    "built": {
+      "kicker": "Feito de outra forma",
+      "h2": "Sem invólucros web. Sem daemons próprios.",
+      "p": "Apenas uma app nativa e rápida para Mac que fala diretamente com a API do Docker Engine e com a CLI <code>container</code> da Apple.",
+      "swiftui_n": "SwiftUI 100% nativo",
+      "swiftui_p": "Não é Electron. Abre instantaneamente, gasta pouca memória e parece parte do sistema.",
+      "swift6_n": "Swift 6",
+      "swift6_p": "Código moderno e seguro em concorrência, na toolchain mais recente.",
+      "api_n": "API do Engine direta",
+      "api_p": "Docker através do socket Unix, sem precisar da CLI do Docker. O apple/container através da sua própria CLI <code>container</code>.",
+      "updates_n": "Atualizações automáticas",
+      "updates_p": "Um appcast Sparkle assinado com EdDSA mantém tudo atualizado, sem incomodar."
+    },
+    "install": {
+      "h2": "Instale num minuto",
+      "sub": "Sem App Store, sem conta. Descarregue e arraste, ou uma linha de Homebrew.",
+      "s1_title": "Instalar",
+      "s1_text": "Execute o cask do Homebrew, ou descarregue o <code>.zip</code> em Versões e arraste o <code>Gantry.app</code> para Aplicações.",
+      "s2_title": "Primeira abertura",
+      "s2_text": "Ainda não está notarizada: clique com o botão direito e escolha Abrir, ou remova a quarentena com <code>xattr -dr com.apple.quarantine /Applications/Gantry.app</code>",
+      "s3_title": "Adicionar um host",
+      "s3_text": "O Docker local aparece sozinho. Para o Apple container, adicione um host <em>Apple Container</em>; o Gantry propõe configurar a CLI <code>container</code>. Agentes: <code>claude mcp add gantry</code>."
+    },
+    "footer_meta": "Licença MIT · Feito com SwiftUI · © 2026"
+  },
+  "guide": {
+    "title": "GUI do Apple container para Mac: guia completo do apple/container",
+    "crumb": "Guia do apple/container",
+    "desc": "O que é o container da Apple, como o instalar e como o Gantry o gere: cada comando da CLI container e a funcionalidade do Gantry, do Compose ao Kubernetes.",
+    "table_head": [
+      "Comando da CLI",
+      "Funcionalidade do Gantry",
+      "Versão da CLI exigida pelo Gantry"
+    ],
+    "table": [
+      [
+        "<code>container run</code>, <code>container create</code>",
+        "Folha Novo contentor e Execução rápida: imagem, nome, comando, portas, ambiente, volumes, domínio DNS, kernel personalizado e argumentos de arranque",
+        "Qualquer"
+      ],
+      [
+        "<code>container list --all</code>",
+        "Lista Contentores, agrupada por projeto Compose, com filtros de estado e pesquisa",
+        "Qualquer"
+      ],
+      [
+        "<code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code>",
+        "Barra de ferramentas, menu de contexto e painel da barra de menus",
+        "Qualquer"
+      ],
+      [
+        "<code>container logs</code>",
+        "Separador Logs: acompanhamento em direto, pesquisa por regex, filtro por nível, cores ANSI",
+        "Qualquer"
+      ],
+      [
+        "<code>container stats</code>",
+        "Separador Estatísticas e minigráficos do painel de frota",
+        "Qualquer"
+      ],
+      [
+        "<code>container exec</code>",
+        "Separador Terminal (shell interativa) e separador Processos",
+        "Qualquer"
+      ],
+      [
+        "<code>container inspect</code>",
+        "Separadores Vista geral e Inspecionar",
+        "Qualquer"
+      ],
+      [
+        "<code>container export</code>",
+        "Exportar sistema de ficheiros (tar)",
+        "Qualquer"
+      ],
+      [
+        "<code>container commit</code>",
+        "Guardar como imagem",
+        "1.6"
+      ],
+      [
+        "<code>container copy</code>",
+        "Separador Ficheiros: transferir e arrastar para o Finder (o contentor tem de estar iniciado)",
+        "Qualquer; testado na 1.6.1"
+      ],
+      [
+        "<code>container exec</code> com <code>tar</code>",
+        "Separador Ficheiros: enviar ficheiros e largar pastas inteiras a partir do Finder",
+        "Qualquer"
+      ],
+      [
+        "<code>container clean</code>",
+        "Compactar disco num contentor em execução, e uma linha em Recuperar espaço",
+        "1.4"
+      ],
+      [
+        "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
+        "Imagens: descarregar com progresso, tag, remover, limpar, inspecionar",
+        "Qualquer"
+      ],
+      [
+        "<code>container build</code>",
+        "Compila os serviços <code>build:</code> de um ficheiro Compose",
+        "Qualquer"
+      ],
+      [
+        "<code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>",
+        "Volumes",
+        "Qualquer"
+      ],
+      [
+        "<code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>",
+        "Redes",
+        "Qualquer"
+      ],
+      [
+        "<code>--network &lt;name&gt;,alias=…</code>",
+        "Aliases DNS de rede, aliases de subárvore (<code>.gateway</code>) e nomes de serviços do Compose",
+        "Qualquer; testado na 1.6.1"
+      ],
+      [
+        "<code>container system start</code>, <code>stop</code>",
+        "Secção Sistema: iniciar, parar e reiniciar os serviços; também na barra de menus e nas Definições",
+        "Qualquer"
+      ],
+      [
+        "<code>container system status</code>, <code>version</code>",
+        "Secção Sistema: estado, versões do cliente e do servidor, dados do host",
+        "Qualquer"
+      ],
+      [
+        "<code>container system logs</code>",
+        "Secção Sistema: Logs dos serviços, em direto ou de 5 minutos a 1 dia, filtrados por nível, serviço e texto",
+        "Qualquer"
+      ],
+      [
+        "<code>container system property list</code>",
+        "Secção Sistema: editor de Propriedades de sistema, guardadas em <code>~/.config/container/config.toml</code>",
+        "Qualquer; testado na 1.6.1"
+      ],
+      [
+        "<code>container system dns create</code>, <code>delete</code>, <code>list</code>",
+        "Definições ▸ Apple: domínios DNS locais e um domínio predefinido",
+        "Qualquer"
+      ],
+      [
+        "<code>container system kernel set</code>",
+        "Secção Sistema: instalar o kernel recomendado, um ficheiro de kernel ou um arquivo tar",
+        "Qualquer"
+      ],
+      [
+        "<code>container system df</code>",
+        "Utilização de disco na vista geral do host e em Recuperar espaço",
+        "Qualquer"
+      ],
+      [
+        "<code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code>",
+        "Secção Sistema: Builder de imagens com opções de CPU, memória e DNS",
+        "Qualquer"
+      ],
+      [
+        "<code>container registry login</code>, <code>logout</code>, <code>list</code>",
+        "Secção Sistema: Sessões em registos (palavra-passe apenas por stdin)",
+        "Qualquer"
+      ],
+      [
+        "<code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code>",
+        "Máquinas: criar, iniciar, parar, eliminar, máquina predefinida, CPU e memória, shell, inspecionar, Abrir no VS Code",
+        "Qualquer; virtualização aninhada e kernels: 1.1"
+      ],
+      [
+        "<code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code>",
+        "Clusters: clusters Kubernetes, nós, kubeconfig, contexto kubectl, Carregar no cluster",
+        "1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)"
+      ],
+      [
+        "Sem comando <code>compose</code>",
+        "Executor Compose: inicia um <code>docker-compose.yml</code> a partir do Finder, do menu Ficheiro ou por arrastar e largar",
+        "Qualquer"
+      ]
+    ],
+    "callout": "Utilize o pacote de instalação assinado, não a versão do Homebrew. A versão do Homebrew não inclui o backend de máquinas, por isso o <code>container machine</code> não consegue funcionar.",
+    "code_mcp": "Adicionar o servidor MCP do Gantry",
+    "faq": [
+      {
+        "q": "Qual é a melhor GUI para o Apple container?",
+        "a": "O Gantry é uma GUI nativa do macOS, gratuita e de código aberto, criada para o apple/container. Transpõe a CLI <code>container</code> para uma app de secretária: contentores, logs, estatísticas e exec, e ainda clusters Kubernetes, máquinas, o builder de imagens, sessões em registos, kernels, logs dos serviços e propriedades de sistema. A tabela desta página lista cada comando e a funcionalidade do Gantry que o utiliza."
+      },
+      {
+        "q": "O Apple container tem interface gráfica?",
+        "a": "A Apple distribui o <code>container</code> apenas como ferramenta de linha de comandos. O Gantry é uma app de código aberto independente que lhe dá uma GUI, ao lado dos seus hosts Docker."
+      },
+      {
+        "q": "É possível usar o docker compose com o Apple container?",
+        "a": "O apple/container não tem um comando <code>compose</code>. O Gantry lê um <code>docker-compose.yml</code>, compila os serviços com <code>build:</code>, cria a rede e os volumes com nome, e inicia os serviços pela ordem de <code>depends_on</code>. Os nomes dos serviços são resolvidos através de aliases DNS de rede."
+      },
+      {
+        "q": "Como abrir uma máquina do container no VS Code?",
+        "a": "Inicie a máquina no Gantry e clique em <b>Abrir no VS Code</b>. O Gantry abre-a por Remote-SSH, como no exemplo <code>container-machine-vscode</code> da Apple. A imagem da máquina tem de executar o <code>sshd</code>."
+      },
+      {
+        "q": "O Apple container funciona em Macs Intel?",
+        "a": "Não. O apple/container requer um Mac com Apple silicon. O Gantry também funciona em Macs Intel, mas aí gere apenas hosts Docker."
+      },
+      {
+        "q": "Que versão da CLI container devo instalar?",
+        "a": "O Gantry requer a 1.0 ou posterior e é testado com a 1.6.1. Instale-a com o pacote de instalação assinado da <a href=\"https://github.com/apple/container/releases\">página de versões do apple/container</a>. A versão do Homebrew não inclui o backend de máquinas, por isso o <code>container machine</code> não funciona com ela."
+      }
+    ],
+    "body": {
+      "h1": "Apple container no Mac: o guia completo e a GUI",
+      "lead": "O apple/container executa contentores Linux no seu Mac, cada um na sua própria máquina virtual leve. É distribuído como ferramenta de linha de comandos. O Gantry é uma GUI nativa do macOS para ele. Este guia explica a ferramenta, como a configurar e que funcionalidade do Gantry cobre cada comando <code>container</code>.",
+      "tldr": "<strong>Em resumo.</strong> O Gantry é uma app gratuita e de código aberto (MIT) para macOS que gere a ferramenta <code>container</code> da Apple e o Docker numa só janela. Suporta a CLI <code>container</code> 1.0 a 1.6.1 (recomendada) e mostra apenas as funcionalidades que a sua versão da CLI suporta. Instale-o com <code>brew install --cask getgantry/tap/gantry</code>.",
+      "what-is": {
+        "h": "O que é o apple/container?",
+        "p1": "O <a href=\"https://github.com/apple/container\">apple/container</a> é uma ferramenta de código aberto da Apple, escrita em Swift, que cria e executa contentores Linux num Mac. O Docker Desktop executa todos os contentores numa única VM Linux partilhada; o apple/container executa cada contentor na sua própria máquina virtual leve, baseada na framework Virtualization da Apple. Utiliza imagens OCI padrão, por isso descarrega dos mesmos registos que o Docker e envia para eles.",
+        "li1": "<strong>Hardware:</strong> um Mac com Apple silicon.",
+        "li2": "<strong>macOS:</strong> a Apple suporta-o no macOS 26.",
+        "li3": "<strong>Interface:</strong> apenas a CLI <code>container</code>. Não há app de secretária nem comando <code>compose</code>.",
+        "li4": "<strong>Rede:</strong> cada contentor recebe o seu próprio endereço IP no Mac, e os domínios DNS locais dão aos contentores nomes como <code>web.test</code>."
+      },
+      "why-gui": {
+        "h": "Porquê usar uma GUI para o apple/container?",
+        "p1": "A CLI é completa, mas o trabalho diário exige muitos comandos: <code>container list</code>, <code>logs</code>, <code>stats</code>, <code>exec</code>, e depois <code>system</code>, <code>builder</code>, <code>registry</code>, <code>machine</code> e <code>cluster</code> para o resto. O Gantry reúne-os numa janela com atualizações em direto, por isso vê o estado em vez de ter de o consultar repetidamente. Acrescenta também o que a CLI não tem: ficheiros Compose, notificações de falhas, uma vista de frota com os seus hosts Docker e um servidor MCP para agentes de IA."
+      },
+      "setup": {
+        "h": "Configurar o apple/container com o Gantry",
+        "li1": "Instale o Gantry: <code>brew install --cask getgantry/tap/gantry</code> e depois remova o atributo de quarentena (consulte <a href=\"{root}docs/install.html\">Instalação</a>).",
+        "li2": "Instale a CLI <code>container</code> a partir do <code>.pkg</code> assinado na <a href=\"https://github.com/apple/container/releases\">página de versões do apple/container</a>. Se não estiver instalada ou for anterior à 1.0, o Gantry mostra uma folha de configuração com os passos.",
+        "li3": "No Gantry, escolha <strong>Adicionar host…</strong> e adicione um host <em>Apple Container</em>. Ao ligar, os serviços <code>container</code> são iniciados se estiverem parados.",
+        "li4": "Se não houver nenhum kernel predefinido instalado, a vista geral do host mostra um aviso. Clique nele para instalar o kernel recomendado."
+      },
+      "command-map": {
+        "h": "Cada comando container e a funcionalidade do Gantry",
+        "p1": "Esta tabela faz corresponder a CLI <code>container</code> ao Gantry. A última coluna indica a versão da CLI de que o Gantry precisa para a funcionalidade. <em>Qualquer</em> significa qualquer CLI suportada, 1.0 ou posterior. O Gantry lê a versão instalada e oculta as funcionalidades que esta não suporta."
+      },
+      "features": {
+        "h": "O que o Gantry acrescenta ao apple/container"
+      },
+      "kubernetes": {
+        "h": "Clusters Kubernetes",
+        "p1": "Crie com <code>container cluster</code> clusters Kubernetes com vários workers, escolha a CNI, veja cada nó, escreva o kubeconfig e carregue imagens locais no cluster. Consulte <a href=\"../apple-container-kubernetes/\">Kubernetes no apple/container</a>."
+      },
+      "machines": {
+        "h": "Máquinas do container e VS Code",
+        "p1": "As máquinas são ambientes Linux de longa duração criados com <code>container machine</code>. O Gantry cria-as, inicia-as, para-as e elimina-as, define a máquina predefinida, edita as CPU e a memória, e abre uma shell. Na CLI 1.1 ou posterior, uma máquina pode arrancar com virtualização aninhada (Apple silicon M3 ou posterior) e um kernel personalizado. <strong>Abrir no VS Code</strong> liga-se a uma máquina em execução por Remote-SSH; a imagem da máquina tem de executar o <code>sshd</code>."
+      },
+      "compose": {
+        "h": "Docker Compose no apple/container",
+        "p1": "Abra um <code>docker-compose.yml</code> a partir do Finder (<em>Abrir com ▸ Gantry</em> ou <em>Ações rápidas ▸ Compose Up no apple/container</em>), a partir de <strong>Ficheiro ▸ Abrir ficheiro Compose…</strong> ou largando-o na janela. O Gantry compila os serviços com <code>build:</code>, cria a rede do projeto e os volumes com nome, e inicia cada serviço pela ordem de <code>depends_on</code> com as etiquetas padrão <code>com.docker.compose.*</code>. Com um domínio DNS predefinido, os serviços comunicam entre si pelo nome do serviço através de aliases de rede."
+      },
+      "dns": {
+        "h": "Aliases DNS de rede e domínios locais",
+        "p1": "O Gantry passa os aliases de rede ao <code>container</code> como <code>--network &lt;name&gt;,alias=…</code>. Sem um domínio DNS predefinido, só passam nomes totalmente qualificados, e um alias de subárvore (com um ponto inicial, como <code>.gateway</code>) só passa como o seu alias exato. Com um domínio predefinido, os nomes curtos também funcionam. O Gantry cria e elimina domínios DNS locais, define o domínio predefinido e dá aos novos contentores um nome de host <code>name.domain</code>. Consulte <a href=\"{root}docs/dns.html\">Nomes DNS locais</a>."
+      },
+      "system": {
+        "h": "Sistema: serviços, builder, registos, kernel, logs, propriedades",
+        "p1": "Cada host apple/container tem uma secção <strong>Sistema</strong>. Funciona com o host desligado, por isso pode iniciar a partir daí os serviços parados.",
+        "li1": "<strong>Estado e versão:</strong> versões do cliente e do servidor, com um aviso quando diferem; iniciar, parar e reiniciar os serviços; dados e caminhos do host.",
+        "li2": "<strong>Builder de imagens:</strong> estado, imagem, CPU, memória e IP; iniciar com opções de CPU, memória e DNS; parar; eliminar.",
+        "li3": "<strong>Sessões em registos:</strong> listar, iniciar sessão e terminar sessão. A palavra-passe chega à CLI apenas por stdin (<code>--password-stdin</code>), e o Gantry não guarda nenhuma cópia.",
+        "li4": "<strong>Kernel:</strong> instalar o kernel recomendado, um ficheiro de kernel ou um arquivo tar, com o progresso em direto.",
+        "li5": "<strong>Logs dos serviços:</strong> em direto ou pontuais, de 5 minutos a 1 dia, filtrados por nível, serviço e texto.",
+        "li6": "<strong>Propriedades de sistema:</strong> as alterações são guardadas em <code>~/.config/container/config.toml</code>, com um indicador de reinício pendente e um botão <strong>Reiniciar serviços</strong>."
+      },
+      "disk": {
+        "h": "Guardar como imagem, Compactar disco e ficheiros",
+        "p1": "<strong>Guardar como imagem</strong> usa <code>container commit</code> (CLI 1.6). <strong>Compactar disco</strong> usa <code>container clean</code> (CLI 1.4) e aparece também como linha em Recuperar espaço. O separador Ficheiros transfere ficheiros e permite arrastá-los para o Finder com <code>container copy</code> (o contentor tem de estar iniciado), e envia ficheiros e pastas."
+      },
+      "labels": {
+        "h": "Etiquetas que contêm <code>=</code>",
+        "p1": "O <code>container create</code> rejeita um valor de etiqueta que contenha <code>=</code>, também na CLI 1.6.1. O Gantry codifica esses valores ao criar o contentor e descodifica-os ao lê-lo, por isso as etiquetas que define são as etiquetas que vê."
+      },
+      "agents": {
+        "h": "Servidor MCP e Atalhos",
+        "p1": "O servidor <code>gantry-mcp</code> incluído dá aos agentes de IA o mesmo alcance nos hosts apple/container: contentores, imagens, volumes, redes, Compose, máquinas (<code>list_machines</code>, <code>create_machine</code> e outras), clusters (<code>list_clusters</code>, <code>create_cluster</code>, <code>delete_cluster</code>) e ferramentas de sistema <code>apple_*</code> para serviços, builder, registos (sem ferramenta de início de sessão), propriedades, logs e instalação de kernels. As App Intents acrescentam ações dos Atalhos e da Siri. Consulte <a href=\"{root}docs/mcp.html\">Agentes de IA e MCP</a>."
+      },
+      "vs-docker": {
+        "h": "O apple/container ao lado do Docker",
+        "p1": "O Gantry gere hosts apple/container, o daemon Docker local (Docker Desktop, OrbStack, Colima) e hosts Docker remotos por SSH numa só barra lateral e num só painel de frota. Não tem de escolher um único runtime. Para comparar as ferramentas funcionalidade a funcionalidade, consulte <a href=\"../compare/\">Gantry vs Docker Desktop, OrbStack e Podman Desktop</a>."
+      }
+    }
+  },
+  "k8s": {
+    "title": "Kubernetes no Apple container: GUI para container cluster no Mac",
+    "crumb": "Kubernetes no apple/container",
+    "desc": "Kubernetes na ferramenta container da Apple com o Gantry: clusters com vários workers (container cluster), escolha de CNI, nós, kubeconfig e imagens locais.",
+    "table_head": [
+      "Opção",
+      "Flag da CLI",
+      "Notas"
+    ],
+    "table": [
+      [
+        "Nome",
+        "<code>--name</code>",
+        "É também o nome do contexto do kubeconfig"
+      ],
+      [
+        "Workers",
+        "<code>--workers</code>",
+        "Número de nós worker. CLI 1.6.0+"
+      ],
+      [
+        "CPU",
+        "<code>--cpus</code>",
+        "Por nó"
+      ],
+      [
+        "Memória",
+        "<code>--memory</code>",
+        "Por nó, por exemplo <code>4G</code>"
+      ],
+      [
+        "Imagem dos nós",
+        "<code>--node-image</code>",
+        "Vazio mantém a predefinição da CLI"
+      ],
+      [
+        "CNI",
+        "<code>--cni</code>",
+        "Predefinição (kindnet incluído), Nenhum (<code>NONE</code>, CLI 1.6.0+) ou o caminho de um manifesto personalizado"
+      ]
+    ],
+    "code_shell": "Shell",
+    "code_mcp": "Adicionar o servidor MCP do Gantry",
+    "faq": [
+      {
+        "q": "O Apple container suporta Kubernetes?",
+        "a": "Sim. A CLI <code>container</code> cria clusters Kubernetes cujos nós são executados como contentores: <code>container cluster</code> na CLI 1.6.1, <code>container k8s</code> nas CLI 1.5.0 a 1.6.0. O Gantry dá-lhe uma GUI."
+      },
+      {
+        "q": "O Gantry suporta o container cluster?",
+        "a": "Sim. O Gantry lista, cria e elimina clusters em hosts apple/container, mostra os respetivos nós, escreve o kubeconfig, copia o comando de contexto <code>kubectl</code> e carrega imagens locais num cluster. Usa <code>cluster</code> ou <code>k8s</code> de acordo com a sua versão da CLI."
+      },
+      {
+        "q": "Como usar o kubectl com um cluster do apple/container?",
+        "a": "Quando a CLI cria um cluster, adiciona a <code>~/.kube/config</code> um contexto kubeconfig com o nome do cluster. Execute <code>kubectl --context &lt;name&gt; get nodes</code>. Para manter um ficheiro separado, use <b>Escrever kubeconfig</b> no Gantry; o caminho predefinido é <code>~/.kube/&lt;name&gt;.kubeconfig</code>."
+      },
+      {
+        "q": "Como colocar uma imagem local no cluster sem um registo?",
+        "a": "No Gantry, clique com o botão direito na imagem em Imagens e escolha <b>Carregar no cluster</b>. O Gantry executa <code>container cluster load-image</code>, que copia a imagem para o containerd de cada nó."
+      },
+      {
+        "q": "É possível criar um cluster com vários nós?",
+        "a": "Sim. Defina o número de workers na folha de criação. Os workers requerem a CLI 1.6.0 ou posterior."
+      },
+      {
+        "q": "Posso usar a minha própria CNI, como Calico ou Cilium?",
+        "a": "Sim. Escolha <b>Manifesto personalizado</b> e selecione o ficheiro do manifesto, ou escolha <b>Nenhum</b> e aplique uma CNI manualmente depois de o cluster arrancar. Os nós ficam NotReady até haver uma CNI em execução. <b>Nenhum</b> requer a CLI 1.6.0 ou posterior. A CNI predefinida é o manifesto kindnet incluído."
+      }
+    ],
+    "body": {
+      "h1": "Kubernetes no Apple container",
+      "lead": "O apple/container consegue executar um cluster Kubernetes cujos nós são contentores no seu Mac. O Gantry é uma GUI para isso: crie um cluster, veja os nós a arrancar, ligue o <code>kubectl</code> e carregue as suas imagens locais, sem longas linhas de comando <code>container cluster</code>.",
+      "tldr": "<strong>Em resumo.</strong> Num host apple/container, a secção <strong>Clusters</strong> do Gantry cria e elimina clusters Kubernetes com <code>container cluster</code> (CLI 1.6.1) ou <code>container k8s</code> (CLI 1.5.0 a 1.6.0). Suporta vários workers, uma CNI personalizada, uma vista de nós, kubeconfig e contexto <code>kubectl</code>, e <strong>Carregar no cluster</strong> para imagens locais.",
+      "requirements": {
+        "h": "Requisitos",
+        "li1": "Um Mac com Apple silicon, macOS 26 e o Gantry (<code>brew install --cask getgantry/tap/gantry</code>).",
+        "li2": "A CLI <code>container</code> 1.5.0 ou posterior; recomenda-se a 1.6.1. Os workers e a CNI <em>Nenhum</em> requerem a 1.6.0 ou posterior.",
+        "li3": "<code>kubectl</code>, se quiser usar o cluster a partir do terminal."
+      },
+      "create": {
+        "h": "Criar um cluster",
+        "li1": "Selecione o seu host apple/container e abra <strong>Clusters</strong> na barra lateral.",
+        "li2": "Inicie um novo cluster e preencha as opções abaixo.",
+        "li3": "Crie-o. A lista mostra o novo cluster com o progresso em direto. <strong>Cancelar</strong> interrompe a criação e elimina os nós já criados.",
+        "p1": "O mesmo comando na CLI:"
+      },
+      "nodes": {
+        "h": "Nós e detalhes do cluster",
+        "p1": "A lista de clusters mostra cada cluster com os respetivos nós: função, estado e endereço. A vista de detalhe tem uma <strong>Vista geral</strong> (contexto kubectl, servidor da API, workers, rede dos nós), uma tabela de <strong>Nós</strong>, <strong>Inspecionar</strong> para os dados em bruto dos nós, e as ações <strong>Escrever kubeconfig</strong>, <strong>Copiar comando de contexto kubectl</strong> e <strong>Eliminar</strong>."
+      },
+      "kubectl": {
+        "h": "Ligar o kubectl",
+        "p1": "Ao criar o cluster, a CLI adiciona a <code>~/.kube/config</code> um contexto com o nome do cluster. Use <strong>Copiar comando de contexto kubectl</strong> no Gantry, ou escreva-o:",
+        "p2": "Para manter o cluster num ficheiro próprio, use <strong>Escrever kubeconfig</strong>. O Gantry executa <code>container cluster write-config</code>; o caminho predefinido é <code>~/.kube/&lt;name&gt;.kubeconfig</code>."
+      },
+      "images": {
+        "h": "Carregar imagens locais no cluster",
+        "p1": "Compile ou descarregue uma imagem no host apple/container, depois clique com o botão direito nela em <strong>Imagens</strong> e escolha <strong>Carregar no cluster</strong>. O Gantry executa <code>container cluster load-image</code>, que copia a imagem para o containerd de cada nó. Não precisa de um registo para desenvolvimento local."
+      },
+      "cni": {
+        "h": "Escolher uma CNI",
+        "p1": "A predefinição é o manifesto kindnet incluído. Escolha <strong>Manifesto personalizado</strong> para instalar a sua própria CNI a partir de um ficheiro, por exemplo Calico ou Cilium. Escolha <strong>Nenhum</strong> para instalar uma CNI manualmente mais tarde; até lá, os nós ficam NotReady."
+      },
+      "agents": {
+        "h": "Clusters a partir de agentes de IA",
+        "p1": "O servidor MCP do Gantry tem <code>list_clusters</code>, <code>create_cluster</code> e <code>delete_cluster</code>, por isso um agente como o Claude Code pode criar um cluster temporário para um teste e removê-lo no fim."
+      },
+      "more": {
+        "h": "Mais sobre o apple/container",
+        "p1": "Leia o <a href=\"../apple-container/\">guia do apple/container</a> para ver cada comando <code>container</code> e a funcionalidade do Gantry correspondente, ou veja como o Gantry se compara com o <a href=\"../compare/\">Docker Desktop, OrbStack e Podman Desktop</a>."
+      }
+    }
+  },
+  "compare": {
+    "title": "Gantry vs Docker Desktop vs OrbStack vs Podman Desktop vs CLI container",
+    "crumb": "Comparação",
+    "desc": "Comparação factual do Gantry, Docker Desktop, OrbStack, Podman Desktop e CLI container da Apple: licença, preço, interface, apple/container, Kubernetes, Compose e máquinas.",
+    "table_head": [
+      "",
+      "Gantry",
+      "Docker Desktop",
+      "OrbStack",
+      "Podman Desktop",
+      "CLI <code>container</code>"
+    ],
+    "table": [
+      [
+        "O que é",
+        "Cliente GUI nativo. Usa o motor que já tem",
+        "Motor Docker numa VM Linux, mais uma GUI",
+        "Motor Docker e Linux, mais uma GUI",
+        "GUI para o Podman (e outros motores)",
+        "CLI e runtime da Apple"
+      ],
+      [
+        "Licença e preço",
+        "MIT, gratuito para qualquer utilização",
+        "Proprietário. Gratuito para uso pessoal, educação, código aberto não comercial e pequenas empresas (menos de 250 trabalhadores e menos de 10 milhões de USD de receita anual); subscrição paga nos restantes casos",
+        "Proprietário. Gratuito para uso pessoal e não comercial; licença paga para uso comercial",
+        "Apache 2.0, gratuito",
+        "Apache 2.0, gratuito"
+      ],
+      [
+        "Código-fonte",
+        "Aberto",
+        "Fechado",
+        "Fechado",
+        "Aberto",
+        "Aberto"
+      ],
+      [
+        "Tecnologia da interface",
+        "SwiftUI (nativa)",
+        "Electron",
+        "App nativa do macOS",
+        "Electron",
+        "Sem GUI"
+      ],
+      [
+        "Plataformas",
+        "macOS 26+, Apple silicon e Intel",
+        "macOS, Windows, Linux",
+        "macOS",
+        "macOS, Windows, Linux",
+        "macOS com Apple silicon"
+      ],
+      [
+        "Gere o apple/container",
+        "Sim, CLI 1.0 a 1.6.1",
+        "Não",
+        "Não",
+        "Não consta da documentação do fornecedor (verificado a 2026-11-03)",
+        "É o apple/container"
+      ],
+      [
+        "Kubernetes",
+        "No apple/container, através de <code>container cluster</code>: vários workers, CNI personalizada",
+        "Kubernetes integrado",
+        "Kubernetes integrado",
+        "Através do Kind e de outros fornecedores",
+        "<code>container cluster</code> (1.6.1), <code>container k8s</code> (1.5.0 a 1.6.0)"
+      ],
+      [
+        "Docker Compose",
+        "Em hosts Docker e no apple/container (o Gantry executa o ficheiro)",
+        "Sim",
+        "Sim",
+        "Sim, através de um fornecedor Compose",
+        "Sem comando <code>compose</code>"
+      ],
+      [
+        "Máquinas Linux de longa duração",
+        "<code>container machine</code>, com Abrir no VS Code",
+        "Não",
+        "Sim (máquinas Linux)",
+        "Não (a máquina Podman é a VM do motor)",
+        "<code>container machine</code>"
+      ],
+      [
+        "Hosts Docker remotos por SSH na GUI",
+        "Sim, com ProxyJump e segredos no porta-chaves",
+        "Desconhecido",
+        "Desconhecido",
+        "Desconhecido",
+        "Não aplicável"
+      ],
+      [
+        "Servidor MCP incluído que gere os seus contentores",
+        "Sim (<code>gantry-mcp</code>)",
+        "Desconhecido",
+        "Desconhecido",
+        "Desconhecido",
+        "Não"
+      ]
+    ],
+    "faq": [
+      {
+        "q": "O Gantry é uma alternativa ao Docker Desktop?",
+        "a": "Como GUI, sim. O Gantry gere contentores, imagens, volumes, redes, logs, estatísticas e Compose. Não inclui um motor Docker: num Mac, use para isso o OrbStack, o Colima ou o Docker Desktop, ou use a ferramenta <code>container</code> da Apple, que o Gantry também gere. O Gantry tem licença MIT e é gratuito para uso comercial."
+      },
+      {
+        "q": "O Gantry é uma alternativa ao OrbStack?",
+        "a": "Em parte. O OrbStack é um motor e uma GUI; o Gantry é apenas uma GUI. Pode usar o Gantry como GUI sobre o motor Docker do OrbStack, ou usar o Gantry com o apple/container, que lhe dá contentores, máquinas Linux e Kubernetes com a própria ferramenta da Apple."
+      },
+      {
+        "q": "Qual é a melhor GUI para o Apple container?",
+        "a": "Das ferramentas desta página, o Gantry é a única que gere o apple/container (verificado a 2026-11-03). Cobre toda a CLI <code>container</code>, incluindo clusters, máquinas, builder, registos e propriedades de sistema."
+      },
+      {
+        "q": "Posso usar o Gantry e o Docker Desktop em conjunto?",
+        "a": "Sim. O Gantry liga-se ao motor do Docker Desktop através do respetivo socket, por isso pode usar o Gantry como GUI e manter o Docker Desktop como motor."
+      }
+    ],
+    "body": {
+      "h1": "Gantry vs Docker Desktop, OrbStack, Podman Desktop e a CLI container",
+      "lead": "Cinco formas de executar e gerir contentores num Mac, comparadas com factos que pode verificar. O Gantry é um cliente GUI. Os outros incluem um motor, exceto a CLI <code>container</code>, que é um motor sem GUI.",
+      "tldr": "<strong>Em resumo.</strong> Escolha o <strong>Gantry</strong> se quiser uma GUI gratuita, nativa e de código aberto para a ferramenta <code>container</code> da Apple e para o Docker (local e por SSH) numa só app. O Gantry não substitui um motor Docker: funciona com o que já tem, ou com o apple/container.",
+      "table": {
+        "h": "Tabela comparativa",
+        "p1": "Factos à data de 2026-11-03, recolhidos nas páginas públicas de cada fornecedor (consulte as <a href=\"#sources\">fontes</a>). «Desconhecido» significa que não encontrámos esse facto na documentação do fornecedor. Não significa que a funcionalidade não exista."
+      },
+      "when": {
+        "h": "Quando escolher cada um",
+        "choose1": {
+          "h": "Escolha o Gantry",
+          "p1": "Usa a ferramenta <code>container</code> da Apple e quer uma GUI para tudo, incluindo clusters Kubernetes, máquinas e o builder de imagens. Ou gere vários hosts Docker, locais e remotos por SSH, e quer uma só janela nativa e notificações de falhas para todos eles. Ou quer um servidor MCP para que agentes de IA possam gerir os seus contentores."
+        },
+        "choose2": {
+          "h": "Escolha o Docker Desktop",
+          "p1": "Precisa do motor Docker com a mesma app em macOS, Windows e Linux, das extensões do Docker e do suporte da Docker, e a sua empresa tem uma subscrição Docker ou cumpre os requisitos de utilização gratuita."
+        },
+        "choose3": {
+          "h": "Escolha o OrbStack",
+          "p1": "Quer um motor Docker e máquinas Linux no macOS num só produto, e uma licença paga para uso comercial é aceitável."
+        },
+        "choose4": {
+          "h": "Escolha o Podman Desktop",
+          "p1": "Usa o Podman, quer uma GUI de código aberto em vários sistemas operativos ou trabalha com ferramentas da Red Hat."
+        },
+        "choose5": {
+          "h": "Escolha apenas a CLI container",
+          "p1": "Automatiza tudo com scripts no terminal e não precisa de uma GUI. O Gantry usa a mesma CLI, por isso pode acrescentar a GUI mais tarde."
+        }
+      },
+      "together": {
+        "h": "Use-os em conjunto",
+        "p1": "O Gantry é um cliente, por isso funciona ao lado dos outros. Liga-se ao motor Docker do Docker Desktop, OrbStack ou Colima através do socket Docker, a hosts Docker remotos por SSH e ao apple/container através da CLI <code>container</code>, tudo numa só barra lateral."
+      },
+      "sources": {
+        "h": "Fontes",
+        "li1": "Termos de licença do Docker Desktop: <a href=\"https://www.docker.com/pricing/faq/\">FAQ de preços da Docker</a>.",
+        "li2": "Termos de licença do OrbStack: <a href=\"https://docs.orbstack.dev/licensing\">licenciamento do OrbStack</a>.",
+        "li3": "Licença e funcionalidades do Podman Desktop: <a href=\"https://github.com/podman-desktop/podman-desktop\">podman-desktop no GitHub</a> e <a href=\"https://podman-desktop.io/docs\">documentação do Podman Desktop</a>.",
+        "li4": "apple/container: <a href=\"https://github.com/apple/container\">apple/container no GitHub</a>.",
+        "li5": "Gantry: <a href=\"https://github.com/getgantry/gantry\">código-fonte</a> e <a href=\"https://github.com/getgantry/gantry/blob/main/CHANGELOG.md\">registo de alterações</a>.",
+        "p1": "Encontrou um erro? <a href=\"https://github.com/getgantry/getgantry.github.io/issues\">Comunique-o</a> e corrigimos a tabela."
+      }
+    }
+  }
+}

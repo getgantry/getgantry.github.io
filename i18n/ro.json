@@ -1,0 +1,936 @@
+{
+  "chrome": {
+    "nav_features": "Funcții",
+    "nav_compare": "Comparație",
+    "nav_faq": "Întrebări",
+    "nav_docs": "Documentație",
+    "nav_home": "Acasă",
+    "star": "Star",
+    "download": "Descarcă",
+    "download_mac": "Descarcă pentru macOS",
+    "copy": "Copiază",
+    "copied": "Copiat",
+    "releases": "Versiuni",
+    "foot_guide": "Ghid apple/container",
+    "foot_license": "Licență MIT · GitHub",
+    "icon_alt": "Pictograma Gantry",
+    "page_image_alt": "Panoul de flotă Gantry cu gazde Docker și apple/container",
+    "breadcrumb": "Fir de navigare",
+    "faq_heading": "Întrebări și răspunsuri",
+    "updated": "Ultima actualizare: {date}.",
+    "callout_warn": "Atenție",
+    "language": "Limbă",
+    "languages": "Limbi",
+    "hint_text": "Această pagină este disponibilă și în limba română.",
+    "hint_link": "Citiți în română",
+    "hint_close": "Închide"
+  },
+  "home": {
+    "ld": {
+      "website_desc": "GUI-ul nativ macOS pentru Apple container (apple/container) și Docker, local și prin SSH.",
+      "app_alt_name": "Gantry pentru Apple container",
+      "app_subcategory": "Gestionarea containerelor",
+      "app_processor": "Apple silicon sau Intel (gazdele apple/container necesită Apple silicon)",
+      "app_keywords": "apple container GUI, apple/container, container cluster, Kubernetes, container machine, Docker Desktop alternative, alternativă la Docker Desktop, alternativă la OrbStack, Docker prin SSH, server MCP",
+      "app_desc": "Gantry este o aplicație nativă macOS, gratuită și open source, pentru instrumentul container de la Apple (apple/container) și pentru Docker, local și prin SSH. Pe gazdele apple/container gestionează containere, clustere Kubernetes, mașini, proiecte Compose, builderul de imagini, autentificările la registre, kerneluri, jurnalele serviciilor și proprietățile de sistem. Include un server MCP și App Intents pentru agenți.",
+      "features": [
+        "GUI nativ macOS pentru Apple container (apple/container), CLI 1.0–1.6.1, cu funcții adaptate versiunii",
+        "Clustere Kubernetes pe apple/container (container cluster): mai mulți workeri, CNI personalizat, noduri, kubeconfig, context kubectl",
+        "Încărcarea imaginilor locale într-un cluster Kubernetes",
+        "Mașini container: creare, pornire, oprire, resurse, shell, virtualizare imbricată, kerneluri personalizate",
+        "Deschiderea unei mașini container în VS Code prin Remote-SSH",
+        "Docker Compose pe apple/container, cu aliasuri DNS de rețea pentru numele serviciilor",
+        "Gestionarea builderului de imagini apple/container, autentificări la registre și instalarea kernelului",
+        "Controlul serviciilor apple/container, jurnalele serviciilor în timp real și un editor de proprietăți de sistem",
+        "Salvarea unui container ca imagine și Compactează discul (container clean) pe apple/container",
+        "Browser de fișiere pentru containere, cu încărcare, descărcare și tragere în afară",
+        "Un singur panou pentru Docker local, Docker prin SSH și gazde apple/container",
+        "Jurnale în timp real cu căutare regex, filtru pe nivel și culori ANSI",
+        "Statistici de CPU, memorie, rețea și I/O pe disc în timp real",
+        "Terminal exec și shell de depanare",
+        "Notificări native când un container se închide neașteptat, rămâne fără memorie sau devine nesănătos",
+        "Docker la distanță prin SSH, cu ProxyJump și secrete în portchei",
+        "Insigne pentru arhitecturi diferite pe imagini și containere",
+        "Partajarea unui port de container printr-un Cloudflare Tunnel",
+        "Server MCP și App Intents (Scurtături, Siri) pentru agenți AI",
+        "Interfață în 28 de limbi"
+      ],
+      "howto_name": "Cum instalați Gantry pe macOS",
+      "howto_desc": "Instalați Gantry cu Homebrew și conectați-l la Docker sau la Apple container.",
+      "howto_supply": "Un Mac cu macOS 26 sau o versiune ulterioară",
+      "howto_steps": [
+        {
+          "name": "Instalați cu Homebrew",
+          "text": "Rulați: brew install --cask getgantry/tap/gantry. Sau descărcați cea mai recentă versiune de pe GitHub și trageți Gantry.app în Aplicații."
+        },
+        {
+          "name": "Eliminați atributul de carantină",
+          "text": "Aplicația nu este notarizată. Rulați: xattr -dr com.apple.quarantine /Applications/Gantry.app sau faceți clic dreapta pe Gantry.app și alegeți Deschide."
+        },
+        {
+          "name": "Adăugați o gazdă",
+          "text": "Deschideți Gantry. Aplicația găsește daemonul Docker local. Pentru Apple container, adăugați o gazdă Apple Container; dacă CLI-ul container lipsește, Gantry se oferă să îl configureze."
+        },
+        {
+          "name": "Conectați agenți AI (opțional)",
+          "text": "Rulați: claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp"
+        }
+      ]
+    },
+    "faq": {
+      "items": [
+        {
+          "q": "Care este cel mai bun GUI pentru Apple container?",
+          "a": "Gantry este un GUI nativ macOS, gratuit și open source, creat pentru instrumentul <a href=\"#apple\">container</a> de la Apple (apple/container). Acoperă ciclul de viață al containerelor, jurnalele, statisticile și un terminal exec, plus părțile CLI-ului la care alte GUI-uri nu ajung: clustere Kubernetes (<code>container cluster</code>), mașini container, builderul de imagini, autentificările la registre, kernelurile, jurnalele serviciilor și proprietățile de sistem. Este compatibil cu CLI 1.0–1.6.1 și activează fiecare funcție doar când CLI-ul dvs. o acceptă. Consultați <a href=\"apple-container/\">ghidul apple/container</a>."
+        },
+        {
+          "q": "Ce este Apple container (apple/container)?",
+          "a": "apple/container este instrumentul open source de la Apple pentru rularea containerelor Linux pe Mac. Fiecare container rulează în propria mașină virtuală ușoară, construită pe framework-ul Virtualization de la Apple. Necesită un Mac cu Apple silicon și vine ca instrument de linie de comandă numit <code>container</code>, fără aplicație desktop. Gantry adaugă această aplicație desktop."
+        },
+        {
+          "q": "Gantry acceptă container cluster și Kubernetes?",
+          "a": "Da. Pe o gazdă apple/container, Gantry creează și șterge clustere Kubernetes cu <code>container cluster</code> (CLI 1.6.1; CLI 1.5.0–1.6.0 folosesc <code>container k8s</code>). Alegeți numele, numărul de workeri, CPU-urile, memoria, imaginea nodurilor și CNI-ul (implicit, niciunul sau un manifest personalizat). Gantry afișează nodurile, salvează kubeconfig, copiază comanda de context <code>kubectl</code> și încarcă imagini locale în cluster. Consultați <a href=\"apple-container-kubernetes/\">Kubernetes pe apple/container</a>."
+        },
+        {
+          "q": "Pot folosi docker compose cu Apple container?",
+          "a": "Da. apple/container nu are comanda <code>compose</code>, așa că Gantry face orchestrarea prin CLI-ul <code>container</code>: construiește serviciile cu <code>build:</code>, creează rețeaua proiectului și volumele cu nume și pornește fiecare serviciu în ordinea din <code>depends_on</code>, cu etichetele Compose standard. Numele serviciilor se rezolvă prin aliasuri DNS de rețea. Deschideți un <code>docker-compose.yml</code> din Finder, din meniul Fișier sau trăgându-l în fereastră."
+        },
+        {
+          "q": "Cum deschid o mașină container în VS Code?",
+          "a": "Porniți mașina în Gantry și faceți clic pe <b>Deschide în VS Code</b>. Gantry deschide mașina în VS Code prin Remote-SSH, ca în exemplul <code>container-machine-vscode</code> de la Apple. Imaginea mașinii trebuie să ruleze <code>sshd</code>, iar VS Code cu extensia Remote-SSH trebuie să fie instalat."
+        },
+        {
+          "q": "Ce versiuni apple/container acceptă Gantry?",
+          "a": "Gantry necesită CLI-ul <code>container</code> 1.0 sau o versiune ulterioară și recomandă 1.6.1. Citește versiunea instalată și afișează doar funcțiile acceptate de acea versiune, de exemplu Salvează ca imagine (1.6), Compactează discul (1.4) și workerii de cluster (1.6). Dacă CLI-ul lipsește sau este vechi, Gantry oferă o configurare ghidată."
+        },
+        {
+          "q": "Poate Gantry gestiona builderul, registrele și kernelul apple/container?",
+          "a": "Da. Secțiunea Sistem a unei gazde apple/container pornește, oprește și șterge builderul de imagini, cu opțiuni de CPU, memorie și DNS; listează, adaugă și elimină autentificări la registre (parola ajunge la CLI doar prin stdin); instalează kernelul recomandat, un fișier kernel sau o arhivă tar; transmite în timp real jurnalele serviciilor; și editează proprietățile de sistem din <code>config.toml</code>."
+        },
+        {
+          "q": "Este Gantry o alternativă la Docker Desktop, OrbStack sau Podman Desktop?",
+          "a": "Ca GUI, da. Gantry este o aplicație nativă macOS gratuită pentru gestionarea containerelor, imaginilor, volumelor, rețelelor, jurnalelor și statisticilor. Este un client, nu un motor: folosește daemonul Docker pe care îl rulați deja (Docker Desktop, OrbStack, Colima) sau instrumentul <a href=\"#apple\">container</a> de la Apple și adaugă o vizualizare pentru mai multe gazde, gazde SSH și un server MCP. Consultați <a href=\"compare/\">comparația</a>."
+        },
+        {
+          "q": "Gantry este gratuit?",
+          "a": "Da. Gantry este gratuit și open source, sub licența MIT. Fără abonament, fără cont și fără limită de gazde sau de containere."
+        },
+        {
+          "q": "De ce am nevoie ca să rulez Gantry?",
+          "a": "macOS 26 sau o versiune ulterioară pe Apple silicon sau Intel, plus un daemon Docker (Docker Desktop, OrbStack, Colima sau similar) ori instrumentul <a href=\"#apple\">container</a> de la Apple. apple/container în sine necesită Apple silicon, așa că pe un Mac cu Intel Gantry gestionează doar gazde Docker."
+        },
+        {
+          "q": "Gantry funcționează cu OrbStack, Colima și Docker Desktop?",
+          "a": "Da. Gantry comunică direct cu API-ul Docker Engine prin socketul Unix, deci funcționează cu orice daemon care îl expune, inclusiv OrbStack, Colima și Docker Desktop."
+        },
+        {
+          "q": "Poate Gantry gestiona gazde Docker la distanță?",
+          "a": "Da. Gantry se conectează la daemonuri la distanță prin SSH, la fel ca <code>docker -H ssh://</code>, cu bastioane ProxyJump, autentificare cu mai multe chei și reconectare automată. Nu trebuie instalat nimic pe server, iar secretele stau în portcheiul macOS."
+        },
+        {
+          "q": "Mă anunță Gantry când un container cade?",
+          "a": "Da. Gantry trimite o notificare nativă macOS când un container se închide neașteptat, rămâne fără memorie sau nu trece verificarea de sănătate pe orice gazdă: locală, SSH sau apple/container. Faceți clic pe ea pentru a ajunge la container. Opririle și repornirile pe care le lansați din Gantry nu generează notificări, iar funcția se poate dezactiva din Configurări."
+        },
+        {
+          "q": "Poate Gantry descărca imagini din registre private?",
+          "a": "Da. Pe gazdele Docker, Gantry citește datele de autentificare din <code>~/.docker/config.json</code> (același <code>docker login</code> pe care l-ați rulat deja), inclusiv autentificarea inline, credential helpers și portcheiul macOS. Pe gazdele apple/container, gestionează autentificările <code>container registry</code>."
+        },
+        {
+          "q": "Poate Gantry expune un container local pe internet?",
+          "a": "Da. Un clic pe un port publicat îl partajează printr-un Cloudflare Tunnel. Gantry instalează <code>cloudflared</code> dacă este nevoie, apoi pornește un tunel rapid (fără cont Cloudflare, cu un URL temporar trycloudflare.com) sau un tunel cu nume pe propriul dvs. hostname. URL-ul public apare sub port, cu butoane pentru deschidere, copiere și oprire."
+        },
+        {
+          "q": "Este Gantry o aplicație Electron?",
+          "a": "Nu. Gantry este o aplicație nativă construită cu SwiftUI și Swift 6. Interfața este disponibilă în 28 de limbi: engleză, chineză simplificată și 26 de limbi europene, de exemplu sârbă cu alfabet chirilic și latin. Urmează limba sistemului macOS."
+        },
+        {
+          "q": "Cum instalez Gantry?",
+          "a": "Rulați <code>brew install --cask getgantry/tap/gantry</code> sau descărcați cea mai recentă versiune de pe <a href=\"https://github.com/getgantry/gantry/releases/latest\" target=\"_blank\" rel=\"noopener\">GitHub</a> și trageți <code>Gantry.app</code> în Aplicații."
+        },
+        {
+          "q": "Pot agenții AI să controleze Gantry?",
+          "a": "Da. Gantry include un <a href=\"#agents\">server MCP</a> și App Intents macOS, așa că Claude, Scurtături, Siri și scripturile ajung la fel de departe ca GUI-ul, pe fiecare gazdă, inclusiv pe gazdele SSH: containere, imagini, volume, rețele, Compose, mașini apple/container, clustere Kubernetes, instrumentele de sistem <code>apple_*</code> (servicii, builder, registre, proprietăți, jurnale, kernel) și partajarea porturilor. Adăugați-l cu <code>claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp</code>."
+        }
+      ],
+      "kicker": "Întrebări frecvente",
+      "h2": "Răspunsuri la întrebările dvs.",
+      "p": "Tot ce ați putea vrea să știți înainte să instalați Gantry."
+    },
+    "apple": {
+      "items": [
+        {
+          "h": "Containere, jurnale, statistici și exec",
+          "p": "Creați, porniți, opriți, forțați oprirea și curățați; jurnale în timp real, statistici, un terminal exec, <code>top</code> și export tar, în aceeași interfață ca gazdele Docker."
+        },
+        {
+          "h": "Clustere Kubernetes",
+          "p": "Creați cu <code>container cluster</code> un cluster Kubernetes cu mai mulți workeri, alegeți CNI-ul (implicit, niciunul sau propriul manifest), urmăriți nodurile, salvați kubeconfig și copiați contextul <code>kubectl</code>. <a href=\"apple-container-kubernetes/\">Aflați mai multe</a>"
+        },
+        {
+          "h": "Încărcarea imaginilor locale într-un cluster",
+          "p": "Faceți clic dreapta pe o imagine și alegeți <b>Încarcă în cluster</b> pentru a o trimite pe toate nodurile, fără a o trimite într-un registru."
+        },
+        {
+          "h": "Mașini container în VS Code",
+          "p": "Creați, porniți și opriți medii Linux <code>container machine</code>, setați CPU-urile și memoria, deschideți un shell sau deschideți mașina în <b>VS Code prin Remote-SSH</b>."
+        },
+        {
+          "h": "Virtualizare imbricată și kerneluri personalizate",
+          "p": "Porniți o mașină cu virtualizare imbricată (M3 sau mai nou) sau cu propriul kernel. Porniți containere dintr-un kernel personalizat, cu argumente de boot suplimentare."
+        },
+        {
+          "h": "Compose pentru Apple container",
+          "p": "apple/container nu are <code>compose</code>. Gantry rulează fișierul dvs. <code>docker-compose.yml</code>: construiește, creează rețeaua și volumele și pornește serviciile în ordinea din <code>depends_on</code>. Numele serviciilor se rezolvă prin aliasuri DNS de rețea."
+        },
+        {
+          "h": "Aliasuri DNS de rețea",
+          "p": "Aliasuri de container, aliasuri de subarbore precum <code>.gateway</code> și nume scurte când este setat un domeniu DNS implicit. Fiecare container primește un IP rutabil și un hostname <code>name.domain</code>."
+        },
+        {
+          "h": "Gestionarea builderului de imagini",
+          "p": "Vedeți starea builderului, imaginea, CPU-urile, memoria și IP-ul. Porniți-l cu opțiuni de CPU, memorie și DNS, opriți-l sau ștergeți-l."
+        },
+        {
+          "h": "Autentificări la registre",
+          "p": "Listați, adăugați și eliminați autentificări <code>container registry</code>. Parola ajunge la CLI doar prin stdin, iar Gantry nu păstrează nicio copie."
+        },
+        {
+          "h": "Instalarea kernelului",
+          "p": "Instalați kernelul recomandat, un fișier kernel sau o arhivă tar, cu progresul în timp real. Gantry vă avertizează când nu este instalat niciun kernel implicit."
+        },
+        {
+          "h": "Servicii și jurnalele serviciilor",
+          "p": "Porniți, opriți și reporniți serviciile <code>container</code>, comparați versiunile clientului și serverului și urmăriți în timp real jurnalele serviciilor, filtrate după nivel, serviciu și text."
+        },
+        {
+          "h": "Editor de proprietăți de sistem",
+          "p": "Editați proprietățile de sistem <code>container</code> din <code>config.toml</code>. Gantry marchează modificările care necesită o repornire și repornește serviciile în locul dvs."
+        },
+        {
+          "h": "Salvare ca imagine și Compactează discul",
+          "p": "Salvați un container ca imagine (<code>container commit</code>) și recuperați spațiu pe disc cu <b>Compactează discul</b> (<code>container clean</code>), disponibil și în panoul Recuperează spațiu."
+        },
+        {
+          "h": "Browser de fișiere: încărcare și descărcare",
+          "p": "Răsfoiți fișierele unui container, descărcați-le sau trageți-le în Finder (<code>container copy</code>) și plasați înăuntru fișiere sau dosare întregi."
+        },
+        {
+          "h": "Rulare rapidă și Finder",
+          "p": "Alegeți o imagine, partajați un dosar, mapați porturi, alegeți un domeniu și rulați. Faceți clic dreapta pe un fișier Compose în Finder și deschideți-l cu Gantry."
+        },
+        {
+          "h": "Etichete care conțin <code>=</code>",
+          "p": "CLI-ul <code>container</code> respinge valorile de etichetă care conțin <code>=</code>. Gantry le codifică la creare și le decodifică la citire, așa că o valoare precum <code>a=b</code> rămâne intactă."
+        },
+        {
+          "h": "O flotă, două runtime-uri",
+          "p": "Gazdele apple/container stau lângă gazdele Docker locale și SSH pe același panou, cu aceleași minigrafice, aceeași stare de sănătate și aceleași notificări de eroare."
+        },
+        {
+          "h": "Instrumente MCP pentru agenți",
+          "p": "Serverul MCP inclus le oferă agenților aceeași acoperire: containere, mașini, clustere și instrumentele de sistem <code>apple_*</code> pentru servicii, builder, registre, proprietăți, jurnale și kerneluri."
+        }
+      ],
+      "kicker": "GUI pentru apple/container",
+      "h2": "GUI-ul nativ macOS pentru Apple container",
+      "p": "Instrumentul <a href=\"https://github.com/apple/container\" target=\"_blank\" rel=\"noopener\">container</a> de la Apple rulează containere Linux ca mașini virtuale ușoare pe Apple silicon, dar vine doar ca instrument de linie de comandă. Gantry este aplicația desktop pentru el: ce este Docker Desktop pentru Docker, este Gantry pentru <code>container</code>. Acceptă orice CLI <code>container</code> de la 1.0 până la versiunea recomandată <b>1.6.1</b> și activează fiecare funcție doar când CLI-ul instalat o acceptă.",
+      "link_guide": "Ghidul apple/container: fiecare comandă CLI și funcția corespunzătoare din Gantry",
+      "link_k8s": "Kubernetes pe apple/container",
+      "link_compare": "Gantry vs Docker Desktop, OrbStack și Podman Desktop"
+    },
+    "title": "Gantry: GUI-ul nativ macOS pentru Apple container și Docker",
+    "desc": "GUI gratuit și open source pentru Apple container și Docker pe Mac: clustere Kubernetes, mașini, Compose și builder. Alternativă la Docker Desktop și OrbStack.",
+    "keywords": "apple container GUI, apple/container GUI, Apple container desktop app, apple container kubernetes, container machine VS Code, apple container compose, Docker Desktop alternative, OrbStack alternative, alternativă la Docker Desktop, alternativă la OrbStack, alternativă la Podman Desktop, GUI Docker pentru Mac, interfață grafică Docker Mac, GUI pentru Apple container, Docker prin SSH, server MCP",
+    "og_desc": "Gantry este o aplicație nativă macOS, gratuită și open source, pentru instrumentul container de la Apple și pentru Docker, local și prin SSH. Clustere Kubernetes, mașini, Compose, builder, registre și un server MCP.",
+    "og_image_alt": "Panoul de flotă Gantry cu gazde Docker și apple/container și minigrafice CPU și memorie în timp real",
+    "nav": {
+      "fleet": "Flotă",
+      "agents": "Agenți",
+      "shots": "Capturi",
+      "install": "Instalare"
+    },
+    "hero": {
+      "eyebrow": "Compatibil cu apple/container 1.6.1. Open source. Pregătit pentru agenți.",
+      "h1": "GUI-ul nativ macOS pentru <span class=\"grad\">Apple container</span><br>și Docker — toată flota dvs. pe un singur panou.",
+      "tagline": "Gantry este o aplicație Mac gratuită și open source pentru instrumentul <a href=\"#apple\">container</a> de la Apple și pentru Docker, local și prin SSH. Rulați containere, <a href=\"apple-container-kubernetes/\">clustere Kubernetes</a>, mașini și proiecte Compose pe apple/container dintr-o singură fereastră, lângă gazdele Docker. O <b>alternativă nativă la Docker Desktop</b> pentru Mac. Fără Electron. Fără abonament. Fără limite.",
+      "note": "<b>macOS 26+</b> · Apple silicon și Intel · Licență <b>MIT</b> · 28 de limbi · Server MCP inclus",
+      "window_title": "Gantry — Flotă",
+      "img_alt": "Panoul de flotă Gantry cu minigrafice CPU și memorie în timp real pentru fiecare gazdă",
+      "replay_label": "Redă din nou animația",
+      "replay": "Redă din nou"
+    },
+    "trust": {
+      "title": "Funcționează cu tot ce rulați deja",
+      "ssh": "SSH la distanță"
+    },
+    "features": {
+      "kicker": "Planul de control",
+      "h2": "Tot ce ține de Docker și apple/container, în stil Mac",
+      "p": "Un centru de comandă complet și concentrat pentru containerele dvs.: în timp real în mod implicit și atât de rapid încât pare local chiar și când nu este.",
+      "fleet": {
+        "lbl": "Flotă · 5 gazde",
+        "pill": "5 necesită atenție",
+        "h3": "Un singur panou pentru toate gazdele",
+        "p": "Daemon local, flotă SSH și apple/container pe un singur ecran: minigrafice CPU și memorie în timp real, containere defalcate pe stări și probleme de sănătate care duc direct la cauză.",
+        "running": "în execuție: {n}",
+        "unhealthy": "nesănătoase: {n}"
+      },
+      "logs": {
+        "lbl": "jurnale · superset_worker",
+        "pill": "urmărește",
+        "h3": "Jurnale la superlativ",
+        "p": "Urmărire în timp real, căutare ⌘F cu <b>regex</b> sau text literal, <b>filtru pe nivel</b> (Error→Trace), <b>culori ANSI</b>, un buffer de 50.000 de linii — și <b>jurnalele stivei</b> combinate pentru un întreg proiect Compose."
+      },
+      "notify": {
+        "n1_title": "Container oprit",
+        "n1_time": "acum",
+        "n1_text": "web pe <b>prod-eu</b> s-a oprit cu codul 1.",
+        "n2_title": "Container nesănătos",
+        "n2_time": "2 min",
+        "n2_text": "api pe <b>dedic</b> nu a trecut verificarea de sănătate.",
+        "h3": "Aflați imediat când ceva se strică",
+        "p": "O notificare nativă când un container se închide neașteptat, rămâne fără memorie sau devine nesănătos pe orice gazdă. Faceți clic pe ea pentru a ajunge direct la container — opririle declanșate de dvs. nu generează notificări."
+      },
+      "stats": {
+        "mem": "Memorie",
+        "h3": "Statistici în timp real",
+        "p": "CPU, memorie, rețea și I/O pe disc în grafice în timp real, cu eșantionare la fiecare secundă."
+      },
+      "exec": {
+        "h3": "Terminal exec integrat",
+        "p": "Emulare completă de terminal în orice container care rulează, local sau la distanță — cu teme de culori (Sistem, Solarized, Dracula, Nord)."
+      },
+      "ssh": {
+        "h3": "Gazde la distanță prin SSH",
+        "p": "Tunele exact ca <code>docker -H ssh://</code> prin <code>dial-stdio</code> — bastioane ProxyJump, autentificare cu mai multe chei, reconectare automată. Nimic de instalat pe server, secretele în portchei. Import cu un clic din <code>~/.ssh/config</code> și <code>docker context ls</code>."
+      },
+      "files": {
+        "h3": "Browser de fișiere cu tragere și plasare",
+        "p": "Răsfoiți sistemul de fișiere al unui container, mutați fișiere înăuntru și în afară și plasați dosare întregi direct din Finder — atât pe gazde Docker, cât și pe gazde apple/container."
+      },
+      "ports": {
+        "h3": "Deschidere în browser și redirecționare",
+        "p": "Un clic deschide un port publicat. Porturile SSH sunt tunelate automat către <code>localhost</code> — iar dacă portul e ocupat, Gantry alege unul liber, pe care îl puteți modifica."
+      },
+      "tunnel": {
+        "h3": "Partajare pe internet",
+        "p": "Un clic expune un port publicat printr-un <b>Cloudflare Tunnel</b>. Gantry instalează <code>cloudflared</code> pentru dvs., apoi vă oferă un <b>tunel rapid</b> (fără cont, cu un URL <code>*.trycloudflare.com</code>) sau un <b>tunel cu nume</b> pe propriul domeniu — perfect pentru o previzualizare de dezvoltare, un webhook sau pentru ca un agent AI să ajungă la un container de pe Mac."
+      },
+      "compose": {
+        "h3": "Compose oriunde",
+        "p": "Containerele sunt grupate după proiectul Compose. <b>Porniți un fișier Compose pe orice gazdă</b> — Docker local, SSH sau apple/container — cu un <b>editor YAML</b> integrat; executorul se adaptează fiecărui motor."
+      },
+      "registries": {
+        "h3": "Registre private, automat",
+        "p": "Descărcările folosesc <code>docker login</code>-ul pe care l-ați făcut deja — Gantry preia datele de autentificare din <code>~/.docker/config.json</code>, din helpers și din portchei, la creare, în Rulare rapidă și în Compose."
+      },
+      "images": {
+        "h3": "Construiți și descărcați imagini",
+        "p": "Trageți un Dockerfile în fereastră pentru build cu jurnal în timp real sau descărcați după referință, cu progres pe fiecare strat. Adăugați taguri, curățați și citiți istoricul straturilor. O insignă marchează imaginile construite pentru altă arhitectură de CPU decât cea a gazdei."
+      },
+      "cleanup": {
+        "h3": "Recuperați spațiu",
+        "p": "Un panou arată ce ocupă spațiu — imagini orfane, containere oprite, volume nefolosite, cache de build — cu dimensiunile lor și curăță fiecare categorie sau pe toate. Pe apple/container rulează și Compactează discul."
+      },
+      "touchid": {
+        "h3": "Touch ID pentru acțiuni distructive",
+        "p": "Dacă activați opțiunea, Gantry cere Touch ID — sau parola de autentificare — înainte de a elimina un container sau de a șterge o gazdă. Secretele stau deja în portchei."
+      },
+      "themes": {
+        "h3": "Teme pentru terminal",
+        "p": "Îmbrăcați shellul integrat în Sistem, Solarized Dark, Dracula sau Nord — o paletă completă pentru prim-plan, fundal și 16 culori ANSI, aplicată pe loc."
+      }
+    },
+    "agents": {
+      "kicker": "Pregătit pentru agenți",
+      "h2": "Construit pentru a fi controlat de AI",
+      "p": "Un server MCP inclus și App Intents expun fiecare gazdă — inclusiv cele SSH — pentru Claude, Scurtături, Siri și scripturi, cu aceeași acoperire ca GUI-ul: creați și gestionați containere, construiți și descărcați imagini, volume și rețele, Compose Up, mașini apple/container și clustere Kubernetes, instrumentele de sistem <code>apple_*</code> pentru servicii, builder, registre și kerneluri, ba chiar expuneți un port printr-un Cloudflare Tunnel.",
+      "term_title": "Terminal — conectați serverul MCP",
+      "term_added": "✓ Server MCP adăugat",
+      "term_question": "\"de ce e superset_worker nesănătos pe dedic?\"",
+      "prompt_h3": "Copiază ca prompt",
+      "prompt_p": "Apăsați <span class=\"kbd\">⌥⌘P</span> pe orice container și Gantry pune în clipboard un prompt de depanare gata de lipit — gazda și cum se ajunge la ea, <code>host_id</code>-ul MCP și instrumentele, starea completă a containerului și o sarcină potrivită simptomului.",
+      "s1_state": "Nesănătos",
+      "s1_text": "„Depanează verificarea de sănătate care eșuează”",
+      "s2_state": "Căderi repetate",
+      "s2_text": "„Află de ce tot cade”",
+      "s3_state": "Sănătos",
+      "s3_text": "Lasă loc pentru propria dvs. întrebare."
+    },
+    "shots": {
+      "kicker": "Mai de aproape",
+      "h2": "Proiectat să pară livrat odată cu sistemul",
+      "p": "Vizualizare împărțită pe trei coloane, materiale Liquid Glass, Swift Charts. Capturi de ecran reale, nu machete.",
+      "stats_title": "Containere — Statistici",
+      "stats_alt": "Statistici în timp real ale containerelor: grafice CPU, memorie, rețea și I/O pe disc",
+      "stats_caption": "<b>Statistici în timp real.</b> CPU, memorie, rețea și I/O pe disc, eșantionate în fiecare secundă.",
+      "overview_title": "Gazdă — Prezentare generală",
+      "overview_alt": "Prezentarea generală a gazdei cu indicatoare CPU și memorie și utilizarea discului de către Docker",
+      "overview_caption": "<b>Prezentarea gazdei.</b> Indicatoare, utilizarea discului, date despre daemon.",
+      "fleet_title": "Flotă — Stare de sănătate",
+      "fleet_alt": "Panoul de flotă pentru cinci gazde, cu problemele de sănătate scoase în evidență",
+      "fleet_caption": "<b>Panoul de flotă.</b> Fiecare gazdă, fiecare problemă, un singur ecran."
+    },
+    "built": {
+      "kicker": "Construit altfel",
+      "h2": "Fără învelișuri web. Fără daemonuri proprii.",
+      "p": "Doar o aplicație Mac nativă și rapidă, care vorbește direct cu API-ul Docker Engine și cu CLI-ul <code>container</code> de la Apple.",
+      "swiftui_n": "100% SwiftUI nativ",
+      "swiftui_p": "Nu e Electron. Pornește instantaneu, consumă puțină memorie, se simte ca parte din sistem.",
+      "swift6_n": "Swift 6",
+      "swift6_p": "Cod modern, sigur pentru concurență, pe cel mai nou toolchain.",
+      "api_n": "API Engine direct",
+      "api_p": "Docker prin socketul Unix, fără CLI-ul Docker. apple/container prin propriul CLI <code>container</code>.",
+      "updates_n": "Actualizări automate",
+      "updates_p": "Un appcast Sparkle semnat EdDSA vă ține la zi, fără să vă deranjeze."
+    },
+    "install": {
+      "h2": "Instalare într-un minut",
+      "sub": "Fără App Store, fără cont. Descărcați și trageți — sau o singură linie Homebrew.",
+      "s1_title": "Instalați",
+      "s1_text": "Rulați cask-ul Homebrew sau luați fișierul <code>.zip</code> din Versiuni și trageți <code>Gantry.app</code> în Aplicații.",
+      "s2_title": "Prima lansare",
+      "s2_text": "Încă nu este notarizată — faceți clic dreapta și alegeți Deschide sau eliminați carantina cu <code>xattr -dr com.apple.quarantine /Applications/Gantry.app</code>",
+      "s3_title": "Adăugați o gazdă",
+      "s3_text": "Docker local apare singur. Pentru Apple container, adăugați o gazdă <em>Apple Container</em>; Gantry se oferă să configureze CLI-ul <code>container</code>. Agenți: <code>claude mcp add gantry</code>."
+    },
+    "footer_meta": "Licență MIT · Construit cu SwiftUI · © 2026"
+  },
+  "guide": {
+    "title": "GUI Apple container pentru Mac: ghidul complet apple/container",
+    "crumb": "Ghid apple/container",
+    "desc": "Ce este container de la Apple, cum îl instalați și cum îl gestionează Gantry: fiecare comandă CLI container și funcția Gantry, de la Compose la Kubernetes.",
+    "table_head": [
+      "Comandă CLI",
+      "Funcție Gantry",
+      "Versiunea CLI necesară pentru Gantry"
+    ],
+    "table": [
+      [
+        "<code>container run</code>, <code>container create</code>",
+        "Foaia Container nou și Rulare rapidă: imagine, nume, comandă, porturi, mediu, volume, domeniu DNS, kernel personalizat și argumente de boot",
+        "Oricare"
+      ],
+      [
+        "<code>container list --all</code>",
+        "Lista Containere, grupată după proiectul Compose, cu filtre de stare și căutare",
+        "Oricare"
+      ],
+      [
+        "<code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code>",
+        "Bara de instrumente, meniul contextual și panoul din bara de meniu",
+        "Oricare"
+      ],
+      [
+        "<code>container logs</code>",
+        "Fila Jurnale: urmărire în timp real, căutare regex, filtru pe nivel, culori ANSI",
+        "Oricare"
+      ],
+      [
+        "<code>container stats</code>",
+        "Fila Statistici și minigraficele din panoul de flotă",
+        "Oricare"
+      ],
+      [
+        "<code>container exec</code>",
+        "Fila Terminal (shell interactiv) și fila Procese",
+        "Oricare"
+      ],
+      [
+        "<code>container inspect</code>",
+        "Filele Prezentare generală și Inspectează",
+        "Oricare"
+      ],
+      [
+        "<code>container export</code>",
+        "Exportă sistemul de fișiere (tar)",
+        "Oricare"
+      ],
+      [
+        "<code>container commit</code>",
+        "Salvează ca imagine",
+        "1.6"
+      ],
+      [
+        "<code>container copy</code>",
+        "Fila Fișiere: descărcare și tragere în Finder (containerul trebuie să fie pornit)",
+        "Oricare; testat pe 1.6.1"
+      ],
+      [
+        "<code>container exec</code> cu <code>tar</code>",
+        "Fila Fișiere: încărcare de fișiere și plasarea de dosare întregi din Finder",
+        "Oricare"
+      ],
+      [
+        "<code>container clean</code>",
+        "Compactează discul pe un container care rulează și un rând în Recuperează spațiu",
+        "1.4"
+      ],
+      [
+        "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
+        "Imagini: descărcare cu progres, tag, eliminare, curățare, inspectare",
+        "Oricare"
+      ],
+      [
+        "<code>container build</code>",
+        "Construiește serviciile <code>build:</code> dintr-un fișier Compose",
+        "Oricare"
+      ],
+      [
+        "<code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>",
+        "Volume",
+        "Oricare"
+      ],
+      [
+        "<code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>",
+        "Rețele",
+        "Oricare"
+      ],
+      [
+        "<code>--network &lt;name&gt;,alias=…</code>",
+        "Aliasuri DNS de rețea, aliasuri de subarbore (<code>.gateway</code>) și numele serviciilor Compose",
+        "Oricare; testat pe 1.6.1"
+      ],
+      [
+        "<code>container system start</code>, <code>stop</code>",
+        "Secțiunea Sistem: pornirea, oprirea și repornirea serviciilor; și din bara de meniu și Configurări",
+        "Oricare"
+      ],
+      [
+        "<code>container system status</code>, <code>version</code>",
+        "Secțiunea Sistem: stare, versiunile clientului și serverului, date despre gazdă",
+        "Oricare"
+      ],
+      [
+        "<code>container system logs</code>",
+        "Secțiunea Sistem: Jurnalele serviciilor, în timp real sau pe un interval de la 5 minute la 1 zi, filtrate după nivel, serviciu și text",
+        "Oricare"
+      ],
+      [
+        "<code>container system property list</code>",
+        "Secțiunea Sistem: editorul Proprietăți de sistem, salvate în <code>~/.config/container/config.toml</code>",
+        "Oricare; testat pe 1.6.1"
+      ],
+      [
+        "<code>container system dns create</code>, <code>delete</code>, <code>list</code>",
+        "Configurări ▸ Apple: domenii DNS locale și un domeniu implicit",
+        "Oricare"
+      ],
+      [
+        "<code>container system kernel set</code>",
+        "Secțiunea Sistem: instalarea kernelului recomandat, a unui fișier kernel sau a unei arhive tar",
+        "Oricare"
+      ],
+      [
+        "<code>container system df</code>",
+        "Utilizarea discului în prezentarea generală a gazdei și Recuperează spațiu",
+        "Oricare"
+      ],
+      [
+        "<code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code>",
+        "Secțiunea Sistem: Builder de imagini, cu opțiuni de CPU, memorie și DNS",
+        "Oricare"
+      ],
+      [
+        "<code>container registry login</code>, <code>logout</code>, <code>list</code>",
+        "Secțiunea Sistem: Autentificări la registre (parola doar prin stdin)",
+        "Oricare"
+      ],
+      [
+        "<code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code>",
+        "Mașini: creare, pornire, oprire, ștergere, mașina implicită, CPU-uri și memorie, shell, inspectare, Deschide în VS Code",
+        "Oricare; virtualizare imbricată și kerneluri: 1.1"
+      ],
+      [
+        "<code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code>",
+        "Clustere: clustere Kubernetes, noduri, kubeconfig, context kubectl, Încarcă în cluster",
+        "1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)"
+      ],
+      [
+        "Nu există comanda <code>compose</code>",
+        "Executor Compose: pornește un <code>docker-compose.yml</code> din Finder, din meniul Fișier sau prin tragere și plasare",
+        "Oricare"
+      ]
+    ],
+    "callout": "Folosiți pachetul de instalare semnat, nu versiunea Homebrew. Versiunea Homebrew nu include backendul pentru mașini, așa că <code>container machine</code> nu poate rula.",
+    "code_mcp": "Adăugați serverul MCP Gantry",
+    "faq": [
+      {
+        "q": "Care este cel mai bun GUI pentru Apple container?",
+        "a": "Gantry este un GUI nativ macOS, gratuit și open source, creat pentru apple/container. Transpune CLI-ul <code>container</code> într-o aplicație desktop: containere, jurnale, statistici și exec, plus clustere Kubernetes, mașini, builderul de imagini, autentificări la registre, kerneluri, jurnalele serviciilor și proprietăți de sistem. Tabelul de pe această pagină listează fiecare comandă și funcția Gantry care o folosește."
+      },
+      {
+        "q": "Are Apple container o interfață grafică?",
+        "a": "Apple livrează <code>container</code> doar ca instrument de linie de comandă. Gantry este o aplicație open source separată care îi oferă un GUI, lângă gazdele Docker."
+      },
+      {
+        "q": "Pot folosi docker compose cu Apple container?",
+        "a": "apple/container nu are comanda <code>compose</code>. Gantry citește un <code>docker-compose.yml</code>, construiește serviciile cu <code>build:</code>, creează rețeaua și volumele cu nume și pornește serviciile în ordinea din <code>depends_on</code>. Numele serviciilor se rezolvă prin aliasuri DNS de rețea."
+      },
+      {
+        "q": "Cum deschid o mașină container în VS Code?",
+        "a": "Porniți mașina în Gantry și faceți clic pe <b>Deschide în VS Code</b>. Gantry o deschide prin Remote-SSH, ca în exemplul <code>container-machine-vscode</code> de la Apple. Imaginea mașinii trebuie să ruleze <code>sshd</code>."
+      },
+      {
+        "q": "Funcționează Apple container pe Mac cu Intel?",
+        "a": "Nu. apple/container necesită un Mac cu Apple silicon. Gantry rulează și pe Mac-uri cu Intel, dar acolo gestionează doar gazde Docker."
+      },
+      {
+        "q": "Ce versiune a CLI-ului container să instalez?",
+        "a": "Gantry necesită 1.0 sau o versiune ulterioară și este testat cu 1.6.1. Instalați-l cu pachetul de instalare semnat de pe <a href=\"https://github.com/apple/container/releases\">pagina de versiuni apple/container</a>. Versiunea Homebrew nu include backendul pentru mașini, așa că <code>container machine</code> nu funcționează cu ea."
+      }
+    ],
+    "body": {
+      "h1": "Apple container pe Mac: ghidul complet și GUI-ul",
+      "lead": "apple/container rulează containere Linux pe Mac, fiecare în propria mașină virtuală ușoară. Vine ca instrument de linie de comandă. Gantry este un GUI nativ macOS pentru el. Acest ghid explică instrumentul, cum îl configurați și ce funcție Gantry acoperă fiecare comandă <code>container</code>.",
+      "tldr": "<strong>Pe scurt.</strong> Gantry este o aplicație macOS gratuită și open source (MIT) care gestionează instrumentul <code>container</code> de la Apple și Docker dintr-o singură fereastră. Acceptă CLI-ul <code>container</code> 1.0–1.6.1 (recomandat) și afișează doar funcțiile acceptate de versiunea dvs. de CLI. Instalați-l cu <code>brew install --cask getgantry/tap/gantry</code>.",
+      "what-is": {
+        "h": "Ce este apple/container?",
+        "p1": "<a href=\"https://github.com/apple/container\">apple/container</a> este un instrument open source de la Apple, scris în Swift, care creează și rulează containere Linux pe Mac. Docker Desktop rulează toate containerele într-o singură VM Linux partajată; apple/container rulează fiecare container în propria mașină virtuală ușoară, construită pe framework-ul Virtualization de la Apple. Folosește imagini OCI standard, așa că descarcă din aceleași registre ca Docker și trimite în ele.",
+        "li1": "<strong>Hardware:</strong> un Mac cu Apple silicon.",
+        "li2": "<strong>macOS:</strong> Apple îl acceptă pe macOS 26.",
+        "li3": "<strong>Interfață:</strong> doar CLI-ul <code>container</code>. Nu există aplicație desktop și nici comanda <code>compose</code>.",
+        "li4": "<strong>Rețea:</strong> fiecare container primește propria adresă IP pe Mac, iar domeniile DNS locale le dau containerelor nume precum <code>web.test</code>."
+      },
+      "why-gui": {
+        "h": "De ce un GUI pentru apple/container?",
+        "p1": "CLI-ul este complet, dar munca de zi cu zi înseamnă multe comenzi: <code>container list</code>, <code>logs</code>, <code>stats</code>, <code>exec</code>, apoi <code>system</code>, <code>builder</code>, <code>registry</code>, <code>machine</code> și <code>cluster</code> pentru rest. Gantry le adună într-o singură fereastră cu actualizări în timp real, așa că vedeți starea în loc să o tot interogați. Adaugă și ce nu are CLI-ul: fișiere Compose, notificări de eroare, o vizualizare de flotă cu gazdele Docker și un server MCP pentru agenți AI."
+      },
+      "setup": {
+        "h": "Configurarea apple/container cu Gantry",
+        "li1": "Instalați Gantry: <code>brew install --cask getgantry/tap/gantry</code>, apoi eliminați atributul de carantină (vedeți <a href=\"{root}docs/install.html\">Instalare</a>).",
+        "li2": "Instalați CLI-ul <code>container</code> din pachetul <code>.pkg</code> semnat de pe <a href=\"https://github.com/apple/container/releases\">pagina de versiuni apple/container</a>. Dacă lipsește sau este mai vechi de 1.0, Gantry afișează o foaie de configurare cu pașii.",
+        "li3": "În Gantry, alegeți <strong>Adaugă gazdă…</strong> și adăugați o gazdă <em>Apple Container</em>. La conectare, serviciile <code>container</code> pornesc dacă sunt oprite.",
+        "li4": "Dacă nu este instalat niciun kernel implicit, prezentarea generală a gazdei afișează un banner. Faceți clic pe el pentru a instala kernelul recomandat."
+      },
+      "command-map": {
+        "h": "Fiecare comandă container și funcția din Gantry",
+        "p1": "Acest tabel pune în corespondență CLI-ul <code>container</code> cu Gantry. Ultima coloană arată versiunea CLI de care Gantry are nevoie pentru funcție. <em>Oricare</em> înseamnă orice CLI acceptat, 1.0 sau mai nou. Gantry citește versiunea instalată și ascunde funcțiile pe care aceasta nu le acceptă."
+      },
+      "features": {
+        "h": "Ce adaugă Gantry pe apple/container"
+      },
+      "kubernetes": {
+        "h": "Clustere Kubernetes",
+        "p1": "Creați cu <code>container cluster</code> clustere Kubernetes cu mai mulți workeri, alegeți CNI-ul, vedeți fiecare nod, salvați kubeconfig și încărcați imagini locale în cluster. Vedeți <a href=\"../apple-container-kubernetes/\">Kubernetes pe apple/container</a>."
+      },
+      "machines": {
+        "h": "Mașini container și VS Code",
+        "p1": "Mașinile sunt medii Linux de lungă durată create cu <code>container machine</code>. Gantry le creează, le pornește, le oprește și le șterge, setează mașina implicită, editează CPU-urile și memoria și deschide un shell. Pe CLI 1.1 sau mai nou, o mașină poate porni cu virtualizare imbricată (Apple silicon M3 sau mai nou) și cu un kernel personalizat. <strong>Deschide în VS Code</strong> se conectează la o mașină care rulează prin Remote-SSH; imaginea mașinii trebuie să ruleze <code>sshd</code>."
+      },
+      "compose": {
+        "h": "Docker Compose pe apple/container",
+        "p1": "Deschideți un <code>docker-compose.yml</code> din Finder (<em>Deschide cu ▸ Gantry</em> sau <em>Acțiuni rapide ▸ Compose Up în apple/container</em>), din <strong>Fișier ▸ Deschide un fișier Compose…</strong> sau trăgându-l în fereastră. Gantry construiește serviciile cu <code>build:</code>, creează rețeaua proiectului și volumele cu nume și pornește fiecare serviciu în ordinea din <code>depends_on</code>, cu etichetele standard <code>com.docker.compose.*</code>. Cu un domeniu DNS implicit setat, serviciile se găsesc unele pe altele după numele serviciului, prin aliasuri de rețea."
+      },
+      "dns": {
+        "h": "Aliasuri DNS de rețea și domenii locale",
+        "p1": "Gantry transmite aliasurile de rețea către <code>container</code> ca <code>--network &lt;name&gt;,alias=…</code>. Fără un domeniu DNS implicit, trec doar numele complet calificate, iar un alias de subarbore (cu punct la început, precum <code>.gateway</code>) trece doar ca alias exact. Cu un domeniu implicit, funcționează și numele scurte. Gantry creează și șterge domenii DNS locale, setează domeniul implicit și le dă containerelor noi un hostname <code>name.domain</code>. Vedeți <a href=\"{root}docs/dns.html\">Nume DNS locale</a>."
+      },
+      "system": {
+        "h": "Sistem: servicii, builder, registre, kernel, jurnale, proprietăți",
+        "p1": "Fiecare gazdă apple/container are o secțiune <strong>Sistem</strong>. Aceasta funcționează și când gazda este deconectată, așa că de acolo puteți porni serviciile oprite.",
+        "li1": "<strong>Stare și versiune:</strong> versiunile clientului și serverului, cu un avertisment când diferă; pornirea, oprirea și repornirea serviciilor; date și căi ale gazdei.",
+        "li2": "<strong>Builder de imagini:</strong> stare, imagine, CPU-uri, memorie și IP; pornire cu opțiuni de CPU, memorie și DNS; oprire; ștergere.",
+        "li3": "<strong>Autentificări la registre:</strong> listare, autentificare și deconectare. Parola ajunge la CLI doar prin stdin (<code>--password-stdin</code>), iar Gantry nu păstrează nicio copie.",
+        "li4": "<strong>Kernel:</strong> instalarea kernelului recomandat, a unui fișier kernel sau a unei arhive tar, cu progres în timp real.",
+        "li5": "<strong>Jurnalele serviciilor:</strong> în timp real sau o singură dată, pe un interval de la 5 minute la 1 zi, filtrate după nivel, serviciu și text.",
+        "li6": "<strong>Proprietăți de sistem:</strong> modificările ajung în <code>~/.config/container/config.toml</code>, cu un indicator de repornire în așteptare și un buton <strong>Repornește serviciile</strong>."
+      },
+      "disk": {
+        "h": "Salvare ca imagine, Compactează discul și fișiere",
+        "p1": "<strong>Salvează ca imagine</strong> folosește <code>container commit</code> (CLI 1.6). <strong>Compactează discul</strong> folosește <code>container clean</code> (CLI 1.4) și apare și ca rând în Recuperează spațiu. Fila Fișiere descarcă fișiere și vă permite să le trageți în Finder cu <code>container copy</code> (containerul trebuie să fie pornit) și încarcă fișiere și dosare."
+      },
+      "labels": {
+        "h": "Etichete care conțin <code>=</code>",
+        "p1": "<code>container create</code> respinge o valoare de etichetă care conține <code>=</code>, inclusiv pe CLI 1.6.1. Gantry codifică astfel de valori când creează containerul și le decodifică atunci când îl citește, așa că etichetele pe care le setați sunt etichetele pe care le vedeți."
+      },
+      "agents": {
+        "h": "Server MCP și Scurtături",
+        "p1": "Serverul <code>gantry-mcp</code> inclus le oferă agenților AI aceeași acoperire pe gazdele apple/container: containere, imagini, volume, rețele, Compose, mașini (<code>list_machines</code>, <code>create_machine</code> și altele), clustere (<code>list_clusters</code>, <code>create_cluster</code>, <code>delete_cluster</code>) și instrumentele de sistem <code>apple_*</code> pentru servicii, builder, registre (fără instrument de autentificare), proprietăți, jurnale și instalarea kernelului. App Intents adaugă acțiuni pentru Scurtături și Siri. Vedeți <a href=\"{root}docs/mcp.html\">Agenți AI și MCP</a>."
+      },
+      "vs-docker": {
+        "h": "apple/container lângă Docker",
+        "p1": "Gantry gestionează gazde apple/container, daemonul Docker local (Docker Desktop, OrbStack, Colima) și gazde Docker la distanță prin SSH într-o singură bară laterală și un singur panou de flotă. Nu trebuie să alegeți un singur runtime. Pentru o comparație funcție cu funcție a instrumentelor, vedeți <a href=\"../compare/\">Gantry vs Docker Desktop, OrbStack și Podman Desktop</a>."
+      }
+    }
+  },
+  "k8s": {
+    "title": "Kubernetes pe Apple container: GUI pentru container cluster pe Mac",
+    "crumb": "Kubernetes pe apple/container",
+    "desc": "Kubernetes pe instrumentul container de la Apple, cu Gantry: clustere cu mai mulți workeri (container cluster), CNI la alegere, noduri, kubeconfig, imagini locale.",
+    "table_head": [
+      "Opțiune",
+      "Flag CLI",
+      "Note"
+    ],
+    "table": [
+      [
+        "Nume",
+        "<code>--name</code>",
+        "Este și numele contextului din kubeconfig"
+      ],
+      [
+        "Workeri",
+        "<code>--workers</code>",
+        "Numărul de noduri worker. CLI 1.6.0+"
+      ],
+      [
+        "CPU-uri",
+        "<code>--cpus</code>",
+        "Per nod"
+      ],
+      [
+        "Memorie",
+        "<code>--memory</code>",
+        "Per nod, de exemplu <code>4G</code>"
+      ],
+      [
+        "Imaginea nodurilor",
+        "<code>--node-image</code>",
+        "Gol păstrează valoarea implicită a CLI-ului"
+      ],
+      [
+        "CNI",
+        "<code>--cni</code>",
+        "Implicit (kindnet inclus), Niciunul (<code>NONE</code>, CLI 1.6.0+) sau calea către un manifest personalizat"
+      ]
+    ],
+    "code_shell": "Shell",
+    "code_mcp": "Adăugați serverul MCP Gantry",
+    "faq": [
+      {
+        "q": "Apple container acceptă Kubernetes?",
+        "a": "Da. CLI-ul <code>container</code> creează clustere Kubernetes ale căror noduri rulează ca containere: <code>container cluster</code> în CLI 1.6.1, <code>container k8s</code> în CLI 1.5.0–1.6.0. Gantry îi oferă un GUI."
+      },
+      {
+        "q": "Gantry acceptă container cluster?",
+        "a": "Da. Gantry listează, creează și șterge clustere pe gazdele apple/container, afișează nodurile acestora, salvează kubeconfig, copiază comanda de context <code>kubectl</code> și încarcă imagini locale într-un cluster. Folosește <code>cluster</code> sau <code>k8s</code> în funcție de versiunea CLI-ului dvs."
+      },
+      {
+        "q": "Cum folosesc kubectl cu un cluster apple/container?",
+        "a": "Când CLI-ul creează un cluster, adaugă în <code>~/.kube/config</code> un context kubeconfig cu numele clusterului. Rulați <code>kubectl --context &lt;name&gt; get nodes</code>. Pentru un fișier separat, folosiți <b>Salvează kubeconfig</b> în Gantry; calea implicită este <code>~/.kube/&lt;name&gt;.kubeconfig</code>."
+      },
+      {
+        "q": "Cum pun o imagine locală în cluster fără registru?",
+        "a": "În Gantry, faceți clic dreapta pe imagine în Imagini și alegeți <b>Încarcă în cluster</b>. Gantry rulează <code>container cluster load-image</code>, care copiază imaginea în containerd-ul fiecărui nod."
+      },
+      {
+        "q": "Pot crea un cluster cu mai multe noduri?",
+        "a": "Da. Setați numărul de workeri în foaia de creare. Workerii necesită CLI 1.6.0 sau o versiune ulterioară."
+      },
+      {
+        "q": "Pot folosi propriul CNI, de exemplu Calico sau Cilium?",
+        "a": "Da. Alegeți <b>Manifest personalizat</b> și selectați fișierul manifest sau alegeți <b>Niciunul</b> și aplicați manual un CNI după ce clusterul pornește. Nodurile rămân NotReady până când rulează un CNI. <b>Niciunul</b> necesită CLI 1.6.0 sau o versiune ulterioară. CNI-ul implicit este manifestul kindnet inclus."
+      }
+    ],
+    "body": {
+      "h1": "Kubernetes pe Apple container",
+      "lead": "apple/container poate rula un cluster Kubernetes ale cărui noduri sunt containere pe Mac. Gantry este un GUI pentru el: creați un cluster, urmăriți cum pornesc nodurile, conectați <code>kubectl</code> și încărcați imaginile locale, fără linii de comandă lungi <code>container cluster</code>.",
+      "tldr": "<strong>Pe scurt.</strong> Pe o gazdă apple/container, secțiunea <strong>Clustere</strong> din Gantry creează și șterge clustere Kubernetes cu <code>container cluster</code> (CLI 1.6.1) sau <code>container k8s</code> (CLI 1.5.0–1.6.0). Acceptă mai mulți workeri, un CNI personalizat, o vizualizare a nodurilor, kubeconfig și context <code>kubectl</code>, plus <strong>Încarcă în cluster</strong> pentru imagini locale.",
+      "requirements": {
+        "h": "Cerințe",
+        "li1": "Un Mac cu Apple silicon, macOS 26 și Gantry (<code>brew install --cask getgantry/tap/gantry</code>).",
+        "li2": "CLI-ul <code>container</code> 1.5.0 sau mai nou; se recomandă 1.6.1. Workerii și CNI-ul <em>Niciunul</em> necesită 1.6.0 sau mai nou.",
+        "li3": "<code>kubectl</code>, dacă vreți să folosiți clusterul din terminal."
+      },
+      "create": {
+        "h": "Crearea unui cluster",
+        "li1": "Selectați gazda apple/container și deschideți <strong>Clustere</strong> în bara laterală.",
+        "li2": "Începeți un cluster nou și completați opțiunile de mai jos.",
+        "li3": "Creați-l. Lista afișează noul cluster cu progresul în timp real. <strong>Anulează</strong> oprește crearea și șterge nodurile deja create.",
+        "p1": "Aceeași comandă în CLI:"
+      },
+      "nodes": {
+        "h": "Noduri și detaliile clusterului",
+        "p1": "Lista de clustere afișează fiecare cluster cu nodurile sale: rol, stare și adresă. Vizualizarea detaliată are o <strong>Prezentare generală</strong> (context kubectl, server API, workeri, rețeaua nodurilor), un tabel <strong>Noduri</strong>, <strong>Inspectează</strong> pentru datele brute ale nodurilor și acțiunile <strong>Salvează kubeconfig</strong>, <strong>Copiază comanda de context kubectl</strong> și <strong>Șterge</strong>."
+      },
+      "kubectl": {
+        "h": "Conectarea kubectl",
+        "p1": "Când creează clusterul, CLI-ul adaugă în <code>~/.kube/config</code> un context cu numele clusterului. Folosiți <strong>Copiază comanda de context kubectl</strong> în Gantry sau tastați comanda:",
+        "p2": "Pentru a păstra clusterul într-un fișier separat, folosiți <strong>Salvează kubeconfig</strong>. Gantry rulează <code>container cluster write-config</code>; calea implicită este <code>~/.kube/&lt;name&gt;.kubeconfig</code>."
+      },
+      "images": {
+        "h": "Încărcarea imaginilor locale în cluster",
+        "p1": "Construiți sau descărcați o imagine pe gazda apple/container, apoi faceți clic dreapta pe ea în <strong>Imagini</strong> și alegeți <strong>Încarcă în cluster</strong>. Gantry rulează <code>container cluster load-image</code>, care copiază imaginea în containerd-ul fiecărui nod. Pentru dezvoltarea locală nu aveți nevoie de un registru."
+      },
+      "cni": {
+        "h": "Alegerea unui CNI",
+        "p1": "Implicit se folosește manifestul kindnet inclus. Alegeți <strong>Manifest personalizat</strong> pentru a instala propriul CNI dintr-un fișier, de exemplu Calico sau Cilium. Alegeți <strong>Niciunul</strong> pentru a instala manual un CNI mai târziu; până atunci, nodurile rămân NotReady."
+      },
+      "agents": {
+        "h": "Clustere din agenți AI",
+        "p1": "Serverul MCP Gantry are <code>list_clusters</code>, <code>create_cluster</code> și <code>delete_cluster</code>, așa că un agent precum Claude Code poate crea un cluster temporar pentru un test și îl poate elimina după aceea."
+      },
+      "more": {
+        "h": "Mai multe despre apple/container",
+        "p1": "Citiți <a href=\"../apple-container/\">ghidul apple/container</a> pentru fiecare comandă <code>container</code> și funcția corespunzătoare din Gantry sau vedeți cum se compară Gantry cu <a href=\"../compare/\">Docker Desktop, OrbStack și Podman Desktop</a>."
+      }
+    }
+  },
+  "compare": {
+    "title": "Gantry vs Docker Desktop vs OrbStack vs Podman Desktop vs CLI container",
+    "crumb": "Comparație",
+    "desc": "Comparație factuală între Gantry, Docker Desktop, OrbStack, Podman Desktop și CLI-ul container de la Apple: licență, preț, UI, apple/container, Kubernetes, Compose și mașini.",
+    "table_head": [
+      "",
+      "Gantry",
+      "Docker Desktop",
+      "OrbStack",
+      "Podman Desktop",
+      "CLI <code>container</code>"
+    ],
+    "table": [
+      [
+        "Ce este",
+        "Client GUI nativ. Folosește motorul pe care îl aveți deja",
+        "Motor Docker într-o VM Linux, plus un GUI",
+        "Motor Docker și Linux, plus un GUI",
+        "GUI pentru Podman (și alte motoare)",
+        "CLI-ul și runtime-ul Apple"
+      ],
+      [
+        "Licență și preț",
+        "MIT, gratuit pentru orice utilizare",
+        "Proprietar. Gratuit pentru uz personal, educație, open source necomercial și firme mici (sub 250 de angajați și venituri anuale sub 10 milioane USD); altfel, abonament plătit",
+        "Proprietar. Gratuit pentru uz personal, necomercial; licență plătită pentru uz comercial",
+        "Apache 2.0, gratuit",
+        "Apache 2.0, gratuit"
+      ],
+      [
+        "Cod sursă",
+        "Deschis",
+        "Închis",
+        "Închis",
+        "Deschis",
+        "Deschis"
+      ],
+      [
+        "Tehnologia UI",
+        "SwiftUI (nativ)",
+        "Electron",
+        "Aplicație nativă macOS",
+        "Electron",
+        "Fără GUI"
+      ],
+      [
+        "Platforme",
+        "macOS 26+, Apple silicon și Intel",
+        "macOS, Windows, Linux",
+        "macOS",
+        "macOS, Windows, Linux",
+        "macOS pe Apple silicon"
+      ],
+      [
+        "Gestionează apple/container",
+        "Da, CLI 1.0–1.6.1",
+        "Nu",
+        "Nu",
+        "Nu apare în documentația producătorului (verificat la 2026-11-03)",
+        "Este apple/container"
+      ],
+      [
+        "Kubernetes",
+        "Pe apple/container, prin <code>container cluster</code>: mai mulți workeri, CNI personalizat",
+        "Kubernetes integrat",
+        "Kubernetes integrat",
+        "Prin Kind și alți furnizori",
+        "<code>container cluster</code> (1.6.1), <code>container k8s</code> (1.5.0–1.6.0)"
+      ],
+      [
+        "Docker Compose",
+        "Pe gazde Docker și pe apple/container (Gantry rulează fișierul)",
+        "Da",
+        "Da",
+        "Da, printr-un furnizor Compose",
+        "Nu există comanda <code>compose</code>"
+      ],
+      [
+        "Mașini Linux de lungă durată",
+        "<code>container machine</code>, cu Deschide în VS Code",
+        "Nu",
+        "Da (mașini Linux)",
+        "Nu (Podman machine este VM-ul motorului)",
+        "<code>container machine</code>"
+      ],
+      [
+        "Gazde Docker la distanță prin SSH în GUI",
+        "Da, cu ProxyJump și secrete în portchei",
+        "Necunoscut",
+        "Necunoscut",
+        "Necunoscut",
+        "Nu se aplică"
+      ],
+      [
+        "Server MCP inclus care vă gestionează containerele",
+        "Da (<code>gantry-mcp</code>)",
+        "Necunoscut",
+        "Necunoscut",
+        "Necunoscut",
+        "Nu"
+      ]
+    ],
+    "faq": [
+      {
+        "q": "Este Gantry o alternativă la Docker Desktop?",
+        "a": "Ca GUI, da. Gantry gestionează containere, imagini, volume, rețele, jurnale, statistici și Compose. Nu include un motor Docker: pe Mac, folosiți pentru asta OrbStack, Colima sau Docker Desktop ori instrumentul <code>container</code> de la Apple, pe care Gantry îl gestionează și el. Gantry are licență MIT și este gratuit pentru uz comercial."
+      },
+      {
+        "q": "Este Gantry o alternativă la OrbStack?",
+        "a": "Parțial. OrbStack este un motor și un GUI; Gantry este doar un GUI. Puteți folosi Gantry ca GUI peste motorul Docker din OrbStack sau puteți folosi Gantry cu apple/container, care vă oferă containere, mașini Linux și Kubernetes chiar din instrumentul Apple."
+      },
+      {
+        "q": "Care este cel mai bun GUI pentru Apple container?",
+        "a": "Dintre instrumentele de pe această pagină, Gantry este singurul care gestionează apple/container (verificat la 2026-11-03). Acoperă întregul CLI <code>container</code>, inclusiv clustere, mașini, builder, registre și proprietăți de sistem."
+      },
+      {
+        "q": "Pot folosi Gantry și Docker Desktop împreună?",
+        "a": "Da. Gantry se conectează la motorul Docker Desktop prin socketul acestuia, așa că puteți folosi Gantry ca GUI și păstra Docker Desktop ca motor."
+      }
+    ],
+    "body": {
+      "h1": "Gantry vs Docker Desktop, OrbStack, Podman Desktop și CLI-ul container",
+      "lead": "Cinci moduri de a rula și gestiona containere pe Mac, comparate pe baza unor fapte pe care le puteți verifica. Gantry este un client GUI. Celelalte includ un motor, cu excepția CLI-ului <code>container</code>, care este un motor fără GUI.",
+      "tldr": "<strong>Pe scurt.</strong> Alegeți <strong>Gantry</strong> dacă vreți un GUI gratuit, nativ și open source pentru instrumentul <code>container</code> de la Apple și pentru Docker (local și prin SSH), într-o singură aplicație. Gantry nu înlocuiește un motor Docker; funcționează cu cel pe care îl aveți sau cu apple/container.",
+      "table": {
+        "h": "Tabel comparativ",
+        "p1": "Date valabile la 2026-11-03, din paginile publice ale fiecărui producător (vedeți <a href=\"#sources\">sursele</a>). „Necunoscut” înseamnă că nu am găsit informația în documentația producătorului. Nu înseamnă că funcția lipsește."
+      },
+      "when": {
+        "h": "Când să alegeți fiecare variantă",
+        "choose1": {
+          "h": "Alegeți Gantry",
+          "p1": "Folosiți instrumentul <code>container</code> de la Apple și vreți un GUI pentru tot, inclusiv clustere Kubernetes, mașini și builderul de imagini. Sau gestionați mai multe gazde Docker, locale și la distanță prin SSH, și vreți o singură fereastră nativă și notificări de eroare pentru toate. Sau vreți un server MCP prin care agenții AI să vă gestioneze containerele."
+        },
+        "choose2": {
+          "h": "Alegeți Docker Desktop",
+          "p1": "Aveți nevoie de motorul Docker cu aceeași aplicație pe macOS, Windows și Linux, de extensiile Docker și de suportul Docker, iar compania dvs. are un abonament Docker sau se încadrează la utilizarea gratuită."
+        },
+        "choose3": {
+          "h": "Alegeți OrbStack",
+          "p1": "Vreți un motor Docker și mașini Linux pe macOS într-un singur produs, iar o licență plătită pentru uz comercial este acceptabilă."
+        },
+        "choose4": {
+          "h": "Alegeți Podman Desktop",
+          "p1": "Folosiți Podman, vreți un GUI open source pe mai multe sisteme de operare sau lucrați cu instrumente Red Hat."
+        },
+        "choose5": {
+          "h": "Alegeți doar CLI-ul container",
+          "p1": "Automatizați totul cu scripturi în terminal și nu aveți nevoie de un GUI. Gantry folosește același CLI, așa că puteți adăuga GUI-ul mai târziu."
+        }
+      },
+      "together": {
+        "h": "Folosiți-le împreună",
+        "p1": "Gantry este un client, deci funcționează alături de celelalte. Se conectează la motorul Docker din Docker Desktop, OrbStack sau Colima prin socketul Docker, la gazde Docker la distanță prin SSH și la apple/container prin CLI-ul <code>container</code>, totul într-o singură bară laterală."
+      },
+      "sources": {
+        "h": "Surse",
+        "li1": "Termenii de licență Docker Desktop: <a href=\"https://www.docker.com/pricing/faq/\">întrebări frecvente despre prețurile Docker</a>.",
+        "li2": "Termenii de licență OrbStack: <a href=\"https://docs.orbstack.dev/licensing\">licențierea OrbStack</a>.",
+        "li3": "Licența și funcțiile Podman Desktop: <a href=\"https://github.com/podman-desktop/podman-desktop\">podman-desktop pe GitHub</a> și <a href=\"https://podman-desktop.io/docs\">documentația Podman Desktop</a>.",
+        "li4": "apple/container: <a href=\"https://github.com/apple/container\">apple/container pe GitHub</a>.",
+        "li5": "Gantry: <a href=\"https://github.com/getgantry/gantry\">codul sursă</a> și <a href=\"https://github.com/getgantry/gantry/blob/main/CHANGELOG.md\">jurnalul de modificări</a>.",
+        "p1": "Ați găsit o eroare? <a href=\"https://github.com/getgantry/getgantry.github.io/issues\">Semnalați-o</a> și corectăm tabelul."
+      }
+    }
+  }
+}

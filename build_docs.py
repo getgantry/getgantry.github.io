@@ -189,7 +189,7 @@ PAGES["apple-container"] = ("apple/container",
 </ul>
 
 <h2>Kubernetes clusters</h2>
-<p>The <strong>Clusters</strong> section creates Kubernetes clusters with <code>container cluster</code> (CLI 1.6.1 and 1.7) or <code>container k8s</code> (CLI 1.5.0 to 1.6.0): workers, CPUs, memory, node image and CNI. On CLI 1.7 it sizes the workers apart from the control plane and can turn on the shared image store (<strong>Use local images</strong>). It shows the nodes, writes the kubeconfig and opens the cluster in the <strong>Kubernetes</strong> browser (<strong>Browse Resources</strong>). See <a href="../apple-container-kubernetes/">Kubernetes on apple/container</a> and <a href="../kubernetes-on-mac/">Run Kubernetes on a Mac</a>.</p>
+<p>The <strong>Clusters</strong> section creates Kubernetes clusters with <code>container cluster</code> (CLI 1.6.1 and 1.7) or <code>container k8s</code> (CLI 1.5.0 to 1.6.0): workers, CPUs, memory, node image and CNI. On CLI 1.7 it sizes the workers apart from the control plane and can turn on the shared image store (<strong>Use local images</strong>). It shows the nodes, writes the kubeconfig and opens the cluster in the <strong>Kubernetes</strong> browser (<strong>Browse Resources</strong>). See <a href="../apple-container-kubernetes/">Kubernetes on apple/container</a> and <a href="../apple-container-kubernetes/#terminal">Run Kubernetes on a Mac</a>.</p>
 
 <h2>What's different from Docker</h2>
 <ul>

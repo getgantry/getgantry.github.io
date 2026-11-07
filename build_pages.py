@@ -43,14 +43,13 @@ PAGES = {
 }
 # How-to guides: slug -> (sitemap changefreq, priority). Strings: guides.<slug>.
 GUIDES = {
-    "kubernetes-on-mac": ("monthly", "0.8"),
     "docker-desktop-to-apple-container": ("monthly", "0.8"),
     "containers-on-external-drive": ("monthly", "0.7"),
     "docker-run-to-container": ("monthly", "0.7"),
 }
-# Commands in the guides. They are not translated.
+# Commands in the guides and in the terminal walk-through of the Kubernetes page (key "k8s"). Not translated.
 GUIDE_CODE = {
-    "kubernetes-on-mac": {
+    "k8s": {
         "start": "container system start",
         "create": "container cluster create --name dev --cpus 2 --memory 2g \\\n"
                   "  --workers count=2,cpus=2,memory=2g --shared-image-store",
@@ -94,7 +93,7 @@ SHOTS = {
     "home-dashboard": ("home, section #new (new design)", "dashboard.png"),
     "home-kube": ("home, section #new (Kubernetes browser)", "kubernetes-browser.png"),
     "home-explain": ("home, section #new (Explain Failure)", "explain-failure.png"),
-    "k8s-browser": ("guide kubernetes-on-mac, section #gantry", "kubernetes-browser-dev.png"),
+    "k8s-browser": ("page apple-container-kubernetes, section #browser", "kubernetes-browser-dev.png"),
     "paste-command": ("guide docker-run-to-container, section #paste", "paste-command.png"),
     "storage-pane": ("guide containers-on-external-drive, section #gantry", "storage-pane.png"),
     "cluster-overview": ("page apple-container-kubernetes, section #nodes", "cluster-overview.png"),
@@ -313,8 +312,12 @@ def shot(key, alt, caption, root, indent=""):
     rel_path = f"{SHOT_DIR}/{name}"
     if not os.path.exists(os.path.join(ROOT, rel_path)):
         return f'{indent}<!-- TODO-SCREENSHOT section="{section}" file="{rel_path}" -->'
+    with open(os.path.join(ROOT, rel_path), "rb") as f:
+        head = f.read(24)
+    width, height = int.from_bytes(head[16:20], "big"), int.from_bytes(head[20:24], "big")  # PNG IHDR
     return (f'{indent}<figure class="guide-shot"><img src="{root}{rel_path}" alt="{html.escape(alt, quote=True)}" '
-            f'loading="lazy" decoding="async"><figcaption>{caption}</figcaption></figure>')
+            f'width="{width}" height="{height}" loading="lazy" decoding="async"><figcaption>{caption}</figcaption>'
+            f'</figure>')
 
 
 def callout_note(body, label):
@@ -475,12 +478,17 @@ def blocks_for(key, p, t):
                        ("code_load", "container cluster load-image --name dev myapp:dev")):
             b[n] = code_block(p["code_shell"], cmd, copy_label)
         b["shot_cluster"] = shot("cluster-overview", p["shot_alt"], p["shot_caption"], "{root}")  # render() fills {root}
+        term = p["terminal"]
+        gantry = next(sec for sec in term["sections"] if sec["id"] == "gantry")
+        b["shot_browser"] = "\n".join(shot(x["shot"], x["alt"], x["caption"], "{root}")
+                                      for x in gantry["blocks"] if "shot" in x)
+        walk = [sec for sec in term["sections"] if sec["id"] != "gantry"]
+        b["terminal"] = "\n".join([f'<h2 id="terminal">{term["h1"]}</h2>', f'<p>{term["lead"]}</p>',
+                                   sections_html("k8s", walk, term.get("tables", {}), t, "{root}", "h3", "terminal-")])
     return b
 
 
 def about_for(key):
-    if key == "kubernetes-on-mac":
-        key = "k8s"
     if key in GUIDES:
         return APPLE_ABOUT + [{"@type": "SoftwareApplication", "name": "Gantry", "url": f"{SITE}/"}]
     if key == "guide":
@@ -491,12 +499,11 @@ def about_for(key):
             for n in ("Gantry", "Docker Desktop", "OrbStack", "Podman Desktop", "container (apple/container)")]
 
 
-def guide_body(slug, p, t, root):
+def sections_html(code_key, sections, tables, t, root, tag="h2", id_prefix=""):
     chrome = t["chrome"]
-    out = [f'<h1>{p["h1"]}</h1>', f'<p class="page-lead">{p["lead"]}</p>', "",
-           f'<div class="tldr">\n<p>{p["tldr"]}</p>\n</div>']
-    for sec in p["sections"]:
-        out += ["", f'<h2 id="{sec["id"]}">{sec["h"]}</h2>']
+    out = []
+    for sec in sections:
+        out += ["", f'<{tag} id="{id_prefix}{sec["id"]}">{sec["h"]}</{tag}>']
         for b in sec["blocks"]:
             if "p" in b:
                 out.append(f'<p>{b["p"]}</p>')
@@ -506,9 +513,9 @@ def guide_body(slug, p, t, root):
             elif "code" in b:
                 if b.get("after"):
                     out.append(f'<p>{b["after"]}</p>')
-                out.append(code_block(chrome["terminal"], GUIDE_CODE[slug][b["code"]], chrome["copy"]))
+                out.append(code_block(chrome["terminal"], GUIDE_CODE[code_key][b["code"]], chrome["copy"]))
             elif "table" in b:
-                tb = p["tables"][b["table"]]
+                tb = tables[b["table"]]
                 out.append(table(tb["head"], tb["rows"]))
             elif "note" in b:
                 out.append(callout_note(b["note"], chrome["note"]))
@@ -517,10 +524,32 @@ def guide_body(slug, p, t, root):
             elif "shot" in b:
                 out.append(shot(b["shot"], b["alt"], b["caption"], root))
             else:
-                raise ValueError(f"{slug}: unknown block {sorted(b)}")
+                raise ValueError(f"{code_key}: unknown block {sorted(b)}")
+    return "\n".join(out)
+
+
+def howto_ld(url, name, sections, anchor_prefix=""):
+    """HowTo steps: one per section, with the text of its first paragraph or list."""
+    steps = []
+    for sec in sections:
+        first = next((b for b in sec["blocks"] if "p" in b or "ul" in b or "ol" in b), None)
+        if first is None:
+            continue
+        text = first.get("p") or " ".join(first.get("ul") or first.get("ol"))
+        steps.append({"@type": "HowToStep", "position": len(steps) + 1, "name": plain(sec["h"]),
+                      "text": " ".join(plain(text).split()), "url": f"{url}#{anchor_prefix}{sec['id']}"})
+    return {"@type": "HowTo", "@id": f"{url}#howto", "name": plain(name), "step": steps}
+
+
+def guide_body(slug, p, t, root):
+    chrome = t["chrome"]
+    out = [f'<h1>{p["h1"]}</h1>', f'<p class="page-lead">{p["lead"]}</p>', "",
+           f'<div class="tldr">\n<p>{p["tldr"]}</p>\n</div>',
+           sections_html(slug, p["sections"], p.get("tables", {}), t, root)]
     links = [f'  <li><a href="../{g}/">{t["guides"][g]["title"]}</a></li>' for g in GUIDES if g != slug]
     links += [f'  <li><a href="../apple-container/">{t["guide"]["title"]}</a></li>',
-              f'  <li><a href="../apple-container-kubernetes/">{t["k8s"]["title"]}</a></li>']
+              f'  <li><a href="../apple-container-kubernetes/">{t["k8s"]["title"]}</a></li>',
+              f'  <li><a href="../compare/">{t["compare"]["title"]}</a></li>']
     out += ["", f'<h2 id="related">{chrome["related"]}</h2>', "<ul>", *links, "</ul>"]
     return "\n".join(out)
 
@@ -532,6 +561,9 @@ def render_page(langs, lang, t, slug, key):
     url = ctx["url"]
     home = SITE + page_path(lang["code"], "")
     faq = [(f["q"], f["a"]) for f in p["faq"]]
+    if key == "k8s":
+        # The terminal walk-through brings its own questions; skip the two that the page FAQ already answers.
+        faq += [(f["q"], f["a"]) for i, f in enumerate(p["terminal"]["faq"]) if i in (0, 1, 3)]
     graph = [
         {
             "@type": "TechArticle",
@@ -557,6 +589,11 @@ def render_page(langs, lang, t, slug, key):
         },
         faq_ld(url, faq),
     ]
+    if key == "guides":
+        graph.append(howto_ld(url, p["h1"], p["sections"]))
+    elif key == "k8s":
+        walk = [sec for sec in p["terminal"]["sections"] if sec["id"] != "gantry"]
+        graph.append(howto_ld(url, p["terminal"]["h1"], walk, "terminal-"))
     rows = "\n".join(
         f'<details class="faq-item"><summary>{html.escape(q)}</summary><p>{a}</p></details>' for q, a in faq)
     ctx.update({
@@ -597,8 +634,9 @@ def sitemap(langs):
 
 def languages_section(langs):
     out = ["## Languages", "",
-           "The home page, the apple/container guide, the Kubernetes page, the comparison and the how-to guides "
-           "(Kubernetes on a Mac, moving from Docker Desktop, external drives, docker run) are also available "
+           "The home page, the apple/container guide, the Kubernetes page (with the Kubernetes on a Mac walk-through), "
+           "the comparison and the how-to guides (moving from Docker Desktop, external drives, docker run) are also "
+           "available "
            "in these languages. Each language uses the same paths under its prefix, for example "
            f"{SITE}/de/apple-container/. The documentation is in English only.", ""]
     out += [f"- {o['name']} ({o['code']}): {SITE}{page_path(o['code'], '')}" for o in langs if o["code"] != "en"]
@@ -631,9 +669,10 @@ def llms_full(langs, en):
     crow.append(en["compare"]["table_storage"])
     for row in crow:
         out.append(f"- {plain(row[0])}: " + "; ".join(f"{n}: {plain(c)}" for n, c in zip(names, row[1:])))
-    for slug in GUIDES:
-        g = en["guides"][slug]
-        out += ["", f"## Guide: {plain(g['h1'])}", "", f"URL: {SITE}/{slug}/", "", " ".join(plain(g["tldr"]).split())]
+    walks = [("k8s", f"{SITE}/apple-container-kubernetes/#terminal", en["k8s"]["terminal"])]
+    walks += [(slug, f"{SITE}/{slug}/", en["guides"][slug]) for slug in GUIDES]
+    for slug, url, g in walks:
+        out += ["", f"## Guide: {plain(g['h1'])}", "", f"URL: {url}", "", " ".join(plain(g["tldr"]).split())]
         for sec in g["sections"]:
             out += ["", f"### {plain(sec['h'])}", ""]
             for b in sec["blocks"]:
@@ -651,7 +690,7 @@ def llms_full(langs, en):
     out += ["", "## Questions and answers", ""]
     seen = set()
     faqs = en["home"]["faq"]["items"] + en["guide"]["faq"] + en["k8s"]["faq"] + en["compare"]["faq"]
-    faqs += [f for slug in GUIDES for f in en["guides"][slug]["faq"]]
+    faqs += en["k8s"]["terminal"]["faq"] + [f for slug in GUIDES for f in en["guides"][slug]["faq"]]
     for item in faqs:
         q = plain(item["q"])
         if q in seen:

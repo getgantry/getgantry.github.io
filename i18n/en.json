@@ -113,8 +113,8 @@
         },
         {
           "q": "Can Gantry browse a Kubernetes cluster?",
-          "a": "Yes. The <b>Kubernetes</b> section lists pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets, nodes and events for each kubeconfig context, and has pod logs, a pod shell, port forwards, scale, rollout restart, delete and Apply YAML. It works with any cluster, and the contexts of apple/container clusters come first. The browser uses <code>kubectl</code>, and Gantry can install it with Homebrew. See <a href=\"kubernetes-on-mac/\">Run Kubernetes on a Mac</a>.",
-          "a_native": "Yes. The <b>Kubernetes</b> section lists pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets, nodes and events for each kubeconfig context, and has pod logs, a pod shell, port forwards, scale, rollout restart, delete and Apply YAML. Gantry talks to the Kubernetes API itself, so you do not need <code>kubectl</code>. See <a href=\"kubernetes-on-mac/\">Run Kubernetes on a Mac</a>."
+          "a": "Yes. The <b>Kubernetes</b> section lists pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets, nodes and events for each kubeconfig context, and has pod logs, a pod shell, port forwards, scale, rollout restart, delete and Apply YAML. It works with any cluster, and the contexts of apple/container clusters come first. The browser uses <code>kubectl</code>, and Gantry can install it with Homebrew. See <a href=\"apple-container-kubernetes/#terminal\">Run Kubernetes on a Mac</a>.",
+          "a_native": "Yes. The <b>Kubernetes</b> section lists pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets, nodes and events for each kubeconfig context, and has pod logs, a pod shell, port forwards, scale, rollout restart, delete and Apply YAML. Gantry talks to the Kubernetes API itself, so you do not need <code>kubectl</code>. See <a href=\"apple-container-kubernetes/#terminal\">Run Kubernetes on a Mac</a>."
         },
         {
           "q": "What does Explain Failure send to Apple Intelligence?",
@@ -678,7 +678,7 @@
       },
       "kubernetes": {
         "h": "Kubernetes clusters",
-        "p1": "Create Kubernetes clusters with <code>container cluster</code>, size the workers, let pods use your local images, choose the CNI and see each node. Then browse the cluster in the Gantry Kubernetes browser. See <a href=\"../apple-container-kubernetes/\">Kubernetes on apple/container</a> and the step-by-step guide <a href=\"../kubernetes-on-mac/\">Run Kubernetes on a Mac</a>."
+        "p1": "Create Kubernetes clusters with <code>container cluster</code>, size the workers, let pods use your local images, choose the CNI and see each node. Then browse the cluster in the Gantry Kubernetes browser. See <a href=\"../apple-container-kubernetes/\">Kubernetes on apple/container</a> and the step-by-step guide <a href=\"../apple-container-kubernetes/#terminal\">Run Kubernetes on a Mac</a>."
       },
       "machines": {
         "h": "Container machines and VS Code",
@@ -804,7 +804,7 @@
       },
       {
         "q": "Do I need kubectl to use the cluster in Gantry?",
-        "a": "For now, yes: the Gantry Kubernetes browser runs <code>kubectl</code>. If it is not installed, the browser shows the <code>brew install kubectl</code> command and can run it for you. A native Kubernetes client that removes this step is in development.",
+        "a": "For now, yes: the Gantry Kubernetes browser runs <code>kubectl</code>. If it is not installed, the browser shows the <code>brew install kubectl</code> command and can run it for you.",
         "a_native": "No. Gantry talks to the Kubernetes API itself: it reads the kubeconfig, then lists resources, streams logs, opens a shell, forwards ports and applies YAML without <code>kubectl</code>. A cluster made with <code>container cluster create</code> is ready to browse right away."
       }
     ],
@@ -851,7 +851,7 @@
       },
       "more": {
         "h": "More on apple/container",
-        "p1": "For a step-by-step walk-through from the terminal, read <a href=\"../kubernetes-on-mac/\">Run Kubernetes on a Mac with Apple container</a>. Read the <a href=\"../apple-container/\">apple/container guide</a> for each <code>container</code> command and its Gantry feature, or see how Gantry compares with <a href=\"../compare/\">Docker Desktop, OrbStack and Podman Desktop</a>."
+        "p1": "For a step-by-step walk-through from the terminal, read <a href=\"#terminal\">Run Kubernetes on a Mac with Apple container</a>. Read the <a href=\"../apple-container/\">apple/container guide</a> for each <code>container</code> command and its Gantry feature, or see how Gantry compares with <a href=\"../compare/\">Docker Desktop, OrbStack and Podman Desktop</a>."
       },
       "browser": {
         "h": "Browse the cluster",
@@ -860,7 +860,7 @@
         "li2": "<strong>Workloads:</strong> scale deployments and stateful sets; restart a rollout.",
         "li3": "<strong>Secrets:</strong> values are masked in the list and in the YAML until you click Reveal.",
         "li4": "<strong>Apply YAML:</strong> paste a manifest or open a file; errors show in the sheet.",
-        "p2": "The browser runs <code>kubectl</code>. If Gantry cannot find it, the section shows <code>brew install kubectl</code> with a button that runs it. A native Kubernetes client that needs no <code>kubectl</code> is in development.",
+        "p2": "The browser runs <code>kubectl</code>. If Gantry cannot find it, the section shows <code>brew install kubectl</code> with a button that runs it.",
         "p2_native": "Gantry talks to the Kubernetes API itself, with the credentials in your kubeconfig. You do not need <code>kubectl</code> or any other tool: a cluster made with <code>container cluster create</code> is ready to browse."
       },
       "broken": {
@@ -869,7 +869,181 @@
       }
     },
     "shot_alt": "Cluster overview in Gantry with the Kubernetes version, the image store and the workers",
-    "shot_caption": "<b>Cluster overview.</b> Kubernetes version, image store, workers and their resources."
+    "shot_caption": "<b>Cluster overview.</b> Kubernetes version, image store, workers and their resources.",
+    "terminal": {
+      "title": "Run Kubernetes on a Mac with Apple container: a step-by-step guide",
+      "crumb": "Kubernetes on a Mac",
+      "desc": "Create a local Kubernetes cluster on your Mac with Apple's container cluster: workers, CPUs and memory, local images without a registry, kubectl, and a GUI to browse pods and logs.",
+      "h1": "Run Kubernetes on a Mac with Apple container",
+      "lead": "Apple's <code>container</code> tool can create a local Kubernetes cluster in one command. Each node is a lightweight virtual machine on your Mac. This guide goes from an empty Mac to a running deployment, first in the terminal and then in Gantry.",
+      "tldr": "<strong>In short.</strong> Install the signed <code>container</code> 1.7.1 package, run <code>container cluster create --name dev --cpus 2 --memory 2g --workers count=2,cpus=2,memory=2g --shared-image-store</code>, build an image with <code>container build</code> and run it in the cluster by name. Gantry shows the same cluster in a window: nodes, pods, logs, a shell and port forwards.",
+      "sections": [
+        {
+          "id": "requirements",
+          "h": "What you need",
+          "blocks": [
+            {
+              "ul": [
+                "A Mac with Apple silicon and macOS 26 or later.",
+                "The <code>container</code> CLI 1.7.1 from the signed <code>.pkg</code> on the <a href=\"https://github.com/apple/container/releases\">apple/container releases page</a>. The Homebrew build of 1.7.1 does not include the cluster services, so <code>container cluster</code> fails with <em>cluster service unavailable</em>.",
+                "About 6 GB of free memory for the example below: three nodes with 2 GB each.",
+                "<code>kubectl</code> if you want to use the cluster from the terminal (<code>brew install kubectl</code>)."
+              ]
+            },
+            {
+              "code": "start",
+              "after": "Start the services once after you install the package:"
+            }
+          ]
+        },
+        {
+          "id": "create",
+          "h": "Create the cluster",
+          "blocks": [
+            {
+              "p": "This command makes a cluster named <code>dev</code> with one control-plane node and two workers. Each node gets 2 CPUs and 2 GB of memory:"
+            },
+            {
+              "code": "create"
+            },
+            {
+              "ul": [
+                "<code>--workers count=N,cpus=C,memory=M</code> sizes a group of workers. Repeat it for groups of different sizes. Without <code>--workers</code>, one node is both control plane and worker.",
+                "<code>--cpus</code> and <code>--memory</code> size the control plane. The default is a quarter of the CPUs and memory of your Mac, at least 2 CPUs and 2 GB.",
+                "<code>--shared-image-store</code> lets the nodes use your local images (see below). You cannot change it later: delete the cluster and create it again.",
+                "<code>--cni ./calico.yaml</code> installs your own CNI instead of the bundled kindnet; <code>--cni NONE</code> installs none."
+              ]
+            },
+            {
+              "p": "The CLI adds a context named <code>dev</code> to <code>~/.kube/config</code>. Check the nodes:"
+            },
+            {
+              "code": "list"
+            }
+          ]
+        },
+        {
+          "id": "images",
+          "h": "Run a local image without a registry",
+          "blocks": [
+            {
+              "p": "With <code>--shared-image-store</code>, the nodes can run any image in your local <code>container</code> image store. Build an image and use it by name:"
+            },
+            {
+              "code": "build"
+            },
+            {
+              "note": "After you rebuild the same tag, run <code>kubectl rollout restart</code> with <code>imagePullPolicy: Always</code>, or use a new tag. With <code>IfNotPresent</code>, a node keeps the copy it already has. Anything with root on a node can read every image in your local store, including private images, so use the shared store for local development only."
+            },
+            {
+              "p": "On CLI 1.5 and 1.6 there is no shared store. Use <code>container cluster load-image</code> there, or <b>Load into Cluster</b> in Gantry. CLI 1.7 removed <code>load-image</code>."
+            }
+          ]
+        },
+        {
+          "id": "reach",
+          "h": "Open the app in a browser",
+          "blocks": [
+            {
+              "p": "Forward a local port to the deployment, then open <code>http://localhost:8080</code>:"
+            },
+            {
+              "code": "forward"
+            }
+          ]
+        },
+        {
+          "id": "gantry",
+          "h": "Browse the cluster in Gantry",
+          "blocks": [
+            {
+              "p": "Gantry shows the same cluster without commands. Add your apple/container host, open <strong>Clusters</strong>, and select <code>dev</code>. The overview shows the Kubernetes version, the image store, the workers and their CPUs and memory. Click <strong>Browse Resources</strong> to open the <strong>Kubernetes</strong> section on that context."
+            },
+            {
+              "ul": [
+                "Pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets, nodes and events, for one namespace or all of them.",
+                "Pod logs with follow and tail, a shell in the pod, and port forwards with a list that you can stop.",
+                "Scale, rollout restart, delete, and <strong>Apply YAML</strong> from a pasted manifest or a file.",
+                "Secret values stay masked until you click Reveal."
+              ]
+            },
+            {
+              "p": "The Kubernetes browser runs <code>kubectl</code>. If it is missing, Gantry shows <code>brew install kubectl</code> and can run it for you.",
+              "unless": "k8s_native"
+            },
+            {
+              "p": "Gantry talks to the Kubernetes API itself, so the cluster is ready to browse right after <code>container cluster create</code>. You do not need <code>kubectl</code> or any other tool.",
+              "when": "k8s_native"
+            },
+            {
+              "shot": "k8s-browser",
+              "alt": "Gantry Kubernetes browser with the pods of the dev cluster",
+              "caption": "<b>Kubernetes browser.</b> The pods of a <code>container cluster</code> with logs and port forwards."
+            },
+            {
+              "p": "You can also create the cluster in Gantry: <strong>Clusters</strong> ▸ <strong>New Cluster</strong> has steppers for the control plane and the workers and a <strong>Use local images</strong> switch. More on the <a href=\"../apple-container-kubernetes/\">Kubernetes on apple/container</a> page."
+            }
+          ]
+        },
+        {
+          "id": "cleanup",
+          "h": "Stop and delete the cluster",
+          "blocks": [
+            {
+              "code": "delete"
+            },
+            {
+              "p": "If the control-plane node stops, for example after <code>container system stop</code>, delete the cluster and create it again. Create a throw-away cluster with <code>--rm</code> to remove its nodes when they stop."
+            }
+          ]
+        },
+        {
+          "id": "troubleshooting",
+          "h": "Common problems",
+          "blocks": [
+            {
+              "ul": [
+                "<strong>cluster service unavailable:</strong> the CLI is the Homebrew build, or the services are not running. Install the signed package, or restart the services with <code>container system stop</code> and <code>container system start</code>. Gantry shows the same advice in Clusters.",
+                "<strong>An old cluster is missing from the list:</strong> CLI 1.7 does not list clusters created with 1.6 or earlier. Remove one with <code>container cluster delete --name &lt;name&gt;</code>.",
+                "<strong>Nodes stay NotReady:</strong> you used <code>--cni NONE</code>. Apply a CNI manifest.",
+                "<strong>You cannot stop a node container:</strong> this is on purpose. <code>container stop</code> and <code>delete</code> refuse cluster nodes; use <code>container cluster delete</code>."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "compare",
+          "h": "How this compares with Docker Desktop and OrbStack",
+          "blocks": [
+            {
+              "p": "Docker Desktop has built-in Kubernetes with kubeadm (one node) or kind (several nodes), and OrbStack has a built-in single-node cluster. <code>container cluster</code> runs kubeadm on <code>kindest/node</code> images, each node in its own VM, with multi-node clusters and the shared image store. See the <a href=\"../compare/\">full comparison</a>."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Can I run Kubernetes on a Mac without Docker?",
+          "a": "Yes. Apple's <code>container</code> CLI creates Kubernetes clusters itself with <code>container cluster create</code>. Each node runs as a lightweight VM, and you do not need Docker, Docker Desktop, kind or minikube."
+        },
+        {
+          "q": "How many nodes can a container cluster have?",
+          "a": "One control plane and as many workers as your Mac has CPUs and memory for. Set them with <code>--workers</code>; on CLI 1.7 each group of workers can have its own CPUs and memory."
+        },
+        {
+          "q": "How do I use a locally built image in the cluster?",
+          "a": "Create the cluster with <code>--shared-image-store</code> (CLI 1.7), build the image with <code>container build -t name:tag .</code> and use <code>name:tag</code> in the pod spec. No registry is needed."
+        },
+        {
+          "q": "Which Kubernetes version does container cluster use?",
+          "a": "CLI 1.7.1 uses the <code>kindest/node:v1.35.5</code> node image by default. Choose another version with <code>--node-image</code>, for example <code>docker.io/kindest/node:v1.34.11</code>. Gantry shows the version in the cluster overview."
+        },
+        {
+          "q": "Is there a GUI for container cluster?",
+          "a": "Yes. Gantry creates and deletes clusters, shows the nodes, and browses pods, deployments, services, logs and secrets in its Kubernetes section. It is free and open source."
+        }
+      ]
+    }
   },
   "compare": {
     "title": "Gantry vs Docker Desktop vs OrbStack vs Podman Desktop on Mac (2026)",
@@ -1077,7 +1251,7 @@
     ],
     "table_storage": [
       "Data on an external drive",
-      "Bind mounts from any disk today; moving the apple/container data root is in development",
+      "Bind mounts from any disk today",
       "Yes, Disk image location setting",
       "Yes, since 0.13.0",
       "Not in the docs",
@@ -1093,180 +1267,6 @@
     ]
   },
   "guides": {
-    "kubernetes-on-mac": {
-      "title": "Run Kubernetes on a Mac with Apple container: a step-by-step guide",
-      "crumb": "Kubernetes on a Mac",
-      "desc": "Create a local Kubernetes cluster on your Mac with Apple's container cluster: workers, CPUs and memory, local images without a registry, kubectl, and a GUI to browse pods and logs.",
-      "h1": "Run Kubernetes on a Mac with Apple container",
-      "lead": "Apple's <code>container</code> tool can create a local Kubernetes cluster in one command. Each node is a lightweight virtual machine on your Mac. This guide goes from an empty Mac to a running deployment, first in the terminal and then in Gantry.",
-      "tldr": "<strong>In short.</strong> Install the signed <code>container</code> 1.7.1 package, run <code>container cluster create --name dev --cpus 2 --memory 2g --workers count=2,cpus=2,memory=2g --shared-image-store</code>, build an image with <code>container build</code> and run it in the cluster by name. Gantry shows the same cluster in a window: nodes, pods, logs, a shell and port forwards.",
-      "sections": [
-        {
-          "id": "requirements",
-          "h": "What you need",
-          "blocks": [
-            {
-              "ul": [
-                "A Mac with Apple silicon and macOS 26 or later.",
-                "The <code>container</code> CLI 1.7.1 from the signed <code>.pkg</code> on the <a href=\"https://github.com/apple/container/releases\">apple/container releases page</a>. The Homebrew build of 1.7.1 does not include the cluster services, so <code>container cluster</code> fails with <em>cluster service unavailable</em>.",
-                "About 6 GB of free memory for the example below: three nodes with 2 GB each.",
-                "<code>kubectl</code> if you want to use the cluster from the terminal (<code>brew install kubectl</code>)."
-              ]
-            },
-            {
-              "code": "start",
-              "after": "Start the services once after you install the package:"
-            }
-          ]
-        },
-        {
-          "id": "create",
-          "h": "Create the cluster",
-          "blocks": [
-            {
-              "p": "This command makes a cluster named <code>dev</code> with one control-plane node and two workers. Each node gets 2 CPUs and 2 GB of memory:"
-            },
-            {
-              "code": "create"
-            },
-            {
-              "ul": [
-                "<code>--workers count=N,cpus=C,memory=M</code> sizes a group of workers. Repeat it for groups of different sizes. Without <code>--workers</code>, one node is both control plane and worker.",
-                "<code>--cpus</code> and <code>--memory</code> size the control plane. The default is a quarter of the CPUs and memory of your Mac, at least 2 CPUs and 2 GB.",
-                "<code>--shared-image-store</code> lets the nodes use your local images (see below). You cannot change it later: delete the cluster and create it again.",
-                "<code>--cni ./calico.yaml</code> installs your own CNI instead of the bundled kindnet; <code>--cni NONE</code> installs none."
-              ]
-            },
-            {
-              "p": "The CLI adds a context named <code>dev</code> to <code>~/.kube/config</code>. Check the nodes:"
-            },
-            {
-              "code": "list"
-            }
-          ]
-        },
-        {
-          "id": "images",
-          "h": "Run a local image without a registry",
-          "blocks": [
-            {
-              "p": "With <code>--shared-image-store</code>, the nodes can run any image in your local <code>container</code> image store. Build an image and use it by name:"
-            },
-            {
-              "code": "build"
-            },
-            {
-              "note": "After you rebuild the same tag, run <code>kubectl rollout restart</code> with <code>imagePullPolicy: Always</code>, or use a new tag. With <code>IfNotPresent</code>, a node keeps the copy it already has. Anything with root on a node can read every image in your local store, including private images, so use the shared store for local development only."
-            },
-            {
-              "p": "On CLI 1.5 and 1.6 there is no shared store. Use <code>container cluster load-image</code> there, or <b>Load into Cluster</b> in Gantry. CLI 1.7 removed <code>load-image</code>."
-            }
-          ]
-        },
-        {
-          "id": "reach",
-          "h": "Open the app in a browser",
-          "blocks": [
-            {
-              "p": "Forward a local port to the deployment, then open <code>http://localhost:8080</code>:"
-            },
-            {
-              "code": "forward"
-            }
-          ]
-        },
-        {
-          "id": "gantry",
-          "h": "Browse the cluster in Gantry",
-          "blocks": [
-            {
-              "p": "Gantry shows the same cluster without commands. Add your apple/container host, open <strong>Clusters</strong>, and select <code>dev</code>. The overview shows the Kubernetes version, the image store, the workers and their CPUs and memory. Click <strong>Browse Resources</strong> to open the <strong>Kubernetes</strong> section on that context."
-            },
-            {
-              "ul": [
-                "Pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets, nodes and events, for one namespace or all of them.",
-                "Pod logs with follow and tail, a shell in the pod, and port forwards with a list that you can stop.",
-                "Scale, rollout restart, delete, and <strong>Apply YAML</strong> from a pasted manifest or a file.",
-                "Secret values stay masked until you click Reveal."
-              ]
-            },
-            {
-              "p": "The Kubernetes browser runs <code>kubectl</code>. If it is missing, Gantry shows <code>brew install kubectl</code> and can run it for you. A native client that needs no <code>kubectl</code> is in development.",
-              "unless": "k8s_native"
-            },
-            {
-              "p": "Gantry talks to the Kubernetes API itself, so the cluster is ready to browse right after <code>container cluster create</code>. You do not need <code>kubectl</code> or any other tool.",
-              "when": "k8s_native"
-            },
-            {
-              "shot": "k8s-browser",
-              "alt": "Gantry Kubernetes browser with the pods of the dev cluster",
-              "caption": "<b>Kubernetes browser.</b> The pods of a <code>container cluster</code> with logs and port forwards."
-            },
-            {
-              "p": "You can also create the cluster in Gantry: <strong>Clusters</strong> ▸ <strong>New Cluster</strong> has steppers for the control plane and the workers and a <strong>Use local images</strong> switch. More on the <a href=\"../apple-container-kubernetes/\">Kubernetes on apple/container</a> page."
-            }
-          ]
-        },
-        {
-          "id": "cleanup",
-          "h": "Stop and delete the cluster",
-          "blocks": [
-            {
-              "code": "delete"
-            },
-            {
-              "p": "If the control-plane node stops, for example after <code>container system stop</code>, delete the cluster and create it again. Create a throw-away cluster with <code>--rm</code> to remove its nodes when they stop."
-            }
-          ]
-        },
-        {
-          "id": "troubleshooting",
-          "h": "Common problems",
-          "blocks": [
-            {
-              "ul": [
-                "<strong>cluster service unavailable:</strong> the CLI is the Homebrew build, or the services are not running. Install the signed package, or restart the services with <code>container system stop</code> and <code>container system start</code>. Gantry shows the same advice in Clusters.",
-                "<strong>An old cluster is missing from the list:</strong> CLI 1.7 does not list clusters created with 1.6 or earlier. Remove one with <code>container cluster delete --name &lt;name&gt;</code>.",
-                "<strong>Nodes stay NotReady:</strong> you used <code>--cni NONE</code>. Apply a CNI manifest.",
-                "<strong>You cannot stop a node container:</strong> this is on purpose. <code>container stop</code> and <code>delete</code> refuse cluster nodes; use <code>container cluster delete</code>."
-              ]
-            }
-          ]
-        },
-        {
-          "id": "compare",
-          "h": "How this compares with Docker Desktop and OrbStack",
-          "blocks": [
-            {
-              "p": "Docker Desktop has built-in Kubernetes with kubeadm (one node) or kind (several nodes), and OrbStack has a built-in single-node cluster. <code>container cluster</code> runs kubeadm on <code>kindest/node</code> images, each node in its own VM, with multi-node clusters and the shared image store. See the <a href=\"../compare/\">full comparison</a>."
-            }
-          ]
-        }
-      ],
-      "faq": [
-        {
-          "q": "Can I run Kubernetes on a Mac without Docker?",
-          "a": "Yes. Apple's <code>container</code> CLI creates Kubernetes clusters itself with <code>container cluster create</code>. Each node runs as a lightweight VM, and you do not need Docker, Docker Desktop, kind or minikube."
-        },
-        {
-          "q": "How many nodes can a container cluster have?",
-          "a": "One control plane and as many workers as your Mac has CPUs and memory for. Set them with <code>--workers</code>; on CLI 1.7 each group of workers can have its own CPUs and memory."
-        },
-        {
-          "q": "How do I use a locally built image in the cluster?",
-          "a": "Create the cluster with <code>--shared-image-store</code> (CLI 1.7), build the image with <code>container build -t name:tag .</code> and use <code>name:tag</code> in the pod spec. No registry is needed."
-        },
-        {
-          "q": "Which Kubernetes version does container cluster use?",
-          "a": "CLI 1.7.1 uses the <code>kindest/node:v1.35.5</code> node image by default. Choose another version with <code>--node-image</code>, for example <code>docker.io/kindest/node:v1.34.11</code>. Gantry shows the version in the cluster overview."
-        },
-        {
-          "q": "Is there a GUI for container cluster?",
-          "a": "Yes. Gantry creates and deletes clusters, shows the nodes, and browses pods, deployments, services, logs and secrets in its Kubernetes section. It is free and open source."
-        }
-      ]
-    },
     "docker-desktop-to-apple-container": {
       "title": "Move from Docker Desktop to Apple container: commands, Compose, volumes and gaps",
       "crumb": "From Docker Desktop",
@@ -1362,7 +1362,7 @@
                 "<strong>No Compose in the CLI.</strong> Gantry runs Compose files: see <a href=\"#compose\">Compose files</a>.",
                 "<strong>No Docker Desktop extensions.</strong>",
                 "<strong>Whole CPUs only:</strong> <code>--cpus 0.5</code> does not work.",
-                "<strong>Kubernetes is different:</strong> use <code>container cluster</code>, see <a href=\"../kubernetes-on-mac/\">Run Kubernetes on a Mac</a>."
+                "<strong>Kubernetes is different:</strong> use <code>container cluster</code>, see <a href=\"../apple-container-kubernetes/#terminal\">Run Kubernetes on a Mac</a>."
               ]
             }
           ]
@@ -1562,7 +1562,7 @@
               "warn": "The CLI does not remember <code>--app-root</code>. Each <code>container system start</code> without it uses the internal folder again. Use the flag every time, for example in a shell alias, and check <code>paths.appRoot</code> in <code>container system status</code>."
             },
             {
-              "p": "Gantry 0.27.0 starts the services without <code>--app-root</code> when it connects to a host whose services are stopped. Start the services from the terminal with the flag first; Gantry then uses the running services. Gantry support for a moved data root is in development.",
+              "p": "Gantry 0.27.0 starts the services without <code>--app-root</code> when it connects to a host whose services are stopped. Start the services from the terminal with the flag first; Gantry then uses the running services.",
               "unless": "external_storage"
             },
             {
@@ -1604,7 +1604,7 @@
           "h": "External drives in Gantry",
           "blocks": [
             {
-              "p": "Gantry runs bind mounts from any disk today: in <strong>New Container</strong>, add a volume, choose a folder on the external disk and a path in the container. Gantry support for moving the data root, volumes on an external disk and a warning when the disk is not connected is in development.",
+              "p": "Gantry runs bind mounts from any disk today: in <strong>New Container</strong>, add a volume, choose a folder on the external disk and a path in the container.",
               "unless": "external_storage"
             },
             {

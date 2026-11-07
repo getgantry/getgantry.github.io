@@ -178,8 +178,88 @@
           "name": "Kell a kubectl ahhoz, hogy a Gantryben használjam a klasztert?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Egyelőre igen: a Gantry Kubernetes-böngészője a kubectl eszközt futtatja. Ha nincs telepítve, a böngésző megmutatja a brew install kubectl parancsot, és le is tudja futtatni. Fejlesztés alatt áll egy natív Kubernetes-kliens, amely ezt a lépést megszünteti."
+            "text": "Egyelőre igen: a Gantry Kubernetes-böngészője a kubectl eszközt futtatja. Ha nincs telepítve, a böngésző megmutatja a brew install kubectl parancsot, és le is tudja futtatni."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "Futtatható Kubernetes Macen Docker nélkül?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen. Az Apple container CLI-je maga hoz létre Kubernetes-klasztereket a container cluster create paranccsal. Minden csomópont könnyű VM-ként fut, és nincs szükség Dockerre, Docker Desktopra, kindra vagy minikube-ra."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hány csomópontja lehet egy container clusternek?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Egy vezérlősík és annyi worker, amennyihez a Macen elég CPU és memória van. Ezeket a --workers kapcsolóval adhatja meg; a CLI 1.7-ben a workerek minden csoportja saját CPU- és memóriabeállítást kaphat."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Melyik Kubernetes-verziót használja a container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A CLI 1.7.1 alapértelmezés szerint a kindest/node:v1.35.5 csomópont-image-et használja. Más verziót a --node-image kapcsolóval választhat, például docker.io/kindest/node:v1.34.11. A Gantry a klaszter-áttekintésben mutatja a verziót."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://getgantry.github.io/hu/apple-container-kubernetes/#howto",
+      "name": "Kubernetes futtatása Macen az Apple containerrel",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Amire szükség van",
+          "text": "Apple chipes Mac macOS 26-tal vagy újabbal. A container CLI 1.7.1 az aláírt .pkg csomagból, az apple/container kiadási oldaláról. Az 1.7.1 Homebrew-buildje nem tartalmazza a klaszterszolgáltatásokat, ezért a container cluster a cluster service unavailable hibával leáll. Az alábbi példához körülbelül 6 GB szabad memória: három csomópont, egyenként 2 GB. kubectl, ha a terminálból szeretné használni a klasztert (brew install kubectl).",
+          "url": "https://getgantry.github.io/hu/apple-container-kubernetes/#terminal-requirements"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "A klaszter létrehozása",
+          "text": "Ez a parancs dev nevű klasztert hoz létre egy vezérlősík-csomóponttal és két workerrel. Minden csomópont 2 CPU-t és 2 GB memóriát kap:",
+          "url": "https://getgantry.github.io/hu/apple-container-kubernetes/#terminal-create"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Helyi image futtatása registry nélkül",
+          "text": "A --shared-image-store kapcsolóval a csomópontok a helyi container image-tár bármely image-ét futtathatják. Buildeljen egy image-et, és használja név szerint:",
+          "url": "https://getgantry.github.io/hu/apple-container-kubernetes/#terminal-images"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Az alkalmazás megnyitása böngészőben",
+          "text": "Továbbítson egy helyi portot a deploymenthez, majd nyissa meg a http://localhost:8080 címet:",
+          "url": "https://getgantry.github.io/hu/apple-container-kubernetes/#terminal-reach"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "A klaszter leállítása és törlése",
+          "text": "Ha a vezérlősík-csomópont leáll, például a container system stop után, törölje a klasztert, és hozza létre újra. Ideiglenes klasztert a --rm kapcsolóval hozhat létre: ekkor a csomópontjai leálláskor törlődnek.",
+          "url": "https://getgantry.github.io/hu/apple-container-kubernetes/#terminal-cleanup"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Gyakori problémák",
+          "text": "cluster service unavailable: a CLI Homebrew-build, vagy a szolgáltatások nem futnak. Telepítse az aláírt csomagot, vagy indítsa újra a szolgáltatásokat a container system stop és a container system start paranccsal. A Gantry ugyanezt a tanácsot adja a Klaszterek szakaszban. Egy régi klaszter hiányzik a listából: a CLI 1.7 nem listázza az 1.6-tal vagy korábbival létrehozott klasztereket. Ezeket a container cluster delete --name <name> paranccsal távolíthatja el. A csomópontok NotReady állapotban maradnak: a --cni NONE kapcsolót használta. Alkalmazzon egy CNI-manifestet. Egy csomópont-konténer nem állítható le: ez szándékos. A container stop és a delete elutasítja a klaszter csomópontjait; használja a container cluster delete parancsot.",
+          "url": "https://getgantry.github.io/hu/apple-container-kubernetes/#terminal-troubleshooting"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Összevetés a Docker Desktoppal és az OrbStackkel",
+          "text": "A Docker Desktopban beépített Kubernetes van kubeadm-mel (egy csomópont) vagy kinddal (több csomópont), az OrbStackben pedig beépített egycsomópontos klaszter. A container cluster kubeadm-et futtat kindest/node image-eken, minden csomópontot saját VM-ben, több csomópontos klaszterekkel és közös image-tárral. Lásd a teljes összevetést.",
+          "url": "https://getgantry.github.io/hu/apple-container-kubernetes/#terminal-compare"
         }
       ]
     }
@@ -294,7 +374,8 @@
   <li><strong>Secretek:</strong> az értékek rejtve maradnak a listában és a YAML-ben, amíg a Megjelenítés gombra nem kattint.</li>
   <li><strong>YAML alkalmazása:</strong> illesszen be egy manifestet, vagy nyisson meg egy fájlt; a hibák a lapon jelennek meg.</li>
 </ul>
-<p>A böngésző a <code>kubectl</code> eszközt futtatja. Ha a Gantry nem találja, a szakasz megmutatja a <code>brew install kubectl</code> parancsot egy gombbal, amely lefuttatja. Fejlesztés alatt áll egy natív Kubernetes-kliens, amelyhez nem kell <code>kubectl</code>.</p>
+<p>A böngésző a <code>kubectl</code> eszközt futtatja. Ha a Gantry nem találja, a szakasz megmutatja a <code>brew install kubectl</code> parancsot egy gombbal, amely lefuttatja.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
 
 <h2 id="kubectl">A kubectl csatlakoztatása</h2>
 <p>A CLI a klaszter létrehozásakor egy, a klaszterről elnevezett környezetet ad a <code>~/.kube/config</code> fájlhoz. Használja a Gantryben a <strong>kubectl-környezetváltó parancs másolása</strong> parancsot, vagy írja be:</p>
@@ -324,6 +405,84 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <h2 id="cni">CNI kiválasztása</h2>
 <p>Az alapértelmezett a beépített kindnet-manifest. Válassza az <strong>Egyéni manifest</strong> lehetőséget, ha saját CNI-t, például Calicót vagy Ciliumot telepítene fájlból. Válassza a <strong>Nincs</strong> lehetőséget, ha később saját maga telepít CNI-t; addig a csomópontok NotReady állapotban maradnak.</p>
 
+<h2 id="terminal">Kubernetes futtatása Macen az Apple containerrel</h2>
+<p>Az Apple <code>container</code> eszköze egyetlen paranccsal létrehoz egy helyi Kubernetes-klasztert. Minden csomópont egy könnyű virtuális gép a Macen. Ez az útmutató az üres Mactől egy futó deploymentig vezet, először a terminálban, majd a Gantryben.</p>
+
+<h3 id="terminal-requirements">Amire szükség van</h3>
+<ul>
+  <li>Apple chipes Mac macOS 26-tal vagy újabbal.</li>
+  <li>A <code>container</code> CLI 1.7.1 az aláírt <code>.pkg</code> csomagból, az <a href="https://github.com/apple/container/releases">apple/container kiadási oldaláról</a>. Az 1.7.1 Homebrew-buildje nem tartalmazza a klaszterszolgáltatásokat, ezért a <code>container cluster</code> a <em>cluster service unavailable</em> hibával leáll.</li>
+  <li>Az alábbi példához körülbelül 6 GB szabad memória: három csomópont, egyenként 2 GB.</li>
+  <li><code>kubectl</code>, ha a terminálból szeretné használni a klasztert (<code>brew install kubectl</code>).</li>
+</ul>
+<p>A csomag telepítése után egyszer indítsa el a szolgáltatásokat:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="container system start">Másolás</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<ul id="terminal-create">A klaszter létrehozása</ul>
+<p>Ez a parancs <code>dev</code> nevű klasztert hoz létre egy vezérlősík-csomóponttal és két workerrel. Minden csomópont 2 CPU-t és 2 GB memóriát kap:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Másolás</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li>A <code>--workers count=N,cpus=C,memory=M</code> workerek egy csoportját méretezi. Eltérő méretű csoportokhoz ismételje meg. <code>--workers</code> nélkül egyetlen csomópont a vezérlősík és a worker is.</li>
+  <li>A <code>--cpus</code> és a <code>--memory</code> a vezérlősíkot méretezi. Az alapérték a Mac CPU-inak és memóriájának negyede, legalább 2 CPU és 2 GB.</li>
+  <li>A <code>--shared-image-store</code> lehetővé teszi, hogy a csomópontok a helyi image-eket használják (lásd lent). Később nem módosítható: törölje a klasztert, és hozza létre újra.</li>
+  <li>A <code>--cni ./calico.yaml</code> a beépített kindnet helyett saját CNI-t telepít; a <code>--cni NONE</code> nem telepít CNI-t.</li>
+</ul>
+<p>A CLI egy <code>dev</code> nevű környezetet ad a <code>~/.kube/config</code> fájlhoz. Ellenőrizze a csomópontokat:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Másolás</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<ul id="terminal-images">Helyi image futtatása registry nélkül</ul>
+<p>A <code>--shared-image-store</code> kapcsolóval a csomópontok a helyi <code>container</code> image-tár bármely image-ét futtathatják. Buildeljen egy image-et, és használja név szerint:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Másolás</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Megjegyzés</span><div>Ha ugyanazt a címkét újrabuildeli, futtassa a <code>kubectl rollout restart</code> parancsot <code>imagePullPolicy: Always</code> beállítással, vagy használjon új címkét. <code>IfNotPresent</code> esetén a csomópont megtartja a már meglévő példányt. Bármi, ami root jogosultsággal fut egy csomóponton, a helyi tár összes image-ét olvashatja, a privát image-eket is, ezért a közös tárat csak helyi fejlesztéshez használja.</div></div>
+<p>A CLI 1.5-ben és 1.6-ban nincs közös tár. Ott használja a <code>container cluster load-image</code> parancsot, vagy a Gantryben a <b>Betöltés a klaszterbe</b> parancsot. A CLI 1.7-ből kikerült a <code>load-image</code>.</p>
+
+<ul id="terminal-reach">Az alkalmazás megnyitása böngészőben</ul>
+<p>Továbbítson egy helyi portot a deploymenthez, majd nyissa meg a <code>http://localhost:8080</code> címet:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Másolás</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<ul id="terminal-cleanup">A klaszter leállítása és törlése</ul>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="container cluster delete --name dev">Másolás</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Ha a vezérlősík-csomópont leáll, például a <code>container system stop</code> után, törölje a klasztert, és hozza létre újra. Ideiglenes klasztert a <code>--rm</code> kapcsolóval hozhat létre: ekkor a csomópontjai leálláskor törlődnek.</p>
+
+<ul id="terminal-troubleshooting">Gyakori problémák</ul>
+<ul>
+  <li><strong>cluster service unavailable:</strong> a CLI Homebrew-build, vagy a szolgáltatások nem futnak. Telepítse az aláírt csomagot, vagy indítsa újra a szolgáltatásokat a <code>container system stop</code> és a <code>container system start</code> paranccsal. A Gantry ugyanezt a tanácsot adja a Klaszterek szakaszban.</li>
+  <li><strong>Egy régi klaszter hiányzik a listából:</strong> a CLI 1.7 nem listázza az 1.6-tal vagy korábbival létrehozott klasztereket. Ezeket a <code>container cluster delete --name &lt;name&gt;</code> paranccsal távolíthatja el.</li>
+  <li><strong>A csomópontok NotReady állapotban maradnak:</strong> a <code>--cni NONE</code> kapcsolót használta. Alkalmazzon egy CNI-manifestet.</li>
+  <li><strong>Egy csomópont-konténer nem állítható le:</strong> ez szándékos. A <code>container stop</code> és a <code>delete</code> elutasítja a klaszter csomópontjait; használja a <code>container cluster delete</code> parancsot.</li>
+</ul>
+
+<ul id="terminal-compare">Összevetés a Docker Desktoppal és az OrbStackkel</ul>
+<p>A Docker Desktopban beépített Kubernetes van kubeadm-mel (egy csomópont) vagy kinddal (több csomópont), az OrbStackben pedig beépített egycsomópontos klaszter. A <code>container cluster</code> kubeadm-et futtat <code>kindest/node</code> image-eken, minden csomópontot saját VM-ben, több csomópontos klaszterekkel és közös image-tárral. Lásd a <a href="../compare/">teljes összevetést</a>.</p>
+
 <h2 id="agents">Klaszterek MI-ügynökökkel</h2>
 <p>A Gantry MCP-szerverében megtalálható a <code>list_clusters</code>, a <code>create_cluster</code> és a <code>delete_cluster</code>, így egy ügynök, például a Claude Code, ideiglenes klasztert hozhat létre egy teszthez, majd utána eltávolíthatja.</p>
 <div class="code-block">
@@ -332,7 +491,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 </div>
 
 <h2 id="more">További tudnivalók az apple/containerről</h2>
-<p>A terminálból végigvezető, lépésről lépésre haladó leírásért olvassa el a <a href="../kubernetes-on-mac/">Kubernetes futtatása Macen az Apple containerrel</a> útmutatót. Az <a href="../apple-container/">apple/container-útmutató</a> minden <code>container</code> parancsot és a hozzá tartozó Gantry-funkciót bemutatja, vagy nézze meg, hogyan viszonyul a Gantry a <a href="../compare/">Docker Desktophoz, az OrbStackhez és a Podman Desktophoz</a>.</p>
+<p>A terminálból végigvezető, lépésről lépésre haladó leírásért olvassa el a <a href="#terminal">Kubernetes futtatása Macen az Apple containerrel</a> útmutatót. Az <a href="../apple-container/">apple/container-útmutató</a> minden <code>container</code> parancsot és a hozzá tartozó Gantry-funkciót bemutatja, vagy nézze meg, hogyan viszonyul a Gantry a <a href="../compare/">Docker Desktophoz, az OrbStackhez és a Podman Desktophoz</a>.</p>
 
 <h2 id="faq">Kérdések és válaszok</h2>
 <div class="faq-list">
@@ -343,7 +502,10 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <details class="faq-item"><summary>Létrehozható több csomópontos klaszter?</summary><p>Igen. Adja meg a workerek számát a létrehozási lapon; a workerekhez CLI 1.6.0 vagy újabb kell. A CLI 1.7-ben a workerek CPU-it és memóriáját is a vezérlősíktól külön állíthatja be.</p></details>
 <details class="faq-item"><summary>Használhatok saját CNI-t, például Calicót vagy Ciliumot?</summary><p>Igen. Válassza az <b>Egyéni manifest</b> lehetőséget, és jelölje ki a manifestfájlt, vagy válassza a <b>Nincs</b> lehetőséget, és a klaszter indulása után telepítsen saját maga egy CNI-t. A csomópontok NotReady állapotban maradnak, amíg nem fut CNI. A <b>Nincs</b> beállításhoz CLI 1.6.0 vagy újabb kell. Az alapértelmezett CNI a beépített kindnet-manifest.</p></details>
 <details class="faq-item"><summary>Miért jelzi a Gantry, hogy a klaszterszolgáltatások nem érhetők el?</summary><p>A <code>container</code> szolgáltatásai nem válaszoltak egy klaszterparancsra. Ha a CLI klaszterszolgáltatások nélküli Homebrew-build, a Gantry ezt jelzi, és az apple/container kiadási oldalán található aláírt telepítőre hivatkozik. Egyéb esetben a <b>Szolgáltatások újraindítása</b> lehetőséget kínálja.</p></details>
-<details class="faq-item"><summary>Kell a kubectl ahhoz, hogy a Gantryben használjam a klasztert?</summary><p>Egyelőre igen: a Gantry Kubernetes-böngészője a <code>kubectl</code> eszközt futtatja. Ha nincs telepítve, a böngésző megmutatja a <code>brew install kubectl</code> parancsot, és le is tudja futtatni. Fejlesztés alatt áll egy natív Kubernetes-kliens, amely ezt a lépést megszünteti.</p></details>
+<details class="faq-item"><summary>Kell a kubectl ahhoz, hogy a Gantryben használjam a klasztert?</summary><p>Egyelőre igen: a Gantry Kubernetes-böngészője a <code>kubectl</code> eszközt futtatja. Ha nincs telepítve, a böngésző megmutatja a <code>brew install kubectl</code> parancsot, és le is tudja futtatni.</p></details>
+<details class="faq-item"><summary>Futtatható Kubernetes Macen Docker nélkül?</summary><p>Igen. Az Apple <code>container</code> CLI-je maga hoz létre Kubernetes-klasztereket a <code>container cluster create</code> paranccsal. Minden csomópont könnyű VM-ként fut, és nincs szükség Dockerre, Docker Desktopra, kindra vagy minikube-ra.</p></details>
+<details class="faq-item"><summary>Hány csomópontja lehet egy container clusternek?</summary><p>Egy vezérlősík és annyi worker, amennyihez a Macen elég CPU és memória van. Ezeket a <code>--workers</code> kapcsolóval adhatja meg; a CLI 1.7-ben a workerek minden csoportja saját CPU- és memóriabeállítást kaphat.</p></details>
+<details class="faq-item"><summary>Melyik Kubernetes-verziót használja a container cluster?</summary><p>A CLI 1.7.1 alapértelmezés szerint a <code>kindest/node:v1.35.5</code> csomópont-image-et használja. Más verziót a <code>--node-image</code> kapcsolóval választhat, például <code>docker.io/kindest/node:v1.34.11</code>. A Gantry a klaszter-áttekintésben mutatja a verziót.</p></details>
 </div>
 
 <p class="updated">Utoljára frissítve: 2026-11-07.</p>
@@ -356,8 +518,6 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Összevetés</a>
-      <span>·</span>
-      <a href="../kubernetes-on-mac/">Kubernetes Macen</a>
       <span>·</span>
       <a href="../docker-desktop-to-apple-container/">Docker Desktopról</a>
       <span>·</span>

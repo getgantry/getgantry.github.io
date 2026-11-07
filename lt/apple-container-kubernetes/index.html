@@ -178,8 +178,88 @@
           "name": "Ar norint naudoti klasterį Gantry reikia kubectl?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Kol kas taip: Gantry Kubernetes naršyklė vykdo kubectl. Jei jis neįdiegtas, naršyklė parodo komandą brew install kubectl ir gali ją įvykdyti už jus. Kuriamas natyvus Kubernetes klientas, kuris šį žingsnį panaikins."
+            "text": "Kol kas taip: Gantry Kubernetes naršyklė vykdo kubectl. Jei jis neįdiegtas, naršyklė parodo komandą brew install kubectl ir gali ją įvykdyti už jus."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "Ar galima paleisti Kubernetes Mac kompiuteryje be Docker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Taip. Apple container CLI pati kuria Kubernetes klasterius komanda container cluster create. Kiekvienas mazgas veikia kaip lengva virtualioji mašina, o Docker, Docker Desktop, kind ar minikube nereikia."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kiek mazgų gali turėti container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vieną valdymo plokštumą ir tiek darbinių mazgų, kiek leidžia jūsų Mac CPU ir atmintis. Nustatykite juos su --workers; CLI 1.7 versijoje kiekviena darbinių mazgų grupė gali turėti savo CPU ir atmintį."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Kurią Kubernetes versiją naudoja container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CLI 1.7.1 pagal numatytuosius nustatymus naudoja mazgo atvaizdą kindest/node:v1.35.5. Kitą versiją pasirinkite su --node-image, pavyzdžiui, docker.io/kindest/node:v1.34.11. Gantry versiją rodo klasterio apžvalgoje."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://getgantry.github.io/lt/apple-container-kubernetes/#howto",
+      "name": "Kubernetes paleidimas Mac kompiuteryje su Apple container",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Ko reikia",
+          "text": "Mac su Apple silicon ir macOS 26 arba naujesne. container CLI 1.7.1 iš pasirašyto .pkg apple/container leidimų puslapyje. 1.7.1 Homebrew versijoje nėra klasterio paslaugų, todėl container cluster nepavyksta su klaida cluster service unavailable. Toliau pateiktam pavyzdžiui – apie 6 GB laisvos atminties: trys mazgai po 2 GB. kubectl, jei klasterį norite naudoti iš terminalo (brew install kubectl).",
+          "url": "https://getgantry.github.io/lt/apple-container-kubernetes/#terminal-requirements"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Klasterio kūrimas",
+          "text": "Ši komanda sukuria klasterį dev su vienu valdymo plokštumos mazgu ir dviem darbiniais mazgais. Kiekvienas mazgas gauna 2 CPU ir 2 GB atminties:",
+          "url": "https://getgantry.github.io/lt/apple-container-kubernetes/#terminal-create"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Vietinio atvaizdo vykdymas be registro",
+          "text": "Su --shared-image-store mazgai gali vykdyti bet kurį atvaizdą iš jūsų vietinės container atvaizdų saugyklos. Sukurkite atvaizdą ir naudokite jį pagal pavadinimą:",
+          "url": "https://getgantry.github.io/lt/apple-container-kubernetes/#terminal-images"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Programos atidarymas naršyklėje",
+          "text": "Persiųskite vietinį prievadą į diegimą, tada atidarykite http://localhost:8080:",
+          "url": "https://getgantry.github.io/lt/apple-container-kubernetes/#terminal-reach"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Klasterio sustabdymas ir ištrynimas",
+          "text": "Jei valdymo plokštumos mazgas sustoja, pavyzdžiui, po container system stop, ištrinkite klasterį ir sukurkite jį iš naujo. Laikiną klasterį kurkite su --rm, kad jo mazgai būtų pašalinti, kai sustoja.",
+          "url": "https://getgantry.github.io/lt/apple-container-kubernetes/#terminal-cleanup"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Dažnos problemos",
+          "text": "cluster service unavailable: CLI yra Homebrew versija arba paslaugos neveikia. Įdiekite pasirašytą paketą arba paleiskite paslaugas iš naujo komandomis container system stop ir container system start. Tą patį patarimą Gantry rodo skyriuje „Klasteriai“. Senojo klasterio nėra sąraše: CLI 1.7 nerodo klasterių, sukurtų su 1.6 ar senesne versija. Pašalinkite tokį klasterį komanda container cluster delete --name <name>. Mazgai lieka NotReady būsenos: naudojote --cni NONE. Pritaikykite CNI manifestą. Negalite sustabdyti mazgo konteinerio: taip padaryta tyčia. container stop ir delete atsisako veikti su klasterio mazgais; naudokite container cluster delete.",
+          "url": "https://getgantry.github.io/lt/apple-container-kubernetes/#terminal-troubleshooting"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Palyginimas su Docker Desktop ir OrbStack",
+          "text": "Docker Desktop turi integruotą Kubernetes su kubeadm (vienas mazgas) arba kind (keli mazgai), o OrbStack – integruotą vieno mazgo klasterį. container cluster vykdo kubeadm su kindest/node atvaizdais, kiekvieną mazgą atskiroje virtualiojoje mašinoje, ir palaiko kelių mazgų klasterius bei bendrą atvaizdų saugyklą. Žr. išsamų palyginimą.",
+          "url": "https://getgantry.github.io/lt/apple-container-kubernetes/#terminal-compare"
         }
       ]
     }
@@ -294,7 +374,8 @@
   <li><strong>Slaptieji duomenys:</strong> reikšmės sąraše ir YAML lieka paslėptos, kol spustelėsite „Rodyti“.</li>
   <li><strong>Taikyti YAML:</strong> įklijuokite manifestą arba atidarykite failą; klaidos rodomos tame pačiame lange.</li>
 </ul>
-<p>Naršyklė vykdo <code>kubectl</code>. Jei Gantry jo neranda, skyriuje rodoma komanda <code>brew install kubectl</code> ir mygtukas jai įvykdyti. Kuriamas natyvus Kubernetes klientas, kuriam <code>kubectl</code> nereikės.</p>
+<p>Naršyklė vykdo <code>kubectl</code>. Jei Gantry jo neranda, skyriuje rodoma komanda <code>brew install kubectl</code> ir mygtukas jai įvykdyti.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
 
 <h2 id="kubectl">kubectl prijungimas</h2>
 <p>Kurdama klasterį CLI į <code>~/.kube/config</code> prideda kontekstą, pavadintą klasterio vardu. Gantry naudokite <strong>Kopijuoti kubectl konteksto komandą</strong> arba įveskite ją patys:</p>
@@ -324,6 +405,84 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <h2 id="cni">CNI pasirinkimas</h2>
 <p>Numatytasis yra įtrauktas kindnet manifestas. Pasirinkite <strong>Pasirinktinis manifestas</strong>, kad įdiegtumėte savo CNI, pavyzdžiui, Calico ar Cilium, iš failo. Pasirinkite <strong>Nėra</strong>, kad CNI įdiegtumėte patys vėliau; iki tol mazgai lieka NotReady būsenos.</p>
 
+<h2 id="terminal">Kubernetes paleidimas Mac kompiuteryje su Apple container</h2>
+<p>Apple <code>container</code> įrankis viena komanda gali sukurti vietinį Kubernetes klasterį. Kiekvienas mazgas yra lengva virtualioji mašina jūsų Mac kompiuteryje. Šis vadovas veda nuo tuščio Mac iki veikiančio diegimo – pirmiausia terminale, tada Gantry.</p>
+
+<h3 id="terminal-requirements">Ko reikia</h3>
+<ul>
+  <li>Mac su Apple silicon ir macOS 26 arba naujesne.</li>
+  <li><code>container</code> CLI 1.7.1 iš pasirašyto <code>.pkg</code> <a href="https://github.com/apple/container/releases">apple/container leidimų puslapyje</a>. 1.7.1 Homebrew versijoje nėra klasterio paslaugų, todėl <code>container cluster</code> nepavyksta su klaida <em>cluster service unavailable</em>.</li>
+  <li>Toliau pateiktam pavyzdžiui – apie 6 GB laisvos atminties: trys mazgai po 2 GB.</li>
+  <li><code>kubectl</code>, jei klasterį norite naudoti iš terminalo (<code>brew install kubectl</code>).</li>
+</ul>
+<p>Įdiegę paketą, vieną kartą paleiskite paslaugas:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminalas</span><button class="copy" data-copy="container system start">Kopijuoti</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<ul id="terminal-create">Klasterio kūrimas</ul>
+<p>Ši komanda sukuria klasterį <code>dev</code> su vienu valdymo plokštumos mazgu ir dviem darbiniais mazgais. Kiekvienas mazgas gauna 2 CPU ir 2 GB atminties:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminalas</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Kopijuoti</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li><code>--workers count=N,cpus=C,memory=M</code> nustato darbinių mazgų grupės dydį. Kartokite parinktį skirtingo dydžio grupėms. Be <code>--workers</code> vienas mazgas yra ir valdymo plokštuma, ir darbinis mazgas.</li>
+  <li><code>--cpus</code> ir <code>--memory</code> nustato valdymo plokštumos dydį. Numatytoji reikšmė – ketvirtadalis jūsų Mac CPU ir atminties, bet ne mažiau kaip 2 CPU ir 2 GB.</li>
+  <li><code>--shared-image-store</code> leidžia mazgams naudoti jūsų vietinius atvaizdus (žr. toliau). Vėliau to pakeisti negalima: ištrinkite klasterį ir sukurkite jį iš naujo.</li>
+  <li><code>--cni ./calico.yaml</code> vietoj įtraukto kindnet įdiegia jūsų CNI; <code>--cni NONE</code> neįdiegia jokio.</li>
+</ul>
+<p>CLI į <code>~/.kube/config</code> prideda kontekstą <code>dev</code>. Patikrinkite mazgus:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminalas</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Kopijuoti</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<ul id="terminal-images">Vietinio atvaizdo vykdymas be registro</ul>
+<p>Su <code>--shared-image-store</code> mazgai gali vykdyti bet kurį atvaizdą iš jūsų vietinės <code>container</code> atvaizdų saugyklos. Sukurkite atvaizdą ir naudokite jį pagal pavadinimą:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminalas</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Kopijuoti</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Pastaba</span><div>Kai iš naujo sukuriate tą pačią žymę, vykdykite <code>kubectl rollout restart</code> su <code>imagePullPolicy: Always</code> arba naudokite naują žymę. Su <code>IfNotPresent</code> mazgas pasilieka jau turimą kopiją. Bet kas, turintis root teises mazge, gali skaityti kiekvieną atvaizdą jūsų vietinėje saugykloje, įskaitant privačius, todėl bendrą saugyklą naudokite tik vietiniam kūrimui.</div></div>
+<p>CLI 1.5 ir 1.6 versijose bendros saugyklos nėra. Ten naudokite <code>container cluster load-image</code> arba <b>Įkelti į klasterį</b> Gantry programoje. CLI 1.7 komandą <code>load-image</code> pašalino.</p>
+
+<ul id="terminal-reach">Programos atidarymas naršyklėje</ul>
+<p>Persiųskite vietinį prievadą į diegimą, tada atidarykite <code>http://localhost:8080</code>:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminalas</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Kopijuoti</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<ul id="terminal-cleanup">Klasterio sustabdymas ir ištrynimas</ul>
+<div class="code-block">
+  <div class="code-head"><span>Terminalas</span><button class="copy" data-copy="container cluster delete --name dev">Kopijuoti</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Jei valdymo plokštumos mazgas sustoja, pavyzdžiui, po <code>container system stop</code>, ištrinkite klasterį ir sukurkite jį iš naujo. Laikiną klasterį kurkite su <code>--rm</code>, kad jo mazgai būtų pašalinti, kai sustoja.</p>
+
+<ul id="terminal-troubleshooting">Dažnos problemos</ul>
+<ul>
+  <li><strong>cluster service unavailable:</strong> CLI yra Homebrew versija arba paslaugos neveikia. Įdiekite pasirašytą paketą arba paleiskite paslaugas iš naujo komandomis <code>container system stop</code> ir <code>container system start</code>. Tą patį patarimą Gantry rodo skyriuje „Klasteriai“.</li>
+  <li><strong>Senojo klasterio nėra sąraše:</strong> CLI 1.7 nerodo klasterių, sukurtų su 1.6 ar senesne versija. Pašalinkite tokį klasterį komanda <code>container cluster delete --name &lt;name&gt;</code>.</li>
+  <li><strong>Mazgai lieka NotReady būsenos:</strong> naudojote <code>--cni NONE</code>. Pritaikykite CNI manifestą.</li>
+  <li><strong>Negalite sustabdyti mazgo konteinerio:</strong> taip padaryta tyčia. <code>container stop</code> ir <code>delete</code> atsisako veikti su klasterio mazgais; naudokite <code>container cluster delete</code>.</li>
+</ul>
+
+<ul id="terminal-compare">Palyginimas su Docker Desktop ir OrbStack</ul>
+<p>Docker Desktop turi integruotą Kubernetes su kubeadm (vienas mazgas) arba kind (keli mazgai), o OrbStack – integruotą vieno mazgo klasterį. <code>container cluster</code> vykdo kubeadm su <code>kindest/node</code> atvaizdais, kiekvieną mazgą atskiroje virtualiojoje mašinoje, ir palaiko kelių mazgų klasterius bei bendrą atvaizdų saugyklą. Žr. <a href="../compare/">išsamų palyginimą</a>.</p>
+
 <h2 id="agents">Klasteriai iš DI agentų</h2>
 <p>Gantry MCP serveris turi <code>list_clusters</code>, <code>create_cluster</code> ir <code>delete_cluster</code>, todėl agentas, pavyzdžiui, Claude Code, gali sukurti laikiną klasterį testui ir po to jį pašalinti.</p>
 <div class="code-block">
@@ -332,7 +491,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 </div>
 
 <h2 id="more">Daugiau apie apple/container</h2>
-<p>Išsamų žingsnis po žingsnio vadovą darbui terminale rasite puslapyje <a href="../kubernetes-on-mac/">Kubernetes paleidimas Mac kompiuteryje su Apple container</a>. Skaitykite <a href="../apple-container/">apple/container vadovą</a> apie kiekvieną <code>container</code> komandą ir jos Gantry funkciją arba sužinokite, kaip Gantry atrodo palyginti su <a href="../compare/">Docker Desktop, OrbStack ir Podman Desktop</a>.</p>
+<p>Išsamų žingsnis po žingsnio vadovą darbui terminale rasite puslapyje <a href="#terminal">Kubernetes paleidimas Mac kompiuteryje su Apple container</a>. Skaitykite <a href="../apple-container/">apple/container vadovą</a> apie kiekvieną <code>container</code> komandą ir jos Gantry funkciją arba sužinokite, kaip Gantry atrodo palyginti su <a href="../compare/">Docker Desktop, OrbStack ir Podman Desktop</a>.</p>
 
 <h2 id="faq">Klausimai ir atsakymai</h2>
 <div class="faq-list">
@@ -343,7 +502,10 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <details class="faq-item"><summary>Ar galima sukurti klasterį iš kelių mazgų?</summary><p>Taip. Kūrimo lange nurodykite darbinių mazgų skaičių; darbiniams mazgams reikia CLI 1.6.0 arba naujesnės versijos. CLI 1.7 versijoje darbinių mazgų CPU ir atmintį taip pat nustatote atskirai nuo valdymo plokštumos.</p></details>
 <details class="faq-item"><summary>Ar galima naudoti savo CNI, pavyzdžiui, Calico ar Cilium?</summary><p>Taip. Pasirinkite <b>Pasirinktinis manifestas</b> ir nurodykite manifesto failą arba pasirinkite <b>Nėra</b> ir pritaikykite CNI patys, kai klasteris pasileis. Kol neveikia CNI, mazgai lieka NotReady būsenos. Parinkčiai <b>Nėra</b> reikia CLI 1.6.0 arba naujesnės versijos. Numatytasis CNI yra įtrauktas kindnet manifestas.</p></details>
 <details class="faq-item"><summary>Kodėl Gantry rodo, kad klasterio paslaugos nepasiekiamos?</summary><p><code>container</code> paslaugos neatsakė į klasterio komandą. Jei jūsų CLI yra Homebrew versija be klasterio paslaugų, Gantry tai praneša ir pateikia nuorodą į pasirašytą diegimo programą apple/container leidimų puslapyje. Kitais atvejais ji pasiūlo <b>Paleisti paslaugas iš naujo</b>.</p></details>
-<details class="faq-item"><summary>Ar norint naudoti klasterį Gantry reikia kubectl?</summary><p>Kol kas taip: Gantry Kubernetes naršyklė vykdo <code>kubectl</code>. Jei jis neįdiegtas, naršyklė parodo komandą <code>brew install kubectl</code> ir gali ją įvykdyti už jus. Kuriamas natyvus Kubernetes klientas, kuris šį žingsnį panaikins.</p></details>
+<details class="faq-item"><summary>Ar norint naudoti klasterį Gantry reikia kubectl?</summary><p>Kol kas taip: Gantry Kubernetes naršyklė vykdo <code>kubectl</code>. Jei jis neįdiegtas, naršyklė parodo komandą <code>brew install kubectl</code> ir gali ją įvykdyti už jus.</p></details>
+<details class="faq-item"><summary>Ar galima paleisti Kubernetes Mac kompiuteryje be Docker?</summary><p>Taip. Apple <code>container</code> CLI pati kuria Kubernetes klasterius komanda <code>container cluster create</code>. Kiekvienas mazgas veikia kaip lengva virtualioji mašina, o Docker, Docker Desktop, kind ar minikube nereikia.</p></details>
+<details class="faq-item"><summary>Kiek mazgų gali turėti container cluster?</summary><p>Vieną valdymo plokštumą ir tiek darbinių mazgų, kiek leidžia jūsų Mac CPU ir atmintis. Nustatykite juos su <code>--workers</code>; CLI 1.7 versijoje kiekviena darbinių mazgų grupė gali turėti savo CPU ir atmintį.</p></details>
+<details class="faq-item"><summary>Kurią Kubernetes versiją naudoja container cluster?</summary><p>CLI 1.7.1 pagal numatytuosius nustatymus naudoja mazgo atvaizdą <code>kindest/node:v1.35.5</code>. Kitą versiją pasirinkite su <code>--node-image</code>, pavyzdžiui, <code>docker.io/kindest/node:v1.34.11</code>. Gantry versiją rodo klasterio apžvalgoje.</p></details>
 </div>
 
 <p class="updated">Atnaujinta 2026-11-07.</p>
@@ -356,8 +518,6 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Palyginimas</a>
-      <span>·</span>
-      <a href="../kubernetes-on-mac/">Kubernetes Mac kompiuteryje</a>
       <span>·</span>
       <a href="../docker-desktop-to-apple-container/">Nuo Docker Desktop</a>
       <span>·</span>

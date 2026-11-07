@@ -178,8 +178,88 @@
           "name": "Czy do pracy z klastrem w Gantry potrzebuję kubectl?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Na razie tak: przeglądarka Kubernetes w Gantry uruchamia kubectl. Jeśli go nie ma, przeglądarka pokazuje polecenie brew install kubectl i może je uruchomić za Ciebie. Trwają prace nad natywnym klientem Kubernetes, który usunie ten krok."
+            "text": "Na razie tak: przeglądarka Kubernetes w Gantry uruchamia kubectl. Jeśli go nie ma, przeglądarka pokazuje polecenie brew install kubectl i może je uruchomić za Ciebie."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "Czy mogę uruchomić Kubernetes na Macu bez Dockera?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tak. CLI container od Apple samo tworzy klastry Kubernetes poleceniem container cluster create. Każdy węzeł działa jako lekka maszyna wirtualna i nie potrzebujesz Dockera, Docker Desktop, kind ani minikube."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Ile węzłów może mieć container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Jedną warstwę sterowania i tyle węzłów roboczych, na ile starczy procesorów i pamięci Twojego Maca. Ustaw je flagą --workers; w CLI 1.7 każda grupa węzłów roboczych może mieć własne procesory i pamięć."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Której wersji Kubernetes używa container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CLI 1.7.1 domyślnie używa obrazu węzła kindest/node:v1.35.5. Inną wersję wybierzesz flagą --node-image, na przykład docker.io/kindest/node:v1.34.11. Gantry pokazuje wersję w przeglądzie klastra."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://getgantry.github.io/pl/apple-container-kubernetes/#howto",
+      "name": "Kubernetes na Macu z Apple container",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Czego potrzebujesz",
+          "text": "Mac z Apple silicon i macOS 26 lub nowszym. CLI container 1.7.1 z podpisanego pakietu .pkg ze strony wydań apple/container. Wersja 1.7.1 z Homebrew nie zawiera usług klastra, więc container cluster kończy się błędem cluster service unavailable. Około 6 GB wolnej pamięci dla poniższego przykładu: trzy węzły po 2 GB. kubectl, jeśli chcesz korzystać z klastra w terminalu (brew install kubectl).",
+          "url": "https://getgantry.github.io/pl/apple-container-kubernetes/#terminal-requirements"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Tworzenie klastra",
+          "text": "To polecenie tworzy klaster o nazwie dev z jednym węzłem warstwy sterowania i dwoma węzłami roboczymi. Każdy węzeł dostaje 2 procesory i 2 GB pamięci:",
+          "url": "https://getgantry.github.io/pl/apple-container-kubernetes/#terminal-create"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Lokalny obraz bez rejestru",
+          "text": "Z --shared-image-store węzły mogą uruchomić każdy obraz z Twojego lokalnego magazynu obrazów container. Zbuduj obraz i użyj go po nazwie:",
+          "url": "https://getgantry.github.io/pl/apple-container-kubernetes/#terminal-images"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Otwórz aplikację w przeglądarce",
+          "text": "Przekieruj lokalny port do deploymentu, a potem otwórz http://localhost:8080:",
+          "url": "https://getgantry.github.io/pl/apple-container-kubernetes/#terminal-reach"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Zatrzymanie i usunięcie klastra",
+          "text": "Jeśli węzeł warstwy sterowania się zatrzyma, na przykład po container system stop, usuń klaster i utwórz go ponownie. Klaster tymczasowy utwórz z --rm, aby jego węzły były usuwane po zatrzymaniu.",
+          "url": "https://getgantry.github.io/pl/apple-container-kubernetes/#terminal-cleanup"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Typowe problemy",
+          "text": "cluster service unavailable: CLI pochodzi z Homebrew albo usługi nie działają. Zainstaluj podpisany pakiet lub uruchom ponownie usługi poleceniami container system stop i container system start. Gantry pokazuje tę samą radę w sekcji Klastry. Na liście brakuje starego klastra: CLI 1.7 nie wyświetla klastrów utworzonych w 1.6 lub starszym. Usuń taki klaster poleceniem container cluster delete --name <name>. Węzły pozostają w stanie NotReady: użyto --cni NONE. Zastosuj manifest CNI. Nie można zatrzymać kontenera węzła: to celowe. container stop i delete odmawiają działania na węzłach klastra; użyj container cluster delete.",
+          "url": "https://getgantry.github.io/pl/apple-container-kubernetes/#terminal-troubleshooting"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Porównanie z Docker Desktop i OrbStack",
+          "text": "Docker Desktop ma wbudowany Kubernetes z kubeadm (jeden węzeł) lub kind (kilka węzłów), a OrbStack ma wbudowany klaster z jednym węzłem. container cluster uruchamia kubeadm na obrazach kindest/node, każdy węzeł we własnej maszynie wirtualnej, z klastrami wielowęzłowymi i współdzielonym magazynem obrazów. Zobacz pełne porównanie.",
+          "url": "https://getgantry.github.io/pl/apple-container-kubernetes/#terminal-compare"
         }
       ]
     }
@@ -294,7 +374,8 @@
   <li><strong>Sekrety:</strong> wartości są zamaskowane na liście i w YAML, dopóki nie klikniesz Pokaż.</li>
   <li><strong>Zastosuj YAML:</strong> wklej manifest lub otwórz plik; błędy pojawiają się w arkuszu.</li>
 </ul>
-<p>Przeglądarka uruchamia <code>kubectl</code>. Jeśli Gantry go nie znajdzie, sekcja pokazuje <code>brew install kubectl</code> z przyciskiem, który je uruchamia. Trwają prace nad natywnym klientem Kubernetes, który nie wymaga <code>kubectl</code>.</p>
+<p>Przeglądarka uruchamia <code>kubectl</code>. Jeśli Gantry go nie znajdzie, sekcja pokazuje <code>brew install kubectl</code> z przyciskiem, który je uruchamia.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
 
 <h2 id="kubectl">Podłączenie kubectl</h2>
 <p>Tworząc klaster, CLI dodaje do <code>~/.kube/config</code> kontekst o nazwie klastra. Użyj w Gantry <strong>Kopiuj polecenie kontekstu kubectl</strong> albo wpisz je ręcznie:</p>
@@ -324,6 +405,84 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <h2 id="cni">Wybór CNI</h2>
 <p>Domyślnie używany jest wbudowany manifest kindnet. Wybierz <strong>Własny manifest</strong>, aby zainstalować własny CNI z pliku, na przykład Calico lub Cilium. Wybierz <strong>Brak</strong>, aby zainstalować CNI samodzielnie później; do tego czasu węzły pozostają w stanie NotReady.</p>
 
+<h2 id="terminal">Kubernetes na Macu z Apple container</h2>
+<p>Narzędzie <code>container</code> od Apple tworzy lokalny klaster Kubernetes jednym poleceniem. Każdy węzeł to lekka maszyna wirtualna na Twoim Macu. Ten przewodnik prowadzi od pustego Maca do działającego deploymentu, najpierw w terminalu, a potem w Gantry.</p>
+
+<h3 id="terminal-requirements">Czego potrzebujesz</h3>
+<ul>
+  <li>Mac z Apple silicon i macOS 26 lub nowszym.</li>
+  <li>CLI <code>container</code> 1.7.1 z podpisanego pakietu <code>.pkg</code> ze <a href="https://github.com/apple/container/releases">strony wydań apple/container</a>. Wersja 1.7.1 z Homebrew nie zawiera usług klastra, więc <code>container cluster</code> kończy się błędem <em>cluster service unavailable</em>.</li>
+  <li>Około 6 GB wolnej pamięci dla poniższego przykładu: trzy węzły po 2 GB.</li>
+  <li><code>kubectl</code>, jeśli chcesz korzystać z klastra w terminalu (<code>brew install kubectl</code>).</li>
+</ul>
+<p>Po instalacji pakietu uruchom usługi jeden raz:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system start">Kopiuj</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<ul id="terminal-create">Tworzenie klastra</ul>
+<p>To polecenie tworzy klaster o nazwie <code>dev</code> z jednym węzłem warstwy sterowania i dwoma węzłami roboczymi. Każdy węzeł dostaje 2 procesory i 2 GB pamięci:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Kopiuj</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li><code>--workers count=N,cpus=C,memory=M</code> ustawia rozmiar grupy węzłów roboczych. Powtórz flagę dla grup o różnych rozmiarach. Bez <code>--workers</code> jeden węzeł jest jednocześnie warstwą sterowania i węzłem roboczym.</li>
+  <li><code>--cpus</code> i <code>--memory</code> ustawiają rozmiar warstwy sterowania. Domyślnie to ćwierć procesorów i pamięci Twojego Maca, co najmniej 2 procesory i 2 GB.</li>
+  <li><code>--shared-image-store</code> pozwala węzłom używać Twoich lokalnych obrazów (zobacz niżej). Nie da się tego zmienić później: usuń klaster i utwórz go ponownie.</li>
+  <li><code>--cni ./calico.yaml</code> instaluje Twój własny CNI zamiast wbudowanego kindnet; <code>--cni NONE</code> nie instaluje żadnego.</li>
+</ul>
+<p>CLI dodaje kontekst o nazwie <code>dev</code> do <code>~/.kube/config</code>. Sprawdź węzły:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Kopiuj</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<ul id="terminal-images">Lokalny obraz bez rejestru</ul>
+<p>Z <code>--shared-image-store</code> węzły mogą uruchomić każdy obraz z Twojego lokalnego magazynu obrazów <code>container</code>. Zbuduj obraz i użyj go po nazwie:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Kopiuj</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Uwaga</span><div>Po ponownym zbudowaniu tego samego tagu uruchom <code>kubectl rollout restart</code> z <code>imagePullPolicy: Always</code> albo użyj nowego tagu. Z <code>IfNotPresent</code> węzeł zachowuje kopię, którą już ma. Wszystko, co ma uprawnienia root na węźle, może odczytać każdy obraz z Twojego lokalnego magazynu, także obrazy prywatne, więc używaj współdzielonego magazynu tylko do pracy lokalnej.</div></div>
+<p>W CLI 1.5 i 1.6 nie ma współdzielonego magazynu. Użyj tam <code>container cluster load-image</code> albo <b>Wczytaj do klastra</b> w Gantry. CLI 1.7 usunęło <code>load-image</code>.</p>
+
+<ul id="terminal-reach">Otwórz aplikację w przeglądarce</ul>
+<p>Przekieruj lokalny port do deploymentu, a potem otwórz <code>http://localhost:8080</code>:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Kopiuj</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<ul id="terminal-cleanup">Zatrzymanie i usunięcie klastra</ul>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster delete --name dev">Kopiuj</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Jeśli węzeł warstwy sterowania się zatrzyma, na przykład po <code>container system stop</code>, usuń klaster i utwórz go ponownie. Klaster tymczasowy utwórz z <code>--rm</code>, aby jego węzły były usuwane po zatrzymaniu.</p>
+
+<ul id="terminal-troubleshooting">Typowe problemy</ul>
+<ul>
+  <li><strong>cluster service unavailable:</strong> CLI pochodzi z Homebrew albo usługi nie działają. Zainstaluj podpisany pakiet lub uruchom ponownie usługi poleceniami <code>container system stop</code> i <code>container system start</code>. Gantry pokazuje tę samą radę w sekcji Klastry.</li>
+  <li><strong>Na liście brakuje starego klastra:</strong> CLI 1.7 nie wyświetla klastrów utworzonych w 1.6 lub starszym. Usuń taki klaster poleceniem <code>container cluster delete --name &lt;name&gt;</code>.</li>
+  <li><strong>Węzły pozostają w stanie NotReady:</strong> użyto <code>--cni NONE</code>. Zastosuj manifest CNI.</li>
+  <li><strong>Nie można zatrzymać kontenera węzła:</strong> to celowe. <code>container stop</code> i <code>delete</code> odmawiają działania na węzłach klastra; użyj <code>container cluster delete</code>.</li>
+</ul>
+
+<ul id="terminal-compare">Porównanie z Docker Desktop i OrbStack</ul>
+<p>Docker Desktop ma wbudowany Kubernetes z kubeadm (jeden węzeł) lub kind (kilka węzłów), a OrbStack ma wbudowany klaster z jednym węzłem. <code>container cluster</code> uruchamia kubeadm na obrazach <code>kindest/node</code>, każdy węzeł we własnej maszynie wirtualnej, z klastrami wielowęzłowymi i współdzielonym magazynem obrazów. Zobacz <a href="../compare/">pełne porównanie</a>.</p>
+
 <h2 id="agents">Klastry z poziomu agentów AI</h2>
 <p>Serwer MCP Gantry ma narzędzia <code>list_clusters</code>, <code>create_cluster</code> i <code>delete_cluster</code>, więc agent, taki jak Claude Code, może utworzyć tymczasowy klaster do testu i potem go usunąć.</p>
 <div class="code-block">
@@ -332,7 +491,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 </div>
 
 <h2 id="more">Więcej o apple/container</h2>
-<p>Opis krok po kroku z poziomu terminala znajdziesz w przewodniku <a href="../kubernetes-on-mac/">Kubernetes na Macu z Apple container</a>. Przeczytaj <a href="../apple-container/">przewodnik po apple/container</a>, aby poznać każde polecenie <code>container</code> i jego funkcję w Gantry, albo zobacz, jak Gantry wypada na tle <a href="../compare/">Docker Desktop, OrbStack i Podman Desktop</a>.</p>
+<p>Opis krok po kroku z poziomu terminala znajdziesz w przewodniku <a href="#terminal">Kubernetes na Macu z Apple container</a>. Przeczytaj <a href="../apple-container/">przewodnik po apple/container</a>, aby poznać każde polecenie <code>container</code> i jego funkcję w Gantry, albo zobacz, jak Gantry wypada na tle <a href="../compare/">Docker Desktop, OrbStack i Podman Desktop</a>.</p>
 
 <h2 id="faq">Pytania i odpowiedzi</h2>
 <div class="faq-list">
@@ -343,7 +502,10 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <details class="faq-item"><summary>Czy można utworzyć klaster z wieloma węzłami?</summary><p>Tak. Ustaw liczbę węzłów roboczych w arkuszu tworzenia; węzły robocze wymagają CLI 1.6.0 lub nowszego. W CLI 1.7 ustawiasz też procesory i pamięć węzłów roboczych niezależnie od warstwy sterowania.</p></details>
 <details class="faq-item"><summary>Czy mogę użyć własnego CNI, np. Calico lub Cilium?</summary><p>Tak. Wybierz <b>Własny manifest</b> i wskaż plik manifestu albo wybierz <b>Brak</b> i zainstaluj CNI samodzielnie po uruchomieniu klastra. Węzły pozostają w stanie NotReady, dopóki CNI nie działa. <b>Brak</b> wymaga CLI 1.6.0 lub nowszego. Domyślny CNI to wbudowany manifest kindnet.</p></details>
 <details class="faq-item"><summary>Dlaczego Gantry podaje, że usługi klastra są niedostępne?</summary><p>Usługi <code>container</code> nie odpowiedziały na polecenie klastra. Jeśli Twoje CLI to wersja z Homebrew bez usług klastra, Gantry o tym informuje i podaje link do podpisanego instalatora na stronie wydań apple/container. W przeciwnym razie proponuje <b>Uruchom ponownie usługi</b>.</p></details>
-<details class="faq-item"><summary>Czy do pracy z klastrem w Gantry potrzebuję kubectl?</summary><p>Na razie tak: przeglądarka Kubernetes w Gantry uruchamia <code>kubectl</code>. Jeśli go nie ma, przeglądarka pokazuje polecenie <code>brew install kubectl</code> i może je uruchomić za Ciebie. Trwają prace nad natywnym klientem Kubernetes, który usunie ten krok.</p></details>
+<details class="faq-item"><summary>Czy do pracy z klastrem w Gantry potrzebuję kubectl?</summary><p>Na razie tak: przeglądarka Kubernetes w Gantry uruchamia <code>kubectl</code>. Jeśli go nie ma, przeglądarka pokazuje polecenie <code>brew install kubectl</code> i może je uruchomić za Ciebie.</p></details>
+<details class="faq-item"><summary>Czy mogę uruchomić Kubernetes na Macu bez Dockera?</summary><p>Tak. CLI <code>container</code> od Apple samo tworzy klastry Kubernetes poleceniem <code>container cluster create</code>. Każdy węzeł działa jako lekka maszyna wirtualna i nie potrzebujesz Dockera, Docker Desktop, kind ani minikube.</p></details>
+<details class="faq-item"><summary>Ile węzłów może mieć container cluster?</summary><p>Jedną warstwę sterowania i tyle węzłów roboczych, na ile starczy procesorów i pamięci Twojego Maca. Ustaw je flagą <code>--workers</code>; w CLI 1.7 każda grupa węzłów roboczych może mieć własne procesory i pamięć.</p></details>
+<details class="faq-item"><summary>Której wersji Kubernetes używa container cluster?</summary><p>CLI 1.7.1 domyślnie używa obrazu węzła <code>kindest/node:v1.35.5</code>. Inną wersję wybierzesz flagą <code>--node-image</code>, na przykład <code>docker.io/kindest/node:v1.34.11</code>. Gantry pokazuje wersję w przeglądzie klastra.</p></details>
 </div>
 
 <p class="updated">Ostatnia aktualizacja: 2026-11-07.</p>
@@ -356,8 +518,6 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Porównanie</a>
-      <span>·</span>
-      <a href="../kubernetes-on-mac/">Kubernetes na Macu</a>
       <span>·</span>
       <a href="../docker-desktop-to-apple-container/">Z Docker Desktop</a>
       <span>·</span>

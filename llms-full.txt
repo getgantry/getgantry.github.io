@@ -14,7 +14,7 @@ apple/container support (the main focus):
 - Containers: create, run, start, stop, kill, delete, prune, logs, stats, exec terminal, processes, inspect, export, Commit to Image (`container commit`, CLI 1.6), Trim Disk (`container clean`, CLI 1.4).
 - Files: download and drag out to Finder (`container copy`, container must be started), upload files and folders.
 - Kubernetes clusters (`container cluster` on CLI 1.6.1 and 1.7, `container k8s` on 1.5.0 to 1.6.0): create with name, workers, CPUs, memory, node image and CNI (default kindnet, none, or a custom manifest). On CLI 1.7: separate CPUs and memory for the control plane and the workers (`--workers count=N,cpus=C,memory=M`) and "Use local images" (`--shared-image-store`). Cluster overview with Kubernetes version, image store and worker resources; nodes view; Write Kubeconfig; Copy kubectl Context Command; Browse Resources; Load into Cluster on CLI 1.5 and 1.6 (`load-image` was removed in 1.7); delete; cancel during creation. Cluster nodes are locked against start, stop, remove and rename.
-- Kubernetes browser (any kubeconfig context, apple/container clusters first): pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets (masked until revealed), nodes, events; pod logs, pod shell, port forward, scale, rollout restart, delete, Apply YAML. In 0.27.0 it runs `kubectl` (Gantry can install it with Homebrew); a native client without kubectl is in development.
+- Kubernetes browser (any kubeconfig context, apple/container clusters first): pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets (masked until revealed), nodes, events; pod logs, pod shell, port forward, scale, rollout restart, delete, Apply YAML. In 0.27.0 it runs `kubectl`. Gantry can install it with Homebrew.
 - Machines (`container machine`): create, start, stop, delete, set default, CPUs and memory, shell, inspect; nested virtualization (Apple silicon M3 or newer) and custom kernels on CLI 1.1+; Open in VS Code over Remote-SSH (machine image must run sshd).
 - Compose: apple/container has no compose command; Gantry runs docker-compose.yml files itself (build services, network, named volumes, depends_on order, Compose labels). Open from Finder, the File menu or drag and drop.
 - Networking: routable IP per container, local DNS domains and a default domain, network DNS aliases (including subtree aliases such as `.gateway`), Compose service names resolve.
@@ -99,11 +99,11 @@ Last updated: 2026-11-07
 - Remote hosts over SSH in the GUI: Gantry: Yes, Docker over SSH with ProxyJump and Keychain secrets; Docker Desktop: Not in the docs (CLI contexts only); OrbStack: Not in the docs (custom Docker hosts over TCP); Podman Desktop: Yes, remote Podman connections over SSH; container CLI: Not applicable
 - AI and MCP: Gantry: Bundled MCP server (gantry-mcp) and Explain Failure with Apple Intelligence; Docker Desktop: MCP Toolkit (an MCP gateway) and the Gordon assistant (sign-in needed); OrbStack: No official MCP server found; Podman Desktop: AI Lab extension, with MCP in its playground; container CLI: No
 - Latest version (checked 2026-11-07): Gantry: 0.27.0; Docker Desktop: 4.98.0 (2026-11-03); OrbStack: 2.2.5 (2026-10-23); Podman Desktop: 1.30.5 (2026-10-13); container CLI: 1.7.1 (2026-11-06)
-- Data on an external drive: Gantry: Bind mounts from any disk today; moving the apple/container data root is in development; Docker Desktop: Yes, Disk image location setting; OrbStack: Yes, since 0.13.0; Podman Desktop: Not in the docs; container CLI: Yes, container system start --app-root
+- Data on an external drive: Gantry: Bind mounts from any disk today; Docker Desktop: Yes, Disk image location setting; OrbStack: Yes, since 0.13.0; Podman Desktop: Not in the docs; container CLI: Yes, container system start --app-root
 
 ## Guide: Run Kubernetes on a Mac with Apple container
 
-URL: https://getgantry.github.io/kubernetes-on-mac/
+URL: https://getgantry.github.io/apple-container-kubernetes/#terminal
 
 In short. Install the signed container 1.7.1 package, run container cluster create --name dev --cpus 2 --memory 2g --workers count=2,cpus=2,memory=2g --shared-image-store, build an image with container build and run it in the cluster by name. Gantry shows the same cluster in a window: nodes, pods, logs, a shell and port forwards.
 
@@ -161,7 +161,7 @@ Gantry shows the same cluster without commands. Add your apple/container host, o
 - Pod logs with follow and tail, a shell in the pod, and port forwards with a list that you can stop.
 - Scale, rollout restart, delete, and Apply YAML from a pasted manifest or a file.
 - Secret values stay masked until you click Reveal.
-The Kubernetes browser runs kubectl. If it is missing, Gantry shows brew install kubectl and can run it for you. A native client that needs no kubectl is in development.
+The Kubernetes browser runs kubectl. If it is missing, Gantry shows brew install kubectl and can run it for you.
 You can also create the cluster in Gantry: Clusters ▸ New Cluster has steppers for the control plane and the workers and a Use local images switch. More on the Kubernetes on apple/container page.
 
 ### Stop and delete the cluster
@@ -302,7 +302,7 @@ container ls -a && container image ls && container volume ls
 ```
 Use cp -Rp. In our test on macOS 27 (APFS to APFS over USB), it kept the volume images sparse and kept the extended attributes. ditto wrote each sparse image at its full size, which can fill the disk. Keep the old folder until you have checked that your containers, images and volumes are listed.
 The CLI does not remember --app-root. Each container system start without it uses the internal folder again. Use the flag every time, for example in a shell alias, and check paths.appRoot in container system status.
-Gantry 0.27.0 starts the services without --app-root when it connects to a host whose services are stopped. Start the services from the terminal with the flag first; Gantry then uses the running services. Gantry support for a moved data root is in development.
+Gantry 0.27.0 starts the services without --app-root when it connects to a host whose services are stopped. Start the services from the terminal with the flag first; Gantry then uses the running services.
 
 ### Archive images on the disk
 
@@ -323,7 +323,7 @@ If the disk goes away while containers run from it, they fail, and writes in pro
 
 ### External drives in Gantry
 
-Gantry runs bind mounts from any disk today: in New Container, add a volume, choose a folder on the external disk and a path in the container. Gantry support for moving the data root, volumes on an external disk and a warning when the disk is not connected is in development.
+Gantry runs bind mounts from any disk today: in New Container, add a volume, choose a folder on the external disk and a path in the container.
 
 ### Docker Desktop and OrbStack
 
@@ -495,7 +495,7 @@ Q: Why does Gantry say the cluster services are unavailable?
 A: The container services did not answer a cluster command. If your CLI is a Homebrew build without the cluster services, Gantry says so and links to the signed installer on the apple/container releases page. Otherwise it offers Restart Services.
 
 Q: Do I need kubectl to use the cluster in Gantry?
-A: For now, yes: the Gantry Kubernetes browser runs kubectl. If it is not installed, the browser shows the brew install kubectl command and can run it for you. A native Kubernetes client that removes this step is in development.
+A: For now, yes: the Gantry Kubernetes browser runs kubectl. If it is not installed, the browser shows the brew install kubectl command and can run it for you.
 
 Q: Is Gantry a Docker Desktop alternative?
 A: For the GUI, yes. Gantry manages containers, images, volumes, networks, logs, stats and Compose. It does not include a Docker engine: on a Mac, use OrbStack, Colima or Docker Desktop for that, or use Apple's container tool, which Gantry also manages. Gantry is MIT licensed and free for commercial use.
@@ -574,7 +574,6 @@ A: Yes. Copy as Command in the container menu writes a docker run or container r
 - https://getgantry.github.io/apple-container/ : Apple container GUI for Mac: the complete apple/container guide
 - https://getgantry.github.io/apple-container-kubernetes/ : Kubernetes on Apple container: a GUI for container cluster and a Kubernetes browser
 - https://getgantry.github.io/compare/ : Gantry vs Docker Desktop vs OrbStack vs Podman Desktop on Mac (2026)
-- https://getgantry.github.io/kubernetes-on-mac/ : Run Kubernetes on a Mac with Apple container: a step-by-step guide
 - https://getgantry.github.io/docker-desktop-to-apple-container/ : Move from Docker Desktop to Apple container: commands, Compose, volumes and gaps
 - https://getgantry.github.io/containers-on-external-drive/ : Store containers and volumes on an external drive on a Mac
 - https://getgantry.github.io/docker-run-to-container/ : Create a container from a docker run command on Mac (docker run to container run)
@@ -584,7 +583,7 @@ A: Yes. Copy as Command in the container menu writes a docker run or container r
 
 ## Languages
 
-The home page, the apple/container guide, the Kubernetes page, the comparison and the how-to guides (Kubernetes on a Mac, moving from Docker Desktop, external drives, docker run) are also available in these languages. Each language uses the same paths under its prefix, for example https://getgantry.github.io/de/apple-container/. The documentation is in English only.
+The home page, the apple/container guide, the Kubernetes page (with the Kubernetes on a Mac walk-through), the comparison and the how-to guides (moving from Docker Desktop, external drives, docker run) are also available in these languages. Each language uses the same paths under its prefix, for example https://getgantry.github.io/de/apple-container/. The documentation is in English only.
 
 - Deutsch (de): https://getgantry.github.io/de/
 - Français (fr): https://getgantry.github.io/fr/

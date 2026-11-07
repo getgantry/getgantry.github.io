@@ -178,8 +178,88 @@
           "name": "Нужен ли ми е kubectl, за да използвам клъстера в Gantry?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Засега да: браузърът за Kubernetes на Gantry изпълнява kubectl. Ако не е инсталиран, браузърът показва командата brew install kubectl и може да я изпълни вместо вас. В процес на разработка е нативен клиент за Kubernetes, който премахва тази стъпка."
+            "text": "Засега да: браузърът за Kubernetes на Gantry изпълнява kubectl. Ако не е инсталиран, браузърът показва командата brew install kubectl и може да я изпълни вместо вас."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "Мога ли да стартирам Kubernetes на Mac без Docker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да. CLI container на Apple сам създава клъстери на Kubernetes с container cluster create. Всеки възел работи като лека виртуална машина и не ви трябват Docker, Docker Desktop, kind или minikube."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Колко възела може да има един container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Един управляващ възел и толкова работни възли, колкото позволяват CPU и паметта на вашия Mac. Задайте ги с --workers; в CLI 1.7 всяка група работни възли може да има собствени CPU и памет."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Коя версия на Kubernetes използва container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CLI 1.7.1 използва по подразбиране образа на възел kindest/node:v1.35.5. Изберете друга версия с --node-image, например docker.io/kindest/node:v1.34.11. Gantry показва версията в обзора на клъстера."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://getgantry.github.io/bg/apple-container-kubernetes/#howto",
+      "name": "Kubernetes на Mac с Apple container",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Какво ви трябва",
+          "text": "Mac с Apple silicon и macOS 26 или по-нова. CLI container 1.7.1 от подписания .pkg на страницата с версии на apple/container. Компилацията на 1.7.1 от Homebrew не включва услугите на клъстера, така че container cluster завършва с cluster service unavailable. Около 6 GB свободна памет за примера по-долу: три възела по 2 GB. kubectl, ако искате да използвате клъстера от терминала (brew install kubectl).",
+          "url": "https://getgantry.github.io/bg/apple-container-kubernetes/#terminal-requirements"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Създаване на клъстера",
+          "text": "Тази команда създава клъстер с име dev с един управляващ възел и два работни възела. Всеки възел получава 2 CPU и 2 GB памет:",
+          "url": "https://getgantry.github.io/bg/apple-container-kubernetes/#terminal-create"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Стартиране на локален образ без регистър",
+          "text": "С --shared-image-store възлите могат да стартират всеки образ от локалния ви склад за образи на container. Изградете образ и го използвайте по име:",
+          "url": "https://getgantry.github.io/bg/apple-container-kubernetes/#terminal-images"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Отваряне на приложението в браузър",
+          "text": "Пренасочете локален порт към deployment, след това отворете http://localhost:8080:",
+          "url": "https://getgantry.github.io/bg/apple-container-kubernetes/#terminal-reach"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Спиране и изтриване на клъстера",
+          "text": "Ако управляващият възел спре, например след container system stop, изтрийте клъстера и го създайте отново. Създайте временен клъстер с --rm, за да се премахват възлите му, когато спрат.",
+          "url": "https://getgantry.github.io/bg/apple-container-kubernetes/#terminal-cleanup"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Чести проблеми",
+          "text": "cluster service unavailable: CLI е компилацията от Homebrew или услугите не работят. Инсталирайте подписания пакет или рестартирайте услугите с container system stop и container system start. Gantry показва същия съвет в „Клъстери“. Стар клъстер липсва в списъка: CLI 1.7 не показва клъстери, създадени с 1.6 или по-стара версия. Премахнете такъв клъстер с container cluster delete --name <name>. Възлите остават NotReady: използвали сте --cni NONE. Приложете манифест на CNI. Не можете да спрете контейнер на възел: това е нарочно. container stop и delete отказват за възли на клъстер; използвайте container cluster delete.",
+          "url": "https://getgantry.github.io/bg/apple-container-kubernetes/#terminal-troubleshooting"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Сравнение с Docker Desktop и OrbStack",
+          "text": "Docker Desktop има вграден Kubernetes с kubeadm (един възел) или kind (няколко възела), а OrbStack има вграден клъстер с един възел. container cluster изпълнява kubeadm върху образи kindest/node, всеки възел в собствена виртуална машина, с клъстери с няколко възела и общ склад за образи. Вижте пълното сравнение.",
+          "url": "https://getgantry.github.io/bg/apple-container-kubernetes/#terminal-compare"
         }
       ]
     }
@@ -294,7 +374,8 @@
   <li><strong>Тайни:</strong> стойностите са скрити в списъка и в YAML, докато не щракнете „Покажи“.</li>
   <li><strong>Приложи YAML:</strong> поставете манифест или отворете файл; грешките се показват в листа.</li>
 </ul>
-<p>Браузърът изпълнява <code>kubectl</code>. Ако Gantry не го намери, разделът показва <code>brew install kubectl</code> с бутон, който изпълнява командата. В процес на разработка е нативен клиент за Kubernetes, който не изисква <code>kubectl</code>.</p>
+<p>Браузърът изпълнява <code>kubectl</code>. Ако Gantry не го намери, разделът показва <code>brew install kubectl</code> с бутон, който изпълнява командата.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
 
 <h2 id="kubectl">Свързване на kubectl</h2>
 <p>Когато CLI създава клъстера, добавя в <code>~/.kube/config</code> контекст с името на клъстера. Използвайте <strong>Копирай командата за контекст на kubectl</strong> в Gantry или я въведете:</p>
@@ -324,6 +405,84 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <h2 id="cni">Избор на CNI</h2>
 <p>По подразбиране се използва вграденият манифест на kindnet. Изберете <strong>Персонализиран манифест</strong>, за да инсталирате свой CNI от файл, например Calico или Cilium. Изберете <strong>Няма</strong>, за да инсталирате CNI сами по-късно; дотогава възлите остават NotReady.</p>
 
+<h2 id="terminal">Kubernetes на Mac с Apple container</h2>
+<p>Инструментът <code>container</code> на Apple може да създаде локален клъстер на Kubernetes с една команда. Всеки възел е лека виртуална машина на вашия Mac. Това ръководство води от празен Mac до работещ deployment, първо в терминала, а след това в Gantry.</p>
+
+<h3 id="terminal-requirements">Какво ви трябва</h3>
+<ul>
+  <li>Mac с Apple silicon и macOS 26 или по-нова.</li>
+  <li>CLI <code>container</code> 1.7.1 от подписания <code>.pkg</code> на <a href="https://github.com/apple/container/releases">страницата с версии на apple/container</a>. Компилацията на 1.7.1 от Homebrew не включва услугите на клъстера, така че <code>container cluster</code> завършва с <em>cluster service unavailable</em>.</li>
+  <li>Около 6 GB свободна памет за примера по-долу: три възела по 2 GB.</li>
+  <li><code>kubectl</code>, ако искате да използвате клъстера от терминала (<code>brew install kubectl</code>).</li>
+</ul>
+<p>Стартирайте услугите веднъж, след като инсталирате пакета:</p>
+<div class="code-block">
+  <div class="code-head"><span>Терминал</span><button class="copy" data-copy="container system start">Копирай</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<ul id="terminal-create">Създаване на клъстера</ul>
+<p>Тази команда създава клъстер с име <code>dev</code> с един управляващ възел и два работни възела. Всеки възел получава 2 CPU и 2 GB памет:</p>
+<div class="code-block">
+  <div class="code-head"><span>Терминал</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Копирай</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li><code>--workers count=N,cpus=C,memory=M</code> задава размера на група работни възли. Повторете го за групи с различни размери. Без <code>--workers</code> един възел е и управляващ, и работен.</li>
+  <li><code>--cpus</code> и <code>--memory</code> задават размера на управляващия възел. По подразбиране това е една четвърт от CPU и паметта на вашия Mac, най-малко 2 CPU и 2 GB.</li>
+  <li><code>--shared-image-store</code> позволява на възлите да използват локалните ви образи (вижте по-долу). Не можете да го промените по-късно: изтрийте клъстера и го създайте отново.</li>
+  <li><code>--cni ./calico.yaml</code> инсталира ваш CNI вместо вградения kindnet; <code>--cni NONE</code> не инсталира никакъв.</li>
+</ul>
+<p>CLI добавя контекст с име <code>dev</code> в <code>~/.kube/config</code>. Проверете възлите:</p>
+<div class="code-block">
+  <div class="code-head"><span>Терминал</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Копирай</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<ul id="terminal-images">Стартиране на локален образ без регистър</ul>
+<p>С <code>--shared-image-store</code> възлите могат да стартират всеки образ от локалния ви склад за образи на <code>container</code>. Изградете образ и го използвайте по име:</p>
+<div class="code-block">
+  <div class="code-head"><span>Терминал</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Копирай</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Бележка</span><div>След като изградите отново същия таг, изпълнете <code>kubectl rollout restart</code> с <code>imagePullPolicy: Always</code> или използвайте нов таг. С <code>IfNotPresent</code> възелът запазва копието, което вече има. Всичко с root достъп до възел може да чете всеки образ в локалния ви склад, включително частни образи, затова използвайте общия склад само за локална разработка.</div></div>
+<p>В CLI 1.5 и 1.6 няма общ склад. Там използвайте <code>container cluster load-image</code> или <b>Зареди в клъстер</b> в Gantry. CLI 1.7 премахна <code>load-image</code>.</p>
+
+<ul id="terminal-reach">Отваряне на приложението в браузър</ul>
+<p>Пренасочете локален порт към deployment, след това отворете <code>http://localhost:8080</code>:</p>
+<div class="code-block">
+  <div class="code-head"><span>Терминал</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Копирай</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<ul id="terminal-cleanup">Спиране и изтриване на клъстера</ul>
+<div class="code-block">
+  <div class="code-head"><span>Терминал</span><button class="copy" data-copy="container cluster delete --name dev">Копирай</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Ако управляващият възел спре, например след <code>container system stop</code>, изтрийте клъстера и го създайте отново. Създайте временен клъстер с <code>--rm</code>, за да се премахват възлите му, когато спрат.</p>
+
+<ul id="terminal-troubleshooting">Чести проблеми</ul>
+<ul>
+  <li><strong>cluster service unavailable:</strong> CLI е компилацията от Homebrew или услугите не работят. Инсталирайте подписания пакет или рестартирайте услугите с <code>container system stop</code> и <code>container system start</code>. Gantry показва същия съвет в „Клъстери“.</li>
+  <li><strong>Стар клъстер липсва в списъка:</strong> CLI 1.7 не показва клъстери, създадени с 1.6 или по-стара версия. Премахнете такъв клъстер с <code>container cluster delete --name &lt;name&gt;</code>.</li>
+  <li><strong>Възлите остават NotReady:</strong> използвали сте <code>--cni NONE</code>. Приложете манифест на CNI.</li>
+  <li><strong>Не можете да спрете контейнер на възел:</strong> това е нарочно. <code>container stop</code> и <code>delete</code> отказват за възли на клъстер; използвайте <code>container cluster delete</code>.</li>
+</ul>
+
+<ul id="terminal-compare">Сравнение с Docker Desktop и OrbStack</ul>
+<p>Docker Desktop има вграден Kubernetes с kubeadm (един възел) или kind (няколко възела), а OrbStack има вграден клъстер с един възел. <code>container cluster</code> изпълнява kubeadm върху образи <code>kindest/node</code>, всеки възел в собствена виртуална машина, с клъстери с няколко възела и общ склад за образи. Вижте <a href="../compare/">пълното сравнение</a>.</p>
+
 <h2 id="agents">Клъстери от AI агенти</h2>
 <p>MCP сървърът на Gantry има <code>list_clusters</code>, <code>create_cluster</code> и <code>delete_cluster</code>, така че агент като Claude Code може да създаде временен клъстер за тест и да го премахне след това.</p>
 <div class="code-block">
@@ -332,7 +491,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 </div>
 
 <h2 id="more">Още за apple/container</h2>
-<p>За ръководство стъпка по стъпка от терминала прочетете <a href="../kubernetes-on-mac/">Kubernetes на Mac с Apple container</a>. Прочетете <a href="../apple-container/">ръководството за apple/container</a> за всяка команда на <code>container</code> и съответната функция в Gantry или вижте как Gantry се сравнява с <a href="../compare/">Docker Desktop, OrbStack и Podman Desktop</a>.</p>
+<p>За ръководство стъпка по стъпка от терминала прочетете <a href="#terminal">Kubernetes на Mac с Apple container</a>. Прочетете <a href="../apple-container/">ръководството за apple/container</a> за всяка команда на <code>container</code> и съответната функция в Gantry или вижте как Gantry се сравнява с <a href="../compare/">Docker Desktop, OrbStack и Podman Desktop</a>.</p>
 
 <h2 id="faq">Въпроси и отговори</h2>
 <div class="faq-list">
@@ -343,7 +502,10 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <details class="faq-item"><summary>Мога ли да създам клъстер с няколко възела?</summary><p>Да. Задайте броя на работните възли в листа за създаване; работните възли изискват CLI 1.6.0 или по-нов. В CLI 1.7 задавате и CPU и паметта на работните възли отделно от управляващия възел.</p></details>
 <details class="faq-item"><summary>Мога ли да използвам свой CNI, например Calico или Cilium?</summary><p>Да. Изберете <b>Персонализиран манифест</b> и посочете файла с манифеста или изберете <b>Няма</b> и приложете CNI сами, след като клъстерът стартира. Възлите остават NotReady, докато не заработи CNI. <b>Няма</b> изисква CLI 1.6.0 или по-нов. CNI по подразбиране е вграденият манифест на kindnet.</p></details>
 <details class="faq-item"><summary>Защо Gantry казва, че услугите на клъстера не са достъпни?</summary><p>Услугите на <code>container</code> не са отговорили на команда за клъстер. Ако вашият CLI е компилация от Homebrew без услугите на клъстера, Gantry го казва и дава връзка към подписания инсталатор на страницата с версии на apple/container. В противен случай предлага <b>Рестартирай услугите</b>.</p></details>
-<details class="faq-item"><summary>Нужен ли ми е kubectl, за да използвам клъстера в Gantry?</summary><p>Засега да: браузърът за Kubernetes на Gantry изпълнява <code>kubectl</code>. Ако не е инсталиран, браузърът показва командата <code>brew install kubectl</code> и може да я изпълни вместо вас. В процес на разработка е нативен клиент за Kubernetes, който премахва тази стъпка.</p></details>
+<details class="faq-item"><summary>Нужен ли ми е kubectl, за да използвам клъстера в Gantry?</summary><p>Засега да: браузърът за Kubernetes на Gantry изпълнява <code>kubectl</code>. Ако не е инсталиран, браузърът показва командата <code>brew install kubectl</code> и може да я изпълни вместо вас.</p></details>
+<details class="faq-item"><summary>Мога ли да стартирам Kubernetes на Mac без Docker?</summary><p>Да. CLI <code>container</code> на Apple сам създава клъстери на Kubernetes с <code>container cluster create</code>. Всеки възел работи като лека виртуална машина и не ви трябват Docker, Docker Desktop, kind или minikube.</p></details>
+<details class="faq-item"><summary>Колко възела може да има един container cluster?</summary><p>Един управляващ възел и толкова работни възли, колкото позволяват CPU и паметта на вашия Mac. Задайте ги с <code>--workers</code>; в CLI 1.7 всяка група работни възли може да има собствени CPU и памет.</p></details>
+<details class="faq-item"><summary>Коя версия на Kubernetes използва container cluster?</summary><p>CLI 1.7.1 използва по подразбиране образа на възел <code>kindest/node:v1.35.5</code>. Изберете друга версия с <code>--node-image</code>, например <code>docker.io/kindest/node:v1.34.11</code>. Gantry показва версията в обзора на клъстера.</p></details>
 </div>
 
 <p class="updated">Последна актуализация: 2026-11-07.</p>
@@ -356,8 +518,6 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Сравнение</a>
-      <span>·</span>
-      <a href="../kubernetes-on-mac/">Kubernetes на Mac</a>
       <span>·</span>
       <a href="../docker-desktop-to-apple-container/">От Docker Desktop</a>
       <span>·</span>

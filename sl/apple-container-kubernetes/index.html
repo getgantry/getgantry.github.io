@@ -178,8 +178,88 @@
           "name": "Ali za uporabo gruče v Gantryju potrebujem kubectl?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Zaenkrat da: brskalnik Kubernetes v Gantryju zaganja kubectl. Če ta ni nameščen, brskalnik prikaže ukaz brew install kubectl in ga lahko zažene namesto vas. Izvorni odjemalec Kubernetes, ki ta korak odpravi, je v razvoju."
+            "text": "Zaenkrat da: brskalnik Kubernetes v Gantryju zaganja kubectl. Če ta ni nameščen, brskalnik prikaže ukaz brew install kubectl in ga lahko zažene namesto vas."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "Ali lahko Kubernetes v Macu izvajam brez Dockerja?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Da. Applov CLI container sam ustvarja gruče Kubernetes z container cluster create. Vsako vozlišče se izvaja kot lahek navidezni stroj, zato ne potrebujete Dockerja, Docker Desktop, kind ali minikube."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Koliko vozlišč ima lahko container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Eno nadzorno ravnino in toliko delovnih vozlišč, kolikor jim vaš Mac lahko da CPU-jev in pomnilnika. Nastavite jih z --workers; v CLI 1.7 ima lahko vsaka skupina delovnih vozlišč lastne CPU-je in pomnilnik."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Katero različico Kubernetes uporablja container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CLI 1.7.1 privzeto uporablja sliko vozlišča kindest/node:v1.35.5. Drugo različico izberete z --node-image, na primer docker.io/kindest/node:v1.34.11. Gantry različico prikaže v pregledu gruče."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://getgantry.github.io/sl/apple-container-kubernetes/#howto",
+      "name": "Kubernetes v Macu z Apple container",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Kaj potrebujete",
+          "text": "Mac s čipom Apple silicon in macOS 26 ali novejši. CLI container 1.7.1 iz podpisanega paketa .pkg na strani izdaj apple/container. Gradnja Homebrew različice 1.7.1 ne vključuje storitev gruče, zato container cluster ne uspe s sporočilom cluster service unavailable. Približno 6 GB prostega pomnilnika za spodnji primer: tri vozlišča po 2 GB. kubectl, če želite gručo uporabljati iz terminala (brew install kubectl).",
+          "url": "https://getgantry.github.io/sl/apple-container-kubernetes/#terminal-requirements"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Ustvarjanje gruče",
+          "text": "Ta ukaz ustvari gručo z imenom dev z enim vozliščem nadzorne ravnine in dvema delovnima vozliščema. Vsako vozlišče dobi 2 CPU-ja in 2 GB pomnilnika:",
+          "url": "https://getgantry.github.io/sl/apple-container-kubernetes/#terminal-create"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Zagon lokalne slike brez registra",
+          "text": "Z --shared-image-store lahko vozlišča zaženejo katero koli sliko v vaši lokalni shrambi slik container. Zgradite sliko in jo uporabite po imenu:",
+          "url": "https://getgantry.github.io/sl/apple-container-kubernetes/#terminal-images"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Odpiranje aplikacije v brskalniku",
+          "text": "Lokalna vrata posredujte na deployment, nato odprite http://localhost:8080:",
+          "url": "https://getgantry.github.io/sl/apple-container-kubernetes/#terminal-reach"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Ustavitev in brisanje gruče",
+          "text": "Če se vozlišče nadzorne ravnine ustavi, na primer po container system stop, gručo izbrišite in jo ustvarite znova. Začasno gručo ustvarite z --rm, da se njena vozlišča odstranijo, ko se ustavijo.",
+          "url": "https://getgantry.github.io/sl/apple-container-kubernetes/#terminal-cleanup"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Pogoste težave",
+          "text": "cluster service unavailable: CLI je gradnja Homebrew ali pa storitve ne tečejo. Namestite podpisani paket ali storitve znova zaženite z container system stop in container system start. Gantry enak nasvet prikaže v razdelku Gruče. Stare gruče ni na seznamu: CLI 1.7 ne izpiše gruč, ustvarjenih z 1.6 ali starejšim. Odstranite jo z container cluster delete --name <name>. Vozlišča ostanejo v stanju NotReady: uporabili ste --cni NONE. Uporabite manifest CNI. Vsebnika vozlišča ne morete ustaviti: tako je namenoma. container stop in delete vozlišč gruče ne sprejmeta; uporabite container cluster delete.",
+          "url": "https://getgantry.github.io/sl/apple-container-kubernetes/#terminal-troubleshooting"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Primerjava z Docker Desktop in OrbStack",
+          "text": "Docker Desktop ima vgrajeni Kubernetes s kubeadm (eno vozlišče) ali kind (več vozlišč), OrbStack pa vgrajeno gručo z enim vozliščem. container cluster zaganja kubeadm na slikah kindest/node, vsako vozlišče v lastnem navideznem stroju, z gručami z več vozlišči in skupno shrambo slik. Glejte celotno primerjavo.",
+          "url": "https://getgantry.github.io/sl/apple-container-kubernetes/#terminal-compare"
         }
       ]
     }
@@ -294,7 +374,8 @@
   <li><strong>Skrivnosti:</strong> vrednosti so na seznamu in v YAML skrite, dokler ne kliknete Prikaži.</li>
   <li><strong>Uporabi YAML:</strong> prilepite manifest ali odprite datoteko; napake se prikažejo v oknu.</li>
 </ul>
-<p>Brskalnik zaganja <code>kubectl</code>. Če ga Gantry ne najde, razdelek prikaže <code>brew install kubectl</code> z gumbom, ki ukaz zažene. Izvorni odjemalec Kubernetes, ki ne potrebuje <code>kubectl</code>, je v razvoju.</p>
+<p>Brskalnik zaganja <code>kubectl</code>. Če ga Gantry ne najde, razdelek prikaže <code>brew install kubectl</code> z gumbom, ki ukaz zažene.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
 
 <h2 id="kubectl">Povezava kubectl</h2>
 <p>CLI ob ustvarjanju gruče v <code>~/.kube/config</code> doda kontekst z imenom gruče. Uporabite <strong>Kopiraj ukaz za kontekst kubectl</strong> v Gantryju ali ga vtipkajte:</p>
@@ -324,6 +405,84 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <h2 id="cni">Izbira CNI</h2>
 <p>Privzeti je priloženi manifest kindnet. Izberite <strong>Manifest po meri</strong>, da iz datoteke namestite lasten CNI, na primer Calico ali Cilium. Izberite <strong>Brez</strong>, da CNI pozneje namestite sami; do takrat vozlišča ostanejo v stanju NotReady.</p>
 
+<h2 id="terminal">Kubernetes v Macu z Apple container</h2>
+<p>Applovo orodje <code>container</code> lahko lokalno gručo Kubernetes ustvari z enim ukazom. Vsako vozlišče je lahek navidezni stroj v vašem Macu. Ta vodnik vas pelje od praznega Maca do delujočega deploymenta, najprej v terminalu in nato v Gantryju.</p>
+
+<h3 id="terminal-requirements">Kaj potrebujete</h3>
+<ul>
+  <li>Mac s čipom Apple silicon in macOS 26 ali novejši.</li>
+  <li>CLI <code>container</code> 1.7.1 iz podpisanega paketa <code>.pkg</code> na <a href="https://github.com/apple/container/releases">strani izdaj apple/container</a>. Gradnja Homebrew različice 1.7.1 ne vključuje storitev gruče, zato <code>container cluster</code> ne uspe s sporočilom <em>cluster service unavailable</em>.</li>
+  <li>Približno 6 GB prostega pomnilnika za spodnji primer: tri vozlišča po 2 GB.</li>
+  <li><code>kubectl</code>, če želite gručo uporabljati iz terminala (<code>brew install kubectl</code>).</li>
+</ul>
+<p>Po namestitvi paketa enkrat zaženite storitve:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system start">Kopiraj</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<ul id="terminal-create">Ustvarjanje gruče</ul>
+<p>Ta ukaz ustvari gručo z imenom <code>dev</code> z enim vozliščem nadzorne ravnine in dvema delovnima vozliščema. Vsako vozlišče dobi 2 CPU-ja in 2 GB pomnilnika:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Kopiraj</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li><code>--workers count=N,cpus=C,memory=M</code> nastavi velikost skupine delovnih vozlišč. Za skupine različnih velikosti ga ponovite. Brez <code>--workers</code> je eno vozlišče hkrati nadzorna ravnina in delovno vozlišče.</li>
+  <li><code>--cpus</code> in <code>--memory</code> nastavita velikost nadzorne ravnine. Privzeto je to četrtina CPU-jev in pomnilnika vašega Maca, najmanj 2 CPU-ja in 2 GB.</li>
+  <li><code>--shared-image-store</code> vozliščem omogoči uporabo vaših lokalnih slik (glejte spodaj). Pozneje tega ne morete spremeniti: gručo izbrišite in jo ustvarite znova.</li>
+  <li><code>--cni ./calico.yaml</code> namesti lasten CNI namesto priloženega kindnet; <code>--cni NONE</code> ne namesti nobenega.</li>
+</ul>
+<p>CLI v <code>~/.kube/config</code> doda kontekst z imenom <code>dev</code>. Preverite vozlišča:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Kopiraj</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<ul id="terminal-images">Zagon lokalne slike brez registra</ul>
+<p>Z <code>--shared-image-store</code> lahko vozlišča zaženejo katero koli sliko v vaši lokalni shrambi slik <code>container</code>. Zgradite sliko in jo uporabite po imenu:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Kopiraj</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Opomba</span><div>Ko isto oznako zgradite znova, zaženite <code>kubectl rollout restart</code> z <code>imagePullPolicy: Always</code> ali uporabite novo oznako. Z <code>IfNotPresent</code> vozlišče obdrži kopijo, ki jo že ima. Vse, kar ima na vozlišču pravice root, lahko bere vsako sliko v vaši lokalni shrambi, tudi zasebne slike, zato skupno shrambo uporabljajte samo za lokalni razvoj.</div></div>
+<p>V CLI 1.5 in 1.6 skupne shrambe ni. Tam uporabite <code>container cluster load-image</code> ali <b>Naloži v gručo</b> v Gantryju. CLI 1.7 je <code>load-image</code> odstranil.</p>
+
+<ul id="terminal-reach">Odpiranje aplikacije v brskalniku</ul>
+<p>Lokalna vrata posredujte na deployment, nato odprite <code>http://localhost:8080</code>:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Kopiraj</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<ul id="terminal-cleanup">Ustavitev in brisanje gruče</ul>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster delete --name dev">Kopiraj</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Če se vozlišče nadzorne ravnine ustavi, na primer po <code>container system stop</code>, gručo izbrišite in jo ustvarite znova. Začasno gručo ustvarite z <code>--rm</code>, da se njena vozlišča odstranijo, ko se ustavijo.</p>
+
+<ul id="terminal-troubleshooting">Pogoste težave</ul>
+<ul>
+  <li><strong>cluster service unavailable:</strong> CLI je gradnja Homebrew ali pa storitve ne tečejo. Namestite podpisani paket ali storitve znova zaženite z <code>container system stop</code> in <code>container system start</code>. Gantry enak nasvet prikaže v razdelku Gruče.</li>
+  <li><strong>Stare gruče ni na seznamu:</strong> CLI 1.7 ne izpiše gruč, ustvarjenih z 1.6 ali starejšim. Odstranite jo z <code>container cluster delete --name &lt;name&gt;</code>.</li>
+  <li><strong>Vozlišča ostanejo v stanju NotReady:</strong> uporabili ste <code>--cni NONE</code>. Uporabite manifest CNI.</li>
+  <li><strong>Vsebnika vozlišča ne morete ustaviti:</strong> tako je namenoma. <code>container stop</code> in <code>delete</code> vozlišč gruče ne sprejmeta; uporabite <code>container cluster delete</code>.</li>
+</ul>
+
+<ul id="terminal-compare">Primerjava z Docker Desktop in OrbStack</ul>
+<p>Docker Desktop ima vgrajeni Kubernetes s kubeadm (eno vozlišče) ali kind (več vozlišč), OrbStack pa vgrajeno gručo z enim vozliščem. <code>container cluster</code> zaganja kubeadm na slikah <code>kindest/node</code>, vsako vozlišče v lastnem navideznem stroju, z gručami z več vozlišči in skupno shrambo slik. Glejte <a href="../compare/">celotno primerjavo</a>.</p>
+
 <h2 id="agents">Gruče prek agentov AI</h2>
 <p>Strežnik MCP Gantry ima <code>list_clusters</code>, <code>create_cluster</code> in <code>delete_cluster</code>, zato lahko agent, kot je Claude Code, ustvari začasno gručo za test in jo pozneje odstrani.</p>
 <div class="code-block">
@@ -332,7 +491,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 </div>
 
 <h2 id="more">Več o apple/container</h2>
-<p>Za vodnik po korakih iz terminala preberite <a href="../kubernetes-on-mac/">Kubernetes v Macu z Apple container</a>. V <a href="../apple-container/">vodniku po apple/container</a> najdete vsak ukaz <code>container</code> in ustrezno funkcijo v Gantryju, lahko pa si ogledate, kako se Gantry primerja z <a href="../compare/">Docker Desktop, OrbStack in Podman Desktop</a>.</p>
+<p>Za vodnik po korakih iz terminala preberite <a href="#terminal">Kubernetes v Macu z Apple container</a>. V <a href="../apple-container/">vodniku po apple/container</a> najdete vsak ukaz <code>container</code> in ustrezno funkcijo v Gantryju, lahko pa si ogledate, kako se Gantry primerja z <a href="../compare/">Docker Desktop, OrbStack in Podman Desktop</a>.</p>
 
 <h2 id="faq">Vprašanja in odgovori</h2>
 <div class="faq-list">
@@ -343,7 +502,10 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <details class="faq-item"><summary>Ali lahko ustvarim gručo z več vozlišči?</summary><p>Da. Število delovnih vozlišč nastavite v oknu za ustvarjanje; delovna vozlišča potrebujejo CLI 1.6.0 ali novejši. V CLI 1.7 CPU-je in pomnilnik delovnih vozlišč nastavite tudi ločeno od nadzorne ravnine.</p></details>
 <details class="faq-item"><summary>Ali lahko uporabim lasten CNI, na primer Calico ali Cilium?</summary><p>Da. Izberite <b>Manifest po meri</b> in nato datoteko manifesta ali izberite <b>Brez</b> in sami uporabite CNI, ko se gruča zažene. Vozlišča ostanejo v stanju NotReady, dokler CNI ne deluje. <b>Brez</b> potrebuje CLI 1.6.0 ali novejši. Privzeti CNI je priloženi manifest kindnet.</p></details>
 <details class="faq-item"><summary>Zakaj Gantry pravi, da storitve gruče niso na voljo?</summary><p>Storitve <code>container</code> niso odgovorile na ukaz za gručo. Če je vaš CLI gradnja Homebrew brez storitev gruče, Gantry to pove in poda povezavo do podpisanega namestitvenega programa na strani izdaj apple/container. Sicer ponudi <b>Znova zaženi storitve</b>.</p></details>
-<details class="faq-item"><summary>Ali za uporabo gruče v Gantryju potrebujem kubectl?</summary><p>Zaenkrat da: brskalnik Kubernetes v Gantryju zaganja <code>kubectl</code>. Če ta ni nameščen, brskalnik prikaže ukaz <code>brew install kubectl</code> in ga lahko zažene namesto vas. Izvorni odjemalec Kubernetes, ki ta korak odpravi, je v razvoju.</p></details>
+<details class="faq-item"><summary>Ali za uporabo gruče v Gantryju potrebujem kubectl?</summary><p>Zaenkrat da: brskalnik Kubernetes v Gantryju zaganja <code>kubectl</code>. Če ta ni nameščen, brskalnik prikaže ukaz <code>brew install kubectl</code> in ga lahko zažene namesto vas.</p></details>
+<details class="faq-item"><summary>Ali lahko Kubernetes v Macu izvajam brez Dockerja?</summary><p>Da. Applov CLI <code>container</code> sam ustvarja gruče Kubernetes z <code>container cluster create</code>. Vsako vozlišče se izvaja kot lahek navidezni stroj, zato ne potrebujete Dockerja, Docker Desktop, kind ali minikube.</p></details>
+<details class="faq-item"><summary>Koliko vozlišč ima lahko container cluster?</summary><p>Eno nadzorno ravnino in toliko delovnih vozlišč, kolikor jim vaš Mac lahko da CPU-jev in pomnilnika. Nastavite jih z <code>--workers</code>; v CLI 1.7 ima lahko vsaka skupina delovnih vozlišč lastne CPU-je in pomnilnik.</p></details>
+<details class="faq-item"><summary>Katero različico Kubernetes uporablja container cluster?</summary><p>CLI 1.7.1 privzeto uporablja sliko vozlišča <code>kindest/node:v1.35.5</code>. Drugo različico izberete z <code>--node-image</code>, na primer <code>docker.io/kindest/node:v1.34.11</code>. Gantry različico prikaže v pregledu gruče.</p></details>
 </div>
 
 <p class="updated">Zadnja posodobitev: 2026-11-07.</p>
@@ -356,8 +518,6 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Primerjava</a>
-      <span>·</span>
-      <a href="../kubernetes-on-mac/">Kubernetes v Macu</a>
       <span>·</span>
       <a href="../docker-desktop-to-apple-container/">Z Docker Desktop</a>
       <span>·</span>

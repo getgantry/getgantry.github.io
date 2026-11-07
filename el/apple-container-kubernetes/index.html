@@ -178,8 +178,88 @@
           "name": "Χρειάζομαι το kubectl για να χρησιμοποιήσω το cluster στο Gantry;",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Προς το παρόν, ναι: ο περιηγητής Kubernetes του Gantry εκτελεί το kubectl. Αν δεν είναι εγκατεστημένο, ο περιηγητής εμφανίζει την εντολή brew install kubectl και μπορεί να την εκτελέσει για εσάς. Ένας εγγενής πελάτης Kubernetes που καταργεί αυτό το βήμα είναι υπό ανάπτυξη."
+            "text": "Προς το παρόν, ναι: ο περιηγητής Kubernetes του Gantry εκτελεί το kubectl. Αν δεν είναι εγκατεστημένο, ο περιηγητής εμφανίζει την εντολή brew install kubectl και μπορεί να την εκτελέσει για εσάς."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "Μπορώ να εκτελέσω Kubernetes σε Mac χωρίς Docker;",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ναι. Το CLI container της Apple δημιουργεί μόνο του cluster Kubernetes με container cluster create. Κάθε κόμβος τρέχει ως ελαφριά VM και δεν χρειάζεστε Docker, Docker Desktop, kind ή minikube."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Πόσους κόμβους μπορεί να έχει ένα container cluster;",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ένα control plane και όσα worker επιτρέπουν οι CPU και η μνήμη του Mac σας. Ορίστε τα με --workers· στο CLI 1.7 κάθε ομάδα worker μπορεί να έχει δικές της CPU και μνήμη."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Ποια έκδοση Kubernetes χρησιμοποιεί το container cluster;",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Το CLI 1.7.1 χρησιμοποιεί από προεπιλογή την εικόνα κόμβου kindest/node:v1.35.5. Επιλέξτε άλλη έκδοση με --node-image, για παράδειγμα docker.io/kindest/node:v1.34.11. Το Gantry δείχνει την έκδοση στην επισκόπηση του cluster."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://getgantry.github.io/el/apple-container-kubernetes/#howto",
+      "name": "Kubernetes σε Mac με το Apple container",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Τι χρειάζεστε",
+          "text": "Ένα Mac με Apple silicon και macOS 26 ή νεότερο. Το CLI container 1.7.1 από το υπογεγραμμένο .pkg στη σελίδα εκδόσεων του apple/container. Η έκδοση Homebrew της 1.7.1 δεν περιλαμβάνει τις υπηρεσίες cluster, οπότε το container cluster αποτυγχάνει με cluster service unavailable. Περίπου 6 GB ελεύθερης μνήμης για το παρακάτω παράδειγμα: τρεις κόμβοι με 2 GB ο καθένας. Το kubectl, αν θέλετε να χρησιμοποιείτε το cluster από το τερματικό (brew install kubectl).",
+          "url": "https://getgantry.github.io/el/apple-container-kubernetes/#terminal-requirements"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Δημιουργία του cluster",
+          "text": "Αυτή η εντολή δημιουργεί ένα cluster με όνομα dev, με έναν κόμβο control plane και δύο worker. Κάθε κόμβος παίρνει 2 CPU και 2 GB μνήμης:",
+          "url": "https://getgantry.github.io/el/apple-container-kubernetes/#terminal-create"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Εκτέλεση τοπικής εικόνας χωρίς μητρώο",
+          "text": "Με το --shared-image-store, οι κόμβοι μπορούν να εκτελούν οποιαδήποτε εικόνα της τοπικής αποθήκης εικόνων του container. Δομήστε μια εικόνα και χρησιμοποιήστε την με το όνομά της:",
+          "url": "https://getgantry.github.io/el/apple-container-kubernetes/#terminal-images"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Άνοιγμα της εφαρμογής σε πρόγραμμα περιήγησης",
+          "text": "Προωθήστε μια τοπική θύρα στο deployment και ανοίξτε το http://localhost:8080:",
+          "url": "https://getgantry.github.io/el/apple-container-kubernetes/#terminal-reach"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Διακοπή και διαγραφή του cluster",
+          "text": "Αν ο κόμβος control plane σταματήσει, για παράδειγμα μετά από container system stop, διαγράψτε το cluster και δημιουργήστε το ξανά. Δημιουργήστε ένα προσωρινό cluster με --rm ώστε οι κόμβοι του να αφαιρούνται όταν σταματούν.",
+          "url": "https://getgantry.github.io/el/apple-container-kubernetes/#terminal-cleanup"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Συνηθισμένα προβλήματα",
+          "text": "cluster service unavailable: το CLI είναι η έκδοση Homebrew ή οι υπηρεσίες δεν εκτελούνται. Εγκαταστήστε το υπογεγραμμένο πακέτο ή επανεκκινήστε τις υπηρεσίες με container system stop και container system start. Το Gantry δίνει την ίδια συμβουλή στα «Cluster». Ένα παλιό cluster λείπει από τη λίστα: το CLI 1.7 δεν εμφανίζει cluster που δημιουργήθηκαν με 1.6 ή παλαιότερη. Αφαιρέστε το με container cluster delete --name <name>. Οι κόμβοι μένουν NotReady: χρησιμοποιήσατε --cni NONE. Εφαρμόστε ένα manifest CNI. Δεν μπορείτε να σταματήσετε ένα κοντέινερ κόμβου: αυτό γίνεται σκόπιμα. Τα container stop και delete αρνούνται τους κόμβους cluster· χρησιμοποιήστε container cluster delete.",
+          "url": "https://getgantry.github.io/el/apple-container-kubernetes/#terminal-troubleshooting"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Σύγκριση με το Docker Desktop και το OrbStack",
+          "text": "Το Docker Desktop έχει ενσωματωμένο Kubernetes με kubeadm (ένας κόμβος) ή kind (πολλοί κόμβοι) και το OrbStack έχει ενσωματωμένο cluster ενός κόμβου. Το container cluster εκτελεί kubeadm σε εικόνες kindest/node, κάθε κόμβο στη δική του VM, με cluster πολλών κόμβων και κοινή αποθήκη εικόνων. Δείτε την πλήρη σύγκριση.",
+          "url": "https://getgantry.github.io/el/apple-container-kubernetes/#terminal-compare"
         }
       ]
     }
@@ -294,7 +374,8 @@
   <li><strong>Μυστικά:</strong> οι τιμές είναι κρυφές στη λίστα και στο YAML μέχρι να κάνετε κλικ στην «Εμφάνιση».</li>
   <li><strong>Εφαρμογή YAML:</strong> επικολλήστε ένα manifest ή ανοίξτε ένα αρχείο· τα σφάλματα εμφανίζονται στο φύλλο.</li>
 </ul>
-<p>Ο περιηγητής εκτελεί το <code>kubectl</code>. Αν το Gantry δεν το βρει, η ενότητα εμφανίζει το <code>brew install kubectl</code> με ένα κουμπί που το εκτελεί. Ένας εγγενής πελάτης Kubernetes που δεν χρειάζεται <code>kubectl</code> είναι υπό ανάπτυξη.</p>
+<p>Ο περιηγητής εκτελεί το <code>kubectl</code>. Αν το Gantry δεν το βρει, η ενότητα εμφανίζει το <code>brew install kubectl</code> με ένα κουμπί που το εκτελεί.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
 
 <h2 id="kubectl">Σύνδεση του kubectl</h2>
 <p>Το CLI προσθέτει στο <code>~/.kube/config</code> ένα context με το όνομα του cluster όταν το δημιουργεί. Χρησιμοποιήστε την <strong>Αντιγραφή εντολής context του kubectl</strong> στο Gantry ή πληκτρολογήστε τη:</p>
@@ -324,6 +405,84 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <h2 id="cni">Επιλογή CNI</h2>
 <p>Η προεπιλογή είναι το ενσωματωμένο manifest του kindnet. Επιλέξτε <strong>Προσαρμοσμένο manifest</strong> για να εγκαταστήσετε το δικό σας CNI από αρχείο, για παράδειγμα Calico ή Cilium. Επιλέξτε <strong>Κανένα</strong> για να εγκαταστήσετε μόνοι σας ένα CNI αργότερα· μέχρι τότε οι κόμβοι μένουν NotReady.</p>
 
+<h2 id="terminal">Kubernetes σε Mac με το Apple container</h2>
+<p>Το εργαλείο <code>container</code> της Apple μπορεί να δημιουργήσει ένα τοπικό cluster Kubernetes με μία εντολή. Κάθε κόμβος είναι μια ελαφριά εικονική μηχανή στο Mac σας. Αυτός ο οδηγός ξεκινά από ένα άδειο Mac και φτάνει σε ένα deployment σε εκτέλεση, πρώτα στο τερματικό και μετά στο Gantry.</p>
+
+<h3 id="terminal-requirements">Τι χρειάζεστε</h3>
+<ul>
+  <li>Ένα Mac με Apple silicon και macOS 26 ή νεότερο.</li>
+  <li>Το CLI <code>container</code> 1.7.1 από το υπογεγραμμένο <code>.pkg</code> στη <a href="https://github.com/apple/container/releases">σελίδα εκδόσεων του apple/container</a>. Η έκδοση Homebrew της 1.7.1 δεν περιλαμβάνει τις υπηρεσίες cluster, οπότε το <code>container cluster</code> αποτυγχάνει με <em>cluster service unavailable</em>.</li>
+  <li>Περίπου 6 GB ελεύθερης μνήμης για το παρακάτω παράδειγμα: τρεις κόμβοι με 2 GB ο καθένας.</li>
+  <li>Το <code>kubectl</code>, αν θέλετε να χρησιμοποιείτε το cluster από το τερματικό (<code>brew install kubectl</code>).</li>
+</ul>
+<p>Ξεκινήστε τις υπηρεσίες μία φορά μετά την εγκατάσταση του πακέτου:</p>
+<div class="code-block">
+  <div class="code-head"><span>Τερματικό</span><button class="copy" data-copy="container system start">Αντιγραφή</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<ul id="terminal-create">Δημιουργία του cluster</ul>
+<p>Αυτή η εντολή δημιουργεί ένα cluster με όνομα <code>dev</code>, με έναν κόμβο control plane και δύο worker. Κάθε κόμβος παίρνει 2 CPU και 2 GB μνήμης:</p>
+<div class="code-block">
+  <div class="code-head"><span>Τερματικό</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Αντιγραφή</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li>Το <code>--workers count=N,cpus=C,memory=M</code> ορίζει το μέγεθος μιας ομάδας worker. Επαναλάβετέ το για ομάδες διαφορετικού μεγέθους. Χωρίς <code>--workers</code>, ένας κόμβος είναι ταυτόχρονα control plane και worker.</li>
+  <li>Τα <code>--cpus</code> και <code>--memory</code> ορίζουν το μέγεθος του control plane. Η προεπιλογή είναι το ένα τέταρτο των CPU και της μνήμης του Mac σας, τουλάχιστον 2 CPU και 2 GB.</li>
+  <li>Το <code>--shared-image-store</code> επιτρέπει στους κόμβους να χρησιμοποιούν τις τοπικές σας εικόνες (δείτε παρακάτω). Δεν μπορείτε να το αλλάξετε αργότερα: διαγράψτε το cluster και δημιουργήστε το ξανά.</li>
+  <li>Το <code>--cni ./calico.yaml</code> εγκαθιστά δικό σας CNI αντί για το ενσωματωμένο kindnet· το <code>--cni NONE</code> δεν εγκαθιστά κανένα.</li>
+</ul>
+<p>Το CLI προσθέτει ένα context με όνομα <code>dev</code> στο <code>~/.kube/config</code>. Ελέγξτε τους κόμβους:</p>
+<div class="code-block">
+  <div class="code-head"><span>Τερματικό</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Αντιγραφή</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<ul id="terminal-images">Εκτέλεση τοπικής εικόνας χωρίς μητρώο</ul>
+<p>Με το <code>--shared-image-store</code>, οι κόμβοι μπορούν να εκτελούν οποιαδήποτε εικόνα της τοπικής αποθήκης εικόνων του <code>container</code>. Δομήστε μια εικόνα και χρησιμοποιήστε την με το όνομά της:</p>
+<div class="code-block">
+  <div class="code-head"><span>Τερματικό</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Αντιγραφή</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Σημείωση</span><div>Αφού δομήσετε ξανά την ίδια ετικέτα, εκτελέστε <code>kubectl rollout restart</code> με <code>imagePullPolicy: Always</code> ή χρησιμοποιήστε νέα ετικέτα. Με <code>IfNotPresent</code>, ένας κόμβος κρατά το αντίγραφο που ήδη έχει. Οτιδήποτε έχει δικαιώματα root σε έναν κόμβο μπορεί να διαβάσει κάθε εικόνα της τοπικής σας αποθήκης, και τις ιδιωτικές, γι' αυτό χρησιμοποιήστε την κοινή αποθήκη μόνο για τοπική ανάπτυξη.</div></div>
+<p>Στο CLI 1.5 και 1.6 δεν υπάρχει κοινή αποθήκη. Εκεί χρησιμοποιήστε το <code>container cluster load-image</code> ή τη <b>Φόρτωση στο cluster</b> στο Gantry. Το CLI 1.7 αφαίρεσε το <code>load-image</code>.</p>
+
+<ul id="terminal-reach">Άνοιγμα της εφαρμογής σε πρόγραμμα περιήγησης</ul>
+<p>Προωθήστε μια τοπική θύρα στο deployment και ανοίξτε το <code>http://localhost:8080</code>:</p>
+<div class="code-block">
+  <div class="code-head"><span>Τερματικό</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Αντιγραφή</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<ul id="terminal-cleanup">Διακοπή και διαγραφή του cluster</ul>
+<div class="code-block">
+  <div class="code-head"><span>Τερματικό</span><button class="copy" data-copy="container cluster delete --name dev">Αντιγραφή</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Αν ο κόμβος control plane σταματήσει, για παράδειγμα μετά από <code>container system stop</code>, διαγράψτε το cluster και δημιουργήστε το ξανά. Δημιουργήστε ένα προσωρινό cluster με <code>--rm</code> ώστε οι κόμβοι του να αφαιρούνται όταν σταματούν.</p>
+
+<ul id="terminal-troubleshooting">Συνηθισμένα προβλήματα</ul>
+<ul>
+  <li><strong>cluster service unavailable:</strong> το CLI είναι η έκδοση Homebrew ή οι υπηρεσίες δεν εκτελούνται. Εγκαταστήστε το υπογεγραμμένο πακέτο ή επανεκκινήστε τις υπηρεσίες με <code>container system stop</code> και <code>container system start</code>. Το Gantry δίνει την ίδια συμβουλή στα «Cluster».</li>
+  <li><strong>Ένα παλιό cluster λείπει από τη λίστα:</strong> το CLI 1.7 δεν εμφανίζει cluster που δημιουργήθηκαν με 1.6 ή παλαιότερη. Αφαιρέστε το με <code>container cluster delete --name &lt;name&gt;</code>.</li>
+  <li><strong>Οι κόμβοι μένουν NotReady:</strong> χρησιμοποιήσατε <code>--cni NONE</code>. Εφαρμόστε ένα manifest CNI.</li>
+  <li><strong>Δεν μπορείτε να σταματήσετε ένα κοντέινερ κόμβου:</strong> αυτό γίνεται σκόπιμα. Τα <code>container stop</code> και <code>delete</code> αρνούνται τους κόμβους cluster· χρησιμοποιήστε <code>container cluster delete</code>.</li>
+</ul>
+
+<ul id="terminal-compare">Σύγκριση με το Docker Desktop και το OrbStack</ul>
+<p>Το Docker Desktop έχει ενσωματωμένο Kubernetes με kubeadm (ένας κόμβος) ή kind (πολλοί κόμβοι) και το OrbStack έχει ενσωματωμένο cluster ενός κόμβου. Το <code>container cluster</code> εκτελεί kubeadm σε εικόνες <code>kindest/node</code>, κάθε κόμβο στη δική του VM, με cluster πολλών κόμβων και κοινή αποθήκη εικόνων. Δείτε την <a href="../compare/">πλήρη σύγκριση</a>.</p>
+
 <h2 id="agents">Cluster από πράκτορες AI</h2>
 <p>Ο διακομιστής MCP του Gantry έχει <code>list_clusters</code>, <code>create_cluster</code> και <code>delete_cluster</code>, ώστε ένας πράκτορας όπως το Claude Code να μπορεί να φτιάξει ένα προσωρινό cluster για μια δοκιμή και να το αφαιρέσει μετά.</p>
 <div class="code-block">
@@ -332,7 +491,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 </div>
 
 <h2 id="more">Περισσότερα για το apple/container</h2>
-<p>Για οδηγό βήμα προς βήμα από το τερματικό, διαβάστε <a href="../kubernetes-on-mac/">Kubernetes σε Mac με το Apple container</a>. Διαβάστε τον <a href="../apple-container/">οδηγό apple/container</a> για κάθε εντολή του <code>container</code> και τη λειτουργία της στο Gantry ή δείτε πώς συγκρίνεται το Gantry με τα <a href="../compare/">Docker Desktop, OrbStack και Podman Desktop</a>.</p>
+<p>Για οδηγό βήμα προς βήμα από το τερματικό, διαβάστε <a href="#terminal">Kubernetes σε Mac με το Apple container</a>. Διαβάστε τον <a href="../apple-container/">οδηγό apple/container</a> για κάθε εντολή του <code>container</code> και τη λειτουργία της στο Gantry ή δείτε πώς συγκρίνεται το Gantry με τα <a href="../compare/">Docker Desktop, OrbStack και Podman Desktop</a>.</p>
 
 <h2 id="faq">Ερωτήσεις και απαντήσεις</h2>
 <div class="faq-list">
@@ -343,7 +502,10 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <details class="faq-item"><summary>Μπορώ να δημιουργήσω cluster με πολλούς κόμβους;</summary><p>Ναι. Ορίστε τον αριθμό των worker στο φύλλο δημιουργίας· τα worker απαιτούν CLI 1.6.0 ή νεότερο. Στο CLI 1.7 ορίζετε επίσης τις CPU και τη μνήμη των worker χωριστά από το control plane.</p></details>
 <details class="faq-item"><summary>Μπορώ να χρησιμοποιήσω δικό μου CNI, όπως Calico ή Cilium;</summary><p>Ναι. Επιλέξτε <b>Προσαρμοσμένο manifest</b> και διαλέξτε το αρχείο manifest ή επιλέξτε <b>Κανένα</b> και εφαρμόστε μόνοι σας ένα CNI αφού ξεκινήσει το cluster. Οι κόμβοι μένουν NotReady μέχρι να τρέξει ένα CNI. Το <b>Κανένα</b> απαιτεί CLI 1.6.0 ή νεότερο. Το προεπιλεγμένο CNI είναι το ενσωματωμένο manifest του kindnet.</p></details>
 <details class="faq-item"><summary>Γιατί το Gantry λέει ότι οι υπηρεσίες cluster δεν είναι διαθέσιμες;</summary><p>Οι υπηρεσίες του <code>container</code> δεν απάντησαν σε μια εντολή cluster. Αν το CLI σας είναι έκδοση Homebrew χωρίς τις υπηρεσίες cluster, το Gantry το αναφέρει και δίνει σύνδεσμο προς το υπογεγραμμένο πρόγραμμα εγκατάστασης στη σελίδα εκδόσεων του apple/container. Διαφορετικά, προσφέρει <b>Επανεκκίνηση υπηρεσιών</b>.</p></details>
-<details class="faq-item"><summary>Χρειάζομαι το kubectl για να χρησιμοποιήσω το cluster στο Gantry;</summary><p>Προς το παρόν, ναι: ο περιηγητής Kubernetes του Gantry εκτελεί το <code>kubectl</code>. Αν δεν είναι εγκατεστημένο, ο περιηγητής εμφανίζει την εντολή <code>brew install kubectl</code> και μπορεί να την εκτελέσει για εσάς. Ένας εγγενής πελάτης Kubernetes που καταργεί αυτό το βήμα είναι υπό ανάπτυξη.</p></details>
+<details class="faq-item"><summary>Χρειάζομαι το kubectl για να χρησιμοποιήσω το cluster στο Gantry;</summary><p>Προς το παρόν, ναι: ο περιηγητής Kubernetes του Gantry εκτελεί το <code>kubectl</code>. Αν δεν είναι εγκατεστημένο, ο περιηγητής εμφανίζει την εντολή <code>brew install kubectl</code> και μπορεί να την εκτελέσει για εσάς.</p></details>
+<details class="faq-item"><summary>Μπορώ να εκτελέσω Kubernetes σε Mac χωρίς Docker;</summary><p>Ναι. Το CLI <code>container</code> της Apple δημιουργεί μόνο του cluster Kubernetes με <code>container cluster create</code>. Κάθε κόμβος τρέχει ως ελαφριά VM και δεν χρειάζεστε Docker, Docker Desktop, kind ή minikube.</p></details>
+<details class="faq-item"><summary>Πόσους κόμβους μπορεί να έχει ένα container cluster;</summary><p>Ένα control plane και όσα worker επιτρέπουν οι CPU και η μνήμη του Mac σας. Ορίστε τα με <code>--workers</code>· στο CLI 1.7 κάθε ομάδα worker μπορεί να έχει δικές της CPU και μνήμη.</p></details>
+<details class="faq-item"><summary>Ποια έκδοση Kubernetes χρησιμοποιεί το container cluster;</summary><p>Το CLI 1.7.1 χρησιμοποιεί από προεπιλογή την εικόνα κόμβου <code>kindest/node:v1.35.5</code>. Επιλέξτε άλλη έκδοση με <code>--node-image</code>, για παράδειγμα <code>docker.io/kindest/node:v1.34.11</code>. Το Gantry δείχνει την έκδοση στην επισκόπηση του cluster.</p></details>
 </div>
 
 <p class="updated">Τελευταία ενημέρωση: 2026-11-07.</p>
@@ -356,8 +518,6 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Σύγκριση</a>
-      <span>·</span>
-      <a href="../kubernetes-on-mac/">Kubernetes σε Mac</a>
       <span>·</span>
       <a href="../docker-desktop-to-apple-container/">Από το Docker Desktop</a>
       <span>·</span>

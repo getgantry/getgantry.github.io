@@ -178,8 +178,88 @@
           "name": "Trenger jeg kubectl for å bruke klyngen i Gantry?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Foreløpig ja: Kubernetes-utforskeren i Gantry kjører kubectl. Er det ikke installert, viser utforskeren kommandoen brew install kubectl og kan kjøre den for deg. En nativ Kubernetes-klient som fjerner dette steget, er under utvikling."
+            "text": "Foreløpig ja: Kubernetes-utforskeren i Gantry kjører kubectl. Er det ikke installert, viser utforskeren kommandoen brew install kubectl og kan kjøre den for deg."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "Kan jeg kjøre Kubernetes på en Mac uten Docker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja. Apples container-CLI oppretter Kubernetes-klynger selv med container cluster create. Hver node kjører som en lett VM, og du trenger verken Docker, Docker Desktop, kind eller minikube."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hvor mange noder kan en container cluster ha?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ett kontrollplan og så mange arbeidsnoder som Macen din har CPU-er og minne til. Angi dem med --workers; på CLI 1.7 kan hver gruppe arbeidsnoder ha egne CPU-er og eget minne."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Hvilken Kubernetes-versjon bruker container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CLI 1.7.1 bruker node-imaget kindest/node:v1.35.5 som standard. Velg en annen versjon med --node-image, for eksempel docker.io/kindest/node:v1.34.11. Gantry viser versjonen i klyngeoversikten."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://getgantry.github.io/nb/apple-container-kubernetes/#howto",
+      "name": "Kjør Kubernetes på en Mac med Apple container",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Dette trenger du",
+          "text": "En Mac med Apple-chip og macOS 26 eller nyere. container-CLI 1.7.1 fra den signerte .pkg-filen på utgivelsessiden til apple/container. Homebrew-bygget av 1.7.1 har ikke klyngetjenestene, så container cluster feiler med cluster service unavailable. Omtrent 6 GB ledig minne for eksempelet nedenfor: tre noder med 2 GB hver. kubectl hvis du vil bruke klyngen fra terminalen (brew install kubectl).",
+          "url": "https://getgantry.github.io/nb/apple-container-kubernetes/#terminal-requirements"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Opprett klyngen",
+          "text": "Denne kommandoen lager en klynge med navnet dev med én kontrollplannode og to arbeidsnoder. Hver node får 2 CPU-er og 2 GB minne:",
+          "url": "https://getgantry.github.io/nb/apple-container-kubernetes/#terminal-create"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Kjør et lokalt image uten register",
+          "text": "Med --shared-image-store kan nodene kjøre alle images i det lokale container-image-lageret ditt. Bygg et image og bruk det etter navn:",
+          "url": "https://getgantry.github.io/nb/apple-container-kubernetes/#terminal-images"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Åpne appen i en nettleser",
+          "text": "Videresend en lokal port til deploymenten, og åpne deretter http://localhost:8080:",
+          "url": "https://getgantry.github.io/nb/apple-container-kubernetes/#terminal-reach"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Stopp og slett klyngen",
+          "text": "Stopper kontrollplannoden, for eksempel etter container system stop, sletter du klyngen og oppretter den på nytt. Lag en midlertidig klynge med --rm for å fjerne nodene når de stopper.",
+          "url": "https://getgantry.github.io/nb/apple-container-kubernetes/#terminal-cleanup"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Vanlige problemer",
+          "text": "cluster service unavailable: CLI-en er Homebrew-bygget, eller tjenestene kjører ikke. Installer den signerte pakken, eller start tjenestene på nytt med container system stop og container system start. Gantry gir det samme rådet under Klynger. En gammel klynge mangler i listen: CLI 1.7 viser ikke klynger som er opprettet med 1.6 eller eldre. Fjern en slik klynge med container cluster delete --name <name>. Nodene forblir NotReady: du brukte --cni NONE. Bruk et CNI-manifest. Du kan ikke stoppe en nodecontainer: dette er med vilje. container stop og delete avviser klyngenoder; bruk container cluster delete.",
+          "url": "https://getgantry.github.io/nb/apple-container-kubernetes/#terminal-troubleshooting"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Slik står dette seg mot Docker Desktop og OrbStack",
+          "text": "Docker Desktop har innebygd Kubernetes med kubeadm (én node) eller kind (flere noder), og OrbStack har en innebygd klynge med én node. container cluster kjører kubeadm på kindest/node-images, hver node i sin egen VM, med klynger med flere noder og delt image-lager. Se hele sammenligningen.",
+          "url": "https://getgantry.github.io/nb/apple-container-kubernetes/#terminal-compare"
         }
       ]
     }
@@ -294,7 +374,8 @@
   <li><strong>Secrets:</strong> verdiene er maskert i listen og i YAML-en til du klikker på Vis.</li>
   <li><strong>Bruk YAML:</strong> lim inn et manifest eller åpne en fil; feil vises i arket.</li>
 </ul>
-<p>Utforskeren kjører <code>kubectl</code>. Finner ikke Gantry det, viser delen <code>brew install kubectl</code> med en knapp som kjører kommandoen. En nativ Kubernetes-klient som ikke trenger <code>kubectl</code>, er under utvikling.</p>
+<p>Utforskeren kjører <code>kubectl</code>. Finner ikke Gantry det, viser delen <code>brew install kubectl</code> med en knapp som kjører kommandoen.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
 
 <h2 id="kubectl">Koble til kubectl</h2>
 <p>CLI-en legger til en kontekst med navnet på klyngen i <code>~/.kube/config</code> når den oppretter klyngen. Bruk <strong>Kopier kubectl-kontekstkommando</strong> i Gantry, eller skriv den selv:</p>
@@ -324,6 +405,84 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <h2 id="cni">Velg en CNI</h2>
 <p>Standard er det medfølgende kindnet-manifestet. Velg <strong>Egendefinert manifest</strong> for å installere din egen CNI, for eksempel Calico eller Cilium, fra en fil. Velg <strong>Ingen</strong> for å installere en CNI selv senere; inntil da forblir nodene NotReady.</p>
 
+<h2 id="terminal">Kjør Kubernetes på en Mac med Apple container</h2>
+<p>Apples verktøy <code>container</code> kan opprette en lokal Kubernetes-klynge med én kommando. Hver node er en lett virtuell maskin på Macen din. Denne guiden går fra en tom Mac til en deployment som kjører, først i terminalen og deretter i Gantry.</p>
+
+<h3 id="terminal-requirements">Dette trenger du</h3>
+<ul>
+  <li>En Mac med Apple-chip og macOS 26 eller nyere.</li>
+  <li><code>container</code>-CLI 1.7.1 fra den signerte <code>.pkg</code>-filen på <a href="https://github.com/apple/container/releases">utgivelsessiden til apple/container</a>. Homebrew-bygget av 1.7.1 har ikke klyngetjenestene, så <code>container cluster</code> feiler med <em>cluster service unavailable</em>.</li>
+  <li>Omtrent 6 GB ledig minne for eksempelet nedenfor: tre noder med 2 GB hver.</li>
+  <li><code>kubectl</code> hvis du vil bruke klyngen fra terminalen (<code>brew install kubectl</code>).</li>
+</ul>
+<p>Start tjenestene én gang etter at du har installert pakken:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system start">Kopier</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<ul id="terminal-create">Opprett klyngen</ul>
+<p>Denne kommandoen lager en klynge med navnet <code>dev</code> med én kontrollplannode og to arbeidsnoder. Hver node får 2 CPU-er og 2 GB minne:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Kopier</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li><code>--workers count=N,cpus=C,memory=M</code> angir størrelsen på en gruppe arbeidsnoder. Gjenta det for grupper med ulik størrelse. Uten <code>--workers</code> er én node både kontrollplan og arbeidsnode.</li>
+  <li><code>--cpus</code> og <code>--memory</code> angir størrelsen på kontrollplanet. Standard er en firedel av CPU-ene og minnet på Macen din, minst 2 CPU-er og 2 GB.</li>
+  <li><code>--shared-image-store</code> lar nodene bruke de lokale imagene dine (se nedenfor). Du kan ikke endre det senere: slett klyngen og opprett den på nytt.</li>
+  <li><code>--cni ./calico.yaml</code> installerer din egen CNI i stedet for den medfølgende kindnet; <code>--cni NONE</code> installerer ingen.</li>
+</ul>
+<p>CLI-en legger til en kontekst med navnet <code>dev</code> i <code>~/.kube/config</code>. Sjekk nodene:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Kopier</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<ul id="terminal-images">Kjør et lokalt image uten register</ul>
+<p>Med <code>--shared-image-store</code> kan nodene kjøre alle images i det lokale <code>container</code>-image-lageret ditt. Bygg et image og bruk det etter navn:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Kopier</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Merk</span><div>Når du har bygd den samme taggen på nytt, kjører du <code>kubectl rollout restart</code> med <code>imagePullPolicy: Always</code>, eller du bruker en ny tagg. Med <code>IfNotPresent</code> beholder en node kopien den allerede har. Alt som har root på en node, kan lese alle images i det lokale lageret ditt, også private images, så bruk det delte lageret bare til lokal utvikling.</div></div>
+<p>På CLI 1.5 og 1.6 finnes det ikke noe delt lager. Bruk <code>container cluster load-image</code> der, eller <b>Last inn i klynge</b> i Gantry. CLI 1.7 fjernet <code>load-image</code>.</p>
+
+<ul id="terminal-reach">Åpne appen i en nettleser</ul>
+<p>Videresend en lokal port til deploymenten, og åpne deretter <code>http://localhost:8080</code>:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Kopier</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<ul id="terminal-cleanup">Stopp og slett klyngen</ul>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster delete --name dev">Kopier</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Stopper kontrollplannoden, for eksempel etter <code>container system stop</code>, sletter du klyngen og oppretter den på nytt. Lag en midlertidig klynge med <code>--rm</code> for å fjerne nodene når de stopper.</p>
+
+<ul id="terminal-troubleshooting">Vanlige problemer</ul>
+<ul>
+  <li><strong>cluster service unavailable:</strong> CLI-en er Homebrew-bygget, eller tjenestene kjører ikke. Installer den signerte pakken, eller start tjenestene på nytt med <code>container system stop</code> og <code>container system start</code>. Gantry gir det samme rådet under Klynger.</li>
+  <li><strong>En gammel klynge mangler i listen:</strong> CLI 1.7 viser ikke klynger som er opprettet med 1.6 eller eldre. Fjern en slik klynge med <code>container cluster delete --name &lt;name&gt;</code>.</li>
+  <li><strong>Nodene forblir NotReady:</strong> du brukte <code>--cni NONE</code>. Bruk et CNI-manifest.</li>
+  <li><strong>Du kan ikke stoppe en nodecontainer:</strong> dette er med vilje. <code>container stop</code> og <code>delete</code> avviser klyngenoder; bruk <code>container cluster delete</code>.</li>
+</ul>
+
+<ul id="terminal-compare">Slik står dette seg mot Docker Desktop og OrbStack</ul>
+<p>Docker Desktop har innebygd Kubernetes med kubeadm (én node) eller kind (flere noder), og OrbStack har en innebygd klynge med én node. <code>container cluster</code> kjører kubeadm på <code>kindest/node</code>-images, hver node i sin egen VM, med klynger med flere noder og delt image-lager. Se <a href="../compare/">hele sammenligningen</a>.</p>
+
 <h2 id="agents">Klynger fra AI-agenter</h2>
 <p>MCP-serveren til Gantry har <code>list_clusters</code>, <code>create_cluster</code> og <code>delete_cluster</code>, så en agent som Claude Code kan lage en midlertidig klynge for en test og fjerne den etterpå.</p>
 <div class="code-block">
@@ -332,7 +491,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 </div>
 
 <h2 id="more">Mer om apple/container</h2>
-<p>For en trinnvis gjennomgang fra terminalen, les <a href="../kubernetes-on-mac/">Kjør Kubernetes på en Mac med Apple container</a>. Les <a href="../apple-container/">guiden til apple/container</a> for hver <code>container</code>-kommando og funksjonen i Gantry, eller se hvordan Gantry står seg mot <a href="../compare/">Docker Desktop, OrbStack og Podman Desktop</a>.</p>
+<p>For en trinnvis gjennomgang fra terminalen, les <a href="#terminal">Kjør Kubernetes på en Mac med Apple container</a>. Les <a href="../apple-container/">guiden til apple/container</a> for hver <code>container</code>-kommando og funksjonen i Gantry, eller se hvordan Gantry står seg mot <a href="../compare/">Docker Desktop, OrbStack og Podman Desktop</a>.</p>
 
 <h2 id="faq">Spørsmål og svar</h2>
 <div class="faq-list">
@@ -343,7 +502,10 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <details class="faq-item"><summary>Kan jeg opprette en klynge med flere noder?</summary><p>Ja. Angi antall arbeidsnoder i opprettingsarket; arbeidsnoder krever CLI 1.6.0 eller nyere. På CLI 1.7 angir du også CPU-er og minne for arbeidsnodene separat fra kontrollplanet.</p></details>
 <details class="faq-item"><summary>Kan jeg bruke min egen CNI, som Calico eller Cilium?</summary><p>Ja. Velg <b>Egendefinert manifest</b> og velg manifestfilen, eller velg <b>Ingen</b> og installer en CNI selv etter at klyngen har startet. Nodene forblir NotReady til en CNI kjører. <b>Ingen</b> krever CLI 1.6.0 eller nyere. Standard-CNI-en er det medfølgende kindnet-manifestet.</p></details>
 <details class="faq-item"><summary>Hvorfor sier Gantry at klyngetjenestene ikke er tilgjengelige?</summary><p><code>container</code>-tjenestene svarte ikke på en klyngekommando. Er CLI-en din et Homebrew-bygg uten klyngetjenestene, sier Gantry fra og lenker til det signerte installeringsprogrammet på utgivelsessiden til apple/container. Ellers tilbyr den <b>Start tjenestene på nytt</b>.</p></details>
-<details class="faq-item"><summary>Trenger jeg kubectl for å bruke klyngen i Gantry?</summary><p>Foreløpig ja: Kubernetes-utforskeren i Gantry kjører <code>kubectl</code>. Er det ikke installert, viser utforskeren kommandoen <code>brew install kubectl</code> og kan kjøre den for deg. En nativ Kubernetes-klient som fjerner dette steget, er under utvikling.</p></details>
+<details class="faq-item"><summary>Trenger jeg kubectl for å bruke klyngen i Gantry?</summary><p>Foreløpig ja: Kubernetes-utforskeren i Gantry kjører <code>kubectl</code>. Er det ikke installert, viser utforskeren kommandoen <code>brew install kubectl</code> og kan kjøre den for deg.</p></details>
+<details class="faq-item"><summary>Kan jeg kjøre Kubernetes på en Mac uten Docker?</summary><p>Ja. Apples <code>container</code>-CLI oppretter Kubernetes-klynger selv med <code>container cluster create</code>. Hver node kjører som en lett VM, og du trenger verken Docker, Docker Desktop, kind eller minikube.</p></details>
+<details class="faq-item"><summary>Hvor mange noder kan en container cluster ha?</summary><p>Ett kontrollplan og så mange arbeidsnoder som Macen din har CPU-er og minne til. Angi dem med <code>--workers</code>; på CLI 1.7 kan hver gruppe arbeidsnoder ha egne CPU-er og eget minne.</p></details>
+<details class="faq-item"><summary>Hvilken Kubernetes-versjon bruker container cluster?</summary><p>CLI 1.7.1 bruker node-imaget <code>kindest/node:v1.35.5</code> som standard. Velg en annen versjon med <code>--node-image</code>, for eksempel <code>docker.io/kindest/node:v1.34.11</code>. Gantry viser versjonen i klyngeoversikten.</p></details>
 </div>
 
 <p class="updated">Sist oppdatert 2026-11-07.</p>
@@ -356,8 +518,6 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Sammenlign</a>
-      <span>·</span>
-      <a href="../kubernetes-on-mac/">Kubernetes på Mac</a>
       <span>·</span>
       <a href="../docker-desktop-to-apple-container/">Fra Docker Desktop</a>
       <span>·</span>

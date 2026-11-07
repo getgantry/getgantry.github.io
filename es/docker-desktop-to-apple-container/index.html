@@ -158,6 +158,69 @@
           }
         }
       ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://getgantry.github.io/es/docker-desktop-to-apple-container/#howto",
+      "name": "Pasar de Docker Desktop a Apple container",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Qué cambia",
+          "text": "Una VM por contenedor. Docker Desktop ejecuta todos los contenedores en una sola VM Linux. apple/container arranca una VM pequeña para cada contenedor, así que cada uno tiene su propia dirección IP en tu Mac. Las mismas imágenes y registros. Las imágenes son imágenes OCI; descargas de Docker Hub, GHCR y registros privados como antes. Sin coste de licencia. apple/container es Apache 2.0. Docker Desktop requiere un plan de pago en organizaciones con 250 empleados o más, o con 10 millones de USD de ingresos o más. Solo chip de Apple y macOS 26. En los Mac con Intel, sigue con un motor Docker.",
+          "url": "https://getgantry.github.io/es/docker-desktop-to-apple-container/#why"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Comandos de Docker y sus equivalentes en container",
+          "text": "La mayoría de los parámetros de run son iguales: -d, -p, -e, -v, --name, --rm, -it, -w, --entrypoint, --cpus y -m. Para convertir un comando largo, pégalo en Gantry: consulta Crear un contenedor a partir de un comando docker run.",
+          "url": "https://getgantry.github.io/es/docker-desktop-to-apple-container/#commands"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Traer tus imágenes",
+          "text": "Imágenes de un registro: vuelve a descargarlas con container image pull. Imágenes locales que solo existen en Docker: guárdalas en un archivo y cárgalo. container image load lee archivos OCI, y las versiones recientes de Docker escriben un layout OCI con docker save. Si la carga falla, sube la imagen a un registro y descárgala.",
+          "url": "https://getgantry.github.io/es/docker-desktop-to-apple-container/#images"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Trasladar los volúmenes con nombre",
+          "text": "Docker guarda los datos de los volúmenes dentro de su VM. Copia cada volumen a un archivo tar con un contenedor de corta duración y después descomprímelo en un volumen nuevo de apple/container:",
+          "url": "https://getgantry.github.io/es/docker-desktop-to-apple-container/#volumes"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Archivos Compose",
+          "text": "La CLI container no tiene un comando compose. En su lugar, abre el docker-compose.yml en Gantry (desde el Finder, con Archivo ▸ Abrir archivo Compose… o arrastrándolo). Gantry compila los servicios build:, crea la red y los volúmenes con nombre del proyecto e inicia los servicios en el orden de depends_on. Los servicios se encuentran entre sí por el nombre de servicio mediante alias DNS de red.",
+          "url": "https://getgantry.github.io/es/docker-desktop-to-apple-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Redes y puertos",
+          "text": "-p 8080:80 publica un puerto en localhost, como en Docker. Además, cada contenedor tiene su propia dirección IP. Crea un dominio DNS local con sudo container system dns create test y ejecuta los contenedores con --dns-domain test: reciben nombres como web.test. container network create crea redes de usuario; los contenedores de la misma red se ven entre sí. No hay modo --network host, none ni container:.",
+          "url": "https://getgantry.github.io/es/docker-desktop-to-apple-container/#networks"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Qué falta",
+          "text": "Sin API de Docker Engine. Las herramientas que se comunican con /var/run/docker.sock, como Testcontainers, los SDK de Docker o Dev Containers, no ven apple/container. Sin políticas de reinicio. --restart no está disponible; un contenedor no vuelve a arrancar por sí solo. Sin Compose en la CLI. Gantry ejecuta archivos Compose: consulta Archivos Compose. Sin extensiones de Docker Desktop. Solo CPU enteras: --cpus 0.5 no funciona. Kubernetes funciona de otra forma: usa container cluster; consulta Ejecutar Kubernetes en un Mac.",
+          "url": "https://getgantry.github.io/es/docker-desktop-to-apple-container/#missing"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
+          "name": "Mantener ambos durante el cambio",
+          "text": "Gantry gestiona apple/container y cualquier motor Docker (Docker Desktop, OrbStack, Colima o Docker por SSH) en una sola barra lateral. Traslada un proyecto cada vez y mantén Docker para las herramientas que necesitan su API. Cuando ya no lo necesites, puedes desinstalar Docker Desktop.",
+          "url": "https://getgantry.github.io/es/docker-desktop-to-apple-container/#both"
+        }
+      ]
     }
   ]
 }
@@ -231,7 +294,7 @@
   <li><strong>Solo chip de Apple y macOS 26.</strong> En los Mac con Intel, sigue con un motor Docker.</li>
 </ul>
 
-<h2 id="commands">Comandos de Docker y sus equivalentes en container</h2>
+<ul id="commands">Comandos de Docker y sus equivalentes en container</ul>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Docker</th><th scope="col">apple/container</th><th scope="col">Notas</th></tr></thead>
 <tbody>
@@ -256,7 +319,7 @@
 </table></div>
 <p>La mayoría de los parámetros de <code>run</code> son iguales: <code>-d</code>, <code>-p</code>, <code>-e</code>, <code>-v</code>, <code>--name</code>, <code>--rm</code>, <code>-it</code>, <code>-w</code>, <code>--entrypoint</code>, <code>--cpus</code> y <code>-m</code>. Para convertir un comando largo, pégalo en Gantry: consulta <a href="../docker-run-to-container/">Crear un contenedor a partir de un comando docker run</a>.</p>
 
-<h2 id="images">Traer tus imágenes</h2>
+<ul id="images">Traer tus imágenes</ul>
 <p>Imágenes de un registro: vuelve a descargarlas con <code>container image pull</code>. Imágenes locales que solo existen en Docker: guárdalas en un archivo y cárgalo. <code>container image load</code> lee archivos OCI, y las versiones recientes de Docker escriben un layout OCI con <code>docker save</code>. Si la carga falla, sube la imagen a un registro y descárgala.</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="docker save -o app.tar app:dev
@@ -267,7 +330,7 @@ container image load -i app.tar
 container image pull nginx:alpine</code></pre>
 </div>
 
-<h2 id="volumes">Trasladar los volúmenes con nombre</h2>
+<ul id="volumes">Trasladar los volúmenes con nombre</ul>
 <p>Docker guarda los datos de los volúmenes dentro de su VM. Copia cada volumen a un archivo tar con un contenedor de corta duración y después descomprímelo en un volumen nuevo de apple/container:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="docker run --rm -v data:/from -v &quot;$PWD&quot;:/to alpine tar -C /from -cf /to/data.tar .
@@ -279,10 +342,10 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
 </div>
 <p>Un volumen con nombre en apple/container es una imagen de disco ext4 dispersa, de 512 GB como máximo de forma predeterminada. Define otro tamaño con <code>--opt size=20g</code>. Los montajes enlazados de carpetas de tu Mac funcionan como en Docker: <code>-v ~/project:/app</code>.</p>
 
-<h2 id="compose">Archivos Compose</h2>
+<ul id="compose">Archivos Compose</ul>
 <p>La CLI <code>container</code> no tiene un comando <code>compose</code>. En su lugar, abre el <code>docker-compose.yml</code> en Gantry (desde el Finder, con <strong>Archivo ▸ Abrir archivo Compose…</strong> o arrastrándolo). Gantry compila los servicios <code>build:</code>, crea la red y los volúmenes con nombre del proyecto e inicia los servicios en el orden de <code>depends_on</code>. Los servicios se encuentran entre sí por el nombre de servicio mediante alias DNS de red.</p>
 
-<h2 id="networks">Redes y puertos</h2>
+<ul id="networks">Redes y puertos</ul>
 <ul>
   <li><code>-p 8080:80</code> publica un puerto en <code>localhost</code>, como en Docker.</li>
   <li>Además, cada contenedor tiene su propia dirección IP. Crea un dominio DNS local con <code>sudo container system dns create test</code> y ejecuta los contenedores con <code>--dns-domain test</code>: reciben nombres como <code>web.test</code>.</li>
@@ -290,26 +353,26 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
   <li>No hay modo <code>--network host</code>, <code>none</code> ni <code>container:</code>.</li>
 </ul>
 
-<h2 id="missing">Qué falta</h2>
+<ul id="missing">Qué falta</ul>
 <ul>
   <li><strong>Sin API de Docker Engine.</strong> Las herramientas que se comunican con <code>/var/run/docker.sock</code>, como Testcontainers, los SDK de Docker o Dev Containers, no ven apple/container.</li>
   <li><strong>Sin políticas de reinicio.</strong> <code>--restart</code> no está disponible; un contenedor no vuelve a arrancar por sí solo.</li>
   <li><strong>Sin Compose en la CLI.</strong> Gantry ejecuta archivos Compose: consulta <a href="#compose">Archivos Compose</a>.</li>
   <li><strong>Sin extensiones de Docker Desktop.</strong></li>
   <li><strong>Solo CPU enteras:</strong> <code>--cpus 0.5</code> no funciona.</li>
-  <li><strong>Kubernetes funciona de otra forma:</strong> usa <code>container cluster</code>; consulta <a href="../kubernetes-on-mac/">Ejecutar Kubernetes en un Mac</a>.</li>
+  <li><strong>Kubernetes funciona de otra forma:</strong> usa <code>container cluster</code>; consulta <a href="../apple-container-kubernetes/#terminal">Ejecutar Kubernetes en un Mac</a>.</li>
 </ul>
 
-<h2 id="both">Mantener ambos durante el cambio</h2>
+<ul id="both">Mantener ambos durante el cambio</ul>
 <p>Gantry gestiona apple/container y cualquier motor Docker (Docker Desktop, OrbStack, Colima o Docker por SSH) en una sola barra lateral. Traslada un proyecto cada vez y mantén Docker para las herramientas que necesitan su API. Cuando ya no lo necesites, puedes desinstalar Docker Desktop.</p>
 
 <h2 id="related">Guías relacionadas</h2>
 <ul>
-  <li><a href="../kubernetes-on-mac/">Kubernetes en Mac con Apple container: guía paso a paso</a></li>
   <li><a href="../containers-on-external-drive/">Guardar contenedores y volúmenes en un disco externo en Mac</a></li>
   <li><a href="../docker-run-to-container/">Crear un contenedor a partir de un comando docker run en Mac (de docker run a container run)</a></li>
   <li><a href="../apple-container/">GUI de Apple container para Mac: guía completa de apple/container</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes en Apple container: GUI para container cluster y navegador de Kubernetes</a></li>
+  <li><a href="../compare/">Gantry vs Docker Desktop vs OrbStack vs Podman Desktop en Mac (2026)</a></li>
 </ul>
 
 <h2 id="faq">Preguntas y respuestas</h2>
@@ -331,8 +394,6 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Comparar</a>
-      <span>·</span>
-      <a href="../kubernetes-on-mac/">Kubernetes en Mac</a>
       <span>·</span>
       <a href="../docker-desktop-to-apple-container/">Desde Docker Desktop</a>
       <span>·</span>

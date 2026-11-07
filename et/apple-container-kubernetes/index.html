@@ -178,8 +178,88 @@
           "name": "Kas klastri kasutamiseks Gantrys on vaja kubectl-i?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Praegu jah: Gantry Kubernetese brauser käivitab kubectl-i. Kui see pole installitud, näitab brauser käsku brew install kubectl ja saab selle teie eest käivitada. Arenduses on natiivne Kubernetese klient, mis selle sammu ära kaotab."
+            "text": "Praegu jah: Gantry Kubernetese brauser käivitab kubectl-i. Kui see pole installitud, näitab brauser käsku brew install kubectl ja saab selle teie eest käivitada."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "Kas Kubernetest saab Macis käitada ilma Dockerita?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Jah. Apple'i container CLI loob Kubernetese klastrid ise käsuga container cluster create. Iga sõlm töötab kerge virtuaalmasinana ning teil pole vaja Dockerit, Docker Desktopi, kindi ega minikube'i."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mitu sõlme saab container clusteril olla?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Üks juhttasand ja nii palju töösõlmi, kui teie Maci CPU-dest ja mälust jätkub. Määrake need lipuga --workers; CLI 1.7-s saab igal töösõlmede rühmal olla oma CPU-d ja mälu."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Millist Kubernetese versiooni container cluster kasutab?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CLI 1.7.1 kasutab vaikimisi sõlme tõmmist kindest/node:v1.35.5. Teise versiooni valimiseks kasutage lippu --node-image, näiteks docker.io/kindest/node:v1.34.11. Gantry näitab versiooni klastri ülevaates."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://getgantry.github.io/et/apple-container-kubernetes/#howto",
+      "name": "Kubernetes Macis Apple containeriga",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Mida on vaja",
+          "text": "Apple'i kiibiga Mac, macOS 26 või uuem. container CLI 1.7.1 allkirjastatud .pkg-failist apple/containeri väljalasete lehel. Versiooni 1.7.1 Homebrew-versioonis pole klastriteenuseid, seega container cluster nurjub veaga cluster service unavailable. Allpool oleva näite jaoks umbes 6 GB vaba mälu: kolm sõlme, igaühel 2 GB. kubectl, kui soovite klastrit kasutada terminalist (brew install kubectl).",
+          "url": "https://getgantry.github.io/et/apple-container-kubernetes/#terminal-requirements"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Klastri loomine",
+          "text": "See käsk loob klastri nimega dev, millel on üks juhttasandi sõlm ja kaks töösõlme. Iga sõlm saab 2 CPU-d ja 2 GB mälu:",
+          "url": "https://getgantry.github.io/et/apple-container-kubernetes/#terminal-create"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Kohaliku tõmmise käitamine ilma registrita",
+          "text": "Lipuga --shared-image-store saavad sõlmed käitada mis tahes tõmmist teie kohalikust container tõmmisehoidlast. Koostage tõmmis ja kasutage seda nime järgi:",
+          "url": "https://getgantry.github.io/et/apple-container-kubernetes/#terminal-images"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Rakenduse avamine brauseris",
+          "text": "Suunake kohalik port Deploymendile, seejärel avage http://localhost:8080:",
+          "url": "https://getgantry.github.io/et/apple-container-kubernetes/#terminal-reach"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Klastri peatamine ja kustutamine",
+          "text": "Kui juhttasandi sõlm peatub, näiteks pärast käsku container system stop, kustutage klaster ja looge see uuesti. Ajutise klastri loomiseks kasutage lippu --rm, mis eemaldab sõlmed, kui need peatuvad.",
+          "url": "https://getgantry.github.io/et/apple-container-kubernetes/#terminal-cleanup"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Levinud probleemid",
+          "text": "cluster service unavailable: CLI on Homebrew-versioon või teenused ei tööta. Installige allkirjastatud pakett või taaskäivitage teenused käskudega container system stop ja container system start. Gantry annab jaotises Klastrid sama nõuande. Vana klaster puudub loendist: CLI 1.7 ei loetle klastreid, mis on loodud versiooniga 1.6 või varasemaga. Eemaldage see käsuga container cluster delete --name <name>. Sõlmed jäävad olekusse NotReady: kasutasite lippu --cni NONE. Rakendage CNI manifest. Sõlme konteinerit ei saa peatada: see on tahtlik. container stop ja delete keelduvad klastri sõlmedega töötamast; kasutage käsku container cluster delete.",
+          "url": "https://getgantry.github.io/et/apple-container-kubernetes/#terminal-troubleshooting"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Võrdlus Docker Desktopi ja OrbStackiga",
+          "text": "Docker Desktopil on sisseehitatud Kubernetes kubeadmiga (üks sõlm) või kindiga (mitu sõlme) ja OrbStackil on sisseehitatud ühe sõlmega klaster. container cluster käitab kubeadmi kindest/node tõmmistel, iga sõlm oma virtuaalmasinas, mitme sõlmega klastrite ja jagatud tõmmisehoidlaga. Vaadake täielikku võrdlust.",
+          "url": "https://getgantry.github.io/et/apple-container-kubernetes/#terminal-compare"
         }
       ]
     }
@@ -294,7 +374,8 @@
   <li><strong>Saladused:</strong> väärtused on loendis ja YAML-is varjatud, kuni klõpsate Näita.</li>
   <li><strong>Rakenda YAML:</strong> kleepige manifest või avage fail; vead kuvatakse lehel.</li>
 </ul>
-<p>Brauser käivitab <code>kubectl</code>-i. Kui Gantry seda ei leia, näitab jaotis käsku <code>brew install kubectl</code> ja nuppu, mis selle käivitab. Arenduses on natiivne Kubernetese klient, mis ei vaja <code>kubectl</code>-i.</p>
+<p>Brauser käivitab <code>kubectl</code>-i. Kui Gantry seda ei leia, näitab jaotis käsku <code>brew install kubectl</code> ja nuppu, mis selle käivitab.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
 
 <h2 id="kubectl">kubectl-i ühendamine</h2>
 <p>CLI lisab klastri loomisel faili <code>~/.kube/config</code> klastri järgi nimetatud konteksti. Kasutage Gantrys käsku <strong>Kopeeri kubectl-i konteksti käsk</strong> või tippige see ise:</p>
@@ -324,6 +405,84 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <h2 id="cni">CNI valimine</h2>
 <p>Vaikimisi kasutatakse kaasasolevat kindneti manifesti. Valige <strong>Kohandatud manifest</strong>, et installida failist oma CNI, näiteks Calico või Cilium. Valige <strong>Puudub</strong>, et installida CNI hiljem ise; seni jäävad sõlmed olekusse NotReady.</p>
 
+<h2 id="terminal">Kubernetes Macis Apple containeriga</h2>
+<p>Apple'i <code>container</code>-tööriist loob kohaliku Kubernetese klastri ühe käsuga. Iga sõlm on teie Macis kerge virtuaalmasin. See juhend viib teid tühjast Macist töötava Deploymendini, kõigepealt terminalis ja seejärel Gantrys.</p>
+
+<h3 id="terminal-requirements">Mida on vaja</h3>
+<ul>
+  <li>Apple'i kiibiga Mac, macOS 26 või uuem.</li>
+  <li><code>container</code> CLI 1.7.1 allkirjastatud <code>.pkg</code>-failist <a href="https://github.com/apple/container/releases">apple/containeri väljalasete lehel</a>. Versiooni 1.7.1 Homebrew-versioonis pole klastriteenuseid, seega <code>container cluster</code> nurjub veaga <em>cluster service unavailable</em>.</li>
+  <li>Allpool oleva näite jaoks umbes 6 GB vaba mälu: kolm sõlme, igaühel 2 GB.</li>
+  <li><code>kubectl</code>, kui soovite klastrit kasutada terminalist (<code>brew install kubectl</code>).</li>
+</ul>
+<p>Pärast paketi installimist käivitage teenused üks kord:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system start">Kopeeri</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<ul id="terminal-create">Klastri loomine</ul>
+<p>See käsk loob klastri nimega <code>dev</code>, millel on üks juhttasandi sõlm ja kaks töösõlme. Iga sõlm saab 2 CPU-d ja 2 GB mälu:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Kopeeri</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li><code>--workers count=N,cpus=C,memory=M</code> määrab töösõlmede rühma suuruse. Eri suurusega rühmade jaoks korrake seda. Ilma liputa <code>--workers</code> on üks sõlm korraga juhttasand ja töösõlm.</li>
+  <li><code>--cpus</code> ja <code>--memory</code> määravad juhttasandi suuruse. Vaikimisi on see veerand teie Maci CPU-dest ja mälust, vähemalt 2 CPU-d ja 2 GB.</li>
+  <li><code>--shared-image-store</code> laseb sõlmedel kasutada teie kohalikke tõmmiseid (vaadake allpool). Seda ei saa hiljem muuta: kustutage klaster ja looge see uuesti.</li>
+  <li><code>--cni ./calico.yaml</code> installib kaasasoleva kindneti asemel teie oma CNI; <code>--cni NONE</code> ei installi ühtegi.</li>
+</ul>
+<p>CLI lisab faili <code>~/.kube/config</code> konteksti nimega <code>dev</code>. Kontrollige sõlmi:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Kopeeri</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<ul id="terminal-images">Kohaliku tõmmise käitamine ilma registrita</ul>
+<p>Lipuga <code>--shared-image-store</code> saavad sõlmed käitada mis tahes tõmmist teie kohalikust <code>container</code> tõmmisehoidlast. Koostage tõmmis ja kasutage seda nime järgi:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Kopeeri</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Märkus</span><div>Kui koostate sama sildi uuesti, käivitage <code>kubectl rollout restart</code> koos <code>imagePullPolicy: Always</code>-iga või kasutage uut silti. Väärtusega <code>IfNotPresent</code> jätab sõlm alles koopia, mis tal juba on. Kõik, millel on sõlmes root-õigused, saab lugeda kõiki teie kohaliku hoidla tõmmiseid, ka privaatseid, seega kasutage jagatud hoidlat ainult kohalikuks arenduseks.</div></div>
+<p>CLI 1.5-s ja 1.6-s jagatud hoidlat pole. Kasutage seal käsku <code>container cluster load-image</code> või Gantrys toimingut <b>Laadi klastrisse</b>. CLI 1.7 eemaldas käsu <code>load-image</code>.</p>
+
+<ul id="terminal-reach">Rakenduse avamine brauseris</ul>
+<p>Suunake kohalik port Deploymendile, seejärel avage <code>http://localhost:8080</code>:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Kopeeri</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<ul id="terminal-cleanup">Klastri peatamine ja kustutamine</ul>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster delete --name dev">Kopeeri</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Kui juhttasandi sõlm peatub, näiteks pärast käsku <code>container system stop</code>, kustutage klaster ja looge see uuesti. Ajutise klastri loomiseks kasutage lippu <code>--rm</code>, mis eemaldab sõlmed, kui need peatuvad.</p>
+
+<ul id="terminal-troubleshooting">Levinud probleemid</ul>
+<ul>
+  <li><strong>cluster service unavailable:</strong> CLI on Homebrew-versioon või teenused ei tööta. Installige allkirjastatud pakett või taaskäivitage teenused käskudega <code>container system stop</code> ja <code>container system start</code>. Gantry annab jaotises Klastrid sama nõuande.</li>
+  <li><strong>Vana klaster puudub loendist:</strong> CLI 1.7 ei loetle klastreid, mis on loodud versiooniga 1.6 või varasemaga. Eemaldage see käsuga <code>container cluster delete --name &lt;name&gt;</code>.</li>
+  <li><strong>Sõlmed jäävad olekusse NotReady:</strong> kasutasite lippu <code>--cni NONE</code>. Rakendage CNI manifest.</li>
+  <li><strong>Sõlme konteinerit ei saa peatada:</strong> see on tahtlik. <code>container stop</code> ja <code>delete</code> keelduvad klastri sõlmedega töötamast; kasutage käsku <code>container cluster delete</code>.</li>
+</ul>
+
+<ul id="terminal-compare">Võrdlus Docker Desktopi ja OrbStackiga</ul>
+<p>Docker Desktopil on sisseehitatud Kubernetes kubeadmiga (üks sõlm) või kindiga (mitu sõlme) ja OrbStackil on sisseehitatud ühe sõlmega klaster. <code>container cluster</code> käitab kubeadmi <code>kindest/node</code> tõmmistel, iga sõlm oma virtuaalmasinas, mitme sõlmega klastrite ja jagatud tõmmisehoidlaga. Vaadake <a href="../compare/">täielikku võrdlust</a>.</p>
+
 <h2 id="agents">Klastrid AI-agentide abil</h2>
 <p>Gantry MCP-serveril on tööriistad <code>list_clusters</code>, <code>create_cluster</code> ja <code>delete_cluster</code>, nii et agent, näiteks Claude Code, saab luua testi jaoks ajutise klastri ja selle pärast eemaldada.</p>
 <div class="code-block">
@@ -332,7 +491,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 </div>
 
 <h2 id="more">Veel apple/containerist</h2>
-<p>Samm-sammulise juhise terminalist leiate juhendist <a href="../kubernetes-on-mac/">Kubernetes Macis Apple containeriga</a>. Lugege <a href="../apple-container/">apple/containeri juhendit</a>, et näha iga <code>container</code> käsku ja selle Gantry funktsiooni, või vaadake, kuidas Gantry võrdleb <a href="../compare/">Docker Desktopi, OrbStacki ja Podman Desktopiga</a>.</p>
+<p>Samm-sammulise juhise terminalist leiate juhendist <a href="#terminal">Kubernetes Macis Apple containeriga</a>. Lugege <a href="../apple-container/">apple/containeri juhendit</a>, et näha iga <code>container</code> käsku ja selle Gantry funktsiooni, või vaadake, kuidas Gantry võrdleb <a href="../compare/">Docker Desktopi, OrbStacki ja Podman Desktopiga</a>.</p>
 
 <h2 id="faq">Küsimused ja vastused</h2>
 <div class="faq-list">
@@ -343,7 +502,10 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <details class="faq-item"><summary>Kas saab luua mitme sõlmega klastri?</summary><p>Jah. Määrake loomislehel töösõlmede arv; töösõlmed vajavad CLI versiooni 1.6.0 või uuemat. CLI 1.7-s määrate ka töösõlmede CPU-d ja mälu juhttasandist eraldi.</p></details>
 <details class="faq-item"><summary>Kas saab kasutada oma CNI-d, nt Calicot või Ciliumit?</summary><p>Jah. Valige <b>Kohandatud manifest</b> ja valige manifestifail või valige <b>Puudub</b> ja rakendage CNI ise pärast klastri käivitumist. Sõlmed jäävad olekusse NotReady, kuni mõni CNI töötab. <b>Puudub</b> vajab CLI versiooni 1.6.0 või uuemat. Vaikimisi CNI on kaasasolev kindneti manifest.</p></details>
 <details class="faq-item"><summary>Miks ütleb Gantry, et klastriteenused pole saadaval?</summary><p><code>container</code> teenused ei vastanud klastri käsule. Kui teie CLI on Homebrew-versioon ilma klastriteenusteta, ütleb Gantry seda ja annab lingi allkirjastatud installerile apple/containeri väljalasete lehel. Muul juhul pakub see nuppu <b>Taaskäivita teenused</b>.</p></details>
-<details class="faq-item"><summary>Kas klastri kasutamiseks Gantrys on vaja kubectl-i?</summary><p>Praegu jah: Gantry Kubernetese brauser käivitab <code>kubectl</code>-i. Kui see pole installitud, näitab brauser käsku <code>brew install kubectl</code> ja saab selle teie eest käivitada. Arenduses on natiivne Kubernetese klient, mis selle sammu ära kaotab.</p></details>
+<details class="faq-item"><summary>Kas klastri kasutamiseks Gantrys on vaja kubectl-i?</summary><p>Praegu jah: Gantry Kubernetese brauser käivitab <code>kubectl</code>-i. Kui see pole installitud, näitab brauser käsku <code>brew install kubectl</code> ja saab selle teie eest käivitada.</p></details>
+<details class="faq-item"><summary>Kas Kubernetest saab Macis käitada ilma Dockerita?</summary><p>Jah. Apple'i <code>container</code> CLI loob Kubernetese klastrid ise käsuga <code>container cluster create</code>. Iga sõlm töötab kerge virtuaalmasinana ning teil pole vaja Dockerit, Docker Desktopi, kindi ega minikube'i.</p></details>
+<details class="faq-item"><summary>Mitu sõlme saab container clusteril olla?</summary><p>Üks juhttasand ja nii palju töösõlmi, kui teie Maci CPU-dest ja mälust jätkub. Määrake need lipuga <code>--workers</code>; CLI 1.7-s saab igal töösõlmede rühmal olla oma CPU-d ja mälu.</p></details>
+<details class="faq-item"><summary>Millist Kubernetese versiooni container cluster kasutab?</summary><p>CLI 1.7.1 kasutab vaikimisi sõlme tõmmist <code>kindest/node:v1.35.5</code>. Teise versiooni valimiseks kasutage lippu <code>--node-image</code>, näiteks <code>docker.io/kindest/node:v1.34.11</code>. Gantry näitab versiooni klastri ülevaates.</p></details>
 </div>
 
 <p class="updated">Viimati uuendatud 2026-11-07.</p>
@@ -356,8 +518,6 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Võrdlus</a>
-      <span>·</span>
-      <a href="../kubernetes-on-mac/">Kubernetes Macis</a>
       <span>·</span>
       <a href="../docker-desktop-to-apple-container/">Docker Desktopilt</a>
       <span>·</span>

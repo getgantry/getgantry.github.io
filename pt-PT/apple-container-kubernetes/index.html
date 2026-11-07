@@ -178,8 +178,88 @@
           "name": "Preciso do kubectl para usar o cluster no Gantry?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Por agora, sim: o explorador Kubernetes do Gantry executa o kubectl. Se não estiver instalado, o explorador mostra o comando brew install kubectl e pode executá-lo por si. Está em desenvolvimento um cliente Kubernetes nativo que elimina este passo."
+            "text": "Por agora, sim: o explorador Kubernetes do Gantry executa o kubectl. Se não estiver instalado, o explorador mostra o comando brew install kubectl e pode executá-lo por si."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "Posso executar Kubernetes num Mac sem o Docker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. A CLI container da Apple cria ela própria clusters Kubernetes com container cluster create. Cada nó é executado como uma VM leve e não precisa do Docker, do Docker Desktop, do kind nem do minikube."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quantos nós pode ter um container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Um plano de controlo e tantos workers quantos as CPU e a memória do seu Mac permitirem. Defina-os com --workers; na CLI 1.7, cada grupo de workers pode ter CPU e memória próprias."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Que versão do Kubernetes utiliza o container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A CLI 1.7.1 utiliza por predefinição a imagem de nó kindest/node:v1.35.5. Escolha outra versão com --node-image, por exemplo docker.io/kindest/node:v1.34.11. O Gantry mostra a versão na vista geral do cluster."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://getgantry.github.io/pt-PT/apple-container-kubernetes/#howto",
+      "name": "Executar Kubernetes num Mac com o Apple container",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "O que é necessário",
+          "text": "Um Mac com Apple silicon e macOS 26 ou posterior. A CLI container 1.7.1 a partir do .pkg assinado na página de versões do apple/container. A compilação do Homebrew da 1.7.1 não inclui os serviços do cluster, por isso container cluster falha com cluster service unavailable. Cerca de 6 GB de memória livre para o exemplo abaixo: três nós com 2 GB cada. O kubectl, se quiser usar o cluster a partir do terminal (brew install kubectl).",
+          "url": "https://getgantry.github.io/pt-PT/apple-container-kubernetes/#terminal-requirements"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Criar o cluster",
+          "text": "Este comando cria um cluster chamado dev com um nó de plano de controlo e dois workers. Cada nó recebe 2 CPU e 2 GB de memória:",
+          "url": "https://getgantry.github.io/pt-PT/apple-container-kubernetes/#terminal-create"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Executar uma imagem local sem registo",
+          "text": "Com --shared-image-store, os nós podem executar qualquer imagem do seu armazenamento de imagens local do container. Compile uma imagem e use-a pelo nome:",
+          "url": "https://getgantry.github.io/pt-PT/apple-container-kubernetes/#terminal-images"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Abrir a app num browser",
+          "text": "Reencaminhe uma porta local para o Deployment e abra http://localhost:8080:",
+          "url": "https://getgantry.github.io/pt-PT/apple-container-kubernetes/#terminal-reach"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Parar e eliminar o cluster",
+          "text": "Se o nó do plano de controlo parar, por exemplo depois de container system stop, elimine o cluster e crie-o novamente. Crie um cluster descartável com --rm para remover os nós quando pararem.",
+          "url": "https://getgantry.github.io/pt-PT/apple-container-kubernetes/#terminal-cleanup"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Problemas comuns",
+          "text": "cluster service unavailable: a CLI é a compilação do Homebrew ou os serviços não estão em execução. Instale o pacote assinado ou reinicie os serviços com container system stop e container system start. O Gantry mostra o mesmo conselho em Clusters. Um cluster antigo não aparece na lista: a CLI 1.7 não lista os clusters criados com a 1.6 ou anterior. Remova-os com container cluster delete --name <name>. Os nós ficam NotReady: utilizou --cni NONE. Aplique um manifesto de CNI. Não é possível parar um contentor de nó: é intencional. container stop e delete recusam os nós do cluster; utilize container cluster delete.",
+          "url": "https://getgantry.github.io/pt-PT/apple-container-kubernetes/#terminal-troubleshooting"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Comparação com o Docker Desktop e o OrbStack",
+          "text": "O Docker Desktop tem Kubernetes integrado com kubeadm (um nó) ou kind (vários nós), e o OrbStack tem um cluster integrado com um só nó. O container cluster executa o kubeadm em imagens kindest/node, cada nó na sua própria VM, com clusters de vários nós e o armazenamento de imagens partilhado. Consulte a comparação completa.",
+          "url": "https://getgantry.github.io/pt-PT/apple-container-kubernetes/#terminal-compare"
         }
       ]
     }
@@ -294,7 +374,8 @@
   <li><strong>Segredos:</strong> os valores ficam ocultos na lista e no YAML até clicar em Mostrar.</li>
   <li><strong>Aplicar YAML:</strong> cole um manifesto ou abra um ficheiro; os erros aparecem na folha.</li>
 </ul>
-<p>O explorador executa o <code>kubectl</code>. Se o Gantry não o encontrar, a secção mostra <code>brew install kubectl</code> com um botão que o executa. Está em desenvolvimento um cliente Kubernetes nativo que não precisa do <code>kubectl</code>.</p>
+<p>O explorador executa o <code>kubectl</code>. Se o Gantry não o encontrar, a secção mostra <code>brew install kubectl</code> com um botão que o executa.</p>
+<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
 
 <h2 id="kubectl">Ligar o kubectl</h2>
 <p>Ao criar o cluster, a CLI adiciona a <code>~/.kube/config</code> um contexto com o nome do cluster. Use <strong>Copiar comando de contexto kubectl</strong> no Gantry, ou escreva-o:</p>
@@ -324,6 +405,84 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <h2 id="cni">Escolher uma CNI</h2>
 <p>A predefinição é o manifesto kindnet incluído. Escolha <strong>Manifesto personalizado</strong> para instalar a sua própria CNI a partir de um ficheiro, por exemplo Calico ou Cilium. Escolha <strong>Nenhum</strong> para instalar uma CNI manualmente mais tarde; até lá, os nós ficam NotReady.</p>
 
+<h2 id="terminal">Executar Kubernetes num Mac com o Apple container</h2>
+<p>A ferramenta <code>container</code> da Apple consegue criar um cluster Kubernetes local com um único comando. Cada nó é uma máquina virtual leve no seu Mac. Este guia vai de um Mac vazio até um Deployment em execução, primeiro no terminal e depois no Gantry.</p>
+
+<h3 id="terminal-requirements">O que é necessário</h3>
+<ul>
+  <li>Um Mac com Apple silicon e macOS 26 ou posterior.</li>
+  <li>A CLI <code>container</code> 1.7.1 a partir do <code>.pkg</code> assinado na <a href="https://github.com/apple/container/releases">página de versões do apple/container</a>. A compilação do Homebrew da 1.7.1 não inclui os serviços do cluster, por isso <code>container cluster</code> falha com <em>cluster service unavailable</em>.</li>
+  <li>Cerca de 6 GB de memória livre para o exemplo abaixo: três nós com 2 GB cada.</li>
+  <li>O <code>kubectl</code>, se quiser usar o cluster a partir do terminal (<code>brew install kubectl</code>).</li>
+</ul>
+<p>Inicie os serviços uma vez depois de instalar o pacote:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system start">Copiar</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<ul id="terminal-create">Criar o cluster</ul>
+<p>Este comando cria um cluster chamado <code>dev</code> com um nó de plano de controlo e dois workers. Cada nó recebe 2 CPU e 2 GB de memória:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Copiar</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li><code>--workers count=N,cpus=C,memory=M</code> define o tamanho de um grupo de workers. Repita-o para grupos de tamanhos diferentes. Sem <code>--workers</code>, um único nó é plano de controlo e worker.</li>
+  <li><code>--cpus</code> e <code>--memory</code> definem o tamanho do plano de controlo. A predefinição é um quarto das CPU e da memória do seu Mac, com um mínimo de 2 CPU e 2 GB.</li>
+  <li><code>--shared-image-store</code> permite que os nós utilizem as suas imagens locais (ver abaixo). Não é possível alterá-lo depois: elimine o cluster e crie-o novamente.</li>
+  <li><code>--cni ./calico.yaml</code> instala a sua própria CNI em vez do kindnet incluído; <code>--cni NONE</code> não instala nenhuma.</li>
+</ul>
+<p>A CLI adiciona um contexto chamado <code>dev</code> a <code>~/.kube/config</code>. Verifique os nós:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Copiar</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<ul id="terminal-images">Executar uma imagem local sem registo</ul>
+<p>Com <code>--shared-image-store</code>, os nós podem executar qualquer imagem do seu armazenamento de imagens local do <code>container</code>. Compile uma imagem e use-a pelo nome:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Copiar</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Nota</span><div>Depois de recompilar a mesma tag, execute <code>kubectl rollout restart</code> com <code>imagePullPolicy: Always</code> ou use uma nova tag. Com <code>IfNotPresent</code>, um nó mantém a cópia que já tem. Qualquer processo com root num nó pode ler todas as imagens do seu armazenamento local, incluindo imagens privadas, por isso use o armazenamento partilhado apenas para desenvolvimento local.</div></div>
+<p>Nas CLI 1.5 e 1.6 não existe armazenamento partilhado. Use aí <code>container cluster load-image</code> ou <b>Carregar no cluster</b> no Gantry. A CLI 1.7 removeu o <code>load-image</code>.</p>
+
+<ul id="terminal-reach">Abrir a app num browser</ul>
+<p>Reencaminhe uma porta local para o Deployment e abra <code>http://localhost:8080</code>:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Copiar</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<ul id="terminal-cleanup">Parar e eliminar o cluster</ul>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster delete --name dev">Copiar</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Se o nó do plano de controlo parar, por exemplo depois de <code>container system stop</code>, elimine o cluster e crie-o novamente. Crie um cluster descartável com <code>--rm</code> para remover os nós quando pararem.</p>
+
+<ul id="terminal-troubleshooting">Problemas comuns</ul>
+<ul>
+  <li><strong>cluster service unavailable:</strong> a CLI é a compilação do Homebrew ou os serviços não estão em execução. Instale o pacote assinado ou reinicie os serviços com <code>container system stop</code> e <code>container system start</code>. O Gantry mostra o mesmo conselho em Clusters.</li>
+  <li><strong>Um cluster antigo não aparece na lista:</strong> a CLI 1.7 não lista os clusters criados com a 1.6 ou anterior. Remova-os com <code>container cluster delete --name &lt;name&gt;</code>.</li>
+  <li><strong>Os nós ficam NotReady:</strong> utilizou <code>--cni NONE</code>. Aplique um manifesto de CNI.</li>
+  <li><strong>Não é possível parar um contentor de nó:</strong> é intencional. <code>container stop</code> e <code>delete</code> recusam os nós do cluster; utilize <code>container cluster delete</code>.</li>
+</ul>
+
+<ul id="terminal-compare">Comparação com o Docker Desktop e o OrbStack</ul>
+<p>O Docker Desktop tem Kubernetes integrado com kubeadm (um nó) ou kind (vários nós), e o OrbStack tem um cluster integrado com um só nó. O <code>container cluster</code> executa o kubeadm em imagens <code>kindest/node</code>, cada nó na sua própria VM, com clusters de vários nós e o armazenamento de imagens partilhado. Consulte a <a href="../compare/">comparação completa</a>.</p>
+
 <h2 id="agents">Clusters a partir de agentes de IA</h2>
 <p>O servidor MCP do Gantry tem <code>list_clusters</code>, <code>create_cluster</code> e <code>delete_cluster</code>, por isso um agente como o Claude Code pode criar um cluster temporário para um teste e removê-lo no fim.</p>
 <div class="code-block">
@@ -332,7 +491,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 </div>
 
 <h2 id="more">Mais sobre o apple/container</h2>
-<p>Para um percurso passo a passo a partir do terminal, leia <a href="../kubernetes-on-mac/">Executar Kubernetes num Mac com o Apple container</a>. Leia o <a href="../apple-container/">guia do apple/container</a> para cada comando <code>container</code> e a respetiva funcionalidade do Gantry, ou veja como o Gantry se compara com o <a href="../compare/">Docker Desktop, o OrbStack e o Podman Desktop</a>.</p>
+<p>Para um percurso passo a passo a partir do terminal, leia <a href="#terminal">Executar Kubernetes num Mac com o Apple container</a>. Leia o <a href="../apple-container/">guia do apple/container</a> para cada comando <code>container</code> e a respetiva funcionalidade do Gantry, ou veja como o Gantry se compara com o <a href="../compare/">Docker Desktop, o OrbStack e o Podman Desktop</a>.</p>
 
 <h2 id="faq">Perguntas e respostas</h2>
 <div class="faq-list">
@@ -343,7 +502,10 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
 <details class="faq-item"><summary>É possível criar um cluster com vários nós?</summary><p>Sim. Defina o número de workers na folha de criação; os workers requerem a CLI 1.6.0 ou posterior. Na CLI 1.7, também define as CPU e a memória dos workers separadamente do plano de controlo.</p></details>
 <details class="faq-item"><summary>Posso usar a minha própria CNI, como Calico ou Cilium?</summary><p>Sim. Escolha <b>Manifesto personalizado</b> e selecione o ficheiro do manifesto, ou escolha <b>Nenhum</b> e aplique uma CNI manualmente depois de o cluster arrancar. Os nós ficam NotReady até haver uma CNI em execução. <b>Nenhum</b> requer a CLI 1.6.0 ou posterior. A CNI predefinida é o manifesto kindnet incluído.</p></details>
 <details class="faq-item"><summary>Porque é que o Gantry diz que os serviços do cluster estão indisponíveis?</summary><p>Os serviços do <code>container</code> não responderam a um comando de cluster. Se a sua CLI for uma compilação do Homebrew sem os serviços do cluster, o Gantry indica-o e apresenta uma ligação para o instalador assinado na página de versões do apple/container. Caso contrário, oferece <b>Reiniciar serviços</b>.</p></details>
-<details class="faq-item"><summary>Preciso do kubectl para usar o cluster no Gantry?</summary><p>Por agora, sim: o explorador Kubernetes do Gantry executa o <code>kubectl</code>. Se não estiver instalado, o explorador mostra o comando <code>brew install kubectl</code> e pode executá-lo por si. Está em desenvolvimento um cliente Kubernetes nativo que elimina este passo.</p></details>
+<details class="faq-item"><summary>Preciso do kubectl para usar o cluster no Gantry?</summary><p>Por agora, sim: o explorador Kubernetes do Gantry executa o <code>kubectl</code>. Se não estiver instalado, o explorador mostra o comando <code>brew install kubectl</code> e pode executá-lo por si.</p></details>
+<details class="faq-item"><summary>Posso executar Kubernetes num Mac sem o Docker?</summary><p>Sim. A CLI <code>container</code> da Apple cria ela própria clusters Kubernetes com <code>container cluster create</code>. Cada nó é executado como uma VM leve e não precisa do Docker, do Docker Desktop, do kind nem do minikube.</p></details>
+<details class="faq-item"><summary>Quantos nós pode ter um container cluster?</summary><p>Um plano de controlo e tantos workers quantos as CPU e a memória do seu Mac permitirem. Defina-os com <code>--workers</code>; na CLI 1.7, cada grupo de workers pode ter CPU e memória próprias.</p></details>
+<details class="faq-item"><summary>Que versão do Kubernetes utiliza o container cluster?</summary><p>A CLI 1.7.1 utiliza por predefinição a imagem de nó <code>kindest/node:v1.35.5</code>. Escolha outra versão com <code>--node-image</code>, por exemplo <code>docker.io/kindest/node:v1.34.11</code>. O Gantry mostra a versão na vista geral do cluster.</p></details>
 </div>
 
 <p class="updated">Última atualização: 2026-11-07.</p>
@@ -356,8 +518,6 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Comparar</a>
-      <span>·</span>
-      <a href="../kubernetes-on-mac/">Kubernetes no Mac</a>
       <span>·</span>
       <a href="../docker-desktop-to-apple-container/">Vindo do Docker Desktop</a>
       <span>·</span>

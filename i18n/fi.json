@@ -1,0 +1,936 @@
+{
+  "chrome": {
+    "nav_features": "Ominaisuudet",
+    "nav_compare": "Vertailu",
+    "nav_faq": "UKK",
+    "nav_docs": "Ohjeet",
+    "nav_home": "Etusivu",
+    "star": "Tähti",
+    "download": "Lataa",
+    "download_mac": "Lataa macOS:lle",
+    "copy": "Kopioi",
+    "copied": "Kopioitu",
+    "releases": "Julkaisut",
+    "foot_guide": "apple/container-opas",
+    "foot_license": "MIT-lisenssi · GitHub",
+    "icon_alt": "Gantryn kuvake",
+    "page_image_alt": "Gantryn kojelauta, jossa Docker- ja apple/container-isäntiä",
+    "breadcrumb": "Murupolku",
+    "faq_heading": "Kysymyksiä ja vastauksia",
+    "updated": "Päivitetty viimeksi {date}.",
+    "callout_warn": "Huomio",
+    "language": "Kieli",
+    "languages": "Kielet",
+    "hint_text": "Tämä sivu on saatavilla myös suomeksi.",
+    "hint_link": "Lue suomeksi",
+    "hint_close": "Sulje"
+  },
+  "home": {
+    "ld": {
+      "website_desc": "Natiivi macOS-GUI Apple containerille (apple/container) ja Dockerille, paikallisesti ja SSH:n kautta.",
+      "app_alt_name": "Gantry Apple containerille",
+      "app_subcategory": "Konttien hallinta",
+      "app_processor": "Apple-siru tai Intel (apple/container-isännät vaativat Apple-sirun)",
+      "app_keywords": "apple container GUI, apple/container, container cluster, Kubernetes, container machine, Docker Desktop alternative, OrbStack alternative, Docker over SSH, MCP server, apple container käyttöliittymä, Docker Desktop -vaihtoehto, OrbStack-vaihtoehto, Docker SSH:n kautta, MCP-palvelin",
+      "app_desc": "Gantry on ilmainen avoimen lähdekoodin natiivi macOS-sovellus Applen container-työkalulle (apple/container) ja Dockerille, paikallisesti ja SSH:n kautta. apple/container-isännillä se hallitsee kontteja, Kubernetes-klustereita, koneita, Compose-projekteja, levykuvien koontityökalua, rekisterikirjautumisia, ytimiä, palvelulokeja ja järjestelmäominaisuuksia. Mukana on agenteille MCP-palvelin ja App Intents.",
+      "features": [
+        "Natiivi macOS-GUI Apple containerille (apple/container), CLI 1.0–1.6.1, ominaisuudet CLI-version mukaan",
+        "Kubernetes-klusterit apple/containerilla (container cluster): useita työsolmuja, mukautettu CNI, solmut, kubeconfig, kubectl-konteksti",
+        "Paikallisten levykuvien siirto Kubernetes-klusteriin",
+        "Konttikoneet: luonti, käynnistys, pysäytys, resurssit, komentotulkki, sisäkkäinen virtualisointi, mukautetut ytimet",
+        "Konttikoneen avaaminen VS Codessa Remote-SSH:n kautta",
+        "Docker Compose apple/containerilla, palvelunimet verkon DNS-aliasten kautta",
+        "apple/containerin levykuvien koontityökalun hallinta, rekisterikirjautumiset ja ytimen asennus",
+        "apple/containerin palvelujen ohjaus, reaaliaikaiset palvelulokit ja järjestelmäominaisuuksien muokkain",
+        "Kontin tallennus levykuvaksi ja Karsi levy (container clean) apple/containerilla",
+        "Konttien tiedostoselain: lähetys, lataus ja ulos vetäminen",
+        "Yksi kojelauta paikalliselle Dockerille, Dockerille SSH:n kautta ja apple/container-isännille",
+        "Reaaliaikaiset lokit: regex-haku, tasosuodatin ja ANSI-värit",
+        "Reaaliaikaiset CPU-, muisti-, verkko- ja levy-I/O-tilastot",
+        "Exec-pääte ja vianetsinnän komentotulkki",
+        "Natiivit ilmoitukset, kun kontti kaatuu, sen muisti loppuu tai se muuttuu epäterveeksi",
+        "Etä-Docker SSH:n kautta, ProxyJump ja salaisuudet Avainnipussa",
+        "Vieraan arkkitehtuurin merkit levykuvissa ja konteissa",
+        "Kontin portin jakaminen Cloudflare Tunnelin kautta",
+        "MCP-palvelin ja App Intents (Pikakomennot, Siri) AI-agenteille",
+        "Englannin- ja yksinkertaistetun kiinankielinen käyttöliittymä"
+      ],
+      "howto_name": "Gantryn asentaminen macOS:lle",
+      "howto_desc": "Asenna Gantry Homebrew’lla ja yhdistä se Dockeriin tai Apple containeriin.",
+      "howto_supply": "Mac, jossa on macOS 26 tai uudempi",
+      "howto_steps": [
+        {
+          "name": "Asenna Homebrew’lla",
+          "text": "Suorita: brew install --cask getgantry/tap/gantry. Tai lataa uusin julkaisu GitHubista ja vedä Gantry.app Ohjelmat-kansioon."
+        },
+        {
+          "name": "Poista karanteenimerkintä",
+          "text": "Sovellusta ei ole notarisoitu. Suorita: xattr -dr com.apple.quarantine /Applications/Gantry.app, tai napsauta Gantry.appia hiiren oikealla painikkeella ja valitse Avaa."
+        },
+        {
+          "name": "Lisää isäntä",
+          "text": "Avaa Gantry. Se löytää paikallisen Docker-daemonisi. Jos haluat käyttää Apple containeria, lisää Apple Container -isäntä; Gantry tarjoutuu asentamaan container-CLI:n, jos se puuttuu."
+        },
+        {
+          "name": "Yhdistä AI-agentit (valinnainen)",
+          "text": "Suorita: claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp"
+        }
+      ]
+    },
+    "faq": {
+      "items": [
+        {
+          "q": "Mikä on paras GUI Apple containerille?",
+          "a": "Gantry on ilmainen avoimen lähdekoodin natiivi macOS-GUI, joka on tehty Applen <a href=\"#apple\">container</a>-työkalulle (apple/container). Se kattaa konttien elinkaaren, lokit, tilastot ja exec-päätteen sekä ne CLI:n osat, joihin muut GUI:t eivät ulotu: Kubernetes-klusterit (<code>container cluster</code>), konttikoneet, levykuvien koontityökalun, rekisterikirjautumiset, ytimet, palvelulokit ja järjestelmäominaisuudet. Se tukee CLI-versioita 1.0–1.6.1 ja ottaa kunkin ominaisuuden käyttöön vain, jos CLI:si tukee sitä. Katso <a href=\"apple-container/\">apple/container-opas</a>."
+        },
+        {
+          "q": "Mikä on Apple container (apple/container)?",
+          "a": "apple/container on Applen avoimen lähdekoodin työkalu Linux-konttien ajamiseen Macilla. Jokainen kontti toimii omassa kevyessä virtuaalikoneessaan, joka perustuu Applen Virtualization-kehykseen. Se vaatii Macin, jossa on Apple-siru, ja se toimitetaan komentorivityökaluna nimeltä <code>container</code> ilman työpöytäsovellusta. Gantry tuo sen työpöytäsovelluksen."
+        },
+        {
+          "q": "Tukeeko Gantry container clusteria ja Kubernetesia?",
+          "a": "Kyllä. apple/container-isännällä Gantry luo ja poistaa Kubernetes-klustereita komennolla <code>container cluster</code> (CLI 1.6.1; CLI-versiot 1.5.0–1.6.0 käyttävät komentoa <code>container k8s</code>). Valitset nimen, työsolmujen määrän, CPU:t, muistin, solmun levykuvan ja CNI:n (oletus, ei mitään tai mukautettu manifesti). Gantry näyttää solmut, kirjoittaa kubeconfigin, kopioi <code>kubectl</code>-kontekstikomennon ja siirtää paikalliset levykuvat klusteriin. Katso <a href=\"apple-container-kubernetes/\">Kubernetes apple/containerilla</a>."
+        },
+        {
+          "q": "Voiko docker composea käyttää Apple containerin kanssa?",
+          "a": "Kyllä. apple/containerissa ei ole <code>compose</code>-komentoa, joten Gantry hoitaa orkestroinnin <code>container</code>-CLI:n avulla: se koostaa <code>build:</code>-palvelut, luo projektin verkon ja nimetyt taltiot ja käynnistää palvelut <code>depends_on</code>-järjestyksessä Composen vakiotunnisteilla. Palvelunimet selvitetään verkon DNS-aliasten kautta. Avaa <code>docker-compose.yml</code> Finderista, Arkisto-valikosta tai pudottamalla se ikkunaan."
+        },
+        {
+          "q": "Miten konttikoneen saa auki VS Codessa?",
+          "a": "Käynnistä kone Gantryssa ja osoita <b>Avaa VS Codessa</b>. Gantry avaa koneen VS Codessa Remote-SSH:n kautta, kuten Applen esimerkissä <code>container-machine-vscode</code>. Koneen levykuvassa on oltava käynnissä <code>sshd</code>, ja VS Code sekä Remote-SSH-laajennus on oltava asennettuina."
+        },
+        {
+          "q": "Mitä apple/container-versioita Gantry tukee?",
+          "a": "Gantry vaatii <code>container</code>-CLI:n version 1.0 tai uudemman ja suosittelee versiota 1.6.1. Se lukee asennetun version ja näyttää vain ne ominaisuudet, joita versio tukee, esimerkiksi tallennuksen levykuvaksi (1.6), Karsi levy -toiminnon (1.4) ja klusterin työsolmut (1.6). Jos CLI puuttuu tai on vanha, Gantry tarjoaa ohjatun asennuksen."
+        },
+        {
+          "q": "Voiko Gantrylla hallita apple/containerin koontityökalua, rekisterejä ja ydintä?",
+          "a": "Kyllä. apple/container-isännän Järjestelmä-osio käynnistää, pysäyttää ja poistaa levykuvien koontityökalun CPU-, muisti- ja DNS-valinnoin; luettelee, lisää ja poistaa rekisterikirjautumisia (salasana välitetään CLI:lle vain stdinin kautta); asentaa suositellun ytimen, ydintiedoston tai tar-arkiston; suoratoistaa palvelulokit ja muokkaa järjestelmäominaisuuksia tiedostossa <code>config.toml</code>."
+        },
+        {
+          "q": "Onko Gantry vaihtoehto Docker Desktopille, OrbStackille tai Podman Desktopille?",
+          "a": "GUI:na kyllä. Gantry on ilmainen natiivi macOS-sovellus konttien, levykuvien, taltioiden, verkkojen, lokien ja tilastojen hallintaan. Se on asiakasohjelma eikä moottori: se käyttää jo käyttämääsi Docker-daemonia (Docker Desktop, OrbStack, Colima) tai Applen <a href=\"#apple\">container</a>-työkalua ja lisää monen isännän näkymän, SSH-isännät ja MCP-palvelimen. Katso <a href=\"compare/\">vertailu</a>."
+        },
+        {
+          "q": "Onko Gantry ilmainen?",
+          "a": "Kyllä. Gantry on ilmainen ja avointa lähdekoodia MIT-lisenssillä. Ei tilausta, ei tiliä eikä rajaa isäntien tai konttien määrälle."
+        },
+        {
+          "q": "Mitä Gantryn käyttö vaatii?",
+          "a": "macOS 26:n tai uudemman Apple-sirulla tai Intelillä sekä Docker-daemonin (Docker Desktop, OrbStack, Colima tai vastaava) tai Applen <a href=\"#apple\">container</a>-työkalun. apple/container itse vaatii Apple-sirun, joten Intel-Macilla Gantry hallitsee vain Docker-isäntiä."
+        },
+        {
+          "q": "Toimiiko Gantry OrbStackin, Coliman ja Docker Desktopin kanssa?",
+          "a": "Kyllä. Gantry puhuu suoraan Docker Engine API:lle Unix-socketin kautta, joten se toimii minkä tahansa daemonin kanssa, joka tarjoaa sen, myös OrbStackin, Coliman ja Docker Desktopin."
+        },
+        {
+          "q": "Voiko Gantrylla hallita etä-Docker-isäntiä?",
+          "a": "Kyllä. Gantry muodostaa yhteyden etädaemoneihin SSH:n kautta samalla tavalla kuin <code>docker -H ssh://</code> ja tukee ProxyJump-hyppykoneita, usean avaimen todennusta ja automaattista uudelleenyhdistämistä. Palvelimelle ei tarvitse asentaa mitään, ja salaisuudet säilyvät macOS:n Avainnipussa."
+        },
+        {
+          "q": "Ilmoittaako Gantry, kun kontti kaatuu?",
+          "a": "Kyllä. Gantry lähettää natiivin macOS-ilmoituksen, kun kontti kaatuu, sen muisti loppuu tai sen kuntotarkistus epäonnistuu millä tahansa isännällä: paikallisella, SSH- tai apple/container-isännällä. Osoita ilmoitusta, niin siirryt konttiin. Gantrysta itse tekemäsi pysäytykset ja uudelleenkäynnistykset eivät aiheuta ilmoitusta, ja ilmoitukset voi poistaa käytöstä Asetuksissa."
+        },
+        {
+          "q": "Voiko Gantry noutaa levykuvia yksityisistä rekistereistä?",
+          "a": "Kyllä. Docker-isännillä Gantry lukee tunnistetiedot tiedostosta <code>~/.docker/config.json</code> (sama <code>docker login</code>, jonka olet jo tehnyt), mukaan lukien upotetut tunnistetiedot, tunnistetietojen apuohjelmat ja macOS:n Avainnipun. apple/container-isännillä se hallitsee <code>container registry</code> -kirjautumisia."
+        },
+        {
+          "q": "Voiko Gantrylla jakaa paikallisen kontin internetiin?",
+          "a": "Kyllä. Julkaistun portin voi jakaa yhdellä osoituksella Cloudflare Tunnelin kautta. Gantry asentaa tarvittaessa <code>cloudflared</code>-työkalun ja käynnistää sitten pikatunnelin (ei Cloudflare-tiliä, väliaikainen trycloudflare.com-URL) tai nimetyn tunnelin omalla isäntänimelläsi. Julkinen URL näkyy portin alla, ja siinä on painikkeet avaamiseen, kopiointiin ja pysäyttämiseen."
+        },
+        {
+          "q": "Onko Gantry Electron-sovellus?",
+          "a": "Ei. Gantry on natiivi sovellus, joka on tehty SwiftUI:lla ja Swift 6:lla. Käyttöliittymä on englanniksi ja yksinkertaistetuksi kiinaksi ja seuraa macOS:n järjestelmäkieltä."
+        },
+        {
+          "q": "Miten Gantry asennetaan?",
+          "a": "Suorita <code>brew install --cask getgantry/tap/gantry</code> tai lataa uusin julkaisu <a href=\"https://github.com/getgantry/gantry/releases/latest\" target=\"_blank\" rel=\"noopener\">GitHubista</a> ja vedä <code>Gantry.app</code> Ohjelmat-kansioon."
+        },
+        {
+          "q": "Voivatko AI-agentit ohjata Gantrya?",
+          "a": "Kyllä. Gantryn mukana tulevat <a href=\"#agents\">MCP-palvelin</a> ja macOS:n App Intents, joten Claude, Pikakomennot, Siri ja skriptit ulottuvat yhtä pitkälle kuin GUI jokaisella isännällä, myös SSH-isännillä: kontit, levykuvat, taltiot, verkot, Compose, apple/container-koneet, Kubernetes-klusterit, <code>apple_*</code>-järjestelmätyökalut (palvelut, koontityökalu, rekisterit, ominaisuudet, lokit, ydin) ja porttien jakaminen. Lisää se komennolla <code>claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp</code>."
+        }
+      ],
+      "kicker": "UKK",
+      "h2": "Kysymyksiä ja vastauksia",
+      "p": "Kaikki, mitä haluat ehkä tietää ennen Gantryn asentamista."
+    },
+    "apple": {
+      "items": [
+        {
+          "h": "Kontit, lokit, tilastot ja exec",
+          "p": "Luo, käynnistä, pysäytä, tapa ja siivoa; reaaliaikaiset lokit, tilastot, exec-pääte, <code>top</code> ja tar-vienti samassa käyttöliittymässä kuin Docker-isäntäsi."
+        },
+        {
+          "h": "Kubernetes-klusterit",
+          "p": "Luo useamman työsolmun Kubernetes-klusteri komennolla <code>container cluster</code>, valitse CNI (oletus, ei mitään tai oma manifesti), seuraa solmuja, kirjoita kubeconfig ja kopioi <code>kubectl</code>-konteksti. <a href=\"apple-container-kubernetes/\">Lue lisää</a>"
+        },
+        {
+          "h": "Paikalliset levykuvat klusteriin",
+          "p": "Napsauta levykuvaa hiiren oikealla ja valitse <b>Siirrä klusteriin</b>, niin se siirtyy jokaiseen solmuun ilman rekisteriin lähettämistä."
+        },
+        {
+          "h": "Konttikoneet VS Codessa",
+          "p": "Luo, käynnistä ja pysäytä <code>container machine</code> -Linux-ympäristöjä, aseta CPU:t ja muisti, avaa komentotulkki tai avaa kone <b>VS Codessa Remote-SSH:n kautta</b>."
+        },
+        {
+          "h": "Sisäkkäinen virtualisointi ja mukautetut ytimet",
+          "p": "Käynnistä kone sisäkkäisellä virtualisoinnilla (M3 tai uudempi) tai omalla ytimelläsi. Käynnistä kontteja mukautetulla ytimellä ja ylimääräisillä käynnistysargumenteilla."
+        },
+        {
+          "h": "Compose Apple containerilla",
+          "p": "apple/containerissa ei ole <code>compose</code>-komentoa. Gantry ajaa <code>docker-compose.yml</code>-tiedostosi: se koostaa, luo verkon ja taltiot ja käynnistää palvelut <code>depends_on</code>-järjestyksessä. Palvelunimet selvitetään verkon DNS-aliasten kautta."
+        },
+        {
+          "h": "Verkon DNS-aliakset",
+          "p": "Konttialiakset, alipuualiakset kuten <code>.gateway</code> sekä lyhyet nimet, kun oletus-DNS-verkkotunnus on asetettu. Jokainen kontti saa reititettävän IP-osoitteen ja <code>name.domain</code>-isäntänimen."
+        },
+        {
+          "h": "Levykuvien koontityökalun hallinta",
+          "p": "Näet koontityökalun tilan, levykuvan, CPU:t, muistin ja IP:n. Käynnistä se CPU-, muisti- ja DNS-valinnoin, pysäytä tai poista se."
+        },
+        {
+          "h": "Rekisterikirjautumiset",
+          "p": "Luettele, lisää ja poista <code>container registry</code> -kirjautumisia. Salasana välitetään CLI:lle vain stdinin kautta, eikä Gantry säilytä siitä kopiota."
+        },
+        {
+          "h": "Ytimen asennus",
+          "p": "Asenna suositeltu ydin, ydintiedosto tai tar-arkisto ja seuraa edistymistä reaaliajassa. Gantry varoittaa, jos oletusydintä ei ole asennettu."
+        },
+        {
+          "h": "Palvelut ja palvelulokit",
+          "p": "Käynnistä, pysäytä ja käynnistä uudelleen <code>container</code>-palvelut, vertaa asiakas- ja palvelinversioita ja suoratoista palvelulokeja tason, palvelun ja tekstin mukaan suodatettuina."
+        },
+        {
+          "h": "Järjestelmäominaisuuksien muokkain",
+          "p": "Muokkaa <code>container</code>-järjestelmäominaisuuksia tiedostossa <code>config.toml</code>. Gantry merkitsee muutokset, jotka vaativat uudelleenkäynnistyksen, ja käynnistää palvelut uudelleen puolestasi."
+        },
+        {
+          "h": "Tallennus levykuvaksi ja Karsi levy",
+          "p": "Tallenna kontti levykuvaksi (<code>container commit</code>) ja vapauta levytilaa toiminnolla <b>Karsi levy</b> (<code>container clean</code>), joka löytyy myös Vapauta tilaa -paneelista."
+        },
+        {
+          "h": "Tiedostoselain: lähetys ja lataus",
+          "p": "Selaa kontin tiedostoja, lataa ne tai vedä ne Finderiin (<code>container copy</code>) ja pudota sisään tiedostoja tai kokonaisia kansioita."
+        },
+        {
+          "h": "Pikasuoritus ja Finder",
+          "p": "Valitse levykuva, jaa kansio, määritä portit, valitse verkkotunnus ja käynnistä. Napsauta Compose-tiedostoa Finderissa hiiren oikealla ja avaa se Gantrylla."
+        },
+        {
+          "h": "Tunnisteet, joissa on <code>=</code>",
+          "p": "<code>container</code>-CLI hylkää tunnistearvot, joissa on <code>=</code>. Gantry koodaa ne luotaessa ja purkaa luettaessa, joten arvo kuten <code>a=b</code> säilyy ennallaan."
+        },
+        {
+          "h": "Kaikki isännät, kaksi ajoympäristöä",
+          "p": "apple/container-isännät ovat samassa kojelaudassa paikallisen Dockerin ja SSH-isäntien kanssa, samoine kuvaajineen, kuntotietoineen ja vikailmoituksineen."
+        },
+        {
+          "h": "MCP-työkalut agenteille",
+          "p": "Mukana tuleva MCP-palvelin antaa agenteille saman ulottuvuuden: kontit, koneet, klusterit ja <code>apple_*</code>-järjestelmätyökalut palveluille, koontityökalulle, rekistereille, ominaisuuksille, lokeille ja ytimille."
+        }
+      ],
+      "kicker": "apple/container-GUI",
+      "h2": "Natiivi macOS-GUI Apple containerille",
+      "p": "Applen <a href=\"https://github.com/apple/container\" target=\"_blank\" rel=\"noopener\">container</a>-työkalu ajaa Linux-kontteja kevyinä virtuaalikoneina Apple-sirulla, mutta se on saatavilla vain komentorivityökaluna. Gantry on sen työpöytäsovellus: mitä Docker Desktop on Dockerille, sitä Gantry on <code>container</code>-työkalulle. Se tukee jokaista <code>container</code>-CLI:n versiota 1.0:sta suositeltuun versioon <b>1.6.1</b> asti ja ottaa kunkin ominaisuuden käyttöön vain, jos asennettu CLI tukee sitä.",
+      "link_guide": "apple/container-opas: jokainen CLI-komento ja sitä vastaava Gantryn toiminto",
+      "link_k8s": "Kubernetes apple/containerilla",
+      "link_compare": "Gantry vs. Docker Desktop, OrbStack ja Podman Desktop"
+    },
+    "title": "Gantry: natiivi macOS-GUI Apple containerille ja Dockerille",
+    "desc": "Ilmainen ja avoin Mac-GUI Apple containerille ja Dockerille: Kubernetes-klusterit, koneet, Compose ja koontityökalu. Docker Desktopin ja OrbStackin vaihtoehto.",
+    "keywords": "apple container GUI, apple/container GUI, Apple container desktop app, apple container kubernetes, container machine VS Code, apple container compose, Docker Desktop alternative, OrbStack alternative, Podman Desktop alternative, native Docker GUI Mac, Docker over SSH, MCP server, apple container käyttöliittymä, apple container työpöytäsovellus, Docker Desktop -vaihtoehto, OrbStack-vaihtoehto, Podman Desktop -vaihtoehto, Docker-GUI Macille, Docker SSH:n kautta, MCP-palvelin",
+    "og_desc": "Gantry on ilmainen avoimen lähdekoodin natiivi macOS-sovellus Applen container-työkalulle ja Dockerille, paikallisesti ja SSH:n kautta. Kubernetes-klusterit, koneet, Compose, koontityökalu, rekisterit ja MCP-palvelin.",
+    "og_image_alt": "Gantryn kojelauta, jossa Docker- ja apple/container-isäntiä sekä reaaliaikaiset CPU- ja muistikuvaajat",
+    "nav": {
+      "fleet": "Isännät",
+      "agents": "Agentit",
+      "shots": "Kuvakaappaukset",
+      "install": "Asennus"
+    },
+    "hero": {
+      "eyebrow": "Tukee apple/containerin versiota 1.6.1. Avointa lähdekoodia. Valmis agenteille.",
+      "h1": "Natiivi macOS-GUI <span class=\"grad\">Apple containerille</span><br>ja Dockerille – kaikki isäntäsi yhdessä näkymässä.",
+      "tagline": "Gantry on ilmainen avoimen lähdekoodin Mac-sovellus Applen <a href=\"#apple\">container</a>-työkalulle ja Dockerille, paikallisesti ja SSH:n kautta. Hallitse apple/containerin kontteja, <a href=\"apple-container-kubernetes/\">Kubernetes-klustereita</a>, koneita ja Compose-projekteja yhdestä ikkunasta Docker-isäntiesi rinnalla. Natiivi <b>vaihtoehto Docker Desktopille</b> Macilla. Ei Electronia. Ei tilausta. Ei rajoituksia.",
+      "note": "<b>macOS 26+</b> · Apple-siru &amp; Intel · <b>MIT</b>-lisenssi · English &amp; 简体中文 · MCP-palvelin mukana",
+      "window_title": "Gantry – Isännät",
+      "img_alt": "Gantryn kojelauta, jossa reaaliaikaiset CPU- ja muistikuvaajat kaikilta isänniltä",
+      "replay_label": "Toista animaatio uudelleen",
+      "replay": "Toista"
+    },
+    "trust": {
+      "title": "Toimii kaiken jo käyttämäsi kanssa",
+      "ssh": "SSH-etäisäntä"
+    },
+    "features": {
+      "kicker": "Ohjauspaneeli",
+      "h2": "Kaikki Dockerista ja apple/containerista, Macin tapaan",
+      "p": "Kattava ja keskittynyt komentokeskus konteillesi – aina ajan tasalla ja niin nopea, että etäisäntäkin tuntuu paikalliselta.",
+      "fleet": {
+        "lbl": "Kaikki isännät · 5",
+        "pill": "5 vaatii huomiota",
+        "h3": "Yksi kojelauta kaikille isännille",
+        "p": "Paikallinen daemon, SSH-isännät ja apple/container samalla näytöllä – reaaliaikaiset CPU- ja muistikuvaajat, konttien tilajakaumat ja kunto-ongelmat, joista pääset suoraan syylliseen.",
+        "running": "{n} käynnissä",
+        "unhealthy": "{n} epätervettä"
+      },
+      "logs": {
+        "lbl": "lokit · superset_worker",
+        "pill": "seuraa",
+        "h3": "Lokit tehostettuina",
+        "p": "Reaaliaikainen seuranta, <b>regex</b>- tai tekstihaku ⌘F:llä, <b>tasosuodatin</b> (Error→Trace), <b>ANSI-värit</b>, 50 000 rivin puskuri – ja <b>projektin lokit</b>, joissa koko Compose-projektin lokit on yhdistetty."
+      },
+      "notify": {
+        "n1_title": "Kontti pysähtyi",
+        "n1_time": "nyt",
+        "n1_text": "Kontti web isännällä <b>prod-eu</b> päättyi koodilla 1.",
+        "n2_title": "Kontti on epäterve",
+        "n2_time": "2 min",
+        "n2_text": "Kontin api kuntotarkistus isännällä <b>dedic</b> epäonnistui.",
+        "h3": "Tiedät heti, kun jokin hajoaa",
+        "p": "Natiivi ilmoitus, kun kontti kaatuu, sen muisti loppuu tai se muuttuu epäterveeksi millä tahansa isännällä. Osoita ilmoitusta, niin siirryt suoraan konttiin – itse tekemäsi pysäytykset eivät aiheuta ilmoitusta."
+      },
+      "stats": {
+        "mem": "Muisti",
+        "h3": "Reaaliaikaiset tilastot",
+        "p": "CPU, muisti, verkko &amp; levy-I/O reaaliaikaisina kuvaajina sekunnin välein."
+      },
+      "exec": {
+        "h3": "Sisäänrakennettu exec-pääte",
+        "p": "Täysi pääte-emulointi mihin tahansa käynnissä olevaan konttiin, paikalliseen tai etäkonttiin – väriteemoineen (System, Solarized, Dracula, Nord)."
+      },
+      "ssh": {
+        "h3": "Etäisännät SSH:n kautta",
+        "p": "Tunneloi täsmälleen kuten <code>docker -H ssh://</code> käyttäen <code>dial-stdio</code>-yhteyttä – ProxyJump-hyppykoneet, usean avaimen todennus, automaattinen uudelleenyhdistäminen. Palvelimelle ei asenneta mitään, ja salaisuudet ovat Avainnipussa. Tuonti yhdellä osoituksella tiedostosta <code>~/.ssh/config</code> ja komennosta <code>docker context ls</code>."
+      },
+      "files": {
+        "h3": "Tiedostoselain vedä &amp; pudota -tuella",
+        "p": "Selaa kontin tiedostojärjestelmää, siirrä tiedostoja sisään ja ulos ja pudota kokonaisia kansioita suoraan Finderista – niin Docker- kuin apple/container-isännillä."
+      },
+      "ports": {
+        "h3": "Avaa selaimessa &amp; välitä",
+        "p": "Yksi osoitus avaa julkaistun portin. SSH-isäntien portit tunneloidaan automaattisesti osoitteeseen <code>localhost</code> – ja jos portti on varattu, Gantry valitsee vapaan, jota voit muokata."
+      },
+      "tunnel": {
+        "h3": "Jaa internetiin",
+        "p": "Yksi osoitus jakaa julkaistun portin <b>Cloudflare Tunnelin</b> kautta. Gantry asentaa <code>cloudflared</code>-työkalun puolestasi ja antaa <b>pikatunnelin</b> (ei tiliä, <code>*.trycloudflare.com</code>-URL) tai <b>nimetyn tunnelin</b> omalle verkkotunnuksellesi – sopii kehitysversion esikatseluun, webhookiin tai siihen, että AI-agentti tavoittaa Macisi kontin."
+      },
+      "compose": {
+        "h3": "Compose missä tahansa",
+        "p": "Kontit ryhmitellään Compose-projektin mukaan. <b>Käynnistä Compose-tiedosto millä tahansa isännällä</b> – paikallisessa Dockerissa, SSH:n kautta tai apple/containerilla – sisäänrakennetulla <b>YAML-muokkaimella</b>; suoritus mukautuu kuhunkin moottoriin."
+      },
+      "registries": {
+        "h3": "Yksityiset rekisterit automaattisesti",
+        "p": "Nouto käyttää jo tekemääsi <code>docker login</code> -kirjautumista – Gantry hakee tunnistetiedot tiedostosta <code>~/.docker/config.json</code>, tunnistetietojen apuohjelmista ja Avainnipusta niin konttia luotaessa, Pikasuorituksessa kuin Composessa."
+      },
+      "images": {
+        "h3": "Koosta &amp; nouda levykuvia",
+        "p": "Pudota Dockerfile ikkunaan, niin se koostetaan reaaliaikaisen lokin kera, tai nouda viittauksella ja seuraa kunkin kerroksen edistymistä. Lisää tageja, siivoa ja lue kerroshistoria. Merkki osoittaa levykuvat, jotka on koostettu eri suoritinarkkitehtuurille kuin isäntä."
+      },
+      "cleanup": {
+        "h3": "Vapauta tilaa",
+        "p": "Yksi paneeli näyttää, mikä vie tilaa – orvot levykuvat, pysäytetyt kontit, käyttämättömät taltiot, koontivälimuisti – kokoineen ja siivoaa ne yksitellen tai kaikki kerralla. apple/containerilla se suorittaa myös Karsi levy -toiminnon."
+      },
+      "touchid": {
+        "h3": "Touch ID tuhoaville toiminnoille",
+        "p": "Kun otat sen käyttöön, Gantry pyytää Touch ID:tä – tai kirjautumissalasanaasi – ennen kontin tai isännän poistamista. Salaisuudet ovat jo valmiiksi Avainnipussa."
+      },
+      "themes": {
+        "h3": "Päätteen teemat",
+        "p": "Pue upotettu komentotulkki teemaan System, Solarized Dark, Dracula tai Nord – täysi edusta-, tausta- ja 16 värin ANSI-paletti, käyttöön heti."
+      }
+    },
+    "agents": {
+      "kicker": "Valmis agenteille",
+      "h2": "Tehty AI:n ohjattavaksi",
+      "p": "Mukana tuleva MCP-palvelin ja App Intents avaavat jokaisen isännän – myös SSH-isännät – Claudelle, Pikakomennoille, Sirille ja skripteille samalla ulottuvuudella kuin GUI: konttien luonti ja hallinta, levykuvien koonti ja nouto, taltiot ja verkot, Compose up, apple/container-koneet ja Kubernetes-klusterit, <code>apple_*</code>-järjestelmätyökalut palveluille, koontityökalulle, rekistereille ja ytimille, jopa portin jakaminen Cloudflare Tunnelin kautta.",
+      "term_title": "Pääte – MCP-palvelimen kytkeminen",
+      "term_added": "✓ MCP-palvelin lisätty",
+      "term_question": "\"miksi superset_worker on epäterve isännällä dedic?\"",
+      "prompt_h3": "Kopioi kehotteena",
+      "prompt_p": "Valitse mikä tahansa kontti ja paina <span class=\"kbd\">⌥⌘P</span>, niin Gantry kopioi leikepöydälle valmiin vianetsintäkehotteen – isännän ja sen tavoittamistavan, MCP:n <code>host_id</code>:n ja työkalut, kontin koko tilan sekä oireeseen sopivan tehtävän.",
+      "s1_state": "Epäterve",
+      "s1_text": "”Selvitä, miksi kuntotarkistus epäonnistuu.”",
+      "s2_state": "Kaatuilee",
+      "s2_text": "”Selvitä, miksi se kaatuu jatkuvasti.”",
+      "s3_state": "Terve",
+      "s3_text": "Jättää tilaa omalle kysymyksellesi."
+    },
+    "shots": {
+      "kicker": "Lähempi katsaus",
+      "h2": "Suunniteltu tuntumaan osalta käyttöjärjestelmää",
+      "p": "Kolmen sarakkeen jaettu näkymä, Liquid Glass -materiaalit, Swift Charts. Aitoja kuvakaappauksia, ei mallikuvia.",
+      "stats_title": "Kontit – Tilastot",
+      "stats_alt": "Kontin reaaliaikaiset tilastot: CPU-, muisti-, verkko- ja levy-I/O-kuvaajat",
+      "stats_caption": "<b>Reaaliaikaiset tilastot.</b> CPU, muisti, verkko &amp; levy-I/O sekunnin välein.",
+      "overview_title": "Isäntä – Yleiskatsaus",
+      "overview_alt": "Isännän yleiskatsaus, jossa CPU- ja muistimittarit sekä Dockerin levynkäyttö",
+      "overview_caption": "<b>Isännän yleiskatsaus.</b> Mittarit, levynkäyttö, daemonin tiedot.",
+      "fleet_title": "Isännät – Kunto",
+      "fleet_alt": "Viiden isännän kojelauta, jossa kunto-ongelmat näkyvillä",
+      "fleet_caption": "<b>Kojelauta.</b> Jokainen isäntä, jokainen ongelma, yksi näyttö."
+    },
+    "built": {
+      "kicker": "Toisin rakennettu",
+      "h2": "Ei verkkokääreitä. Ei omia daemoneita.",
+      "p": "Vain nopea natiivi Mac-sovellus, joka puhuu suoraan Docker Engine API:lle ja Applen <code>container</code>-CLI:lle.",
+      "swiftui_n": "100 % natiivi SwiftUI",
+      "swiftui_p": "Ei Electronia. Käynnistyy heti, kuluttaa vähän muistia, tuntuu käyttöjärjestelmältä.",
+      "swift6_n": "Swift 6",
+      "swift6_p": "Moderni, rinnakkaisuusturvallinen koodikanta uusimmalla työkaluketjulla.",
+      "api_n": "Suora Engine API",
+      "api_p": "Docker Unix-socketin kautta, Docker CLI:tä ei tarvita. apple/container sen omalla <code>container</code>-CLI:llä.",
+      "updates_n": "Automaattiset päivitykset",
+      "updates_p": "EdDSA-allekirjoitettu Sparkle-päivityssyöte pitää sovelluksen ajan tasalla huomaamattomasti."
+    },
+    "install": {
+      "h2": "Asennus minuutissa",
+      "sub": "Ei App Storea, ei tiliä. Lataa ja vedä – tai yksi Homebrew-rivi.",
+      "s1_title": "Asenna",
+      "s1_text": "Suorita Homebrew-cask tai lataa <code>.zip</code> Julkaisuista ja vedä <code>Gantry.app</code> Ohjelmat-kansioon.",
+      "s2_title": "Ensimmäinen käynnistys",
+      "s2_text": "Ei vielä notarisoitu – napsauta hiiren oikealla &amp; valitse Avaa tai poista karanteeni komennolla <code>xattr -dr com.apple.quarantine /Applications/Gantry.app</code>",
+      "s3_title": "Lisää isäntä",
+      "s3_text": "Paikallinen Docker näkyy itsestään. Apple containeria varten lisää <em>Apple Container</em> -isäntä; Gantry tarjoutuu asentamaan <code>container</code>-CLI:n. Agentit: <code>claude mcp add gantry</code>."
+    },
+    "footer_meta": "MIT-lisenssi · Tehty SwiftUI:lla · © 2026"
+  },
+  "guide": {
+    "title": "Apple container -GUI Macille: kattava apple/container-opas",
+    "crumb": "apple/container-opas",
+    "desc": "Mikä Applen container-työkalu on, miten se asennetaan ja miten Gantry hallitsee sitä: jokainen container-CLI:n komento ja Gantryn toiminto Composesta Kubernetesiin.",
+    "table_head": [
+      "CLI-komento",
+      "Gantryn toiminto",
+      "Gantryn vaatima CLI-versio"
+    ],
+    "table": [
+      [
+        "<code>container run</code>, <code>container create</code>",
+        "Uusi kontti -ikkuna ja Pikasuoritus: levykuva, nimi, komento, portit, ympäristö, taltiot, DNS-verkkotunnus, mukautettu ydin ja käynnistysargumentit",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container list --all</code>",
+        "Konttiluettelo Compose-projekteittain ryhmiteltynä, tilasuodattimet ja haku",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code>",
+        "Työkalupalkki, oikean painikkeen valikko ja valikkorivin paneeli",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container logs</code>",
+        "Lokit-välilehti: reaaliaikainen seuranta, regex-haku, tasosuodatin, ANSI-värit",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container stats</code>",
+        "Tilastot-välilehti ja kojelaudan kuvaajat",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container exec</code>",
+        "Pääte-välilehti (interaktiivinen komentotulkki) ja Prosessit-välilehti",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container inspect</code>",
+        "Yleiskatsaus- ja Tarkastele-välilehdet",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container export</code>",
+        "Vie tiedostojärjestelmä (tar)",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container commit</code>",
+        "Tallenna levykuvaksi",
+        "1.6"
+      ],
+      [
+        "<code>container copy</code>",
+        "Tiedostot-välilehti: lataus ja ulos vetäminen Finderiin (kontin on oltava käynnissä)",
+        "Mikä tahansa; testattu versiolla 1.6.1"
+      ],
+      [
+        "<code>container exec</code> <code>tar</code>-komennolla",
+        "Tiedostot-välilehti: tiedostojen lähetys ja kokonaisten kansioiden pudotus Finderista",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container clean</code>",
+        "Karsi levy käynnissä olevalle kontille sekä rivi Vapauta tilaa -näkymässä",
+        "1.4"
+      ],
+      [
+        "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
+        "Levykuvat: nouto edistymisen kera, tagien lisäys, poisto, siivous, tarkastelu",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container build</code>",
+        "Koostaa Compose-tiedoston <code>build:</code>-palvelut",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>",
+        "Taltiot",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code>",
+        "Verkot",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>--network &lt;name&gt;,alias=…</code>",
+        "Verkon DNS-aliakset, alipuualiakset (<code>.gateway</code>) ja Compose-palvelujen nimet",
+        "Mikä tahansa; testattu versiolla 1.6.1"
+      ],
+      [
+        "<code>container system start</code>, <code>stop</code>",
+        "Järjestelmä-osio: palvelujen käynnistys, pysäytys ja uudelleenkäynnistys; myös valikkorivillä ja Asetuksissa",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container system status</code>, <code>version</code>",
+        "Järjestelmä-osio: tila, asiakas- ja palvelinversiot, isännän tiedot",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container system logs</code>",
+        "Järjestelmä-osio: Palvelulokit reaaliajassa tai 5 minuutin – 1 päivän ajalta, suodatus tason, palvelun ja tekstin mukaan",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container system property list</code>",
+        "Järjestelmä-osio: Järjestelmäominaisuudet-muokkain, tallennus tiedostoon <code>~/.config/container/config.toml</code>",
+        "Mikä tahansa; testattu versiolla 1.6.1"
+      ],
+      [
+        "<code>container system dns create</code>, <code>delete</code>, <code>list</code>",
+        "Asetukset ▸ Apple: paikalliset DNS-verkkotunnukset ja oletusverkkotunnus",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container system kernel set</code>",
+        "Järjestelmä-osio: suositellun ytimen, ydintiedoston tai tar-arkiston asennus",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container system df</code>",
+        "Isännän yleiskatsauksen levynkäyttö ja Vapauta tilaa",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code>",
+        "Järjestelmä-osio: Levykuvien koontityökalu CPU-, muisti- ja DNS-valinnoin",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container registry login</code>, <code>logout</code>, <code>list</code>",
+        "Järjestelmä-osio: Rekisterikirjautumiset (salasana vain stdinin kautta)",
+        "Mikä tahansa"
+      ],
+      [
+        "<code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code>",
+        "Koneet: luonti, käynnistys, pysäytys, poisto, oletuskone, CPU:t ja muisti, komentotulkki, tarkastelu, Avaa VS Codessa",
+        "Mikä tahansa; sisäkkäinen virtualisointi ja ytimet 1.1"
+      ],
+      [
+        "<code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code>",
+        "Klusterit: Kubernetes-klusterit, solmut, kubeconfig, kubectl-konteksti, Siirrä klusteriin",
+        "1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)"
+      ],
+      [
+        "Ei <code>compose</code>-komentoa",
+        "Compose-suoritin: käynnistä <code>docker-compose.yml</code> Finderista, Arkisto-valikosta tai vetämällä ja pudottamalla",
+        "Mikä tahansa"
+      ]
+    ],
+    "callout": "Käytä allekirjoitettua asennuspakettia, älä Homebrew-versiota. Homebrew-versiossa ei ole koneiden taustajärjestelmää, joten <code>container machine</code> ei toimi.",
+    "code_mcp": "Lisää Gantryn MCP-palvelin",
+    "faq": [
+      {
+        "q": "Mikä on paras GUI Apple containerille?",
+        "a": "Gantry on ilmainen avoimen lähdekoodin natiivi macOS-GUI, joka on tehty apple/containerille. Se tuo <code>container</code>-CLI:n työpöytäsovellukseen: kontit, lokit, tilastot ja exec sekä Kubernetes-klusterit, koneet, levykuvien koontityökalu, rekisterikirjautumiset, ytimet, palvelulokit ja järjestelmäominaisuudet. Tämän sivun taulukko luettelee jokaisen komennon ja sitä käyttävän Gantryn toiminnon."
+      },
+      {
+        "q": "Onko Apple containerissa graafinen käyttöliittymä (GUI)?",
+        "a": "Apple toimittaa <code>container</code>-työkalun vain komentorivityökaluna. Gantry on erillinen avoimen lähdekoodin sovellus, joka antaa sille GUI:n Docker-isäntiesi rinnalle."
+      },
+      {
+        "q": "Voiko docker composea käyttää Apple containerin kanssa?",
+        "a": "apple/containerissa ei ole <code>compose</code>-komentoa. Gantry lukee <code>docker-compose.yml</code>-tiedoston, koostaa <code>build:</code>-palvelut, luo verkon ja nimetyt taltiot ja käynnistää palvelut <code>depends_on</code>-järjestyksessä. Palvelunimet selvitetään verkon DNS-aliasten kautta."
+      },
+      {
+        "q": "Miten konttikoneen saa auki VS Codessa?",
+        "a": "Käynnistä kone Gantryssa ja osoita <b>Avaa VS Codessa</b>. Gantry avaa sen Remote-SSH:n kautta, kuten Applen esimerkissä <code>container-machine-vscode</code>. Koneen levykuvassa on oltava käynnissä <code>sshd</code>."
+      },
+      {
+        "q": "Toimiiko Apple container Intel-Macilla?",
+        "a": "Ei. apple/container vaatii Macin, jossa on Apple-siru. Gantry toimii myös Intel-Maceilla, mutta niillä se hallitsee vain Docker-isäntiä."
+      },
+      {
+        "q": "Mikä container-CLI:n versio kannattaa asentaa?",
+        "a": "Gantry vaatii version 1.0 tai uudemman, ja se on testattu versiolla 1.6.1. Asenna se allekirjoitetulla asennuspaketilla <a href=\"https://github.com/apple/container/releases\">apple/containerin julkaisusivulta</a>. Homebrew-versiossa ei ole koneiden taustajärjestelmää, joten <code>container machine</code> ei toimi sen kanssa."
+      }
+    ],
+    "body": {
+      "h1": "Apple container Macilla: kattava opas ja GUI",
+      "lead": "apple/container ajaa Linux-kontteja Macillasi, kunkin omassa kevyessä virtuaalikoneessaan. Se toimitetaan komentorivityökaluna. Gantry on sille natiivi macOS-GUI. Tämä opas esittelee työkalun, kertoo miten se otetaan käyttöön ja mikä Gantryn toiminto vastaa kutakin <code>container</code>-komentoa.",
+      "tldr": "<strong>Lyhyesti.</strong> Gantry on ilmainen avoimen lähdekoodin (MIT) macOS-sovellus, joka hallitsee Applen <code>container</code>-työkalua ja Dockeria yhdestä ikkunasta. Se tukee <code>container</code>-CLI:n versioita 1.0–1.6.1 (suositeltu) ja näyttää vain ne ominaisuudet, joita CLI-versiosi tukee. Asenna se komennolla <code>brew install --cask getgantry/tap/gantry</code>.",
+      "what-is": {
+        "h": "Mikä on apple/container?",
+        "p1": "<a href=\"https://github.com/apple/container\">apple/container</a> on Applen avoimen lähdekoodin työkalu, joka on kirjoitettu Swiftillä ja joka luo ja ajaa Linux-kontteja Macilla. Docker Desktop ajaa kaikki kontit yhdessä jaetussa Linux-virtuaalikoneessa; apple/container ajaa jokaisen kontin omassa kevyessä virtuaalikoneessaan, joka perustuu Applen Virtualization-kehykseen. Se käyttää standardeja OCI-levykuvia, joten se noutaa samoista rekistereistä ja lähettää samoihin rekistereihin kuin Docker.",
+        "li1": "<strong>Laitteisto:</strong> Mac, jossa on Apple-siru.",
+        "li2": "<strong>macOS:</strong> Apple tukee sitä macOS 26:ssa.",
+        "li3": "<strong>Käyttöliittymä:</strong> vain <code>container</code>-CLI. Työpöytäsovellusta ei ole, eikä <code>compose</code>-komentoa.",
+        "li4": "<strong>Verkko:</strong> jokainen kontti saa Macissasi oman IP-osoitteen, ja paikalliset DNS-verkkotunnukset antavat konteille nimiä kuten <code>web.test</code>."
+      },
+      "why-gui": {
+        "h": "Miksi käyttää GUI:ta apple/containerin kanssa?",
+        "p1": "CLI on kattava, mutta päivittäinen työ vaatii paljon komentoja: <code>container list</code>, <code>logs</code>, <code>stats</code>, <code>exec</code> ja muuhun vielä <code>system</code>, <code>builder</code>, <code>registry</code>, <code>machine</code> ja <code>cluster</code>. Gantry kokoaa ne yhteen ikkunaan, joka päivittyy reaaliajassa, joten näet tilan kyselemättä sitä jatkuvasti. Lisäksi se tuo sen, mitä CLI:ssä ei ole: Compose-tiedostot, vikailmoitukset, yhteisnäkymän Docker-isäntiesi kanssa ja MCP-palvelimen AI-agenteille."
+      },
+      "setup": {
+        "h": "apple/containerin käyttöönotto Gantryn kanssa",
+        "li1": "Asenna Gantry: <code>brew install --cask getgantry/tap/gantry</code> ja poista sitten karanteenimerkintä (katso <a href=\"{root}docs/install.html\">Asennus</a>).",
+        "li2": "Asenna <code>container</code>-CLI allekirjoitetusta <code>.pkg</code>-paketista <a href=\"https://github.com/apple/container/releases\">apple/containerin julkaisusivulta</a>. Jos se puuttuu tai on vanhempi kuin 1.0, Gantry näyttää käyttöönotto-ikkunan, jossa on ohjeet.",
+        "li3": "Valitse Gantryssa <strong>Lisää isäntä…</strong> ja lisää <em>Apple Container</em> -isäntä. Yhdistäminen käynnistää <code>container</code>-palvelut, jos ne ovat pysäytettyinä.",
+        "li4": "Jos oletusydintä ei ole asennettu, isännän yleiskatsauksessa näkyy ilmoitus. Osoita sitä, niin suositeltu ydin asennetaan."
+      },
+      "command-map": {
+        "h": "Jokainen container-komento ja sitä vastaava Gantryn toiminto",
+        "p1": "Tämä taulukko yhdistää <code>container</code>-CLI:n Gantryyn. Viimeinen sarake näyttää CLI-version, jonka Gantry vaatii toiminnolle. <em>Mikä tahansa</em> tarkoittaa mitä tahansa tuettua CLI-versiota, 1.0 tai uudempaa. Gantry lukee asennetun version ja piilottaa toiminnot, joita se ei tue."
+      },
+      "features": {
+        "h": "Mitä Gantry tuo apple/containeriin"
+      },
+      "kubernetes": {
+        "h": "Kubernetes-klusterit",
+        "p1": "Luo useamman työsolmun Kubernetes-klustereita komennolla <code>container cluster</code>, valitse CNI, tarkastele jokaista solmua, kirjoita kubeconfig ja siirrä paikalliset levykuvat klusteriin. Katso <a href=\"../apple-container-kubernetes/\">Kubernetes apple/containerilla</a>."
+      },
+      "machines": {
+        "h": "Konttikoneet ja VS Code",
+        "p1": "Koneet ovat pitkäikäisiä Linux-ympäristöjä, jotka luodaan komennolla <code>container machine</code>. Gantry luo, käynnistää, pysäyttää ja poistaa niitä, asettaa oletuskoneen, muokkaa CPU:ita ja muistia ja avaa komentotulkin. CLI 1.1:ssä ja uudemmissa kone voi käynnistyä sisäkkäisellä virtualisoinnilla (Apple-siru M3 tai uudempi) ja mukautetulla ytimellä. <strong>Avaa VS Codessa</strong> yhdistää käynnissä olevaan koneeseen Remote-SSH:n kautta; koneen levykuvassa on oltava käynnissä <code>sshd</code>."
+      },
+      "compose": {
+        "h": "Docker Compose apple/containerilla",
+        "p1": "Avaa <code>docker-compose.yml</code> Finderista (<em>Avaa sovelluksella ▸ Gantry</em> tai <em>Pikatoiminnot ▸ Compose Up – apple/container</em>), valikosta <strong>Arkisto ▸ Avaa Compose-tiedosto…</strong> tai pudottamalla se ikkunaan. Gantry koostaa <code>build:</code>-palvelut, luo projektin verkon ja nimetyt taltiot ja käynnistää palvelut <code>depends_on</code>-järjestyksessä vakiotunnisteilla <code>com.docker.compose.*</code>. Kun oletus-DNS-verkkotunnus on asetettu, palvelut tavoittavat toisensa palvelunimellä verkkoaliasten kautta."
+      },
+      "dns": {
+        "h": "Verkon DNS-aliakset ja paikalliset verkkotunnukset",
+        "p1": "Gantry välittää verkkoaliakset <code>container</code>-työkalulle muodossa <code>--network &lt;name&gt;,alias=…</code>. Ilman oletus-DNS-verkkotunnusta vain täydelliset nimet (FQDN) menevät läpi, ja alipuualias (alussa piste, kuten <code>.gateway</code>) menee läpi vain täsmällisenä aliaksena. Oletusverkkotunnuksen kanssa myös lyhyet nimet toimivat. Gantry luo ja poistaa paikallisia DNS-verkkotunnuksia, asettaa oletusverkkotunnuksen ja antaa uusille konteille <code>name.domain</code>-isäntänimen. Katso <a href=\"{root}docs/dns.html\">Paikalliset DNS-nimet</a>."
+      },
+      "system": {
+        "h": "Järjestelmä: palvelut, koontityökalu, rekisterit, ydin, lokit, ominaisuudet",
+        "p1": "Jokaisella apple/container-isännällä on <strong>Järjestelmä</strong>-osio. Se toimii myös, kun isäntään ei ole yhteyttä, joten voit käynnistää pysäytetyt palvelut sieltä.",
+        "li1": "<strong>Tila ja versio:</strong> asiakas- ja palvelinversiot ja varoitus, jos ne eroavat; palvelujen käynnistys, pysäytys ja uudelleenkäynnistys; isännän tiedot ja polut.",
+        "li2": "<strong>Levykuvien koontityökalu:</strong> tila, levykuva, CPU:t, muisti ja IP; käynnistys CPU-, muisti- ja DNS-valinnoin; pysäytys; poisto.",
+        "li3": "<strong>Rekisterikirjautumiset:</strong> luettelo, sisäänkirjautuminen ja uloskirjautuminen. Salasana välitetään CLI:lle vain stdinin kautta (<code>--password-stdin</code>), eikä Gantry säilytä siitä kopiota.",
+        "li4": "<strong>Ydin:</strong> suositellun ytimen, ydintiedoston tai tar-arkiston asennus, edistyminen reaaliajassa.",
+        "li5": "<strong>Palvelulokit:</strong> reaaliajassa tai kertahakuna, 5 minuutin – 1 päivän ajalta, suodatus tason, palvelun ja tekstin mukaan.",
+        "li6": "<strong>Järjestelmäominaisuudet:</strong> muutokset tallentuvat tiedostoon <code>~/.config/container/config.toml</code>; merkintä odottavasta uudelleenkäynnistyksestä ja <strong>Käynnistä palvelut uudelleen</strong> -painike."
+      },
+      "disk": {
+        "h": "Tallennus levykuvaksi, Karsi levy ja tiedostot",
+        "p1": "<strong>Tallenna levykuvaksi</strong> käyttää komentoa <code>container commit</code> (CLI 1.6). <strong>Karsi levy</strong> käyttää komentoa <code>container clean</code> (CLI 1.4) ja näkyy myös rivinä Vapauta tilaa -näkymässä. Tiedostot-välilehti lataa tiedostoja ja antaa vetää ne Finderiin komennolla <code>container copy</code> (kontin on oltava käynnissä) sekä lähettää tiedostoja ja kansioita."
+      },
+      "labels": {
+        "h": "Tunnisteet, joissa on <code>=</code>",
+        "p1": "<code>container create</code> hylkää tunnistearvon, jossa on <code>=</code>, myös CLI 1.6.1:ssä. Gantry koodaa tällaiset arvot luodessaan kontin ja purkaa ne lukiessaan sen takaisin, joten näet juuri ne tunnisteet, jotka asetit."
+      },
+      "agents": {
+        "h": "MCP-palvelin ja Pikakomennot",
+        "p1": "Mukana tuleva <code>gantry-mcp</code>-palvelin antaa AI-agenteille saman ulottuvuuden apple/container-isännillä: kontit, levykuvat, taltiot, verkot, Compose, koneet (<code>list_machines</code>, <code>create_machine</code> ja muita), klusterit (<code>list_clusters</code>, <code>create_cluster</code>, <code>delete_cluster</code>) ja <code>apple_*</code>-järjestelmätyökalut palveluille, koontityökalulle, rekistereille (ei kirjautumistyökalua), ominaisuuksille, lokeille ja ytimen asennukselle. App Intents lisää Pikakomennot- ja Siri-toimintoja. Katso <a href=\"{root}docs/mcp.html\">AI-agentit &amp; MCP</a>."
+      },
+      "vs-docker": {
+        "h": "apple/container Dockerin rinnalla",
+        "p1": "Gantry hallitsee apple/container-isäntiä, paikallista Docker-daemonia (Docker Desktop, OrbStack, Colima) ja SSH:n kautta käytettäviä etä-Docker-isäntiä yhdessä sivupalkissa ja yhdessä kojelaudassa. Sinun ei tarvitse valita yhtä ajoympäristöä. Ominaisuuskohtainen vertailu työkaluista: <a href=\"../compare/\">Gantry vs. Docker Desktop, OrbStack ja Podman Desktop</a>."
+      }
+    }
+  },
+  "k8s": {
+    "title": "Kubernetes Apple containerilla: GUI container clusterille Macilla",
+    "crumb": "Kubernetes apple/containerilla",
+    "desc": "Kubernetes Applen container-työkalulla Gantryn avulla: usean työsolmun klusterit container clusterilla, CNI:n valinta, solmut, kubeconfig ja paikalliset levykuvat.",
+    "table_head": [
+      "Valinta",
+      "CLI-lippu",
+      "Huomiot"
+    ],
+    "table": [
+      [
+        "Nimi",
+        "<code>--name</code>",
+        "Myös kubeconfig-kontekstin nimi"
+      ],
+      [
+        "Työsolmut",
+        "<code>--workers</code>",
+        "Työsolmujen määrä. CLI 1.6.0+"
+      ],
+      [
+        "CPU:t",
+        "<code>--cpus</code>",
+        "Solmua kohden"
+      ],
+      [
+        "Muisti",
+        "<code>--memory</code>",
+        "Solmua kohden, esimerkiksi <code>4G</code>"
+      ],
+      [
+        "Solmun levykuva",
+        "<code>--node-image</code>",
+        "Tyhjä käyttää CLI:n oletusta"
+      ],
+      [
+        "CNI",
+        "<code>--cni</code>",
+        "Oletus (mukana tuleva kindnet), Ei mitään (<code>NONE</code>, CLI 1.6.0+) tai mukautetun manifestin polku"
+      ]
+    ],
+    "code_shell": "Komentotulkki",
+    "code_mcp": "Lisää Gantryn MCP-palvelin",
+    "faq": [
+      {
+        "q": "Tukeeko Apple container Kubernetesia?",
+        "a": "Kyllä. <code>container</code>-CLI luo Kubernetes-klustereita, joiden solmut toimivat kontteina: <code>container cluster</code> CLI 1.6.1:ssä, <code>container k8s</code> CLI-versioissa 1.5.0–1.6.0. Gantry antaa tälle GUI:n."
+      },
+      {
+        "q": "Tukeeko Gantry container clusteria?",
+        "a": "Kyllä. Gantry luettelee, luo ja poistaa klustereita apple/container-isännillä, näyttää niiden solmut, kirjoittaa kubeconfigin, kopioi <code>kubectl</code>-kontekstikomennon ja siirtää paikallisia levykuvia klusteriin. Se käyttää komentoa <code>cluster</code> tai <code>k8s</code> CLI-versiosi mukaan."
+      },
+      {
+        "q": "Miten kubectl:ää käytetään apple/container-klusterin kanssa?",
+        "a": "Kun CLI luo klusterin, se lisää tiedostoon <code>~/.kube/config</code> klusterin mukaan nimetyn kubeconfig-kontekstin. Suorita <code>kubectl --context &lt;name&gt; get nodes</code>. Jos haluat erillisen tiedoston, käytä Gantryssa toimintoa <b>Kirjoita kubeconfig</b>; oletuspolku on <code>~/.kube/&lt;name&gt;.kubeconfig</code>."
+      },
+      {
+        "q": "Miten paikallisen levykuvan saa klusteriin ilman rekisteriä?",
+        "a": "Napsauta Gantryssa levykuvaa Levykuvat-näkymässä hiiren oikealla ja valitse <b>Siirrä klusteriin</b>. Gantry suorittaa komennon <code>container cluster load-image</code>, joka kopioi levykuvan jokaisen solmun containerd:hen."
+      },
+      {
+        "q": "Voiko luoda usean solmun klusterin?",
+        "a": "Kyllä. Aseta työsolmujen määrä luontinäkymässä. Työsolmut vaativat CLI:n version 1.6.0 tai uudemman."
+      },
+      {
+        "q": "Voiko käyttää omaa CNI:tä, kuten Calicoa tai Ciliumia?",
+        "a": "Kyllä. Valitse <b>Mukautettu manifesti</b> ja valitse manifestitiedosto, tai valitse <b>Ei mitään</b> ja ota CNI käyttöön itse klusterin käynnistyttyä. Solmut pysyvät NotReady-tilassa, kunnes jokin CNI on käynnissä. <b>Ei mitään</b> vaatii CLI:n version 1.6.0 tai uudemman. Oletus-CNI on mukana tuleva kindnet-manifesti."
+      }
+    ],
+    "body": {
+      "h1": "Kubernetes Apple containerilla",
+      "lead": "apple/container voi ajaa Kubernetes-klusteria, jonka solmut ovat kontteja Macillasi. Gantry on sille GUI: luo klusteri, seuraa solmujen käynnistymistä, yhdistä <code>kubectl</code> ja siirrä paikalliset levykuvasi ilman pitkiä <code>container cluster</code> -komentorivejä.",
+      "tldr": "<strong>Lyhyesti.</strong> apple/container-isännällä Gantryn <strong>Klusterit</strong>-osio luo ja poistaa Kubernetes-klustereita komennolla <code>container cluster</code> (CLI 1.6.1) tai <code>container k8s</code> (CLI 1.5.0–1.6.0). Se tukee useita työsolmuja, mukautettua CNI:tä, solmunäkymää, kubeconfigia ja <code>kubectl</code>-kontekstia sekä <strong>Siirrä klusteriin</strong> -toimintoa paikallisille levykuville.",
+      "requirements": {
+        "h": "Vaatimukset",
+        "li1": "Mac, jossa on Apple-siru, macOS 26 ja Gantry (<code>brew install --cask getgantry/tap/gantry</code>).",
+        "li2": "<code>container</code>-CLI 1.5.0 tai uudempi; suositus on 1.6.1. Työsolmut ja <em>Ei mitään</em> -CNI vaativat version 1.6.0 tai uudemman.",
+        "li3": "<code>kubectl</code>, jos haluat käyttää klusteria päätteestä."
+      },
+      "create": {
+        "h": "Klusterin luominen",
+        "li1": "Valitse apple/container-isäntäsi ja avaa sivupalkista <strong>Klusterit</strong>.",
+        "li2": "Aloita uusi klusteri ja täytä alla olevat valinnat.",
+        "li3": "Luo se. Luettelossa näkyy uusi klusteri ja sen edistyminen reaaliajassa. <strong>Kumoa</strong> pysäyttää luonnin ja poistaa jo luodut solmut.",
+        "p1": "Sama komento CLI:ssä:"
+      },
+      "nodes": {
+        "h": "Solmut ja klusterin tiedot",
+        "p1": "Klusteriluettelo näyttää jokaisen klusterin solmuineen: rooli, tila ja osoite. Tietonäkymässä on <strong>Yleiskatsaus</strong> (kubectl-konteksti, API-palvelin, työsolmut, solmuverkko), <strong>Solmut</strong>-taulukko, <strong>Tarkastele</strong> solmujen raakadatalle sekä toiminnot <strong>Kirjoita kubeconfig</strong>, <strong>Kopioi kubectl-kontekstikomento</strong> ja <strong>Poista</strong>."
+      },
+      "kubectl": {
+        "h": "kubectl:n yhdistäminen",
+        "p1": "CLI lisää klusteria luodessaan tiedostoon <code>~/.kube/config</code> klusterin mukaan nimetyn kontekstin. Käytä Gantryssa toimintoa <strong>Kopioi kubectl-kontekstikomento</strong> tai kirjoita komento itse:",
+        "p2": "Jos haluat pitää klusterin omassa tiedostossaan, käytä toimintoa <strong>Kirjoita kubeconfig</strong>. Gantry suorittaa komennon <code>container cluster write-config</code>; oletuspolku on <code>~/.kube/&lt;name&gt;.kubeconfig</code>."
+      },
+      "images": {
+        "h": "Paikallisten levykuvien siirtäminen klusteriin",
+        "p1": "Koosta tai nouda levykuva apple/container-isännällä, napsauta sitä sitten <strong>Levykuvat</strong>-näkymässä hiiren oikealla ja valitse <strong>Siirrä klusteriin</strong>. Gantry suorittaa komennon <code>container cluster load-image</code>, joka kopioi levykuvan jokaisen solmun containerd:hen. Paikallisessa kehityksessä et tarvitse rekisteriä."
+      },
+      "cni": {
+        "h": "CNI:n valinta",
+        "p1": "Oletuksena on mukana tuleva kindnet-manifesti. Valitse <strong>Mukautettu manifesti</strong>, jos haluat asentaa oman CNI:n, esimerkiksi Calicon tai Ciliumin, tiedostosta. Valitse <strong>Ei mitään</strong>, jos asennat CNI:n itse myöhemmin; siihen asti solmut pysyvät NotReady-tilassa."
+      },
+      "agents": {
+        "h": "Klusterit AI-agenttien avulla",
+        "p1": "Gantryn MCP-palvelimessa on työkalut <code>list_clusters</code>, <code>create_cluster</code> ja <code>delete_cluster</code>, joten agentti, kuten Claude Code, voi luoda väliaikaisen klusterin testiä varten ja poistaa sen jälkeenpäin."
+      },
+      "more": {
+        "h": "Lisää apple/containerista",
+        "p1": "Lue <a href=\"../apple-container/\">apple/container-opas</a>, josta löydät jokaisen <code>container</code>-komennon ja sitä vastaavan Gantryn toiminnon, tai katso, miten Gantry vertautuu <a href=\"../compare/\">Docker Desktopiin, OrbStackiin ja Podman Desktopiin</a>."
+      }
+    }
+  },
+  "compare": {
+    "title": "Gantry vs Docker Desktop vs OrbStack vs Podman Desktop vs container CLI",
+    "crumb": "Vertailu",
+    "desc": "Tosiasiavertailu: Gantry, Docker Desktop, OrbStack, Podman Desktop ja Applen container-CLI macOS:llä – lisenssi, hinta, UI, apple/container-tuki, Kubernetes, Compose, koneet.",
+    "table_head": [
+      "",
+      "Gantry",
+      "Docker Desktop",
+      "OrbStack",
+      "Podman Desktop",
+      "<code>container</code>-CLI"
+    ],
+    "table": [
+      [
+        "Mikä se on",
+        "Natiivi GUI-asiakasohjelma. Käyttää jo olemassa olevaa moottoria",
+        "Docker-moottori Linux-virtuaalikoneessa sekä GUI",
+        "Docker- ja Linux-moottori sekä GUI",
+        "GUI Podmanille (ja muille moottoreille)",
+        "Applen CLI ja ajoympäristö"
+      ],
+      [
+        "Lisenssi ja hinta",
+        "MIT, ilmainen kaikkeen käyttöön",
+        "Suljettu lisenssi. Ilmainen henkilökohtaiseen käyttöön, opetukseen, ei-kaupallisiin avoimen lähdekoodin projekteihin ja pienyrityksille (alle 250 työntekijää ja alle 10 milj. dollarin vuosiliikevaihto); muuten maksullinen tilaus",
+        "Suljettu lisenssi. Ilmainen henkilökohtaiseen, ei-kaupalliseen käyttöön; maksullinen lisenssi kaupalliseen käyttöön",
+        "Apache 2.0, ilmainen",
+        "Apache 2.0, ilmainen"
+      ],
+      [
+        "Lähdekoodi",
+        "Avoin",
+        "Suljettu",
+        "Suljettu",
+        "Avoin",
+        "Avoin"
+      ],
+      [
+        "UI-tekniikka",
+        "SwiftUI (natiivi)",
+        "Electron",
+        "Natiivi macOS-sovellus",
+        "Electron",
+        "Ei GUI:ta"
+      ],
+      [
+        "Alustat",
+        "macOS 26+, Apple-siru ja Intel",
+        "macOS, Windows, Linux",
+        "macOS",
+        "macOS, Windows, Linux",
+        "macOS Apple-sirulla"
+      ],
+      [
+        "Hallitsee apple/containeria",
+        "Kyllä, CLI 1.0–1.6.1",
+        "Ei",
+        "Ei",
+        "Ei mainita valmistajan ohjeissa (tarkistettu 2026-11-03)",
+        "Se on apple/container"
+      ],
+      [
+        "Kubernetes",
+        "apple/containerilla, <code>container cluster</code> -komennon kautta: useita työsolmuja, mukautettu CNI",
+        "Sisäänrakennettu Kubernetes",
+        "Sisäänrakennettu Kubernetes",
+        "Kindin ja muiden tarjoajien kautta",
+        "<code>container cluster</code> (1.6.1), <code>container k8s</code> (1.5.0–1.6.0)"
+      ],
+      [
+        "Docker Compose",
+        "Docker-isännillä ja apple/containerilla (Gantry ajaa tiedoston)",
+        "Kyllä",
+        "Kyllä",
+        "Kyllä, Compose-tarjoajan kautta",
+        "Ei <code>compose</code>-komentoa"
+      ],
+      [
+        "Pitkäikäiset Linux-koneet",
+        "<code>container machine</code>, Avaa VS Codessa -toiminnolla",
+        "Ei",
+        "Kyllä (Linux-koneet)",
+        "Ei (Podman machine on moottorin virtuaalikone)",
+        "<code>container machine</code>"
+      ],
+      [
+        "Etä-Docker-isännät SSH:n kautta GUI:ssa",
+        "Kyllä, ProxyJump ja salaisuudet Avainnipussa",
+        "Ei tiedossa",
+        "Ei tiedossa",
+        "Ei tiedossa",
+        "Ei sovellu"
+      ],
+      [
+        "Mukana MCP-palvelin konttien hallintaan",
+        "Kyllä (<code>gantry-mcp</code>)",
+        "Ei tiedossa",
+        "Ei tiedossa",
+        "Ei tiedossa",
+        "Ei"
+      ]
+    ],
+    "faq": [
+      {
+        "q": "Onko Gantry vaihtoehto Docker Desktopille?",
+        "a": "GUI:na kyllä. Gantry hallitsee kontteja, levykuvia, taltioita, verkkoja, lokeja, tilastoja ja Composea. Siinä ei ole Docker-moottoria: Macilla käytä siihen OrbStackia, Colimaa tai Docker Desktopia, tai käytä Applen <code>container</code>-työkalua, jota Gantry myös hallitsee. Gantry on MIT-lisensoitu ja ilmainen myös kaupalliseen käyttöön."
+      },
+      {
+        "q": "Onko Gantry vaihtoehto OrbStackille?",
+        "a": "Osittain. OrbStack on moottori ja GUI; Gantry on pelkkä GUI. Voit käyttää Gantrya GUI:na OrbStackin Docker-moottorin päällä tai käyttää Gantrya apple/containerin kanssa, jolloin saat kontit, Linux-koneet ja Kubernetesin Applen omasta työkalusta."
+      },
+      {
+        "q": "Mikä on paras GUI Apple containerille?",
+        "a": "Tämän sivun työkaluista Gantry on ainoa, joka hallitsee apple/containeria (tarkistettu 2026-11-03). Se kattaa koko <code>container</code>-CLI:n, myös klusterit, koneet, koontityökalun, rekisterit ja järjestelmäominaisuudet."
+      },
+      {
+        "q": "Voiko Gantrya ja Docker Desktopia käyttää yhdessä?",
+        "a": "Kyllä. Gantry muodostaa yhteyden Docker Desktopin moottoriin sen socketin kautta, joten voit käyttää Gantrya GUI:na ja pitää Docker Desktopin moottorina."
+      }
+    ],
+    "body": {
+      "h1": "Gantry vs. Docker Desktop, OrbStack, Podman Desktop ja container-CLI",
+      "lead": "Viisi tapaa ajaa ja hallita kontteja Macilla, vertailtuna tarkistettavien tosiasioiden perusteella. Gantry on GUI-asiakasohjelma. Muissa on mukana moottori, paitsi <code>container</code>-CLI:ssä, joka on moottori ilman GUI:ta.",
+      "tldr": "<strong>Lyhyesti.</strong> Valitse <strong>Gantry</strong>, jos haluat ilmaisen, natiivin avoimen lähdekoodin GUI:n Applen <code>container</code>-työkalulle ja Dockerille (paikallisesti ja SSH:n kautta) yhdessä sovelluksessa. Gantry ei korvaa Docker-moottoria; se toimii nykyisen moottorisi tai apple/containerin kanssa.",
+      "table": {
+        "h": "Vertailutaulukko",
+        "p1": "Tiedot 2026-11-03 tilanteen mukaan, kunkin valmistajan julkisilta sivuilta (katso <a href=\"#sources\">lähteet</a>). ”Ei tiedossa” tarkoittaa, ettemme löytäneet tietoa valmistajan dokumentaatiosta. Se ei tarkoita, että ominaisuus puuttuu."
+      },
+      "when": {
+        "h": "Milloin valita mikin",
+        "choose1": {
+          "h": "Valitse Gantry",
+          "p1": "Käytät Applen <code>container</code>-työkalua ja haluat GUI:n kaikkeen siihen, myös Kubernetes-klustereihin, koneisiin ja levykuvien koontityökaluun. Tai hallitset useita Docker-isäntiä, paikallisia ja SSH:n kautta käytettäviä etäisäntiä, ja haluat niille kaikille yhden natiivin ikkunan ja vikailmoitukset. Tai haluat MCP-palvelimen, jotta AI-agentit voivat hallita konttejasi."
+        },
+        "choose2": {
+          "h": "Valitse Docker Desktop",
+          "p1": "Tarvitset Docker-moottorin ja saman sovelluksen macOS:lle, Windowsille ja Linuxille, Docker-laajennukset ja Dockerin tuen, ja yritykselläsi on Docker-tilaus tai se täyttää ilmaisen käytön ehdot."
+        },
+        "choose3": {
+          "h": "Valitse OrbStack",
+          "p1": "Haluat Docker-moottorin ja Linux-koneet macOS:lle yhdessä tuotteessa, ja maksullinen lisenssi kaupalliseen käyttöön sopii sinulle."
+        },
+        "choose4": {
+          "h": "Valitse Podman Desktop",
+          "p1": "Käytät Podmania, haluat avoimen lähdekoodin GUI:n usealle käyttöjärjestelmälle tai työskentelet Red Hatin työkalujen parissa."
+        },
+        "choose5": {
+          "h": "Valitse pelkkä container-CLI",
+          "p1": "Skriptaat kaiken päätteessä etkä tarvitse GUI:ta. Gantry käyttää samaa CLI:tä, joten voit lisätä GUI:n myöhemmin."
+        }
+      },
+      "together": {
+        "h": "Käytä niitä yhdessä",
+        "p1": "Gantry on asiakasohjelma, joten se toimii muiden rinnalla. Se muodostaa yhteyden Docker Desktopin, OrbStackin tai Coliman Docker-moottoriin Docker-socketin kautta, etä-Docker-isäntiin SSH:n kautta ja apple/containeriin <code>container</code>-CLI:n kautta, kaikki yhdessä sivupalkissa."
+      },
+      "sources": {
+        "h": "Lähteet",
+        "li1": "Docker Desktopin lisenssiehdot: <a href=\"https://www.docker.com/pricing/faq/\">Docker pricing FAQ</a>.",
+        "li2": "OrbStackin lisenssiehdot: <a href=\"https://docs.orbstack.dev/licensing\">OrbStack licensing</a>.",
+        "li3": "Podman Desktopin lisenssi ja ominaisuudet: <a href=\"https://github.com/podman-desktop/podman-desktop\">podman-desktop GitHubissa</a> ja <a href=\"https://podman-desktop.io/docs\">Podman Desktopin dokumentaatio</a>.",
+        "li4": "apple/container: <a href=\"https://github.com/apple/container\">apple/container GitHubissa</a>.",
+        "li5": "Gantry: <a href=\"https://github.com/getgantry/gantry\">lähdekoodi</a> ja <a href=\"https://github.com/getgantry/gantry/blob/main/CHANGELOG.md\">muutosloki</a>.",
+        "p1": "Löysitkö virheen? <a href=\"https://github.com/getgantry/getgantry.github.io/issues\">Ilmoita siitä</a>, niin korjaamme taulukon."
+      }
+    }
+  }
+}

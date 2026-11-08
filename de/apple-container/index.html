@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantry-Flotten-Dashboard mit Docker- und apple/container-Hosts">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Apple container GUI für Mac: kompletter apple/container-Leitfaden">
   <meta name="twitter:description" content="Was Apples container-Tool ist, wie du es installierst und wie Gantry es verwaltet: jeder container-CLI-Befehl mit Gantry-Funktion, von Compose bis Kubernetes.">
@@ -67,7 +67,7 @@
       "description": "Was Apples container-Tool ist, wie du es installierst und wie Gantry es verwaltet: jeder container-CLI-Befehl mit Gantry-Funktion, von Compose bis Kubernetes.",
       "url": "https://getgantry.github.io/de/apple-container/",
       "inLanguage": "de",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -157,7 +157,7 @@
           "name": "Welche Version der container-CLI sollte ich installieren?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Gantry benötigt 1.0 oder neuer und ist mit 1.6.1 getestet. Installiere die CLI mit dem signierten Installationspaket von der Release-Seite von apple/container. Dem Homebrew-Build fehlt das Maschinen-Backend, daher funktioniert container machine damit nicht."
+            "text": "Gantry braucht 1.0 oder neuer und empfiehlt 1.7.1. Installiere es mit dem signierten Installationspaket von der Release-Seite von apple/container. Dem Homebrew-Build fehlen das Maschinen-Backend und in 1.7.1 die Cluster-Dienste, daher funktionieren container machine und container cluster damit nicht."
           }
         }
       ]
@@ -223,7 +223,7 @@
 <p class="page-lead">apple/container führt Linux-Container auf deinem Mac aus, jeden in einer eigenen leichtgewichtigen virtuellen Maschine. Es kommt als Befehlszeilentool. Gantry ist eine native macOS-GUI dafür. Dieser Leitfaden erklärt das Tool und seine Einrichtung und zeigt, welche Gantry-Funktion welchen <code>container</code>-Befehl abdeckt.</p>
 
 <div class="tldr">
-<p><strong>Kurz gesagt.</strong> Gantry ist eine kostenlose Open-Source-App (MIT) für macOS, die Apples <code>container</code>-Tool und Docker in einem Fenster verwaltet. Sie unterstützt die <code>container</code>-CLI 1.0 bis 1.6.1 (empfohlen) und zeigt nur die Funktionen, die deine CLI-Version unterstützt. Installation mit <code>brew install --cask getgantry/tap/gantry</code>.</p>
+<p><strong>Kurz gesagt.</strong> Gantry ist eine kostenlose, quelloffene (MIT) macOS-App, die Apples <code>container</code>-Tool und Docker in einem Fenster verwaltet. Sie unterstützt die <code>container</code>-CLI 1.0 bis 1.7.1 (empfohlen) und zeigt nur die Funktionen, die deine CLI-Version unterstützt. Installiere sie mit <code>brew install --cask getgantry/tap/gantry</code>.</p>
 </div>
 
 <h2 id="what-is">Was ist apple/container?</h2>
@@ -245,14 +245,14 @@
   <li>Wähle in Gantry <strong>Host hinzufügen…</strong> und füge einen <em>Apple Container</em>-Host hinzu. Beim Verbinden werden die <code>container</code>-Dienste gestartet, falls sie gestoppt sind.</li>
   <li>Ist kein Standardkernel installiert, zeigt die Host-Übersicht ein Banner. Klicke darauf, um den empfohlenen Kernel zu installieren.</li>
 </ol>
-<div class="callout callout-warn"><span class="callout-tag">Achtung</span><div>Verwende das signierte Installationspaket, nicht den Homebrew-Build. Dem Homebrew-Build fehlt das Maschinen-Backend, daher kann <code>container machine</code> nicht laufen.</div></div>
+<div class="callout callout-warn"><span class="callout-tag">Achtung</span><div>Verwende das signierte Installationspaket, nicht den Homebrew-Build. Dem Homebrew-Build fehlen das Maschinen-Backend und in 1.7.1 die Cluster-Dienste, daher laufen <code>container machine</code> und <code>container cluster</code> damit nicht.</div></div>
 
 <h2 id="command-map">Jeder container-Befehl und seine Gantry-Funktion</h2>
 <p>Diese Tabelle ordnet die <code>container</code>-CLI den Funktionen von Gantry zu. Die letzte Spalte zeigt die CLI-Version, die Gantry für die Funktion benötigt. <em>Jede</em> bedeutet: jede unterstützte CLI ab 1.0. Gantry liest deine installierte Version aus und blendet die Funktionen aus, die sie nicht unterstützt.</p>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">CLI-Befehl</th><th scope="col">Gantry-Funktion</th><th scope="col">Benötigte CLI-Version</th></tr></thead>
 <tbody>
-<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Dialog „Neuer Container“ und Schnellstart: Image, Name, Befehl, Ports, Umgebung, Volumes, DNS-Domain, eigener Kernel und Boot-Argumente</td><td>Jede</td></tr>
+<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Fenster „Neuer Container“ und Schnellstart: Image, Name, Befehl, Ports, Umgebung, Volumes, DNS-Domain, eigener Kernel und Boot-Argumente; <strong>Befehl einsetzen…</strong> liest eine <code>docker run</code>- oder <code>container run</code>-Zeile</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container list --all</code></th><td>Container-Liste, gruppiert nach Compose-Projekt, mit Statusfiltern und Suche</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Symbolleiste, Kontextmenü und das Menüleisten-Panel</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container logs</code></th><td>Tab „Logs“: Live-Verfolgung, Regex-Suche, Level-Filter, ANSI-Farben</td><td>Jede</td></tr>
@@ -272,14 +272,14 @@
 <tr><th scope="row"><code>container system start</code>, <code>stop</code></th><td>Bereich „System“: Dienste starten, stoppen und neu starten; auch in der Menüleiste und in den Einstellungen</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container system status</code>, <code>version</code></th><td>Bereich „System“: Status, Client- und Serverversion, Host-Infos</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container system logs</code></th><td>Bereich „System“: Dienst-Logs, live oder über 5 Minuten bis 1 Tag, gefiltert nach Level, Dienst und Text</td><td>Jede</td></tr>
-<tr><th scope="row"><code>container system property list</code></th><td>Bereich „System“: Editor für Systemeigenschaften, gespeichert in <code>~/.config/container/config.toml</code></td><td>Jede; getestet mit 1.6.1</td></tr>
+<tr><th scope="row"><code>container system property list</code></th><td>Bereich „System“: Editor für Systemeigenschaften, gespeichert in <code>~/.config/container/config.toml</code></td><td>Alle; Listen unter <code>[container.dns]</code> ab 1.7</td></tr>
 <tr><th scope="row"><code>container system dns create</code>, <code>delete</code>, <code>list</code></th><td>Einstellungen ▸ Apple: lokale DNS-Domains und eine Standard-Domain</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container system kernel set</code></th><td>Bereich „System“: den empfohlenen Kernel, eine Kernel-Datei oder ein tar-Archiv installieren</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container system df</code></th><td>Speichernutzung in der Host-Übersicht und „Speicherplatz freigeben“</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code></th><td>Bereich „System“: Image-Builder mit Optionen für CPU, Arbeitsspeicher und DNS</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container registry login</code>, <code>logout</code>, <code>list</code></th><td>Bereich „System“: Registry-Anmeldungen (Passwort nur über stdin)</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code></th><td>Maschinen: erstellen, starten, stoppen, löschen, Standardmaschine, CPUs und Arbeitsspeicher, Shell, untersuchen, In VS Code öffnen</td><td>Jede; verschachtelte Virtualisierung und Kernel ab 1.1</td></tr>
-<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Cluster: Kubernetes-Cluster, Nodes, Kubeconfig, kubectl-Kontext, In Cluster laden</td><td>1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)</td></tr>
+<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Cluster: Kubernetes-Cluster, Worker-Größen und gemeinsamer Image-Speicher (1.7), Nodes, Kubeconfig, Ressourcen durchsuchen, In Cluster laden (1.5 und 1.6)</td><td>1.5 (<code>k8s</code>), 1.6.1 und 1.7 (<code>cluster</code>)</td></tr>
 <tr><th scope="row">Kein <code>compose</code>-Befehl</th><td>Compose-Runner: eine <code>docker-compose.yml</code> aus dem Finder, über das Menü „Ablage“ oder per Drag-and-drop starten</td><td>Jede</td></tr>
 </tbody>
 </table></div>
@@ -287,7 +287,7 @@
 <h2 id="features">Was Gantry auf apple/container ergänzt</h2>
 
 <h3 id="kubernetes">Kubernetes-Cluster</h3>
-<p>Erstelle Kubernetes-Cluster mit mehreren Workern über <code>container cluster</code>, wähle das CNI, sieh jeden Node, schreibe die Kubeconfig und lade lokale Images in den Cluster. Siehe <a href="../apple-container-kubernetes/">Kubernetes auf apple/container</a>.</p>
+<p>Erstelle Kubernetes-Cluster mit <code>container cluster</code>, lege die Größe der Worker fest, lass Pods deine lokalen Images verwenden, wähle das CNI und sieh jeden Node. Durchsuche den Cluster danach im Kubernetes-Browser von Gantry. Siehe <a href="../apple-container-kubernetes/">Kubernetes auf apple/container</a> und die Schritt-für-Schritt-Anleitung <a href="../apple-container-kubernetes/#terminal">Kubernetes auf dem Mac ausführen</a>.</p>
 
 <h3 id="machines">Container-Maschinen und VS Code</h3>
 <p>Maschinen sind dauerhafte Linux-Umgebungen aus <code>container machine</code>. Gantry erstellt, startet, stoppt und löscht sie, legt die Standardmaschine fest, ändert CPUs und Arbeitsspeicher und öffnet eine Shell. Ab CLI 1.1 kann eine Maschine mit verschachtelter Virtualisierung (Apple Silicon M3 oder neuer) und einem eigenen Kernel starten. <strong>In VS Code öffnen</strong> verbindet sich über Remote-SSH mit einer laufenden Maschine; im Image der Maschine muss <code>sshd</code> laufen.</p>
@@ -302,11 +302,11 @@
 <p>Jeder apple/container-Host hat einen Bereich <strong>System</strong>. Er funktioniert auch, wenn der Host getrennt ist, sodass du gestoppte Dienste von dort aus starten kannst.</p>
 <ul>
   <li><strong>Status und Version:</strong> Client- und Serverversion, mit Warnung, wenn sie sich unterscheiden; Dienste starten, stoppen und neu starten; Host-Infos und Pfade.</li>
-  <li><strong>Image-Builder:</strong> Zustand, Image, CPUs, Arbeitsspeicher und IP; starten mit Optionen für CPU, Arbeitsspeicher und DNS; stoppen; löschen.</li>
+  <li><strong>Image-Builder:</strong> Status, Image, CPUs, Arbeitsspeicher und IP; Starten mit Optionen für CPU, Arbeitsspeicher und DNS; Stoppen; Löschen. Eine Karte meldet, wenn das Builder-Image veraltet ist, und erstellt den Builder neu.</li>
   <li><strong>Registry-Anmeldungen:</strong> auflisten, anmelden und abmelden. Das Passwort geht nur über stdin (<code>--password-stdin</code>) an die CLI, und Gantry speichert keine Kopie.</li>
   <li><strong>Kernel:</strong> den empfohlenen Kernel, eine Kernel-Datei oder ein tar-Archiv installieren, mit gestreamtem Fortschritt.</li>
   <li><strong>Dienst-Logs:</strong> live oder einmalig, über 5 Minuten bis 1 Tag, gefiltert nach Level, Dienst und Text.</li>
-  <li><strong>Systemeigenschaften:</strong> Änderungen landen in <code>~/.config/container/config.toml</code>, mit einem Hinweis auf einen ausstehenden Neustart und der Schaltfläche <strong>Dienste neu starten</strong>.</li>
+  <li><strong>Systemeigenschaften:</strong> Änderungen gehen in <code>~/.config/container/config.toml</code>, mit einer Markierung für ausstehende Neustarts und der Taste <strong>Dienste neu starten</strong>. In CLI 1.7 haben Nameserver, Suchdomains und Optionen unter <code>[container.dns]</code> einen Listeneditor.</li>
 </ul>
 
 <h3 id="disk">Commit, Festplatte trimmen und Dateien</h3>
@@ -323,7 +323,7 @@
 </div>
 
 <h2 id="vs-docker">apple/container neben Docker</h2>
-<p>Gantry verwaltet apple/container-Hosts, den lokalen Docker-Daemon (Docker Desktop, OrbStack, Colima) und entfernte Docker-Hosts über SSH in einer Seitenleiste und einem Flotten-Dashboard. Du musst dich nicht für eine Runtime entscheiden. Einen Vergleich Funktion für Funktion findest du unter <a href="../compare/">Gantry vs. Docker Desktop, OrbStack und Podman Desktop</a>.</p>
+<p>Gantry verwaltet apple/container-Hosts, den lokalen Docker-Daemon (Docker Desktop, OrbStack, Colima) und entfernte Docker-Hosts über SSH in einer Seitenleiste und einem Flotten-Dashboard. Du musst dich nicht für eine Runtime entscheiden. Einen Vergleich Funktion für Funktion findest du unter <a href="../compare/">Gantry vs. Docker Desktop, OrbStack und Podman Desktop</a>. Für den Umstieg lies <a href="../docker-desktop-to-apple-container/">Von Docker Desktop zu Apple container wechseln</a>.</p>
 
 <h2 id="faq">Fragen und Antworten</h2>
 <div class="faq-list">
@@ -332,10 +332,10 @@
 <details class="faq-item"><summary>Kann ich docker compose mit Apple container nutzen?</summary><p>apple/container hat keinen <code>compose</code>-Befehl. Gantry liest eine <code>docker-compose.yml</code>, baut <code>build:</code>-Dienste, erstellt das Netzwerk und benannte Volumes und startet die Dienste in der Reihenfolge von <code>depends_on</code>. Dienstnamen werden über Netzwerk-DNS-Aliasse aufgelöst.</p></details>
 <details class="faq-item"><summary>Wie öffne ich eine Container-Maschine in VS Code?</summary><p>Starte die Maschine in Gantry und klicke auf <b>In VS Code öffnen</b>. Gantry öffnet sie über Remote-SSH, wie in Apples Beispiel <code>container-machine-vscode</code>. Im Image der Maschine muss <code>sshd</code> laufen.</p></details>
 <details class="faq-item"><summary>Läuft Apple container auf Intel-Macs?</summary><p>Nein. apple/container erfordert einen Mac mit Apple Silicon. Gantry läuft auch auf Intel-Macs, verwaltet dort aber nur Docker-Hosts.</p></details>
-<details class="faq-item"><summary>Welche Version der container-CLI sollte ich installieren?</summary><p>Gantry benötigt 1.0 oder neuer und ist mit 1.6.1 getestet. Installiere die CLI mit dem signierten Installationspaket von der <a href="https://github.com/apple/container/releases">Release-Seite von apple/container</a>. Dem Homebrew-Build fehlt das Maschinen-Backend, daher funktioniert <code>container machine</code> damit nicht.</p></details>
+<details class="faq-item"><summary>Welche Version der container-CLI sollte ich installieren?</summary><p>Gantry braucht 1.0 oder neuer und empfiehlt 1.7.1. Installiere es mit dem signierten Installationspaket von der <a href="https://github.com/apple/container/releases">Release-Seite von apple/container</a>. Dem Homebrew-Build fehlen das Maschinen-Backend und in 1.7.1 die Cluster-Dienste, daher funktionieren <code>container machine</code> und <code>container cluster</code> damit nicht.</p></details>
 </div>
 
-<p class="updated">Zuletzt aktualisiert am 2026-11-03.</p>
+<p class="updated">Zuletzt aktualisiert am 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Start</a>
@@ -345,6 +345,12 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Vergleich</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Von Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Externe Festplatte</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Aus docker run</a>
       <span>·</span>
       <a href="../../docs/index.html">Doku</a>
       <span>·</span>

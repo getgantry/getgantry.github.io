@@ -76,7 +76,7 @@ PAGES["index"] = ("Introduction",
 <ul>
   <li>macOS 26 or later, Apple Silicon or Intel.</li>
   <li>For local Docker: Docker Desktop, Colima, OrbStack, or any daemon exposing the Docker socket.</li>
-  <li>For Apple's runtime: a Mac with Apple silicon and the <a href="https://github.com/apple/container">apple/container</a> CLI 1.0+, 1.6.1 recommended (Gantry can guide you through installing it). See the <a href="../apple-container/">apple/container guide</a>.</li>
+  <li>For Apple's runtime: a Mac with Apple silicon and the <a href="https://github.com/apple/container">apple/container</a> CLI 1.0+, 1.7.1 recommended (Gantry can guide you through installing it). See the <a href="../apple-container/">apple/container guide</a>.</li>
 </ul>
 
 <h2>Open source</h2>
@@ -161,13 +161,13 @@ PAGES["hosts"] = ("Hosts",
 """)
 
 PAGES["apple-container"] = ("apple/container",
-  "Use Apple's container tool in Gantry: setup, services, system section, Kubernetes clusters, machines and local DNS. Supports CLI 1.0 to 1.6.1.",
+  "Use Apple's container tool in Gantry: setup, services, system section, Kubernetes clusters, machines and local DNS. Supports CLI 1.0 to 1.7.1.",
   f"""
 <h1>apple/container</h1>
 <p class="page-lead">Gantry is a native GUI for Apple's <a href="https://github.com/apple/container">container</a> tool. Manage its services, image builder, registry logins, kernel, Kubernetes clusters, machines and local DNS without the terminal. For the full map of CLI commands to Gantry features, read the <a href="../apple-container/">apple/container guide</a>.</p>
 
 <h2>Setup</h2>
-<p>apple/container needs a Mac with Apple silicon. Install the <code>container</code> CLI 1.0+ (1.6.1 recommended) from Apple's official signed installer. Gantry detects it automatically and, if it's missing or outdated, offers a guided setup. Then add an <em>Apple Container</em> host from <strong>Add Host…</strong>.</p>
+<p>apple/container needs a Mac with Apple silicon. Install the <code>container</code> CLI 1.0+ (1.7.1 recommended) from Apple's official signed installer. The Homebrew build lacks the machine backend and, in 1.7.1, the cluster services. Gantry detects it automatically and, if it's missing or outdated, offers a guided setup. Then add an <em>Apple Container</em> host from <strong>Add Host…</strong>.</p>
 
 {callout("warn", 'Use the official signed installer rather than the Homebrew bottle — the bottle omits the machine API server, so <code>container machine</code> cannot run.')}
 
@@ -189,7 +189,7 @@ PAGES["apple-container"] = ("apple/container",
 </ul>
 
 <h2>Kubernetes clusters</h2>
-<p>The <strong>Clusters</strong> section creates Kubernetes clusters with <code>container cluster</code> (CLI 1.6.1) or <code>container k8s</code> (CLI 1.5.0 to 1.6.0): workers, CPUs, memory, node image and CNI. It shows the nodes, writes the kubeconfig and copies the <code>kubectl</code> context command. See <a href="../apple-container-kubernetes/">Kubernetes on apple/container</a>.</p>
+<p>The <strong>Clusters</strong> section creates Kubernetes clusters with <code>container cluster</code> (CLI 1.6.1 and 1.7) or <code>container k8s</code> (CLI 1.5.0 to 1.6.0): workers, CPUs, memory, node image and CNI. On CLI 1.7 it sizes the workers apart from the control plane and can turn on the shared image store (<strong>Use local images</strong>). It shows the nodes, writes the kubeconfig and opens the cluster in the <strong>Kubernetes</strong> browser (<strong>Browse Resources</strong>). See <a href="../apple-container-kubernetes/">Kubernetes on apple/container</a> and <a href="../apple-container-kubernetes/#terminal">Run Kubernetes on a Mac</a>.</p>
 
 <h2>What's different from Docker</h2>
 <ul>
@@ -325,7 +325,7 @@ PAGES["images-compose"] = ("Images & Compose",
   <li><strong>Tag</strong> and <strong>remove</strong> images; <strong>prune</strong> dangling or all unused.</li>
   <li>Inspect an image's layers/history and raw JSON, and see which containers use it.</li>
   <li>A badge marks images (and their containers) built for a different CPU architecture than the host, for example amd64 on Apple silicon.</li>
-  <li>On apple/container hosts, <strong>Load into Cluster</strong> copies a local image into a Kubernetes cluster's nodes.</li>
+  <li>On apple/container hosts with CLI 1.5 or 1.6, <strong>Load into Cluster</strong> copies a local image into a Kubernetes cluster's nodes. CLI 1.7 replaces it with the shared image store of the cluster.</li>
 </ul>
 
 <h2>Compose</h2>

@@ -5,8 +5,8 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kubernetes pe Apple container: GUI pentru container cluster pe Mac</title>
-  <meta name="description" content="Kubernetes pe instrumentul container de la Apple, cu Gantry: clustere cu mai mulți workeri (container cluster), CNI la alegere, noduri, kubeconfig, imagini locale.">
+  <title>Kubernetes pe Apple container: GUI pentru container cluster și browser Kubernetes</title>
+  <meta name="description" content="Kubernetes pe instrumentul container de la Apple, cu Gantry: clustere cu workeri dimensionați și depozit de imagini partajat, pod-uri, jurnale, shell, porturi, YAML.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="canonical" href="https://getgantry.github.io/ro/apple-container-kubernetes/">
   <link rel="alternate" hreflang="en" href="https://getgantry.github.io/apple-container-kubernetes/">
@@ -40,17 +40,17 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Gantry">
   <meta property="og:locale" content="ro_RO">
-  <meta property="og:title" content="Kubernetes pe Apple container: GUI pentru container cluster pe Mac">
-  <meta property="og:description" content="Kubernetes pe instrumentul container de la Apple, cu Gantry: clustere cu mai mulți workeri (container cluster), CNI la alegere, noduri, kubeconfig, imagini locale.">
+  <meta property="og:title" content="Kubernetes pe Apple container: GUI pentru container cluster și browser Kubernetes">
+  <meta property="og:description" content="Kubernetes pe instrumentul container de la Apple, cu Gantry: clustere cu workeri dimensionați și depozit de imagini partajat, pod-uri, jurnale, shell, porturi, YAML.">
   <meta property="og:url" content="https://getgantry.github.io/ro/apple-container-kubernetes/">
   <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Panoul de flotă Gantry cu gazde Docker și apple/container">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Kubernetes pe Apple container: GUI pentru container cluster pe Mac">
-  <meta name="twitter:description" content="Kubernetes pe instrumentul container de la Apple, cu Gantry: clustere cu mai mulți workeri (container cluster), CNI la alegere, noduri, kubeconfig, imagini locale.">
+  <meta name="twitter:title" content="Kubernetes pe Apple container: GUI pentru container cluster și browser Kubernetes">
+  <meta name="twitter:description" content="Kubernetes pe instrumentul container de la Apple, cu Gantry: clustere cu workeri dimensionați și depozit de imagini partajat, pod-uri, jurnale, shell, porturi, YAML.">
   <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta name="theme-color" content="#060a10">
   <link rel="icon" type="image/png" href="../../assets/icon.png">
@@ -63,11 +63,11 @@
     {
       "@type": "TechArticle",
       "@id": "https://getgantry.github.io/ro/apple-container-kubernetes/#article",
-      "headline": "Kubernetes pe Apple container: GUI pentru container cluster pe Mac",
-      "description": "Kubernetes pe instrumentul container de la Apple, cu Gantry: clustere cu mai mulți workeri (container cluster), CNI la alegere, noduri, kubeconfig, imagini locale.",
+      "headline": "Kubernetes pe Apple container: GUI pentru container cluster și browser Kubernetes",
+      "description": "Kubernetes pe instrumentul container de la Apple, cu Gantry: clustere cu workeri dimensionați și depozit de imagini partajat, pod-uri, jurnale, shell, porturi, YAML.",
       "url": "https://getgantry.github.io/ro/apple-container-kubernetes/",
       "inLanguage": "ro",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -122,7 +122,7 @@
           "name": "Apple container acceptă Kubernetes?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Da. CLI-ul container creează clustere Kubernetes ale căror noduri rulează ca containere: container cluster în CLI 1.6.1, container k8s în CLI 1.5.0–1.6.0. Gantry îi oferă un GUI."
+            "text": "Da. CLI-ul container creează clustere Kubernetes ale căror noduri rulează ca containere: container cluster în CLI 1.6.1 și 1.7, container k8s în CLI 1.5.0–1.6.0. Gantry îi oferă un GUI."
           }
         },
         {
@@ -130,7 +130,7 @@
           "name": "Gantry acceptă container cluster?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Da. Gantry listează, creează și șterge clustere pe gazdele apple/container, afișează nodurile acestora, salvează kubeconfig, copiază comanda de context kubectl și încarcă imagini locale într-un cluster. Folosește cluster sau k8s în funcție de versiunea CLI-ului dvs."
+            "text": "Da. Gantry listează, creează și șterge clustere pe gazdele apple/container, afișează nodurile acestora, salvează kubeconfig și deschide clusterul în browserul său Kubernetes. Pe CLI 1.7 dimensionează și workerii și activează depozitul de imagini partajat. Folosește cluster sau k8s în funcție de versiunea CLI-ului dvs."
           }
         },
         {
@@ -146,7 +146,7 @@
           "name": "Cum pun o imagine locală în cluster fără registru?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "În Gantry, faceți clic dreapta pe imagine în Imagini și alegeți Încarcă în cluster. Gantry rulează container cluster load-image, care copiază imaginea în containerd-ul fiecărui nod."
+            "text": "Pe CLI 1.7, creați clusterul cu Folosește imaginile locale (--shared-image-store). Pod-urile rulează apoi, după nume, imaginile pe care le construiți sau le descărcați cu container. Pe CLI 1.5 și 1.6, faceți clic dreapta pe imagine în Imagini și alegeți Încarcă în cluster; Gantry rulează container cluster load-image. CLI 1.7 a eliminat load-image."
           }
         },
         {
@@ -154,7 +154,7 @@
           "name": "Pot crea un cluster cu mai multe noduri?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Da. Setați numărul de workeri în foaia de creare. Workerii necesită CLI 1.6.0 sau o versiune ulterioară."
+            "text": "Da. Setați numărul de workeri în foaia de creare; workerii necesită CLI 1.6.0 sau o versiune ulterioară. Pe CLI 1.7 setați și CPU-urile și memoria workerilor separat de planul de control."
           }
         },
         {
@@ -164,6 +164,102 @@
             "@type": "Answer",
             "text": "Da. Alegeți Manifest personalizat și selectați fișierul manifest sau alegeți Niciunul și aplicați manual un CNI după ce clusterul pornește. Nodurile rămân NotReady până când rulează un CNI. Niciunul necesită CLI 1.6.0 sau o versiune ulterioară. CNI-ul implicit este manifestul kindnet inclus."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "De ce spune Gantry că serviciile clusterului nu sunt disponibile?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Serviciile container nu au răspuns la o comandă de cluster. Dacă CLI-ul dvs. este o versiune Homebrew fără serviciile clusterului, Gantry vă spune acest lucru și oferă un link către programul de instalare semnat de pe pagina de versiuni apple/container. Altfel, oferă Repornește serviciile."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Am nevoie de kubectl pentru a folosi clusterul în Gantry?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nu. Gantry comunică direct cu API-ul Kubernetes: citește kubeconfig, apoi listează resurse, transmite jurnale în timp real, deschide un shell, redirecționează porturi și aplică YAML fără kubectl. Un cluster creat cu container cluster create poate fi răsfoit imediat."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Pot rula Kubernetes pe Mac fără Docker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Da. CLI-ul container de la Apple creează singur clustere Kubernetes cu container cluster create. Fiecare nod rulează ca o mașină virtuală ușoară și nu aveți nevoie de Docker, Docker Desktop, kind sau minikube."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Câte noduri poate avea un container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Un plan de control și atâția workeri câți permit CPU-urile și memoria Mac-ului. Setați-i cu --workers; pe CLI 1.7, fiecare grup de workeri poate avea propriile CPU-uri și memorie."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Ce versiune Kubernetes folosește container cluster?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CLI 1.7.1 folosește implicit imaginea de nod kindest/node:v1.35.5. Alegeți altă versiune cu --node-image, de exemplu docker.io/kindest/node:v1.34.11. Gantry afișează versiunea în prezentarea generală a clusterului."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://getgantry.github.io/ro/apple-container-kubernetes/#howto",
+      "name": "Rulați Kubernetes pe Mac cu Apple container",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "De ce aveți nevoie",
+          "text": "Un Mac cu Apple silicon și macOS 26 sau o versiune ulterioară. CLI-ul container 1.7.1 din pachetul semnat .pkg de pe pagina de versiuni apple/container. Versiunea Homebrew a 1.7.1 nu include serviciile clusterului, așa că container cluster eșuează cu cluster service unavailable. Aproximativ 6 GB de memorie liberă pentru exemplul de mai jos: trei noduri cu câte 2 GB. kubectl, dacă doriți să folosiți clusterul din terminal (brew install kubectl).",
+          "url": "https://getgantry.github.io/ro/apple-container-kubernetes/#terminal-requirements"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Creați clusterul",
+          "text": "Această comandă creează un cluster numit dev cu un nod de plan de control și doi workeri. Fiecare nod primește 2 CPU-uri și 2 GB de memorie:",
+          "url": "https://getgantry.github.io/ro/apple-container-kubernetes/#terminal-create"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Rulați o imagine locală fără registru",
+          "text": "Cu --shared-image-store, nodurile pot rula orice imagine din depozitul local de imagini container. Construiți o imagine și folosiți-o după nume:",
+          "url": "https://getgantry.github.io/ro/apple-container-kubernetes/#terminal-images"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Deschideți aplicația într-un browser",
+          "text": "Redirecționați un port local către deployment, apoi deschideți http://localhost:8080:",
+          "url": "https://getgantry.github.io/ro/apple-container-kubernetes/#terminal-reach"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Opriți și ștergeți clusterul",
+          "text": "Dacă nodul de plan de control se oprește, de exemplu după container system stop, ștergeți clusterul și creați-l din nou. Creați un cluster temporar cu --rm, ca nodurile să fie eliminate când se opresc.",
+          "url": "https://getgantry.github.io/ro/apple-container-kubernetes/#terminal-cleanup"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Probleme frecvente",
+          "text": "cluster service unavailable: CLI-ul este versiunea Homebrew sau serviciile nu rulează. Instalați pachetul semnat sau reporniți serviciile cu container system stop și container system start. Gantry afișează același sfat în Clustere. Un cluster vechi lipsește din listă: CLI 1.7 nu listează clusterele create cu 1.6 sau cu o versiune anterioară. Eliminați unul cu container cluster delete --name <name>. Nodurile rămân NotReady: ați folosit --cni NONE. Aplicați un manifest CNI. Nu puteți opri containerul unui nod: este intenționat. container stop și delete refuză nodurile de cluster; folosiți container cluster delete.",
+          "url": "https://getgantry.github.io/ro/apple-container-kubernetes/#terminal-troubleshooting"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Comparație cu Docker Desktop și OrbStack",
+          "text": "Docker Desktop are Kubernetes integrat cu kubeadm (un nod) sau kind (mai multe noduri), iar OrbStack are un cluster integrat cu un singur nod. container cluster rulează kubeadm pe imagini kindest/node, fiecare nod în propria VM, cu clustere cu mai multe noduri și depozitul de imagini partajat. Vedeți comparația completă.",
+          "url": "https://getgantry.github.io/ro/apple-container-kubernetes/#terminal-compare"
         }
       ]
     }
@@ -225,17 +321,17 @@
     <nav class="crumbs" aria-label="Fir de navigare"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Kubernetes pe apple/container</span></nav>
     <article class="docs-article page-article">
 <h1>Kubernetes pe Apple container</h1>
-<p class="page-lead">apple/container poate rula un cluster Kubernetes ale cărui noduri sunt containere pe Mac. Gantry este un GUI pentru el: creați un cluster, urmăriți cum pornesc nodurile, conectați <code>kubectl</code> și încărcați imaginile locale, fără linii de comandă lungi <code>container cluster</code>.</p>
+<p class="page-lead">apple/container poate rula un cluster Kubernetes ale cărui noduri sunt containere pe Mac. Gantry este un GUI pentru el: creați un cluster, urmăriți cum pornesc nodurile, rulați imaginile locale în el și răsfoiți pod-urile, jurnalele și serviciile, fără linii de comandă lungi <code>container cluster</code>.</p>
 
 <div class="tldr">
-<p><strong>Pe scurt.</strong> Pe o gazdă apple/container, secțiunea <strong>Clustere</strong> din Gantry creează și șterge clustere Kubernetes cu <code>container cluster</code> (CLI 1.6.1) sau <code>container k8s</code> (CLI 1.5.0–1.6.0). Acceptă mai mulți workeri, un CNI personalizat, o vizualizare a nodurilor, kubeconfig și context <code>kubectl</code>, plus <strong>Încarcă în cluster</strong> pentru imagini locale.</p>
+<p><strong>Pe scurt.</strong> Pe o gazdă apple/container, secțiunea <strong>Clustere</strong> din Gantry creează și șterge clustere Kubernetes cu <code>container cluster</code> (CLI 1.6.1 și 1.7) sau <code>container k8s</code> (CLI 1.5.0–1.6.0). Pe CLI 1.7.1 dimensionează workerii separat de planul de control și activează depozitul de imagini partajat. Secțiunea <strong>Kubernetes</strong> răsfoiește clusterul: pod-uri, jurnale, shell, redirecționări de porturi, scalare și Aplică YAML.</p>
 </div>
 
 <h2 id="requirements">Cerințe</h2>
 <ul>
   <li>Un Mac cu Apple silicon, macOS 26 și Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
-  <li>CLI-ul <code>container</code> 1.5.0 sau mai nou; se recomandă 1.6.1. Workerii și CNI-ul <em>Niciunul</em> necesită 1.6.0 sau mai nou.</li>
-  <li><code>kubectl</code>, dacă vreți să folosiți clusterul din terminal.</li>
+  <li>CLI-ul <code>container</code> 1.5.0 sau o versiune ulterioară; se recomandă 1.7.1. Workerii și CNI-ul <em>Niciunul</em> necesită 1.6.0 sau o versiune ulterioară. Dimensiunile workerilor și depozitul de imagini partajat necesită 1.7.0 sau o versiune ulterioară. Folosiți pachetul de instalare semnat: versiunea Homebrew a 1.7.1 nu are serviciile clusterului.</li>
+  <li>Nimic altceva pentru browserul Kubernetes din Gantry. <code>kubectl</code> doar dacă doriți să folosiți clusterul și din terminal.</li>
 </ul>
 
 <h2 id="create">Crearea unui cluster</h2>
@@ -249,20 +345,37 @@
 <tbody>
 <tr><th scope="row">Nume</th><td><code>--name</code></td><td>Este și numele contextului din kubeconfig</td></tr>
 <tr><th scope="row">Workeri</th><td><code>--workers</code></td><td>Numărul de noduri worker. CLI 1.6.0+</td></tr>
-<tr><th scope="row">CPU-uri</th><td><code>--cpus</code></td><td>Per nod</td></tr>
-<tr><th scope="row">Memorie</th><td><code>--memory</code></td><td>Per nod, de exemplu <code>4G</code></td></tr>
+<tr><th scope="row">CPU-uri și memorie pentru workeri</th><td><code>--workers count=N,cpus=C,memory=M</code></td><td>CLI 1.7+. Înainte de 1.7, <code>--cpus</code> și <code>--memory</code> se aplică fiecărui nod</td></tr>
+<tr><th scope="row">CPU-uri</th><td><code>--cpus</code></td><td>Planul de control (CLI 1.7+) sau fiecare nod (înainte de 1.7)</td></tr>
+<tr><th scope="row">Memorie</th><td><code>--memory</code></td><td>Planul de control (CLI 1.7+) sau fiecare nod (înainte de 1.7), de exemplu <code>4G</code></td></tr>
+<tr><th scope="row">Folosește imaginile locale</th><td><code>--shared-image-store</code></td><td>CLI 1.7+. Nodurile rulează imagini din depozitul dvs. local de imagini</td></tr>
 <tr><th scope="row">Imaginea nodurilor</th><td><code>--node-image</code></td><td>Gol păstrează valoarea implicită a CLI-ului</td></tr>
 <tr><th scope="row">CNI</th><td><code>--cni</code></td><td>Implicit (kindnet inclus), Niciunul (<code>NONE</code>, CLI 1.6.0+) sau calea către un manifest personalizat</td></tr>
 </tbody>
 </table></div>
 <p>Aceeași comandă în CLI:</p>
 <div class="code-block">
-  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster create --name dev --workers 2 --cpus 2 --memory 4G">Copiază</button></div>
-  <pre><code>container cluster create --name dev --workers 2 --cpus 2 --memory 4G</code></pre>
+  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 4G \
+  --workers count=2,cpus=2,memory=4G --shared-image-store">Copiază</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 4G \
+  --workers count=2,cpus=2,memory=4G --shared-image-store</code></pre>
 </div>
 
 <h2 id="nodes">Noduri și detaliile clusterului</h2>
-<p>Lista de clustere afișează fiecare cluster cu nodurile sale: rol, stare și adresă. Vizualizarea detaliată are o <strong>Prezentare generală</strong> (context kubectl, server API, workeri, rețeaua nodurilor), un tabel <strong>Noduri</strong>, <strong>Inspectează</strong> pentru datele brute ale nodurilor și acțiunile <strong>Salvează kubeconfig</strong>, <strong>Copiază comanda de context kubectl</strong> și <strong>Șterge</strong>.</p>
+<p>Lista de clustere afișează un rând pentru fiecare cluster. Vizualizarea detaliată are o filă <strong>Prezentare generală</strong> (context kubectl, server API, versiune Kubernetes, depozit de imagini, workerii și resursele lor, rețeaua nodurilor), un tabel <strong>Noduri</strong> și <strong>Inspectează</strong> pentru datele brute ale nodurilor. Bara de instrumente are <strong>Răsfoiește resursele</strong>, iar meniul Mai mult are <strong>Salvează kubeconfig</strong>, <strong>Copiază comanda de context kubectl</strong> și <strong>Șterge</strong>.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/cluster-overview.png" alt="Prezentarea generală a clusterului în Gantry, cu versiunea Kubernetes, depozitul de imagini și workerii" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Prezentarea clusterului.</b> Versiunea Kubernetes, depozitul de imagini, workerii și resursele lor.</figcaption></figure>
+<p>Nodurile clusterului sunt containere, dar le gestionează <code>container cluster</code>. Gantry dezactivează pornirea, oprirea, repornirea, eliminarea și redenumirea unui nod și vă spune de ce, iar Pornește tot și Oprește tot omit nodurile. Pe CLI 1.7, CLI-ul ascunde și nodurile din <code>container list</code>. Clusterele create cu CLI 1.6 sau o versiune anterioară nu apar în lista din 1.7; eliminați-le cu <code>container cluster delete --name &lt;name&gt;</code>.</p>
+
+<h2 id="browser">Răsfoiți clusterul</h2>
+<p>Faceți clic pe <strong>Răsfoiește resursele</strong> pe un cluster care rulează sau deschideți <strong>Kubernetes</strong> în bara laterală. Secțiunea nu necesită o gazdă și listează fiecare context kubeconfig; contextele clusterelor apple/container apar primele. Alegeți un spațiu de nume sau toate spațiile de nume, apoi un tip: pod-uri, deployment-uri, StatefulSet-uri, DaemonSet-uri, servicii, Ingress-uri, ConfigMap-uri, secrete, noduri sau evenimente.</p>
+<ul>
+  <li><strong>Pod-uri:</strong> jurnale cu urmărire, ultimele linii și containerul anterior; un shell în pod; redirecționare de port către <code>127.0.0.1</code>.</li>
+  <li><strong>Sarcini de lucru:</strong> scalați deployment-uri și StatefulSet-uri; reporniți un rollout.</li>
+  <li><strong>Secrete:</strong> valorile sunt mascate în listă și în YAML până când faceți clic pe Afișează.</li>
+  <li><strong>Aplică YAML:</strong> lipiți un manifest sau deschideți un fișier; erorile apar în foaie.</li>
+</ul>
+<p>Gantry comunică direct cu API-ul Kubernetes, cu datele de autentificare din kubeconfig. Nu aveți nevoie de <code>kubectl</code> sau de alt instrument: un cluster creat cu <code>container cluster create</code> poate fi răsfoit imediat.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/kubernetes-browser-dev.png" alt="Browserul Kubernetes din Gantry cu pod-urile clusterului dev" width="2972" height="1854" loading="lazy" decoding="async"><figcaption><b>Browser Kubernetes.</b> Pod-urile unui <code>container cluster</code>, cu jurnale și redirecționări de porturi.</figcaption></figure>
 
 <h2 id="kubectl">Conectarea kubectl</h2>
 <p>Când creează clusterul, CLI-ul adaugă în <code>~/.kube/config</code> un context cu numele clusterului. Folosiți <strong>Copiază comanda de context kubectl</strong> în Gantry sau tastați comanda:</p>
@@ -272,15 +385,103 @@
 </div>
 <p>Pentru a păstra clusterul într-un fișier separat, folosiți <strong>Salvează kubeconfig</strong>. Gantry rulează <code>container cluster write-config</code>; calea implicită este <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p>
 
-<h2 id="images">Încărcarea imaginilor locale în cluster</h2>
-<p>Construiți sau descărcați o imagine pe gazda apple/container, apoi faceți clic dreapta pe ea în <strong>Imagini</strong> și alegeți <strong>Încarcă în cluster</strong>. Gantry rulează <code>container cluster load-image</code>, care copiază imaginea în containerd-ul fiecărui nod. Pentru dezvoltarea locală nu aveți nevoie de un registru.</p>
+<h2 id="images">Folosiți imagini locale în cluster</h2>
+<p>Pe CLI 1.7, activați <strong>Folosește imaginile locale</strong> când creați clusterul. Opțiunea adaugă <code>--shared-image-store</code>, astfel încât nodurile pot rula, după nume, orice imagine pe care o construiți sau o descărcați cu <code>container</code>, fără registru. Setarea se fixează la creare. După ce reconstruiți un tag, folosiți <code>imagePullPolicy: Always</code> sau un tag nou. Pod-urile privilegiate pot citi orice imagine din depozitul dvs. local, deci folosiți această opțiune doar pentru dezvoltare locală.</p>
+<div class="code-block">
+  <div class="code-head"><span>Shell</span><button class="copy" data-copy="container build -t myapp:dev .
+kubectl --context dev create deployment myapp --image=myapp:dev">Copiază</button></div>
+  <pre><code>container build -t myapp:dev .
+kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
+</div>
+<p>Pe CLI 1.5 și 1.6, faceți clic dreapta pe imagine în <strong>Imagini</strong> și alegeți <strong>Încarcă în cluster</strong>. Gantry rulează <code>container cluster load-image</code>, care copiază imaginea în containerd-ul fiecărui nod. CLI 1.7 a eliminat această comandă, așa că Gantry ascunde acolo acțiunea.</p>
 <div class="code-block">
   <div class="code-head"><span>Shell</span><button class="copy" data-copy="container cluster load-image --name dev myapp:dev">Copiază</button></div>
   <pre><code>container cluster load-image --name dev myapp:dev</code></pre>
 </div>
 
+<h2 id="broken">Când serviciile clusterului nu răspund</h2>
+<p>Dacă o comandă de cluster eșuează cu <em>cluster service unavailable</em>, Gantry verifică modul în care este instalat CLI-ul. O versiune Homebrew fără pluginurile de cluster primește mesajul că îi lipsesc serviciile clusterului și un link <strong>Descarcă programul de instalare…</strong> către pachetul semnat. În celelalte cazuri, Gantry oferă <strong>Repornește serviciile…</strong>.</p>
+
 <h2 id="cni">Alegerea unui CNI</h2>
 <p>Implicit se folosește manifestul kindnet inclus. Alegeți <strong>Manifest personalizat</strong> pentru a instala propriul CNI dintr-un fișier, de exemplu Calico sau Cilium. Alegeți <strong>Niciunul</strong> pentru a instala manual un CNI mai târziu; până atunci, nodurile rămân NotReady.</p>
+
+<h2 id="terminal">Rulați Kubernetes pe Mac cu Apple container</h2>
+<p>Instrumentul <code>container</code> de la Apple poate crea un cluster Kubernetes local cu o singură comandă. Fiecare nod este o mașină virtuală ușoară pe Mac. Acest ghid pornește de la un Mac gol și ajunge la un deployment care rulează, mai întâi în terminal, apoi în Gantry.</p>
+
+<h3 id="terminal-requirements">De ce aveți nevoie</h3>
+<ul>
+  <li>Un Mac cu Apple silicon și macOS 26 sau o versiune ulterioară.</li>
+  <li>CLI-ul <code>container</code> 1.7.1 din pachetul semnat <code>.pkg</code> de pe <a href="https://github.com/apple/container/releases">pagina de versiuni apple/container</a>. Versiunea Homebrew a 1.7.1 nu include serviciile clusterului, așa că <code>container cluster</code> eșuează cu <em>cluster service unavailable</em>.</li>
+  <li>Aproximativ 6 GB de memorie liberă pentru exemplul de mai jos: trei noduri cu câte 2 GB.</li>
+  <li><code>kubectl</code>, dacă doriți să folosiți clusterul din terminal (<code>brew install kubectl</code>).</li>
+</ul>
+<p>Porniți serviciile o dată, după ce instalați pachetul:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system start">Copiază</button></div>
+  <pre><code>container system start</code></pre>
+</div>
+
+<ul id="terminal-create">Creați clusterul</ul>
+<p>Această comandă creează un cluster numit <code>dev</code> cu un nod de plan de control și doi workeri. Fiecare nod primește 2 CPU-uri și 2 GB de memorie:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store">Copiază</button></div>
+  <pre><code>container cluster create --name dev --cpus 2 --memory 2g \
+  --workers count=2,cpus=2,memory=2g --shared-image-store</code></pre>
+</div>
+<ul>
+  <li><code>--workers count=N,cpus=C,memory=M</code> dimensionează un grup de workeri. Repetați opțiunea pentru grupuri de dimensiuni diferite. Fără <code>--workers</code>, un singur nod este atât plan de control, cât și worker.</li>
+  <li><code>--cpus</code> și <code>--memory</code> dimensionează planul de control. Valoarea implicită este un sfert din CPU-urile și memoria Mac-ului, cel puțin 2 CPU-uri și 2 GB.</li>
+  <li><code>--shared-image-store</code> permite nodurilor să folosească imaginile dvs. locale (vedeți mai jos). Nu o puteți schimba ulterior: ștergeți clusterul și creați-l din nou.</li>
+  <li><code>--cni ./calico.yaml</code> instalează propriul CNI în locul kindnet inclus; <code>--cni NONE</code> nu instalează niciunul.</li>
+</ul>
+<p>CLI-ul adaugă în <code>~/.kube/config</code> un context numit <code>dev</code>. Verificați nodurile:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster list --nodes
+kubectl --context dev get nodes">Copiază</button></div>
+  <pre><code>container cluster list --nodes
+kubectl --context dev get nodes</code></pre>
+</div>
+
+<ul id="terminal-images">Rulați o imagine locală fără registru</ul>
+<p>Cu <code>--shared-image-store</code>, nodurile pot rula orice imagine din depozitul local de imagini <code>container</code>. Construiți o imagine și folosiți-o după nume:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods">Copiază</button></div>
+  <pre><code>printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
+container build -t hello:dev .
+kubectl --context dev create deployment hello --image=hello:dev
+kubectl --context dev get pods</code></pre>
+</div>
+<div class="callout callout-note"><span class="callout-tag">Notă</span><div>După ce reconstruiți același tag, rulați <code>kubectl rollout restart</code> cu <code>imagePullPolicy: Always</code> sau folosiți un tag nou. Cu <code>IfNotPresent</code>, un nod păstrează copia pe care o are deja. Orice rulează ca root pe un nod poate citi orice imagine din depozitul dvs. local, inclusiv imaginile private, deci folosiți depozitul partajat doar pentru dezvoltare locală.</div></div>
+<p>Pe CLI 1.5 și 1.6 nu există depozit partajat. Acolo folosiți <code>container cluster load-image</code> sau <b>Încarcă în cluster</b> în Gantry. CLI 1.7 a eliminat <code>load-image</code>.</p>
+
+<ul id="terminal-reach">Deschideți aplicația într-un browser</ul>
+<p>Redirecționați un port local către deployment, apoi deschideți <code>http://localhost:8080</code>:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Copiază</button></div>
+  <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
+</div>
+
+<ul id="terminal-cleanup">Opriți și ștergeți clusterul</ul>
+<div class="code-block">
+  <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster delete --name dev">Copiază</button></div>
+  <pre><code>container cluster delete --name dev</code></pre>
+</div>
+<p>Dacă nodul de plan de control se oprește, de exemplu după <code>container system stop</code>, ștergeți clusterul și creați-l din nou. Creați un cluster temporar cu <code>--rm</code>, ca nodurile să fie eliminate când se opresc.</p>
+
+<ul id="terminal-troubleshooting">Probleme frecvente</ul>
+<ul>
+  <li><strong>cluster service unavailable:</strong> CLI-ul este versiunea Homebrew sau serviciile nu rulează. Instalați pachetul semnat sau reporniți serviciile cu <code>container system stop</code> și <code>container system start</code>. Gantry afișează același sfat în Clustere.</li>
+  <li><strong>Un cluster vechi lipsește din listă:</strong> CLI 1.7 nu listează clusterele create cu 1.6 sau cu o versiune anterioară. Eliminați unul cu <code>container cluster delete --name &lt;name&gt;</code>.</li>
+  <li><strong>Nodurile rămân NotReady:</strong> ați folosit <code>--cni NONE</code>. Aplicați un manifest CNI.</li>
+  <li><strong>Nu puteți opri containerul unui nod:</strong> este intenționat. <code>container stop</code> și <code>delete</code> refuză nodurile de cluster; folosiți <code>container cluster delete</code>.</li>
+</ul>
+
+<ul id="terminal-compare">Comparație cu Docker Desktop și OrbStack</ul>
+<p>Docker Desktop are Kubernetes integrat cu kubeadm (un nod) sau kind (mai multe noduri), iar OrbStack are un cluster integrat cu un singur nod. <code>container cluster</code> rulează kubeadm pe imagini <code>kindest/node</code>, fiecare nod în propria VM, cu clustere cu mai multe noduri și depozitul de imagini partajat. Vedeți <a href="../compare/">comparația completă</a>.</p>
 
 <h2 id="agents">Clustere din agenți AI</h2>
 <p>Serverul MCP Gantry are <code>list_clusters</code>, <code>create_cluster</code> și <code>delete_cluster</code>, așa că un agent precum Claude Code poate crea un cluster temporar pentru un test și îl poate elimina după aceea.</p>
@@ -290,19 +491,24 @@
 </div>
 
 <h2 id="more">Mai multe despre apple/container</h2>
-<p>Citiți <a href="../apple-container/">ghidul apple/container</a> pentru fiecare comandă <code>container</code> și funcția corespunzătoare din Gantry sau vedeți cum se compară Gantry cu <a href="../compare/">Docker Desktop, OrbStack și Podman Desktop</a>.</p>
+<p>Pentru un ghid pas cu pas din terminal, citiți <a href="#terminal">Rulați Kubernetes pe Mac cu Apple container</a>. Citiți <a href="../apple-container/">ghidul apple/container</a> pentru fiecare comandă <code>container</code> și funcția Gantry corespunzătoare sau vedeți cum se compară Gantry cu <a href="../compare/">Docker Desktop, OrbStack și Podman Desktop</a>.</p>
 
 <h2 id="faq">Întrebări și răspunsuri</h2>
 <div class="faq-list">
-<details class="faq-item"><summary>Apple container acceptă Kubernetes?</summary><p>Da. CLI-ul <code>container</code> creează clustere Kubernetes ale căror noduri rulează ca containere: <code>container cluster</code> în CLI 1.6.1, <code>container k8s</code> în CLI 1.5.0–1.6.0. Gantry îi oferă un GUI.</p></details>
-<details class="faq-item"><summary>Gantry acceptă container cluster?</summary><p>Da. Gantry listează, creează și șterge clustere pe gazdele apple/container, afișează nodurile acestora, salvează kubeconfig, copiază comanda de context <code>kubectl</code> și încarcă imagini locale într-un cluster. Folosește <code>cluster</code> sau <code>k8s</code> în funcție de versiunea CLI-ului dvs.</p></details>
+<details class="faq-item"><summary>Apple container acceptă Kubernetes?</summary><p>Da. CLI-ul <code>container</code> creează clustere Kubernetes ale căror noduri rulează ca containere: <code>container cluster</code> în CLI 1.6.1 și 1.7, <code>container k8s</code> în CLI 1.5.0–1.6.0. Gantry îi oferă un GUI.</p></details>
+<details class="faq-item"><summary>Gantry acceptă container cluster?</summary><p>Da. Gantry listează, creează și șterge clustere pe gazdele apple/container, afișează nodurile acestora, salvează kubeconfig și deschide clusterul în browserul său Kubernetes. Pe CLI 1.7 dimensionează și workerii și activează depozitul de imagini partajat. Folosește <code>cluster</code> sau <code>k8s</code> în funcție de versiunea CLI-ului dvs.</p></details>
 <details class="faq-item"><summary>Cum folosesc kubectl cu un cluster apple/container?</summary><p>Când CLI-ul creează un cluster, adaugă în <code>~/.kube/config</code> un context kubeconfig cu numele clusterului. Rulați <code>kubectl --context &lt;name&gt; get nodes</code>. Pentru un fișier separat, folosiți <b>Salvează kubeconfig</b> în Gantry; calea implicită este <code>~/.kube/&lt;name&gt;.kubeconfig</code>.</p></details>
-<details class="faq-item"><summary>Cum pun o imagine locală în cluster fără registru?</summary><p>În Gantry, faceți clic dreapta pe imagine în Imagini și alegeți <b>Încarcă în cluster</b>. Gantry rulează <code>container cluster load-image</code>, care copiază imaginea în containerd-ul fiecărui nod.</p></details>
-<details class="faq-item"><summary>Pot crea un cluster cu mai multe noduri?</summary><p>Da. Setați numărul de workeri în foaia de creare. Workerii necesită CLI 1.6.0 sau o versiune ulterioară.</p></details>
+<details class="faq-item"><summary>Cum pun o imagine locală în cluster fără registru?</summary><p>Pe CLI 1.7, creați clusterul cu <b>Folosește imaginile locale</b> (<code>--shared-image-store</code>). Pod-urile rulează apoi, după nume, imaginile pe care le construiți sau le descărcați cu <code>container</code>. Pe CLI 1.5 și 1.6, faceți clic dreapta pe imagine în Imagini și alegeți <b>Încarcă în cluster</b>; Gantry rulează <code>container cluster load-image</code>. CLI 1.7 a eliminat <code>load-image</code>.</p></details>
+<details class="faq-item"><summary>Pot crea un cluster cu mai multe noduri?</summary><p>Da. Setați numărul de workeri în foaia de creare; workerii necesită CLI 1.6.0 sau o versiune ulterioară. Pe CLI 1.7 setați și CPU-urile și memoria workerilor separat de planul de control.</p></details>
 <details class="faq-item"><summary>Pot folosi propriul CNI, de exemplu Calico sau Cilium?</summary><p>Da. Alegeți <b>Manifest personalizat</b> și selectați fișierul manifest sau alegeți <b>Niciunul</b> și aplicați manual un CNI după ce clusterul pornește. Nodurile rămân NotReady până când rulează un CNI. <b>Niciunul</b> necesită CLI 1.6.0 sau o versiune ulterioară. CNI-ul implicit este manifestul kindnet inclus.</p></details>
+<details class="faq-item"><summary>De ce spune Gantry că serviciile clusterului nu sunt disponibile?</summary><p>Serviciile <code>container</code> nu au răspuns la o comandă de cluster. Dacă CLI-ul dvs. este o versiune Homebrew fără serviciile clusterului, Gantry vă spune acest lucru și oferă un link către programul de instalare semnat de pe pagina de versiuni apple/container. Altfel, oferă <b>Repornește serviciile</b>.</p></details>
+<details class="faq-item"><summary>Am nevoie de kubectl pentru a folosi clusterul în Gantry?</summary><p>Nu. Gantry comunică direct cu API-ul Kubernetes: citește kubeconfig, apoi listează resurse, transmite jurnale în timp real, deschide un shell, redirecționează porturi și aplică YAML fără <code>kubectl</code>. Un cluster creat cu <code>container cluster create</code> poate fi răsfoit imediat.</p></details>
+<details class="faq-item"><summary>Pot rula Kubernetes pe Mac fără Docker?</summary><p>Da. CLI-ul <code>container</code> de la Apple creează singur clustere Kubernetes cu <code>container cluster create</code>. Fiecare nod rulează ca o mașină virtuală ușoară și nu aveți nevoie de Docker, Docker Desktop, kind sau minikube.</p></details>
+<details class="faq-item"><summary>Câte noduri poate avea un container cluster?</summary><p>Un plan de control și atâția workeri câți permit CPU-urile și memoria Mac-ului. Setați-i cu <code>--workers</code>; pe CLI 1.7, fiecare grup de workeri poate avea propriile CPU-uri și memorie.</p></details>
+<details class="faq-item"><summary>Ce versiune Kubernetes folosește container cluster?</summary><p>CLI 1.7.1 folosește implicit imaginea de nod <code>kindest/node:v1.35.5</code>. Alegeți altă versiune cu <code>--node-image</code>, de exemplu <code>docker.io/kindest/node:v1.34.11</code>. Gantry afișează versiunea în prezentarea generală a clusterului.</p></details>
 </div>
 
-<p class="updated">Ultima actualizare: 2026-11-03.</p>
+<p class="updated">Ultima actualizare: 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Acasă</a>
@@ -312,6 +518,12 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Comparație</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">De la Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Disc extern</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Din docker run</a>
       <span>·</span>
       <a href="../../docs/index.html">Documentație</a>
       <span>·</span>

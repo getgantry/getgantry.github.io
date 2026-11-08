@@ -5,8 +5,8 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gantry vs Docker Desktop, OrbStack, Podman Desktop och container-CLI</title>
-  <meta name="description" content="Saklig jämförelse av Gantry, Docker Desktop, OrbStack, Podman Desktop och Apples container-CLI på macOS: licens, pris, UI, apple/container, Kubernetes, Compose.">
+  <title>Gantry vs Docker Desktop vs OrbStack vs Podman Desktop på Mac (2026)</title>
+  <meta name="description" content="En jämförelse med källor av Gantry, Docker Desktop, OrbStack, Podman Desktop och Apples container-CLI på macOS: licens, pris, UI, apple/container, Kubernetes, Compose, externa diskar och AI.">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="canonical" href="https://getgantry.github.io/sv/compare/">
   <link rel="alternate" hreflang="en" href="https://getgantry.github.io/compare/">
@@ -40,17 +40,17 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Gantry">
   <meta property="og:locale" content="sv_SE">
-  <meta property="og:title" content="Gantry vs Docker Desktop, OrbStack, Podman Desktop och container-CLI">
-  <meta property="og:description" content="Saklig jämförelse av Gantry, Docker Desktop, OrbStack, Podman Desktop och Apples container-CLI på macOS: licens, pris, UI, apple/container, Kubernetes, Compose.">
+  <meta property="og:title" content="Gantry vs Docker Desktop vs OrbStack vs Podman Desktop på Mac (2026)">
+  <meta property="og:description" content="En jämförelse med källor av Gantry, Docker Desktop, OrbStack, Podman Desktop och Apples container-CLI på macOS: licens, pris, UI, apple/container, Kubernetes, Compose, externa diskar och AI.">
   <meta property="og:url" content="https://getgantry.github.io/sv/compare/">
   <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantrys översikt över flottan med Docker- och apple/container-värdar">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Gantry vs Docker Desktop, OrbStack, Podman Desktop och container-CLI">
-  <meta name="twitter:description" content="Saklig jämförelse av Gantry, Docker Desktop, OrbStack, Podman Desktop och Apples container-CLI på macOS: licens, pris, UI, apple/container, Kubernetes, Compose.">
+  <meta name="twitter:title" content="Gantry vs Docker Desktop vs OrbStack vs Podman Desktop på Mac (2026)">
+  <meta name="twitter:description" content="En jämförelse med källor av Gantry, Docker Desktop, OrbStack, Podman Desktop och Apples container-CLI på macOS: licens, pris, UI, apple/container, Kubernetes, Compose, externa diskar och AI.">
   <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
   <meta name="theme-color" content="#060a10">
   <link rel="icon" type="image/png" href="../../assets/icon.png">
@@ -63,11 +63,11 @@
     {
       "@type": "TechArticle",
       "@id": "https://getgantry.github.io/sv/compare/#article",
-      "headline": "Gantry vs Docker Desktop, OrbStack, Podman Desktop och container-CLI",
-      "description": "Saklig jämförelse av Gantry, Docker Desktop, OrbStack, Podman Desktop och Apples container-CLI på macOS: licens, pris, UI, apple/container, Kubernetes, Compose.",
+      "headline": "Gantry vs Docker Desktop vs OrbStack vs Podman Desktop på Mac (2026)",
+      "description": "En jämförelse med källor av Gantry, Docker Desktop, OrbStack, Podman Desktop och Apples container-CLI på macOS: licens, pris, UI, apple/container, Kubernetes, Compose, externa diskar och AI.",
       "url": "https://getgantry.github.io/sv/compare/",
       "inLanguage": "sv",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -146,7 +146,7 @@
           "name": "Vilket är det bästa GUI:t för Apple container?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Av verktygen på den här sidan är Gantry det enda som hanterar apple/container (kontrollerat 2026-11-03). Det täcker hela container-CLI:et, inklusive kluster, maskiner, byggare, register och systemegenskaper."
+            "text": "Av verktygen på den här sidan hanterar Gantry och Podman Desktop (med sitt tillägg Apple container) apple/container; det finns också mindre appar med öppen källkod. Gantry täcker hela container-CLI:et: containrar, Compose-filer, Kubernetes-kluster, maskiner, image-byggaren, registerinloggningar, kärnor och systemegenskaper, och följer varje ny CLI-version (1.7.1 per 2026-11-07)."
           }
         },
         {
@@ -155,6 +155,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Ja. Gantry ansluter till Docker Desktops motor via dess socket, så du kan använda Gantry som GUI och behålla Docker Desktop som motor."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Vilka av de här verktygen kan lagra data på en extern disk?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Docker Desktop har en inställning för skivavbildens plats, och OrbStack lade till en dataplats i 0.13.0. Med apple/container lägger container system start --app-root all data på en annan disk, och bindningsmonteringar fungerar från vilken disk som helst. Se Lagra containrar och volymer på en extern disk."
           }
         }
       ]
@@ -224,33 +232,37 @@
 </div>
 
 <h2 id="table">Jämförelsetabell</h2>
-<p>Fakta per 2026-11-03, från varje tillverkares publika sidor (se <a href="#sources">källor</a>). ”Okänt” betyder att vi inte hittade uppgiften i tillverkarens dokumentation. Det betyder inte att funktionen saknas.</p>
+<p>Uppgifter per 2026-11-07, från varje tillverkares offentliga sidor (se <a href="#sources">källor</a>). ”Okänt” betyder att vi inte hittade uppgiften i tillverkarens dokumentation. Det betyder inte att funktionen saknas.</p>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col"></th><th scope="col">Gantry</th><th scope="col">Docker Desktop</th><th scope="col">OrbStack</th><th scope="col">Podman Desktop</th><th scope="col"><code>container</code>-CLI</th></tr></thead>
 <tbody>
 <tr><th scope="row">Vad det är</th><td>Inbyggd GUI-klient. Använder motorn du redan har</td><td>Docker-motor i en Linux-VM, plus ett GUI</td><td>Docker- och Linux-motor, plus ett GUI</td><td>GUI för Podman (och andra motorer)</td><td>Apples CLI och körmiljö</td></tr>
-<tr><th scope="row">Licens och pris</th><td>MIT, gratis för all användning</td><td>Proprietär. Gratis för privat bruk, utbildning, icke-kommersiell öppen källkod och små företag (färre än 250 anställda och under 10 miljoner USD i årlig omsättning); annars betald prenumeration</td><td>Proprietär. Gratis för privat, icke-kommersiell användning; betald licens för kommersiell användning</td><td>Apache 2.0, gratis</td><td>Apache 2.0, gratis</td></tr>
-<tr><th scope="row">Källkod</th><td>Öppen</td><td>Stängd</td><td>Stängd</td><td>Öppen</td><td>Öppen</td></tr>
-<tr><th scope="row">UI-teknik</th><td>SwiftUI (inbyggd)</td><td>Electron</td><td>Inbyggd macOS-app</td><td>Electron</td><td>Inget GUI</td></tr>
-<tr><th scope="row">Plattformar</th><td>macOS 26+, Apple-chip och Intel</td><td>macOS, Windows, Linux</td><td>macOS</td><td>macOS, Windows, Linux</td><td>macOS på Apple-chip</td></tr>
-<tr><th scope="row">Hanterar apple/container</th><td>Ja, CLI 1.0 till 1.6.1</td><td>Nej</td><td>Nej</td><td>Inte enligt tillverkarens dokumentation (kontrollerat 2026-11-03)</td><td>Det är apple/container</td></tr>
-<tr><th scope="row">Kubernetes</th><td>På apple/container, via <code>container cluster</code>: flera workers, anpassad CNI</td><td>Inbyggd Kubernetes</td><td>Inbyggd Kubernetes</td><td>Via Kind och andra leverantörer</td><td><code>container cluster</code> (1.6.1), <code>container k8s</code> (1.5.0 till 1.6.0)</td></tr>
-<tr><th scope="row">Docker Compose</th><td>På Docker-värdar och på apple/container (Gantry kör filen)</td><td>Ja</td><td>Ja</td><td>Ja, via en Compose-provider</td><td>Inget <code>compose</code>-kommando</td></tr>
+<tr><th scope="row">Licens och pris</th><td>MIT, gratis för all användning</td><td>Proprietär. Gratis för privat bruk, utbildning, icke-kommersiell öppen källkod och organisationer med färre än 250 anställda och under 10 miljoner USD i årlig omsättning; annars en betald plan (Pro 11 USD, Team 16 USD, Business 24 USD per användare och månad)</td><td>Proprietär. Gratis för privat, icke-kommersiell användning; Pro för kommersiell användning kostar 8 USD per användare och månad</td><td>Apache 2.0, gratis</td><td>Apache 2.0, gratis</td></tr>
+<tr><th scope="row">Källkod</th><td>Öppen</td><td>Stängd</td><td>Stängd, vissa komponenter öppna</td><td>Öppen</td><td>Öppen</td></tr>
+<tr><th scope="row">UI-teknik</th><td>SwiftUI (inbyggd)</td><td>Electron</td><td>Inbyggd macOS-app (Swift)</td><td>Electron</td><td>Inget GUI</td></tr>
+<tr><th scope="row">Plattformar</th><td>macOS 26+, Apple-chip och Intel</td><td>macOS, Windows, Linux</td><td>macOS 14+</td><td>macOS, Windows, Linux</td><td>macOS 26 på Apple-chip</td></tr>
+<tr><th scope="row">Hanterar apple/container</th><td>Ja, CLI 1.0 till 1.7.1</td><td>Nej</td><td>Nej (utvecklaren har inga planer på det)</td><td>Ja, med tillägget Apple container (via Docker-API-mellanlagret Socktainer, Apple-chip)</td><td>Det är apple/container</td></tr>
+<tr><th scope="row">Kluster, maskiner, byggare och systeminställningar för apple/container i GUI:t</th><td>Ja</td><td>Ej tillämpligt</td><td>Ej tillämpligt</td><td>Okänt</td><td>Bara CLI</td></tr>
+<tr><th scope="row">Kubernetes</th><td>Kluster på apple/container via <code>container cluster</code>: workers med egen storlek, delat image-lager, anpassad CNI</td><td>Inbyggt: kubeadm (en nod) eller kind (flera noder)</td><td>Inbyggt, en nod; kind eller k3d för flera noder</td><td>Tillägg för Kind och Minikube, befintliga kluster</td><td><code>container cluster</code>, flera noder med <code>--workers</code></td></tr>
+<tr><th scope="row">Kubernetes-utforskare i GUI:t</th><td>Ja, för valfri kubeconfig-kontext: poddar, loggar, skal, portvidarebefordring, skalning, Verkställ YAML, utan <code>kubectl</code></td><td>Okänt</td><td>Okänt</td><td>Ja, för de kluster det ansluter till</td><td>Nej</td></tr>
+<tr><th scope="row">Docker Compose</th><td>På Docker-värdar och på apple/container (Gantry kör filen)</td><td>Ja</td><td>Ja</td><td>Ja (Compose-specifikationen)</td><td>Inget <code>compose</code>-kommando</td></tr>
 <tr><th scope="row">Långlivade Linux-maskiner</th><td><code>container machine</code>, med Öppna i VS Code</td><td>Nej</td><td>Ja (Linux-maskiner)</td><td>Nej (Podman machine är motorns VM)</td><td><code>container machine</code></td></tr>
-<tr><th scope="row">Docker-fjärrvärdar via SSH i GUI:t</th><td>Ja, med ProxyJump och hemligheter i nyckelringen</td><td>Okänt</td><td>Okänt</td><td>Okänt</td><td>Ej tillämpligt</td></tr>
-<tr><th scope="row">Inbyggd MCP-server som hanterar dina containrar</th><td>Ja (<code>gantry-mcp</code>)</td><td>Okänt</td><td>Okänt</td><td>Okänt</td><td>Nej</td></tr>
+<tr><th scope="row">Fjärrvärdar via SSH i GUI:t</th><td>Ja, Docker via SSH med ProxyJump och hemligheter i nyckelringen</td><td>Inte i dokumentationen (bara CLI-kontexter)</td><td>Inte i dokumentationen (anpassade Docker-värdar via TCP)</td><td>Ja, fjärranslutningar till Podman via SSH</td><td>Ej tillämpligt</td></tr>
+<tr><th scope="row">AI och MCP</th><td>Inbyggd MCP-server (<code>gantry-mcp</code>) och ”Förklara fel” med Apple Intelligence</td><td>MCP Toolkit (en MCP-gateway) och assistenten Gordon (inloggning krävs)</td><td>Ingen officiell MCP-server hittad</td><td>Tillägget AI Lab, med MCP i sin playground</td><td>Nej</td></tr>
+<tr><th scope="row">Senaste version (kontrollerat 2026-11-07)</th><td>0.27.0</td><td>4.98.0 (2026-11-03)</td><td>2.2.5 (2026-10-23)</td><td>1.30.5 (2026-10-13)</td><td>1.7.1 (2026-11-06)</td></tr>
+<tr><th scope="row">Data på en extern disk</th><td>Ja: flyttar datakatalogen för apple/container, lägger volymer på valfri disk, varnar när disken inte är ansluten</td><td>Ja, inställningen Disk image location</td><td>Ja, sedan 0.13.0</td><td>Inte i dokumentationen</td><td>Ja, <code>container system start --app-root</code></td></tr>
 </tbody>
 </table></div>
 
 <h2 id="when">När ska man välja vad?</h2>
 <h3>Välj Gantry</h3>
-<p>Du använder Apples verktyg <code>container</code> och vill ha ett GUI för allt det gör, inklusive Kubernetes-kluster, maskiner och image-byggaren. Eller så hanterar du flera Docker-värdar, lokala och på distans via SSH, och vill ha ett inbyggt fönster och felnotiser för dem alla. Eller så vill du ha en MCP-server så att AI-agenter kan hantera dina containrar.</p>
+<p>Du använder Apples <code>container</code>-verktyg och vill ha ett GUI för allt, även Kubernetes-kluster, maskiner och image-byggaren. Eller så hanterar du flera Docker-värdar, lokalt och på distans via SSH, och vill ha ett inbyggt fönster och felnotiser för alla. Eller så vill du ha en MCP-server och Apple Intelligence som hjälper dig att ta reda på varför en container misslyckades. Byter du från Docker Desktop? Läs <a href="../docker-desktop-to-apple-container/">Byt från Docker Desktop till Apple container</a>.</p>
 <h3>Välj Docker Desktop</h3>
 <p>Du behöver Docker-motorn med samma app på macOS, Windows och Linux, Docker-tillägg och support från Docker, och ditt företag har en Docker-prenumeration eller uppfyller villkoren för gratis användning.</p>
 <h3>Välj OrbStack</h3>
 <p>Du vill ha en Docker-motor och Linux-maskiner på macOS i en produkt, och en betald licens för kommersiellt bruk är acceptabel.</p>
 <h3>Välj Podman Desktop</h3>
-<p>Du använder Podman, vill ha ett GUI med öppen källkod på flera operativsystem eller arbetar med verktyg från Red Hat.</p>
+<p>Du använder Podman, vill ha ett GUI med öppen källkod på flera operativsystem eller arbetar med verktyg från Red Hat. Med tillägget Apple container når det också apple/container-containrar.</p>
 <h3>Välj bara container-CLI:et</h3>
 <p>Du skriptar allt i terminalen och behöver inget GUI. Gantry använder samma CLI, så du kan lägga till GUI:t senare.</p>
 
@@ -259,10 +271,11 @@
 
 <h2 id="sources">Källor</h2>
 <ul>
-  <li>Licensvillkor för Docker Desktop: <a href="https://www.docker.com/pricing/faq/">Dockers FAQ om priser</a>.</li>
-  <li>Licensvillkor för OrbStack: <a href="https://docs.orbstack.dev/licensing">OrbStack licensing</a>.</li>
-  <li>Licens och funktioner för Podman Desktop: <a href="https://github.com/podman-desktop/podman-desktop">podman-desktop på GitHub</a> och <a href="https://podman-desktop.io/docs">dokumentationen för Podman Desktop</a>.</li>
-  <li>apple/container: <a href="https://github.com/apple/container">apple/container på GitHub</a>.</li>
+  <li>Licens och priser för Docker Desktop: <a href="https://docs.docker.com/subscription/desktop-license/">licensavtalet för Docker Desktop</a> och <a href="https://www.docker.com/pricing/">Dockers priser</a>.</li>
+  <li>Funktioner i Docker Desktop: <a href="https://docs.docker.com/desktop/use-desktop/kubernetes/">Kubernetes</a>, <a href="https://docs.docker.com/desktop/settings-and-maintenance/settings/">inställningar (skivavbildens plats)</a>, <a href="https://docs.docker.com/ai/mcp-catalog-and-toolkit/toolkit/">MCP Toolkit</a>, <a href="https://docs.docker.com/desktop/release-notes/">versionsinformation</a>.</li>
+  <li>OrbStack: <a href="https://orbstack.dev/pricing">priser</a>, <a href="https://docs.orbstack.dev/faq">vanliga frågor</a>, <a href="https://docs.orbstack.dev/kubernetes/">Kubernetes</a>, <a href="https://docs.orbstack.dev/release-notes">versionsinformation</a>, <a href="https://github.com/orbstack/orbstack/issues/2451">ärende 2451 (Apple container)</a>.</li>
+  <li>Podman Desktop: <a href="https://github.com/podman-desktop/podman-desktop">källkod</a>, <a href="https://podman-desktop.io/docs/kubernetes">Kubernetes</a>, <a href="https://podman-desktop.io/docs/podman/podman-remote">fjärranslutningar</a>, <a href="https://github.com/podman-desktop/extension-apple-container">tillägget Apple container</a>, <a href="https://github.com/podman-desktop/podman-desktop/releases">versioner</a>.</li>
+  <li>apple/container: <a href="https://github.com/apple/container">källkod</a>, <a href="https://github.com/apple/container/blob/main/docs/cluster.md">dokumentation om kluster</a>, <a href="https://github.com/apple/container/releases/tag/1.7.1">version 1.7.1</a>.</li>
   <li>Gantry: <a href="https://github.com/getgantry/gantry">källkod</a> och <a href="https://github.com/getgantry/gantry/blob/main/CHANGELOG.md">ändringslogg</a>.</li>
 </ul>
 <p>Hittat ett fel? <a href="https://github.com/getgantry/getgantry.github.io/issues">Öppna ett ärende</a> så rättar vi tabellen.</p>
@@ -271,11 +284,12 @@
 <div class="faq-list">
 <details class="faq-item"><summary>Är Gantry ett alternativ till Docker Desktop?</summary><p>Som GUI, ja. Gantry hanterar containrar, images, volymer, nätverk, loggar, statistik och Compose. Den innehåller ingen Docker-motor: på en Mac använder du OrbStack, Colima eller Docker Desktop för det, eller Apples verktyg <code>container</code>, som Gantry också hanterar. Gantry har MIT-licens och är gratis även för kommersiellt bruk.</p></details>
 <details class="faq-item"><summary>Är Gantry ett alternativ till OrbStack?</summary><p>Delvis. OrbStack är en motor och ett GUI; Gantry är bara ett GUI. Du kan använda Gantry som GUI ovanpå OrbStacks Docker-motor, eller använda Gantry med apple/container, som ger dig containrar, Linux-maskiner och Kubernetes från Apples eget verktyg.</p></details>
-<details class="faq-item"><summary>Vilket är det bästa GUI:t för Apple container?</summary><p>Av verktygen på den här sidan är Gantry det enda som hanterar apple/container (kontrollerat 2026-11-03). Det täcker hela <code>container</code>-CLI:et, inklusive kluster, maskiner, byggare, register och systemegenskaper.</p></details>
+<details class="faq-item"><summary>Vilket är det bästa GUI:t för Apple container?</summary><p>Av verktygen på den här sidan hanterar Gantry och Podman Desktop (med sitt tillägg Apple container) apple/container; det finns också mindre appar med öppen källkod. Gantry täcker hela <code>container</code>-CLI:et: containrar, Compose-filer, Kubernetes-kluster, maskiner, image-byggaren, registerinloggningar, kärnor och systemegenskaper, och följer varje ny CLI-version (1.7.1 per 2026-11-07).</p></details>
 <details class="faq-item"><summary>Kan jag använda Gantry och Docker Desktop samtidigt?</summary><p>Ja. Gantry ansluter till Docker Desktops motor via dess socket, så du kan använda Gantry som GUI och behålla Docker Desktop som motor.</p></details>
+<details class="faq-item"><summary>Vilka av de här verktygen kan lagra data på en extern disk?</summary><p>Docker Desktop har en inställning för skivavbildens plats, och OrbStack lade till en dataplats i 0.13.0. Med apple/container lägger <code>container system start --app-root</code> all data på en annan disk, och bindningsmonteringar fungerar från vilken disk som helst. Se <a href="../containers-on-external-drive/">Lagra containrar och volymer på en extern disk</a>.</p></details>
 </div>
 
-<p class="updated">Senast uppdaterad 2026-11-03.</p>
+<p class="updated">Senast uppdaterad 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Start</a>
@@ -285,6 +299,12 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Jämför</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Från Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Extern disk</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">Från docker run</a>
       <span>·</span>
       <a href="../../docs/index.html">Dokumentation</a>
       <span>·</span>

@@ -16,8 +16,16 @@ from build_docs import GITHUB
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://getgantry.github.io"
-UPDATED = "2026-11-03"
-APP_VERSION = "0.25.0"
+UPDATED = "2026-11-07"
+APP_VERSION = "0.27.0"
+# Features that are built on a branch but not merged yet. The pages show the text for the shipped state only when
+# the flag is True; flip a flag when its branch merges and rebuild.
+FLAGS = {
+    "k8s_native": True,         # feat/kubernetes-native: Kubernetes browser without kubectl
+    "external_storage": True,   # feat/external-storage: move the data root, volumes on a disk, unplug safety
+}
+VARIANTS = {"_native": "k8s_native", "_shipped": "external_storage"}
+FIXED_KEYS = {"id", "code", "table", "shot", "when", "unless"}
 APP_UI_LANGUAGES = ["en", "zh-Hans", "de", "fr", "es", "it", "pt-PT", "nl", "sv", "da", "nb", "fi", "pl", "cs", "sk", "hu", "ro", "bg", "el", "hr", "sl", "sr", "sr-Latn", "lt", "lv", "et", "uk", "ru"]
 INSTALL = "brew install --cask getgantry/tap/gantry"
 MCP_CMD = "claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp"
@@ -32,6 +40,63 @@ PAGES = {
     "apple-container": ("guide", "weekly", "0.9"),
     "apple-container-kubernetes": ("k8s", "weekly", "0.9"),
     "compare": ("compare", "monthly", "0.8"),
+}
+# How-to guides: slug -> (sitemap changefreq, priority). Strings: guides.<slug>.
+GUIDES = {
+    "docker-desktop-to-apple-container": ("monthly", "0.8"),
+    "containers-on-external-drive": ("monthly", "0.7"),
+    "docker-run-to-container": ("monthly", "0.7"),
+}
+# Commands in the guides and in the terminal walk-through of the Kubernetes page (key "k8s"). Not translated.
+GUIDE_CODE = {
+    "k8s": {
+        "start": "container system start",
+        "create": "container cluster create --name dev --cpus 2 --memory 2g \\\n"
+                  "  --workers count=2,cpus=2,memory=2g --shared-image-store",
+        "list": "container cluster list --nodes\nkubectl --context dev get nodes",
+        "build": "printf 'FROM nginx:alpine\\n' > Dockerfile\ncontainer build -t hello:dev .\n"
+                 "kubectl --context dev create deployment hello --image=hello:dev\nkubectl --context dev get pods",
+        "forward": "kubectl --context dev port-forward deployment/hello 8080:80",
+        "delete": "container cluster delete --name dev",
+    },
+    "docker-desktop-to-apple-container": {
+        "images": "docker save -o app.tar app:dev\ncontainer image load -i app.tar\ncontainer image pull nginx:alpine",
+        "volumes": "docker run --rm -v data:/from -v \"$PWD\":/to alpine tar -C /from -cf /to/data.tar .\n"
+                   "container volume create data\n"
+                   "container run --rm -v data:/to -v \"$PWD\":/from alpine tar -C /to -xf /from/data.tar",
+    },
+    "containers-on-external-drive": {
+        "status": "container system status | grep appRoot\ncontainer system df",
+        "bind": "mkdir -p /Volumes/Fast/site\n"
+                "container run -d --name web -p 8080:80 \\\n  -v /Volumes/Fast/site:/usr/share/nginx/html:ro nginx:alpine",
+        "move": "container system stop\n"
+                "cp -Rp ~/Library/Application\\ Support/com.apple.container /Volumes/Fast/container\n"
+                "container system start --app-root /Volumes/Fast/container\n"
+                "container system status | grep appRoot\n"
+                "container ls -a && container image ls && container volume ls",
+        "save": "mkdir -p /Volumes/Fast/images\n"
+                "container image save -o /Volumes/Fast/images/myapp.tar myapp:dev\n"
+                "container image delete myapp:dev\n"
+                "container image load -i /Volumes/Fast/images/myapp.tar",
+    },
+    "docker-run-to-container": {
+        "docker": "docker run -d --name cache --restart unless-stopped -p 6379:6379 \\\n"
+                  "  -v redisdata:/data redis:7 redis-server --appendonly yes",
+        "container": "container volume create redisdata\n"
+                     "container run -d --name cache -p 6379:6379 \\\n"
+                     "  -v redisdata:/data redis:7 redis-server --appendonly yes",
+    },
+}
+# Screenshots of 0.27.0 features. Until the file exists, the page has a TODO-SCREENSHOT comment in its place.
+SHOT_DIR = "assets/shots/0.27.0"
+SHOTS = {
+    "home-dashboard": ("home, section #new (new design)", "dashboard.png"),
+    "home-kube": ("home, section #new (Kubernetes browser)", "kubernetes-browser.png"),
+    "home-explain": ("home, section #new (Explain Failure)", "explain-failure.png"),
+    "k8s-browser": ("page apple-container-kubernetes, section #browser", "kubernetes-browser-dev.png"),
+    "paste-command": ("guide docker-run-to-container, section #paste", "paste-command.png"),
+    "storage-pane": ("guide containers-on-external-drive, section #gantry", "storage-pane.png"),
+    "cluster-overview": ("page apple-container-kubernetes, section #nodes", "cluster-overview.png"),
 }
 DOCS = [("index", "weekly", "0.8"), ("install", "monthly", "0.7"), ("apple-container", "monthly", "0.8"),
         ("menu-bar", "monthly", "0.5"), ("hosts", "monthly", "0.6"), ("containers", "monthly", "0.6"),
@@ -176,12 +241,36 @@ def check(en, t, path="", errors=None):
         for i, (a, b) in enumerate(zip(en, t)):
             check(a, b, f"{path}[{i}]", errors)
     else:
+        if path.rsplit(".", 1)[-1] in FIXED_KEYS and en != t:
+            errors.append(f"{path}: must stay {en!r}")
         if not t.strip() and en.strip():
             errors.append(f"{path}: empty")
         for name, a, b in zip(("tags", "code", "placeholders"), signature(en), signature(t)):
             if a != b:
                 errors.append(f"{path}: {name} differ: {sorted(set(a) ^ set(b))[:4]}")
     return errors
+
+
+def resolve(node, flags=None):
+    """Pick the text for the current FLAGS: `x_native` replaces `x` when its flag is on, and list items with
+    `when` / `unless` drop out when their flag says so. Variant keys and conditions are removed."""
+    flags = FLAGS if flags is None else flags
+    if isinstance(node, list):
+        keep = [x for x in node if not isinstance(x, dict)
+                or (flags[x["when"]] if isinstance(x.get("when"), str) and x["when"] in flags else True)
+                and (not flags[x["unless"]] if isinstance(x.get("unless"), str) and x["unless"] in flags else True)]
+        return [resolve(x, flags) for x in keep]
+    if not isinstance(node, dict):
+        return node
+    out = {}
+    for k, v in node.items():
+        if (k in ("when", "unless") and isinstance(v, str) and v in flags) or any(k.endswith(suf) for suf in VARIANTS):
+            continue
+        for suf, flag in VARIANTS.items():
+            if flags[flag] and k + suf in node:
+                v = node[k + suf]
+        out[k] = resolve(v, flags)
+    return out
 
 
 # ------------------------------------------------------------------ helpers
@@ -216,6 +305,23 @@ def code_block(title, body, copy_label):
 
 def callout_warn(body, label):
     return f'<div class="callout callout-warn"><span class="callout-tag">{label}</span><div>{body}</div></div>'
+
+
+def shot(key, alt, caption, root, indent=""):
+    section, name = SHOTS[key]
+    rel_path = f"{SHOT_DIR}/{name}"
+    if not os.path.exists(os.path.join(ROOT, rel_path)):
+        return f'{indent}<!-- TODO-SCREENSHOT section="{section}" file="{rel_path}" -->'
+    with open(os.path.join(ROOT, rel_path), "rb") as f:
+        head = f.read(24)
+    width, height = int.from_bytes(head[16:20], "big"), int.from_bytes(head[20:24], "big")  # PNG IHDR
+    return (f'{indent}<figure class="guide-shot"><img src="{root}{rel_path}" alt="{html.escape(alt, quote=True)}" '
+            f'width="{width}" height="{height}" loading="lazy" decoding="async"><figcaption>{caption}</figcaption>'
+            f'</figure>')
+
+
+def callout_note(body, label):
+    return f'<div class="callout callout-note"><span class="callout-tag">{label}</span><div>{body}</div></div>'
 
 
 def faq_ld(url, items):
@@ -269,7 +375,7 @@ def base_ctx(langs, lang, t, slug, root, indent):
         "t": t, "lang": code, "root": root, "og_locale": lang["og"], "html_attrs": attrs,
         "url": SITE + page_path(code, slug), "alternates": alternates, "switcher": switcher,
         "footer_langs": footer, "hint_script": f'  <script src="{root}lang.js" defer></script>\n',
-        "updated": UPDATED,
+        "updated": UPDATED, "flags": FLAGS,
     }
 
 
@@ -338,6 +444,12 @@ def render_home(langs, lang, t):
     root = "" if lang["code"] == "en" else "../"
     ctx = base_ctx(langs, lang, t, "", root, 8)
     ctx["ld"] = home_ld(langs, lang["code"], t, ctx["url"])
+    n = t["home"]["new"]
+    ctx["shots"] = {
+        "home_dashboard": shot("home-dashboard", n["shot_dash_alt"], n["shot_dash_caption"], root, "        "),
+        "home_kube": shot("home-kube", n["shot_kube_alt"], n["shot_kube_caption"], root, "            "),
+        "home_explain": shot("home-explain", n["shot_explain_alt"], n["shot_explain_caption"], root, "            "),
+    }
     fleet = t["home"]["features"]["fleet"]
     ctx["hostlist_attrs"] = "" if lang["code"] == "en" else (
         f' data-running="{html.escape(fleet["running"], quote=True)}"'
@@ -348,20 +460,37 @@ def render_home(langs, lang, t):
 # ------------------------------------------------------------------ guide, kubernetes, compare
 def blocks_for(key, p, t):
     copy_label = t["chrome"]["copy"]
-    b = {"table": table(p["table_head"], p["table"])}
+    rows = list(p["table"])
+    if key == "compare":
+        rows[8:8] = [p["table_kube"]]
+        rows.append(p["table_storage"])
+    b = {"table": table(p["table_head"], rows)}
     if "code_mcp" in p:
         b["code_mcp"] = code_block(p["code_mcp"], MCP_CMD, copy_label)
     if key == "guide":
         b["callout"] = callout_warn(p["callout"], t["chrome"]["callout_warn"])
     if key == "k8s":
-        for n, cmd in (("code_create", "container cluster create --name dev --workers 2 --cpus 2 --memory 4G"),
+        for n, cmd in (("code_create", "container cluster create --name dev --cpus 2 --memory 4G \\\n"
+                                       "  --workers count=2,cpus=2,memory=4G --shared-image-store"),
                        ("code_kubectl", "kubectl --context dev get nodes"),
+                       ("code_shared", "container build -t myapp:dev .\n"
+                                       "kubectl --context dev create deployment myapp --image=myapp:dev"),
                        ("code_load", "container cluster load-image --name dev myapp:dev")):
             b[n] = code_block(p["code_shell"], cmd, copy_label)
+        b["shot_cluster"] = shot("cluster-overview", p["shot_alt"], p["shot_caption"], "{root}")  # render() fills {root}
+        term = p["terminal"]
+        gantry = next(sec for sec in term["sections"] if sec["id"] == "gantry")
+        b["shot_browser"] = "\n".join(shot(x["shot"], x["alt"], x["caption"], "{root}")
+                                      for x in gantry["blocks"] if "shot" in x)
+        walk = [sec for sec in term["sections"] if sec["id"] != "gantry"]
+        b["terminal"] = "\n".join([f'<h2 id="terminal">{term["h1"]}</h2>', f'<p>{term["lead"]}</p>',
+                                   sections_html("k8s", walk, term.get("tables", {}), t, "{root}", "h3", "terminal-")])
     return b
 
 
 def about_for(key):
+    if key in GUIDES:
+        return APPLE_ABOUT + [{"@type": "SoftwareApplication", "name": "Gantry", "url": f"{SITE}/"}]
     if key == "guide":
         return APPLE_ABOUT
     if key == "k8s":
@@ -370,13 +499,71 @@ def about_for(key):
             for n in ("Gantry", "Docker Desktop", "OrbStack", "Podman Desktop", "container (apple/container)")]
 
 
+def sections_html(code_key, sections, tables, t, root, tag="h2", id_prefix=""):
+    chrome = t["chrome"]
+    out = []
+    for sec in sections:
+        out += ["", f'<{tag} id="{id_prefix}{sec["id"]}">{sec["h"]}</{tag}>']
+        for b in sec["blocks"]:
+            if "p" in b:
+                out.append(f'<p>{b["p"]}</p>')
+            elif "ul" in b or "ol" in b:
+                tag = "ul" if "ul" in b else "ol"
+                out.append(f"<{tag}>\n" + "\n".join(f"  <li>{li}</li>" for li in b[tag]) + f"\n</{tag}>")
+            elif "code" in b:
+                if b.get("after"):
+                    out.append(f'<p>{b["after"]}</p>')
+                out.append(code_block(chrome["terminal"], GUIDE_CODE[code_key][b["code"]], chrome["copy"]))
+            elif "table" in b:
+                tb = tables[b["table"]]
+                out.append(table(tb["head"], tb["rows"]))
+            elif "note" in b:
+                out.append(callout_note(b["note"], chrome["note"]))
+            elif "warn" in b:
+                out.append(callout_warn(b["warn"], chrome["callout_warn"]))
+            elif "shot" in b:
+                out.append(shot(b["shot"], b["alt"], b["caption"], root))
+            else:
+                raise ValueError(f"{code_key}: unknown block {sorted(b)}")
+    return "\n".join(out)
+
+
+def howto_ld(url, name, sections, anchor_prefix=""):
+    """HowTo steps: one per section, with the text of its first paragraph or list."""
+    steps = []
+    for sec in sections:
+        first = next((b for b in sec["blocks"] if "p" in b or "ul" in b or "ol" in b), None)
+        if first is None:
+            continue
+        text = first.get("p") or " ".join(first.get("ul") or first.get("ol"))
+        steps.append({"@type": "HowToStep", "position": len(steps) + 1, "name": plain(sec["h"]),
+                      "text": " ".join(plain(text).split()), "url": f"{url}#{anchor_prefix}{sec['id']}"})
+    return {"@type": "HowTo", "@id": f"{url}#howto", "name": plain(name), "step": steps}
+
+
+def guide_body(slug, p, t, root):
+    chrome = t["chrome"]
+    out = [f'<h1>{p["h1"]}</h1>', f'<p class="page-lead">{p["lead"]}</p>', "",
+           f'<div class="tldr">\n<p>{p["tldr"]}</p>\n</div>',
+           sections_html(slug, p["sections"], p.get("tables", {}), t, root)]
+    links = [f'  <li><a href="../{g}/">{t["guides"][g]["title"]}</a></li>' for g in GUIDES if g != slug]
+    links += [f'  <li><a href="../apple-container/">{t["guide"]["title"]}</a></li>',
+              f'  <li><a href="../apple-container-kubernetes/">{t["k8s"]["title"]}</a></li>',
+              f'  <li><a href="../compare/">{t["compare"]["title"]}</a></li>']
+    out += ["", f'<h2 id="related">{chrome["related"]}</h2>', "<ul>", *links, "</ul>"]
+    return "\n".join(out)
+
+
 def render_page(langs, lang, t, slug, key):
-    p = t[key]
+    p = t["guides"][slug] if key == "guides" else t[key]
     root = "../" if lang["code"] == "en" else "../../"
     ctx = base_ctx(langs, lang, t, slug, root, 6)
     url = ctx["url"]
     home = SITE + page_path(lang["code"], "")
     faq = [(f["q"], f["a"]) for f in p["faq"]]
+    if key == "k8s":
+        # The terminal walk-through brings its own questions; skip the two that the page FAQ already answers.
+        faq += [(f["q"], f["a"]) for i, f in enumerate(p["terminal"]["faq"]) if i in (0, 1, 3)]
     graph = [
         {
             "@type": "TechArticle",
@@ -390,7 +577,7 @@ def render_page(langs, lang, t, slug, key):
             "author": {"@type": "Organization", "name": "Gantry", "url": f"{SITE}/"},
             "publisher": {"@type": "Organization", "@id": f"{SITE}/#organization", "name": "Gantry",
                           "logo": f"{SITE}/assets/icon.png"},
-            "about": about_for(key),
+            "about": about_for(slug if key == "guides" else key),
         },
         {
             "@type": "BreadcrumbList",
@@ -402,17 +589,25 @@ def render_page(langs, lang, t, slug, key):
         },
         faq_ld(url, faq),
     ]
+    if key == "guides":
+        graph.append(howto_ld(url, p["h1"], p["sections"]))
+    elif key == "k8s":
+        walk = [sec for sec in p["terminal"]["sections"] if sec["id"] != "gantry"]
+        graph.append(howto_ld(url, p["terminal"]["h1"], walk, "terminal-"))
     rows = "\n".join(
         f'<details class="faq-item"><summary>{html.escape(q)}</summary><p>{a}</p></details>' for q, a in faq)
     ctx.update({
         "p": p,
-        "blocks": blocks_for(key, p, t),
+        "blocks": {} if key == "guides" else blocks_for(key, p, t),
         "ld": ld_dump(graph, ""),
         "active": {k: (' class="active"' if k == key else "") for k in ("guide", "k8s", "compare")},
         "faq": f'\n<h2 id="faq">{t["chrome"]["faq_heading"]}</h2>\n<div class="faq-list">\n{rows}\n</div>\n',
         "updated_line": t["chrome"]["updated"].replace("{date}", UPDATED),
     })
-    ctx["body"] = render(template(f"{slug}.html"), ctx).strip()
+    if key == "guides":
+        ctx["body"] = guide_body(slug, p, t, root)
+    else:
+        ctx["body"] = render(template(f"{slug}.html"), ctx).strip()
     return render(template("page.html"), ctx)
 
 
@@ -420,7 +615,9 @@ def render_page(langs, lang, t, slug, key):
 def sitemap(langs):
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
              '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
-    for slug, (_, freq, prio) in PAGES.items():
+    entries = [(slug, freq, prio) for slug, (_, freq, prio) in PAGES.items()]
+    entries += [(slug, freq, prio) for slug, (freq, prio) in GUIDES.items()]
+    for slug, freq, prio in entries:
         alts = [f'    <xhtml:link rel="alternate" hreflang="{o["code"]}" href="{SITE}{page_path(o["code"], slug)}"/>'
                 for o in langs]
         alts.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}{page_path("en", slug)}"/>')
@@ -437,7 +634,9 @@ def sitemap(langs):
 
 def languages_section(langs):
     out = ["## Languages", "",
-           "The home page, the apple/container guide, the Kubernetes page and the comparison are also available "
+           "The home page, the apple/container guide, the Kubernetes page (with the Kubernetes on a Mac walk-through), "
+           "the comparison and the how-to guides (moving from Docker Desktop, external drives, docker run) are also "
+           "available "
            "in these languages. Each language uses the same paths under its prefix, for example "
            f"{SITE}/de/apple-container/. The documentation is in English only.", ""]
     out += [f"- {o['name']} ({o['code']}): {SITE}{page_path(o['code'], '')}" for o in langs if o["code"] != "en"]
@@ -465,11 +664,33 @@ def llms_full(langs, en):
     out += [f"- {plain(o)} ({plain(fl)}): {plain(n)}" for o, fl, n in en["k8s"]["table"]]
     out += ["", f"## Comparison (facts as of {UPDATED}; Unknown means not found in vendor docs)", ""]
     names = ["Gantry", "Docker Desktop", "OrbStack", "Podman Desktop", "container CLI"]
-    for row in en["compare"]["table"]:
+    crow = list(en["compare"]["table"])
+    crow[8:8] = [en["compare"]["table_kube"]]
+    crow.append(en["compare"]["table_storage"])
+    for row in crow:
         out.append(f"- {plain(row[0])}: " + "; ".join(f"{n}: {plain(c)}" for n, c in zip(names, row[1:])))
+    walks = [("k8s", f"{SITE}/apple-container-kubernetes/#terminal", en["k8s"]["terminal"])]
+    walks += [(slug, f"{SITE}/{slug}/", en["guides"][slug]) for slug in GUIDES]
+    for slug, url, g in walks:
+        out += ["", f"## Guide: {plain(g['h1'])}", "", f"URL: {url}", "", " ".join(plain(g["tldr"]).split())]
+        for sec in g["sections"]:
+            out += ["", f"### {plain(sec['h'])}", ""]
+            for b in sec["blocks"]:
+                if "p" in b or "note" in b or "warn" in b:
+                    out.append(" ".join(plain(b.get("p") or b.get("note") or b.get("warn")).split()))
+                elif "ul" in b or "ol" in b:
+                    out += [f"- {' '.join(plain(li).split())}" for li in b.get("ul") or b.get("ol")]
+                elif "code" in b:
+                    if b.get("after"):
+                        out.append(plain(b["after"]))
+                    out += ["```sh", GUIDE_CODE[slug][b["code"]], "```"]
+                elif "table" in b:
+                    tb = g["tables"][b["table"]]
+                    out += [f"- {plain(r[0])} -> " + "; ".join(plain(c) for c in r[1:] if c) for r in tb["rows"]]
     out += ["", "## Questions and answers", ""]
     seen = set()
     faqs = en["home"]["faq"]["items"] + en["guide"]["faq"] + en["k8s"]["faq"] + en["compare"]["faq"]
+    faqs += en["k8s"]["terminal"]["faq"] + [f for slug in GUIDES for f in en["guides"][slug]["faq"]]
     for item in faqs:
         q = plain(item["q"])
         if q in seen:
@@ -478,6 +699,7 @@ def llms_full(langs, en):
         out += [f"Q: {q}", f"A: {' '.join(plain(item['a']).split())}", ""]
     out += ["## Pages", ""]
     out += [f"- {SITE}/{slug}/ : {en[key]['title']}" for slug, (key, _, _) in PAGES.items() if slug]
+    out += [f"- {SITE}/{slug}/ : {en['guides'][slug]['title']}" for slug in GUIDES]
     out += [f"- {SITE}/ : Home", f"- {SITE}/docs/index.html : Documentation", f"- {GITHUB} : Source code", ""]
     out += languages_section(langs) + [""]
     with open(os.path.join(ROOT, "llms-full.txt"), "w") as f:
@@ -512,8 +734,9 @@ def main():
         return
     count = 0
     for lang in langs:
-        t = copy.deepcopy(strings[lang["code"]])
-        for slug, (key, _, _) in PAGES.items():
+        t = resolve(copy.deepcopy(strings[lang["code"]]))
+        pages = [(slug, key) for slug, (key, _, _) in PAGES.items()] + [(slug, "guides") for slug in GUIDES]
+        for slug, key in pages:
             out = render_home(langs, lang, t) if key == "home" else render_page(langs, lang, t, slug, key)
             path = os.path.join(ROOT, page_path(lang["code"], slug).strip("/"), "index.html")
             os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -522,7 +745,7 @@ def main():
             count += 1
     sitemap(langs)
     llms_txt(langs)
-    llms_full(langs, en)
+    llms_full(langs, resolve(en))
     lang_js(langs, strings)
     print(f"Wrote {count} pages in {len(langs)} languages")
 

@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Панель Gantry з хостами Docker і apple/container">
-  <meta property="article:modified_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-07">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GUI для Apple container на Mac: повний посібник з apple/container">
   <meta name="twitter:description" content="Що таке container від Apple, як його інсталювати і як ним керує Gantry: таблиця команд CLI container і функцій Gantry — від Compose до Kubernetes.">
@@ -67,7 +67,7 @@
       "description": "Що таке container від Apple, як його інсталювати і як ним керує Gantry: таблиця команд CLI container і функцій Gantry — від Compose до Kubernetes.",
       "url": "https://getgantry.github.io/uk/apple-container/",
       "inLanguage": "uk",
-      "dateModified": "2026-11-03",
+      "dateModified": "2026-11-07",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -157,7 +157,7 @@
           "name": "Яку версію CLI container інсталювати?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Gantry потрібна версія 1.0 або новіша, перевірено на 1.6.1. Інсталюйте CLI за допомогою підписаного інсталяційного пакета зі сторінки релізів apple/container. У збірці Homebrew немає бекенда машин, тож container machine із нею не працює."
+            "text": "Gantry потрібна версія 1.0 або новіша, рекомендовано 1.7.1. Інсталюйте її підписаним інсталяційним пакетом зі сторінки релізів apple/container. У збірці Homebrew немає бекенда машин, а в 1.7.1 — ще й служб кластера, тому container machine і container cluster з нею не працюють."
           }
         }
       ]
@@ -223,7 +223,7 @@
 <p class="page-lead">apple/container запускає Linux-контейнери на вашому Mac, кожен у власній легкій віртуальній машині. Це утиліта командного рядка, а Gantry — нативний GUI для неї на macOS. Тут описано, що це за інструмент, як його налаштувати й яка функція Gantry відповідає кожній команді <code>container</code>.</p>
 
 <div class="tldr">
-<p><strong>Коротко.</strong> Gantry — безплатна програма для macOS з відкритим кодом (MIT), яка керує інструментом <code>container</code> від Apple і Docker в одному вікні. Вона підтримує CLI <code>container</code> від 1.0 до 1.6.1 (рекомендовано) і показує лише ті можливості, які підтримує ваша версія CLI. Інсталяція: <code>brew install --cask getgantry/tap/gantry</code>.</p>
+<p><strong>Коротко.</strong> Gantry — безплатна програма для macOS з відкритим кодом (MIT), яка керує інструментом <code>container</code> від Apple і Docker з одного вікна. Вона підтримує CLI <code>container</code> від 1.0 до 1.7.1 (рекомендовано) і показує лише ті функції, які підтримує ваша версія CLI. Інсталяція: <code>brew install --cask getgantry/tap/gantry</code>.</p>
 </div>
 
 <h2 id="what-is">Що таке apple/container?</h2>
@@ -245,14 +245,14 @@
   <li>У Gantry виберіть <strong>Додати хост…</strong> і додайте хост <em>Apple Container</em>. Під час під’єднання служби <code>container</code> запускаються, якщо їх зупинено.</li>
   <li>Якщо типове ядро не інстальовано, в огляді хоста з’явиться банер. Клацніть його, щоб інсталювати рекомендоване ядро.</li>
 </ol>
-<div class="callout callout-warn"><span class="callout-tag">Увага</span><div>Використовуйте підписаний інсталяційний пакет, а не збірку з Homebrew. У збірці Homebrew немає бекенда машин, тож <code>container machine</code> не зможе працювати.</div></div>
+<div class="callout callout-warn"><span class="callout-tag">Увага</span><div>Використовуйте підписаний інсталяційний пакет, а не збірку Homebrew. У збірці Homebrew немає бекенда машин, а в 1.7.1 — ще й служб кластера, тому <code>container machine</code> і <code>container cluster</code> не можуть працювати.</div></div>
 
 <h2 id="command-map">Команди container і функції Gantry</h2>
 <p>Ця таблиця зіставляє CLI <code>container</code> із Gantry. В останньому стовпці — версія CLI, потрібна Gantry для функції. <em>Будь-яка</em> означає будь-який підтримуваний CLI, 1.0 або новіший. Gantry визначає інстальовану версію й приховує функції, яких вона не підтримує.</p>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Команда CLI</th><th scope="col">Функція Gantry</th><th scope="col">Версія CLI для Gantry</th></tr></thead>
 <tbody>
-<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Вікно «Новий контейнер» і «Швидкий запуск»: образ, назва, команда, порти, середовище, томи, DNS-домен, власне ядро й параметри завантаження</td><td>Будь-яка</td></tr>
+<tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Вікно створення контейнера й швидкий запуск: образ, назва, команда, порти, середовище, томи, DNS-домен, власне ядро й параметри завантаження; <strong>Вставити команду…</strong> читає рядок <code>docker run</code> або <code>container run</code></td><td>Будь-яка</td></tr>
 <tr><th scope="row"><code>container list --all</code></th><td>Список контейнерів, згрупований за проєктами Compose, із фільтрами за станом і пошуком</td><td>Будь-яка</td></tr>
 <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Панель інструментів, контекстне меню й панель у смузі меню</td><td>Будь-яка</td></tr>
 <tr><th scope="row"><code>container logs</code></th><td>Вкладка «Журнали»: стеження в реальному часі, пошук за regex, фільтр за рівнем, кольори ANSI</td><td>Будь-яка</td></tr>
@@ -272,14 +272,14 @@
 <tr><th scope="row"><code>container system start</code>, <code>stop</code></th><td>Розділ «Система»: запуск, зупинка й перезапуск служб; також у смузі меню та в параметрах</td><td>Будь-яка</td></tr>
 <tr><th scope="row"><code>container system status</code>, <code>version</code></th><td>Розділ «Система»: статус, версії клієнта й сервера, відомості про хост</td><td>Будь-яка</td></tr>
 <tr><th scope="row"><code>container system logs</code></th><td>Розділ «Система»: «Журнали служб» у реальному часі або за період від 5 хвилин до 1 дня, з фільтром за рівнем, службою й текстом</td><td>Будь-яка</td></tr>
-<tr><th scope="row"><code>container system property list</code></th><td>Розділ «Система»: редактор «Системні властивості», запис у <code>~/.config/container/config.toml</code></td><td>Будь-яка; перевірено на 1.6.1</td></tr>
+<tr><th scope="row"><code>container system property list</code></th><td>Розділ «Система»: редактор «Системні властивості», запис у <code>~/.config/container/config.toml</code></td><td>Будь-яка; <code>[container.dns]</code> — 1.7</td></tr>
 <tr><th scope="row"><code>container system dns create</code>, <code>delete</code>, <code>list</code></th><td>Параметри ▸ Apple: локальні DNS-домени й типовий домен</td><td>Будь-яка</td></tr>
 <tr><th scope="row"><code>container system kernel set</code></th><td>Розділ «Система»: інсталяція рекомендованого ядра, файлу ядра або tar-архіву</td><td>Будь-яка</td></tr>
 <tr><th scope="row"><code>container system df</code></th><td>Використання диска в огляді хоста та панель «Звільнити місце»</td><td>Будь-яка</td></tr>
 <tr><th scope="row"><code>container builder start</code>, <code>stop</code>, <code>delete</code>, <code>status</code></th><td>Розділ «Система»: «Збирач образів» із параметрами CPU, пам’яті та DNS</td><td>Будь-яка</td></tr>
 <tr><th scope="row"><code>container registry login</code>, <code>logout</code>, <code>list</code></th><td>Розділ «Система»: «Входи в реєстри» (пароль лише через stdin)</td><td>Будь-яка</td></tr>
 <tr><th scope="row"><code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code></th><td>Машини: створення, запуск, зупинка, видалення, типова машина, CPU і пам’ять, оболонка, перевірка, «Відкрити у VS Code»</td><td>Будь-яка; вкладена віртуалізація та ядра — 1.1</td></tr>
-<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Кластери: кластери Kubernetes, вузли, kubeconfig, контекст kubectl, «Імпортувати в кластер»</td><td>1.5 (<code>k8s</code>), 1.6.1 (<code>cluster</code>)</td></tr>
+<tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Кластери: кластери Kubernetes, розміри робочих вузлів і спільне сховище образів (1.7), вузли, kubeconfig, «Переглянути ресурси», «Імпортувати в кластер» (1.5 і 1.6)</td><td>1.5 (<code>k8s</code>), 1.6.1 і 1.7 (<code>cluster</code>)</td></tr>
 <tr><th scope="row">Немає команди <code>compose</code></th><td>Запуск Compose: запускає <code>docker-compose.yml</code> із Finder, меню «Файл» або перетягуванням</td><td>Будь-яка</td></tr>
 </tbody>
 </table></div>
@@ -287,7 +287,7 @@
 <h2 id="features">Що Gantry додає до apple/container</h2>
 
 <h3 id="kubernetes">Кластери Kubernetes</h3>
-<p>Створюйте кластери Kubernetes із кількома робочими вузлами командою <code>container cluster</code>, вибирайте CNI, переглядайте кожен вузол, записуйте kubeconfig та імпортуйте локальні образи в кластер. Див. <a href="../apple-container-kubernetes/">Kubernetes на apple/container</a>.</p>
+<p>Створюйте кластери Kubernetes командою <code>container cluster</code>, задавайте розмір робочих вузлів, дозволяйте подам використовувати ваші локальні образи, вибирайте CNI і переглядайте кожен вузол. Потім переглядайте кластер у браузері Kubernetes у Gantry. Див. <a href="../apple-container-kubernetes/">Kubernetes на apple/container</a> і покроковий посібник <a href="../apple-container-kubernetes/#terminal">Kubernetes на Mac</a>.</p>
 
 <h3 id="machines">Машини container і VS Code</h3>
 <p>Машини — довготривалі Linux-середовища з <code>container machine</code>. Gantry створює, запускає, зупиняє й видаляє їх, задає типову машину, змінює CPU й пам’ять і відкриває оболонку. У CLI 1.1 або новішому машина може завантажуватися з вкладеною віртуалізацією (Apple silicon M3 або новіший) і власним ядром. <strong>Відкрити у VS Code</strong> під’єднується до запущеної машини через Remote-SSH; в образі машини має працювати <code>sshd</code>.</p>
@@ -302,11 +302,11 @@
 <p>Кожен хост apple/container має розділ <strong>Система</strong>. Він працює, навіть коли хост від’єднано, тож зупинені служби можна запустити просто звідти.</p>
 <ul>
   <li><strong>Статус і версія:</strong> версії клієнта й сервера з попередженням, якщо вони різняться; запуск, зупинка й перезапуск служб; відомості про хост і шляхи.</li>
-  <li><strong>Збирач образів:</strong> стан, образ, CPU, пам’ять і IP; запуск із параметрами CPU, пам’яті та DNS; зупинка; видалення.</li>
+  <li><strong>Збирач образів:</strong> стан, образ, CPU, пам’ять і IP; запуск із параметрами CPU, пам’яті й DNS; зупинка; видалення. Картка повідомляє, що образ збирача застарів, і створює його заново.</li>
   <li><strong>Входи в реєстри:</strong> перегляд, вхід і вихід. Пароль передається в CLI лише через stdin (<code>--password-stdin</code>), і Gantry не зберігає його копії.</li>
   <li><strong>Ядро:</strong> інсталяція рекомендованого ядра, файлу ядра або tar-архіву з відображенням перебігу в реальному часі.</li>
   <li><strong>Журнали служб:</strong> у реальному часі або одноразово, за період від 5 хвилин до 1 дня, з фільтром за рівнем, службою й текстом.</li>
-  <li><strong>Системні властивості:</strong> зміни записуються в <code>~/.config/container/config.toml</code>; Gantry позначає, що потрібен перезапуск, і дає кнопку <strong>Перезапустити служби</strong>.</li>
+  <li><strong>Системні властивості:</strong> зміни записуються в <code>~/.config/container/config.toml</code>, з позначкою про очікуваний перезапуск і кнопкою <strong>Перезапустити служби</strong>. У CLI 1.7 для DNS-серверів, доменів пошуку й параметрів <code>[container.dns]</code> є редактор списків.</li>
 </ul>
 
 <h3 id="disk">Збереження як образ, стиснення диска й файли</h3>
@@ -323,7 +323,7 @@
 </div>
 
 <h2 id="vs-docker">apple/container поруч із Docker</h2>
-<p>Gantry керує хостами apple/container, локальним демоном Docker (Docker Desktop, OrbStack, Colima) і віддаленими хостами Docker через SSH в одній боковій панелі та на одній панелі парку. Вибирати одне середовище виконання не потрібно. Докладне порівняння за функціями — у розділі <a href="../compare/">Gantry, Docker Desktop, OrbStack і Podman Desktop: порівняння</a>.</p>
+<p>Gantry керує хостами apple/container, локальним демоном Docker (Docker Desktop, OrbStack, Colima) і віддаленими хостами Docker через SSH на одній боковій панелі й одній панелі парку. Вибирати одне середовище виконання не потрібно. Порівняння інструментів за функціями — на сторінці <a href="../compare/">Gantry, Docker Desktop, OrbStack і Podman Desktop</a>. Щоб перенести роботу, прочитайте <a href="../docker-desktop-to-apple-container/">Перехід із Docker Desktop на Apple container</a>.</p>
 
 <h2 id="faq">Запитання й відповіді</h2>
 <div class="faq-list">
@@ -332,10 +332,10 @@
 <details class="faq-item"><summary>Чи можна використовувати docker compose з Apple container?</summary><p>В apple/container немає команди <code>compose</code>. Gantry читає <code>docker-compose.yml</code>, збирає служби з <code>build:</code>, створює мережу та іменовані томи й запускає служби в порядку <code>depends_on</code>. Імена служб розв’язуються через мережеві DNS-псевдоніми.</p></details>
 <details class="faq-item"><summary>Як відкрити машину container у VS Code?</summary><p>Запустіть машину в Gantry і натисніть <b>Відкрити у VS Code</b>. Gantry відкриє її через Remote-SSH, як у прикладі Apple <code>container-machine-vscode</code>. В образі машини має працювати <code>sshd</code>.</p></details>
 <details class="faq-item"><summary>Чи працює Apple container на Mac з Intel?</summary><p>Ні. apple/container потрібен Mac з Apple silicon. Gantry працює й на Mac з Intel, але там керує лише хостами Docker.</p></details>
-<details class="faq-item"><summary>Яку версію CLI container інсталювати?</summary><p>Gantry потрібна версія 1.0 або новіша, перевірено на 1.6.1. Інсталюйте CLI за допомогою підписаного інсталяційного пакета зі <a href="https://github.com/apple/container/releases">сторінки релізів apple/container</a>. У збірці Homebrew немає бекенда машин, тож <code>container machine</code> із нею не працює.</p></details>
+<details class="faq-item"><summary>Яку версію CLI container інсталювати?</summary><p>Gantry потрібна версія 1.0 або новіша, рекомендовано 1.7.1. Інсталюйте її підписаним інсталяційним пакетом зі <a href="https://github.com/apple/container/releases">сторінки релізів apple/container</a>. У збірці Homebrew немає бекенда машин, а в 1.7.1 — ще й служб кластера, тому <code>container machine</code> і <code>container cluster</code> з нею не працюють.</p></details>
 </div>
 
-<p class="updated">Оновлено 2026-11-03.</p>
+<p class="updated">Оновлено 2026-11-07.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Головна</a>
@@ -345,6 +345,12 @@
       <a href="../apple-container-kubernetes/">Kubernetes</a>
       <span>·</span>
       <a href="../compare/">Порівняння</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">З Docker Desktop</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Зовнішній диск</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">З docker run</a>
       <span>·</span>
       <a href="../../docs/index.html">Документація</a>
       <span>·</span>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="hu" data-copied="Másolva">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JR87M6TNM"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-3JR87M6TNM');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Átállás a Docker Desktopról az Apple containerre: parancsok, Compose, kötetek és hiányok</title>
+  <meta name="description" content="Váltás a Docker Desktopról az Apple container eszközére Macen: melyik docker parancsnak melyik container parancs felel meg, hogyan vihetők át az image-ek, kötetek és Compose-fájlok, és mi hiányzik még.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <link rel="canonical" href="https://getgantry.github.io/hu/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="en" href="https://getgantry.github.io/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="de" href="https://getgantry.github.io/de/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="fr" href="https://getgantry.github.io/fr/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="es" href="https://getgantry.github.io/es/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="it" href="https://getgantry.github.io/it/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="pt-PT" href="https://getgantry.github.io/pt-PT/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="nl" href="https://getgantry.github.io/nl/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="sv" href="https://getgantry.github.io/sv/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="da" href="https://getgantry.github.io/da/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="nb" href="https://getgantry.github.io/nb/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="fi" href="https://getgantry.github.io/fi/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="pl" href="https://getgantry.github.io/pl/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="cs" href="https://getgantry.github.io/cs/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="sk" href="https://getgantry.github.io/sk/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="hu" href="https://getgantry.github.io/hu/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="ro" href="https://getgantry.github.io/ro/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="bg" href="https://getgantry.github.io/bg/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="el" href="https://getgantry.github.io/el/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="hr" href="https://getgantry.github.io/hr/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="sl" href="https://getgantry.github.io/sl/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="sr" href="https://getgantry.github.io/sr/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="sr-Latn" href="https://getgantry.github.io/sr-Latn/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="lt" href="https://getgantry.github.io/lt/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="lv" href="https://getgantry.github.io/lv/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="et" href="https://getgantry.github.io/et/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="uk" href="https://getgantry.github.io/uk/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="ru" href="https://getgantry.github.io/ru/docker-desktop-to-apple-container/">
+  <link rel="alternate" hreflang="x-default" href="https://getgantry.github.io/docker-desktop-to-apple-container/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Gantry">
+  <meta property="og:locale" content="hu_HU">
+  <meta property="og:title" content="Átállás a Docker Desktopról az Apple containerre: parancsok, Compose, kötetek és hiányok">
+  <meta property="og:description" content="Váltás a Docker Desktopról az Apple container eszközére Macen: melyik docker parancsnak melyik container parancs felel meg, hogyan vihetők át az image-ek, kötetek és Compose-fájlok, és mi hiányzik még.">
+  <meta property="og:url" content="https://getgantry.github.io/hu/docker-desktop-to-apple-container/">
+  <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta property="og:image:width" content="3364">
+  <meta property="og:image:height" content="2116">
+  <meta property="og:image:alt" content="A Gantry flottairányítópultja Docker- és apple/container-gazdagépekkel">
+  <meta property="article:modified_time" content="2026-11-07">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Átállás a Docker Desktopról az Apple containerre: parancsok, Compose, kötetek és hiányok">
+  <meta name="twitter:description" content="Váltás a Docker Desktopról az Apple container eszközére Macen: melyik docker parancsnak melyik container parancs felel meg, hogyan vihetők át az image-ek, kötetek és Compose-fájlok, és mi hiányzik még.">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta name="theme-color" content="#060a10">
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+  <link rel="stylesheet" href="../../styles.css">
+  <link rel="stylesheet" href="../../docs/docs.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/#article",
+      "headline": "Átállás a Docker Desktopról az Apple containerre: parancsok, Compose, kötetek és hiányok",
+      "description": "Váltás a Docker Desktopról az Apple container eszközére Macen: melyik docker parancsnak melyik container parancs felel meg, hogyan vihetők át az image-ek, kötetek és Compose-fájlok, és mi hiányzik még.",
+      "url": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/",
+      "inLanguage": "hu",
+      "dateModified": "2026-11-07",
+      "image": "https://getgantry.github.io/assets/dashboard.png",
+      "author": {
+        "@type": "Organization",
+        "name": "Gantry",
+        "url": "https://getgantry.github.io/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://getgantry.github.io/#organization",
+        "name": "Gantry",
+        "logo": "https://getgantry.github.io/assets/icon.png"
+      },
+      "about": [
+        {
+          "@type": "SoftwareApplication",
+          "name": "container (apple/container)",
+          "url": "https://github.com/apple/container",
+          "operatingSystem": "macOS",
+          "applicationCategory": "DeveloperApplication"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Gantry",
+          "url": "https://getgantry.github.io/"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/#breadcrumbs",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Gantry",
+          "item": "https://getgantry.github.io/hu/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Docker Desktopról",
+          "item": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Kiválthatja az Apple container a Docker Desktopot?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Konténerek futtatására, buildelésére és letöltésére Apple chipen igen. Nincs benne Docker Engine API, újraindítási szabály, bővítmény és compose parancs. A Gantry Compose-fájl-támogatást és GUI-t ad hozzá."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Működnek a Docker-image-ek az Apple containerrel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen. Az apple/container szabványos OCI-image-eket használ, és ugyanazokból a registrykből tölt le. Az arm64-image-ek natívan futnak; az amd64-image-ek a Rosettán keresztül, a --arch amd64 kapcsolóval."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Működik a docker compose az Apple containerrel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A CLI-ből nem: nincs container compose. A Gantry beolvassa a docker-compose.yml fájlt, és Ön helyett futtatja a szolgáltatásokat az apple/containeren."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Használhatom egyszerre a Docker Desktopot és az Apple containert?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen. Nem osztoznak az image-eken és a köteteken, de futhatnak egymás mellett. A Gantry mindkettőt egy ablakban mutatja."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Ingyenes az Apple container kereskedelmi használatra?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Igen. Az apple/container nyílt forráskódú, Apache 2.0 licenccel, a Gantry pedig MIT licencű. Mindkettő ingyenes bármilyen méretű cég számára."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "HowTo",
+      "@id": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/#howto",
+      "name": "Átállás a Docker Desktopról az Apple containerre",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Mi változik",
+          "text": "Konténerenként egy VM. A Docker Desktop minden konténert egyetlen Linux VM-ben futtat. Az apple/container minden konténerhez külön kis VM-et indít, így mindegyik saját IP-címet kap a Macen. Ugyanazok az image-ek és registryk. Az image-ek OCI-image-ek; ugyanúgy letölthet a Docker Hubról, a GHCR-ről és privát registrykből, mint eddig. Nincs licencdíj. Az apple/container Apache 2.0 licencű. A Docker Desktophoz fizetős előfizetés kell a 250 vagy több alkalmazottat foglalkoztató, illetve legalább 10 millió dollár árbevételű szervezetekben. Csak Apple chipen és macOS 26-on. Intel-alapú Macen maradjon egy Docker-motornál.",
+          "url": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/#why"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Docker-parancsok és container megfelelőik",
+          "text": "A run legtöbb kapcsolója ugyanaz: -d, -p, -e, -v, --name, --rm, -it, -w, --entrypoint, --cpus és -m. Egy hosszú parancs átalakításához illessze be a Gantrybe: lásd Konténer létrehozása docker run parancsból.",
+          "url": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/#commands"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Az image-ek átvitele",
+          "text": "Registryből származó image-ek: töltse le őket újra a container image pull paranccsal. Csak a Dockerben létező helyi image-ek: mentse őket archívumba, és töltse be. A container image load OCI-archívumokat olvas, a Docker újabb verziói pedig OCI-elrendezést írnak a docker save paranccsal. Ha a betöltés sikertelen, töltse fel az image-et egy registrybe, és onnan töltse le.",
+          "url": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/#images"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Nevesített kötetek átvitele",
+          "text": "A Docker a kötetek adatait a saját VM-jében tárolja. Másolja ki minden kötetét egy tar-fájlba egy rövid életű konténerrel, majd csomagolja ki egy új apple/container-kötetbe:",
+          "url": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/#volumes"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 5,
+          "name": "Compose-fájlok",
+          "text": "A container CLI-ben nincs compose parancs. Ehelyett nyissa meg a docker-compose.yml fájlt a Gantryben (a Finderből, a Fájl ▸ Compose-fájl megnyitása… menüponttal vagy húzással). A Gantry buildeli a build: szolgáltatásokat, létrehozza a projekt hálózatát és nevesített köteteit, majd depends_on sorrendben elindítja a szolgáltatásokat. A szolgáltatások szolgáltatásnév alapján érik el egymást, hálózati DNS-aliasokon keresztül.",
+          "url": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 6,
+          "name": "Hálózatok és portok",
+          "text": "A -p 8080:80 a localhost címen tesz közzé egy portot, ahogy a Dockerben. Minden konténernek saját IP-címe is van. Hozzon létre egy helyi DNS-tartományt a sudo container system dns create test paranccsal, és futtassa a konténereket a --dns-domain test kapcsolóval: ilyen neveket kapnak, mint web.test. A container network create felhasználói hálózatokat hoz létre; az azonos hálózaton lévő konténerek elérik egymást. Nincs --network host, none vagy container: mód.",
+          "url": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/#networks"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Ami hiányzik",
+          "text": "Nincs Docker Engine API. A /var/run/docker.sock socketen kommunikáló eszközök, például a Testcontainers, a Docker SDK-k vagy a Dev Containers, nem látják az apple/containert. Nincsenek újraindítási szabályok. A --restart nem érhető el; a konténer magától nem indul újra. Nincs Compose a CLI-ben. A Gantry futtatja a Compose-fájlokat: lásd Compose-fájlok. Nincsenek Docker Desktop-bővítmények. Csak egész CPU-k: a --cpus 0.5 nem működik. A Kubernetes másképp működik: használja a container cluster parancsot, lásd Kubernetes futtatása Macen.",
+          "url": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/#missing"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
+          "name": "Mindkettő megtartása a váltás alatt",
+          "text": "A Gantry egyetlen oldalsávban kezeli az apple/containert és bármely Docker-motort (Docker Desktop, OrbStack, Colima vagy Docker SSH-n keresztül). Egyszerre egy projektet vigyen át, és tartsa meg a Dockert azokhoz az eszközökhöz, amelyeknek az API-ja kell. Ha már nincs rá szüksége, eltávolíthatja a Docker Desktopot.",
+          "url": "https://getgantry.github.io/hu/docker-desktop-to-apple-container/#both"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="docs-body">
+  <div class="bg-field"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-grain"></div>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../"><img src="../../assets/icon.png" alt="Gantry-ikon" width="30" height="30"><span>Gantry</span></a>
+      <nav class="nav-links">
+        <a href="../#features">Funkciók</a>
+        <a href="../apple-container/">apple/container</a>
+        <a href="../apple-container-kubernetes/">Kubernetes</a>
+        <a href="../compare/">Összevetés</a>
+        <a href="../../docs/index.html">Leírás</a>
+        <a href="https://github.com/getgantry/gantry">GitHub</a>
+      </nav>
+      <details class="lang-menu">
+        <summary aria-label="Nyelv: Magyar" title="Nyelv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lang-name">Magyar</span><span class="lang-code">HU</span></summary>
+        <ul>
+          <li><a href="../../docker-desktop-to-apple-container/" hreflang="en" lang="en">English</a></li>
+          <li><a href="../../de/docker-desktop-to-apple-container/" hreflang="de" lang="de">Deutsch</a></li>
+          <li><a href="../../fr/docker-desktop-to-apple-container/" hreflang="fr" lang="fr">Français</a></li>
+          <li><a href="../../es/docker-desktop-to-apple-container/" hreflang="es" lang="es">Español</a></li>
+          <li><a href="../../it/docker-desktop-to-apple-container/" hreflang="it" lang="it">Italiano</a></li>
+          <li><a href="../../pt-PT/docker-desktop-to-apple-container/" hreflang="pt-PT" lang="pt-PT">Português</a></li>
+          <li><a href="../../nl/docker-desktop-to-apple-container/" hreflang="nl" lang="nl">Nederlands</a></li>
+          <li><a href="../../sv/docker-desktop-to-apple-container/" hreflang="sv" lang="sv">Svenska</a></li>
+          <li><a href="../../da/docker-desktop-to-apple-container/" hreflang="da" lang="da">Dansk</a></li>
+          <li><a href="../../nb/docker-desktop-to-apple-container/" hreflang="nb" lang="nb">Norsk bokmål</a></li>
+          <li><a href="../../fi/docker-desktop-to-apple-container/" hreflang="fi" lang="fi">Suomi</a></li>
+          <li><a href="../../pl/docker-desktop-to-apple-container/" hreflang="pl" lang="pl">Polski</a></li>
+          <li><a href="../../cs/docker-desktop-to-apple-container/" hreflang="cs" lang="cs">Čeština</a></li>
+          <li><a href="../../sk/docker-desktop-to-apple-container/" hreflang="sk" lang="sk">Slovenčina</a></li>
+          <li><a href="./" hreflang="hu" lang="hu" aria-current="page">Magyar</a></li>
+          <li><a href="../../ro/docker-desktop-to-apple-container/" hreflang="ro" lang="ro">Română</a></li>
+          <li><a href="../../bg/docker-desktop-to-apple-container/" hreflang="bg" lang="bg">Български</a></li>
+          <li><a href="../../el/docker-desktop-to-apple-container/" hreflang="el" lang="el">Ελληνικά</a></li>
+          <li><a href="../../hr/docker-desktop-to-apple-container/" hreflang="hr" lang="hr">Hrvatski</a></li>
+          <li><a href="../../sl/docker-desktop-to-apple-container/" hreflang="sl" lang="sl">Slovenščina</a></li>
+          <li><a href="../../sr/docker-desktop-to-apple-container/" hreflang="sr" lang="sr">Српски</a></li>
+          <li><a href="../../sr-Latn/docker-desktop-to-apple-container/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a></li>
+          <li><a href="../../lt/docker-desktop-to-apple-container/" hreflang="lt" lang="lt">Lietuvių</a></li>
+          <li><a href="../../lv/docker-desktop-to-apple-container/" hreflang="lv" lang="lv">Latviešu</a></li>
+          <li><a href="../../et/docker-desktop-to-apple-container/" hreflang="et" lang="et">Eesti</a></li>
+          <li><a href="../../uk/docker-desktop-to-apple-container/" hreflang="uk" lang="uk">Українська</a></li>
+          <li><a href="../../ru/docker-desktop-to-apple-container/" hreflang="ru" lang="ru">Русский</a></li>
+        </ul>
+      </details>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <nav class="crumbs" aria-label="Morzsamenü"><a href="../">Gantry</a><span aria-hidden="true">/</span><span aria-current="page">Docker Desktopról</span></nav>
+    <article class="docs-article page-article">
+<h1>Átállás a Docker Desktopról az Apple containerre</h1>
+<p class="page-lead">Az Apple <code>container</code> eszköze ugyanazokat az OCI-image-eket futtatja, mint a Docker, így a munkája nagy része néhány parancs módosításával átvihető. Ez az útmutató megfelelteti a Dockert a <code>container</code> eszköznek, átviszi az image-eket és a köteteket, és felsorolja azokat a hiányosságokat, amelyekről a váltás előtt tudnia kell.</p>
+
+<div class="tldr">
+<p><strong>Röviden.</strong> Telepítse az aláírt <code>container</code> csomagot, a run, build, logs, exec és images parancsoknál cserélje a <code>docker</code> szót <code>container</code>-re, a nevesített köteteket másolja át egy tar-fájllal, a <code>docker-compose.yml</code> fájlt pedig nyissa meg a Gantryben, mert a CLI-ben nincs <code>compose</code>. A kipróbálás idejére a Docker Desktop telepítve maradhat.</p>
+</div>
+
+<h2 id="why">Mi változik</h2>
+<ul>
+  <li><strong>Konténerenként egy VM.</strong> A Docker Desktop minden konténert egyetlen Linux VM-ben futtat. Az apple/container minden konténerhez külön kis VM-et indít, így mindegyik saját IP-címet kap a Macen.</li>
+  <li><strong>Ugyanazok az image-ek és registryk.</strong> Az image-ek OCI-image-ek; ugyanúgy letölthet a Docker Hubról, a GHCR-ről és privát registrykből, mint eddig.</li>
+  <li><strong>Nincs licencdíj.</strong> Az apple/container Apache 2.0 licencű. A Docker Desktophoz fizetős előfizetés kell a 250 vagy több alkalmazottat foglalkoztató, illetve legalább 10 millió dollár árbevételű szervezetekben.</li>
+  <li><strong>Csak Apple chipen és macOS 26-on.</strong> Intel-alapú Macen maradjon egy Docker-motornál.</li>
+</ul>
+
+<ul id="commands">Docker-parancsok és container megfelelőik</ul>
+<div class="table-wrap"><table>
+<thead><tr><th scope="col">Docker</th><th scope="col">apple/container</th><th scope="col">Megjegyzés</th></tr></thead>
+<tbody>
+<tr><th scope="row"><code>docker run</code>, <code>create</code></th><td><code>container run</code>, <code>create</code></td><td>A legtöbb kapcsoló ugyanaz</td></tr>
+<tr><th scope="row"><code>docker ps</code>, <code>ps -a</code></th><td><code>container ls</code>, <code>ls -a</code></td><td></td></tr>
+<tr><th scope="row"><code>docker logs -f</code></th><td><code>container logs -f</code></td><td></td></tr>
+<tr><th scope="row"><code>docker exec -it</code></th><td><code>container exec -it</code></td><td></td></tr>
+<tr><th scope="row"><code>docker build</code></th><td><code>container build</code></td><td>Builder VM-ben fut (<code>container builder</code>)</td></tr>
+<tr><th scope="row"><code>docker images</code>, <code>pull</code>, <code>push</code>, <code>tag</code></th><td><code>container image ls</code>, <code>pull</code>, <code>push</code>, <code>tag</code></td><td></td></tr>
+<tr><th scope="row"><code>docker save</code>, <code>load</code></th><td><code>container image save</code>, <code>load</code></td><td>OCI-archívumok</td></tr>
+<tr><th scope="row"><code>docker cp</code></th><td><code>container cp</code></td><td></td></tr>
+<tr><th scope="row"><code>docker stats</code>, <code>inspect</code></th><td><code>container stats</code>, <code>inspect</code></td><td></td></tr>
+<tr><th scope="row"><code>docker commit</code></th><td><code>container commit</code></td><td>CLI 1.6 vagy újabb</td></tr>
+<tr><th scope="row"><code>docker volume …</code></th><td><code>container volume …</code></td><td>A kötetek ext4-lemezképek</td></tr>
+<tr><th scope="row"><code>docker network …</code></th><td><code>container network …</code></td><td></td></tr>
+<tr><th scope="row"><code>docker login</code></th><td><code>container registry login</code></td><td></td></tr>
+<tr><th scope="row"><code>docker system df</code>, <code>prune</code></th><td><code>container system df</code>, <code>container prune</code></td><td></td></tr>
+<tr><th scope="row"><code>docker compose up</code></th><td>Nincs</td><td>A Gantry futtatja a Compose-fájlokat</td></tr>
+<tr><th scope="row">Docker Desktop Kubernetes</th><td><code>container cluster</code></td><td>CLI 1.6.1 vagy újabb</td></tr>
+<tr><th scope="row"><code>docker context</code>, <code>-H ssh://</code></th><td>Nincs</td><td>A Gantry az apple/container mellett a Docker-gazdagépeket is mutatja</td></tr>
+</tbody>
+</table></div>
+<p>A <code>run</code> legtöbb kapcsolója ugyanaz: <code>-d</code>, <code>-p</code>, <code>-e</code>, <code>-v</code>, <code>--name</code>, <code>--rm</code>, <code>-it</code>, <code>-w</code>, <code>--entrypoint</code>, <code>--cpus</code> és <code>-m</code>. Egy hosszú parancs átalakításához illessze be a Gantrybe: lásd <a href="../docker-run-to-container/">Konténer létrehozása docker run parancsból</a>.</p>
+
+<ul id="images">Az image-ek átvitele</ul>
+<p>Registryből származó image-ek: töltse le őket újra a <code>container image pull</code> paranccsal. Csak a Dockerben létező helyi image-ek: mentse őket archívumba, és töltse be. A <code>container image load</code> OCI-archívumokat olvas, a Docker újabb verziói pedig OCI-elrendezést írnak a <code>docker save</code> paranccsal. Ha a betöltés sikertelen, töltse fel az image-et egy registrybe, és onnan töltse le.</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="docker save -o app.tar app:dev
+container image load -i app.tar
+container image pull nginx:alpine">Másolás</button></div>
+  <pre><code>docker save -o app.tar app:dev
+container image load -i app.tar
+container image pull nginx:alpine</code></pre>
+</div>
+
+<ul id="volumes">Nevesített kötetek átvitele</ul>
+<p>A Docker a kötetek adatait a saját VM-jében tárolja. Másolja ki minden kötetét egy tar-fájlba egy rövid életű konténerrel, majd csomagolja ki egy új apple/container-kötetbe:</p>
+<div class="code-block">
+  <div class="code-head"><span>Terminál</span><button class="copy" data-copy="docker run --rm -v data:/from -v &quot;$PWD&quot;:/to alpine tar -C /from -cf /to/data.tar .
+container volume create data
+container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /from/data.tar">Másolás</button></div>
+  <pre><code>docker run --rm -v data:/from -v &quot;$PWD&quot;:/to alpine tar -C /from -cf /to/data.tar .
+container volume create data
+container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /from/data.tar</code></pre>
+</div>
+<p>Az apple/containerben a nevesített kötet egy ritka (sparse) ext4-lemezkép, alapértelmezés szerint legfeljebb 512 GB. Más méretet a <code>--opt size=20g</code> kapcsolóval adhat meg. A Mac mappáinak bind mountjai ugyanúgy működnek, mint a Dockerben: <code>-v ~/project:/app</code>.</p>
+
+<ul id="compose">Compose-fájlok</ul>
+<p>A <code>container</code> CLI-ben nincs <code>compose</code> parancs. Ehelyett nyissa meg a <code>docker-compose.yml</code> fájlt a Gantryben (a Finderből, a <strong>Fájl ▸ Compose-fájl megnyitása…</strong> menüponttal vagy húzással). A Gantry buildeli a <code>build:</code> szolgáltatásokat, létrehozza a projekt hálózatát és nevesített köteteit, majd <code>depends_on</code> sorrendben elindítja a szolgáltatásokat. A szolgáltatások szolgáltatásnév alapján érik el egymást, hálózati DNS-aliasokon keresztül.</p>
+
+<ul id="networks">Hálózatok és portok</ul>
+<ul>
+  <li>A <code>-p 8080:80</code> a <code>localhost</code> címen tesz közzé egy portot, ahogy a Dockerben.</li>
+  <li>Minden konténernek saját IP-címe is van. Hozzon létre egy helyi DNS-tartományt a <code>sudo container system dns create test</code> paranccsal, és futtassa a konténereket a <code>--dns-domain test</code> kapcsolóval: ilyen neveket kapnak, mint <code>web.test</code>.</li>
+  <li>A <code>container network create</code> felhasználói hálózatokat hoz létre; az azonos hálózaton lévő konténerek elérik egymást.</li>
+  <li>Nincs <code>--network host</code>, <code>none</code> vagy <code>container:</code> mód.</li>
+</ul>
+
+<ul id="missing">Ami hiányzik</ul>
+<ul>
+  <li><strong>Nincs Docker Engine API.</strong> A <code>/var/run/docker.sock</code> socketen kommunikáló eszközök, például a Testcontainers, a Docker SDK-k vagy a Dev Containers, nem látják az apple/containert.</li>
+  <li><strong>Nincsenek újraindítási szabályok.</strong> A <code>--restart</code> nem érhető el; a konténer magától nem indul újra.</li>
+  <li><strong>Nincs Compose a CLI-ben.</strong> A Gantry futtatja a Compose-fájlokat: lásd <a href="#compose">Compose-fájlok</a>.</li>
+  <li><strong>Nincsenek Docker Desktop-bővítmények.</strong></li>
+  <li><strong>Csak egész CPU-k:</strong> a <code>--cpus 0.5</code> nem működik.</li>
+  <li><strong>A Kubernetes másképp működik:</strong> használja a <code>container cluster</code> parancsot, lásd <a href="../apple-container-kubernetes/#terminal">Kubernetes futtatása Macen</a>.</li>
+</ul>
+
+<ul id="both">Mindkettő megtartása a váltás alatt</ul>
+<p>A Gantry egyetlen oldalsávban kezeli az apple/containert és bármely Docker-motort (Docker Desktop, OrbStack, Colima vagy Docker SSH-n keresztül). Egyszerre egy projektet vigyen át, és tartsa meg a Dockert azokhoz az eszközökhöz, amelyeknek az API-ja kell. Ha már nincs rá szüksége, eltávolíthatja a Docker Desktopot.</p>
+
+<h2 id="related">Kapcsolódó útmutatók</h2>
+<ul>
+  <li><a href="../containers-on-external-drive/">Konténerek és kötetek tárolása külső meghajtón Macen</a></li>
+  <li><a href="../docker-run-to-container/">Konténer létrehozása docker run parancsból Macen (docker run → container run)</a></li>
+  <li><a href="../apple-container/">Apple container GUI Macre: a teljes apple/container-útmutató</a></li>
+  <li><a href="../apple-container-kubernetes/">Kubernetes az Apple containeren: GUI a container clusterhez és Kubernetes-böngésző</a></li>
+  <li><a href="../compare/">Gantry vs. Docker Desktop vs. OrbStack vs. Podman Desktop Macen (2026)</a></li>
+</ul>
+
+<h2 id="faq">Kérdések és válaszok</h2>
+<div class="faq-list">
+<details class="faq-item"><summary>Kiválthatja az Apple container a Docker Desktopot?</summary><p>Konténerek futtatására, buildelésére és letöltésére Apple chipen igen. Nincs benne Docker Engine API, újraindítási szabály, bővítmény és <code>compose</code> parancs. A Gantry Compose-fájl-támogatást és GUI-t ad hozzá.</p></details>
+<details class="faq-item"><summary>Működnek a Docker-image-ek az Apple containerrel?</summary><p>Igen. Az apple/container szabványos OCI-image-eket használ, és ugyanazokból a registrykből tölt le. Az arm64-image-ek natívan futnak; az amd64-image-ek a Rosettán keresztül, a <code>--arch amd64</code> kapcsolóval.</p></details>
+<details class="faq-item"><summary>Működik a docker compose az Apple containerrel?</summary><p>A CLI-ből nem: nincs <code>container compose</code>. A Gantry beolvassa a <code>docker-compose.yml</code> fájlt, és Ön helyett futtatja a szolgáltatásokat az apple/containeren.</p></details>
+<details class="faq-item"><summary>Használhatom egyszerre a Docker Desktopot és az Apple containert?</summary><p>Igen. Nem osztoznak az image-eken és a köteteken, de futhatnak egymás mellett. A Gantry mindkettőt egy ablakban mutatja.</p></details>
+<details class="faq-item"><summary>Ingyenes az Apple container kereskedelmi használatra?</summary><p>Igen. Az apple/container nyílt forráskódú, Apache 2.0 licenccel, a Gantry pedig MIT licencű. Mindkettő ingyenes bármilyen méretű cég számára.</p></details>
+</div>
+
+<p class="updated">Utoljára frissítve: 2026-11-07.</p>
+    </article>
+    <footer class="docs-foot">
+      <a href="../">Kezdőlap</a>
+      <span>·</span>
+      <a href="../apple-container/">apple/container-útmutató</a>
+      <span>·</span>
+      <a href="../apple-container-kubernetes/">Kubernetes</a>
+      <span>·</span>
+      <a href="../compare/">Összevetés</a>
+      <span>·</span>
+      <a href="../docker-desktop-to-apple-container/">Docker Desktopról</a>
+      <span>·</span>
+      <a href="../containers-on-external-drive/">Külső meghajtó</a>
+      <span>·</span>
+      <a href="../docker-run-to-container/">docker run parancsból</a>
+      <span>·</span>
+      <a href="../../docs/index.html">Leírás</a>
+      <span>·</span>
+      <a href="https://github.com/getgantry/gantry">MIT-licenc · GitHub</a>
+    </footer>
+    <nav class="lang-foot" aria-label="Nyelvek">
+      <a href="../../docker-desktop-to-apple-container/" hreflang="en" lang="en">English</a>
+      <a href="../../de/docker-desktop-to-apple-container/" hreflang="de" lang="de">Deutsch</a>
+      <a href="../../fr/docker-desktop-to-apple-container/" hreflang="fr" lang="fr">Français</a>
+      <a href="../../es/docker-desktop-to-apple-container/" hreflang="es" lang="es">Español</a>
+      <a href="../../it/docker-desktop-to-apple-container/" hreflang="it" lang="it">Italiano</a>
+      <a href="../../pt-PT/docker-desktop-to-apple-container/" hreflang="pt-PT" lang="pt-PT">Português</a>
+      <a href="../../nl/docker-desktop-to-apple-container/" hreflang="nl" lang="nl">Nederlands</a>
+      <a href="../../sv/docker-desktop-to-apple-container/" hreflang="sv" lang="sv">Svenska</a>
+      <a href="../../da/docker-desktop-to-apple-container/" hreflang="da" lang="da">Dansk</a>
+      <a href="../../nb/docker-desktop-to-apple-container/" hreflang="nb" lang="nb">Norsk bokmål</a>
+      <a href="../../fi/docker-desktop-to-apple-container/" hreflang="fi" lang="fi">Suomi</a>
+      <a href="../../pl/docker-desktop-to-apple-container/" hreflang="pl" lang="pl">Polski</a>
+      <a href="../../cs/docker-desktop-to-apple-container/" hreflang="cs" lang="cs">Čeština</a>
+      <a href="../../sk/docker-desktop-to-apple-container/" hreflang="sk" lang="sk">Slovenčina</a>
+      <a href="./" hreflang="hu" lang="hu" aria-current="page">Magyar</a>
+      <a href="../../ro/docker-desktop-to-apple-container/" hreflang="ro" lang="ro">Română</a>
+      <a href="../../bg/docker-desktop-to-apple-container/" hreflang="bg" lang="bg">Български</a>
+      <a href="../../el/docker-desktop-to-apple-container/" hreflang="el" lang="el">Ελληνικά</a>
+      <a href="../../hr/docker-desktop-to-apple-container/" hreflang="hr" lang="hr">Hrvatski</a>
+      <a href="../../sl/docker-desktop-to-apple-container/" hreflang="sl" lang="sl">Slovenščina</a>
+      <a href="../../sr/docker-desktop-to-apple-container/" hreflang="sr" lang="sr">Српски</a>
+      <a href="../../sr-Latn/docker-desktop-to-apple-container/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a>
+      <a href="../../lt/docker-desktop-to-apple-container/" hreflang="lt" lang="lt">Lietuvių</a>
+      <a href="../../lv/docker-desktop-to-apple-container/" hreflang="lv" lang="lv">Latviešu</a>
+      <a href="../../et/docker-desktop-to-apple-container/" hreflang="et" lang="et">Eesti</a>
+      <a href="../../uk/docker-desktop-to-apple-container/" hreflang="uk" lang="uk">Українська</a>
+      <a href="../../ru/docker-desktop-to-apple-container/" hreflang="ru" lang="ru">Русский</a>
+    </nav>
+  </main>
+
+  <script>
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+          var t = b.textContent; b.textContent = 'Másolva';
+          setTimeout(function () { b.textContent = t; }, 1400);
+        });
+      });
+    });
+  </script>
+  <script src="../../lang.js" defer></script>
+</body>
+</html>

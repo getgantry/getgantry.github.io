@@ -21,8 +21,8 @@ APP_VERSION = "0.27.0"
 # Features that are built on a branch but not merged yet. The pages show the text for the shipped state only when
 # the flag is True; flip a flag when its branch merges and rebuild.
 FLAGS = {
-    "k8s_native": False,        # feat/kubernetes-native: Kubernetes browser without kubectl
-    "external_storage": False,  # feat/external-storage: move the data root, volumes on a disk, unplug safety
+    "k8s_native": True,         # feat/kubernetes-native: Kubernetes browser without kubectl
+    "external_storage": True,   # feat/external-storage: move the data root, volumes on a disk, unplug safety
 }
 VARIANTS = {"_native": "k8s_native", "_shipped": "external_storage"}
 FIXED_KEYS = {"id", "code", "table", "shot", "when", "unless"}

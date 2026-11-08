@@ -178,7 +178,7 @@
           "name": "Skal jeg bruge kubectl for at bruge klyngen i Gantry?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Indtil videre, ja: Gantrys Kubernetes-browser kører kubectl. Er det ikke installeret, viser browseren kommandoen brew install kubectl og kan køre den for dig."
+            "text": "Nej. Gantry taler selv med Kubernetes-API'et: den læser kubeconfig og viser derefter ressourcer, streamer logge, åbner en shell, videresender porte og anvender YAML uden kubectl. En klynge, der er oprettet med container cluster create, kan gennemses med det samme."
           }
         },
         {
@@ -331,7 +331,7 @@
 <ul>
   <li>En Mac med Apple-chip, macOS 26 og Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
   <li><code>container</code>-CLI 1.5.0 eller nyere; 1.7.1 anbefales. Arbejdsnoder og CNI'en <em>Ingen</em> kræver 1.6.0 eller nyere. Størrelser på arbejdsnoder og det delte image-lager kræver 1.7.0 eller nyere. Brug den signerede installationspakke: Homebrew-buildet af 1.7.1 har ingen klyngetjenester.</li>
-  <li><code>kubectl</code> til Kubernetes-browseren og terminalen. Gantry kan installere det med Homebrew.</li>
+  <li>Intet andet til Gantrys Kubernetes-browser. <code>kubectl</code> kun, hvis du også vil bruge klyngen fra terminalen.</li>
 </ul>
 
 <h2 id="create">Opret en klynge</h2>
@@ -363,7 +363,7 @@
 
 <h2 id="nodes">Noder og klyngedetaljer</h2>
 <p>Klyngelisten viser én række pr. klynge. Detaljevisningen har en <strong>Oversigt</strong> (kubectl-kontekst, API-server, Kubernetes-version, image-lager, arbejdsnoder og deres ressourcer, nodenetværk), en tabel med <strong>Noder</strong> og <strong>Inspicer</strong> til de rå nodedata. Værktøjslinjen har <strong>Gennemse ressourcer</strong>, og menuen Mere har <strong>Skriv kubeconfig</strong>, <strong>Kopiér kubectl-kontekstkommando</strong> og <strong>Slet</strong>.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/cluster-overview.png" alt="Klyngeoversigt i Gantry med Kubernetes-versionen, image-lageret og arbejdsnoderne" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Klyngeoversigt.</b> Kubernetes-version, image-lager, arbejdsnoder og deres ressourcer.</figcaption></figure>
 <p>Klyngens noder er containere, men det er <code>container cluster</code>, der ejer dem. Gantry slår start, stop, genstart, fjern og omdøb fra for en node og fortæller dig hvorfor, og Start alle og Stop alle springer noder over. På CLI 1.7 skjuler CLI'en også noder i <code>container list</code>. Klynger, der er oprettet med CLI 1.6 eller ældre, vises ikke i listen i 1.7; fjern dem med <code>container cluster delete --name &lt;name&gt;</code>.</p>
 
 <h2 id="browser">Gennemse klyngen</h2>
@@ -374,8 +374,8 @@
   <li><strong>Secrets:</strong> værdierne er maskerede i listen og i YAML, indtil du klikker på Vis.</li>
   <li><strong>Anvend YAML:</strong> indsæt et manifest, eller åbn en fil; fejl vises i arket.</li>
 </ul>
-<p>Browseren kører <code>kubectl</code>. Kan Gantry ikke finde det, viser sektionen <code>brew install kubectl</code> med en knap, der kører kommandoen.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Gantry taler selv med Kubernetes-API'et med legitimationsoplysningerne i din kubeconfig. Du behøver ikke <code>kubectl</code> eller andre værktøjer: en klynge, der er oprettet med <code>container cluster create</code>, kan gennemses med det samme.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/kubernetes-browser-dev.png" alt="Gantrys Kubernetes-browser med pods i klyngen dev" width="2972" height="1854" loading="lazy" decoding="async"><figcaption><b>Kubernetes-browser.</b> Pods i en <code>container cluster</code> med logge og portvideresendelser.</figcaption></figure>
 
 <h2 id="kubectl">Forbind kubectl</h2>
 <p>CLI'en tilføjer en kontekst med klyngens navn til <code>~/.kube/config</code>, når den opretter klyngen. Brug <strong>Kopiér kubectl-kontekstkommando</strong> i Gantry, eller skriv den selv:</p>
@@ -502,7 +502,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Kan jeg oprette en klynge med flere noder?</summary><p>Ja. Angiv antallet af arbejdsnoder i oprettelsesarket; arbejdsnoder kræver CLI 1.6.0 eller nyere. På CLI 1.7 angiver du også CPU'er og hukommelse til arbejdsnoderne adskilt fra kontrolplanet.</p></details>
 <details class="faq-item"><summary>Kan jeg bruge min egen CNI som Calico eller Cilium?</summary><p>Ja. Vælg <b>Tilpasset manifest</b>, og vælg manifestfilen, eller vælg <b>Ingen</b>, og installer selv en CNI, når klyngen er startet. Noderne forbliver NotReady, indtil en CNI kører. <b>Ingen</b> kræver CLI 1.6.0 eller nyere. Standard-CNI'en er det medfølgende kindnet-manifest.</p></details>
 <details class="faq-item"><summary>Hvorfor siger Gantry, at klyngetjenesterne ikke er tilgængelige?</summary><p><code>container</code>-tjenesterne svarede ikke på en klyngekommando. Er din CLI et Homebrew-build uden klyngetjenesterne, siger Gantry det og linker til det signerede installationsprogram på udgivelsessiden for apple/container. Ellers tilbyder den <b>Genstart tjenester</b>.</p></details>
-<details class="faq-item"><summary>Skal jeg bruge kubectl for at bruge klyngen i Gantry?</summary><p>Indtil videre, ja: Gantrys Kubernetes-browser kører <code>kubectl</code>. Er det ikke installeret, viser browseren kommandoen <code>brew install kubectl</code> og kan køre den for dig.</p></details>
+<details class="faq-item"><summary>Skal jeg bruge kubectl for at bruge klyngen i Gantry?</summary><p>Nej. Gantry taler selv med Kubernetes-API'et: den læser kubeconfig og viser derefter ressourcer, streamer logge, åbner en shell, videresender porte og anvender YAML uden <code>kubectl</code>. En klynge, der er oprettet med <code>container cluster create</code>, kan gennemses med det samme.</p></details>
 <details class="faq-item"><summary>Kan jeg køre Kubernetes på en Mac uden Docker?</summary><p>Ja. Apples <code>container</code>-CLI opretter selv Kubernetes-klynger med <code>container cluster create</code>. Hver node kører som en let VM, og du behøver ikke Docker, Docker Desktop, kind eller minikube.</p></details>
 <details class="faq-item"><summary>Hvor mange noder kan en container cluster have?</summary><p>Ét kontrolplan og så mange arbejdsnoder, som din Mac har CPU'er og hukommelse til. Angiv dem med <code>--workers</code>; på CLI 1.7 kan hver gruppe arbejdsnoder have egne CPU'er og egen hukommelse.</p></details>
 <details class="faq-item"><summary>Hvilken Kubernetes-version bruger container cluster?</summary><p>CLI 1.7.1 bruger som standard node-imaget <code>kindest/node:v1.35.5</code>. Vælg en anden version med <code>--node-image</code>, for eksempel <code>docker.io/kindest/node:v1.34.11</code>. Gantry viser versionen i klyngeoversigten.</p></details>

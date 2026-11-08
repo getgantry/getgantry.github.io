@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Külső meghajtók a Gantryben",
-          "text": "A Gantry már most futtat bind mountokat bármely lemezről: az Új konténer lapon adjon hozzá egy kötetet, válasszon egy mappát a külső lemezen és egy útvonalat a konténerben.",
+          "text": "Az apple/container-gazdagépen a Rendszer szakasz Tárhely panelje mutatja, hol van az adatgyökér, melyik lemezen, és mennyi helyet foglalnak az image-ek, a konténerek, a pillanatképek, a kötetek és a kernelek. Az Áthelyezés másik lemezre… leállítja a szolgáltatásokat, átmásolja és ellenőrzi az adatokat, átállítja a gyökeret, majd újraindítja a szolgáltatásokat; a régi másolatot csak külön megerősítés után törli. A Gantry minden későbbi indításnál megjegyzi a gyökeret. Az új kötetek bármely lemez egy mappájában lehetnek, és ha az a lemez nincs csatlakoztatva, a Gantry megmondja, melyik lemez hiányzik, és nem indítja el az azt igénylő konténereket.",
           "url": "https://getgantry.github.io/hu/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Használja a <code>cp -Rp</code> parancsot. A macOS 27-en végzett tesztünkben (APFS-ről APFS-re, USB-n) ritkák maradtak a kötetképek, és megmaradtak a kiterjesztett attribútumok. A <code>ditto</code> minden ritka képet teljes méretben írt ki, ami megtöltheti a lemezt. A régi mappát addig tartsa meg, amíg nem ellenőrizte, hogy a konténerek, az image-ek és a kötetek megjelennek a listákban.</p>
 <div class="callout callout-warn"><span class="callout-tag">Figyelem</span><div>A CLI nem jegyzi meg a <code>--app-root</code> kapcsolót. Minden <code>container system start</code> nélküle ismét a belső mappát használja. Mindig adja meg a kapcsolót, például egy shell-aliasban, és ellenőrizze a <code>paths.appRoot</code> értéket a <code>container system status</code> kimenetében.</div></div>
-<p>A Gantry 0.27.0 <code>--app-root</code> nélkül indítja el a szolgáltatásokat, ha olyan gazdagéphez csatlakozik, amelynek a szolgáltatásai le vannak állítva. Először indítsa el a szolgáltatásokat a terminálból a kapcsolóval; a Gantry ezután a futó szolgáltatásokat használja.</p>
+<p>Az áthelyezést a Gantry is elvégezheti Ön helyett: lásd <a href="#gantry">lent</a>.</p>
 
 <ul id="images">Image-ek archiválása a lemezre</ul>
 <p>Ha helyet szeretne felszabadítani úgy, hogy egy image se vesszen el, mentse a külső lemezre, és törölje. Ha szüksége van rá, töltse be újra:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Ha a lemez eltűnik, miközben konténerek futnak róla, azok meghibásodnak, és a folyamatban lévő írások elveszhetnek. A lemez újracsatlakoztatása után indítsa el a szolgáltatásokat a <code>--app-root</code> kapcsolóval, majd indítsa el a konténereket.</p>
 
 <ol id="gantry">Külső meghajtók a Gantryben</ol>
-<p>A Gantry már most futtat bind mountokat bármely lemezről: az <strong>Új konténer</strong> lapon adjon hozzá egy kötetet, válasszon egy mappát a külső lemezen és egy útvonalat a konténerben.</p>
+<p>Az apple/container-gazdagépen a Rendszer szakasz <strong>Tárhely</strong> panelje mutatja, hol van az adatgyökér, melyik lemezen, és mennyi helyet foglalnak az image-ek, a konténerek, a pillanatképek, a kötetek és a kernelek. Az <strong>Áthelyezés másik lemezre…</strong> leállítja a szolgáltatásokat, átmásolja és ellenőrzi az adatokat, átállítja a gyökeret, majd újraindítja a szolgáltatásokat; a régi másolatot csak külön megerősítés után törli. A Gantry minden későbbi indításnál megjegyzi a gyökeret. Az új kötetek bármely lemez egy mappájában lehetnek, és ha az a lemez nincs csatlakoztatva, a Gantry megmondja, melyik lemez hiányzik, és nem indítja el az azt igénylő konténereket.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="A Gantry Tárhely panelje: az adatgyökér, a lemeze és a felhasznált hely" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Tárhely.</b> Az adatgyökér, a lemeze és a foglalt hely.</figcaption></figure>
 
 <ol id="docker">Docker Desktop és OrbStack</ol>
 <p>A Docker Desktop a lemezképét a <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong> beállításban helyezi át. Az OrbStack a 0.13.0-s verzióban kapott adathely-beállítást. Lásd az <a href="../compare/">összevetést</a>.</p>

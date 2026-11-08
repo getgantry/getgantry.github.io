@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Vanjski diskovi u Gantryju",
-          "text": "Gantry već danas pokreće bind mountove s bilo kojeg diska: u prozoru Novi kontejner dodajte volumen, odaberite mapu na vanjskom disku i putanju u kontejneru.",
+          "text": "Na apple/container hostu okno Pohrana u odjeljku Sustav prikazuje gdje je korijenski direktorij podataka, na kojem disku i koliko prostora zauzimaju slike, kontejneri, snimke stanja, volumeni i jezgre. Premjesti na drugi disk… zaustavlja servise, kopira podatke, provjerava ih, prebacuje korijenski direktorij i ponovno pokreće servise; staru kopiju briše tek nakon zasebne potvrde. Gantry pamti korijenski direktorij za svako sljedeće pokretanje. Novi volumeni mogu biti u mapi na bilo kojem disku, a kad taj disk nije spojen, Gantry vam kaže koji disk nedostaje i ne pokreće kontejnere kojima je potreban.",
           "url": "https://getgantry.github.io/hr/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Upotrijebite <code>cp -Rp</code>. U našem testu na macOS-u 27 (s APFS-a na APFS putem USB-a) slike volumena ostale su rijetke, a proširena svojstva su sačuvana. <code>ditto</code> je svaku rijetku sliku zapisao u punoj veličini, što može popuniti disk. Zadržite staru mapu dok ne provjerite jesu li vaši kontejneri, slike i volumeni na popisu.</p>
 <div class="callout callout-warn"><span class="callout-tag">Pozor</span><div>CLI ne pamti <code>--app-root</code>. Svaki <code>container system start</code> bez te zastavice ponovno koristi unutarnju mapu. Zastavicu upotrijebite svaki put, npr. u aliasu ljuske, i provjerite <code>paths.appRoot</code> u <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 pokreće servise bez <code>--app-root</code> kad se poveže s hostom čiji su servisi zaustavljeni. Najprije pokrenite servise iz terminala sa zastavicom; Gantry tada koristi pokrenute servise.</p>
+<p>Gantry može obaviti ovo premještanje umjesto vas: pogledajte <a href="#gantry">u nastavku</a>.</p>
 
 <ul id="images">Arhiviranje slika na disku</ul>
 <p>Da biste oslobodili prostor bez gubitka slike, spremite je na vanjski disk i izbrišite. Ponovno je učitajte kad vam zatreba:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Ako disk nestane dok s njega rade kontejneri, oni prestaju raditi, a zapisivanja u tijeku mogu se izgubiti. Kad ponovno spojite disk, pokrenite servise s <code>--app-root</code>, a zatim pokrenite kontejnere.</p>
 
 <ol id="gantry">Vanjski diskovi u Gantryju</ol>
-<p>Gantry već danas pokreće bind mountove s bilo kojeg diska: u prozoru <strong>Novi kontejner</strong> dodajte volumen, odaberite mapu na vanjskom disku i putanju u kontejneru.</p>
+<p>Na apple/container hostu okno <strong>Pohrana</strong> u odjeljku Sustav prikazuje gdje je korijenski direktorij podataka, na kojem disku i koliko prostora zauzimaju slike, kontejneri, snimke stanja, volumeni i jezgre. <strong>Premjesti na drugi disk…</strong> zaustavlja servise, kopira podatke, provjerava ih, prebacuje korijenski direktorij i ponovno pokreće servise; staru kopiju briše tek nakon zasebne potvrde. Gantry pamti korijenski direktorij za svako sljedeće pokretanje. Novi volumeni mogu biti u mapi na bilo kojem disku, a kad taj disk nije spojen, Gantry vam kaže koji disk nedostaje i ne pokreće kontejnere kojima je potreban.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Okno Pohrana u Gantryju: korijenski direktorij podataka, njegov disk i zauzeti prostor" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Pohrana.</b> Korijenski direktorij podataka, njegov disk i zauzeti prostor.</figcaption></figure>
 
 <ol id="docker">Docker Desktop i OrbStack</ol>
 <p>Docker Desktop premješta svoju sliku diska u <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack je u verziji 0.13.0 dodao postavku lokacije podataka. Pogledajte <a href="../compare/">usporedbu</a>.</p>

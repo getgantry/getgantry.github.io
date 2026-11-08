@@ -178,7 +178,7 @@
           "name": "Da li mi treba kubectl da bih koristio klaster u Gantry-ju?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Zasad da: Gantry Kubernetes pregledač pokreće kubectl. Ako nije instaliran, pregledač prikazuje komandu brew install kubectl i može da je pokrene umesto vas."
+            "text": "Ne. Gantry sam komunicira sa Kubernetes API-jem: čita kubeconfig, a zatim prikazuje resurse, strimuje logove, otvara ljusku, prosleđuje portove i primenjuje YAML bez kubectl-a. Klaster napravljen komandom container cluster create odmah je spreman za pregled."
           }
         },
         {
@@ -331,7 +331,7 @@
 <ul>
   <li>Mac sa Apple silicon čipom, macOS 26 i Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
   <li><code>container</code> CLI 1.5.0 ili noviji; preporučuje se 1.7.1. Radni čvorovi i CNI <em>Ništa</em> zahtevaju 1.6.0 ili noviji. Veličine radnih čvorova i zajedničko skladište slika zahtevaju 1.7.0 ili noviji. Koristite potpisani instalacioni paket: Homebrew verzija 1.7.1 nema servise klastera.</li>
-  <li><code>kubectl</code> za Kubernetes pregledač i terminal. Gantry može da ga instalira preko Homebrew-a.</li>
+  <li>Ništa dodatno za Gantry Kubernetes pregledač. <code>kubectl</code> samo ako želite da klaster koristite i iz terminala.</li>
 </ul>
 
 <h2 id="create">Kreiranje klastera</h2>
@@ -363,7 +363,7 @@
 
 <h2 id="nodes">Čvorovi i detalji klastera</h2>
 <p>Lista klastera ima jedan red za svaki klaster. Detaljni prikaz ima <strong>Pregled</strong> (kubectl kontekst, API server, verzija Kubernetes-a, skladište slika, radni čvorovi i njihovi resursi, mreža čvorova), tabelu <strong>Čvorovi</strong> i <strong>Inspekcija</strong> za sirove podatke čvorova. Traka sa alatkama ima <strong>Pregledaj resurse</strong>, a meni Još ima <strong>Upiši Kubeconfig</strong>, <strong>Kopiraj kubectl komandu konteksta</strong> i <strong>Obriši</strong>.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/cluster-overview.png" alt="Pregled klastera u Gantry-ju sa verzijom Kubernetes-a, skladištem slika i radnim čvorovima" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Pregled klastera.</b> Verzija Kubernetes-a, skladište slika, radni čvorovi i njihovi resursi.</figcaption></figure>
 <p>Čvorovi klastera su kontejneri, ali njima upravlja <code>container cluster</code>. Gantry za čvor onemogućava pokretanje, zaustavljanje, ponovno pokretanje, uklanjanje i preimenovanje i kaže vam zašto, a Pokreni sve i Zaustavi sve preskaču čvorove. Na CLI-ju 1.7 CLI takođe skriva čvorove iz <code>container list</code>. Klasteri kreirani u CLI-ju 1.6 ili starijem ne pojavljuju se u listi u 1.7; uklonite ih komandom <code>container cluster delete --name &lt;name&gt;</code>.</p>
 
 <h2 id="browser">Pregled klastera</h2>
@@ -374,8 +374,8 @@
   <li><strong>Tajne:</strong> vrednosti su skrivene u listi i u YAML-u dok ne kliknete Otkrij.</li>
   <li><strong>Primeni YAML:</strong> nalepite manifest ili otvorite datoteku; greške se prikazuju u prozoru.</li>
 </ul>
-<p>Pregledač pokreće <code>kubectl</code>. Ako ga Gantry ne pronađe, odeljak prikazuje <code>brew install kubectl</code> sa dugmetom koje pokreće tu komandu.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Gantry sam komunicira sa Kubernetes API-jem, uz akreditive iz vašeg kubeconfig-a. Nije vam potreban <code>kubectl</code> ni bilo koja druga alatka: klaster napravljen komandom <code>container cluster create</code> spreman je za pregled.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/kubernetes-browser-dev.png" alt="Gantry Kubernetes pregledač sa podovima klastera dev" width="2972" height="1854" loading="lazy" decoding="async"><figcaption><b>Kubernetes pregledač.</b> Podovi klastera <code>container cluster</code> sa logovima i prosleđenim portovima.</figcaption></figure>
 
 <h2 id="kubectl">Povezivanje kubectl-a</h2>
 <p>CLI pri kreiranju klastera dodaje u <code>~/.kube/config</code> kontekst nazvan po klasteru. Koristite <strong>Kopiraj kubectl komandu konteksta</strong> u Gantry-ju ili je otkucajte:</p>
@@ -502,7 +502,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Mogu li da kreiram klaster sa više čvorova?</summary><p>Da. Podesite broj radnih čvorova u prozoru za kreiranje; radni čvorovi zahtevaju CLI 1.6.0 ili noviji. Na CLI-ju 1.7 podešavate i CPU i memoriju radnih čvorova odvojeno od kontrolne ravni.</p></details>
 <details class="faq-item"><summary>Mogu li da koristim sopstveni CNI, na primer Calico ili Cilium?</summary><p>Da. Izaberite <b>Prilagođeni manifest</b> i zatim datoteku manifesta ili izaberite <b>Ništa</b> i sami primenite CNI kada se klaster pokrene. Čvorovi ostaju u stanju NotReady dok CNI ne počne da radi. <b>Ništa</b> zahteva CLI 1.6.0 ili noviji. Podrazumevani CNI je priloženi kindnet manifest.</p></details>
 <details class="faq-item"><summary>Zašto Gantry kaže da servisi klastera nisu dostupni?</summary><p>Servisi alata <code>container</code> nisu odgovorili na komandu klastera. Ako je vaš CLI Homebrew verzija bez servisa klastera, Gantry to kaže i daje link ka potpisanom instaleru na stranici izdanja apple/container-a. U suprotnom nudi <b>Ponovo pokreni servise</b>.</p></details>
-<details class="faq-item"><summary>Da li mi treba kubectl da bih koristio klaster u Gantry-ju?</summary><p>Zasad da: Gantry Kubernetes pregledač pokreće <code>kubectl</code>. Ako nije instaliran, pregledač prikazuje komandu <code>brew install kubectl</code> i može da je pokrene umesto vas.</p></details>
+<details class="faq-item"><summary>Da li mi treba kubectl da bih koristio klaster u Gantry-ju?</summary><p>Ne. Gantry sam komunicira sa Kubernetes API-jem: čita kubeconfig, a zatim prikazuje resurse, strimuje logove, otvara ljusku, prosleđuje portove i primenjuje YAML bez <code>kubectl</code>-a. Klaster napravljen komandom <code>container cluster create</code> odmah je spreman za pregled.</p></details>
 <details class="faq-item"><summary>Mogu li da pokrećem Kubernetes na Mac-u bez Docker-a?</summary><p>Da. Apple-ov <code>container</code> CLI sam kreira Kubernetes klastere komandom <code>container cluster create</code>. Svaki čvor radi kao laka VM, a nisu vam potrebni Docker, Docker Desktop, kind ni minikube.</p></details>
 <details class="faq-item"><summary>Koliko čvorova može da ima container cluster?</summary><p>Jednu kontrolnu ravan i onoliko radnih čvorova koliko vaš Mac ima CPU-ova i memorije. Podesite ih opcijom <code>--workers</code>; na CLI-ju 1.7 svaka grupa radnih čvorova može da ima sopstveni CPU i memoriju.</p></details>
 <details class="faq-item"><summary>Koju verziju Kubernetes-a koristi container cluster?</summary><p>CLI 1.7.1 podrazumevano koristi sliku čvora <code>kindest/node:v1.35.5</code>. Drugu verziju izaberite opcijom <code>--node-image</code>, na primer <code>docker.io/kindest/node:v1.34.11</code>. Gantry prikazuje verziju u pregledu klastera.</p></details>

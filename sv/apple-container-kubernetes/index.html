@@ -178,7 +178,7 @@
           "name": "Behöver jag kubectl för att använda klustret i Gantry?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Just nu, ja: Gantrys Kubernetes-utforskare kör kubectl. Om det inte är installerat visar utforskaren kommandot brew install kubectl och kan köra det åt dig."
+            "text": "Nej. Gantry pratar själv med Kubernetes-API:et: den läser kubeconfig och listar sedan resurser, strömmar loggar, öppnar ett skal, vidarebefordrar portar och verkställer YAML utan kubectl. Ett kluster som skapats med container cluster create går att bläddra i direkt."
           }
         },
         {
@@ -331,7 +331,7 @@
 <ul>
   <li>En Mac med Apple-chip, macOS 26 och Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
   <li><code>container</code>-CLI 1.5.0 eller senare; 1.7.1 rekommenderas. Workers och CNI:n <em>Ingen</em> kräver 1.6.0 eller senare. Worker-storlekar och det delade image-lagret kräver 1.7.0 eller senare. Använd det signerade installationspaketet: Homebrew-bygget av 1.7.1 har inga klustertjänster.</li>
-  <li><code>kubectl</code> för Kubernetes-utforskaren och terminalen. Gantry kan installera det med Homebrew.</li>
+  <li>Inget annat för Gantrys Kubernetes-utforskare. <code>kubectl</code> bara om du också vill använda klustret från terminalen.</li>
 </ul>
 
 <h2 id="create">Skapa ett kluster</h2>
@@ -363,7 +363,7 @@
 
 <h2 id="nodes">Noder och klusterdetaljer</h2>
 <p>Klusterlistan visar en rad per kluster. Detaljvyn har en <strong>Översikt</strong> (kubectl-kontext, API-server, Kubernetes-version, image-lager, workers och deras resurser, nodnätverk), en tabell <strong>Noder</strong> och <strong>Granska</strong> för rådata om noderna. Verktygsfältet har <strong>Bläddra bland resurser</strong>, och menyn Mer har <strong>Skriv kubeconfig</strong>, <strong>Kopiera kubectl-kontextkommando</strong> och <strong>Radera</strong>.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/cluster-overview.png" alt="Klusteröversikt i Gantry med Kubernetes-versionen, image-lagret och dina workers" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Klusteröversikt.</b> Kubernetes-version, image-lager, workers och deras resurser.</figcaption></figure>
 <p>Klusternoder är containrar, men de ägs av <code>container cluster</code>. Gantry stänger av start, stopp, omstart, borttagning och namnbyte för en nod och förklarar varför, och Starta alla och Stoppa alla hoppar över noder. På CLI 1.7 döljer CLI:et också noder i <code>container list</code>. Kluster som skapats med CLI 1.6 eller tidigare visas inte i listan i 1.7; ta bort dem med <code>container cluster delete --name &lt;name&gt;</code>.</p>
 
 <h2 id="browser">Bläddra i klustret</h2>
@@ -374,8 +374,8 @@
   <li><strong>Secrets:</strong> värden är maskerade i listan och i YAML tills du klickar på Visa.</li>
   <li><strong>Verkställ YAML:</strong> klistra in ett manifest eller öppna en fil; fel visas i arket.</li>
 </ul>
-<p>Utforskaren kör <code>kubectl</code>. Om Gantry inte hittar det visar avsnittet <code>brew install kubectl</code> med en knapp som kör kommandot.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Gantry pratar själv med Kubernetes-API:et, med inloggningsuppgifterna i din kubeconfig. Du behöver inte <code>kubectl</code> eller något annat verktyg: ett kluster som skapats med <code>container cluster create</code> går att bläddra i direkt.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/kubernetes-browser-dev.png" alt="Gantrys Kubernetes-utforskare med poddarna i klustret dev" width="2972" height="1854" loading="lazy" decoding="async"><figcaption><b>Kubernetes-utforskare.</b> Poddarna i ett <code>container cluster</code> med loggar och portvidarebefordringar.</figcaption></figure>
 
 <h2 id="kubectl">Anslut kubectl</h2>
 <p>CLI:et lägger till en kontext med klustrets namn i <code>~/.kube/config</code> när det skapar klustret. Använd <strong>Kopiera kubectl-kontextkommando</strong> i Gantry, eller skriv det själv:</p>
@@ -502,7 +502,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Kan jag skapa ett kluster med flera noder?</summary><p>Ja. Ange antalet workers i arket för att skapa klustret; workers kräver CLI 1.6.0 eller senare. På CLI 1.7 anger du också CPU:er och minne för dina workers separat från kontrollplanet.</p></details>
 <details class="faq-item"><summary>Kan jag använda en egen CNI som Calico eller Cilium?</summary><p>Ja. Välj <b>Anpassat manifest</b> och välj manifestfilen, eller välj <b>Ingen</b> och installera en CNI själv när klustret har startat. Noderna förblir NotReady tills en CNI körs. <b>Ingen</b> kräver CLI 1.6.0 eller senare. Standard-CNI:n är det medföljande kindnet-manifestet.</p></details>
 <details class="faq-item"><summary>Varför säger Gantry att klustertjänsterna inte är tillgängliga?</summary><p><code>container</code>-tjänsterna svarade inte på ett klusterkommando. Om ditt CLI är ett Homebrew-bygge utan klustertjänsterna säger Gantry det och länkar till det signerade installationsprogrammet på versionssidan för apple/container. Annars erbjuder den <b>Starta om tjänster</b>.</p></details>
-<details class="faq-item"><summary>Behöver jag kubectl för att använda klustret i Gantry?</summary><p>Just nu, ja: Gantrys Kubernetes-utforskare kör <code>kubectl</code>. Om det inte är installerat visar utforskaren kommandot <code>brew install kubectl</code> och kan köra det åt dig.</p></details>
+<details class="faq-item"><summary>Behöver jag kubectl för att använda klustret i Gantry?</summary><p>Nej. Gantry pratar själv med Kubernetes-API:et: den läser kubeconfig och listar sedan resurser, strömmar loggar, öppnar ett skal, vidarebefordrar portar och verkställer YAML utan <code>kubectl</code>. Ett kluster som skapats med <code>container cluster create</code> går att bläddra i direkt.</p></details>
 <details class="faq-item"><summary>Kan jag köra Kubernetes på en Mac utan Docker?</summary><p>Ja. Apples <code>container</code>-CLI skapar Kubernetes-kluster själv med <code>container cluster create</code>. Varje nod körs som en lätt VM, och du behöver inte Docker, Docker Desktop, kind eller minikube.</p></details>
 <details class="faq-item"><summary>Hur många noder kan ett container cluster ha?</summary><p>Ett kontrollplan och så många workers som din Mac har CPU:er och minne till. Ange dem med <code>--workers</code>; på CLI 1.7 kan varje grupp workers ha egna CPU:er och eget minne.</p></details>
 <details class="faq-item"><summary>Vilken Kubernetes-version använder container cluster?</summary><p>CLI 1.7.1 använder nodimagen <code>kindest/node:v1.35.5</code> som standard. Välj en annan version med <code>--node-image</code>, till exempel <code>docker.io/kindest/node:v1.34.11</code>. Gantry visar versionen i klusteröversikten.</p></details>

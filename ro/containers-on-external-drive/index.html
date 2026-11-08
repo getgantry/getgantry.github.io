@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Discuri externe în Gantry",
-          "text": "Gantry rulează deja montări bind de pe orice disc: în Container nou, adăugați un volum, alegeți un dosar de pe discul extern și o cale în container.",
+          "text": "Pe o gazdă apple/container, panoul Stocare din secțiunea Sistem arată unde se află rădăcina de date, pe ce disc și cât spațiu ocupă imaginile, containerele, snapshoturile, volumele și kernelurile. Mută pe alt disc… oprește serviciile, copiază datele, le verifică, schimbă rădăcina și pornește din nou serviciile; șterge copia veche doar după o confirmare separată. Gantry reține rădăcina pentru fiecare pornire ulterioară. Volumele noi pot fi într-un dosar de pe orice disc, iar când acel disc nu este conectat, Gantry vă spune ce disc lipsește și nu pornește containerele care au nevoie de el.",
           "url": "https://getgantry.github.io/ro/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Folosiți <code>cp -Rp</code>. În testul nostru pe macOS 27 (din APFS în APFS prin USB), a păstrat imaginile volumelor sparse și a păstrat atributele extinse. <code>ditto</code> a scris fiecare imagine sparse la dimensiunea completă, ceea ce poate umple discul. Păstrați dosarul vechi până când verificați că containerele, imaginile și volumele apar în liste.</p>
 <div class="callout callout-warn"><span class="callout-tag">Atenție</span><div>CLI-ul nu reține <code>--app-root</code>. Fiecare <code>container system start</code> fără această opțiune folosește din nou dosarul intern. Folosiți flagul de fiecare dată, de exemplu într-un alias de shell, și verificați <code>paths.appRoot</code> în <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 pornește serviciile fără <code>--app-root</code> când se conectează la o gazdă ale cărei servicii sunt oprite. Porniți mai întâi serviciile din terminal, cu flagul; Gantry folosește apoi serviciile care rulează.</p>
+<p>Gantry poate face această mutare în locul dvs.: vedeți <a href="#gantry">mai jos</a>.</p>
 
 <ul id="images">Arhivați imagini pe disc</ul>
 <p>Pentru a elibera spațiu fără să pierdeți o imagine, salvați-o pe discul extern și ștergeți-o. Încărcați-o din nou când aveți nevoie de ea:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Dacă discul dispare în timp ce containerele rulează de pe el, acestea eșuează, iar scrierile în curs se pot pierde. După ce reconectați discul, porniți serviciile cu <code>--app-root</code>, apoi porniți containerele.</p>
 
 <ol id="gantry">Discuri externe în Gantry</ol>
-<p>Gantry rulează deja montări bind de pe orice disc: în <strong>Container nou</strong>, adăugați un volum, alegeți un dosar de pe discul extern și o cale în container.</p>
+<p>Pe o gazdă apple/container, panoul <strong>Stocare</strong> din secțiunea Sistem arată unde se află rădăcina de date, pe ce disc și cât spațiu ocupă imaginile, containerele, snapshoturile, volumele și kernelurile. <strong>Mută pe alt disc…</strong> oprește serviciile, copiază datele, le verifică, schimbă rădăcina și pornește din nou serviciile; șterge copia veche doar după o confirmare separată. Gantry reține rădăcina pentru fiecare pornire ulterioară. Volumele noi pot fi într-un dosar de pe orice disc, iar când acel disc nu este conectat, Gantry vă spune ce disc lipsește și nu pornește containerele care au nevoie de el.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Panoul Stocare din Gantry: rădăcina de date, discul ei și spațiul folosit" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Stocare.</b> Rădăcina de date, discul ei și spațiul ocupat.</figcaption></figure>
 
 <ol id="docker">Docker Desktop și OrbStack</ol>
 <p>Docker Desktop își mută imaginea de disc din <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack a adăugat o setare pentru locația datelor în versiunea 0.13.0. Vedeți <a href="../compare/">comparația</a>.</p>

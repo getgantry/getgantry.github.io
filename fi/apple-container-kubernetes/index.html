@@ -178,7 +178,7 @@
           "name": "Tarvitsenko kubectl:ää käyttääkseni klusteria Gantryssa?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Toistaiseksi kyllä: Gantryn Kubernetes-selain käyttää kubectl:ää. Jos sitä ei ole asennettu, selain näyttää komennon brew install kubectl ja voi suorittaa sen puolestasi."
+            "text": "Et. Gantry keskustelee itse Kubernetes-API:n kanssa: se lukee kubeconfigin ja sitten luettelee resurssit, suoratoistaa lokit, avaa komentotulkin, välittää portit ja ottaa YAML:n käyttöön ilman kubectl:ää. Komennolla container cluster create luotua klusteria voi selata heti."
           }
         },
         {
@@ -331,7 +331,7 @@
 <ul>
   <li>Mac, jossa on Apple-siru, macOS 26 ja Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
   <li><code>container</code>-CLI 1.5.0 tai uudempi; suositus on 1.7.1. Työsolmut ja CNI-valinta <em>Ei mitään</em> vaativat version 1.6.0 tai uudemman. Työsolmujen koot ja jaettu levykuvavarasto vaativat version 1.7.0 tai uudemman. Käytä allekirjoitettua asennuspakettia: version 1.7.1 Homebrew-koonnissa ei ole klusteripalveluja.</li>
-  <li><code>kubectl</code> Kubernetes-selainta ja päätettä varten. Gantry voi asentaa sen Homebrew'lla.</li>
+  <li>Gantryn Kubernetes-selain ei tarvitse mitään muuta. <code>kubectl</code> vain, jos haluat käyttää klusteria myös päätteestä.</li>
 </ul>
 
 <h2 id="create">Klusterin luominen</h2>
@@ -363,7 +363,7 @@
 
 <h2 id="nodes">Solmut ja klusterin tiedot</h2>
 <p>Klusteriluettelossa on yksi rivi kullekin klusterille. Tietonäkymässä on <strong>Yleiskatsaus</strong> (kubectl-konteksti, API-palvelin, Kubernetes-versio, levykuvavarasto, työsolmut ja niiden resurssit, solmuverkko), <strong>Solmut</strong>-taulukko ja <strong>Tarkastele</strong> solmujen raakadataa varten. Työkalupalkissa on <strong>Selaa resursseja</strong>, ja Lisää-valikossa ovat <strong>Kirjoita kubeconfig</strong>, <strong>Kopioi kubectl-kontekstikomento</strong> ja <strong>Poista</strong>.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/cluster-overview.png" alt="Klusterin yleiskatsaus Gantryssa: Kubernetes-versio, levykuvavarasto ja työsolmut" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Klusterin yleiskatsaus.</b> Kubernetes-versio, levykuvavarasto, työsolmut ja niiden resurssit.</figcaption></figure>
 <p>Klusterin solmut ovat kontteja, mutta niitä hallitsee <code>container cluster</code>. Gantry poistaa solmulta käytöstä käynnistyksen, pysäytyksen, uudelleenkäynnistyksen, poiston ja uudelleennimeämisen ja kertoo syyn, ja Käynnistä kaikki ja Pysäytä kaikki ohittavat solmut. CLI 1.7:ssä CLI myös piilottaa solmut <code>container list</code> -luettelosta. CLI 1.6:lla tai vanhemmalla luodut klusterit eivät näy 1.7:n luettelossa; poista ne komennolla <code>container cluster delete --name &lt;name&gt;</code>.</p>
 
 <h2 id="browser">Klusterin selaaminen</h2>
@@ -374,8 +374,8 @@
   <li><strong>Secretit:</strong> arvot ovat peitettyinä luettelossa ja YAML:ssa, kunnes napsautat Näytä.</li>
   <li><strong>Käytä YAML:</strong> sijoita manifesti tai avaa tiedosto; virheet näkyvät ikkunassa.</li>
 </ul>
-<p>Selain käyttää <code>kubectl</code>:ää. Jos Gantry ei löydä sitä, osio näyttää komennon <code>brew install kubectl</code> ja painikkeen, joka suorittaa sen.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Gantry keskustelee itse Kubernetes-API:n kanssa kubeconfigisi tunnistetiedoilla. Et tarvitse <code>kubectl</code>:ää etkä muuta työkalua: komennolla <code>container cluster create</code> luotua klusteria voi selata heti.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/kubernetes-browser-dev.png" alt="Gantryn Kubernetes-selain, jossa dev-klusterin podit" width="2972" height="1854" loading="lazy" decoding="async"><figcaption><b>Kubernetes-selain.</b> <code>container cluster</code> -klusterin podit, lokit ja porttien välitykset.</figcaption></figure>
 
 <h2 id="kubectl">kubectl:n yhdistäminen</h2>
 <p>CLI lisää klusteria luodessaan tiedostoon <code>~/.kube/config</code> klusterin mukaan nimetyn kontekstin. Käytä Gantryssa toimintoa <strong>Kopioi kubectl-kontekstikomento</strong> tai kirjoita komento itse:</p>
@@ -502,7 +502,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Voiko luoda usean solmun klusterin?</summary><p>Kyllä. Aseta työsolmujen määrä luontinäkymässä; työsolmut vaativat CLI:n version 1.6.0 tai uudemman. CLI 1.7:ssä asetat myös työsolmujen CPU:t ja muistin ohjaustasosta erikseen.</p></details>
 <details class="faq-item"><summary>Voiko käyttää omaa CNI:tä, kuten Calicoa tai Ciliumia?</summary><p>Kyllä. Valitse <b>Mukautettu manifesti</b> ja valitse manifestitiedosto, tai valitse <b>Ei mitään</b> ja ota CNI käyttöön itse klusterin käynnistyttyä. Solmut pysyvät NotReady-tilassa, kunnes jokin CNI on käynnissä. <b>Ei mitään</b> vaatii CLI:n version 1.6.0 tai uudemman. Oletus-CNI on mukana tuleva kindnet-manifesti.</p></details>
 <details class="faq-item"><summary>Miksi Gantry sanoo, että klusteripalvelut eivät ole käytettävissä?</summary><p><code>container</code>-palvelut eivät vastanneet klusterikomentoon. Jos CLI:si on Homebrew-koonti ilman klusteripalveluja, Gantry kertoo sen ja linkittää allekirjoitettuun asentajaan apple/containerin julkaisusivulla. Muussa tapauksessa se tarjoaa toimintoa <b>Käynnistä palvelut uudelleen</b>.</p></details>
-<details class="faq-item"><summary>Tarvitsenko kubectl:ää käyttääkseni klusteria Gantryssa?</summary><p>Toistaiseksi kyllä: Gantryn Kubernetes-selain käyttää <code>kubectl</code>:ää. Jos sitä ei ole asennettu, selain näyttää komennon <code>brew install kubectl</code> ja voi suorittaa sen puolestasi.</p></details>
+<details class="faq-item"><summary>Tarvitsenko kubectl:ää käyttääkseni klusteria Gantryssa?</summary><p>Et. Gantry keskustelee itse Kubernetes-API:n kanssa: se lukee kubeconfigin ja sitten luettelee resurssit, suoratoistaa lokit, avaa komentotulkin, välittää portit ja ottaa YAML:n käyttöön ilman <code>kubectl</code>:ää. Komennolla <code>container cluster create</code> luotua klusteria voi selata heti.</p></details>
 <details class="faq-item"><summary>Voiko Kubernetesia ajaa Macilla ilman Dockeria?</summary><p>Kyllä. Applen <code>container</code>-CLI luo Kubernetes-klustereita itse komennolla <code>container cluster create</code>. Jokainen solmu toimii kevyenä virtuaalikoneena, etkä tarvitse Dockeria, Docker Desktopia, kindiä tai minikubea.</p></details>
 <details class="faq-item"><summary>Montako solmua container clusterissa voi olla?</summary><p>Yksi ohjaustaso ja niin monta työsolmua kuin Macisi CPU:t ja muisti riittävät. Aseta ne valinnalla <code>--workers</code>; CLI 1.7:ssä jokaisella työsolmuryhmällä voi olla omat CPU:t ja muisti.</p></details>
 <details class="faq-item"><summary>Mitä Kubernetes-versiota container cluster käyttää?</summary><p>CLI 1.7.1 käyttää oletuksena solmun levykuvaa <code>kindest/node:v1.35.5</code>. Valitse toinen versio valinnalla <code>--node-image</code>, esimerkiksi <code>docker.io/kindest/node:v1.34.11</code>. Gantry näyttää version klusterin yleiskatsauksessa.</p></details>

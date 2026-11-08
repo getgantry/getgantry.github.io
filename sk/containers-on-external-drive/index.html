@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Externé disky v Gantry",
-          "text": "Gantry už dnes spúšťa bind mounty z ľubovoľného disku: v Nový kontajner pridajte zväzok, vyberte priečinok na externom disku a cestu v kontajneri.",
+          "text": "Na hostiteľovi apple/container ukazuje panel Úložisko v sekcii Systém, kde je koreňový priečinok dát, na ktorom disku a koľko miesta zaberajú obrazy, kontajnery, snímky, zväzky a jadrá. Presunúť na iný disk… zastaví služby, skopíruje dáta, overí ich, prepne koreňový priečinok a znova spustí služby; starú kópiu vymaže až po samostatnom potvrdení. Gantry si koreňový priečinok pamätá pre každé ďalšie spustenie. Nové zväzky môžu byť v priečinku na ľubovoľnom disku, a keď tento disk nie je pripojený, Gantry povie, ktorý disk chýba, a nespustí kontajnery, ktoré ho potrebujú.",
           "url": "https://getgantry.github.io/sk/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Použite <code>cp -Rp</code>. V našom teste v macOS 27 (z APFS na APFS cez USB) zachoval obrazy zväzkov riedke a zachoval rozšírené atribúty. <code>ditto</code> zapísal každý riedky obraz v plnej veľkosti, čo môže disk zaplniť. Starý priečinok si nechajte, kým neoveríte, že sa vaše kontajnery, obrazy a zväzky zobrazujú v zozname.</p>
 <div class="callout callout-warn"><span class="callout-tag">Pozor</span><div>CLI si <code>--app-root</code> nepamätá. Každé <code>container system start</code> bez neho znova použije interný priečinok. Príznak zadávajte zakaždým, napríklad v aliase shellu, a kontrolujte <code>paths.appRoot</code> v <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 spúšťa služby bez <code>--app-root</code>, keď sa pripája k hostiteľovi so zastavenými službami. Najprv spustite služby s týmto príznakom z terminálu; Gantry potom použije bežiace služby.</p>
+<p>Gantry tento presun dokáže urobiť za vás: pozrite si <a href="#gantry">nižšie</a>.</p>
 
 <ul id="images">Archivácia obrazov na disku</ul>
 <p>Ak chcete uvoľniť miesto bez straty obrazu, uložte ho na externý disk a vymažte ho. Keď ho budete potrebovať, znova ho načítajte:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Ak disk zmizne, kým z neho bežia kontajnery, zlyhajú a rozpracované zápisy sa môžu stratiť. Po opätovnom pripojení disku spustite služby s <code>--app-root</code> a potom spustite kontajnery.</p>
 
 <ol id="gantry">Externé disky v Gantry</ol>
-<p>Gantry už dnes spúšťa bind mounty z ľubovoľného disku: v <strong>Nový kontajner</strong> pridajte zväzok, vyberte priečinok na externom disku a cestu v kontajneri.</p>
+<p>Na hostiteľovi apple/container ukazuje panel <strong>Úložisko</strong> v sekcii Systém, kde je koreňový priečinok dát, na ktorom disku a koľko miesta zaberajú obrazy, kontajnery, snímky, zväzky a jadrá. <strong>Presunúť na iný disk…</strong> zastaví služby, skopíruje dáta, overí ich, prepne koreňový priečinok a znova spustí služby; starú kópiu vymaže až po samostatnom potvrdení. Gantry si koreňový priečinok pamätá pre každé ďalšie spustenie. Nové zväzky môžu byť v priečinku na ľubovoľnom disku, a keď tento disk nie je pripojený, Gantry povie, ktorý disk chýba, a nespustí kontajnery, ktoré ho potrebujú.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Panel Úložisko v Gantry: koreňový priečinok dát, jeho disk a využité miesto" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Úložisko.</b> Koreňový priečinok dát, jeho disk a využité miesto.</figcaption></figure>
 
 <ol id="docker">Docker Desktop a OrbStack</ol>
 <p>Docker Desktop presúva svoj obraz disku v <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack pridal nastavenie umiestnenia dát vo verzii 0.13.0. Pozrite si <a href="../compare/">porovnanie</a>.</p>

@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Ulkoiset levyt Gantryssa",
-          "text": "Gantry ajaa jo nyt sidosliitoksia miltä tahansa levyltä: lisää Uusi kontti -ikkunassa taltio, valitse kansio ulkoiselta levyltä ja polku kontissa.",
+          "text": "apple/container-isännällä Järjestelmä-osion Tallennustila-paneeli näyttää, missä datan juurikansio on, millä levyllä, ja kuinka paljon tilaa levykuvat, kontit, tilannevedokset, taltiot ja ytimet käyttävät. Siirrä toiselle levylle… pysäyttää palvelut, kopioi tiedot, tarkistaa ne, vaihtaa juurikansion ja käynnistää palvelut uudelleen; vanha kopio poistetaan vasta erillisen vahvistuksen jälkeen. Gantry muistaa juurikansion jokaista myöhempää käynnistystä varten. Uudet taltiot voivat olla kansiossa millä tahansa levyllä, ja kun levy ei ole kytkettynä, Gantry kertoo, mikä levy puuttuu, eikä käynnistä kontteja, jotka tarvitsevat sitä.",
           "url": "https://getgantry.github.io/fi/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Käytä komentoa <code>cp -Rp</code>. Testissämme macOS 27:llä (APFS:stä APFS:ään USB:n kautta) se säilytti taltioiden levykuvat harvoina ja säilytti laajennetut määritteet. <code>ditto</code> kirjoitti jokaisen harvan levykuvan täysikokoisena, mikä voi täyttää levyn. Säilytä vanha kansio, kunnes olet tarkistanut, että konttisi, levykuvasi ja taltiosi näkyvät luetteloissa.</p>
 <div class="callout callout-warn"><span class="callout-tag">Huomio</span><div>CLI ei muista valintaa <code>--app-root</code>. Jokainen <code>container system start</code> ilman sitä käyttää taas sisäistä kansiota. Käytä valintaa joka kerta, esimerkiksi komentotulkin aliaksessa, ja tarkista <code>paths.appRoot</code> komennon <code>container system status</code> tulosteesta.</div></div>
-<p>Gantry 0.27.0 käynnistää palvelut ilman valintaa <code>--app-root</code>, kun se yhdistää isäntään, jonka palvelut on pysäytetty. Käynnistä palvelut ensin päätteestä valinnan kanssa; Gantry käyttää sitten käynnissä olevia palveluja.</p>
+<p>Gantry voi tehdä tämän siirron puolestasi: katso <a href="#gantry">alta</a>.</p>
 
 <ul id="images">Arkistoi levykuvat levylle</ul>
 <p>Jos haluat vapauttaa tilaa menettämättä levykuvaa, tallenna se ulkoiselle levylle ja poista se. Lataa se uudelleen, kun tarvitset sitä:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Jos levy katoaa, kun sillä olevat kontit ovat käynnissä, kontit kaatuvat ja kesken olevat kirjoitukset voivat kadota. Kun kytket levyn uudelleen, käynnistä palvelut valinnalla <code>--app-root</code> ja käynnistä sitten kontit.</p>
 
 <ol id="gantry">Ulkoiset levyt Gantryssa</ol>
-<p>Gantry ajaa jo nyt sidosliitoksia miltä tahansa levyltä: lisää <strong>Uusi kontti</strong> -ikkunassa taltio, valitse kansio ulkoiselta levyltä ja polku kontissa.</p>
+<p>apple/container-isännällä Järjestelmä-osion <strong>Tallennustila</strong>-paneeli näyttää, missä datan juurikansio on, millä levyllä, ja kuinka paljon tilaa levykuvat, kontit, tilannevedokset, taltiot ja ytimet käyttävät. <strong>Siirrä toiselle levylle…</strong> pysäyttää palvelut, kopioi tiedot, tarkistaa ne, vaihtaa juurikansion ja käynnistää palvelut uudelleen; vanha kopio poistetaan vasta erillisen vahvistuksen jälkeen. Gantry muistaa juurikansion jokaista myöhempää käynnistystä varten. Uudet taltiot voivat olla kansiossa millä tahansa levyllä, ja kun levy ei ole kytkettynä, Gantry kertoo, mikä levy puuttuu, eikä käynnistä kontteja, jotka tarvitsevat sitä.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Gantryn Tallennustila-paneeli: datan juurikansio, sen levy ja käytetty tila" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Tallennustila.</b> Datan juurikansio, sen levy ja käytetty tila.</figcaption></figure>
 
 <ol id="docker">Docker Desktop ja OrbStack</ol>
 <p>Docker Desktop siirtää levykuvansa kohdassa <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack lisäsi datan sijainnin asetuksen versiossa 0.13.0. Katso <a href="../compare/">vertailu</a>.</p>

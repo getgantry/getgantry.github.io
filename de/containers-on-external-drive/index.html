@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Externe Festplatten in Gantry",
-          "text": "Gantry führt Bind-Mounts schon jetzt von jeder Festplatte aus: Füge in Neuer Container ein Volume hinzu und wähle einen Ordner auf der externen Festplatte und einen Pfad im Container.",
+          "text": "Auf einem apple/container-Host zeigt der Bereich Speicher im Abschnitt „System“, wo das Datenverzeichnis liegt, auf welcher Festplatte, und wie viel Platz Images, Container, Snapshots, Volumes und Kernel belegen. Auf andere Festplatte verschieben… stoppt die Dienste, kopiert die Daten, prüft sie, wechselt das Datenverzeichnis und startet die Dienste wieder; die alte Kopie löscht es erst nach einer eigenen Bestätigung. Gantry merkt sich das Datenverzeichnis für jeden späteren Start. Neue Volumes können in einem Ordner auf jeder Festplatte liegen, und ist diese Festplatte nicht angeschlossen, sagt dir Gantry, welche Festplatte fehlt, und startet die Container nicht, die sie brauchen.",
           "url": "https://getgantry.github.io/de/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Verwende <code>cp -Rp</code>. In unserem Test unter macOS 27 (APFS zu APFS über USB) blieben die Volume-Images dünn belegt und die erweiterten Attribute erhalten. <code>ditto</code> schrieb jedes Sparse-Image in voller Größe, was die Festplatte füllen kann. Behalte den alten Ordner, bis du geprüft hast, dass deine Container, Images und Volumes aufgelistet werden.</p>
 <div class="callout callout-warn"><span class="callout-tag">Achtung</span><div>Die CLI merkt sich <code>--app-root</code> nicht. Jedes <code>container system start</code> ohne das Flag verwendet wieder den internen Ordner. Gib das Flag jedes Mal an, zum Beispiel über einen Shell-Alias, und prüfe <code>paths.appRoot</code> in <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 startet die Dienste ohne <code>--app-root</code>, wenn es sich mit einem Host verbindet, dessen Dienste gestoppt sind. Starte die Dienste zuerst im Terminal mit dem Flag; Gantry verwendet dann die laufenden Dienste.</p>
+<p>Gantry kann diesen Umzug für dich erledigen: siehe <a href="#gantry">unten</a>.</p>
 
 <ul id="images">Images auf der Festplatte archivieren</ul>
 <p>Um Speicherplatz freizugeben, ohne ein Image zu verlieren, speichere es auf der externen Festplatte und lösche es. Lade es wieder, wenn du es brauchst:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Verschwindet die Festplatte, während Container von ihr laufen, fallen sie aus, und laufende Schreibvorgänge können verloren gehen. Starte nach dem erneuten Anschließen die Dienste mit <code>--app-root</code> und dann die Container.</p>
 
 <ol id="gantry">Externe Festplatten in Gantry</ol>
-<p>Gantry führt Bind-Mounts schon jetzt von jeder Festplatte aus: Füge in <strong>Neuer Container</strong> ein Volume hinzu und wähle einen Ordner auf der externen Festplatte und einen Pfad im Container.</p>
+<p>Auf einem apple/container-Host zeigt der Bereich <strong>Speicher</strong> im Abschnitt „System“, wo das Datenverzeichnis liegt, auf welcher Festplatte, und wie viel Platz Images, Container, Snapshots, Volumes und Kernel belegen. <strong>Auf andere Festplatte verschieben…</strong> stoppt die Dienste, kopiert die Daten, prüft sie, wechselt das Datenverzeichnis und startet die Dienste wieder; die alte Kopie löscht es erst nach einer eigenen Bestätigung. Gantry merkt sich das Datenverzeichnis für jeden späteren Start. Neue Volumes können in einem Ordner auf jeder Festplatte liegen, und ist diese Festplatte nicht angeschlossen, sagt dir Gantry, welche Festplatte fehlt, und startet die Container nicht, die sie brauchen.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Gantry-Bereich „Speicher“: das Datenverzeichnis, sein Laufwerk und der belegte Platz" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Speicher.</b> Das Datenverzeichnis, seine Festplatte und der belegte Platz.</figcaption></figure>
 
 <ol id="docker">Docker Desktop und OrbStack</ol>
 <p>Docker Desktop verschiebt sein Disk-Image unter <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack hat in Version 0.13.0 eine Einstellung für den Speicherort der Daten eingeführt. Siehe den <a href="../compare/">Vergleich</a>.</p>

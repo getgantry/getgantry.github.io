@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Eksterne drev i Gantry",
-          "text": "Gantry kører i dag bind-mounts fra enhver disk: i Ny container tilføjer du et volume og vælger en mappe på den eksterne disk og en sti i containeren.",
+          "text": "På en apple/container-vært viser panelet Lagring i sektionen System, hvor datarodden ligger, på hvilken disk, og hvor meget plads images, containere, snapshots, volumes og kerner bruger. Flyt til en anden disk… stopper tjenesterne, kopierer dataene, tjekker dem, skifter roden og starter tjenesterne igen; den gamle kopi slettes først efter en separat bekræftelse. Gantry husker roden ved alle senere starter. Nye volumes kan ligge i en mappe på enhver disk, og når den disk ikke er tilsluttet, fortæller Gantry dig, hvilken disk der mangler, og starter ikke de containere, der har brug for den.",
           "url": "https://getgantry.github.io/da/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Brug <code>cp -Rp</code>. I vores test på macOS 27 (APFS til APFS over USB) forblev volume-imagesene sparse, og de udvidede attributter blev bevaret. <code>ditto</code> skrev hvert sparse image i fuld størrelse, hvilket kan fylde disken. Behold den gamle mappe, indtil du har tjekket, at dine containere, images og volumes vises.</p>
 <div class="callout callout-warn"><span class="callout-tag">Bemærk</span><div>CLI'en husker ikke <code>--app-root</code>. Hver <code>container system start</code> uden flaget bruger igen den interne mappe. Brug flaget hver gang, for eksempel i et shell-alias, og tjek <code>paths.appRoot</code> i <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 starter tjenesterne uden <code>--app-root</code>, når den forbinder til en vært, hvis tjenester er stoppet. Start først tjenesterne fra terminalen med flaget; så bruger Gantry de kørende tjenester.</p>
+<p>Gantry kan foretage flytningen for dig: se <a href="#gantry">nedenfor</a>.</p>
 
 <ul id="images">Arkivér images på disken</ul>
 <p>Vil du frigøre plads uden at miste et image, så gem det på den eksterne disk, og slet det. Indlæs det igen, når du har brug for det:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Forsvinder disken, mens containere kører fra den, fejler de, og skrivninger, der er i gang, kan gå tabt. Når du har tilsluttet disken igen, så start tjenesterne med <code>--app-root</code>, og start derefter containerne.</p>
 
 <ol id="gantry">Eksterne drev i Gantry</ol>
-<p>Gantry kører i dag bind-mounts fra enhver disk: i <strong>Ny container</strong> tilføjer du et volume og vælger en mappe på den eksterne disk og en sti i containeren.</p>
+<p>På en apple/container-vært viser panelet <strong>Lagring</strong> i sektionen System, hvor datarodden ligger, på hvilken disk, og hvor meget plads images, containere, snapshots, volumes og kerner bruger. <strong>Flyt til en anden disk…</strong> stopper tjenesterne, kopierer dataene, tjekker dem, skifter roden og starter tjenesterne igen; den gamle kopi slettes først efter en separat bekræftelse. Gantry husker roden ved alle senere starter. Nye volumes kan ligge i en mappe på enhver disk, og når den disk ikke er tilsluttet, fortæller Gantry dig, hvilken disk der mangler, og starter ikke de containere, der har brug for den.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Gantrys panel Lagring: datarodden, dens disk og den brugte plads" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Lagring.</b> Datarodden, dens disk og den brugte plads.</figcaption></figure>
 
 <ol id="docker">Docker Desktop og OrbStack</ol>
 <p>Docker Desktop flytter sit diskimage under <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack fik en indstilling for dataplacering i version 0.13.0. Se <a href="../compare/">sammenligningen</a>.</p>

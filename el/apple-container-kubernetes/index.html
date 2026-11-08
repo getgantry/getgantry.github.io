@@ -178,7 +178,7 @@
           "name": "Χρειάζομαι το kubectl για να χρησιμοποιήσω το cluster στο Gantry;",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Προς το παρόν, ναι: ο περιηγητής Kubernetes του Gantry εκτελεί το kubectl. Αν δεν είναι εγκατεστημένο, ο περιηγητής εμφανίζει την εντολή brew install kubectl και μπορεί να την εκτελέσει για εσάς."
+            "text": "Όχι. Το Gantry επικοινωνεί απευθείας με το API του Kubernetes: διαβάζει το kubeconfig και, στη συνέχεια, εμφανίζει πόρους, μεταδίδει αρχεία καταγραφής, ανοίγει shell, προωθεί θύρες και εφαρμόζει YAML χωρίς kubectl. Ένα cluster που δημιουργήθηκε με container cluster create είναι αμέσως έτοιμο για περιήγηση."
           }
         },
         {
@@ -331,7 +331,7 @@
 <ul>
   <li>Mac με Apple silicon, macOS 26 και το Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
   <li>CLI <code>container</code> 1.5.0 ή νεότερο· προτείνεται η 1.7.1. Τα worker και το CNI <em>Κανένα</em> απαιτούν 1.6.0 ή νεότερη. Τα μεγέθη worker και η κοινή αποθήκη εικόνων απαιτούν 1.7.0 ή νεότερη. Χρησιμοποιήστε το υπογεγραμμένο πακέτο εγκατάστασης: η έκδοση Homebrew της 1.7.1 δεν έχει υπηρεσίες cluster.</li>
-  <li><code>kubectl</code> για τον περιηγητή Kubernetes και το τερματικό. Το Gantry μπορεί να το εγκαταστήσει με Homebrew.</li>
+  <li>Τίποτε άλλο για τον περιηγητή Kubernetes του Gantry. Το <code>kubectl</code> μόνο αν θέλετε να χρησιμοποιείτε το cluster και από το τερματικό.</li>
 </ul>
 
 <h2 id="create">Δημιουργία cluster</h2>
@@ -363,7 +363,7 @@
 
 <h2 id="nodes">Κόμβοι και λεπτομέρειες cluster</h2>
 <p>Η λίστα cluster έχει μία γραμμή για κάθε cluster. Η προβολή λεπτομερειών έχει <strong>Επισκόπηση</strong> (context του kubectl, διακομιστής API, έκδοση Kubernetes, αποθήκη εικόνων, worker και οι πόροι τους, δίκτυο κόμβων), πίνακα <strong>Κόμβοι</strong> και <strong>Επιθεώρηση</strong> για τα ακατέργαστα δεδομένα των κόμβων. Η γραμμή εργαλείων έχει <strong>Περιήγηση στους πόρους</strong> και το μενού «Περισσότερα» έχει <strong>Εγγραφή kubeconfig</strong>, <strong>Αντιγραφή εντολής context του kubectl</strong> και <strong>Διαγραφή</strong>.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/cluster-overview.png" alt="Επισκόπηση cluster στο Gantry με την έκδοση Kubernetes, την αποθήκη εικόνων και τα worker" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Επισκόπηση cluster.</b> Έκδοση Kubernetes, αποθήκη εικόνων, worker και οι πόροι τους.</figcaption></figure>
 <p>Οι κόμβοι του cluster είναι κοντέινερ, αλλά τους διαχειρίζεται το <code>container cluster</code>. Το Gantry απενεργοποιεί την έναρξη, τη διακοπή, την επανεκκίνηση, την αφαίρεση και τη μετονομασία για έναν κόμβο και σας λέει γιατί, και τα «Έναρξη όλων» και «Διακοπή όλων» παραλείπουν τους κόμβους. Στο CLI 1.7 το CLI κρύβει επίσης τους κόμβους από το <code>container list</code>. Τα cluster που δημιουργήθηκαν με CLI 1.6 ή παλαιότερο δεν εμφανίζονται στη λίστα της 1.7· αφαιρέστε τα με <code>container cluster delete --name &lt;name&gt;</code>.</p>
 
 <h2 id="browser">Περιήγηση στο cluster</h2>
@@ -374,8 +374,8 @@
   <li><strong>Μυστικά:</strong> οι τιμές είναι κρυφές στη λίστα και στο YAML μέχρι να κάνετε κλικ στην «Εμφάνιση».</li>
   <li><strong>Εφαρμογή YAML:</strong> επικολλήστε ένα manifest ή ανοίξτε ένα αρχείο· τα σφάλματα εμφανίζονται στο φύλλο.</li>
 </ul>
-<p>Ο περιηγητής εκτελεί το <code>kubectl</code>. Αν το Gantry δεν το βρει, η ενότητα εμφανίζει το <code>brew install kubectl</code> με ένα κουμπί που το εκτελεί.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Το Gantry επικοινωνεί απευθείας με το API του Kubernetes, με τα διαπιστευτήρια του kubeconfig σας. Δεν χρειάζεστε <code>kubectl</code> ούτε άλλο εργαλείο: ένα cluster που δημιουργήθηκε με <code>container cluster create</code> είναι έτοιμο για περιήγηση.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/kubernetes-browser-dev.png" alt="Ο περιηγητής Kubernetes του Gantry με τα pod του cluster dev" width="2972" height="1854" loading="lazy" decoding="async"><figcaption><b>Περιηγητής Kubernetes.</b> Τα pod ενός <code>container cluster</code> με αρχεία καταγραφής και προωθήσεις θυρών.</figcaption></figure>
 
 <h2 id="kubectl">Σύνδεση του kubectl</h2>
 <p>Το CLI προσθέτει στο <code>~/.kube/config</code> ένα context με το όνομα του cluster όταν το δημιουργεί. Χρησιμοποιήστε την <strong>Αντιγραφή εντολής context του kubectl</strong> στο Gantry ή πληκτρολογήστε τη:</p>
@@ -502,7 +502,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Μπορώ να δημιουργήσω cluster με πολλούς κόμβους;</summary><p>Ναι. Ορίστε τον αριθμό των worker στο φύλλο δημιουργίας· τα worker απαιτούν CLI 1.6.0 ή νεότερο. Στο CLI 1.7 ορίζετε επίσης τις CPU και τη μνήμη των worker χωριστά από το control plane.</p></details>
 <details class="faq-item"><summary>Μπορώ να χρησιμοποιήσω δικό μου CNI, όπως Calico ή Cilium;</summary><p>Ναι. Επιλέξτε <b>Προσαρμοσμένο manifest</b> και διαλέξτε το αρχείο manifest ή επιλέξτε <b>Κανένα</b> και εφαρμόστε μόνοι σας ένα CNI αφού ξεκινήσει το cluster. Οι κόμβοι μένουν NotReady μέχρι να τρέξει ένα CNI. Το <b>Κανένα</b> απαιτεί CLI 1.6.0 ή νεότερο. Το προεπιλεγμένο CNI είναι το ενσωματωμένο manifest του kindnet.</p></details>
 <details class="faq-item"><summary>Γιατί το Gantry λέει ότι οι υπηρεσίες cluster δεν είναι διαθέσιμες;</summary><p>Οι υπηρεσίες του <code>container</code> δεν απάντησαν σε μια εντολή cluster. Αν το CLI σας είναι έκδοση Homebrew χωρίς τις υπηρεσίες cluster, το Gantry το αναφέρει και δίνει σύνδεσμο προς το υπογεγραμμένο πρόγραμμα εγκατάστασης στη σελίδα εκδόσεων του apple/container. Διαφορετικά, προσφέρει <b>Επανεκκίνηση υπηρεσιών</b>.</p></details>
-<details class="faq-item"><summary>Χρειάζομαι το kubectl για να χρησιμοποιήσω το cluster στο Gantry;</summary><p>Προς το παρόν, ναι: ο περιηγητής Kubernetes του Gantry εκτελεί το <code>kubectl</code>. Αν δεν είναι εγκατεστημένο, ο περιηγητής εμφανίζει την εντολή <code>brew install kubectl</code> και μπορεί να την εκτελέσει για εσάς.</p></details>
+<details class="faq-item"><summary>Χρειάζομαι το kubectl για να χρησιμοποιήσω το cluster στο Gantry;</summary><p>Όχι. Το Gantry επικοινωνεί απευθείας με το API του Kubernetes: διαβάζει το kubeconfig και, στη συνέχεια, εμφανίζει πόρους, μεταδίδει αρχεία καταγραφής, ανοίγει shell, προωθεί θύρες και εφαρμόζει YAML χωρίς <code>kubectl</code>. Ένα cluster που δημιουργήθηκε με <code>container cluster create</code> είναι αμέσως έτοιμο για περιήγηση.</p></details>
 <details class="faq-item"><summary>Μπορώ να εκτελέσω Kubernetes σε Mac χωρίς Docker;</summary><p>Ναι. Το CLI <code>container</code> της Apple δημιουργεί μόνο του cluster Kubernetes με <code>container cluster create</code>. Κάθε κόμβος τρέχει ως ελαφριά VM και δεν χρειάζεστε Docker, Docker Desktop, kind ή minikube.</p></details>
 <details class="faq-item"><summary>Πόσους κόμβους μπορεί να έχει ένα container cluster;</summary><p>Ένα control plane και όσα worker επιτρέπουν οι CPU και η μνήμη του Mac σας. Ορίστε τα με <code>--workers</code>· στο CLI 1.7 κάθε ομάδα worker μπορεί να έχει δικές της CPU και μνήμη.</p></details>
 <details class="faq-item"><summary>Ποια έκδοση Kubernetes χρησιμοποιεί το container cluster;</summary><p>Το CLI 1.7.1 χρησιμοποιεί από προεπιλογή την εικόνα κόμβου <code>kindest/node:v1.35.5</code>. Επιλέξτε άλλη έκδοση με <code>--node-image</code>, για παράδειγμα <code>docker.io/kindest/node:v1.34.11</code>. Το Gantry δείχνει την έκδοση στην επισκόπηση του cluster.</p></details>

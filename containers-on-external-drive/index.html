@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "External drives in Gantry",
-          "text": "Gantry runs bind mounts from any disk today: in New Container, add a volume, choose a folder on the external disk and a path in the container.",
+          "text": "On an apple/container host, the Storage pane in the System section shows where the data root is, on which disk, and how much space images, containers, snapshots, volumes and kernels use. Move to Another Disk… stops the services, copies the data, checks it, switches the root and starts the services again; it deletes the old copy only after a separate confirmation. Gantry remembers the root for every later start. New volumes can live in a folder on any disk, and when that disk is not connected, Gantry tells you which disk is missing and does not start the containers that need it.",
           "url": "https://getgantry.github.io/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Use <code>cp -Rp</code>. In our test on macOS 27 (APFS to APFS over USB), it kept the volume images sparse and kept the extended attributes. <code>ditto</code> wrote each sparse image at its full size, which can fill the disk. Keep the old folder until you have checked that your containers, images and volumes are listed.</p>
 <div class="callout callout-warn"><span class="callout-tag">Heads up</span><div>The CLI does not remember <code>--app-root</code>. Each <code>container system start</code> without it uses the internal folder again. Use the flag every time, for example in a shell alias, and check <code>paths.appRoot</code> in <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 starts the services without <code>--app-root</code> when it connects to a host whose services are stopped. Start the services from the terminal with the flag first; Gantry then uses the running services.</p>
+<p>Gantry can do this move for you: see <a href="#gantry">below</a>.</p>
 
 <ul id="images">Archive images on the disk</ul>
 <p>To free space without losing an image, save it to the external disk and delete it. Load it again when you need it:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>If the disk goes away while containers run from it, they fail, and writes in progress can be lost. After you connect the disk again, start the services with <code>--app-root</code>, then start the containers.</p>
 
 <ol id="gantry">External drives in Gantry</ol>
-<p>Gantry runs bind mounts from any disk today: in <strong>New Container</strong>, add a volume, choose a folder on the external disk and a path in the container.</p>
+<p>On an apple/container host, the <strong>Storage</strong> pane in the System section shows where the data root is, on which disk, and how much space images, containers, snapshots, volumes and kernels use. <strong>Move to Another Disk…</strong> stops the services, copies the data, checks it, switches the root and starts the services again; it deletes the old copy only after a separate confirmation. Gantry remembers the root for every later start. New volumes can live in a folder on any disk, and when that disk is not connected, Gantry tells you which disk is missing and does not start the containers that need it.</p>
+<figure class="guide-shot"><img src="../assets/shots/0.27.0/storage-pane.png" alt="Gantry Storage pane: the data root, its disk and the space in use" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Storage.</b> The data root, its disk and the space in use.</figcaption></figure>
 
 <ol id="docker">Docker Desktop and OrbStack</ol>
 <p>Docker Desktop moves its disk image in <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack added a data location setting in version 0.13.0. See the <a href="../compare/">comparison</a>.</p>

@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Spoljni diskovi u Gantry-ju",
-          "text": "Gantry već sada pokreće montirane fascikle sa bilo kog diska: u prozoru Novi kontejner dodajte volumen, izaberite fasciklu na spoljnom disku i putanju u kontejneru.",
+          "text": "Na apple/container hostu panel Skladište u odeljku Sistem prikazuje gde je korenski direktorijum podataka, na kom disku i koliko prostora zauzimaju slike, kontejneri, snimci, volumeni i jezgra. Premesti na drugi disk… zaustavlja servise, kopira podatke, proverava ih, menja korenski direktorijum i ponovo pokreće servise; staru kopiju briše tek nakon posebne potvrde. Gantry pamti korenski direktorijum za svako kasnije pokretanje. Novi volumeni mogu da budu u fascikli na bilo kom disku, a kada taj disk nije povezan, Gantry vam kaže koji disk nedostaje i ne pokreće kontejnere kojima je potreban.",
           "url": "https://getgantry.github.io/sr-Latn/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Koristite <code>cp -Rp</code>. U našem testu na macOS-u 27 (sa APFS-a na APFS preko USB-a) zadržao je slike volumena retkim i sačuvao proširene atribute. <code>ditto</code> je svaku retku sliku zapisao u punoj veličini, što može da popuni disk. Zadržite staru fasciklu dok ne proverite da se vaši kontejneri, slike i volumeni prikazuju.</p>
 <div class="callout callout-warn"><span class="callout-tag">Pažnja</span><div>CLI ne pamti <code>--app-root</code>. Svako <code>container system start</code> bez te zastavice ponovo koristi internu fasciklu. Koristite zastavicu svaki put, na primer u alijasu ljuske, i proverite <code>paths.appRoot</code> u <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 pokreće servise bez <code>--app-root</code> kada se poveže sa hostom čiji su servisi zaustavljeni. Prvo pokrenite servise iz terminala sa zastavicom; Gantry tada koristi pokrenute servise.</p>
+<p>Gantry može da izvrši ovo premeštanje umesto vas: pogledajte <a href="#gantry">ispod</a>.</p>
 
 <ul id="images">Arhiviranje slika na disku</ul>
 <p>Da biste oslobodili prostor bez gubitka slike, sačuvajte je na spoljni disk i obrišite je. Ponovo je učitajte kada vam zatreba:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Ako disk nestane dok kontejneri rade sa njega, oni prestaju da rade, a upisi u toku mogu da se izgube. Kada ponovo povežete disk, pokrenite servise uz <code>--app-root</code>, a zatim pokrenite kontejnere.</p>
 
 <ol id="gantry">Spoljni diskovi u Gantry-ju</ol>
-<p>Gantry već sada pokreće montirane fascikle sa bilo kog diska: u prozoru <strong>Novi kontejner</strong> dodajte volumen, izaberite fasciklu na spoljnom disku i putanju u kontejneru.</p>
+<p>Na apple/container hostu panel <strong>Skladište</strong> u odeljku Sistem prikazuje gde je korenski direktorijum podataka, na kom disku i koliko prostora zauzimaju slike, kontejneri, snimci, volumeni i jezgra. <strong>Premesti na drugi disk…</strong> zaustavlja servise, kopira podatke, proverava ih, menja korenski direktorijum i ponovo pokreće servise; staru kopiju briše tek nakon posebne potvrde. Gantry pamti korenski direktorijum za svako kasnije pokretanje. Novi volumeni mogu da budu u fascikli na bilo kom disku, a kada taj disk nije povezan, Gantry vam kaže koji disk nedostaje i ne pokreće kontejnere kojima je potreban.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Gantry panel Skladište: korenski direktorijum podataka, njegov disk i zauzeti prostor" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Skladište.</b> Korenski direktorijum podataka, njegov disk i zauzeti prostor.</figcaption></figure>
 
 <ol id="docker">Docker Desktop i OrbStack</ol>
 <p>Docker Desktop premešta svoju sliku diska u <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack je u verziji 0.13.0 dodao podešavanje lokacije podataka. Pogledajte <a href="../compare/">poređenje</a>.</p>

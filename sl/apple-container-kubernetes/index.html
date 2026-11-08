@@ -178,7 +178,7 @@
           "name": "Ali za uporabo gruče v Gantryju potrebujem kubectl?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Zaenkrat da: brskalnik Kubernetes v Gantryju zaganja kubectl. Če ta ni nameščen, brskalnik prikaže ukaz brew install kubectl in ga lahko zažene namesto vas."
+            "text": "Ne. Gantry se z API-jem Kubernetes pogovarja sam: prebere kubeconfig, nato izpisuje vire, pretaka dnevnike, odpira lupino, posreduje vrata in uporablja YAML brez kubectl. Gruča, ustvarjena z container cluster create, je takoj pripravljena za brskanje."
           }
         },
         {
@@ -331,7 +331,7 @@
 <ul>
   <li>Mac s čipom Apple silicon, macOS 26 in Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
   <li>CLI <code>container</code> 1.5.0 ali novejši; priporočen je 1.7.1. Delovna vozlišča in CNI <em>Brez</em> potrebujejo 1.6.0 ali novejši. Velikosti delovnih vozlišč in skupna shramba slik potrebujejo 1.7.0 ali novejši. Uporabite podpisani namestitveni paket: gradnja Homebrew različice 1.7.1 nima storitev gruče.</li>
-  <li><code>kubectl</code> za brskalnik Kubernetes in terminal. Gantry ga lahko namesti s Homebrew.</li>
+  <li>Za brskalnik Kubernetes v Gantryju nič drugega. <code>kubectl</code> samo, če želite gručo uporabljati tudi iz terminala.</li>
 </ul>
 
 <h2 id="create">Ustvarjanje gruče</h2>
@@ -363,7 +363,7 @@
 
 <h2 id="nodes">Vozlišča in podrobnosti gruče</h2>
 <p>Seznam gruč prikaže eno vrstico za vsako gručo. Pogled podrobnosti ima <strong>Pregled</strong> (kontekst kubectl, strežnik API, različica Kubernetes, shramba slik, delovna vozlišča in njihovi viri, omrežje vozlišč), tabelo <strong>Vozlišča</strong> in <strong>Preglej</strong> za surove podatke vozlišč. V orodni vrstici je <strong>Brskaj po virih</strong>, v meniju Več pa <strong>Zapiši kubeconfig</strong>, <strong>Kopiraj ukaz za kontekst kubectl</strong> in <strong>Izbriši</strong>.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/cluster-overview.png" alt="Pregled gruče v Gantryju z različico Kubernetes, shrambo slik in delovnimi vozlišči" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Pregled gruče.</b> Različica Kubernetes, shramba slik, delovna vozlišča in njihovi viri.</figcaption></figure>
 <p>Vozlišča gruče so vsebniki, vendar jih upravlja <code>container cluster</code>. Gantry za vozlišče onemogoči zagon, ustavitev, ponovni zagon, odstranitev in preimenovanje ter pove, zakaj, Zaženi vse in Ustavi vse pa vozlišča preskočita. V CLI 1.7 CLI vozlišča skrije tudi iz <code>container list</code>. Gruče, ustvarjene s CLI 1.6 ali starejšim, se na seznamu 1.7 ne prikažejo; odstranite jih z <code>container cluster delete --name &lt;name&gt;</code>.</p>
 
 <h2 id="browser">Brskanje po gruči</h2>
@@ -374,8 +374,8 @@
   <li><strong>Skrivnosti:</strong> vrednosti so na seznamu in v YAML skrite, dokler ne kliknete Prikaži.</li>
   <li><strong>Uporabi YAML:</strong> prilepite manifest ali odprite datoteko; napake se prikažejo v oknu.</li>
 </ul>
-<p>Brskalnik zaganja <code>kubectl</code>. Če ga Gantry ne najde, razdelek prikaže <code>brew install kubectl</code> z gumbom, ki ukaz zažene.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Gantry se z API-jem Kubernetes pogovarja sam, s poverilnicami iz vašega kubeconfig. Ne potrebujete <code>kubectl</code> ali katerega koli drugega orodja: gruča, ustvarjena z <code>container cluster create</code>, je pripravljena za brskanje.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/kubernetes-browser-dev.png" alt="Brskalnik Kubernetes v Gantryju s podi gruče dev" width="2972" height="1854" loading="lazy" decoding="async"><figcaption><b>Brskalnik Kubernetes.</b> Podi gruče <code>container cluster</code> z dnevniki in posredovanjem vrat.</figcaption></figure>
 
 <h2 id="kubectl">Povezava kubectl</h2>
 <p>CLI ob ustvarjanju gruče v <code>~/.kube/config</code> doda kontekst z imenom gruče. Uporabite <strong>Kopiraj ukaz za kontekst kubectl</strong> v Gantryju ali ga vtipkajte:</p>
@@ -502,7 +502,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Ali lahko ustvarim gručo z več vozlišči?</summary><p>Da. Število delovnih vozlišč nastavite v oknu za ustvarjanje; delovna vozlišča potrebujejo CLI 1.6.0 ali novejši. V CLI 1.7 CPU-je in pomnilnik delovnih vozlišč nastavite tudi ločeno od nadzorne ravnine.</p></details>
 <details class="faq-item"><summary>Ali lahko uporabim lasten CNI, na primer Calico ali Cilium?</summary><p>Da. Izberite <b>Manifest po meri</b> in nato datoteko manifesta ali izberite <b>Brez</b> in sami uporabite CNI, ko se gruča zažene. Vozlišča ostanejo v stanju NotReady, dokler CNI ne deluje. <b>Brez</b> potrebuje CLI 1.6.0 ali novejši. Privzeti CNI je priloženi manifest kindnet.</p></details>
 <details class="faq-item"><summary>Zakaj Gantry pravi, da storitve gruče niso na voljo?</summary><p>Storitve <code>container</code> niso odgovorile na ukaz za gručo. Če je vaš CLI gradnja Homebrew brez storitev gruče, Gantry to pove in poda povezavo do podpisanega namestitvenega programa na strani izdaj apple/container. Sicer ponudi <b>Znova zaženi storitve</b>.</p></details>
-<details class="faq-item"><summary>Ali za uporabo gruče v Gantryju potrebujem kubectl?</summary><p>Zaenkrat da: brskalnik Kubernetes v Gantryju zaganja <code>kubectl</code>. Če ta ni nameščen, brskalnik prikaže ukaz <code>brew install kubectl</code> in ga lahko zažene namesto vas.</p></details>
+<details class="faq-item"><summary>Ali za uporabo gruče v Gantryju potrebujem kubectl?</summary><p>Ne. Gantry se z API-jem Kubernetes pogovarja sam: prebere kubeconfig, nato izpisuje vire, pretaka dnevnike, odpira lupino, posreduje vrata in uporablja YAML brez <code>kubectl</code>. Gruča, ustvarjena z <code>container cluster create</code>, je takoj pripravljena za brskanje.</p></details>
 <details class="faq-item"><summary>Ali lahko Kubernetes v Macu izvajam brez Dockerja?</summary><p>Da. Applov CLI <code>container</code> sam ustvarja gruče Kubernetes z <code>container cluster create</code>. Vsako vozlišče se izvaja kot lahek navidezni stroj, zato ne potrebujete Dockerja, Docker Desktop, kind ali minikube.</p></details>
 <details class="faq-item"><summary>Koliko vozlišč ima lahko container cluster?</summary><p>Eno nadzorno ravnino in toliko delovnih vozlišč, kolikor jim vaš Mac lahko da CPU-jev in pomnilnika. Nastavite jih z <code>--workers</code>; v CLI 1.7 ima lahko vsaka skupina delovnih vozlišč lastne CPU-je in pomnilnik.</p></details>
 <details class="faq-item"><summary>Katero različico Kubernetes uporablja container cluster?</summary><p>CLI 1.7.1 privzeto uporablja sliko vozlišča <code>kindest/node:v1.35.5</code>. Drugo različico izberete z <code>--node-image</code>, na primer <code>docker.io/kindest/node:v1.34.11</code>. Gantry različico prikaže v pregledu gruče.</p></details>

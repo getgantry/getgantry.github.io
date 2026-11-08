@@ -178,7 +178,7 @@
           "name": "Vai klastera izmantošanai lietotnē Gantry ir vajadzīgs kubectl?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Pagaidām jā: Gantry Kubernetes pārlūks izpilda kubectl. Ja tas nav instalēts, pārlūks parāda komandu brew install kubectl un var to izpildīt jūsu vietā."
+            "text": "Nē. Gantry pati sazinās ar Kubernetes API: tā nolasa kubeconfig un pēc tam bez kubectl rāda resursus, straumē žurnālus, atver čaulu, pārsūta portus un lieto YAML. Klasteri, kas izveidots ar container cluster create, var pārlūkot uzreiz."
           }
         },
         {
@@ -331,7 +331,7 @@
 <ul>
   <li>Mac dators ar Apple silicon, macOS 26 un Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
   <li><code>container</code> CLI 1.5.0 vai jaunāks; ieteicams 1.7.1. Darba mezgliem un CNI opcijai <em>Nav</em> nepieciešams 1.6.0 vai jaunāks. Darba mezglu izmēriem un kopīgajai attēlu krātuvei nepieciešams 1.7.0 vai jaunāks. Izmantojiet parakstīto instalācijas pakotni: 1.7.1 Homebrew versijā nav klastera pakalpojumu.</li>
-  <li><code>kubectl</code> Kubernetes pārlūkam un terminālim. Gantry to var instalēt ar Homebrew.</li>
+  <li>Gantry Kubernetes pārlūkam nekas cits nav vajadzīgs. <code>kubectl</code> – tikai tad, ja vēlaties izmantot klasteri arī no termināļa.</li>
 </ul>
 
 <h2 id="create">Klastera izveide</h2>
@@ -363,7 +363,7 @@
 
 <h2 id="nodes">Mezgli un klastera informācija</h2>
 <p>Klasteru sarakstā katram klasterim ir viena rinda. Detalizētajā skatā ir <strong>Pārskats</strong> (kubectl konteksts, API serveris, Kubernetes versija, attēlu krātuve, darba mezgli un to resursi, mezglu tīkls), tabula <strong>Mezgli</strong> un <strong>Pārbaudīt</strong> neapstrādātiem mezglu datiem. Rīkjoslā ir <strong>Pārlūkot resursus</strong>, bet izvēlnē „Vairāk” – <strong>Ierakstīt kubeconfig</strong>, <strong>Kopēt kubectl konteksta komandu</strong> un <strong>Dzēst</strong>.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/cluster-overview.png" alt="Klastera pārskats lietotnē Gantry ar Kubernetes versiju, attēlu krātuvi un darba mezgliem" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Klastera pārskats.</b> Kubernetes versija, attēlu krātuve, darba mezgli un to resursi.</figcaption></figure>
 <p>Klastera mezgli ir konteineri, bet tos pārvalda <code>container cluster</code>. Gantry mezglam atspējo startēšanu, apturēšanu, restartēšanu, noņemšanu un pārdēvēšanu un paskaidro, kāpēc, bet „Startēt visus” un „Apturēt visus” izlaiž mezglus. CLI 1.7 versijā CLI arī paslēpj mezglus no <code>container list</code>. Klasteri, kas izveidoti ar CLI 1.6 vai vecāku, 1.7 sarakstā netiek rādīti; noņemiet tos ar <code>container cluster delete --name &lt;name&gt;</code>.</p>
 
 <h2 id="browser">Klastera pārlūkošana</h2>
@@ -374,8 +374,8 @@
   <li><strong>Noslēpumi:</strong> vērtības sarakstā un YAML ir paslēptas, līdz noklikšķināt uz „Atklāt”.</li>
   <li><strong>Lietot YAML:</strong> ielīmējiet manifestu vai atveriet failu; kļūdas tiek rādītas logā.</li>
 </ul>
-<p>Pārlūks izpilda <code>kubectl</code>. Ja Gantry to neatrod, sadaļa parāda <code>brew install kubectl</code> ar pogu, kas šo komandu izpilda.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Gantry pati sazinās ar Kubernetes API, izmantojot jūsu kubeconfig akreditācijas datus. Jums nav vajadzīgs ne <code>kubectl</code>, ne cits rīks: klasteri, kas izveidots ar <code>container cluster create</code>, var pārlūkot uzreiz.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/kubernetes-browser-dev.png" alt="Gantry Kubernetes pārlūks ar klastera dev podiem" width="2972" height="1854" loading="lazy" decoding="async"><figcaption><b>Kubernetes pārlūks.</b> <code>container cluster</code> podi ar žurnāliem un portu pārsūtīšanu.</figcaption></figure>
 
 <h2 id="kubectl">kubectl pieslēgšana</h2>
 <p>Izveidojot klasteri, CLI failā <code>~/.kube/config</code> pievieno kontekstu ar klastera nosaukumu. Lietotnē Gantry izmantojiet <strong>Kopēt kubectl konteksta komandu</strong> vai ierakstiet to paši:</p>
@@ -502,7 +502,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Vai var izveidot klasteri ar vairākiem mezgliem?</summary><p>Jā. Izveides logā norādiet darba mezglu skaitu; darba mezgliem nepieciešams CLI 1.6.0 vai jaunāks. CLI 1.7 versijā darba mezglu CPU un atmiņu varat iestatīt atsevišķi no vadības plaknes.</p></details>
 <details class="faq-item"><summary>Vai var izmantot savu CNI, piemēram, Calico vai Cilium?</summary><p>Jā. Izvēlieties <b>Pielāgots manifests</b> un atlasiet manifesta failu vai izvēlieties <b>Nav</b> un pēc klastera startēšanas paši instalējiet CNI. Kamēr CNI nedarbojas, mezgli paliek stāvoklī NotReady. Opcijai <b>Nav</b> nepieciešams CLI 1.6.0 vai jaunāks. Noklusējuma CNI ir komplektā iekļautais kindnet manifests.</p></details>
 <details class="faq-item"><summary>Kāpēc Gantry ziņo, ka klastera pakalpojumi nav pieejami?</summary><p><code>container</code> pakalpojumi neatbildēja uz klastera komandu. Ja jūsu CLI ir Homebrew versija bez klastera pakalpojumiem, Gantry to pasaka un dod saiti uz parakstīto instalētāju apple/container laidienu lapā. Citos gadījumos tā piedāvā <b>Restartēt pakalpojumus</b>.</p></details>
-<details class="faq-item"><summary>Vai klastera izmantošanai lietotnē Gantry ir vajadzīgs kubectl?</summary><p>Pagaidām jā: Gantry Kubernetes pārlūks izpilda <code>kubectl</code>. Ja tas nav instalēts, pārlūks parāda komandu <code>brew install kubectl</code> un var to izpildīt jūsu vietā.</p></details>
+<details class="faq-item"><summary>Vai klastera izmantošanai lietotnē Gantry ir vajadzīgs kubectl?</summary><p>Nē. Gantry pati sazinās ar Kubernetes API: tā nolasa kubeconfig un pēc tam bez <code>kubectl</code> rāda resursus, straumē žurnālus, atver čaulu, pārsūta portus un lieto YAML. Klasteri, kas izveidots ar <code>container cluster create</code>, var pārlūkot uzreiz.</p></details>
 <details class="faq-item"><summary>Vai Mac datorā var palaist Kubernetes bez Docker?</summary><p>Jā. Apple <code>container</code> CLI pats izveido Kubernetes klasterus ar <code>container cluster create</code>. Katrs mezgls darbojas kā viegla virtuālā mašīna, un jums nav vajadzīgs ne Docker, ne Docker Desktop, ne kind, ne minikube.</p></details>
 <details class="faq-item"><summary>Cik mezglu var būt container cluster klasterim?</summary><p>Viena vadības plakne un tik darba mezglu, cik pietiek jūsu Mac datora CPU un atmiņas. Iestatiet tos ar <code>--workers</code>; CLI 1.7 versijā katrai darba mezglu grupai var būt savs CPU un atmiņas apjoms.</p></details>
 <details class="faq-item"><summary>Kuru Kubernetes versiju izmanto container cluster?</summary><p>CLI 1.7.1 pēc noklusējuma izmanto mezgla attēlu <code>kindest/node:v1.35.5</code>. Citu versiju izvēlieties ar <code>--node-image</code>, piemēram, <code>docker.io/kindest/node:v1.34.11</code>. Gantry rāda versiju klastera pārskatā.</p></details>

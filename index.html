@@ -332,7 +332,7 @@
             "name": "Can Gantry browse a Kubernetes cluster?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. The Kubernetes section lists pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets, nodes and events for each kubeconfig context, and has pod logs, a pod shell, port forwards, scale, rollout restart, delete and Apply YAML. It works with any cluster, and the contexts of apple/container clusters come first. The browser uses kubectl, and Gantry can install it with Homebrew. See Run Kubernetes on a Mac."
+              "text": "Yes. The Kubernetes section lists pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets, nodes and events for each kubeconfig context, and has pod logs, a pod shell, port forwards, scale, rollout restart, delete and Apply YAML. Gantry talks to the Kubernetes API itself, so you do not need kubectl. See Run Kubernetes on a Mac."
             }
           },
           {
@@ -576,7 +576,7 @@
                 </div>
                 <div class="window-body">
                   <div class="container-skin"></div>
-                  <img src="assets/dashboard.png" alt="Gantry fleet dashboard with live CPU and memory sparklines across every host" width="1200" height="755" decoding="async" fetchpriority="high">
+                  <img src="assets/dashboard.png" alt="Gantry fleet dashboard with live CPU and memory sparklines across every host" width="1200" height="768" decoding="async" fetchpriority="high">
                 </div>
               </div>
             </div>
@@ -613,19 +613,19 @@
           <h2>Kubernetes, Apple Intelligence and the rest of macOS</h2>
           <p>Gantry 0.27.0 adds a Kubernetes browser, explains failed containers with Apple Intelligence, and works with Spotlight, Siri, widgets and Control Center. It supports apple/container 1.7.1 and has a new design that follows Apple's Human Interface Guidelines.</p>
         </div>
-        <!-- TODO-SCREENSHOT section="home, section #new (new design)" file="assets/shots/0.27.0/dashboard.png" -->
+        <figure class="guide-shot"><img src="assets/shots/0.27.0/dashboard.png" alt="The redesigned Gantry dashboard with live CPU, memory, network and disk charts" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>New design.</b> Live charts, top containers and recent activity.</figcaption></figure>
         <div class="bento">
           <div class="cell col-4 cell-feat reveal">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg></div>
             <h3>Kubernetes browser</h3>
-            <p>Browse pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets, nodes and events of any kubeconfig context. Follow pod logs, open a shell, forward a port, scale, restart a rollout and apply YAML. Secret values stay masked until you reveal them. The browser uses <code>kubectl</code>; if it is missing, Gantry installs it with Homebrew.</p>
-            <!-- TODO-SCREENSHOT section="home, section #new (Kubernetes browser)" file="assets/shots/0.27.0/kubernetes-browser.png" -->
+            <p>Browse pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets, nodes and events of any kubeconfig context. Follow pod logs, open a shell, forward a port, scale, restart a rollout and apply YAML. Gantry talks to the Kubernetes API itself, so a cluster made with <code>container cluster create</code> is ready to browse with nothing else installed: no <code>kubectl</code>.</p>
+            <figure class="guide-shot"><img src="assets/shots/0.27.0/kubernetes-browser.png" alt="Gantry Kubernetes browser with pods, logs and port forwards" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Kubernetes browser.</b> Pods, logs, shell and port forwards for any context.</figcaption></figure>
           </div>
           <div class="cell col-2 cell-feat reveal">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3a6 6 0 0 0-3.5 10.9V17h7v-3.1A6 6 0 0 0 12 3z"/><path d="M9.5 21h5"/></svg></div>
             <h3>Explain Failure with Apple Intelligence</h3>
             <p>Choose <b>Explain Failure…</b> on a crashed container or a failed operation. Gantry sends recent logs and details, with environment values and secret-like text removed, to the on-device model, and shows the likely cause, the evidence and next steps. Long logs can go to Private Cloud Compute (macOS 27). The panel shows exactly what was sent.</p>
-            <!-- TODO-SCREENSHOT section="home, section #new (Explain Failure)" file="assets/shots/0.27.0/explain-failure.png" -->
+            <figure class="guide-shot"><img src="assets/shots/0.27.0/explain-failure.png" alt="Explain Failure panel with the likely cause and next steps" width="1292" height="1332" loading="lazy" decoding="async"><figcaption><b>Explain Failure.</b> The likely cause, the evidence and next steps.</figcaption></figure>
           </div>
           <div class="cell col-2 cell-feat reveal">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
@@ -642,10 +642,15 @@
             <h3>Act on many at once</h3>
             <p>Select several containers, images, volumes or networks and start, stop, restart or remove them in one step, with progress and a report for each item.</p>
           </div>
-          <div class="cell col-6 cell-feat reveal">
+          <div class="cell col-3 cell-feat reveal">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h4"/></svg></div>
             <h3>Paste a <code>docker run</code></h3>
             <p>Paste a <code>docker run</code>, <code>podman run</code> or <code>container run</code> command and Gantry fills the New Container form, with a list of the flags it cannot use. Copy any container back as a command, or save it as a recipe. <a href="docker-run-to-container/">How it works</a></p>
+          </div>
+          <div class="cell col-3 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="7" width="18" height="10" rx="2"/><circle cx="17" cy="12" r="1"/><path d="M7 12h6"/></svg></div>
+            <h3>Containers on an external drive</h3>
+            <p>Move all apple/container data to an external disk, keep volumes on a disk of your choice, and get a clear warning when that disk is not connected. <a href="containers-on-external-drive/">Read the guide</a></p>
           </div>
         </div>
       </div>
@@ -919,7 +924,7 @@
             <figure>
               <div class="window dark-chrome" data-parallax="0.04">
                 <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Containers — Stats</span></div>
-                <div class="window-body"><img src="assets/stats.png" alt="Live container stats: CPU, memory, network and disk I/O charts" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="window-body"><img src="assets/stats.png" alt="Live container stats: CPU, memory, network and disk I/O charts" width="3104" height="1986" loading="lazy" decoding="async"></div>
               </div>
               <figcaption><b>Live stats.</b> CPU, memory, network &amp; disk I/O, sampled every second.</figcaption>
             </figure>
@@ -928,7 +933,7 @@
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
                 <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Host — Overview</span></div>
-                <div class="window-body"><img src="assets/overview.png" alt="Host overview with CPU and memory gauges and Docker disk usage" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="window-body"><img src="assets/overview.png" alt="Host overview with CPU and memory gauges and Docker disk usage" width="3104" height="1986" loading="lazy" decoding="async"></div>
               </div>
               <figcaption><b>Host overview.</b> Gauges, disk usage, daemon facts.</figcaption>
             </figure>
@@ -937,7 +942,7 @@
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
                 <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Fleet — Health</span></div>
-                <div class="window-body"><img src="assets/dashboard.png" alt="Fleet dashboard across five hosts with health issues surfaced" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="window-body"><img src="assets/fleet.png" alt="Fleet dashboard across five hosts with health issues surfaced" width="3364" height="2116" loading="lazy" decoding="async"></div>
               </div>
               <figcaption><b>Fleet dashboard.</b> Every host, every issue, one screen.</figcaption>
             </figure>
@@ -998,7 +1003,7 @@
           </details>
           <details class="faq-item">
             <summary>Can Gantry browse a Kubernetes cluster?</summary>
-            <p>Yes. The <b>Kubernetes</b> section lists pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets, nodes and events for each kubeconfig context, and has pod logs, a pod shell, port forwards, scale, rollout restart, delete and Apply YAML. It works with any cluster, and the contexts of apple/container clusters come first. The browser uses <code>kubectl</code>, and Gantry can install it with Homebrew. See <a href="apple-container-kubernetes/#terminal">Run Kubernetes on a Mac</a>.</p>
+            <p>Yes. The <b>Kubernetes</b> section lists pods, deployments, stateful sets, daemon sets, services, ingresses, config maps, secrets, nodes and events for each kubeconfig context, and has pod logs, a pod shell, port forwards, scale, rollout restart, delete and Apply YAML. Gantry talks to the Kubernetes API itself, so you do not need <code>kubectl</code>. See <a href="apple-container-kubernetes/#terminal">Run Kubernetes on a Mac</a>.</p>
           </details>
           <details class="faq-item">
             <summary>What does Explain Failure send to Apple Intelligence?</summary>

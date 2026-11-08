@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Externe schijven in Gantry",
-          "text": "Gantry draait nu al bind mounts vanaf elke schijf: voeg in Nieuwe container een volume toe en kies een map op de externe schijf en een pad in de container.",
+          "text": "Op een apple/container-host toont het paneel Opslag in het onderdeel Systeem waar de gegevensmap staat, op welke schijf, en hoeveel ruimte images, containers, snapshots, volumes en kernels innemen. Verplaats naar andere schijf… stopt de services, kopieert de gegevens, controleert ze, schakelt de gegevensmap om en start de services weer; de oude kopie verwijdert het pas na een aparte bevestiging. Gantry onthoudt de gegevensmap voor elke volgende start. Nieuwe volumes kunnen in een map op elke schijf staan, en als die schijf niet is aangesloten, vertelt Gantry je welke schijf ontbreekt en start het de containers die hem nodig hebben niet.",
           "url": "https://getgantry.github.io/nl/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Gebruik <code>cp -Rp</code>. In onze test op macOS 27 (APFS naar APFS via USB) bleven de volume-images sparse en bleven de uitgebreide attributen behouden. <code>ditto</code> schreef elke sparse image op volle grootte, wat de schijf kan vullen. Bewaar de oude map tot je hebt gecontroleerd dat je containers, images en volumes in de lijst staan.</p>
 <div class="callout callout-warn"><span class="callout-tag">Let op</span><div>De CLI onthoudt <code>--app-root</code> niet. Elke <code>container system start</code> zonder deze flag gebruikt weer de interne map. Gebruik de flag elke keer, bijvoorbeeld in een shellalias, en controleer <code>paths.appRoot</code> in <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 start de services zonder <code>--app-root</code> als het verbinding maakt met een host waarvan de services gestopt zijn. Start de services eerst vanuit de terminal met de flag; Gantry gebruikt dan de draaiende services.</p>
+<p>Gantry kan deze verhuizing voor je doen: zie <a href="#gantry">hieronder</a>.</p>
 
 <ul id="images">Images archiveren op de schijf</ul>
 <p>Om ruimte vrij te maken zonder een image kwijt te raken, sla je hem op de externe schijf op en verwijder je hem. Laad hem opnieuw wanneer je hem nodig hebt:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Verdwijnt de schijf terwijl er containers vanaf draaien, dan mislukken die, en lopende schrijfacties kunnen verloren gaan. Start na het opnieuw aansluiten van de schijf de services met <code>--app-root</code> en daarna de containers.</p>
 
 <ol id="gantry">Externe schijven in Gantry</ol>
-<p>Gantry draait nu al bind mounts vanaf elke schijf: voeg in <strong>Nieuwe container</strong> een volume toe en kies een map op de externe schijf en een pad in de container.</p>
+<p>Op een apple/container-host toont het paneel <strong>Opslag</strong> in het onderdeel Systeem waar de gegevensmap staat, op welke schijf, en hoeveel ruimte images, containers, snapshots, volumes en kernels innemen. <strong>Verplaats naar andere schijf…</strong> stopt de services, kopieert de gegevens, controleert ze, schakelt de gegevensmap om en start de services weer; de oude kopie verwijdert het pas na een aparte bevestiging. Gantry onthoudt de gegevensmap voor elke volgende start. Nieuwe volumes kunnen in een map op elke schijf staan, en als die schijf niet is aangesloten, vertelt Gantry je welke schijf ontbreekt en start het de containers die hem nodig hebben niet.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Paneel Opslag in Gantry: de gegevensmap, de schijf en de gebruikte ruimte" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Opslag.</b> De gegevensmap, de schijf en de gebruikte ruimte.</figcaption></figure>
 
 <ol id="docker">Docker Desktop en OrbStack</ol>
 <p>Docker Desktop verplaatst zijn schijfkopie via <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack heeft in versie 0.13.0 een instelling voor de gegevenslocatie toegevoegd. Zie de <a href="../compare/">vergelijking</a>.</p>

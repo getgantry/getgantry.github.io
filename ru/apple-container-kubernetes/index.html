@@ -178,7 +178,7 @@
           "name": "Нужен ли kubectl, чтобы работать с кластером в Gantry?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Пока да: браузер Kubernetes в Gantry запускает kubectl. Если он не установлен, браузер показывает команду brew install kubectl и может выполнить её за вас."
+            "text": "Нет. Gantry сам обращается к API Kubernetes: читает kubeconfig, затем показывает ресурсы, передаёт логи, открывает оболочку, пробрасывает порты и применяет YAML без kubectl. Кластер, созданный командой container cluster create, можно просматривать сразу."
           }
         },
         {
@@ -331,7 +331,7 @@
 <ul>
   <li>Mac с Apple silicon, macOS 26 и Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
   <li>CLI <code>container</code> версии 1.5.0 или новее; рекомендуется 1.7.1. Для рабочих узлов и CNI <em>Нет</em> нужна 1.6.0 или новее. Для размеров рабочих узлов и общего хранилища образов нужна 1.7.0 или новее. Используйте подписанный установочный пакет: в сборке Homebrew версии 1.7.1 нет служб кластера.</li>
-  <li><code>kubectl</code> для браузера Kubernetes и терминала. Gantry может установить его через Homebrew.</li>
+  <li>Для браузера Kubernetes в Gantry больше ничего не нужно. <code>kubectl</code> — только если вы хотите работать с кластером и из терминала.</li>
 </ul>
 
 <h2 id="create">Создание кластера</h2>
@@ -363,7 +363,7 @@
 
 <h2 id="nodes">Узлы и сведения о кластере</h2>
 <p>В списке кластеров — одна строка на кластер. В подробном виде есть <strong>Обзор</strong> (контекст kubectl, API-сервер, версия Kubernetes, хранилище образов, рабочие узлы и их ресурсы, сеть узлов), таблица <strong>Узлы</strong> и <strong>Инспекция</strong> с исходными данными узлов. На панели инструментов есть <strong>Просмотреть ресурсы</strong>, а в меню «Ещё» — <strong>Записать kubeconfig</strong>, <strong>Скопировать команду контекста kubectl</strong> и <strong>Удалить</strong>.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/cluster-overview.png" alt="Обзор кластера в Gantry с версией Kubernetes, хранилищем образов и рабочими узлами" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Обзор кластера.</b> Версия Kubernetes, хранилище образов, рабочие узлы и их ресурсы.</figcaption></figure>
 <p>Узлы кластера — это контейнеры, но ими управляет <code>container cluster</code>. Gantry отключает для узла запуск, остановку, перезапуск, удаление и переименование и объясняет почему, а «Запустить все» и «Остановить все» пропускают узлы. В CLI 1.7 сам CLI тоже скрывает узлы из <code>container list</code>. Кластеры, созданные в CLI 1.6 или раньше, не видны в списке 1.7; удалите их командой <code>container cluster delete --name &lt;name&gt;</code>.</p>
 
 <h2 id="browser">Просмотр кластера</h2>
@@ -374,8 +374,8 @@
   <li><strong>Секреты:</strong> значения скрыты в списке и в YAML, пока вы не нажмёте «Показать».</li>
   <li><strong>Применить YAML:</strong> вставьте манифест или откройте файл; ошибки видны прямо в окне.</li>
 </ul>
-<p>Браузер запускает <code>kubectl</code>. Если Gantry не находит его, раздел показывает <code>brew install kubectl</code> и кнопку, которая выполняет эту команду.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Gantry сам обращается к API Kubernetes с учётными данными из вашего kubeconfig. Не нужен ни <code>kubectl</code>, ни другой инструмент: кластер, созданный командой <code>container cluster create</code>, можно просматривать сразу.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/kubernetes-browser-dev.png" alt="Браузер Kubernetes в Gantry с подами кластера dev" width="2972" height="1854" loading="lazy" decoding="async"><figcaption><b>Браузер Kubernetes.</b> Поды кластера <code>container cluster</code> с логами и пробросом портов.</figcaption></figure>
 
 <h2 id="kubectl">Подключение kubectl</h2>
 <p>При создании кластера CLI добавляет в <code>~/.kube/config</code> контекст с именем кластера. Нажмите <strong>Скопировать команду контекста kubectl</strong> в Gantry или введите команду сами:</p>
@@ -502,7 +502,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Можно ли создать кластер из нескольких узлов?</summary><p>Да. Укажите число рабочих узлов в окне создания; для рабочих узлов нужен CLI 1.6.0 или новее. В CLI 1.7 вы также задаёте CPU и память рабочих узлов отдельно от управляющего узла.</p></details>
 <details class="faq-item"><summary>Можно ли использовать свой CNI, например Calico или Cilium?</summary><p>Да. Выберите <b>Свой манифест</b> и укажите файл манифеста или выберите <b>Нет</b> и установите CNI сами после запуска кластера. Пока CNI не работает, узлы остаются в состоянии NotReady. Для <b>Нет</b> нужен CLI 1.6.0 или новее. CNI по умолчанию — встроенный манифест kindnet.</p></details>
 <details class="faq-item"><summary>Почему Gantry сообщает, что службы кластера недоступны?</summary><p>Службы <code>container</code> не ответили на команду кластера. Если ваш CLI — сборка Homebrew без служб кластера, Gantry сообщает об этом и даёт ссылку на подписанный установщик на странице релизов apple/container. В остальных случаях он предлагает <b>Перезапустить службы</b>.</p></details>
-<details class="faq-item"><summary>Нужен ли kubectl, чтобы работать с кластером в Gantry?</summary><p>Пока да: браузер Kubernetes в Gantry запускает <code>kubectl</code>. Если он не установлен, браузер показывает команду <code>brew install kubectl</code> и может выполнить её за вас.</p></details>
+<details class="faq-item"><summary>Нужен ли kubectl, чтобы работать с кластером в Gantry?</summary><p>Нет. Gantry сам обращается к API Kubernetes: читает kubeconfig, затем показывает ресурсы, передаёт логи, открывает оболочку, пробрасывает порты и применяет YAML без <code>kubectl</code>. Кластер, созданный командой <code>container cluster create</code>, можно просматривать сразу.</p></details>
 <details class="faq-item"><summary>Можно ли запустить Kubernetes на Mac без Docker?</summary><p>Да. CLI <code>container</code> от Apple сам создаёт кластеры Kubernetes командой <code>container cluster create</code>. Каждый узел работает как лёгкая ВМ, и вам не нужны Docker, Docker Desktop, kind или minikube.</p></details>
 <details class="faq-item"><summary>Сколько узлов может быть в container cluster?</summary><p>Один управляющий узел и столько рабочих, сколько позволяют CPU и память вашего Mac. Задайте их флагом <code>--workers</code>; в CLI 1.7 у каждой группы рабочих узлов могут быть свои CPU и память.</p></details>
 <details class="faq-item"><summary>Какую версию Kubernetes использует container cluster?</summary><p>CLI 1.7.1 по умолчанию использует образ узла <code>kindest/node:v1.35.5</code>. Другую версию выберите флагом <code>--node-image</code>, например <code>docker.io/kindest/node:v1.34.11</code>. Gantry показывает версию в обзоре кластера.</p></details>

@@ -332,7 +332,7 @@
             "name": "O Gantry consegue explorar um cluster Kubernetes?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Sim. A secção Kubernetes lista pods, Deployments, StatefulSets, DaemonSets, serviços, Ingress, ConfigMaps, segredos, nós e eventos de cada contexto do kubeconfig, e inclui logs dos pods, uma shell no pod, reencaminhamento de portas, escalar, reinício do rollout, eliminar e Aplicar YAML. Funciona com qualquer cluster, e os contextos dos clusters do apple/container aparecem primeiro. O explorador utiliza o kubectl, e o Gantry pode instalá-lo com o Homebrew. Consulte Executar Kubernetes num Mac."
+              "text": "Sim. A secção Kubernetes lista pods, Deployments, StatefulSets, DaemonSets, serviços, Ingress, ConfigMaps, segredos, nós e eventos de cada contexto do kubeconfig, e inclui logs dos pods, uma shell no pod, reencaminhamento de portas, escalar, reinício do rollout, eliminar e Aplicar YAML. O próprio Gantry comunica com a API do Kubernetes, por isso não precisa do kubectl. Consulte Executar Kubernetes num Mac."
             }
           },
           {
@@ -576,7 +576,7 @@
                 </div>
                 <div class="window-body">
                   <div class="container-skin"></div>
-                  <img src="../assets/dashboard.png" alt="Painel de frota do Gantry com minigráficos de CPU e memória em direto de todos os hosts" width="1200" height="755" decoding="async" fetchpriority="high">
+                  <img src="../assets/dashboard.png" alt="Painel de frota do Gantry com minigráficos de CPU e memória em direto de todos os hosts" width="1200" height="768" decoding="async" fetchpriority="high">
                 </div>
               </div>
             </div>
@@ -613,19 +613,19 @@
           <h2>Kubernetes, Apple Intelligence e o resto do macOS</h2>
           <p>O Gantry 0.27.0 acrescenta um explorador Kubernetes, explica contentores com falhas com o Apple Intelligence e funciona com o Spotlight, a Siri, os widgets e o Centro de controlo. Suporta o apple/container 1.7.1 e tem um novo design que segue as Human Interface Guidelines da Apple.</p>
         </div>
-        <!-- TODO-SCREENSHOT section="home, section #new (new design)" file="assets/shots/0.27.0/dashboard.png" -->
+        <figure class="guide-shot"><img src="../assets/shots/0.27.0/dashboard.png" alt="O painel do Gantry redesenhado com gráficos em direto de CPU, memória, rede e disco" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Novo design.</b> Gráficos em direto, contentores com maior consumo e atividade recente.</figcaption></figure>
         <div class="bento">
           <div class="cell col-4 cell-feat reveal">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg></div>
             <h3>Explorador Kubernetes</h3>
-            <p>Explore pods, Deployments, StatefulSets, DaemonSets, serviços, Ingress, ConfigMaps, segredos, nós e eventos de qualquer contexto do kubeconfig. Acompanhe os logs dos pods, abra uma shell, reencaminhe uma porta, escale, reinicie um rollout e aplique YAML. Os valores dos segredos ficam ocultos até os mostrar. O explorador utiliza o <code>kubectl</code>; se não estiver instalado, o Gantry instala-o com o Homebrew.</p>
-            <!-- TODO-SCREENSHOT section="home, section #new (Kubernetes browser)" file="assets/shots/0.27.0/kubernetes-browser.png" -->
+            <p>Explore pods, Deployments, StatefulSets, DaemonSets, serviços, Ingress, ConfigMaps, segredos, nós e eventos de qualquer contexto do kubeconfig. Acompanhe os logs dos pods, abra uma shell, reencaminhe uma porta, escale, reinicie um rollout e aplique YAML. O próprio Gantry comunica com a API do Kubernetes, por isso um cluster criado com <code>container cluster create</code> fica pronto a explorar sem instalar mais nada: sem <code>kubectl</code>.</p>
+            <figure class="guide-shot"><img src="../assets/shots/0.27.0/kubernetes-browser.png" alt="Explorador Kubernetes do Gantry com pods, logs e reencaminhamentos de portas" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Explorador Kubernetes.</b> Pods, logs, shell e reencaminhamento de portas para qualquer contexto.</figcaption></figure>
           </div>
           <div class="cell col-2 cell-feat reveal">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3a6 6 0 0 0-3.5 10.9V17h7v-3.1A6 6 0 0 0 12 3z"/><path d="M9.5 21h5"/></svg></div>
             <h3>“Explicar falha” com o Apple Intelligence</h3>
             <p>Escolha <b>Explicar falha…</b> num contentor que falhou ou numa operação sem êxito. O Gantry envia os logs recentes e os detalhes, sem os valores do ambiente e sem texto que pareça um segredo, para o modelo do dispositivo, e mostra a causa provável, as evidências e os passos seguintes. Os logs longos podem ir para o Private Cloud Compute (macOS 27). O painel mostra exatamente o que foi enviado.</p>
-            <!-- TODO-SCREENSHOT section="home, section #new (Explain Failure)" file="assets/shots/0.27.0/explain-failure.png" -->
+            <figure class="guide-shot"><img src="../assets/shots/0.27.0/explain-failure.png" alt="Painel “Explicar falha” com a causa provável e os passos seguintes" width="1292" height="1332" loading="lazy" decoding="async"><figcaption><b>Explicar falha.</b> A causa provável, as evidências e os passos seguintes.</figcaption></figure>
           </div>
           <div class="cell col-2 cell-feat reveal">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
@@ -642,10 +642,15 @@
             <h3>Atuar sobre vários de uma vez</h3>
             <p>Selecione vários contentores, imagens, volumes ou redes e inicie-os, pare-os, reinicie-os ou remova-os num só passo, com o progresso e um relatório para cada item.</p>
           </div>
-          <div class="cell col-6 cell-feat reveal">
+          <div class="cell col-3 cell-feat reveal">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h4"/></svg></div>
             <h3>Colar um <code>docker run</code></h3>
             <p>Cole um comando <code>docker run</code>, <code>podman run</code> ou <code>container run</code> e o Gantry preenche o formulário Novo contentor, com uma lista das flags que não consegue usar. Copie qualquer contentor de volta como comando ou guarde-o como receita. <a href="docker-run-to-container/">Como funciona</a></p>
+          </div>
+          <div class="cell col-3 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="7" width="18" height="10" rx="2"/><circle cx="17" cy="12" r="1"/><path d="M7 12h6"/></svg></div>
+            <h3>Contentores num disco externo</h3>
+            <p>Mova todos os dados do apple/container para um disco externo, mantenha os volumes num disco à sua escolha e receba um aviso claro quando esse disco não estiver ligado. <a href="containers-on-external-drive/">Ler o guia</a></p>
           </div>
         </div>
       </div>
@@ -919,7 +924,7 @@
             <figure>
               <div class="window dark-chrome" data-parallax="0.04">
                 <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Contentores — Estatísticas</span></div>
-                <div class="window-body"><img src="../assets/stats.png" alt="Estatísticas de contentores em direto: gráficos de CPU, memória, rede e E/S de disco" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="window-body"><img src="../assets/stats.png" alt="Estatísticas de contentores em direto: gráficos de CPU, memória, rede e E/S de disco" width="3104" height="1986" loading="lazy" decoding="async"></div>
               </div>
               <figcaption><b>Estatísticas em direto.</b> CPU, memória, rede e E/S de disco, com amostragem a cada segundo.</figcaption>
             </figure>
@@ -928,7 +933,7 @@
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
                 <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Host — Vista geral</span></div>
-                <div class="window-body"><img src="../assets/overview.png" alt="Vista geral do host com indicadores de CPU e memória e utilização de disco do Docker" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="window-body"><img src="../assets/overview.png" alt="Vista geral do host com indicadores de CPU e memória e utilização de disco do Docker" width="3104" height="1986" loading="lazy" decoding="async"></div>
               </div>
               <figcaption><b>Vista geral do host.</b> Indicadores, utilização de disco, dados do daemon.</figcaption>
             </figure>
@@ -937,7 +942,7 @@
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
                 <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Frota — Estado de saúde</span></div>
-                <div class="window-body"><img src="../assets/dashboard.png" alt="Painel de frota com cinco hosts e os problemas de saúde em destaque" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="window-body"><img src="../assets/fleet.png" alt="Painel de frota com cinco hosts e os problemas de saúde em destaque" width="3364" height="2116" loading="lazy" decoding="async"></div>
               </div>
               <figcaption><b>Painel de frota.</b> Todos os hosts, todos os problemas, um só ecrã.</figcaption>
             </figure>
@@ -998,7 +1003,7 @@
           </details>
           <details class="faq-item">
             <summary>O Gantry consegue explorar um cluster Kubernetes?</summary>
-            <p>Sim. A secção <b>Kubernetes</b> lista pods, Deployments, StatefulSets, DaemonSets, serviços, Ingress, ConfigMaps, segredos, nós e eventos de cada contexto do kubeconfig, e inclui logs dos pods, uma shell no pod, reencaminhamento de portas, escalar, reinício do rollout, eliminar e Aplicar YAML. Funciona com qualquer cluster, e os contextos dos clusters do apple/container aparecem primeiro. O explorador utiliza o <code>kubectl</code>, e o Gantry pode instalá-lo com o Homebrew. Consulte <a href="apple-container-kubernetes/#terminal">Executar Kubernetes num Mac</a>.</p>
+            <p>Sim. A secção <b>Kubernetes</b> lista pods, Deployments, StatefulSets, DaemonSets, serviços, Ingress, ConfigMaps, segredos, nós e eventos de cada contexto do kubeconfig, e inclui logs dos pods, uma shell no pod, reencaminhamento de portas, escalar, reinício do rollout, eliminar e Aplicar YAML. O próprio Gantry comunica com a API do Kubernetes, por isso não precisa do <code>kubectl</code>. Consulte <a href="apple-container-kubernetes/#terminal">Executar Kubernetes num Mac</a>.</p>
           </details>
           <details class="faq-item">
             <summary>O que é que “Explicar falha” envia para o Apple Intelligence?</summary>

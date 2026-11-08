@@ -332,7 +332,7 @@
             "name": "Kan Gantry utforske en Kubernetes-klynge?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Ja. Delen Kubernetes viser pods, deployments, StatefulSets, DaemonSets, services, ingresser, ConfigMaps, secrets, noder og hendelser for hver kubeconfig-kontekst, og har pod-logger, skall i poden, portvideresending, skalering, omstart av utrulling, sletting og Bruk YAML. Den fungerer med alle klynger, og kontekstene til apple/container-klynger kommer først. Utforskeren bruker kubectl, og Gantry kan installere det med Homebrew. Se Kjør Kubernetes på en Mac."
+              "text": "Ja. Delen Kubernetes viser pods, deployments, StatefulSets, DaemonSets, services, ingresser, ConfigMaps, secrets, noder og hendelser for hver kubeconfig-kontekst, og har pod-logger, skall i poden, portvideresending, skalering, omstart av utrulling, sletting og Bruk YAML. Gantry snakker selv med Kubernetes-API-et, så du trenger ikke kubectl. Se Kjør Kubernetes på en Mac."
             }
           },
           {
@@ -576,7 +576,7 @@
                 </div>
                 <div class="window-body">
                   <div class="container-skin"></div>
-                  <img src="../assets/dashboard.png" alt="Gantrys flåteoversikt med minigrafer for CPU og minne i sanntid for alle verter" width="1200" height="755" decoding="async" fetchpriority="high">
+                  <img src="../assets/dashboard.png" alt="Gantrys flåteoversikt med minigrafer for CPU og minne i sanntid for alle verter" width="1200" height="768" decoding="async" fetchpriority="high">
                 </div>
               </div>
             </div>
@@ -613,19 +613,19 @@
           <h2>Kubernetes, Apple Intelligence og resten av macOS</h2>
           <p>Gantry 0.27.0 legger til en Kubernetes-utforsker, forklarer feilede containere med Apple Intelligence og fungerer med Spotlight, Siri, widgeter og Kontrollsenter. Den støtter apple/container 1.7.1 og har en ny design som følger Apples retningslinjer for menneskelig grensesnitt (Human Interface Guidelines).</p>
         </div>
-        <!-- TODO-SCREENSHOT section="home, section #new (new design)" file="assets/shots/0.27.0/dashboard.png" -->
+        <figure class="guide-shot"><img src="../assets/shots/0.27.0/dashboard.png" alt="Det nye kontrollpanelet i Gantry med grafer i sanntid for CPU, minne, nettverk og disk" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Ny design.</b> Grafer i sanntid, de mest aktive containerne og nylig aktivitet.</figcaption></figure>
         <div class="bento">
           <div class="cell col-4 cell-feat reveal">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg></div>
             <h3>Kubernetes-utforsker</h3>
-            <p>Bla gjennom pods, deployments, StatefulSets, DaemonSets, services, ingresser, ConfigMaps, secrets, noder og hendelser i en hvilken som helst kubeconfig-kontekst. Følg pod-logger, åpne et skall, videresend en port, skaler, start en utrulling på nytt og bruk YAML. Secret-verdier forblir maskert til du viser dem. Utforskeren bruker <code>kubectl</code>; mangler det, installerer Gantry det med Homebrew.</p>
-            <!-- TODO-SCREENSHOT section="home, section #new (Kubernetes browser)" file="assets/shots/0.27.0/kubernetes-browser.png" -->
+            <p>Bla gjennom pods, deployments, StatefulSets, DaemonSets, services, ingresser, ConfigMaps, secrets, noder og hendelser i en hvilken som helst kubeconfig-kontekst. Følg pod-logger, åpne et skall, videresend en port, skaler, start en utrulling på nytt og bruk YAML. Gantry snakker selv med Kubernetes-API-et, så en klynge laget med <code>container cluster create</code> er klar til utforsking uten at noe annet er installert: ingen <code>kubectl</code>.</p>
+            <figure class="guide-shot"><img src="../assets/shots/0.27.0/kubernetes-browser.png" alt="Kubernetes-utforskeren i Gantry med pods, logger og portvideresendinger" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Kubernetes-utforsker.</b> Pods, logger, skall og portvideresendinger for alle kontekster.</figcaption></figure>
           </div>
           <div class="cell col-2 cell-feat reveal">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3a6 6 0 0 0-3.5 10.9V17h7v-3.1A6 6 0 0 0 12 3z"/><path d="M9.5 21h5"/></svg></div>
             <h3>Forklar feil med Apple Intelligence</h3>
             <p>Velg <b>Forklar feil…</b> på en krasjet container eller en mislykket operasjon. Gantry sender nylige logger og detaljer, med verdier for miljøvariabler og tekst som ligner hemmeligheter fjernet, til modellen på enheten, og viser den sannsynlige årsaken, bevisene og neste steg. Lange logger kan gå til Private Cloud Compute (macOS 27). Panelet viser nøyaktig hva som ble sendt.</p>
-            <!-- TODO-SCREENSHOT section="home, section #new (Explain Failure)" file="assets/shots/0.27.0/explain-failure.png" -->
+            <figure class="guide-shot"><img src="../assets/shots/0.27.0/explain-failure.png" alt="Panelet Forklar feil med den sannsynlige årsaken og neste steg" width="1292" height="1332" loading="lazy" decoding="async"><figcaption><b>Forklar feil.</b> Den sannsynlige årsaken, bevisene og neste steg.</figcaption></figure>
           </div>
           <div class="cell col-2 cell-feat reveal">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
@@ -642,10 +642,15 @@
             <h3>Håndter mange på en gang</h3>
             <p>Velg flere containere, images, volumer eller nettverk og start, stopp, start på nytt eller fjern dem i ett steg, med fremdrift og en rapport for hvert element.</p>
           </div>
-          <div class="cell col-6 cell-feat reveal">
+          <div class="cell col-3 cell-feat reveal">
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h4"/></svg></div>
             <h3>Lim inn en <code>docker run</code></h3>
             <p>Lim inn en <code>docker run</code>-, <code>podman run</code>- eller <code>container run</code>-kommando, så fyller Gantry ut skjemaet Ny container, med en liste over flaggene den ikke kan bruke. Kopier en hvilken som helst container tilbake som kommando, eller lagre den som oppskrift. <a href="docker-run-to-container/">Slik fungerer det</a></p>
+          </div>
+          <div class="cell col-3 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="7" width="18" height="10" rx="2"/><circle cx="17" cy="12" r="1"/><path d="M7 12h6"/></svg></div>
+            <h3>Containere på en ekstern disk</h3>
+            <p>Flytt alle apple/container-data til en ekstern disk, hold volumer på en disk du velger, og få en tydelig advarsel når den disken ikke er tilkoblet. <a href="containers-on-external-drive/">Les guiden</a></p>
           </div>
         </div>
       </div>
@@ -919,7 +924,7 @@
             <figure>
               <div class="window dark-chrome" data-parallax="0.04">
                 <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Containere – Statistikk</span></div>
-                <div class="window-body"><img src="../assets/stats.png" alt="Containerstatistikk i sanntid: grafer for CPU, minne, nettverk og disk-I/O" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="window-body"><img src="../assets/stats.png" alt="Containerstatistikk i sanntid: grafer for CPU, minne, nettverk og disk-I/O" width="3104" height="1986" loading="lazy" decoding="async"></div>
               </div>
               <figcaption><b>Statistikk i sanntid.</b> CPU, minne, nettverk &amp; disk-I/O, målt hvert sekund.</figcaption>
             </figure>
@@ -928,7 +933,7 @@
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
                 <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Vert – Oversikt</span></div>
-                <div class="window-body"><img src="../assets/overview.png" alt="Oversikt over en vert med målere for CPU og minne og diskbruken til Docker" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="window-body"><img src="../assets/overview.png" alt="Oversikt over en vert med målere for CPU og minne og diskbruken til Docker" width="3104" height="1986" loading="lazy" decoding="async"></div>
               </div>
               <figcaption><b>Vertsoversikt.</b> Målere, diskbruk, fakta om daemonen.</figcaption>
             </figure>
@@ -937,7 +942,7 @@
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
                 <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Flåte – Helse</span></div>
-                <div class="window-body"><img src="../assets/dashboard.png" alt="Flåteoversikt over fem verter med synlige helseproblemer" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="window-body"><img src="../assets/fleet.png" alt="Flåteoversikt over fem verter med synlige helseproblemer" width="3364" height="2116" loading="lazy" decoding="async"></div>
               </div>
               <figcaption><b>Flåteoversikt.</b> Hver vert, hvert problem, én skjerm.</figcaption>
             </figure>
@@ -998,7 +1003,7 @@
           </details>
           <details class="faq-item">
             <summary>Kan Gantry utforske en Kubernetes-klynge?</summary>
-            <p>Ja. Delen <b>Kubernetes</b> viser pods, deployments, StatefulSets, DaemonSets, services, ingresser, ConfigMaps, secrets, noder og hendelser for hver kubeconfig-kontekst, og har pod-logger, skall i poden, portvideresending, skalering, omstart av utrulling, sletting og Bruk YAML. Den fungerer med alle klynger, og kontekstene til apple/container-klynger kommer først. Utforskeren bruker <code>kubectl</code>, og Gantry kan installere det med Homebrew. Se <a href="apple-container-kubernetes/#terminal">Kjør Kubernetes på en Mac</a>.</p>
+            <p>Ja. Delen <b>Kubernetes</b> viser pods, deployments, StatefulSets, DaemonSets, services, ingresser, ConfigMaps, secrets, noder og hendelser for hver kubeconfig-kontekst, og har pod-logger, skall i poden, portvideresending, skalering, omstart av utrulling, sletting og Bruk YAML. Gantry snakker selv med Kubernetes-API-et, så du trenger ikke <code>kubectl</code>. Se <a href="apple-container-kubernetes/#terminal">Kjør Kubernetes på en Mac</a>.</p>
           </details>
           <details class="faq-item">
             <summary>Hva sender Forklar feil til Apple Intelligence?</summary>

@@ -178,7 +178,7 @@
           "name": "Kas klastri kasutamiseks Gantrys on vaja kubectl-i?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Praegu jah: Gantry Kubernetese brauser käivitab kubectl-i. Kui see pole installitud, näitab brauser käsku brew install kubectl ja saab selle teie eest käivitada."
+            "text": "Ei. Gantry suhtleb Kubernetese API-ga ise: see loeb kubeconfigi ning loetleb ressursse, voogedastab logisid, avab shelli, suunab porte ja rakendab YAML-i ilma kubectl-ita. Käsuga container cluster create loodud klaster on kohe sirvimiseks valmis."
           }
         },
         {
@@ -331,7 +331,7 @@
 <ul>
   <li>Apple'i kiibiga Mac, macOS 26 ja Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
   <li><code>container</code> CLI 1.5.0 või uuem; soovitatav on 1.7.1. Töösõlmed ja CNI <em>Puudub</em> vajavad versiooni 1.6.0 või uuemat. Töösõlmede suurused ja jagatud tõmmisehoidla vajavad versiooni 1.7.0 või uuemat. Kasutage allkirjastatud installipaketti: versiooni 1.7.1 Homebrew-versioonis pole klastriteenuseid.</li>
-  <li><code>kubectl</code> Kubernetese brauseri ja terminali jaoks. Gantry saab selle Homebrew'ga installida.</li>
+  <li>Gantry Kubernetese brauseri jaoks pole midagi muud vaja. <code>kubectl</code>-i on vaja ainult siis, kui soovite klastrit kasutada ka terminalist.</li>
 </ul>
 
 <h2 id="create">Klastri loomine</h2>
@@ -363,7 +363,7 @@
 
 <h2 id="nodes">Sõlmed ja klastri üksikasjad</h2>
 <p>Klastrite loendis on iga klastri kohta üks rida. Üksikasjade vaates on <strong>Ülevaade</strong> (kubectl-i kontekst, API-server, Kubernetese versioon, tõmmisehoidla, töösõlmed ja nende ressursid, sõlmede võrk), tabel <strong>Sõlmed</strong> ja <strong>Uuri</strong> sõlmede toorandmete jaoks. Tööriistaribal on <strong>Sirvi ressursse</strong> ning menüüs Veel on <strong>Kirjuta kubeconfig</strong>, <strong>Kopeeri kubectl-i konteksti käsk</strong> ja <strong>Kustuta</strong>.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/cluster-overview.png" alt="Klastri ülevaade Gantrys Kubernetese versiooni, tõmmisehoidla ja töösõlmedega" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Klastri ülevaade.</b> Kubernetese versioon, tõmmisehoidla, töösõlmed ja nende ressursid.</figcaption></figure>
 <p>Klastri sõlmed on konteinerid, kuid neid haldab <code>container cluster</code>. Gantry keelab sõlme puhul käivitamise, peatamise, taaskäivitamise, eemaldamise ja ümbernimetamise ning ütleb põhjuse; Käivita kõik ja Peata kõik jätavad sõlmed vahele. CLI 1.7-s peidab CLI sõlmed ka käsu <code>container list</code> väljundist. CLI 1.6-ga või varasemaga loodud klastreid 1.7 loendis ei näidata; eemaldage need käsuga <code>container cluster delete --name &lt;name&gt;</code>.</p>
 
 <h2 id="browser">Klastri sirvimine</h2>
@@ -374,8 +374,8 @@
   <li><strong>Saladused:</strong> väärtused on loendis ja YAML-is varjatud, kuni klõpsate Näita.</li>
   <li><strong>Rakenda YAML:</strong> kleepige manifest või avage fail; vead kuvatakse lehel.</li>
 </ul>
-<p>Brauser käivitab <code>kubectl</code>-i. Kui Gantry seda ei leia, näitab jaotis käsku <code>brew install kubectl</code> ja nuppu, mis selle käivitab.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Gantry suhtleb Kubernetese API-ga ise, kasutades teie kubeconfigis olevaid mandaate. Teil pole vaja <code>kubectl</code>-i ega muud tööriista: käsuga <code>container cluster create</code> loodud klaster on sirvimiseks valmis.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/kubernetes-browser-dev.png" alt="Gantry Kubernetese brauser klastri dev podidega" width="2972" height="1854" loading="lazy" decoding="async"><figcaption><b>Kubernetese brauser.</b> <code>container cluster</code> podid koos logide ja pordisuunamistega.</figcaption></figure>
 
 <h2 id="kubectl">kubectl-i ühendamine</h2>
 <p>CLI lisab klastri loomisel faili <code>~/.kube/config</code> klastri järgi nimetatud konteksti. Kasutage Gantrys käsku <strong>Kopeeri kubectl-i konteksti käsk</strong> või tippige see ise:</p>
@@ -502,7 +502,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Kas saab luua mitme sõlmega klastri?</summary><p>Jah. Määrake loomislehel töösõlmede arv; töösõlmed vajavad CLI versiooni 1.6.0 või uuemat. CLI 1.7-s määrate ka töösõlmede CPU-d ja mälu juhttasandist eraldi.</p></details>
 <details class="faq-item"><summary>Kas saab kasutada oma CNI-d, nt Calicot või Ciliumit?</summary><p>Jah. Valige <b>Kohandatud manifest</b> ja valige manifestifail või valige <b>Puudub</b> ja rakendage CNI ise pärast klastri käivitumist. Sõlmed jäävad olekusse NotReady, kuni mõni CNI töötab. <b>Puudub</b> vajab CLI versiooni 1.6.0 või uuemat. Vaikimisi CNI on kaasasolev kindneti manifest.</p></details>
 <details class="faq-item"><summary>Miks ütleb Gantry, et klastriteenused pole saadaval?</summary><p><code>container</code> teenused ei vastanud klastri käsule. Kui teie CLI on Homebrew-versioon ilma klastriteenusteta, ütleb Gantry seda ja annab lingi allkirjastatud installerile apple/containeri väljalasete lehel. Muul juhul pakub see nuppu <b>Taaskäivita teenused</b>.</p></details>
-<details class="faq-item"><summary>Kas klastri kasutamiseks Gantrys on vaja kubectl-i?</summary><p>Praegu jah: Gantry Kubernetese brauser käivitab <code>kubectl</code>-i. Kui see pole installitud, näitab brauser käsku <code>brew install kubectl</code> ja saab selle teie eest käivitada.</p></details>
+<details class="faq-item"><summary>Kas klastri kasutamiseks Gantrys on vaja kubectl-i?</summary><p>Ei. Gantry suhtleb Kubernetese API-ga ise: see loeb kubeconfigi ning loetleb ressursse, voogedastab logisid, avab shelli, suunab porte ja rakendab YAML-i ilma <code>kubectl</code>-ita. Käsuga <code>container cluster create</code> loodud klaster on kohe sirvimiseks valmis.</p></details>
 <details class="faq-item"><summary>Kas Kubernetest saab Macis käitada ilma Dockerita?</summary><p>Jah. Apple'i <code>container</code> CLI loob Kubernetese klastrid ise käsuga <code>container cluster create</code>. Iga sõlm töötab kerge virtuaalmasinana ning teil pole vaja Dockerit, Docker Desktopi, kindi ega minikube'i.</p></details>
 <details class="faq-item"><summary>Mitu sõlme saab container clusteril olla?</summary><p>Üks juhttasand ja nii palju töösõlmi, kui teie Maci CPU-dest ja mälust jätkub. Määrake need lipuga <code>--workers</code>; CLI 1.7-s saab igal töösõlmede rühmal olla oma CPU-d ja mälu.</p></details>
 <details class="faq-item"><summary>Millist Kubernetese versiooni container cluster kasutab?</summary><p>CLI 1.7.1 kasutab vaikimisi sõlme tõmmist <code>kindest/node:v1.35.5</code>. Teise versiooni valimiseks kasutage lippu <code>--node-image</code>, näiteks <code>docker.io/kindest/node:v1.34.11</code>. Gantry näitab versiooni klastri ülevaates.</p></details>

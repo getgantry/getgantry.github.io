@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Eksterne disker i Gantry",
-          "text": "Gantry kjører allerede bind-monteringer fra hvilken som helst disk: i Ny container legger du til et volum og velger en mappe på den eksterne disken og en sti i containeren.",
+          "text": "På en apple/container-vert viser panelet Lagring i System-delen hvor datarotmappen ligger, på hvilken disk, og hvor mye plass images, containere, øyeblikksbilder, volumer og kjerner bruker. Flytt til en annen disk… stopper tjenestene, kopierer dataene, kontrollerer dem, bytter rotmappe og starter tjenestene igjen; den sletter den gamle kopien først etter en egen bekreftelse. Gantry husker rotmappen ved alle senere oppstarter. Nye volumer kan ligge i en mappe på hvilken som helst disk, og når den disken ikke er tilkoblet, forteller Gantry deg hvilken disk som mangler, og starter ikke containerne som trenger den.",
           "url": "https://getgantry.github.io/nb/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Bruk <code>cp -Rp</code>. I testen vår på macOS 27 (APFS til APFS over USB) beholdt den volumbildene glisne og beholdt de utvidede attributtene. <code>ditto</code> skrev hvert glisne bilde i full størrelse, noe som kan fylle disken. Behold den gamle mappen til du har sjekket at containerne, imagene og volumene dine vises i listene.</p>
 <div class="callout callout-warn"><span class="callout-tag">Merk</span><div>CLI-en husker ikke <code>--app-root</code>. Hver <code>container system start</code> uten flagget bruker den interne mappen igjen. Bruk flagget hver gang, for eksempel i et skallalias, og sjekk <code>paths.appRoot</code> i <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 starter tjenestene uten <code>--app-root</code> når den kobler til en vert der tjenestene er stoppet. Start tjenestene fra terminalen med flagget først; Gantry bruker da tjenestene som kjører.</p>
+<p>Gantry kan gjøre denne flyttingen for deg: se <a href="#gantry">nedenfor</a>.</p>
 
 <ul id="images">Arkiver images på disken</ul>
 <p>Vil du frigjøre plass uten å miste et image, lagrer du det på den eksterne disken og sletter det. Last det inn igjen når du trenger det:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Forsvinner disken mens containere kjører fra den, feiler de, og skriving som pågår, kan gå tapt. Når du har koblet til disken igjen, starter du tjenestene med <code>--app-root</code> og deretter containerne.</p>
 
 <ol id="gantry">Eksterne disker i Gantry</ol>
-<p>Gantry kjører allerede bind-monteringer fra hvilken som helst disk: i <strong>Ny container</strong> legger du til et volum og velger en mappe på den eksterne disken og en sti i containeren.</p>
+<p>På en apple/container-vert viser panelet <strong>Lagring</strong> i System-delen hvor datarotmappen ligger, på hvilken disk, og hvor mye plass images, containere, øyeblikksbilder, volumer og kjerner bruker. <strong>Flytt til en annen disk…</strong> stopper tjenestene, kopierer dataene, kontrollerer dem, bytter rotmappe og starter tjenestene igjen; den sletter den gamle kopien først etter en egen bekreftelse. Gantry husker rotmappen ved alle senere oppstarter. Nye volumer kan ligge i en mappe på hvilken som helst disk, og når den disken ikke er tilkoblet, forteller Gantry deg hvilken disk som mangler, og starter ikke containerne som trenger den.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Lagring-panelet i Gantry: datarotmappen, disken og plassen som er i bruk" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Lagring.</b> Datarotmappen, disken den ligger på, og plassen som er i bruk.</figcaption></figure>
 
 <ol id="docker">Docker Desktop og OrbStack</ol>
 <p>Docker Desktop flytter diskbildet sitt under <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack la til en innstilling for dataplassering i versjon 0.13.0. Se <a href="../compare/">sammenligningen</a>.</p>

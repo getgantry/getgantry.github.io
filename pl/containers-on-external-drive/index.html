@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Dyski zewnętrzne w Gantry",
-          "text": "Gantry już teraz obsługuje montowania katalogów z dowolnego dysku: w Nowy kontener dodaj wolumin, wybierz folder na dysku zewnętrznym i ścieżkę w kontenerze.",
+          "text": "Na hoście apple/container panel Pamięć masowa w sekcji System pokazuje, gdzie jest katalog danych, na którym dysku i ile miejsca zajmują obrazy, kontenery, migawki, woluminy i jądra. Przenieś na inny dysk… zatrzymuje usługi, kopiuje dane, sprawdza je, przełącza katalog i ponownie uruchamia usługi; starą kopię usuwa dopiero po osobnym potwierdzeniu. Gantry zapamiętuje katalog dla każdego kolejnego uruchomienia. Nowe woluminy mogą być w folderze na dowolnym dysku, a gdy ten dysk nie jest podłączony, Gantry podaje, którego dysku brakuje, i nie uruchamia kontenerów, które go potrzebują.",
           "url": "https://getgantry.github.io/pl/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Użyj <code>cp -Rp</code>. W naszym teście na macOS 27 (z APFS na APFS przez USB) zachował rzadkie obrazy woluminów i rozszerzone atrybuty. <code>ditto</code> zapisał każdy rzadki obraz w pełnym rozmiarze, co może zapełnić dysk. Zachowaj stary folder, dopóki nie sprawdzisz, że Twoje kontenery, obrazy i woluminy są na liście.</p>
 <div class="callout callout-warn"><span class="callout-tag">Uwaga</span><div>CLI nie zapamiętuje <code>--app-root</code>. Każde <code>container system start</code> bez tej flagi znowu używa folderu wewnętrznego. Podawaj flagę za każdym razem, na przykład w aliasie powłoki, i sprawdzaj <code>paths.appRoot</code> w <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 uruchamia usługi bez <code>--app-root</code>, gdy łączy się z hostem, którego usługi są zatrzymane. Najpierw uruchom usługi z tą flagą w terminalu; Gantry użyje wtedy działających usług.</p>
+<p>Gantry może zrobić to przeniesienie za Ciebie: zobacz <a href="#gantry">niżej</a>.</p>
 
 <ul id="images">Archiwizacja obrazów na dysku</ul>
 <p>Aby zwolnić miejsce bez utraty obrazu, zapisz go na dysku zewnętrznym i usuń. Gdy będzie potrzebny, wczytaj go ponownie:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Jeśli dysk zniknie, gdy działają z niego kontenery, ulegną one awarii, a trwające zapisy mogą przepaść. Po ponownym podłączeniu dysku uruchom usługi z <code>--app-root</code>, a potem kontenery.</p>
 
 <ol id="gantry">Dyski zewnętrzne w Gantry</ol>
-<p>Gantry już teraz obsługuje montowania katalogów z dowolnego dysku: w <strong>Nowy kontener</strong> dodaj wolumin, wybierz folder na dysku zewnętrznym i ścieżkę w kontenerze.</p>
+<p>Na hoście apple/container panel <strong>Pamięć masowa</strong> w sekcji System pokazuje, gdzie jest katalog danych, na którym dysku i ile miejsca zajmują obrazy, kontenery, migawki, woluminy i jądra. <strong>Przenieś na inny dysk…</strong> zatrzymuje usługi, kopiuje dane, sprawdza je, przełącza katalog i ponownie uruchamia usługi; starą kopię usuwa dopiero po osobnym potwierdzeniu. Gantry zapamiętuje katalog dla każdego kolejnego uruchomienia. Nowe woluminy mogą być w folderze na dowolnym dysku, a gdy ten dysk nie jest podłączony, Gantry podaje, którego dysku brakuje, i nie uruchamia kontenerów, które go potrzebują.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Panel Pamięć masowa w Gantry: katalog danych, jego dysk i zajęte miejsce" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Pamięć masowa.</b> Katalog danych, jego dysk i zajęte miejsce.</figcaption></figure>
 
 <ol id="docker">Docker Desktop i OrbStack</ol>
 <p>Docker Desktop przenosi swój obraz dysku w <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack dodał ustawienie lokalizacji danych w wersji 0.13.0. Zobacz <a href="../compare/">porównanie</a>.</p>

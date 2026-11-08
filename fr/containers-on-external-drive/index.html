@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Les disques externes dans Gantry",
-          "text": "Gantry exécute dès aujourd'hui des montages liés depuis n'importe quel disque : dans Nouveau conteneur, ajoutez un volume, choisissez un dossier sur le disque externe et un chemin dans le conteneur.",
+          "text": "Sur un hôte apple/container, le panneau Stockage de la section Système indique où se trouve la racine des données, sur quel disque, et combien d'espace occupent les images, les conteneurs, les instantanés, les volumes et les noyaux. Déplacer vers un autre disque… arrête les services, copie les données, les vérifie, change de racine et redémarre les services ; il ne supprime l'ancienne copie qu'après une confirmation séparée. Gantry mémorise la racine pour chaque démarrage suivant. Les nouveaux volumes peuvent se trouver dans un dossier sur n'importe quel disque ; quand ce disque n'est pas connecté, Gantry vous indique quel disque manque et ne démarre pas les conteneurs qui en ont besoin.",
           "url": "https://getgantry.github.io/fr/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Utilisez <code>cp -Rp</code>. Lors de notre test sous macOS 27 (d'APFS vers APFS en USB), cette commande a gardé les images des volumes creuses et conservé les attributs étendus. <code>ditto</code> a écrit chaque image creuse à sa taille complète, ce qui peut remplir le disque. Gardez l'ancien dossier tant que vous n'avez pas vérifié que vos conteneurs, images et volumes sont listés.</p>
 <div class="callout callout-warn"><span class="callout-tag">Attention</span><div>La CLI ne mémorise pas <code>--app-root</code>. Chaque <code>container system start</code> sans cette option réutilise le dossier interne. Utilisez l'option à chaque fois, par exemple dans un alias de shell, et vérifiez <code>paths.appRoot</code> dans <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 démarre les services sans <code>--app-root</code> quand il se connecte à un hôte dont les services sont arrêtés. Démarrez d'abord les services depuis le terminal avec l'option ; Gantry utilise ensuite les services en cours d'exécution.</p>
+<p>Gantry peut faire ce déplacement pour vous : voir <a href="#gantry">ci-dessous</a>.</p>
 
 <ul id="images">Archiver des images sur le disque</ul>
 <p>Pour libérer de l'espace sans perdre une image, enregistrez-la sur le disque externe et supprimez-la. Rechargez-la quand vous en avez besoin :</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Si le disque disparaît pendant que des conteneurs s'exécutent depuis celui-ci, ils échouent, et les écritures en cours peuvent être perdues. Après avoir reconnecté le disque, démarrez les services avec <code>--app-root</code>, puis démarrez les conteneurs.</p>
 
 <ol id="gantry">Les disques externes dans Gantry</ol>
-<p>Gantry exécute dès aujourd'hui des montages liés depuis n'importe quel disque : dans <strong>Nouveau conteneur</strong>, ajoutez un volume, choisissez un dossier sur le disque externe et un chemin dans le conteneur.</p>
+<p>Sur un hôte apple/container, le panneau <strong>Stockage</strong> de la section Système indique où se trouve la racine des données, sur quel disque, et combien d'espace occupent les images, les conteneurs, les instantanés, les volumes et les noyaux. <strong>Déplacer vers un autre disque…</strong> arrête les services, copie les données, les vérifie, change de racine et redémarre les services ; il ne supprime l'ancienne copie qu'après une confirmation séparée. Gantry mémorise la racine pour chaque démarrage suivant. Les nouveaux volumes peuvent se trouver dans un dossier sur n'importe quel disque ; quand ce disque n'est pas connecté, Gantry vous indique quel disque manque et ne démarre pas les conteneurs qui en ont besoin.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Panneau Stockage de Gantry : la racine des données, son disque et l’espace utilisé" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Stockage.</b> La racine des données, son disque et l'espace occupé.</figcaption></figure>
 
 <ol id="docker">Docker Desktop et OrbStack</ol>
 <p>Docker Desktop déplace son image disque dans <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack a ajouté un réglage d'emplacement des données dans la version 0.13.0. Voir le <a href="../compare/">comparatif</a>.</p>

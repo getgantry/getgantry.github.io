@@ -178,7 +178,7 @@
           "name": "Ar norint naudoti klasterį Gantry reikia kubectl?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Kol kas taip: Gantry Kubernetes naršyklė vykdo kubectl. Jei jis neįdiegtas, naršyklė parodo komandą brew install kubectl ir gali ją įvykdyti už jus."
+            "text": "Ne. Gantry pati jungiasi prie Kubernetes API: nuskaito kubeconfig, tada be kubectl pateikia išteklių sąrašus, transliuoja žurnalus, atidaro apvalkalą, persiunčia prievadus ir taiko YAML. Klasterį, sukurtą su container cluster create, galima naršyti iškart."
           }
         },
         {
@@ -331,7 +331,7 @@
 <ul>
   <li>Mac su Apple silicon, macOS 26 ir Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
   <li><code>container</code> CLI 1.5.0 arba naujesnė; rekomenduojama 1.7.1. Darbiniams mazgams ir CNI parinkčiai <em>Nėra</em> reikia 1.6.0 arba naujesnės. Darbinių mazgų dydžiams ir bendrai atvaizdų saugyklai reikia 1.7.0 arba naujesnės. Naudokite pasirašytą diegimo paketą: 1.7.1 Homebrew versijoje nėra klasterio paslaugų.</li>
-  <li><code>kubectl</code> Kubernetes naršyklei ir terminalui. Gantry gali jį įdiegti per Homebrew.</li>
+  <li>Gantry Kubernetes naršyklei daugiau nieko nereikia. <code>kubectl</code> reikia tik tada, jei klasterį norite naudoti ir iš terminalo.</li>
 </ul>
 
 <h2 id="create">Klasterio kūrimas</h2>
@@ -363,7 +363,7 @@
 
 <h2 id="nodes">Mazgai ir klasterio informacija</h2>
 <p>Klasterių sąraše kiekvienam klasteriui skirta viena eilutė. Išsamiame rodinyje yra <strong>Apžvalga</strong> (kubectl kontekstas, API serveris, Kubernetes versija, atvaizdų saugykla, darbiniai mazgai ir jų ištekliai, mazgų tinklas), lentelė <strong>Mazgai</strong> ir <strong>Tikrinti</strong> neapdorotiems mazgų duomenims. Įrankių juostoje yra <strong>Naršyti išteklius</strong>, o meniu „Daugiau“ – <strong>Įrašyti kubeconfig</strong>, <strong>Kopijuoti kubectl konteksto komandą</strong> ir <strong>Ištrinti</strong>.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/cluster-overview.png" alt="Klasterio apžvalga Gantry programoje su Kubernetes versija, atvaizdų saugykla ir darbiniais mazgais" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Klasterio apžvalga.</b> Kubernetes versija, atvaizdų saugykla, darbiniai mazgai ir jų ištekliai.</figcaption></figure>
 <p>Klasterio mazgai yra konteineriai, bet juos valdo <code>container cluster</code>. Gantry išjungia mazgo paleidimą, sustabdymą, paleidimą iš naujo, pašalinimą ir pervadinimą ir paaiškina kodėl, o „Paleisti visus“ ir „Sustabdyti visus“ mazgus praleidžia. CLI 1.7 versijoje CLI taip pat slepia mazgus iš <code>container list</code>. Klasteriai, sukurti su CLI 1.6 ar senesne versija, 1.7 sąraše nerodomi; pašalinkite juos komanda <code>container cluster delete --name &lt;name&gt;</code>.</p>
 
 <h2 id="browser">Klasterio naršymas</h2>
@@ -374,8 +374,8 @@
   <li><strong>Slaptieji duomenys:</strong> reikšmės sąraše ir YAML lieka paslėptos, kol spustelėsite „Rodyti“.</li>
   <li><strong>Taikyti YAML:</strong> įklijuokite manifestą arba atidarykite failą; klaidos rodomos tame pačiame lange.</li>
 </ul>
-<p>Naršyklė vykdo <code>kubectl</code>. Jei Gantry jo neranda, skyriuje rodoma komanda <code>brew install kubectl</code> ir mygtukas jai įvykdyti.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Gantry pati jungiasi prie Kubernetes API, naudodama prisijungimo duomenis iš jūsų kubeconfig. Jums nereikia nei <code>kubectl</code>, nei jokio kito įrankio: klasterį, sukurtą su <code>container cluster create</code>, galima naršyti iškart.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/kubernetes-browser-dev.png" alt="Gantry Kubernetes naršyklė su klasterio dev podais" width="2972" height="1854" loading="lazy" decoding="async"><figcaption><b>Kubernetes naršyklė.</b> <code>container cluster</code> podai su žurnalais ir prievadų persiuntimu.</figcaption></figure>
 
 <h2 id="kubectl">kubectl prijungimas</h2>
 <p>Kurdama klasterį CLI į <code>~/.kube/config</code> prideda kontekstą, pavadintą klasterio vardu. Gantry naudokite <strong>Kopijuoti kubectl konteksto komandą</strong> arba įveskite ją patys:</p>
@@ -502,7 +502,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Ar galima sukurti klasterį iš kelių mazgų?</summary><p>Taip. Kūrimo lange nurodykite darbinių mazgų skaičių; darbiniams mazgams reikia CLI 1.6.0 arba naujesnės versijos. CLI 1.7 versijoje darbinių mazgų CPU ir atmintį taip pat nustatote atskirai nuo valdymo plokštumos.</p></details>
 <details class="faq-item"><summary>Ar galima naudoti savo CNI, pavyzdžiui, Calico ar Cilium?</summary><p>Taip. Pasirinkite <b>Pasirinktinis manifestas</b> ir nurodykite manifesto failą arba pasirinkite <b>Nėra</b> ir pritaikykite CNI patys, kai klasteris pasileis. Kol neveikia CNI, mazgai lieka NotReady būsenos. Parinkčiai <b>Nėra</b> reikia CLI 1.6.0 arba naujesnės versijos. Numatytasis CNI yra įtrauktas kindnet manifestas.</p></details>
 <details class="faq-item"><summary>Kodėl Gantry rodo, kad klasterio paslaugos nepasiekiamos?</summary><p><code>container</code> paslaugos neatsakė į klasterio komandą. Jei jūsų CLI yra Homebrew versija be klasterio paslaugų, Gantry tai praneša ir pateikia nuorodą į pasirašytą diegimo programą apple/container leidimų puslapyje. Kitais atvejais ji pasiūlo <b>Paleisti paslaugas iš naujo</b>.</p></details>
-<details class="faq-item"><summary>Ar norint naudoti klasterį Gantry reikia kubectl?</summary><p>Kol kas taip: Gantry Kubernetes naršyklė vykdo <code>kubectl</code>. Jei jis neįdiegtas, naršyklė parodo komandą <code>brew install kubectl</code> ir gali ją įvykdyti už jus.</p></details>
+<details class="faq-item"><summary>Ar norint naudoti klasterį Gantry reikia kubectl?</summary><p>Ne. Gantry pati jungiasi prie Kubernetes API: nuskaito kubeconfig, tada be <code>kubectl</code> pateikia išteklių sąrašus, transliuoja žurnalus, atidaro apvalkalą, persiunčia prievadus ir taiko YAML. Klasterį, sukurtą su <code>container cluster create</code>, galima naršyti iškart.</p></details>
 <details class="faq-item"><summary>Ar galima paleisti Kubernetes Mac kompiuteryje be Docker?</summary><p>Taip. Apple <code>container</code> CLI pati kuria Kubernetes klasterius komanda <code>container cluster create</code>. Kiekvienas mazgas veikia kaip lengva virtualioji mašina, o Docker, Docker Desktop, kind ar minikube nereikia.</p></details>
 <details class="faq-item"><summary>Kiek mazgų gali turėti container cluster?</summary><p>Vieną valdymo plokštumą ir tiek darbinių mazgų, kiek leidžia jūsų Mac CPU ir atmintis. Nustatykite juos su <code>--workers</code>; CLI 1.7 versijoje kiekviena darbinių mazgų grupė gali turėti savo CPU ir atmintį.</p></details>
 <details class="faq-item"><summary>Kurią Kubernetes versiją naudoja container cluster?</summary><p>CLI 1.7.1 pagal numatytuosius nustatymus naudoja mazgo atvaizdą <code>kindest/node:v1.35.5</code>. Kitą versiją pasirinkite su <code>--node-image</code>, pavyzdžiui, <code>docker.io/kindest/node:v1.34.11</code>. Gantry versiją rodo klasterio apžvalgoje.</p></details>

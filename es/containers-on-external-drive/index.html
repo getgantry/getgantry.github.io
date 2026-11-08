@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Discos externos en Gantry",
-          "text": "Gantry ya ejecuta montajes enlazados desde cualquier disco: en Nuevo contenedor, añade un volumen, elige una carpeta del disco externo y una ruta en el contenedor.",
+          "text": "En un host apple/container, el panel Almacenamiento de la sección Sistema muestra dónde está la raíz de datos, en qué disco y cuánto espacio ocupan las imágenes, los contenedores, los snapshots, los volúmenes y los kernels. Mover a otro disco… detiene los servicios, copia los datos, los comprueba, cambia la raíz y vuelve a iniciar los servicios; solo elimina la copia antigua tras una confirmación aparte. Gantry recuerda la raíz para todos los inicios posteriores. Los volúmenes nuevos pueden estar en una carpeta de cualquier disco, y cuando ese disco no está conectado, Gantry te dice qué disco falta y no inicia los contenedores que lo necesitan.",
           "url": "https://getgantry.github.io/es/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Usa <code>cp -Rp</code>. En nuestra prueba en macOS 27 (de APFS a APFS por USB), mantuvo dispersas las imágenes de los volúmenes y conservó los atributos extendidos. <code>ditto</code> escribió cada imagen dispersa con su tamaño completo, lo que puede llenar el disco. Conserva la carpeta antigua hasta comprobar que tus contenedores, imágenes y volúmenes aparecen en las listas.</p>
 <div class="callout callout-warn"><span class="callout-tag">Atención</span><div>La CLI no recuerda <code>--app-root</code>. Cada <code>container system start</code> sin él vuelve a usar la carpeta interna. Usa el parámetro siempre, por ejemplo en un alias del shell, y comprueba <code>paths.appRoot</code> en <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 inicia los servicios sin <code>--app-root</code> cuando se conecta a un host con los servicios detenidos. Inicia antes los servicios desde el terminal con el parámetro; Gantry usará entonces los servicios en ejecución.</p>
+<p>Gantry puede hacer este traslado por ti: consulta <a href="#gantry">más abajo</a>.</p>
 
 <ul id="images">Archivar imágenes en el disco</ul>
 <p>Para liberar espacio sin perder una imagen, guárdala en el disco externo y elimínala. Vuelve a cargarla cuando la necesites:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Si el disco desaparece mientras se ejecutan contenedores desde él, estos fallan, y las escrituras en curso pueden perderse. Cuando vuelvas a conectar el disco, inicia los servicios con <code>--app-root</code> y después los contenedores.</p>
 
 <ol id="gantry">Discos externos en Gantry</ol>
-<p>Gantry ya ejecuta montajes enlazados desde cualquier disco: en <strong>Nuevo contenedor</strong>, añade un volumen, elige una carpeta del disco externo y una ruta en el contenedor.</p>
+<p>En un host apple/container, el panel <strong>Almacenamiento</strong> de la sección Sistema muestra dónde está la raíz de datos, en qué disco y cuánto espacio ocupan las imágenes, los contenedores, los snapshots, los volúmenes y los kernels. <strong>Mover a otro disco…</strong> detiene los servicios, copia los datos, los comprueba, cambia la raíz y vuelve a iniciar los servicios; solo elimina la copia antigua tras una confirmación aparte. Gantry recuerda la raíz para todos los inicios posteriores. Los volúmenes nuevos pueden estar en una carpeta de cualquier disco, y cuando ese disco no está conectado, Gantry te dice qué disco falta y no inicia los contenedores que lo necesitan.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Panel Almacenamiento de Gantry: la raíz de datos, su disco y el espacio usado" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Almacenamiento.</b> La raíz de datos, su disco y el espacio ocupado.</figcaption></figure>
 
 <ol id="docker">Docker Desktop y OrbStack</ol>
 <p>Docker Desktop mueve su imagen de disco en <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack añadió un ajuste de ubicación de datos en la versión 0.13.0. Consulta la <a href="../compare/">comparativa</a>.</p>

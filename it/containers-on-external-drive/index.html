@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Dischi esterni in Gantry",
-          "text": "Gantry esegue già oggi bind mount da qualsiasi disco: in Nuovo container, aggiungi un volume, scegli una cartella sul disco esterno e un percorso nel container.",
+          "text": "Su un host apple/container, il pannello Spazio nella sezione Sistema mostra dove si trova la radice dei dati, su quale disco e quanto spazio occupano immagini, container, snapshot, volumi e kernel. Sposta su un altro disco… arresta i servizi, copia i dati, li verifica, cambia la radice e riavvia i servizi; elimina la vecchia copia solo dopo una conferma separata. Gantry ricorda la radice per tutti gli avvii successivi. I nuovi volumi possono stare in una cartella su qualsiasi disco, e quando quel disco non è collegato Gantry ti dice quale disco manca e non avvia i container che ne hanno bisogno.",
           "url": "https://getgantry.github.io/it/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Usa <code>cp -Rp</code>. Nel nostro test su macOS 27 (da APFS ad APFS via USB), ha mantenuto sparse le immagini dei volumi e ha conservato gli attributi estesi. <code>ditto</code> ha scritto ogni immagine sparsa a piena dimensione, cosa che può riempire il disco. Tieni la vecchia cartella finché non hai verificato che container, immagini e volumi siano elencati.</p>
 <div class="callout callout-warn"><span class="callout-tag">Attenzione</span><div>La CLI non ricorda <code>--app-root</code>. Ogni <code>container system start</code> senza il flag usa di nuovo la cartella interna. Usa il flag ogni volta, per esempio in un alias della shell, e controlla <code>paths.appRoot</code> in <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 avvia i servizi senza <code>--app-root</code> quando si connette a un host con i servizi arrestati. Avvia prima i servizi dal terminale con il flag; Gantry userà poi i servizi in esecuzione.</p>
+<p>Gantry può fare questo spostamento per te: vedi <a href="#gantry">sotto</a>.</p>
 
 <ul id="images">Archivia le immagini sul disco</ul>
 <p>Per liberare spazio senza perdere un'immagine, salvala sul disco esterno ed eliminala. Caricala di nuovo quando ti serve:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Se il disco scompare mentre ci sono container in esecuzione da lì, questi non funzionano più, e le scritture in corso possono andare perse. Dopo aver ricollegato il disco, avvia i servizi con <code>--app-root</code>, poi avvia i container.</p>
 
 <ol id="gantry">Dischi esterni in Gantry</ol>
-<p>Gantry esegue già oggi bind mount da qualsiasi disco: in <strong>Nuovo container</strong>, aggiungi un volume, scegli una cartella sul disco esterno e un percorso nel container.</p>
+<p>Su un host apple/container, il pannello <strong>Spazio</strong> nella sezione Sistema mostra dove si trova la radice dei dati, su quale disco e quanto spazio occupano immagini, container, snapshot, volumi e kernel. <strong>Sposta su un altro disco…</strong> arresta i servizi, copia i dati, li verifica, cambia la radice e riavvia i servizi; elimina la vecchia copia solo dopo una conferma separata. Gantry ricorda la radice per tutti gli avvii successivi. I nuovi volumi possono stare in una cartella su qualsiasi disco, e quando quel disco non è collegato Gantry ti dice quale disco manca e non avvia i container che ne hanno bisogno.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Pannello Spazio di Gantry: la radice dei dati, il suo disco e lo spazio usato" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Archiviazione.</b> La radice dei dati, il suo disco e lo spazio occupato.</figcaption></figure>
 
 <ol id="docker">Docker Desktop e OrbStack</ol>
 <p>Docker Desktop sposta la sua immagine disco in <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack ha aggiunto un'impostazione per la posizione dei dati nella versione 0.13.0. Vedi il <a href="../compare/">confronto</a>.</p>

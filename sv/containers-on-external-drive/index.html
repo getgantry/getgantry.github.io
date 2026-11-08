@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Externa diskar i Gantry",
-          "text": "Gantry kör redan nu bindningsmonteringar från valfri disk: i Ny container lägger du till en volym och väljer en mapp på den externa disken och en sökväg i containern.",
+          "text": "På en apple/container-värd visar panelen Lagring i avsnittet System var datakatalogen finns, på vilken disk, och hur mycket utrymme images, containrar, ögonblicksbilder, volymer och kärnor använder. Flytta till en annan disk… stoppar tjänsterna, kopierar datan, kontrollerar den, byter datakatalog och startar tjänsterna igen; den gamla kopian raderas först efter en separat bekräftelse. Gantry kommer ihåg datakatalogen vid varje senare start. Nya volymer kan ligga i en mapp på valfri disk, och när den disken inte är ansluten talar Gantry om vilken disk som saknas och startar inte de containrar som behöver den.",
           "url": "https://getgantry.github.io/sv/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Använd <code>cp -Rp</code>. I vårt test på macOS 27 (APFS till APFS via USB) förblev volymavbilderna glesa och de utökade attributen behölls. <code>ditto</code> skrev varje gles avbild i full storlek, vilket kan fylla disken. Behåll den gamla mappen tills du har kontrollerat att dina containrar, images och volymer listas.</p>
 <div class="callout callout-warn"><span class="callout-tag">Obs!</span><div>CLI:et kommer inte ihåg <code>--app-root</code>. Varje <code>container system start</code> utan flaggan använder den interna mappen igen. Använd flaggan varje gång, till exempel i ett skalalias, och kontrollera <code>paths.appRoot</code> i <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 startar tjänsterna utan <code>--app-root</code> när den ansluter till en värd vars tjänster är stoppade. Starta tjänsterna från terminalen med flaggan först; Gantry använder då de tjänster som körs.</p>
+<p>Gantry kan göra flytten åt dig: se <a href="#gantry">nedan</a>.</p>
 
 <ul id="images">Arkivera images på disken</ul>
 <p>För att frigöra utrymme utan att förlora en image sparar du den på den externa disken och raderar den. Läs in den igen när du behöver den:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Om disken försvinner medan containrar körs från den misslyckas de, och pågående skrivningar kan gå förlorade. När du har anslutit disken igen startar du tjänsterna med <code>--app-root</code> och sedan containrarna.</p>
 
 <ol id="gantry">Externa diskar i Gantry</ol>
-<p>Gantry kör redan nu bindningsmonteringar från valfri disk: i <strong>Ny container</strong> lägger du till en volym och väljer en mapp på den externa disken och en sökväg i containern.</p>
+<p>På en apple/container-värd visar panelen <strong>Lagring</strong> i avsnittet System var datakatalogen finns, på vilken disk, och hur mycket utrymme images, containrar, ögonblicksbilder, volymer och kärnor använder. <strong>Flytta till en annan disk…</strong> stoppar tjänsterna, kopierar datan, kontrollerar den, byter datakatalog och startar tjänsterna igen; den gamla kopian raderas först efter en separat bekräftelse. Gantry kommer ihåg datakatalogen vid varje senare start. Nya volymer kan ligga i en mapp på valfri disk, och när den disken inte är ansluten talar Gantry om vilken disk som saknas och startar inte de containrar som behöver den.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Gantrys panel Lagring: datakatalogen, dess disk och det använda utrymmet" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Lagring.</b> Datakatalogen, dess disk och det använda utrymmet.</figcaption></figure>
 
 <ol id="docker">Docker Desktop och OrbStack</ol>
 <p>Docker Desktop flyttar sin skivavbild under <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack lade till en inställning för dataplats i version 0.13.0. Se <a href="../compare/">jämförelsen</a>.</p>

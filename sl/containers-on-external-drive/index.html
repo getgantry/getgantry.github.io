@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Zunanji diski v Gantryju",
-          "text": "Gantry že zdaj zaganja vezne priklope s katerega koli diska: v oknu Nov vsebnik dodajte nosilec, izberite mapo na zunanjem disku in pot v vsebniku.",
+          "text": "Na gostitelju apple/container podokno Prostor v razdelku Sistem prikaže, kje je korenska mapa podatkov, na katerem disku in koliko prostora porabijo slike, vsebniki, posnetki, nosilci in jedra. Premakni na drug disk… ustavi storitve, kopira podatke, jih preveri, preklopi korensko mapo in storitve znova zažene; staro kopijo izbriše šele po ločeni potrditvi. Gantry si korensko mapo zapomni za vse poznejše zagone. Novi nosilci so lahko v mapi na katerem koli disku, in ko ta disk ni priključen, vam Gantry pove, kateri disk manjka, in ne zažene vsebnikov, ki ga potrebujejo.",
           "url": "https://getgantry.github.io/sl/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Uporabite <code>cp -Rp</code>. V našem preizkusu v macOS 27 (z APFS na APFS prek USB) je slike nosilcev ohranil redke in ohranil razširjene atribute. <code>ditto</code> je vsako redko sliko zapisal v polni velikosti, kar lahko napolni disk. Staro mapo obdržite, dokler ne preverite, da so vaši vsebniki, slike in nosilci na seznamu.</p>
 <div class="callout callout-warn"><span class="callout-tag">Pozor</span><div>CLI si <code>--app-root</code> ne zapomni. Vsak <code>container system start</code> brez te zastavice znova uporabi notranjo mapo. Zastavico uporabite vsakič, na primer v vzdevku lupine, in preverite <code>paths.appRoot</code> v <code>container system status</code>.</div></div>
-<p>Gantry 0.27.0 zažene storitve brez <code>--app-root</code>, ko se poveže z gostiteljem, katerega storitve so ustavljene. Storitve najprej zaženite iz terminala z zastavico; Gantry nato uporabi storitve, ki že tečejo.</p>
+<p>Gantry lahko to selitev opravi namesto vas: glejte <a href="#gantry">spodaj</a>.</p>
 
 <ul id="images">Arhiviranje slik na disk</ul>
 <p>Če želite sprostiti prostor, ne da bi izgubili sliko, jo shranite na zunanji disk in izbrišite. Ko jo potrebujete, jo znova naložite:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Če disk izgine, medtem ko z njega tečejo vsebniki, ti odpovejo, zapisi v teku pa se lahko izgubijo. Ko disk znova priključite, zaženite storitve z <code>--app-root</code>, nato zaženite vsebnike.</p>
 
 <ol id="gantry">Zunanji diski v Gantryju</ol>
-<p>Gantry že zdaj zaganja vezne priklope s katerega koli diska: v oknu <strong>Nov vsebnik</strong> dodajte nosilec, izberite mapo na zunanjem disku in pot v vsebniku.</p>
+<p>Na gostitelju apple/container podokno <strong>Prostor</strong> v razdelku Sistem prikaže, kje je korenska mapa podatkov, na katerem disku in koliko prostora porabijo slike, vsebniki, posnetki, nosilci in jedra. <strong>Premakni na drug disk…</strong> ustavi storitve, kopira podatke, jih preveri, preklopi korensko mapo in storitve znova zažene; staro kopijo izbriše šele po ločeni potrditvi. Gantry si korensko mapo zapomni za vse poznejše zagone. Novi nosilci so lahko v mapi na katerem koli disku, in ko ta disk ni priključen, vam Gantry pove, kateri disk manjka, in ne zažene vsebnikov, ki ga potrebujejo.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Podokno Prostor v Gantryju: korenska mapa podatkov, njen disk in porabljeni prostor" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Shramba.</b> Korenska mapa podatkov, njen disk in porabljeni prostor.</figcaption></figure>
 
 <ol id="docker">Docker Desktop in OrbStack</ol>
 <p>Docker Desktop svojo sliko diska premakne v <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack je nastavitev za mesto podatkov dodal v različici 0.13.0. Glejte <a href="../compare/">primerjavo</a>.</p>

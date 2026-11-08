@@ -210,7 +210,7 @@
           "@type": "HowToStep",
           "position": 7,
           "name": "Discos externos no Gantry",
-          "text": "O Gantry já executa montagens de associação a partir de qualquer disco: em Novo contentor, adicione um volume, escolha uma pasta no disco externo e um caminho no contentor.",
+          "text": "Num host apple/container, o painel Armazenamento da secção Sistema mostra onde está a raiz de dados, em que disco e quanto espaço ocupam as imagens, os contentores, os snapshots, os volumes e os kernels. Mover para outro disco… para os serviços, copia os dados, verifica-os, muda a raiz e volta a iniciar os serviços; só elimina a cópia antiga depois de uma confirmação à parte. O Gantry memoriza a raiz para todos os arranques seguintes. Os novos volumes podem ficar numa pasta em qualquer disco e, quando esse disco não está ligado, o Gantry indica qual o disco em falta e não inicia os contentores que precisam dele.",
           "url": "https://getgantry.github.io/pt-PT/containers-on-external-drive/#gantry"
         },
         {
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 </div>
 <p>Utilize <code>cp -Rp</code>. No nosso teste no macOS 27 (de APFS para APFS por USB), manteve as imagens dos volumes esparsas e manteve os atributos expandidos. O <code>ditto</code> escreveu cada imagem esparsa com o tamanho total, o que pode encher o disco. Mantenha a pasta antiga até confirmar que os seus contentores, imagens e volumes aparecem nas listas.</p>
 <div class="callout callout-warn"><span class="callout-tag">Atenção</span><div>A CLI não memoriza o <code>--app-root</code>. Cada <code>container system start</code> sem ele volta a usar a pasta interna. Utilize a flag sempre, por exemplo num alias da shell, e verifique <code>paths.appRoot</code> em <code>container system status</code>.</div></div>
-<p>O Gantry 0.27.0 inicia os serviços sem <code>--app-root</code> quando se liga a um host com os serviços parados. Inicie primeiro os serviços no terminal com a flag; o Gantry utiliza depois os serviços em execução.</p>
+<p>O Gantry pode fazer esta mudança por si: consulte <a href="#gantry">abaixo</a>.</p>
 
 <ul id="images">Arquivar imagens no disco</ul>
 <p>Para libertar espaço sem perder uma imagem, guarde-a no disco externo e elimine-a. Volte a carregá-la quando precisar dela:</p>
@@ -355,7 +355,8 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <p>Se o disco desaparecer enquanto há contentores a ser executados a partir dele, estes falham e as escritas em curso podem perder-se. Depois de voltar a ligar o disco, inicie os serviços com <code>--app-root</code> e, em seguida, os contentores.</p>
 
 <ol id="gantry">Discos externos no Gantry</ol>
-<p>O Gantry já executa montagens de associação a partir de qualquer disco: em <strong>Novo contentor</strong>, adicione um volume, escolha uma pasta no disco externo e um caminho no contentor.</p>
+<p>Num host apple/container, o painel <strong>Armazenamento</strong> da secção Sistema mostra onde está a raiz de dados, em que disco e quanto espaço ocupam as imagens, os contentores, os snapshots, os volumes e os kernels. <strong>Mover para outro disco…</strong> para os serviços, copia os dados, verifica-os, muda a raiz e volta a iniciar os serviços; só elimina a cópia antiga depois de uma confirmação à parte. O Gantry memoriza a raiz para todos os arranques seguintes. Os novos volumes podem ficar numa pasta em qualquer disco e, quando esse disco não está ligado, o Gantry indica qual o disco em falta e não inicia os contentores que precisam dele.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Painel Armazenamento do Gantry: a raiz de dados, o seu disco e o espaço usado" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Armazenamento.</b> A raiz de dados, o respetivo disco e o espaço ocupado.</figcaption></figure>
 
 <ol id="docker">Docker Desktop e OrbStack</ol>
 <p>O Docker Desktop muda a sua imagem de disco em <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. O OrbStack acrescentou uma definição de localização dos dados na versão 0.13.0. Consulte a <a href="../compare/">comparação</a>.</p>

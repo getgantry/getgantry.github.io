@@ -178,7 +178,7 @@
           "name": "Potřebuji kubectl pro práci s clusterem v Gantry?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Zatím ano: prohlížeč Kubernetes v Gantry spouští kubectl. Pokud není nainstalovaný, prohlížeč zobrazí příkaz brew install kubectl a může ho spustit za vás."
+            "text": "Ne. Gantry komunikuje s Kubernetes API sama: přečte kubeconfig a pak vypisuje zdroje, streamuje logy, otevírá shell, přesměrovává porty a používá YAML bez kubectl. Cluster vytvořený příkazem container cluster create můžete procházet hned."
           }
         },
         {
@@ -331,7 +331,7 @@
 <ul>
   <li>Mac s Apple silicon, macOS 26 a Gantry (<code>brew install --cask getgantry/tap/gantry</code>).</li>
   <li>CLI <code>container</code> 1.5.0 nebo novější; doporučená je 1.7.1. Pracovní uzly a CNI <em>Žádný</em> vyžadují 1.6.0 nebo novější. Velikosti pracovních uzlů a sdílené úložiště imagů vyžadují 1.7.0 nebo novější. Použijte podepsaný instalační balíček: build 1.7.1 z Homebrew nemá služby clusteru.</li>
-  <li><code>kubectl</code> pro prohlížeč Kubernetes a terminál. Gantry ho umí nainstalovat přes Homebrew.</li>
+  <li>Pro prohlížeč Kubernetes v Gantry nic dalšího. <code>kubectl</code> jen tehdy, když chcete cluster používat i z terminálu.</li>
 </ul>
 
 <h2 id="create">Vytvoření clusteru</h2>
@@ -363,7 +363,7 @@
 
 <h2 id="nodes">Uzly a podrobnosti clusteru</h2>
 <p>Seznam clusterů má pro každý cluster jeden řádek. Podrobné zobrazení obsahuje <strong>Přehled</strong> (kontext kubectl, server API, verze Kubernetes, úložiště imagů, pracovní uzly a jejich prostředky, síť uzlů), tabulku <strong>Uzly</strong> a <strong>Inspekce</strong> se surovými daty uzlů. Na panelu nástrojů je <strong>Procházet zdroje</strong> a v nabídce Další <strong>Zapsat kubeconfig</strong>, <strong>Kopírovat příkaz kubectl pro kontext</strong> a <strong>Smazat</strong>.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #nodes" file="assets/shots/0.27.0/cluster-overview.png" -->
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/cluster-overview.png" alt="Přehled clusteru v Gantry s verzí Kubernetes, úložištěm imagů a pracovními uzly" width="3104" height="1986" loading="lazy" decoding="async"><figcaption><b>Přehled clusteru.</b> Verze Kubernetes, úložiště imagů, pracovní uzly a jejich prostředky.</figcaption></figure>
 <p>Uzly clusteru jsou kontejnery, ale patří <code>container cluster</code>. Gantry u uzlu zakáže spuštění, zastavení, restart, odstranění a přejmenování a vysvětlí proč; Spustit vše a Zastavit vše uzly přeskočí. V CLI 1.7 skrývá uzly v <code>container list</code> i samotné CLI. Clustery vytvořené v CLI 1.6 nebo starším se v seznamu 1.7 nezobrazí; odstraňte je příkazem <code>container cluster delete --name &lt;name&gt;</code>.</p>
 
 <h2 id="browser">Procházení clusteru</h2>
@@ -374,8 +374,8 @@
   <li><strong>Secrety:</strong> hodnoty jsou v seznamu i v YAML skryté, dokud nekliknete na Zobrazit.</li>
   <li><strong>Použít YAML:</strong> vložte manifest nebo otevřete soubor; chyby se zobrazí v listu.</li>
 </ul>
-<p>Prohlížeč spouští <code>kubectl</code>. Pokud ho Gantry nenajde, sekce zobrazí <code>brew install kubectl</code> s tlačítkem, které příkaz spustí.</p>
-<!-- TODO-SCREENSHOT section="page apple-container-kubernetes, section #browser" file="assets/shots/0.27.0/kubernetes-browser-dev.png" -->
+<p>Gantry komunikuje s Kubernetes API sama, s přihlašovacími údaji z vašeho kubeconfig. Nepotřebujete <code>kubectl</code> ani jiný nástroj: cluster vytvořený příkazem <code>container cluster create</code> je hned připravený k procházení.</p>
+<figure class="guide-shot"><img src="../../assets/shots/0.27.0/kubernetes-browser-dev.png" alt="Prohlížeč Kubernetes v Gantry s pody clusteru dev" width="2972" height="1854" loading="lazy" decoding="async"><figcaption><b>Prohlížeč Kubernetes.</b> Pody clusteru <code>container cluster</code> s logy a přesměrováním portů.</figcaption></figure>
 
 <h2 id="kubectl">Připojení kubectl</h2>
 <p>Při vytváření clusteru přidá CLI do <code>~/.kube/config</code> kontext pojmenovaný podle clusteru. Použijte v Gantry <strong>Kopírovat příkaz kubectl pro kontext</strong>, nebo ho napište ručně:</p>
@@ -502,7 +502,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Jde vytvořit cluster s více uzly?</summary><p>Ano. Počet pracovních uzlů nastavte v listu pro vytvoření; pracovní uzly vyžadují CLI 1.6.0 nebo novější. V CLI 1.7 nastavíte také CPU a paměť pracovních uzlů odděleně od řídicí roviny.</p></details>
 <details class="faq-item"><summary>Můžu použít vlastní CNI, například Calico nebo Cilium?</summary><p>Ano. Zvolte <b>Vlastní manifest</b> a vyberte soubor manifestu, nebo zvolte <b>Žádný</b> a CNI nasaďte sami po spuštění clusteru. Dokud CNI neběží, uzly zůstávají ve stavu NotReady. <b>Žádný</b> vyžaduje CLI 1.6.0 nebo novější. Výchozí CNI je vestavěný manifest kindnet.</p></details>
 <details class="faq-item"><summary>Proč Gantry hlásí, že služby clusteru nejsou dostupné?</summary><p>Služby <code>container</code> neodpověděly na příkaz clusteru. Pokud je vaše CLI build z Homebrew bez služeb clusteru, Gantry to oznámí a odkáže na podepsaný instalátor na stránce vydání apple/container. Jinak nabídne <b>Restartovat služby</b>.</p></details>
-<details class="faq-item"><summary>Potřebuji kubectl pro práci s clusterem v Gantry?</summary><p>Zatím ano: prohlížeč Kubernetes v Gantry spouští <code>kubectl</code>. Pokud není nainstalovaný, prohlížeč zobrazí příkaz <code>brew install kubectl</code> a může ho spustit za vás.</p></details>
+<details class="faq-item"><summary>Potřebuji kubectl pro práci s clusterem v Gantry?</summary><p>Ne. Gantry komunikuje s Kubernetes API sama: přečte kubeconfig a pak vypisuje zdroje, streamuje logy, otevírá shell, přesměrovává porty a používá YAML bez <code>kubectl</code>. Cluster vytvořený příkazem <code>container cluster create</code> můžete procházet hned.</p></details>
 <details class="faq-item"><summary>Mohu na Macu spustit Kubernetes bez Dockeru?</summary><p>Ano. CLI <code>container</code> od Applu vytváří clustery Kubernetes samo příkazem <code>container cluster create</code>. Každý uzel běží jako odlehčený virtuální stroj a nepotřebujete Docker, Docker Desktop, kind ani minikube.</p></details>
 <details class="faq-item"><summary>Kolik uzlů může mít container cluster?</summary><p>Jednu řídicí rovinu a tolik pracovních uzlů, na kolik má váš Mac CPU a paměť. Nastavte je příznakem <code>--workers</code>; v CLI 1.7 může mít každá skupina pracovních uzlů vlastní CPU a paměť.</p></details>
 <details class="faq-item"><summary>Jakou verzi Kubernetes používá container cluster?</summary><p>CLI 1.7.1 ve výchozím stavu používá image uzlu <code>kindest/node:v1.35.5</code>. Jinou verzi zvolíte příznakem <code>--node-image</code>, například <code>docker.io/kindest/node:v1.34.11</code>. Gantry ukazuje verzi v přehledu clusteru.</p></details>

@@ -40,16 +40,16 @@ description: "Task list for the Gantry 0.29.0 landing update"
 
 ## Phase 4: Languages (US1)
 
-- [ ] T020 [US1] Translate the new and changed strings into 25 languages with `build/i18n/<lang>.ui.json` and the glossaries
-- [ ] T021 [US1] Merge each language with `scripts/i18n_delta.py apply`
-- [ ] T022 [US1] Run `python3 build_pages.py --check`
+- [x] T020 [US1] Translate the new and changed strings into 25 languages with `build/i18n/<lang>.ui.json` and the glossaries
+- [x] T021 [US1] Merge each language with `scripts/i18n_delta.py apply`
+- [x] T022 [US1] Run `python3 build_pages.py --check`
 
 ## Phase 5: Build and check (US4)
 
-- [ ] T023 [US4] Run `build_docs.py` and `build_pages.py`
-- [ ] T024 [US4] Run `scripts/check_links.py`
-- [ ] T025 Open the pages in the Orca browser at desktop width and phone width. Make sure that all images load.
-- [ ] T026 Compare the text length of each page with `main`. Make sure that no page lost text.
+- [x] T023 [US4] Run `build_docs.py` and `build_pages.py`
+- [x] T024 [US4] Run `scripts/check_links.py`. Result: 0 problems. One marker stays for `paste-command.png` (T008).
+- [x] T025 Open the pages in the Orca browser at desktop width and phone width. Make sure that all images load. Result: 9 pages at 390 px, no broken image, no horizontal scroll.
+- [x] T026 Compare the text length of each page with `main`. Make sure that no page lost text. Result: 201 pages, 0 shorter.
 
 ## Phase 6: Pull request
 

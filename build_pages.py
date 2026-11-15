@@ -314,16 +314,26 @@ def callout_warn(body, label):
     return f'<div class="callout callout-warn"><span class="callout-tag">{label}</span><div>{body}</div></div>'
 
 
-def shot(key, alt, caption, root, indent="", label=""):
+def png_size(path):
+    with open(path, "rb") as f:
+        head = f.read(24)
+    return int.from_bytes(head[16:20], "big"), int.from_bytes(head[20:24], "big")  # PNG IHDR
+
+
+def shot(key, alt, caption, root, indent="", label="", eager=False):
     section, rel_path = SHOTS[key]
     if not os.path.exists(os.path.join(ROOT, rel_path)):
         return f'{indent}<!-- TODO-SCREENSHOT section="{section}" file="{rel_path}" -->'
-    with open(os.path.join(ROOT, rel_path), "rb") as f:
-        head = f.read(24)
-    width, height = int.from_bytes(head[16:20], "big"), int.from_bytes(head[20:24], "big")  # PNG IHDR
-    return (f'{indent}<figure class="guide-shot"><img src="{root}{rel_path}" alt="{html.escape(alt, quote=True)}" '
-            f'width="{width}" height="{height}" loading="lazy" decoding="async"><figcaption>{label}{caption}</figcaption>'
-            f'</figure>')
+    width, height = png_size(os.path.join(ROOT, rel_path))
+    load = 'fetchpriority="high"' if eager else 'loading="lazy"'
+    img = (f'<img src="{root}{rel_path}" alt="{html.escape(alt, quote=True)}" '
+           f'width="{width}" height="{height}" {load} decoding="async">')
+    # scripts/make_images.py writes the WebP copies; without them the page keeps the PNG only.
+    webp = [(w, rel_path[:-4] + f"-{w}.webp") for w in (800, 1600)]
+    if all(os.path.exists(os.path.join(ROOT, p)) for _, p in webp):
+        srcset = ", ".join(dict((min(w, width), f"{root}{p} {min(w, width)}w") for w, p in webp).values())
+        img = f'<picture><source type="image/webp" srcset="{srcset}" sizes="(max-width: 800px) 100vw, 760px">{img}</picture>'
+    return f'{indent}<figure class="guide-shot">{img}<figcaption>{label}{caption}</figcaption></figure>'
 
 
 def callout_note(body, label):
@@ -459,7 +469,7 @@ def render_home(langs, lang, t):
             ("home_usage", "home-usage", h["latest"]["shot_fleet_alt"], h["latest"]["shot_fleet_caption"]),
             ("home_explain", "home-explain", h["new"]["shot_explain_alt"], h["new"]["shot_explain_caption"]),
             ("home_menubar", "home-menubar", h["latest"]["shot_menubar_alt"], h["latest"]["shot_menubar_caption"])]
-    ctx["shots"] = {name: shot(key, alt, cap, root, "            ",
+    ctx["shots"] = {name: shot(key, alt, cap, root, "            ", eager=(i == 1), label=
                                f'<span class="fig-n">{h["ia"]["fig"]} {i}</span>')
                     for i, (name, key, alt, cap) in enumerate(figs, 1)}
     ctx["cmd_rows"] = [t["guide"]["table"][i][:2] for i in HOME_COMMANDS]

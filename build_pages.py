@@ -90,16 +90,21 @@ GUIDE_CODE = {
 # Screenshots of features: key -> (section, path). Until the file exists, the page has a TODO-SCREENSHOT comment
 # in its place. Each release has its own folder under assets/shots/.
 SHOTS = {
-    "home-dashboard": ("home, section #new (new design)", "assets/shots/0.27.0/dashboard.png"),
-    "home-kube": ("home, section #new (Kubernetes browser)", "assets/shots/0.27.0/kubernetes-browser.png"),
-    "home-explain": ("home, section #new (Explain Failure)", "assets/shots/0.27.0/explain-failure.png"),
-    "home-usage": ("home, section #latest (Resource Usage)", "assets/shots/0.29.0/fleet-activity.png"),
-    "home-menubar": ("home, section #latest (menu bar progress)", "assets/shots/0.29.0/menu-bar-progress.png"),
+    "home-dashboard": ("home, title block (dashboard)", "assets/shots/0.27.0/dashboard.png"),
+    "home-stats": ("home, section #features (container stats)", "assets/stats.png"),
+    "home-kube": ("home, section #kubernetes (Kubernetes browser)", "assets/shots/0.27.0/kubernetes-browser.png"),
+    "home-fleet": ("home, section #fleet (fleet dashboard)", "assets/fleet.png"),
+    "home-overview": ("home, section #fleet (host overview)", "assets/overview.png"),
+    "home-usage": ("home, section #fleet (Resource Usage)", "assets/shots/0.29.0/fleet-activity.png"),
+    "home-explain": ("home, section #logs (Explain Failure)", "assets/shots/0.27.0/explain-failure.png"),
+    "home-menubar": ("home, section #macos (menu bar progress)", "assets/shots/0.29.0/menu-bar-progress.png"),
     "k8s-browser": ("page apple-container-kubernetes, section #browser", "assets/shots/0.27.0/kubernetes-browser-dev.png"),
     "paste-command": ("guide docker-run-to-container, section #paste", "assets/shots/0.29.0/paste-command.png"),
     "storage-pane": ("guide containers-on-external-drive, section #gantry", "assets/shots/0.27.0/storage-pane.png"),
     "cluster-overview": ("page apple-container-kubernetes, section #nodes", "assets/shots/0.27.0/cluster-overview.png"),
 }
+# Rows of guide.table that the home page shows in the section "Command to control".
+HOME_COMMANDS = [0, 2, 3, 4, 5, 6, 9, 12, 13, 26, 27, 28]
 DOCS = [("index", "weekly", "0.8"), ("install", "monthly", "0.7"), ("apple-container", "monthly", "0.8"),
         ("menu-bar", "monthly", "0.5"), ("hosts", "monthly", "0.6"), ("containers", "monthly", "0.6"),
         ("ports", "monthly", "0.5"), ("dns", "monthly", "0.6"), ("images-compose", "monthly", "0.6"),
@@ -309,7 +314,7 @@ def callout_warn(body, label):
     return f'<div class="callout callout-warn"><span class="callout-tag">{label}</span><div>{body}</div></div>'
 
 
-def shot(key, alt, caption, root, indent=""):
+def shot(key, alt, caption, root, indent="", label=""):
     section, rel_path = SHOTS[key]
     if not os.path.exists(os.path.join(ROOT, rel_path)):
         return f'{indent}<!-- TODO-SCREENSHOT section="{section}" file="{rel_path}" -->'
@@ -317,7 +322,7 @@ def shot(key, alt, caption, root, indent=""):
         head = f.read(24)
     width, height = int.from_bytes(head[16:20], "big"), int.from_bytes(head[20:24], "big")  # PNG IHDR
     return (f'{indent}<figure class="guide-shot"><img src="{root}{rel_path}" alt="{html.escape(alt, quote=True)}" '
-            f'width="{width}" height="{height}" loading="lazy" decoding="async"><figcaption>{caption}</figcaption>'
+            f'width="{width}" height="{height}" loading="lazy" decoding="async"><figcaption>{label}{caption}</figcaption>'
             f'</figure>')
 
 
@@ -445,20 +450,20 @@ def render_home(langs, lang, t):
     root = "" if lang["code"] == "en" else "../"
     ctx = base_ctx(langs, lang, t, "", root, 8)
     ctx["ld"] = home_ld(langs, lang["code"], t, ctx["url"])
-    n = t["home"]["new"]
-    ctx["shots"] = {
-        "home_dashboard": shot("home-dashboard", n["shot_dash_alt"], n["shot_dash_caption"], root, "        "),
-        "home_kube": shot("home-kube", n["shot_kube_alt"], n["shot_kube_caption"], root, "            "),
-        "home_explain": shot("home-explain", n["shot_explain_alt"], n["shot_explain_caption"], root, "            "),
-        "home_usage": shot("home-usage", t["home"]["latest"]["shot_fleet_alt"], t["home"]["latest"]["shot_fleet_caption"],
-                           root, "        "),
-        "home_menubar": shot("home-menubar", t["home"]["latest"]["shot_menubar_alt"],
-                             t["home"]["latest"]["shot_menubar_caption"], root, "            "),
-    }
-    fleet = t["home"]["features"]["fleet"]
-    ctx["hostlist_attrs"] = "" if lang["code"] == "en" else (
-        f' data-running="{html.escape(fleet["running"], quote=True)}"'
-        f' data-unhealthy="{html.escape(fleet["unhealthy"], quote=True)}"')
+    h = t["home"]
+    figs = [("home_hero", "home-dashboard", h["new"]["shot_dash_alt"], h["ia"]["fig_dash_caption"]),
+            ("home_stats", "home-stats", h["shots"]["stats_alt"], h["shots"]["stats_caption"]),
+            ("home_kube", "home-kube", h["new"]["shot_kube_alt"], h["new"]["shot_kube_caption"]),
+            ("home_fleet", "home-fleet", h["shots"]["fleet_alt"], h["shots"]["fleet_caption"]),
+            ("home_overview", "home-overview", h["shots"]["overview_alt"], h["shots"]["overview_caption"]),
+            ("home_usage", "home-usage", h["latest"]["shot_fleet_alt"], h["latest"]["shot_fleet_caption"]),
+            ("home_explain", "home-explain", h["new"]["shot_explain_alt"], h["new"]["shot_explain_caption"]),
+            ("home_menubar", "home-menubar", h["latest"]["shot_menubar_alt"], h["latest"]["shot_menubar_caption"])]
+    ctx["shots"] = {name: shot(key, alt, cap, root, "            ",
+                               f'<span class="fig-n">{h["ia"]["fig"]} {i}</span>')
+                    for i, (name, key, alt, cap) in enumerate(figs, 1)}
+    ctx["cmd_rows"] = [t["guide"]["table"][i][:2] for i in HOME_COMMANDS]
+    ctx["version"] = APP_VERSION
     return render(template("home.html"), ctx)
 
 

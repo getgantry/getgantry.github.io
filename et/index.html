@@ -146,7 +146,7 @@
         "applicationSubCategory": "Konteinerite haldus",
         "operatingSystem": "macOS 26",
         "processorRequirements": "Apple'i kiip või Intel (apple/containeri hostid vajavad Apple'i kiipi)",
-        "softwareVersion": "0.27.0",
+        "softwareVersion": "0.29.0",
         "inLanguage": [
           "en",
           "zh-Hans",
@@ -198,6 +198,14 @@
           "Kubernetese brauser: podid, Deploymentid, teenused, saladused, sündmused, logid, shell, pordisuunamine, skaleerimine, YAML-i rakendamine",
           "Selgita tõrget Apple Intelligence'i abil (seadmes või Private Cloud Compute'is, saladused eemaldatakse)",
           "Käsupalett (Command-K) ja hulgitoimingud mitme konteineri, tõmmise, köite või võrguga",
+          "Ressursikasutus: kõigi hostide töötavate konteinerite üks sorditav tabel",
+          "Koostamiste ajalugu sammude, vahemälutabamuste ja logidega, sh docker buildx history",
+          "Tõmmiste turvaaukude skannimine Trivy või Grype'iga ja SBOM-i eksport (CycloneDX, SPDX)",
+          "Võtmerõnga saladused konteineri keskkonnamuutujatena, mida kunagi lihttekstina ei näidata",
+          "Töötavate konteinerite eksport Compose'i failina, saladused muutujatena",
+          "Logide eksport praeguse filtri ja ajavahemikuga",
+          "Tõmbamise, koostamise ja Compose'i edenemine menüüribal, nupuga Tühista",
+          "Ekraanipildid funktsioonis Selgita tõrget, loetakse ainult seadmes",
           "Konteineri loomine kleebitud docker run, podman run või container run käsust; konteineri kopeerimine käsuna; retseptid",
           "Teavituste toimingud, Spotlight, Siri ja Otseteed, taristu vidin, Juhtimiskeskuse juhtelemendid ja gantry:// lingid",
           "Konteinermasinad: loomine, käivitamine, peatamine, ressursid, shell, pesastatud virtualiseerimine, kohandatud tuumad",
@@ -466,7 +474,7 @@
         <span>Gantry</span>
       </a>
       <nav class="nav-links">
-        <a href="#new">Uut</a>
+        <a href="#latest">Uut</a>
         <a href="#features">Funktsioonid</a>
         <a href="#fleet">Hostid</a>
         <a href="apple-container/">apple/container</a>
@@ -601,6 +609,61 @@
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/></svg>apple/container</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg>Kubernetes</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>Kaug-SSH</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEW IN 0.28.0 AND 0.29.0 ===================== -->
+    <section class="section" id="latest">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Uut versioonides 0.28 ja 0.29</span>
+          <h2>Kõik hostid ühes tabelis ja turvalisemad tõmmised</h2>
+          <p>Gantry 0.28.0 ja 0.29.0 lisavad kõigi hostide ühise tegevuste tabeli, koostamiste ajaloo, tõmmiste skannimise Trivy või Grype'iga, võtmerõnga saladused konteineri keskkonna jaoks ja ekspordi Compose'i. Saate eksportida logid oma filtriga, anda funktsioonile Selgita tõrget ekraanipildi ning jälgida tõmbamisi, koostamisi ja Compose'i käivitusi menüüribal.</p>
+        </div>
+        <figure class="guide-shot"><img src="../assets/shots/0.29.0/fleet-activity.png" alt="Ressursikasutuse tabel apple/containeri hosti ja Dockeri hosti töötavate konteineritega, sorditud CPU järgi" width="1856" height="580" loading="lazy" decoding="async"><figcaption><b>Ressursikasutus.</b> Kõigi hostide kõik töötavad konteinerid, sorditud CPU järgi.</figcaption></figure>
+        <div class="bento">
+          <div class="cell col-4 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 9v11"/></svg></div>
+            <h3>Kõigi hostide ressursikasutus</h3>
+            <p>Üks sorditav tabel iga ühendatud hosti töötavate konteineritega: host, nimi, tõmmis, CPU, mälu, võrgu I/O, ketta I/O ja tööaeg. Filtreerige nime, tõmmise või hosti järgi või näidake ühte hosti. Konteineri avamiseks topeltklõpsake rida. Tabel kasutab näidiseid, mida Gantry niikuinii iga 5 sekundi järel võtab, nii et see ei ava uusi statistikavooge. Avage see külgribalt, klahvidega <span class="kbd">⌘K</span> või lingiga <code>gantry://open/usage</code>.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg></div>
+            <h3>Edenemine menüüribal</h3>
+            <p>Menüüriba paneel näitab iga käimasolevat tõmbamist, koostamist ja Compose'i toimingut koos edenemisriba, valmis kihtide või teenuste, baitide, aja ja nupuga <b>Tühista</b>. Menüüriba ikoon näitab, mitu toimingut käib. Igal Compose'i projektil on <b>Tõmba tõmmised</b> ja <b>Compose Down</b>; Compose Down säilitab köited ja tõmmised.</p>
+            <figure class="guide-shot"><img src="../assets/shots/0.29.0/menu-bar-progress.png" alt="Menüüriba paneel kahe käimasoleva tõmmise tõmbamisega, nende kihtide, baitide ja nuppudega Tühista" width="640" height="460" loading="lazy" decoding="async"><figcaption><b>Tegevused menüüribal.</b> Iga tõmbamise kihid, baidid, aeg ja tühistamine.</figcaption></figure>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Tõmmiste skannimine Trivy või Grype'iga</h3>
+            <p>Valige tõmmisel <b>Skanni turvaauke…</b>. Gantry käivitab teie installitud Trivy (0.50.0 või uuem) või Grype'i (0.74.0 või uuem), näiteks Homebrew' kaudu installitu, ja rühmitab leiud taseme järgi kriitilisest kuni teadmatuni. <b>Ekspordi SBOM</b> kirjutab CycloneDX-i või Trivyga SPDX-i. See töötab apple/containeris, kohalikus Dockeris ja SSH kaudu Dockeris; SSH kaudu skannib Gantry sildiga tõmmise registris olevat koopiat.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 6l4 4-9 9H5v-4z"/><path d="m12 8 4 4"/><path d="M15 3l6 6"/></svg></div>
+            <h3>Koostamiste ajalugu</h3>
+            <p>Igal hostil on jaotis <b>Koostamised</b>: koostamised sammude, vahemälutabamuste ja logiga. Gantry säilitab enda käivitatud koostamised koos koostamisargumentide nimedega, kuid ilma nende väärtusteta. Dockeri hostides loeb see ka käsu <code>docker buildx history</code> andmeid (buildx 0.23.0 või uuem). apple/container koostamiste ajalugu ei säilita, nii et seal näete Gantry käivitatud koostamisi.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></div>
+            <h3>Võtmerõnga saladused keskkonnas</h3>
+            <p>Hoidke paroole ja pääsutõendeid macOS-i võtmerõngas (<b>Seaded → Saladused</b>) ja kasutage neid keskkonnamuutujatena vormides Uus konteiner ja Kiirkäivitus. Vorm näitab <code>keychain:NAME</code>, mitte väärtust, ja Gantry loeb väärtuse alles konteineri loomisel. Compose'i eksport, retseptid ja Kopeeri käsuna kirjutavad nime, mitte väärtust.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 13v7M13 16.5l3.5 3.5 3.5-3.5"/></svg></div>
+            <h3>Eksport Compose'ina</h3>
+            <p>Valige ühel või mitmel konteineril <b>Ekspordi Compose'ina…</b> ja saate faili <code>docker-compose.yml</code> portide, haakepunktide, võrkude, taaskäivituspoliitika, seisukontrolli, piirangute ja muuga. Saladustena näivad väärtused muutuvad kujule <code>${NAME}</code>, kui te neid ei kaasa. apple/containeri hostides hoiatab Gantry lippude eest, mida Compose väljendada ei saa. <a href="docker-run-to-container/#compose">Kuidas see töötab</a></p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h10l4 4v12H5z"/><path d="M8 11h8M8 15h5"/></svg></div>
+            <h3>Logide eksport</h3>
+            <p><b>Ekspordi logid…</b> (<span class="kbd">⇧⌘E</span>) salvestab nähtavad read koos tasemefiltri, otsingu ja ajavahemikuga faili <code>.log</code> või <code>.txt</code>. <b>Kopeeri nähtavad read</b> kopeerib need. Dockeri hostides saate lisada ajatemplid ja näidata ainult viimaseid kirjeid: alates viimasest 5 minutist kuni viimase ööpäevani.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></div>
+            <h3>Ekraanipildid funktsioonis Selgita tõrget</h3>
+            <p>Lohistage, kleepige või lisage funktsiooni Selgita tõrget kuni 3 pilti, näiteks vealehe ekraanipilt. Pildid jäävad sellesse Maci: neid loeb ainult seadmesisene mudel (macOS 27), mitte kunagi Private Cloud Compute.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -941,10 +1004,10 @@
           <div class="shot reveal d1">
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
-                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Hostid – Seisund</span></div>
-                <div class="window-body"><img src="../assets/fleet.png" alt="Viie hosti juhtpaneel, kus seisundiprobleemid on esile toodud" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Töölaud</span></div>
+                <div class="window-body"><img src="../assets/fleet.png" alt="Hostide juhtpaneel apple/containeri hosti ja Dockeri hostiga, nende CPU, mälu ja enim koormavad konteinerid" width="1856" height="1190" loading="lazy" decoding="async"></div>
               </div>
-              <figcaption><b>Hostide juhtpaneel.</b> Iga host, iga probleem, üks ekraan.</figcaption>
+              <figcaption><b>Hostide juhtpaneel.</b> Iga host, selle koormus ja enim koormavad konteinerid ühel ekraanil.</figcaption>
             </figure>
           </div>
         </div>

@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Pulpit floty w Gantry z hostami Docker i apple/container">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kontener z polecenia docker run na Macu (docker run na container run)">
   <meta name="twitter:description" content="Wklej polecenie docker run do Gantry, a dostaniesz gotowy formularz kontenera albo przekształć docker run na container run od Apple ręcznie: flagi, które pasują i które nie, oraz przepisy.">
@@ -67,7 +67,7 @@
       "description": "Wklej polecenie docker run do Gantry, a dostaniesz gotowy formularz kontenera albo przekształć docker run na container run od Apple ręcznie: flagi, które pasują i które nie, oraz przepisy.",
       "url": "https://getgantry.github.io/pl/docker-run-to-container/",
       "inLanguage": "pl",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "Eksport kontenera jako Compose",
+          "text": "Aby zachować kontener jako plik, kliknij go prawym przyciskiem albo użyj menu Więcej i wybierz Eksportuj jako Compose…. Zaznacz kilka kontenerów, aby umieścić je w jednym pliku. Gantry zapisuje docker-compose.yml z jedną usługą dla każdego kontenera: porty, montowania, sieci, polityka ponownego uruchamiania, test stanu zdrowia, limity, capabilities i logowanie. Nazwane woluminy i sieci są oznaczone jako external: true.",
+          "url": "https://getgantry.github.io/pl/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Sekrety poza poleceniem",
+          "text": "-e PASSWORD=… w poleceniu łatwo ujawnić. W formularzu Nowy kontener otwórz menu z kluczem w wierszu zmiennej środowiskowej i wybierz Zapisz wartość w pęku kluczy… albo wybierz sekret dodany w Ustawienia → Sekrety. Wiersz pokazuje wtedy keychain:NAME z kłódką, a nie wartość.",
+          "url": "https://getgantry.github.io/pl/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Zapisywanie jako przepis",
           "text": "W arkuszu Nowy kontener otwórz Przepisy i wybierz Zapisz jako przepis…. Następnym razem Wypełnij z przepisu da ten sam formularz na dowolnym hoście. Przepisy są w ~/Library/Application Support/Gantry/recipes.json, więc możesz zrobić ich kopię zapasową lub je udostępnić.",
           "url": "https://getgantry.github.io/pl/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Ograniczenia",
           "text": "Gantry zachowuje ścieżkę --env-file, ale nie odczytuje pliku, i nie odczytuje Twojej powłoki dla -e KEY bez wartości. Montowania tmpfs i anonimowe woluminy z --mount są oznaczane jako nieobsługiwane. Dwa porty dla tego samego portu kontenera (-p 8080:80 -p 8081:80) wypełniają formularz, ale formularz potem odrzuca duplikat.",
           "url": "https://getgantry.github.io/pl/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Kliknij <strong>Wypełnij formularz</strong>, sprawdź wartości i utwórz kontener.</li>
 </ol>
 <p>Gantry odczytuje <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> i <code>container run</code>. Tekst po <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> lub <code>|</code> jest pomijany, z uwagą.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Które flagi wypełniają formularz</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Kopiowanie kontenera jako polecenia</ul>
 <p>Działa to też w drugą stronę. Kliknij kontener prawym przyciskiem lub użyj menu Więcej i wybierz <strong>Kopiuj jako polecenie</strong>: Gantry zapisze wiersz <code>docker run</code> lub <code>container run</code>. Pomija wartości domyślne obrazu, takie jak jego środowisko i polecenie, więc wiersz pozostaje krótki. Działa to także dla zatrzymanych kontenerów.</p>
 
+<ul id="compose">Eksport kontenera jako Compose</ul>
+<p>Aby zachować kontener jako plik, kliknij go prawym przyciskiem albo użyj menu Więcej i wybierz <strong>Eksportuj jako Compose…</strong>. Zaznacz kilka kontenerów, aby umieścić je w jednym pliku. Gantry zapisuje <code>docker-compose.yml</code> z jedną usługą dla każdego kontenera: porty, montowania, sieci, polityka ponownego uruchamiania, test stanu zdrowia, limity, capabilities i logowanie. Nazwane woluminy i sieci są oznaczone jako <code>external: true</code>.</p>
+<ul>
+  <li>Wartości, które wyglądają na sekrety, stają się zmiennymi <code>${NAME}</code>. W sekcji <strong>Wartości poufne</strong> dołącz te, które chcesz mieć w pliku. Plik z wartością sekretu jest zapisywany z uprawnieniami 0600.</li>
+  <li>Na hostach apple/container sekcja <strong>Ostrzeżenia</strong> wymienia flagi, których Compose nie potrafi wyrazić, takie jak <code>--kernel</code>, <code>--rosetta</code> lub <code>--ssh</code>.</li>
+  <li>Kliknij <strong>Kopiuj</strong> lub <strong>Zachowaj…</strong>.</li>
+</ul>
+
+<ul id="secrets">Sekrety poza poleceniem</ul>
+<p><code>-e PASSWORD=…</code> w poleceniu łatwo ujawnić. W formularzu Nowy kontener otwórz menu z kluczem w wierszu zmiennej środowiskowej i wybierz <strong>Zapisz wartość w pęku kluczy…</strong> albo wybierz sekret dodany w <strong>Ustawienia → Sekrety</strong>. Wiersz pokazuje wtedy <code>keychain:NAME</code> z kłódką, a nie wartość.</p>
+<p>Gantry odczytuje wartość z pęku kluczy tylko podczas tworzenia kontenera. <strong>Kopiuj jako polecenie</strong>, przepisy i eksport Compose zapisują <code>keychain:NAME</code>. Karta Inspekcja pokazuje <code>KEY=[REDACTED]</code>. Silnik nadal przechowuje wartość, więc <code>docker inspect</code> lub <code>container inspect</code> poza Gantry może ją pokazać.</p>
+
 <ul id="recipes">Zapisywanie jako przepis</ul>
 <p>W arkuszu Nowy kontener otwórz <strong>Przepisy</strong> i wybierz <strong>Zapisz jako przepis…</strong>. Następnym razem <strong>Wypełnij z przepisu</strong> da ten sam formularz na dowolnym hoście. Przepisy są w <code>~/Library/Application Support/Gantry/recipes.json</code>, więc możesz zrobić ich kopię zapasową lub je udostępnić.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Czy mogę zamienić działający kontener z powrotem na polecenie docker run?</summary><p>Tak. <strong>Kopiuj jako polecenie</strong> w menu kontenera zapisuje wiersz <code>docker run</code> lub <code>container run</code> dla tego kontenera.</p></details>
 </div>
 
-<p class="updated">Ostatnia aktualizacja: 2026-11-07.</p>
+<p class="updated">Ostatnia aktualizacja: 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Start</a>

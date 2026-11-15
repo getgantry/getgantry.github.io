@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Dashboard della flotta di Gantry con host Docker e apple/container">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GUI per Apple container su Mac: guida completa ad apple/container">
   <meta name="twitter:description" content="Cos&#x27;è lo strumento container di Apple, come installarlo e come lo gestisce Gantry: ogni comando della CLI container e la sua funzione, da Compose a Kubernetes.">
@@ -67,7 +67,7 @@
       "description": "Cos'è lo strumento container di Apple, come installarlo e come lo gestisce Gantry: ogni comando della CLI container e la sua funzione, da Compose a Kubernetes.",
       "url": "https://getgantry.github.io/it/apple-container/",
       "inLanguage": "it",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -255,17 +255,17 @@
 <tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Pannello Nuovo container ed Esecuzione rapida: immagine, nome, comando, porte, ambiente, volumi, dominio DNS, kernel personalizzato e argomenti di avvio; <strong>Incolla comando…</strong> legge una riga <code>docker run</code> o <code>container run</code></td><td>Qualsiasi</td></tr>
 <tr><th scope="row"><code>container list --all</code></th><td>Elenco dei container, raggruppati per progetto Compose, con filtri per stato e ricerca</td><td>Qualsiasi</td></tr>
 <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Barra degli strumenti, menu contestuale e pannello nella barra dei menu</td><td>Qualsiasi</td></tr>
-<tr><th scope="row"><code>container logs</code></th><td>Scheda Log: scorrimento automatico in tempo reale, ricerca regex, filtro per livello, colori ANSI</td><td>Qualsiasi</td></tr>
-<tr><th scope="row"><code>container stats</code></th><td>Scheda Statistiche e sparkline della dashboard della flotta</td><td>Qualsiasi</td></tr>
+<tr><th scope="row"><code>container logs</code></th><td>Scheda Log: scorrimento automatico in tempo reale, ricerca regex, filtro per livello, colori ANSI; <strong>Esporta log…</strong> salva le righe visibili</td><td>Qualsiasi</td></tr>
+<tr><th scope="row"><code>container stats</code></th><td>Scheda Statistiche, sparkline della dashboard della flotta e tabella Uso delle risorse</td><td>Qualsiasi</td></tr>
 <tr><th scope="row"><code>container exec</code></th><td>Scheda Terminale (shell interattiva) e scheda Processi</td><td>Qualsiasi</td></tr>
-<tr><th scope="row"><code>container inspect</code></th><td>Schede Panoramica e Ispeziona</td><td>Qualsiasi</td></tr>
+<tr><th scope="row"><code>container inspect</code></th><td>Schede Panoramica e Ispeziona; <strong>Esporta come Compose…</strong> trasforma la configurazione in un file Compose</td><td>Qualsiasi</td></tr>
 <tr><th scope="row"><code>container export</code></th><td>Esporta file system (tar)</td><td>Qualsiasi</td></tr>
 <tr><th scope="row"><code>container commit</code></th><td>Salva come immagine</td><td>1.6</td></tr>
 <tr><th scope="row"><code>container copy</code></th><td>Scheda File: download e trascinamento nel Finder (il container deve essere avviato)</td><td>Qualsiasi; testato con 1.6.1</td></tr>
 <tr><th scope="row"><code>container exec</code> con <code>tar</code></th><td>Scheda File: caricamento di file e trascinamento di intere cartelle dal Finder</td><td>Qualsiasi</td></tr>
 <tr><th scope="row"><code>container clean</code></th><td>Compatta disco su un container in esecuzione e una riga in Recupera spazio</td><td>1.4</td></tr>
-<tr><th scope="row"><code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code></th><td>Immagini: download con avanzamento, tag, rimozione, pulizia, ispezione</td><td>Qualsiasi</td></tr>
-<tr><th scope="row"><code>container build</code></th><td>Crea le immagini dei servizi <code>build:</code> di un file Compose</td><td>Qualsiasi</td></tr>
+<tr><th scope="row"><code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code></th><td>Immagini: download con avanzamento, tag, rimozione, pulizia, ispezione; <strong>Cerca vulnerabilità…</strong> con Trivy o Grype</td><td>Qualsiasi</td></tr>
+<tr><th scope="row"><code>container build</code></th><td>Crea le immagini dei servizi <code>build:</code> di un file Compose; la sezione <strong>Build</strong> elenca le build avviate da Gantry</td><td>Qualsiasi</td></tr>
 <tr><th scope="row"><code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code></th><td>Volumi</td><td>Qualsiasi</td></tr>
 <tr><th scope="row"><code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code></th><td>Reti</td><td>Qualsiasi</td></tr>
 <tr><th scope="row"><code>--network &lt;name&gt;,alias=…</code></th><td>Alias DNS di rete, alias di sottoalbero (<code>.gateway</code>) e nomi dei servizi Compose</td><td>Qualsiasi; testato con 1.6.1</td></tr>
@@ -335,7 +335,7 @@
 <details class="faq-item"><summary>Quale versione della CLI container conviene installare?</summary><p>Gantry richiede la 1.0 o successiva e consiglia la 1.7.1. Installala con il pacchetto di installazione firmato dalla <a href="https://github.com/apple/container/releases">pagina delle release di apple/container</a>. La build Homebrew non include il backend delle macchine né, nella 1.7.1, i servizi del cluster, quindi <code>container machine</code> e <code>container cluster</code> non funzionano con essa.</p></details>
 </div>
 
-<p class="updated">Ultimo aggiornamento: 2026-11-07.</p>
+<p class="updated">Ultimo aggiornamento: 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Home</a>

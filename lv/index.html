@@ -146,7 +146,7 @@
         "applicationSubCategory": "Konteineru pārvaldība",
         "operatingSystem": "macOS 26",
         "processorRequirements": "Apple silicon vai Intel (apple/container resursdatoriem nepieciešams Apple silicon)",
-        "softwareVersion": "0.27.0",
+        "softwareVersion": "0.29.0",
         "inLanguage": [
           "en",
           "zh-Hans",
@@ -198,6 +198,14 @@
           "Kubernetes pārlūks: podi, Deployments, pakalpojumi, noslēpumi, notikumi, žurnāli, čaula, porta pārsūtīšana, mērogošana, YAML lietošana",
           "Kļūmju skaidrojums ar Apple Intelligence (ierīcē vai Private Cloud Compute, noslēpumi tiek noņemti)",
           "Komandu palete (Command-K) un vienas darbības vairākiem konteineriem, attēliem, sējumiem vai tīkliem vienlaikus",
+          "Resursu lietojums: viena kārtojama tabula ar visu resursdatoru darbojošos konteineriem",
+          "Būvējumu vēsture ar soļiem, kešatmiņas trāpījumiem un žurnāliem, arī docker buildx history",
+          "Attēlu ievainojamību skenēšana ar Trivy vai Grype un SBOM eksports (CycloneDX, SPDX)",
+          "Atslēgu piekariņa noslēpumi kā konteinera vides mainīgie, kas nekad netiek rādīti atklātā tekstā",
+          "Darbojošos konteineru eksports Compose failā, noslēpumi kā mainīgie",
+          "Žurnālu eksports ar pašreizējo filtru un laika periodu",
+          "Lejupielādes, būvēšanas un Compose norise izvēļņu joslā, ar pogu „Atcelt”",
+          "Ekrānuzņēmumi funkcijā „Izskaidrot kļūmi”, apstrāde tikai ierīcē",
           "Konteinera izveide no ielīmētas docker run, podman run vai container run komandas; konteinera kopēšana kā komandas; receptes",
           "Darbības paziņojumos, Spotlight, Siri un Īsceļi, infrastruktūras logrīks, Vadības centra vadīklas un gantry:// saites",
           "Konteineru mašīnas: izveide, startēšana, apturēšana, resursi, čaula, ligzdotā virtualizācija, pielāgoti kodoli",
@@ -466,7 +474,7 @@
         <span>Gantry</span>
       </a>
       <nav class="nav-links">
-        <a href="#new">Jaunumi</a>
+        <a href="#latest">Jaunumi</a>
         <a href="#features">Iespējas</a>
         <a href="#fleet">Parks</a>
         <a href="apple-container/">apple/container</a>
@@ -601,6 +609,61 @@
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/></svg>apple/container</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg>Kubernetes</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>Attālais SSH</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEW IN 0.28.0 AND 0.29.0 ===================== -->
+    <section class="section" id="latest">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Jaunumi 0.28 un 0.29</span>
+          <h2>Viss parks vienā tabulā un drošāki attēli</h2>
+          <p>Gantry 0.28.0 un 0.29.0 pievieno vienu darbību tabulu visiem resursdatoriem, būvējumu vēsturi, attēlu skenēšanu ar Trivy vai Grype, atslēgu piekariņa noslēpumus konteinera videi un eksportu uz Compose. Varat eksportēt žurnālus ar savu filtru, dot funkcijai „Izskaidrot kļūmi” ekrānuzņēmumu un sekot lejupielādēm, būvējumiem un Compose palaišanām izvēļņu joslā.</p>
+        </div>
+        <figure class="guide-shot"><img src="../assets/shots/0.29.0/fleet-activity.png" alt="Resursu lietojuma tabula ar apple/container resursdatora un Docker resursdatora darbojošos konteineriem, sakārtota pēc CPU" width="1856" height="580" loading="lazy" decoding="async"><figcaption><b>Resursu lietojums.</b> Visi visu resursdatoru darbojošies konteineri, sakārtoti pēc CPU.</figcaption></figure>
+        <div class="bento">
+          <div class="cell col-4 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 9v11"/></svg></div>
+            <h3>Visu resursdatoru resursu lietojums</h3>
+            <p>Viena kārtojama tabula ar darbojošos konteineriem katrā savienotajā resursdatorā: resursdators, nosaukums, attēls, CPU, atmiņa, tīkla I/O, diska I/O un darbības laiks. Filtrējiet pēc nosaukuma, attēla vai resursdatora vai rādiet vienu resursdatoru. Veiciet dubultklikšķi uz rindas, lai atvērtu konteineru. Tabula izmanto paraugus, ko Gantry jau ņem ik pēc 5 sekundēm, tāpēc tā neatver jaunas statistikas plūsmas. Atveriet to no sānjoslas, ar <span class="kbd">⌘K</span> vai ar <code>gantry://open/usage</code>.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg></div>
+            <h3>Norise izvēļņu joslā</h3>
+            <p>Izvēļņu joslas panelis rāda katru notiekošo lejupielādi, būvēšanu un Compose darbību ar norises joslu, pabeigtajiem slāņiem vai pakalpojumiem, baitiem, laiku un pogu <b>Atcelt</b>. Izvēļņu joslas ikona rāda, cik darbību notiek. Katram Compose projektam ir <b>Lejupielādēt attēlus</b> un <b>Compose Down</b>; Compose Down saglabā sējumus un attēlus.</p>
+            <figure class="guide-shot"><img src="../assets/shots/0.29.0/menu-bar-progress.png" alt="Izvēļņu joslas panelis ar divām notiekošām attēlu lejupielādēm, to slāņiem, baitiem un pogām „Atcelt”" width="640" height="460" loading="lazy" decoding="async"><figcaption><b>Darbības izvēļņu joslā.</b> Slāņi, baiti, laiks un atcelšana katrai lejupielādei.</figcaption></figure>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Attēlu skenēšana ar Trivy vai Grype</h3>
+            <p>Attēlam izvēlieties <b>Skenēt ievainojamības…</b>. Gantry palaiž jūsu instalēto Trivy (0.50.0 vai jaunāku) vai Grype (0.74.0 vai jaunāku), piemēram, no Homebrew, un grupē atradumus pēc līmeņa no kritiskā līdz nezināmajam. <b>Eksportēt SBOM</b> ieraksta CycloneDX vai, ar Trivy, SPDX. Tas darbojas ar apple/container, lokālo Docker un Docker caur SSH; Docker caur SSH gadījumā Gantry skenē tagota attēla kopiju reģistrā.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 6l4 4-9 9H5v-4z"/><path d="m12 8 4 4"/><path d="M15 3l6 6"/></svg></div>
+            <h3>Būvējumu vēsture</h3>
+            <p>Katram resursdatoram ir sadaļa <b>Būvējumi</b>: būvējumi ar soļiem, kešatmiņas trāpījumiem un žurnālu. Gantry glabā būvējumus, ko pati sāk, ar būvēšanas argumentu nosaukumiem, bet bez to vērtībām. Docker resursdatoros tā arī nolasa <code>docker buildx history</code> (buildx 0.23.0 vai jaunāka). apple/container neglabā būvējumu vēsturi, tāpēc tur redzami būvējumi, ko sāka Gantry.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></div>
+            <h3>Atslēgu piekariņa noslēpumi vidē</h3>
+            <p>Glabājiet paroles un marķierus macOS atslēgu piekariņā (<b>Iestatījumi → Noslēpumi</b>) un izmantojiet tos kā vides mainīgos logos „Jauns konteiners” un „Ātrā palaišana”. Veidlapā redzams <code>keychain:NAME</code>, nevis vērtība, un Gantry nolasa vērtību tikai tad, kad izveido konteineru. Compose eksports, receptes un „Kopēt kā komandu” ieraksta nosaukumu, nevis vērtību.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 13v7M13 16.5l3.5 3.5 3.5-3.5"/></svg></div>
+            <h3>Eksports kā Compose</h3>
+            <p>Vienam vai vairākiem konteineriem izvēlieties <b>Eksportēt kā Compose…</b>, lai iegūtu <code>docker-compose.yml</code> ar portiem, montējumiem, tīkliem, restartēšanas politiku, veselības pārbaudi, ierobežojumiem un citu. Vērtības, kas izskatās pēc noslēpumiem, kļūst par <code>${NAME}</code>, ja vien tās neiekļaujat. apple/container resursdatoros Gantry brīdina par karodziņiem, ko Compose nevar izteikt. <a href="docker-run-to-container/#compose">Kā tas darbojas</a></p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h10l4 4v12H5z"/><path d="M8 11h8M8 15h5"/></svg></div>
+            <h3>Žurnālu eksports</h3>
+            <p><b>Eksportēt žurnālus…</b> (<span class="kbd">⇧⌘E</span>) saglabā redzamās rindas ar līmeņa filtru, meklēšanu un laika periodu <code>.log</code> vai <code>.txt</code> failā. <b>Kopēt redzamās rindas</b> tās nokopē. Docker resursdatoros varat pievienot laikspiedolus un rādīt tikai pēdējos ierakstus: no 5 minūtēm līdz dienai.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></div>
+            <h3>Ekrānuzņēmumi funkcijā „Izskaidrot kļūmi”</h3>
+            <p>Funkcijā „Izskaidrot kļūmi” ievelciet, ielīmējiet vai pievienojiet līdz 3 attēliem, piemēram, kļūdas lapas ekrānuzņēmumu. Attēli paliek šajā Mac datorā: tos lasa tikai modelis ierīcē (macOS 27), nekad Private Cloud Compute.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -941,10 +1004,10 @@
           <div class="shot reveal d1">
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
-                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Parks — Veselība</span></div>
-                <div class="window-body"><img src="../assets/fleet.png" alt="Piecu resursdatoru parka informācijas panelis ar izceltām veselības problēmām" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Informācijas panelis</span></div>
+                <div class="window-body"><img src="../assets/fleet.png" alt="Parka informācijas panelis ar apple/container resursdatoru un Docker resursdatoru, to CPU, atmiņu un aktīvākajiem konteineriem" width="1856" height="1190" loading="lazy" decoding="async"></div>
               </div>
-              <figcaption><b>Parka informācijas panelis.</b> Visi resursdatori, visas problēmas, viens ekrāns.</figcaption>
+              <figcaption><b>Parka informācijas panelis.</b> Visi resursdatori, to slodze un aktīvākie konteineri vienā ekrānā.</figcaption>
             </figure>
           </div>
         </div>

@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Таблото на Gantry с хостове на Docker и apple/container">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Създаване на контейнер от команда docker run на Mac (docker run към container run)">
   <meta name="twitter:description" content="Поставете команда docker run в Gantry и получете готов формуляр за контейнер или преобразувайте docker run в container run на Apple ръчно: кои флагове съответстват, кои не, и рецепти.">
@@ -67,7 +67,7 @@
       "description": "Поставете команда docker run в Gantry и получете готов формуляр за контейнер или преобразувайте docker run в container run на Apple ръчно: кои флагове съответстват, кои не, и рецепти.",
       "url": "https://getgantry.github.io/bg/docker-run-to-container/",
       "inLanguage": "bg",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "Експортиране на контейнера като Compose",
+          "text": "За да запазите контейнер като файл, щракнете с десния бутон върху него или използвайте менюто „Още“ и изберете Експортирай като Compose…. Изберете няколко контейнера, за да ги поставите в един файл. Gantry записва docker-compose.yml с по една услуга за всеки контейнер: портове, монтирания, мрежи, политика за рестартиране, проверка на състоянието, ограничения, capabilities и логване. Именуваните томове и мрежи са отбелязани с external: true.",
+          "url": "https://getgantry.github.io/bg/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Пазете тайните извън командата",
+          "text": "-e PASSWORD=… в команда лесно изтича. Във формуляра „Нов контейнер“ отворете менюто с ключ на ред от средата и изберете Запази стойността в Ключодържателя… или изберете тайна, която сте добавили в Настройки → Тайни. След това редът показва keychain:NAME с катинар, а не стойността.",
+          "url": "https://getgantry.github.io/bg/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Запазване като рецепта",
           "text": "В листа „Нов контейнер“ отворете Рецепти и изберете Запази като рецепта…. Следващия път Попълни от рецепта дава същия формуляр на всеки хост. Рецептите са в ~/Library/Application Support/Gantry/recipes.json, така че можете да ги архивирате или споделите.",
           "url": "https://getgantry.github.io/bg/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Ограничения",
           "text": "Gantry запазва пътя от --env-file, но не чете файла и не чете вашата обвивка за -e KEY без стойност. tmpfs монтиранията и анонимните томове от --mount се изброяват като неподдържани. Два порта за един и същ порт на контейнера (-p 8080:80 -p 8081:80) попълват формуляра, но след това формулярът отказва дубликата.",
           "url": "https://getgantry.github.io/bg/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Щракнете <strong>Попълни формуляра</strong>, проверете стойностите и създайте контейнера.</li>
 </ol>
 <p>Gantry чете <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> и <code>container run</code>. Текстът след <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> или <code>|</code> се пренебрегва, с бележка.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Кои флагове попълват формуляра</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Копиране на контейнер като команда</ul>
 <p>Работи и в обратната посока. Щракнете с десния бутон върху контейнер или използвайте менюто „Още“ и изберете <strong>Копирай като команда</strong>: Gantry записва ред <code>docker run</code> или <code>container run</code>. Пропуска стойностите по подразбиране на образа, като средата и командата му, така че редът остава кратък. Работи и за спрени контейнери.</p>
 
+<ul id="compose">Експортиране на контейнера като Compose</ul>
+<p>За да запазите контейнер като файл, щракнете с десния бутон върху него или използвайте менюто „Още“ и изберете <strong>Експортирай като Compose…</strong>. Изберете няколко контейнера, за да ги поставите в един файл. Gantry записва <code>docker-compose.yml</code> с по една услуга за всеки контейнер: портове, монтирания, мрежи, политика за рестартиране, проверка на състоянието, ограничения, capabilities и логване. Именуваните томове и мрежи са отбелязани с <code>external: true</code>.</p>
+<ul>
+  <li>Стойностите, които приличат на тайни, стават променливи <code>${NAME}</code>. В <strong>Тайни стойности</strong> включете тези, които искате във файла. Файл с тайна стойност се записва с права 0600.</li>
+  <li>На хостове с apple/container <strong>Предупреждения</strong> изброява флаговете, които Compose не може да изрази, като <code>--kernel</code>, <code>--rosetta</code> или <code>--ssh</code>.</li>
+  <li>Щракнете <strong>Копирай</strong> или <strong>Запази…</strong>.</li>
+</ul>
+
+<ul id="secrets">Пазете тайните извън командата</ul>
+<p><code>-e PASSWORD=…</code> в команда лесно изтича. Във формуляра „Нов контейнер“ отворете менюто с ключ на ред от средата и изберете <strong>Запази стойността в Ключодържателя…</strong> или изберете тайна, която сте добавили в <strong>Настройки → Тайни</strong>. След това редът показва <code>keychain:NAME</code> с катинар, а не стойността.</p>
+<p>Gantry чете стойността от Ключодържателя само когато създава контейнера. <strong>Копирай като команда</strong>, рецептите и експортирането към Compose записват <code>keychain:NAME</code>. Разделът „Инспектирай“ показва <code>KEY=[REDACTED]</code>. Средата (engine) все пак съхранява стойността, така че <code>docker inspect</code> или <code>container inspect</code> извън Gantry може да я покаже.</p>
+
 <ul id="recipes">Запазване като рецепта</ul>
 <p>В листа „Нов контейнер“ отворете <strong>Рецепти</strong> и изберете <strong>Запази като рецепта…</strong>. Следващия път <strong>Попълни от рецепта</strong> дава същия формуляр на всеки хост. Рецептите са в <code>~/Library/Application Support/Gantry/recipes.json</code>, така че можете да ги архивирате или споделите.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Мога ли да превърна работещ контейнер обратно в команда docker run?</summary><p>Да. <strong>Копирай като команда</strong> в менюто на контейнера записва ред <code>docker run</code> или <code>container run</code> за този контейнер.</p></details>
 </div>
 
-<p class="updated">Последна актуализация: 2026-11-07.</p>
+<p class="updated">Последна актуализация: 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Начало</a>

@@ -146,7 +146,7 @@
         "applicationSubCategory": "Управление контейнерами",
         "operatingSystem": "macOS 26",
         "processorRequirements": "Apple silicon или Intel (для хостов apple/container нужен Apple silicon)",
-        "softwareVersion": "0.27.0",
+        "softwareVersion": "0.29.0",
         "inLanguage": [
           "en",
           "zh-Hans",
@@ -198,6 +198,14 @@
           "Браузер Kubernetes: поды, Deployments, сервисы, секреты, события, логи, оболочка, проброс портов, масштабирование, применение YAML",
           "«Объяснить сбой» с Apple Intelligence (на устройстве или в Private Cloud Compute, секреты удаляются)",
           "Палитра команд (Command-K) и групповые действия над несколькими контейнерами, образами, томами или сетями",
+          "«Использование ресурсов»: одна сортируемая таблица запущенных контейнеров на всех хостах",
+          "История сборок с шагами, попаданиями в кэш и логами, включая docker buildx history",
+          "Проверка образов на уязвимости с Trivy или Grype и экспорт SBOM (CycloneDX, SPDX)",
+          "Секреты из Связки ключей как переменные окружения контейнера, без показа в открытом виде",
+          "Экспорт запущенных контейнеров в файл Compose, секреты — как переменные",
+          "Экспорт логов с текущим фильтром и периодом",
+          "Прогресс скачивания, сборки и Compose в строке меню, с кнопкой «Отменить»",
+          "Снимки экрана в «Объяснить сбой», обработка только на устройстве",
           "Создание контейнера из вставленной команды docker run, podman run или container run; копирование контейнера как команды; шаблоны",
           "Действия в уведомлениях, Spotlight, Siri и «Быстрые команды», виджет парка хостов, элементы Пункта управления и ссылки gantry://",
           "Машины container: создание, запуск, остановка, ресурсы, оболочка, вложенная виртуализация, свои ядра",
@@ -466,7 +474,7 @@
         <span>Gantry</span>
       </a>
       <nav class="nav-links">
-        <a href="#new">Новое</a>
+        <a href="#latest">Новое</a>
         <a href="#features">Возможности</a>
         <a href="#fleet">Парк</a>
         <a href="apple-container/">apple/container</a>
@@ -601,6 +609,61 @@
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/></svg>apple/container</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg>Kubernetes</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>Удалённые SSH-хосты</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEW IN 0.28.0 AND 0.29.0 ===================== -->
+    <section class="section" id="latest">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Новое в 0.28 и 0.29</span>
+          <h2>Весь парк в одной таблице и более безопасные образы</h2>
+          <p>В Gantry 0.28.0 и 0.29.0 появились общая таблица активности для всех хостов, история сборок, проверка образов с Trivy или Grype, секреты из Связки ключей для окружения контейнера и экспорт в Compose. Можно экспортировать логи с вашим фильтром, передать «Объяснить сбой» снимок экрана и следить за скачиванием, сборками и запусками Compose в строке меню.</p>
+        </div>
+        <figure class="guide-shot"><img src="../assets/shots/0.29.0/fleet-activity.png" alt="Таблица «Использование ресурсов» с запущенными контейнерами хоста apple/container и хоста Docker, отсортированная по CPU" width="1856" height="580" loading="lazy" decoding="async"><figcaption><b>Использование ресурсов.</b> Все запущенные контейнеры всех хостов, отсортированные по CPU.</figcaption></figure>
+        <div class="bento">
+          <div class="cell col-4 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 9v11"/></svg></div>
+            <h3>Использование ресурсов на всех хостах</h3>
+            <p>Одна сортируемая таблица запущенных контейнеров на всех подключённых хостах: хост, имя, образ, CPU, память, сетевой и дисковый ввод-вывод, время работы. Фильтруйте по имени, образу или хосту либо покажите один хост. Двойной щелчок по строке открывает контейнер. Таблица берёт измерения, которые Gantry и так делает каждые 5 секунд, поэтому не открывает новых потоков статистики. Откройте её из бокового меню, через <span class="kbd">⌘K</span> или по ссылке <code>gantry://open/usage</code>.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg></div>
+            <h3>Прогресс в строке меню</h3>
+            <p>Панель в строке меню показывает каждое текущее скачивание, сборку и операцию Compose: полосу прогресса, готовые слои или сервисы, байты, время и кнопку <b>Отменить</b>. Значок в строке меню показывает, сколько операций выполняется. У каждого проекта Compose есть <b>Скачать образы</b> и <b>Compose Down</b>; Compose Down сохраняет тома и образы.</p>
+            <figure class="guide-shot"><img src="../assets/shots/0.29.0/menu-bar-progress.png" alt="Панель в строке меню с двумя идущими скачиваниями образов, их слоями, байтами и кнопками «Отменить»" width="640" height="460" loading="lazy" decoding="async"><figcaption><b>Активность в строке меню.</b> Слои, байты, время и отмена для каждого скачивания.</figcaption></figure>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Проверка образов с Trivy или Grype</h3>
+            <p>Выберите <b>Проверить на уязвимости…</b> для образа. Gantry запускает установленный вами Trivy (0.50.0 или новее) или Grype (0.74.0 или новее), например из Homebrew, и группирует находки по уровню: от критического до неизвестного. <b>Экспортировать SBOM</b> записывает CycloneDX, а с Trivy — также SPDX. Это работает на apple/container, локальном Docker и Docker по SSH; на Docker по SSH Gantry проверяет копию образа с тегом в реестре.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 6l4 4-9 9H5v-4z"/><path d="m12 8 4 4"/><path d="M15 3l6 6"/></svg></div>
+            <h3>История сборок</h3>
+            <p>У каждого хоста есть раздел <b>Сборки</b>: сборки с шагами, попаданиями в кэш и логом. Gantry хранит сборки, которые запускает сам, с именами аргументов сборки, но без их значений. На хостах Docker он также читает <code>docker buildx history</code> (buildx 0.23.0 или новее). apple/container не хранит историю сборок, поэтому там видны сборки, которые запустил Gantry.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></div>
+            <h3>Секреты из Связки ключей в окружении</h3>
+            <p>Храните пароли и токены в Связке ключей macOS (<b>Настройки → Секреты</b>) и используйте их как переменные окружения в окнах «Новый контейнер» и «Быстрый запуск». Форма показывает <code>keychain:NAME</code>, а не значение, и Gantry читает значение только при создании контейнера. Экспорт в Compose, шаблоны и «Скопировать как команду» записывают имя, а не значение.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 13v7M13 16.5l3.5 3.5 3.5-3.5"/></svg></div>
+            <h3>Экспорт в Compose</h3>
+            <p>Выберите <b>Экспортировать как Compose…</b> для одного или нескольких контейнеров и получите <code>docker-compose.yml</code> с портами, точками монтирования, сетями, политикой перезапуска, проверкой работоспособности, лимитами и другими параметрами. Значения, похожие на секреты, становятся <code>${NAME}</code>, если вы не включите их в файл. На хостах apple/container Gantry предупреждает о флагах, которые Compose не может выразить. <a href="docker-run-to-container/#compose">Как это работает</a></p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h10l4 4v12H5z"/><path d="M8 11h8M8 15h5"/></svg></div>
+            <h3>Экспорт логов</h3>
+            <p><b>Экспортировать логи…</b> (<span class="kbd">⇧⌘E</span>) сохраняет видимые строки с учётом фильтра по уровню, поиска и периода в файл <code>.log</code> или <code>.txt</code>. <b>Скопировать видимые строки</b> копирует их. На хостах Docker можно добавить время и показать только последние записи: от 5 минут до суток.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></div>
+            <h3>Снимки экрана в «Объяснить сбой»</h3>
+            <p>Перетащите, вставьте или добавьте до 3 изображений в «Объяснить сбой», например снимок экрана со страницей ошибки. Изображения остаются на этом Mac: их читает только модель на устройстве (macOS 27), никогда не Private Cloud Compute.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -941,10 +1004,10 @@
           <div class="shot reveal d1">
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
-                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Парк — Работоспособность</span></div>
-                <div class="window-body"><img src="../assets/fleet.png" alt="Сводка по пяти хостам с найденными проблемами работоспособности" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Сводка</span></div>
+                <div class="window-body"><img src="../assets/fleet.png" alt="Сводка по парку с хостом apple/container и хостом Docker: их CPU, память и топ контейнеров" width="1856" height="1190" loading="lazy" decoding="async"></div>
               </div>
-              <figcaption><b>Сводка по парку.</b> Все хосты и все проблемы на одном экране.</figcaption>
+              <figcaption><b>Сводка по парку.</b> Все хосты, их нагрузка и топ контейнеров на одном экране.</figcaption>
             </figure>
           </div>
         </div>

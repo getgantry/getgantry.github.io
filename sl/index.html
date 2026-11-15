@@ -146,7 +146,7 @@
         "applicationSubCategory": "Upravljanje vsebnikov",
         "operatingSystem": "macOS 26",
         "processorRequirements": "Apple silicon ali Intel (gostitelji apple/container potrebujejo Apple silicon)",
-        "softwareVersion": "0.27.0",
+        "softwareVersion": "0.29.0",
         "inLanguage": [
           "en",
           "zh-Hans",
@@ -198,6 +198,14 @@
           "Brskalnik Kubernetes: podi, deploymenti, storitve, skrivnosti, dogodki, dnevniki, lupina, posredovanje vrat, skaliranje, uporaba YAML",
           "Razloži napako z Apple Intelligence (v napravi ali prek Private Cloud Compute, brez skrivnosti)",
           "Paleta ukazov (Command-K) in skupna dejanja na več vsebnikih, slikah, nosilcih ali omrežjih",
+          "Poraba virov: ena razvrstljiva tabela vsebnikov, ki se izvajajo na vseh gostiteljih",
+          "Zgodovina gradenj s koraki, zadetki v predpomnilniku in dnevniki, vključno z docker buildx history",
+          "Pregled ranljivosti slik s Trivy ali Grype in izvoz SBOM (CycloneDX, SPDX)",
+          "Skrivnosti iz obeska za ključe kot spremenljivke okolja vsebnika, nikoli prikazane kot navadno besedilo",
+          "Izvoz vsebnikov, ki se izvajajo, kot datoteke Compose, s skrivnostmi kot spremenljivkami",
+          "Izvoz dnevnikov s trenutnim filtrom in časovnim obdobjem",
+          "Napredek vlečenja, gradnje in Compose v menijski vrstici, z gumbom Prekliči",
+          "Posnetki zaslona v „Razloži napako“, prebrani samo v napravi",
           "Ustvarjanje vsebnika iz prilepljenega ukaza docker run, podman run ali container run; kopiranje vsebnika kot ukaza; recepti",
           "Dejanja v obvestilih, Spotlight, Siri in Bližnjice, pripomoček za floto, kontrolniki v Nadzornem središču in povezave gantry://",
           "Stroji container: ustvarjanje, zagon, ustavitev, viri, lupina, ugnezdena virtualizacija, jedra po meri",
@@ -466,7 +474,7 @@
         <span>Gantry</span>
       </a>
       <nav class="nav-links">
-        <a href="#new">Novo</a>
+        <a href="#latest">Novo</a>
         <a href="#features">Funkcije</a>
         <a href="#fleet">Flota</a>
         <a href="apple-container/">apple/container</a>
@@ -601,6 +609,61 @@
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/></svg>apple/container</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg>Kubernetes</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>Oddaljeni SSH</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEW IN 0.28.0 AND 0.29.0 ===================== -->
+    <section class="section" id="latest">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Novo v 0.28 in 0.29</span>
+          <h2>Vsa flota v eni tabeli in varnejše slike</h2>
+          <p>Gantry 0.28.0 in 0.29.0 dodata eno tabelo dejavnosti za vse gostitelje, zgodovino gradenj, preglede slik s Trivy ali Grype, skrivnosti iz obeska za ključe za okolje vsebnikov in izvoz v Compose. Dnevnike lahko izvozite s svojim filtrom, funkciji „Razloži napako“ daste posnetek zaslona ter v menijski vrstici spremljate vlečenja, gradnje in zagone Compose.</p>
+        </div>
+        <figure class="guide-shot"><img src="../assets/shots/0.29.0/fleet-activity.png" alt="Tabela Poraba virov z vsebniki, ki se izvajajo na gostitelju apple/container in gostitelju Docker, razvrščenimi po CPU" width="1856" height="580" loading="lazy" decoding="async"><figcaption><b>Poraba virov.</b> Vsi vsebniki, ki se izvajajo na vseh gostiteljih, razvrščeni po CPU.</figcaption></figure>
+        <div class="bento">
+          <div class="cell col-4 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 9v11"/></svg></div>
+            <h3>Poraba virov za vse gostitelje</h3>
+            <p>Ena razvrstljiva tabela vsebnikov, ki se izvajajo na vsakem povezanem gostitelju: gostitelj, ime, slika, CPU, pomnilnik, omrežni V/I, diskovni V/I in čas delovanja. Filtrirajte po imenu, sliki ali gostitelju ali prikažite enega gostitelja. Dvokliknite vrstico, da odprete vsebnik. Tabela uporablja vzorce, ki jih Gantry že zajema vsakih 5 sekund, zato ne odpira novih tokov statistike. Odprite jo iz stranske vrstice, s <span class="kbd">⌘K</span> ali z <code>gantry://open/usage</code>.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg></div>
+            <h3>Napredek v menijski vrstici</h3>
+            <p>Plošča v menijski vrstici prikaže vsako vlečenje, gradnjo in operacijo Compose v teku z vrstico napredka, dokončanimi plastmi ali storitvami, bajti, časom in gumbom <b>Prekliči</b>. Ikona v menijski vrstici pokaže, koliko operacij se izvaja. Vsak projekt Compose dobi <b>Povleci slike</b> in <b>Compose down</b>; Compose down ohrani nosilce in slike.</p>
+            <figure class="guide-shot"><img src="../assets/shots/0.29.0/menu-bar-progress.png" alt="Plošča v menijski vrstici z dvema vlečenjema slik v teku, njunimi plastmi, bajti in gumboma Prekliči" width="640" height="460" loading="lazy" decoding="async"><figcaption><b>Dejavnost v menijski vrstici.</b> Plasti, bajti, čas in Prekliči za vsako vlečenje.</figcaption></figure>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Pregled slik s Trivy ali Grype</h3>
+            <p>Na sliki izberite <b>Preglej ranljivosti…</b>. Gantry zažene Trivy (0.50.0 ali novejši) ali Grype (0.74.0 ali novejši), ki ste ga namestili, na primer s Homebrew, in razvrsti ugotovitve od kritičnih do neznanih. <b>Izvozi SBOM</b> zapiše CycloneDX, s Trivy pa tudi SPDX. Deluje na apple/container, lokalnem Dockerju in Dockerju prek SSH, kjer Gantry pregleda kopijo označene slike v registru.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 6l4 4-9 9H5v-4z"/><path d="m12 8 4 4"/><path d="M15 3l6 6"/></svg></div>
+            <h3>Zgodovina gradenj</h3>
+            <p>Vsak gostitelj ima razdelek <b>Gradnje</b>: gradnje z njihovimi koraki, zadetki v predpomnilniku in dnevnikom. Gantry hrani gradnje, ki jih zažene, z imeni argumentov gradnje, ne pa z njihovimi vrednostmi. Na gostiteljih Docker prebere tudi <code>docker buildx history</code> (buildx 0.23.0 ali novejši). apple/container ne hrani zgodovine gradenj, zato tam vidite gradnje, ki jih je zagnal Gantry.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></div>
+            <h3>Skrivnosti iz obeska za ključe v okolju</h3>
+            <p>Gesla in žetone hranite v obesku za ključe macOS (<b>Nastavitve → Skrivnosti</b>) in jih uporabite kot spremenljivke okolja v oknih Nov vsebnik in Hitri zagon. Obrazec prikaže <code>keychain:NAME</code>, nikoli vrednosti, Gantry pa vrednost prebere šele, ko ustvari vsebnik. Izvoz v Compose, recepti in Kopiraj kot ukaz zapišejo ime, ne vrednosti.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 13v7M13 16.5l3.5 3.5 3.5-3.5"/></svg></div>
+            <h3>Izvoz kot Compose</h3>
+            <p>Na enem ali več vsebnikih izberite <b>Izvozi kot Compose…</b> in dobili boste <code>docker-compose.yml</code> z vrati, priklopi, omrežji, pravilnikom ponovnega zagona, preverjanjem zdravja, omejitvami in drugim. Vrednosti, ki so videti kot skrivnosti, postanejo <code>${NAME}</code>, razen če jih vključite. Na gostiteljih apple/container Gantry opozori na zastavice, ki jih Compose ne more izraziti. <a href="docker-run-to-container/#compose">Kako deluje</a></p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h10l4 4v12H5z"/><path d="M8 11h8M8 15h5"/></svg></div>
+            <h3>Izvoz dnevnikov</h3>
+            <p><b>Izvozi dnevnike…</b> (<span class="kbd">⇧⌘E</span>) shrani vrstice, ki jih vidite, s filtrom ravni, iskanjem in časovnim obdobjem, kot datoteko <code>.log</code> ali <code>.txt</code>. <b>Kopiraj vidne vrstice</b> jih kopira. Na gostiteljih Docker lahko dodate časovne žige in prikažete samo obdobje od zadnjih 5 minut do zadnjega dne.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></div>
+            <h3>Posnetki zaslona v „Razloži napako“</h3>
+            <p>V „Razloži napako“ spustite, prilepite ali dodajte do 3 slike, na primer posnetek zaslona strani z napako. Slike ostanejo v tem Macu: prebere jih samo model v napravi (macOS 27), nikoli Private Cloud Compute.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -941,10 +1004,10 @@
           <div class="shot reveal d1">
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
-                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Flota — Zdravje</span></div>
-                <div class="window-body"><img src="../assets/fleet.png" alt="Nadzorna plošča flote s petimi gostitelji in izpostavljenimi težavami z zdravjem" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Nadzorna plošča</span></div>
+                <div class="window-body"><img src="../assets/fleet.png" alt="Nadzorna plošča flote z gostiteljem apple/container in gostiteljem Docker, njunim CPU, pomnilnikom in najbolj obremenjenimi vsebniki" width="1856" height="1190" loading="lazy" decoding="async"></div>
               </div>
-              <figcaption><b>Nadzorna plošča flote.</b> Vsak gostitelj, vsaka težava, en zaslon.</figcaption>
+              <figcaption><b>Nadzorna plošča flote.</b> Vsak gostitelj, njegova obremenitev in najbolj obremenjeni vsebniki na enem zaslonu.</figcaption>
             </figure>
           </div>
         </div>

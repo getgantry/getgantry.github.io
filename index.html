@@ -146,7 +146,7 @@
         "applicationSubCategory": "Container management",
         "operatingSystem": "macOS 26",
         "processorRequirements": "Apple silicon or Intel (apple/container hosts need Apple silicon)",
-        "softwareVersion": "0.27.0",
+        "softwareVersion": "0.29.0",
         "inLanguage": [
           "en",
           "zh-Hans",
@@ -198,6 +198,14 @@
           "Kubernetes browser: pods, deployments, services, secrets, events, logs, shell, port forward, scale, apply YAML",
           "Explain Failure with Apple Intelligence (on-device or Private Cloud Compute, secrets removed)",
           "Command palette (Command-K) and bulk actions on several containers, images, volumes or networks",
+          "Resource Usage: one sortable table of the running containers on all hosts",
+          "Build history with steps, cache hits and logs, including docker buildx history",
+          "Image vulnerability scan with Trivy or Grype, and SBOM export (CycloneDX, SPDX)",
+          "Keychain secrets as container environment variables, never shown in plain text",
+          "Export running containers as a Compose file, with secrets as variables",
+          "Export logs with the current filter and time range",
+          "Pull, build and Compose progress in the menu bar, with Cancel",
+          "Screenshots in Explain Failure, read on the device only",
           "Create a container from a pasted docker run, podman run or container run command; copy a container as a command; recipes",
           "Notification actions, Spotlight, Siri and Shortcuts, a fleet widget, Control Center controls and gantry:// links",
           "Container machines: create, start, stop, resources, shell, nested virtualization, custom kernels",
@@ -466,7 +474,7 @@
         <span>Gantry</span>
       </a>
       <nav class="nav-links">
-        <a href="#new">New</a>
+        <a href="#latest">New</a>
         <a href="#features">Features</a>
         <a href="#fleet">Fleet</a>
         <a href="apple-container/">apple/container</a>
@@ -601,6 +609,61 @@
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/></svg>apple/container</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg>Kubernetes</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>Remote SSH</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEW IN 0.28.0 AND 0.29.0 ===================== -->
+    <section class="section" id="latest">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">New in 0.28 and 0.29</span>
+          <h2>The whole fleet in one table, and safer images</h2>
+          <p>Gantry 0.28.0 and 0.29.0 add one activity table for all hosts, a build history, image scans with Trivy or Grype, Keychain secrets for the container environment and an export to Compose. You can export logs with your filter, give Explain Failure a screenshot, and follow pulls, builds and Compose runs in the menu bar.</p>
+        </div>
+        <figure class="guide-shot"><img src="assets/shots/0.29.0/fleet-activity.png" alt="Resource Usage table with the running containers of an apple/container host and a Docker host, sorted by CPU" width="1856" height="580" loading="lazy" decoding="async"><figcaption><b>Resource Usage.</b> All running containers of all hosts, sorted by CPU.</figcaption></figure>
+        <div class="bento">
+          <div class="cell col-4 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 9v11"/></svg></div>
+            <h3>Resource Usage for all hosts</h3>
+            <p>One sortable table of the running containers on every connected host: host, name, image, CPU, memory, network I/O, disk I/O and uptime. Filter by name, image or host, or show one host. Double-click a row to open the container. The table uses the samples that Gantry already takes every 5 seconds, so it opens no new stats streams. Open it from the sidebar, with <span class="kbd">⌘K</span>, or with <code>gantry://open/usage</code>.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg></div>
+            <h3>Progress in the menu bar</h3>
+            <p>The menu bar panel shows each running pull, build and Compose operation with a progress bar, the layers or services that are done, the bytes, the time and a <b>Cancel</b> button. The menu bar icon shows how many operations run. Each Compose project gets <b>Pull Images</b> and <b>Compose Down</b>; Compose Down keeps volumes and images.</p>
+            <figure class="guide-shot"><img src="assets/shots/0.29.0/menu-bar-progress.png" alt="Menu bar panel with two image pulls in progress, their layers, bytes and Cancel buttons" width="640" height="460" loading="lazy" decoding="async"><figcaption><b>Activity in the menu bar.</b> Layers, bytes, time and Cancel for each pull.</figcaption></figure>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Scan images with Trivy or Grype</h3>
+            <p>Choose <b>Scan for Vulnerabilities…</b> on an image. Gantry runs the Trivy (0.50.0 or later) or Grype (0.74.0 or later) that you installed, for example with Homebrew, and groups the findings from Critical to Unknown. <b>Export SBOM</b> writes CycloneDX, or SPDX with Trivy. It works on apple/container, local Docker and Docker over SSH, where Gantry scans the registry copy of a tagged image.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 6l4 4-9 9H5v-4z"/><path d="m12 8 4 4"/><path d="M15 3l6 6"/></svg></div>
+            <h3>Build history</h3>
+            <p>Each host has a <b>Builds</b> section: the builds with their steps, cache hits and log. Gantry keeps the builds that it starts, with the names of build arguments but not their values. On Docker hosts it also reads <code>docker buildx history</code> (buildx 0.23.0 or later). apple/container keeps no build history, so there you see the builds that Gantry started.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></div>
+            <h3>Keychain secrets in the environment</h3>
+            <p>Keep passwords and tokens in the macOS Keychain (<b>Settings → Secrets</b>) and use them as environment variables in New Container and Quick Run. The form shows <code>keychain:NAME</code>, never the value, and Gantry reads the value only when it creates the container. Compose export, recipes and Copy as Command write the name, not the value.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 13v7M13 16.5l3.5 3.5 3.5-3.5"/></svg></div>
+            <h3>Export as Compose</h3>
+            <p>Choose <b>Export as Compose…</b> on one or more containers to get a <code>docker-compose.yml</code> with ports, mounts, networks, restart policy, health check, limits and more. Values that look like secrets become <code>${NAME}</code> unless you include them. On apple/container hosts, Gantry warns about the flags that Compose cannot express. <a href="docker-run-to-container/#compose">How it works</a></p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h10l4 4v12H5z"/><path d="M8 11h8M8 15h5"/></svg></div>
+            <h3>Export logs</h3>
+            <p><b>Export Logs…</b> (<span class="kbd">⇧⌘E</span>) saves the lines that you see, with the level filter, the search and the time range, as a <code>.log</code> or <code>.txt</code> file. <b>Copy Visible Lines</b> copies them. On Docker hosts you can add timestamps and show only the last 5 minutes up to the last day.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></div>
+            <h3>Screenshots in Explain Failure</h3>
+            <p>Drop, paste or add up to 3 images in Explain Failure, for example a screenshot of an error page. The images stay on this Mac: only the on-device model reads them (macOS 27), never Private Cloud Compute.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -941,10 +1004,10 @@
           <div class="shot reveal d1">
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
-                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Fleet — Health</span></div>
-                <div class="window-body"><img src="assets/fleet.png" alt="Fleet dashboard across five hosts with health issues surfaced" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Dashboard</span></div>
+                <div class="window-body"><img src="assets/fleet.png" alt="Fleet dashboard with an apple/container host and a Docker host, their CPU, memory and top containers" width="1856" height="1190" loading="lazy" decoding="async"></div>
               </div>
-              <figcaption><b>Fleet dashboard.</b> Every host, every issue, one screen.</figcaption>
+              <figcaption><b>Fleet dashboard.</b> Every host, its load and its top containers on one screen.</figcaption>
             </figure>
           </div>
         </div>

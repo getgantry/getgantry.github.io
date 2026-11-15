@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantry-vlootdashboard met Docker- en apple/container-hosts">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Apple container GUI voor Mac: de complete apple/container-gids">
   <meta name="twitter:description" content="Wat Apples container-tool is, hoe je het installeert en hoe Gantry het beheert: elk container-CLI-commando met de Gantry-functie, van Compose tot Kubernetes.">
@@ -67,7 +67,7 @@
       "description": "Wat Apples container-tool is, hoe je het installeert en hoe Gantry het beheert: elk container-CLI-commando met de Gantry-functie, van Compose tot Kubernetes.",
       "url": "https://getgantry.github.io/nl/apple-container/",
       "inLanguage": "nl",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -255,17 +255,17 @@
 <tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Venster Nieuwe container en Snel uitvoeren: image, naam, commando, poorten, omgeving, volumes, DNS-domein, aangepaste kernel en opstartargumenten; <strong>Plak commando…</strong> leest een <code>docker run</code>- of <code>container run</code>-regel</td><td>Elke</td></tr>
 <tr><th scope="row"><code>container list --all</code></th><td>Containerlijst, gegroepeerd per Compose-project, met statusfilters en zoeken</td><td>Elke</td></tr>
 <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Knoppenbalk, contextmenu en het menubalkpaneel</td><td>Elke</td></tr>
-<tr><th scope="row"><code>container logs</code></th><td>Tab Logs: live volgen, regex-zoeken, niveaufilter, ANSI-kleuren</td><td>Elke</td></tr>
-<tr><th scope="row"><code>container stats</code></th><td>Tab Statistieken en sparklines in het vlootdashboard</td><td>Elke</td></tr>
+<tr><th scope="row"><code>container logs</code></th><td>Tab Logs: live volgen, regex-zoeken, niveaufilter, ANSI-kleuren; <strong>Exporteer logs…</strong> bewaart de zichtbare regels</td><td>Elke</td></tr>
+<tr><th scope="row"><code>container stats</code></th><td>Tab Statistieken, sparklines in het vlootdashboard en de tabel Gebruik van bronnen</td><td>Elke</td></tr>
 <tr><th scope="row"><code>container exec</code></th><td>Tab Terminal (interactieve shell) en tab Processen</td><td>Elke</td></tr>
-<tr><th scope="row"><code>container inspect</code></th><td>Tabs Overzicht en Inspecteren</td><td>Elke</td></tr>
+<tr><th scope="row"><code>container inspect</code></th><td>Tabs Overzicht en Inspecteren; <strong>Exporteer als Compose…</strong> zet de configuratie om in een Compose-bestand</td><td>Elke</td></tr>
 <tr><th scope="row"><code>container export</code></th><td>Exporteer bestandssysteem (tar)</td><td>Elke</td></tr>
 <tr><th scope="row"><code>container commit</code></th><td>Commit naar image</td><td>1.6</td></tr>
 <tr><th scope="row"><code>container copy</code></th><td>Tab Bestanden: downloaden en naar de Finder slepen (de container moet gestart zijn)</td><td>Elke; getest op 1.6.1</td></tr>
 <tr><th scope="row"><code>container exec</code> met <code>tar</code></th><td>Tab Bestanden: bestanden uploaden en hele mappen vanuit de Finder neerzetten</td><td>Elke</td></tr>
 <tr><th scope="row"><code>container clean</code></th><td>Trim schijf op een actieve container, en een rij in “Maak ruimte vrij”</td><td>1.4</td></tr>
-<tr><th scope="row"><code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code></th><td>Images: pullen met voortgang, taggen, verwijderen, opschonen, inspecteren</td><td>Elke</td></tr>
-<tr><th scope="row"><code>container build</code></th><td>Bouwt de <code>build:</code>-services van een Compose-bestand</td><td>Elke</td></tr>
+<tr><th scope="row"><code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code></th><td>Images: pullen met voortgang, taggen, verwijderen, opschonen, inspecteren; <strong>Scan op kwetsbaarheden…</strong> met Trivy of Grype</td><td>Elke</td></tr>
+<tr><th scope="row"><code>container build</code></th><td>Bouwt de <code>build:</code>-services van een Compose-bestand; het onderdeel <strong>Builds</strong> toont de builds die Gantry heeft gestart</td><td>Elke</td></tr>
 <tr><th scope="row"><code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code></th><td>Volumes</td><td>Elke</td></tr>
 <tr><th scope="row"><code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code></th><td>Netwerken</td><td>Elke</td></tr>
 <tr><th scope="row"><code>--network &lt;name&gt;,alias=…</code></th><td>Netwerk-DNS-aliassen, subtree-aliassen (<code>.gateway</code>) en Compose-servicenamen</td><td>Elke; getest op 1.6.1</td></tr>
@@ -335,7 +335,7 @@
 <details class="faq-item"><summary>Welke versie van de container-CLI moet ik installeren?</summary><p>Gantry heeft 1.0 of nieuwer nodig en raadt 1.7.1 aan. Installeer het met het ondertekende installatiepakket van de <a href="https://github.com/apple/container/releases">releasepagina van apple/container</a>. De Homebrew-build bevat de machine-backend niet en, in 1.7.1, ook de clusterservices niet, dus <code>container machine</code> en <code>container cluster</code> werken er niet mee.</p></details>
 </div>
 
-<p class="updated">Laatst bijgewerkt op 2026-11-07.</p>
+<p class="updated">Laatst bijgewerkt op 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Home</a>

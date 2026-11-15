@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Painel de frota do Gantry com hosts Docker e apple/container">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GUI do Apple container para Mac: guia completo do apple/container">
   <meta name="twitter:description" content="O que é o container da Apple, como o instalar e como o Gantry o gere: cada comando da CLI container e a funcionalidade do Gantry, do Compose ao Kubernetes.">
@@ -67,7 +67,7 @@
       "description": "O que é o container da Apple, como o instalar e como o Gantry o gere: cada comando da CLI container e a funcionalidade do Gantry, do Compose ao Kubernetes.",
       "url": "https://getgantry.github.io/pt-PT/apple-container/",
       "inLanguage": "pt-PT",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -255,17 +255,17 @@
 <tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Folha Novo contentor e Execução rápida: imagem, nome, comando, portas, ambiente, volumes, domínio DNS, kernel personalizado e argumentos de arranque; <strong>Colar comando…</strong> lê uma linha <code>docker run</code> ou <code>container run</code></td><td>Qualquer</td></tr>
 <tr><th scope="row"><code>container list --all</code></th><td>Lista Contentores, agrupada por projeto Compose, com filtros de estado e pesquisa</td><td>Qualquer</td></tr>
 <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Barra de ferramentas, menu de contexto e painel da barra de menus</td><td>Qualquer</td></tr>
-<tr><th scope="row"><code>container logs</code></th><td>Separador Logs: acompanhamento em direto, pesquisa por regex, filtro por nível, cores ANSI</td><td>Qualquer</td></tr>
-<tr><th scope="row"><code>container stats</code></th><td>Separador Estatísticas e minigráficos do painel de frota</td><td>Qualquer</td></tr>
+<tr><th scope="row"><code>container logs</code></th><td>Separador Logs: acompanhamento em direto, pesquisa por regex, filtro por nível, cores ANSI; <strong>Exportar logs…</strong> guarda as linhas visíveis</td><td>Qualquer</td></tr>
+<tr><th scope="row"><code>container stats</code></th><td>Separador Estatísticas, minigráficos do painel de frota e a tabela Utilização de recursos</td><td>Qualquer</td></tr>
 <tr><th scope="row"><code>container exec</code></th><td>Separador Terminal (shell interativa) e separador Processos</td><td>Qualquer</td></tr>
-<tr><th scope="row"><code>container inspect</code></th><td>Separadores Vista geral e Inspecionar</td><td>Qualquer</td></tr>
+<tr><th scope="row"><code>container inspect</code></th><td>Separadores Vista geral e Inspecionar; <strong>Exportar como Compose…</strong> transforma a configuração num ficheiro Compose</td><td>Qualquer</td></tr>
 <tr><th scope="row"><code>container export</code></th><td>Exportar sistema de ficheiros (tar)</td><td>Qualquer</td></tr>
 <tr><th scope="row"><code>container commit</code></th><td>Guardar como imagem</td><td>1.6</td></tr>
 <tr><th scope="row"><code>container copy</code></th><td>Separador Ficheiros: transferir e arrastar para o Finder (o contentor tem de estar iniciado)</td><td>Qualquer; testado na 1.6.1</td></tr>
 <tr><th scope="row"><code>container exec</code> com <code>tar</code></th><td>Separador Ficheiros: enviar ficheiros e largar pastas inteiras a partir do Finder</td><td>Qualquer</td></tr>
 <tr><th scope="row"><code>container clean</code></th><td>Compactar disco num contentor em execução, e uma linha em Recuperar espaço</td><td>1.4</td></tr>
-<tr><th scope="row"><code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code></th><td>Imagens: descarregar com progresso, tag, remover, limpar, inspecionar</td><td>Qualquer</td></tr>
-<tr><th scope="row"><code>container build</code></th><td>Compila os serviços <code>build:</code> de um ficheiro Compose</td><td>Qualquer</td></tr>
+<tr><th scope="row"><code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code></th><td>Imagens: descarregar com progresso, tag, remover, limpar, inspecionar; <strong>Analisar vulnerabilidades…</strong> com Trivy ou Grype</td><td>Qualquer</td></tr>
+<tr><th scope="row"><code>container build</code></th><td>Compila os serviços <code>build:</code> de um ficheiro Compose; a secção <strong>Compilações</strong> lista as compilações que o Gantry iniciou</td><td>Qualquer</td></tr>
 <tr><th scope="row"><code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code></th><td>Volumes</td><td>Qualquer</td></tr>
 <tr><th scope="row"><code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code></th><td>Redes</td><td>Qualquer</td></tr>
 <tr><th scope="row"><code>--network &lt;name&gt;,alias=…</code></th><td>Aliases DNS de rede, aliases de subárvore (<code>.gateway</code>) e nomes de serviços do Compose</td><td>Qualquer; testado na 1.6.1</td></tr>
@@ -335,7 +335,7 @@
 <details class="faq-item"><summary>Que versão da CLI container devo instalar?</summary><p>O Gantry requer a 1.0 ou posterior e recomenda a 1.7.1. Instale-a com o pacote de instalação assinado da <a href="https://github.com/apple/container/releases">página de versões do apple/container</a>. A compilação do Homebrew não inclui o backend das máquinas nem, na 1.7.1, os serviços do cluster, por isso <code>container machine</code> e <code>container cluster</code> não funcionam com ela.</p></details>
 </div>
 
-<p class="updated">Última atualização: 2026-11-07.</p>
+<p class="updated">Última atualização: 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Início</a>

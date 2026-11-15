@@ -1,6 +1,6 @@
 # Gantry
 
-> Gantry is the native macOS GUI for Apple's `container` tool (apple/container) and for Docker. It is a free, open-source (MIT) app built with SwiftUI and Swift 6 (not Electron). It manages apple/container hosts (containers, Kubernetes clusters, machines, compose projects, the image builder, registry logins, kernels, service logs and system properties), the local Docker daemon, and remote Docker hosts over SSH from one window. It has a Kubernetes browser, a command palette, Explain Failure with Apple Intelligence, an MCP server and App Intents for AI agents. Requires macOS 26. Current version: 0.27.0.
+> Gantry is the native macOS GUI for Apple's `container` tool (apple/container) and for Docker. It is a free, open-source (MIT) app built with SwiftUI and Swift 6 (not Electron). It manages apple/container hosts (containers, Kubernetes clusters, machines, compose projects, the image builder, registry logins, kernels, service logs and system properties), the local Docker daemon, and remote Docker hosts over SSH from one window. It has a Kubernetes browser, a command palette, a Resource Usage table for all hosts, a build history, image scans with Trivy or Grype, Keychain secrets for the container environment, Explain Failure with Apple Intelligence, an MCP server and App Intents for AI agents. Requires macOS 26. Current version: 0.29.0.
 
 Key facts:
 - Free and open source under the MIT license. No subscription, no account, no limits on hosts or containers. Free for commercial use.
@@ -28,9 +28,19 @@ Docker support:
 - Fleet dashboard, menu bar panel, native notifications when a container crashes, runs out of memory or goes unhealthy, optional Touch ID for destructive actions.
 
 AI agents:
-- MCP server: `claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp`. Tools cover containers, images, volumes, networks, Compose up, system disk usage, apple/container machines, Kubernetes clusters (`list_clusters`, `create_cluster`, `delete_cluster`), DNS domains, `apple_*` system tools (services, system info, builder, registries, properties, logs, kernel install), and port sharing over a Cloudflare Tunnel or SSH forward.
+- MCP server: `claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp`. Tools cover containers, images, volumes, networks, Compose up, system disk usage, `fleet_activity` (running containers of all hosts sorted by CPU or memory), apple/container machines, Kubernetes clusters (`list_clusters`, `create_cluster`, `delete_cluster`), DNS domains, `apple_*` system tools (services, system info, builder, registries, properties, logs, kernel install), and port sharing over a Cloudflare Tunnel or SSH forward.
 - App Intents for Shortcuts, Siri and Spotlight (Spotlight indexes containers, Compose projects and hosts). Copy as Prompt (Option-Command-P) for any container.
 - Explain Failure: for a failed container or operation, Gantry sends recent logs and details (environment values and secret-like text removed) to Apple Intelligence: the on-device model, or Private Cloud Compute for long logs on macOS 27 when the setting is on. It shows the likely cause, evidence and next steps, and what was sent.
+
+New in 0.28.0 and 0.29.0:
+- Resource Usage (0.28.0): one sortable table of the running containers on all connected hosts (Docker and apple/container): host, name, image, CPU, memory, network I/O, disk I/O, uptime. Filter by name, image or host, or by one host; double-click opens the container. It uses the 5-second samples of the dashboard. Open from the sidebar, Command-K or `gantry://open/usage`. MCP tool `fleet_activity`.
+- Export as Compose (0.28.0): one or more containers to a `docker-compose.yml` (ports, binds, volumes, tmpfs, networks with aliases, restart policy, healthcheck, CPU and memory limits, capabilities, DNS, devices, ulimits, logging). Named volumes and networks are `external: true`. Secret-like values become `${NAME}` unless included; a file with a secret value is saved with mode 0600. On apple/container hosts Gantry reads `container inspect` and warns about flags Compose cannot express.
+- Keychain secrets (0.28.0): Settings > Secrets stores values in the macOS Keychain. Environment rows in New Container and Quick Run use a secret as `keychain:NAME`; the value is never shown and is read only when the container is created. Copy as Command, recipes and Compose export write `keychain:NAME`; the Inspect tab and Explain Failure show `KEY=[REDACTED]`. Optional Touch ID for secrets.
+- Screenshots in Explain Failure (0.28.0): drop, paste or add up to 3 images (20 MB each) on macOS 27 with the on-device model; images never go to Private Cloud Compute.
+- Log export (0.29.0): Export Logs... (Shift-Command-E) saves the visible lines (level filter, search, time range, hidden services) as .log or .txt; Copy Visible Lines. Timestamps and a time range (last 5 minutes to last day) on Docker hosts.
+- Build history (0.29.0): a Builds section on each host with steps (executed, cached, failed), cache use and log. Gantry keeps up to 100 builds per host that it started itself, with build-argument names but not values; Docker hosts also show `docker buildx history` (buildx 0.23.0 or later). apple/container keeps no build history, so only builds started in Gantry show there.
+- Image scan and SBOM (0.29.0): Scan for Vulnerabilities... runs Trivy (0.50.0 or later) or Grype (0.74.0 or later) that the user installed; findings grouped Critical to Unknown; Export SBOM as CycloneDX (both) or SPDX (Trivy). Works on apple/container, local Docker, and Docker over SSH (registry copy of tagged images). Gantry does not install the scanners.
+- Menu bar progress (0.29.0): the menu bar panel shows running pulls, builds and Compose operations with progress, layers or services, bytes, elapsed time and Cancel, plus recently finished ones; the icon shows the number of running operations. Compose projects get Pull Images and Compose Down (keeps volumes and images).
 
 New in 0.27.0 (also):
 - Command palette (Command-K): search containers, Compose projects, images, volumes, networks, machines, clusters, hosts and commands; run actions from the keyboard.
@@ -39,24 +49,24 @@ New in 0.27.0 (also):
 - macOS integration: notification actions (Restart, View Logs, Copy as Prompt), a fleet health widget, two Control Center controls (apple/container services, a favorite container), Siri phrases, and `gantry://open/<place>` links for scripts.
 - New design that follows Apple's Human Interface Guidelines: live charts on the dashboard and host overview, icon toolbars, Liquid Glass only on floating controls.
 
-Last updated: 2026-11-07
+Last updated: 2026-11-15
 
 ## container CLI command to Gantry feature
 
 - container run, container create: New Container sheet and Quick Run: image, name, command, ports, environment, volumes, DNS domain, custom kernel and boot arguments; Paste Command… reads a docker run or container run line (CLI version: Any)
 - container list --all: Containers list, grouped by Compose project, with state filters and search (CLI version: Any)
 - container start, stop, kill, delete, prune: Toolbar, right-click menu and the menu bar panel (CLI version: Any)
-- container logs: Logs tab: live follow, regex search, level filter, ANSI color (CLI version: Any)
-- container stats: Stats tab and fleet dashboard sparklines (CLI version: Any)
+- container logs: Logs tab: live follow, regex search, level filter, ANSI color; Export Logs… saves the visible lines (CLI version: Any)
+- container stats: Stats tab, fleet dashboard sparklines and the Resource Usage table (CLI version: Any)
 - container exec: Terminal tab (interactive shell) and Processes tab (CLI version: Any)
-- container inspect: Overview and Inspect tabs (CLI version: Any)
+- container inspect: Overview and Inspect tabs; Export as Compose… turns the configuration into a Compose file (CLI version: Any)
 - container export: Export Filesystem (tar) (CLI version: Any)
 - container commit: Commit to Image (CLI version: 1.6)
 - container copy: Files tab: download and drag out to Finder (the container must be started) (CLI version: Any; tested on 1.6.1)
 - container exec with tar: Files tab: upload files and drop whole folders from Finder (CLI version: Any)
 - container clean: Trim Disk on a running container, and a row in Reclaim Space (CLI version: 1.4)
-- container image pull, tag, delete, prune, inspect: Images: pull with progress, tag, remove, prune, inspect (CLI version: Any)
-- container build: Builds the build: services of a Compose file (CLI version: Any)
+- container image pull, tag, delete, prune, inspect: Images: pull with progress, tag, remove, prune, inspect; Scan for Vulnerabilities… with Trivy or Grype (CLI version: Any)
+- container build: Builds the build: services of a Compose file; the Builds section lists the builds that Gantry started (CLI version: Any)
 - container volume create, delete, inspect, prune: Volumes (CLI version: Any)
 - container network create, delete, inspect, prune: Networks (CLI version: Any)
 - --network <name>,alias=…: Network DNS aliases, subtree aliases (.gateway) and Compose service names (CLI version: Any; tested on 1.6.1)
@@ -84,7 +94,7 @@ Last updated: 2026-11-07
 - Node image (--node-image): Empty keeps the CLI default
 - CNI (--cni): Default (bundled kindnet), None (NONE, CLI 1.6.0+) or a custom manifest path
 
-## Comparison (facts as of 2026-11-07; Unknown means not found in vendor docs)
+## Comparison (facts as of 2026-11-15; Unknown means not found in vendor docs)
 
 - What it is: Gantry: Native GUI client. Uses the engine you already have; Docker Desktop: Docker engine in a Linux VM, plus a GUI; OrbStack: Docker and Linux engine, plus a GUI; Podman Desktop: GUI for Podman (and other engines); container CLI: Apple's CLI and runtime
 - License and price: Gantry: MIT, free for all use; Docker Desktop: Proprietary. Free for personal use, education, non-commercial open source and organizations with fewer than 250 employees and less than $10M annual revenue; otherwise a paid plan (Pro $11, Team $16, Business $24 per user per month); OrbStack: Proprietary. Free for personal, non-commercial use; Pro for commercial use is $8 per user per month; Podman Desktop: Apache 2.0, free; container CLI: Apache 2.0, free
@@ -99,7 +109,7 @@ Last updated: 2026-11-07
 - Long-lived Linux machines: Gantry: container machine, with Open in VS Code; Docker Desktop: No; OrbStack: Yes (Linux machines); Podman Desktop: No (Podman machine is the engine VM); container CLI: container machine
 - Remote hosts over SSH in the GUI: Gantry: Yes, Docker over SSH with ProxyJump and Keychain secrets; Docker Desktop: Not in the docs (CLI contexts only); OrbStack: Not in the docs (custom Docker hosts over TCP); Podman Desktop: Yes, remote Podman connections over SSH; container CLI: Not applicable
 - AI and MCP: Gantry: Bundled MCP server (gantry-mcp) and Explain Failure with Apple Intelligence; Docker Desktop: MCP Toolkit (an MCP gateway) and the Gordon assistant (sign-in needed); OrbStack: No official MCP server found; Podman Desktop: AI Lab extension, with MCP in its playground; container CLI: No
-- Latest version (checked 2026-11-07): Gantry: 0.27.0; Docker Desktop: 4.98.0 (2026-11-03); OrbStack: 2.2.5 (2026-10-23); Podman Desktop: 1.30.5 (2026-10-13); container CLI: 1.7.1 (2026-11-06)
+- Latest version (checked 2026-11-07): Gantry: 0.29.0 (2026-11-15); Docker Desktop: 4.98.0 (2026-11-03); OrbStack: 2.2.5 (2026-10-23); Podman Desktop: 1.30.5 (2026-10-13); container CLI: 1.7.1 (2026-11-06)
 - Data on an external drive: Gantry: Yes: moves the apple/container data root, keeps volumes on any disk, warns when the disk is not connected; Docker Desktop: Yes, Disk image location setting; OrbStack: Yes, since 0.13.0; Podman Desktop: Not in the docs; container CLI: Yes, container system start --app-root
 
 ## Guide: Run Kubernetes on a Mac with Apple container
@@ -239,6 +249,7 @@ A named volume in apple/container is a sparse ext4 disk image, 512 GB at most by
 ### Compose files
 
 The container CLI has no compose command. Open the docker-compose.yml in Gantry instead (Finder, File ▸ Open Compose File… or drag and drop). Gantry builds the build: services, creates the project network and named volumes, and starts the services in depends_on order. Services reach each other by service name through network DNS aliases.
+No compose file yet? On the Docker host, select the containers of the app and choose Export as Compose…, then save the file. The file marks named volumes and networks as external: true, so create them on the apple/container host first (see Move named volumes), then open the file there. Values that look like secrets become ${NAME} variables, so the file does not carry your passwords.
 
 ### Networks and ports
 
@@ -388,6 +399,18 @@ Create the named volume first with container volume create. Remove --restart and
 ### Copy a container as a command
 
 The other way works too. Right-click a container, or use the More menu, and choose Copy as Command: Gantry writes a docker run or container run line. It leaves out the defaults of the image, such as its environment and command, so the line stays short. This works for stopped containers as well.
+
+### Export the container as Compose
+
+To keep a container as a file, right-click it, or use the More menu, and choose Export as Compose…. Select several containers to put them in one file. Gantry writes a docker-compose.yml with one service for each container: ports, mounts, networks, restart policy, health check, limits, capabilities and logging. Named volumes and networks are marked external: true.
+- Values that look like secrets become ${NAME} variables. Under Secret Values, include the ones that you want in the file. A file with a secret value is saved with mode 0600.
+- On apple/container hosts, Warnings lists the flags that Compose cannot express, such as --kernel, --rosetta or --ssh.
+- Click Copy or Save….
+
+### Keep secrets out of the command
+
+A -e PASSWORD=… in a command is easy to leak. In the New Container form, open the key menu of an environment row and choose Save Value in Keychain…, or pick a secret that you added in Settings → Secrets. The row then shows keychain:NAME with a lock, not the value.
+Gantry reads the value from the Keychain only when it creates the container. Copy as Command, recipes and Compose export write keychain:NAME. The Inspect tab shows KEY=[REDACTED]. The engine still stores the value, so docker inspect or container inspect outside Gantry can show it.
 
 ### Save it as a recipe
 

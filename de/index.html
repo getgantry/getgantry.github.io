@@ -146,7 +146,7 @@
         "applicationSubCategory": "Container-Verwaltung",
         "operatingSystem": "macOS 26",
         "processorRequirements": "Apple Silicon oder Intel (apple/container-Hosts erfordern Apple Silicon)",
-        "softwareVersion": "0.27.0",
+        "softwareVersion": "0.29.0",
         "inLanguage": [
           "en",
           "zh-Hans",
@@ -198,6 +198,14 @@
           "Kubernetes-Browser: Pods, Deployments, Services, Secrets, Ereignisse, Logs, Shell, Portweiterleitung, Skalieren, YAML anwenden",
           "„Fehler erklären“ mit Apple Intelligence (auf dem Gerät oder per Private Cloud Compute, Geheimnisse entfernt)",
           "Befehlspalette (Befehlstaste-K) und Sammelaktionen für mehrere Container, Images, Volumes oder Netzwerke",
+          "Ressourcennutzung: eine sortierbare Tabelle der laufenden Container auf allen Hosts",
+          "Build-Verlauf mit Schritten, Cache-Treffern und Logs, auch aus docker buildx history",
+          "Schwachstellenprüfung für Images mit Trivy oder Grype und SBOM-Export (CycloneDX, SPDX)",
+          "Schlüsselbund-Geheimnisse als Umgebungsvariablen von Containern, nie im Klartext angezeigt",
+          "Laufende Container als Compose-Datei exportieren, mit Geheimnissen als Variablen",
+          "Logs mit dem aktuellen Filter und Zeitraum exportieren",
+          "Fortschritt von Pull, Build und Compose in der Menüleiste, mit Abbrechen",
+          "Bildschirmfotos in „Fehler erklären“, nur auf dem Gerät gelesen",
           "Container aus einem eingesetzten docker run-, podman run- oder container run-Befehl erstellen; Container als Befehl kopieren; Rezepte",
           "Aktionen in Mitteilungen, Spotlight, Siri und Kurzbefehle, ein Flotten-Widget, Steuerelemente im Kontrollzentrum und gantry://-Links",
           "Container-Maschinen: erstellen, starten, stoppen, Ressourcen, Shell, verschachtelte Virtualisierung, eigene Kernel",
@@ -466,7 +474,7 @@
         <span>Gantry</span>
       </a>
       <nav class="nav-links">
-        <a href="#new">Neu</a>
+        <a href="#latest">Neu</a>
         <a href="#features">Funktionen</a>
         <a href="#fleet">Flotte</a>
         <a href="apple-container/">apple/container</a>
@@ -601,6 +609,61 @@
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/></svg>apple/container</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg>Kubernetes</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>SSH-Hosts</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEW IN 0.28.0 AND 0.29.0 ===================== -->
+    <section class="section" id="latest">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Neu in 0.28 und 0.29</span>
+          <h2>Die ganze Flotte in einer Tabelle und sicherere Images</h2>
+          <p>Gantry 0.28.0 und 0.29.0 bringen eine Aktivitätstabelle für alle Hosts, einen Build-Verlauf, Image-Prüfungen mit Trivy oder Grype, Schlüsselbund-Geheimnisse für die Container-Umgebung und einen Export nach Compose. Du kannst Logs mit deinem Filter exportieren, „Fehler erklären“ ein Bildschirmfoto geben und Pulls, Builds und Compose-Läufe in der Menüleiste verfolgen.</p>
+        </div>
+        <figure class="guide-shot"><img src="../assets/shots/0.29.0/fleet-activity.png" alt="Tabelle „Ressourcennutzung“ mit den laufenden Containern eines apple/container-Hosts und eines Docker-Hosts, nach CPU sortiert" width="1856" height="580" loading="lazy" decoding="async"><figcaption><b>Ressourcennutzung.</b> Alle laufenden Container aller Hosts, nach CPU sortiert.</figcaption></figure>
+        <div class="bento">
+          <div class="cell col-4 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 9v11"/></svg></div>
+            <h3>Ressourcennutzung für alle Hosts</h3>
+            <p>Eine sortierbare Tabelle der laufenden Container auf jedem verbundenen Host: Host, Name, Image, CPU, Arbeitsspeicher, Netzwerk-I/O, Festplatten-I/O und Laufzeit. Filtere nach Name, Image oder Host oder zeige nur einen Host. Doppelklicke auf eine Zeile, um den Container zu öffnen. Die Tabelle nutzt die Messwerte, die Gantry ohnehin alle 5 Sekunden erfasst, und öffnet daher keine neuen Statistik-Streams. Öffne sie in der Seitenleiste, mit <span class="kbd">⌘K</span> oder mit <code>gantry://open/usage</code>.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg></div>
+            <h3>Fortschritt in der Menüleiste</h3>
+            <p>Das Menüleisten-Panel zeigt jeden laufenden Pull, Build und jede laufende Compose-Operation mit einem Fortschrittsbalken, den fertigen Layern oder Diensten, den Bytes, der Zeit und der Taste <b>Abbrechen</b>. Das Menüleistensymbol zeigt, wie viele Operationen laufen. Jedes Compose-Projekt erhält <b>Images pullen</b> und <b>Compose Down</b>; Compose Down behält Volumes und Images.</p>
+            <figure class="guide-shot"><img src="../assets/shots/0.29.0/menu-bar-progress.png" alt="Menüleisten-Panel mit zwei laufenden Image-Pulls, ihren Layern, Bytes und Abbrechen-Tasten" width="640" height="460" loading="lazy" decoding="async"><figcaption><b>Aktivität in der Menüleiste.</b> Layer, Bytes, Zeit und Abbrechen für jeden Pull.</figcaption></figure>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Images mit Trivy oder Grype prüfen</h3>
+            <p>Wähle <b>Auf Schwachstellen prüfen…</b> bei einem Image. Gantry führt das Trivy (0.50.0 oder neuer) oder Grype (0.74.0 oder neuer) aus, das du installiert hast, zum Beispiel mit Homebrew, und gruppiert die Funde von Kritisch bis Unbekannt. <b>SBOM exportieren</b> schreibt CycloneDX oder, mit Trivy, SPDX. Das funktioniert auf apple/container, lokalem Docker und Docker über SSH; dort prüft Gantry die Registry-Kopie eines getaggten Images.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 6l4 4-9 9H5v-4z"/><path d="m12 8 4 4"/><path d="M15 3l6 6"/></svg></div>
+            <h3>Build-Verlauf</h3>
+            <p>Jeder Host hat einen Bereich <b>Builds</b>: die Builds mit ihren Schritten, Cache-Treffern und ihrem Log. Gantry behält die Builds, die es startet, mit den Namen der Build-Argumente, aber ohne ihre Werte. Auf Docker-Hosts liest es auch <code>docker buildx history</code> (buildx 0.23.0 oder neuer). apple/container führt keinen Build-Verlauf, dort siehst du also die Builds, die Gantry gestartet hat.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></div>
+            <h3>Schlüsselbund-Geheimnisse in der Umgebung</h3>
+            <p>Bewahre Passwörter und Tokens im Schlüsselbund von macOS auf (<b>Einstellungen → Geheimnisse</b>) und verwende sie als Umgebungsvariablen in „Neuer Container“ und „Schnellstart“. Das Formular zeigt <code>keychain:NAME</code>, nie den Wert, und Gantry liest den Wert erst, wenn es den Container erstellt. Compose-Export, Rezepte und „Als Befehl kopieren“ schreiben den Namen, nicht den Wert.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 13v7M13 16.5l3.5 3.5 3.5-3.5"/></svg></div>
+            <h3>Als Compose exportieren</h3>
+            <p>Wähle <b>Als Compose exportieren…</b> bei einem oder mehreren Containern und du erhältst eine <code>docker-compose.yml</code> mit Ports, Mounts, Netzwerken, Neustartrichtlinie, Integritätsprüfung, Limits und mehr. Werte, die nach Geheimnissen aussehen, werden zu <code>${NAME}</code>, außer du nimmst sie auf. Auf apple/container-Hosts warnt Gantry vor den Flags, die Compose nicht abbilden kann. <a href="docker-run-to-container/#compose">So funktioniert es</a></p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h10l4 4v12H5z"/><path d="M8 11h8M8 15h5"/></svg></div>
+            <h3>Logs exportieren</h3>
+            <p><b>Logs exportieren…</b> (<span class="kbd">⇧⌘E</span>) sichert die Zeilen, die du siehst, mit Level-Filter, Suche und Zeitraum als <code>.log</code>- oder <code>.txt</code>-Datei. <b>Sichtbare Zeilen kopieren</b> kopiert sie. Auf Docker-Hosts kannst du Zeitstempel hinzufügen und nur die letzten 5 Minuten bis hin zum letzten Tag anzeigen.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></div>
+            <h3>Bildschirmfotos in „Fehler erklären“</h3>
+            <p>Lege in „Fehler erklären“ bis zu 3 Bilder ab, setze sie ein oder füge sie hinzu, zum Beispiel ein Bildschirmfoto einer Fehlerseite. Die Bilder bleiben auf diesem Mac: Nur das Modell auf dem Gerät liest sie (macOS 27), nie Private Cloud Compute.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -941,10 +1004,10 @@
           <div class="shot reveal d1">
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
-                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Flotte — Zustand</span></div>
-                <div class="window-body"><img src="../assets/fleet.png" alt="Flotten-Dashboard über fünf Hosts mit angezeigten Zustandsproblemen" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Dashboard</span></div>
+                <div class="window-body"><img src="../assets/fleet.png" alt="Flotten-Dashboard mit einem apple/container-Host und einem Docker-Host, ihrer CPU, ihrem Arbeitsspeicher und ihren Top-Containern" width="1856" height="1190" loading="lazy" decoding="async"></div>
               </div>
-              <figcaption><b>Flotten-Dashboard.</b> Jeder Host, jedes Problem, ein Bildschirm.</figcaption>
+              <figcaption><b>Flotten-Dashboard.</b> Jeder Host, seine Last und seine Top-Container auf einem Bildschirm.</figcaption>
             </figure>
           </div>
         </div>

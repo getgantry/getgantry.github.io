@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantry fleet dashboard with Docker and apple/container hosts">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Create a container from a docker run command on Mac (docker run to container run)">
   <meta name="twitter:description" content="Paste a docker run command into Gantry and get a ready container form, or convert docker run to Apple&#x27;s container run by hand: flags that map, flags that do not, and reusable recipes.">
@@ -67,7 +67,7 @@
       "description": "Paste a docker run command into Gantry and get a ready container form, or convert docker run to Apple's container run by hand: flags that map, flags that do not, and reusable recipes.",
       "url": "https://getgantry.github.io/docker-run-to-container/",
       "inLanguage": "en",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "Export the container as Compose",
+          "text": "To keep a container as a file, right-click it, or use the More menu, and choose Export as Compose…. Select several containers to put them in one file. Gantry writes a docker-compose.yml with one service for each container: ports, mounts, networks, restart policy, health check, limits, capabilities and logging. Named volumes and networks are marked external: true.",
+          "url": "https://getgantry.github.io/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Keep secrets out of the command",
+          "text": "A -e PASSWORD=… in a command is easy to leak. In the New Container form, open the key menu of an environment row and choose Save Value in Keychain…, or pick a secret that you added in Settings → Secrets. The row then shows keychain:NAME with a lock, not the value.",
+          "url": "https://getgantry.github.io/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Save it as a recipe",
           "text": "In the New Container sheet, open Recipes and choose Save as Recipe…. Next time, Fill from Recipe gives the same form on any host. Recipes are in ~/Library/Application Support/Gantry/recipes.json, so you can back them up or share them.",
           "url": "https://getgantry.github.io/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Limits",
           "text": "Gantry keeps the path of --env-file but does not read the file, and does not read your shell for -e KEY without a value. tmpfs mounts and anonymous volumes from --mount are listed as not supported. Two ports for the same container port (-p 8080:80 -p 8081:80) fill the form, but the form then refuses the duplicate.",
           "url": "https://getgantry.github.io/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Click <strong>Fill Form</strong>, check the values, and create the container.</li>
 </ol>
 <p>Gantry reads <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> and <code>container run</code>. Text after <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> or <code>|</code> is ignored, with a note.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Which flags fill the form</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Copy a container as a command</ul>
 <p>The other way works too. Right-click a container, or use the More menu, and choose <strong>Copy as Command</strong>: Gantry writes a <code>docker run</code> or <code>container run</code> line. It leaves out the defaults of the image, such as its environment and command, so the line stays short. This works for stopped containers as well.</p>
 
+<ul id="compose">Export the container as Compose</ul>
+<p>To keep a container as a file, right-click it, or use the More menu, and choose <strong>Export as Compose…</strong>. Select several containers to put them in one file. Gantry writes a <code>docker-compose.yml</code> with one service for each container: ports, mounts, networks, restart policy, health check, limits, capabilities and logging. Named volumes and networks are marked <code>external: true</code>.</p>
+<ul>
+  <li>Values that look like secrets become <code>${NAME}</code> variables. Under <strong>Secret Values</strong>, include the ones that you want in the file. A file with a secret value is saved with mode 0600.</li>
+  <li>On apple/container hosts, <strong>Warnings</strong> lists the flags that Compose cannot express, such as <code>--kernel</code>, <code>--rosetta</code> or <code>--ssh</code>.</li>
+  <li>Click <strong>Copy</strong> or <strong>Save…</strong>.</li>
+</ul>
+
+<ul id="secrets">Keep secrets out of the command</ul>
+<p>A <code>-e PASSWORD=…</code> in a command is easy to leak. In the New Container form, open the key menu of an environment row and choose <strong>Save Value in Keychain…</strong>, or pick a secret that you added in <strong>Settings → Secrets</strong>. The row then shows <code>keychain:NAME</code> with a lock, not the value.</p>
+<p>Gantry reads the value from the Keychain only when it creates the container. <strong>Copy as Command</strong>, recipes and Compose export write <code>keychain:NAME</code>. The Inspect tab shows <code>KEY=[REDACTED]</code>. The engine still stores the value, so <code>docker inspect</code> or <code>container inspect</code> outside Gantry can show it.</p>
+
 <ul id="recipes">Save it as a recipe</ul>
 <p>In the New Container sheet, open <strong>Recipes</strong> and choose <strong>Save as Recipe…</strong>. Next time, <strong>Fill from Recipe</strong> gives the same form on any host. Recipes are in <code>~/Library/Application Support/Gantry/recipes.json</code>, so you can back them up or share them.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Can I turn a running container back into a docker run command?</summary><p>Yes. <strong>Copy as Command</strong> in the container menu writes a <code>docker run</code> or <code>container run</code> line for that container.</p></details>
 </div>
 
-<p class="updated">Last updated 2026-11-07.</p>
+<p class="updated">Last updated 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Home</a>

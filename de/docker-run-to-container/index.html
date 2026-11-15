@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantry-Flotten-Dashboard mit Docker- und apple/container-Hosts">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Container aus einem docker run-Befehl auf dem Mac erstellen (docker run zu container run)">
   <meta name="twitter:description" content="docker run-Befehl in Gantry einsetzen und ein fertiges Container-Formular erhalten, oder docker run von Hand in container run umwandeln: passende Flags, fehlende Flags, Rezepte.">
@@ -67,7 +67,7 @@
       "description": "docker run-Befehl in Gantry einsetzen und ein fertiges Container-Formular erhalten, oder docker run von Hand in container run umwandeln: passende Flags, fehlende Flags, Rezepte.",
       "url": "https://getgantry.github.io/de/docker-run-to-container/",
       "inLanguage": "de",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "Den Container als Compose exportieren",
+          "text": "Um einen Container als Datei aufzubewahren, klicke mit der rechten Maustaste darauf oder öffne das Menü „Mehr“ und wähle Als Compose exportieren…. Wähle mehrere Container aus, um sie in eine Datei zu schreiben. Gantry schreibt eine docker-compose.yml mit einem Dienst pro Container: Ports, Mounts, Netzwerke, Neustartrichtlinie, Integritätsprüfung, Limits, Capabilities und Logging. Benannte Volumes und Netzwerke werden als external: true markiert.",
+          "url": "https://getgantry.github.io/de/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Geheimnisse aus dem Befehl heraushalten",
+          "text": "Ein -e PASSWORD=… in einem Befehl gelangt leicht nach außen. Öffne im Formular „Neuer Container“ das Schlüsselmenü einer Umgebungszeile und wähle Wert im Schlüsselbund sichern… oder wähle ein Geheimnis, das du unter Einstellungen → Geheimnisse hinzugefügt hast. Die Zeile zeigt dann keychain:NAME mit einem Schloss, nicht den Wert.",
+          "url": "https://getgantry.github.io/de/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Als Rezept sichern",
           "text": "Öffne im Fenster „Neuer Container“ Rezepte und wähle Als Rezept sichern…. Beim nächsten Mal liefert Aus Rezept ausfüllen dasselbe Formular auf jedem Host. Rezepte liegen in ~/Library/Application Support/Gantry/recipes.json, du kannst sie also sichern oder weitergeben.",
           "url": "https://getgantry.github.io/de/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Grenzen",
           "text": "Gantry übernimmt den Pfad von --env-file, liest die Datei aber nicht, und liest für -e KEY ohne Wert nicht deine Shell aus. tmpfs-Mounts und anonyme Volumes aus --mount werden als nicht unterstützt gelistet. Zwei Ports für denselben Container-Port (-p 8080:80 -p 8081:80) füllen das Formular aus, aber das Formular lehnt das Duplikat dann ab.",
           "url": "https://getgantry.github.io/de/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Klicke auf <strong>Formular ausfüllen</strong>, prüfe die Werte und erstelle den Container.</li>
 </ol>
 <p>Gantry liest <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> und <code>container run</code>. Text nach <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> oder <code>|</code> wird mit einem Hinweis ignoriert.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Welche Flags das Formular ausfüllen</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Einen Container als Befehl kopieren</ul>
 <p>Der umgekehrte Weg geht auch. Klicke mit der rechten Maustaste auf einen Container oder öffne das Menü „Mehr“ und wähle <strong>Als Befehl kopieren</strong>: Gantry schreibt eine <code>docker run</code>- oder <code>container run</code>-Zeile. Standardwerte des Images, etwa seine Umgebung und sein Befehl, lässt es weg, damit die Zeile kurz bleibt. Das funktioniert auch bei gestoppten Containern.</p>
 
+<ul id="compose">Den Container als Compose exportieren</ul>
+<p>Um einen Container als Datei aufzubewahren, klicke mit der rechten Maustaste darauf oder öffne das Menü „Mehr“ und wähle <strong>Als Compose exportieren…</strong>. Wähle mehrere Container aus, um sie in eine Datei zu schreiben. Gantry schreibt eine <code>docker-compose.yml</code> mit einem Dienst pro Container: Ports, Mounts, Netzwerke, Neustartrichtlinie, Integritätsprüfung, Limits, Capabilities und Logging. Benannte Volumes und Netzwerke werden als <code>external: true</code> markiert.</p>
+<ul>
+  <li>Werte, die nach Geheimnissen aussehen, werden zu <code>${NAME}</code>-Variablen. Unter <strong>Geheime Werte</strong> nimmst du die auf, die du in der Datei haben willst. Eine Datei mit einem geheimen Wert wird mit dem Modus 0600 gesichert.</li>
+  <li>Auf apple/container-Hosts listet <strong>Warnungen</strong> die Flags, die Compose nicht abbilden kann, etwa <code>--kernel</code>, <code>--rosetta</code> oder <code>--ssh</code>.</li>
+  <li>Klicke auf <strong>Kopieren</strong> oder <strong>Sichern…</strong>.</li>
+</ul>
+
+<ul id="secrets">Geheimnisse aus dem Befehl heraushalten</ul>
+<p>Ein <code>-e PASSWORD=…</code> in einem Befehl gelangt leicht nach außen. Öffne im Formular „Neuer Container“ das Schlüsselmenü einer Umgebungszeile und wähle <strong>Wert im Schlüsselbund sichern…</strong> oder wähle ein Geheimnis, das du unter <strong>Einstellungen → Geheimnisse</strong> hinzugefügt hast. Die Zeile zeigt dann <code>keychain:NAME</code> mit einem Schloss, nicht den Wert.</p>
+<p>Gantry liest den Wert erst aus dem Schlüsselbund, wenn es den Container erstellt. <strong>Als Befehl kopieren</strong>, Rezepte und der Compose-Export schreiben <code>keychain:NAME</code>. Der Tab „Untersuchen“ zeigt <code>KEY=[REDACTED]</code>. Die Engine speichert den Wert trotzdem, daher können <code>docker inspect</code> oder <code>container inspect</code> außerhalb von Gantry ihn anzeigen.</p>
+
 <ul id="recipes">Als Rezept sichern</ul>
 <p>Öffne im Fenster „Neuer Container“ <strong>Rezepte</strong> und wähle <strong>Als Rezept sichern…</strong>. Beim nächsten Mal liefert <strong>Aus Rezept ausfüllen</strong> dasselbe Formular auf jedem Host. Rezepte liegen in <code>~/Library/Application Support/Gantry/recipes.json</code>, du kannst sie also sichern oder weitergeben.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Kann ich einen laufenden Container wieder in einen docker run-Befehl umwandeln?</summary><p>Ja. <strong>Als Befehl kopieren</strong> im Container-Menü schreibt eine <code>docker run</code>- oder <code>container run</code>-Zeile für diesen Container.</p></details>
 </div>
 
-<p class="updated">Zuletzt aktualisiert am 2026-11-07.</p>
+<p class="updated">Zuletzt aktualisiert am 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Start</a>

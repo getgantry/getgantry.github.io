@@ -1,6 +1,6 @@
 # Gantry
 
-> Gantry is the native macOS GUI for Apple's `container` tool (apple/container) and for Docker. It is a free, open-source (MIT) app built with SwiftUI and Swift 6 (not Electron). It manages apple/container hosts (containers, Kubernetes clusters, machines, compose projects, the image builder, registry logins, kernels, service logs and system properties), the local Docker daemon, and remote Docker hosts over SSH from one window. It has a Kubernetes browser, a command palette, Explain Failure with Apple Intelligence, an MCP server and App Intents for AI agents. Requires macOS 26. Current version: 0.27.0.
+> Gantry is the native macOS GUI for Apple's `container` tool (apple/container) and for Docker. It is a free, open-source (MIT) app built with SwiftUI and Swift 6 (not Electron). It manages apple/container hosts (containers, Kubernetes clusters, machines, compose projects, the image builder, registry logins, kernels, service logs and system properties), the local Docker daemon, and remote Docker hosts over SSH from one window. It has a Kubernetes browser, a command palette, a Resource Usage table for all hosts, a build history, image scans with Trivy or Grype, Keychain secrets for the container environment, Explain Failure with Apple Intelligence, an MCP server and App Intents for AI agents. Requires macOS 26. Current version: 0.29.0.
 
 Key facts:
 - Free and open source under the MIT license. No subscription, no account, no limits on hosts or containers. Free for commercial use.
@@ -28,9 +28,19 @@ Docker support:
 - Fleet dashboard, menu bar panel, native notifications when a container crashes, runs out of memory or goes unhealthy, optional Touch ID for destructive actions.
 
 AI agents:
-- MCP server: `claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp`. Tools cover containers, images, volumes, networks, Compose up, system disk usage, apple/container machines, Kubernetes clusters (`list_clusters`, `create_cluster`, `delete_cluster`), DNS domains, `apple_*` system tools (services, system info, builder, registries, properties, logs, kernel install), and port sharing over a Cloudflare Tunnel or SSH forward.
+- MCP server: `claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp`. Tools cover containers, images, volumes, networks, Compose up, system disk usage, `fleet_activity` (running containers of all hosts sorted by CPU or memory), apple/container machines, Kubernetes clusters (`list_clusters`, `create_cluster`, `delete_cluster`), DNS domains, `apple_*` system tools (services, system info, builder, registries, properties, logs, kernel install), and port sharing over a Cloudflare Tunnel or SSH forward.
 - App Intents for Shortcuts, Siri and Spotlight (Spotlight indexes containers, Compose projects and hosts). Copy as Prompt (Option-Command-P) for any container.
 - Explain Failure: for a failed container or operation, Gantry sends recent logs and details (environment values and secret-like text removed) to Apple Intelligence: the on-device model, or Private Cloud Compute for long logs on macOS 27 when the setting is on. It shows the likely cause, evidence and next steps, and what was sent.
+
+New in 0.28.0 and 0.29.0:
+- Resource Usage (0.28.0): one sortable table of the running containers on all connected hosts (Docker and apple/container): host, name, image, CPU, memory, network I/O, disk I/O, uptime. Filter by name, image or host, or by one host; double-click opens the container. It uses the 5-second samples of the dashboard. Open from the sidebar, Command-K or `gantry://open/usage`. MCP tool `fleet_activity`.
+- Export as Compose (0.28.0): one or more containers to a `docker-compose.yml` (ports, binds, volumes, tmpfs, networks with aliases, restart policy, healthcheck, CPU and memory limits, capabilities, DNS, devices, ulimits, logging). Named volumes and networks are `external: true`. Secret-like values become `${NAME}` unless included; a file with a secret value is saved with mode 0600. On apple/container hosts Gantry reads `container inspect` and warns about flags Compose cannot express.
+- Keychain secrets (0.28.0): Settings > Secrets stores values in the macOS Keychain. Environment rows in New Container and Quick Run use a secret as `keychain:NAME`; the value is never shown and is read only when the container is created. Copy as Command, recipes and Compose export write `keychain:NAME`; the Inspect tab and Explain Failure show `KEY=[REDACTED]`. Optional Touch ID for secrets.
+- Screenshots in Explain Failure (0.28.0): drop, paste or add up to 3 images (20 MB each) on macOS 27 with the on-device model; images never go to Private Cloud Compute.
+- Log export (0.29.0): Export Logs... (Shift-Command-E) saves the visible lines (level filter, search, time range, hidden services) as .log or .txt; Copy Visible Lines. Timestamps and a time range (last 5 minutes to last day) on Docker hosts.
+- Build history (0.29.0): a Builds section on each host with steps (executed, cached, failed), cache use and log. Gantry keeps up to 100 builds per host that it started itself, with build-argument names but not values; Docker hosts also show `docker buildx history` (buildx 0.23.0 or later). apple/container keeps no build history, so only builds started in Gantry show there.
+- Image scan and SBOM (0.29.0): Scan for Vulnerabilities... runs Trivy (0.50.0 or later) or Grype (0.74.0 or later) that the user installed; findings grouped Critical to Unknown; Export SBOM as CycloneDX (both) or SPDX (Trivy). Works on apple/container, local Docker, and Docker over SSH (registry copy of tagged images). Gantry does not install the scanners.
+- Menu bar progress (0.29.0): the menu bar panel shows running pulls, builds and Compose operations with progress, layers or services, bytes, elapsed time and Cancel, plus recently finished ones; the icon shows the number of running operations. Compose projects get Pull Images and Compose Down (keeps volumes and images).
 
 New in 0.27.0 (also):
 - Command palette (Command-K): search containers, Compose projects, images, volumes, networks, machines, clusters, hosts and commands; run actions from the keyboard.
@@ -46,7 +56,7 @@ New in 0.27.0 (also):
 - [Compare](https://getgantry.github.io/compare/): Gantry vs Docker Desktop vs OrbStack vs Podman Desktop vs the container CLI, with sources (facts checked 2026-11-07).
 - [Move from Docker Desktop to Apple container](https://getgantry.github.io/docker-desktop-to-apple-container/): docker to container command map, images, volumes, Compose, networks and what is missing.
 - [Store containers and volumes on an external drive](https://getgantry.github.io/containers-on-external-drive/): the app root, `container system start --app-root`, copying with `cp -Rp`, bind mounts, unplugging safely.
-- [Create a container from a docker run command](https://getgantry.github.io/docker-run-to-container/): Paste Command in Gantry, flag mapping, apple/container warnings, Copy as Command, recipes.
+- [Create a container from a docker run command](https://getgantry.github.io/docker-run-to-container/): Paste Command in Gantry, flag mapping, apple/container warnings, Copy as Command, Export as Compose, Keychain secrets, recipes.
 - [Full plain-text description](https://getgantry.github.io/llms-full.txt): every feature and command in one file.
 
 ## Documentation
@@ -54,45 +64,19 @@ New in 0.27.0 (also):
 - [Install guide](https://getgantry.github.io/docs/install.html): Homebrew and manual install, updates, first launch.
 - [apple/container docs](https://getgantry.github.io/docs/apple-container.html): setup, versions, services, System section, clusters.
 - [Hosts](https://getgantry.github.io/docs/hosts.html): local Docker, Docker over SSH, key handling.
-- [Containers](https://getgantry.github.io/docs/containers.html): logs, stats, exec, files, processes.
+- [Containers](https://getgantry.github.io/docs/containers.html): logs and log export, stats, exec, files, processes, Export as Compose, Keychain secrets.
 - [Ports & browser access](https://getgantry.github.io/docs/ports.html): port forwarding, open in browser, Cloudflare Tunnel.
 - [Local DNS names](https://getgantry.github.io/docs/dns.html): routable names on apple/container.
-- [Images & Compose](https://getgantry.github.io/docs/images-compose.html): images, pulls, Compose projects.
+- [Images & Compose](https://getgantry.github.io/docs/images-compose.html): images, pulls, vulnerability scans and SBOM, build history, Compose projects.
 - [Networks, volumes & machines](https://getgantry.github.io/docs/resources.html): including Open in VS Code.
 - [AI agents & MCP](https://getgantry.github.io/docs/mcp.html): MCP server, App Intents, Copy as Prompt.
-- [The menu bar](https://getgantry.github.io/docs/menu-bar.html)
+- [The menu bar](https://getgantry.github.io/docs/menu-bar.html): running containers and the progress of pulls, builds and Compose operations.
 - [Troubleshooting](https://getgantry.github.io/docs/troubleshooting.html)
 
 ## Languages
 
 The home page, the apple/container guide, the Kubernetes page (with the Kubernetes on a Mac walk-through), the comparison and the how-to guides (moving from Docker Desktop, external drives, docker run) are also available in these languages. Each language uses the same paths under its prefix, for example https://getgantry.github.io/de/apple-container/. The documentation is in English only.
 
-- Deutsch (de): https://getgantry.github.io/de/
-- Français (fr): https://getgantry.github.io/fr/
-- Español (es): https://getgantry.github.io/es/
-- Italiano (it): https://getgantry.github.io/it/
-- Português (pt-PT): https://getgantry.github.io/pt-PT/
-- Nederlands (nl): https://getgantry.github.io/nl/
-- Svenska (sv): https://getgantry.github.io/sv/
-- Dansk (da): https://getgantry.github.io/da/
-- Norsk bokmål (nb): https://getgantry.github.io/nb/
-- Suomi (fi): https://getgantry.github.io/fi/
-- Polski (pl): https://getgantry.github.io/pl/
-- Čeština (cs): https://getgantry.github.io/cs/
-- Slovenčina (sk): https://getgantry.github.io/sk/
-- Magyar (hu): https://getgantry.github.io/hu/
-- Română (ro): https://getgantry.github.io/ro/
-- Български (bg): https://getgantry.github.io/bg/
-- Ελληνικά (el): https://getgantry.github.io/el/
-- Hrvatski (hr): https://getgantry.github.io/hr/
-- Slovenščina (sl): https://getgantry.github.io/sl/
-- Српски (sr): https://getgantry.github.io/sr/
-- Srpski (sr-Latn): https://getgantry.github.io/sr-Latn/
-- Lietuvių (lt): https://getgantry.github.io/lt/
-- Latviešu (lv): https://getgantry.github.io/lv/
-- Eesti (et): https://getgantry.github.io/et/
-- Українська (uk): https://getgantry.github.io/uk/
-- Русский (ru): https://getgantry.github.io/ru/
 
 ## Source
 - [GitHub repository](https://github.com/getgantry/gantry): source, issues and releases (MIT).

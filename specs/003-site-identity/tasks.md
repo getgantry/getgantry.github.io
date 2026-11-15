@@ -27,7 +27,7 @@ description: "Task list for the site identity rebrand"
 - [x] T010 [US3] Write the new home page: title block, command table from `guide.table`, areas with the command rail, releases, install, FAQ, colophon
 - [x] T011 [US3] Write the new English strings (`home.ia`) and change the hype strings. Delete the unused keys
 - [x] T012 [US4] Translate 35 new or changed strings into 25 languages. Make Serbian Latin from Serbian Cyrillic. Result: 25 languages merged. Each value matches its translation file
-- [ ] T013 Build, run the checks, look at 1440 px and 390 px in light and dark mode in en, de, ru, el, fi. Open PR 1
+- [x] T013 Build, run the checks, look at 1440 px and 390 px in light and dark mode. Result: 0 problems, no horizontal scroll in 27 languages. PR #6
 
 ## Phase 3: PR 2, images
 

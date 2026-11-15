@@ -53,4 +53,4 @@ description: "Task list for the Gantry 0.29.0 landing update"
 
 ## Phase 6: Pull request
 
-- [ ] T027 Commit with Conventional Commits and open the pull request. Keep it unmerged. Send no IndexNow request.
+- [x] T027 Commit with Conventional Commits and open the pull request. Keep it unmerged. Send no IndexNow request. Result: PR #5.

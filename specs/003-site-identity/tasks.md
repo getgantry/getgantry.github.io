@@ -26,7 +26,7 @@ description: "Task list for the site identity rebrand"
 - [x] T009 [US1] Remove the crane stage, trust strip, reveal classes, icon tiles, mock UIs, CSS window frames, kickers, star count and `app.js`
 - [x] T010 [US3] Write the new home page: title block, command table from `guide.table`, areas with the command rail, releases, install, FAQ, colophon
 - [x] T011 [US3] Write the new English strings (`home.ia`) and change the hype strings. Delete the unused keys
-- [ ] T012 [US4] Translate 35 new or changed strings into 25 languages. Make Serbian Latin from Serbian Cyrillic
+- [x] T012 [US4] Translate 35 new or changed strings into 25 languages. Make Serbian Latin from Serbian Cyrillic. Result: 25 languages merged. Each value matches its translation file
 - [ ] T013 Build, run the checks, look at 1440 px and 390 px in light and dark mode in en, de, ru, el, fi. Open PR 1
 
 ## Phase 3: PR 2, images

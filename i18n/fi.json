@@ -43,6 +43,14 @@
         "Kubernetes-selain: podit, deploymentit, palvelut, secretit, tapahtumat, lokit, komentotulkki, porttien välitys, skaalaus, YAML:n käyttöönotto",
         "Selitä virhe Apple Intelligencella (laitteella tai Private Cloud Computessa, salaisuudet poistettuina)",
         "Komentopaletti (Komento-K) ja joukkotoiminnot usealle kontille, levykuvalle, taltiolle tai verkolle",
+        "Resurssien käyttö: yksi lajiteltava taulukko kaikkien isäntien käynnissä olevista konteista",
+        "Koontihistoria vaiheineen, välimuistiosumineen ja lokeineen, myös docker buildx history",
+        "Levykuvien haavoittuvuustarkistus Trivyllä tai Grypellä sekä SBOM-vienti (CycloneDX, SPDX)",
+        "Avainnipun salaisuudet konttien ympäristömuuttujina, ei koskaan näkyvissä selväkielisinä",
+        "Käynnissä olevien konttien vienti Compose-tiedostoksi, salaisuudet muuttujina",
+        "Lokien vienti nykyisellä suodattimella ja aikavälillä",
+        "Noudon, koonnin ja Composen edistyminen valikkorivillä, Kumoa-painikkeen kera",
+        "Kuvakaappaukset Selitä virhe -toiminnossa, luetaan vain laitteella",
         "Kontin luonti sijoitetusta docker run-, podman run- tai container run -komennosta; kontin kopiointi komentona; reseptit",
         "Ilmoitustoiminnot, Spotlight, Siri ja Pikakomennot, isäntien kunto -widget, Ohjauskeskuksen säätimet ja gantry://-linkit",
         "Konttikoneet: luonti, käynnistys, pysäytys, resurssit, komentotulkki, sisäkkäinen virtualisointi, mukautetut ytimet",
@@ -393,9 +401,9 @@
       "overview_title": "Isäntä – Yleiskatsaus",
       "overview_alt": "Isännän yleiskatsaus, jossa CPU- ja muistimittarit sekä Dockerin levynkäyttö",
       "overview_caption": "<b>Isännän yleiskatsaus.</b> Mittarit, levynkäyttö, daemonin tiedot.",
-      "fleet_title": "Isännät – Kunto",
-      "fleet_alt": "Viiden isännän kojelauta, jossa kunto-ongelmat näkyvillä",
-      "fleet_caption": "<b>Kojelauta.</b> Jokainen isäntä, jokainen ongelma, yksi näyttö."
+      "fleet_title": "Kojelauta",
+      "fleet_alt": "Kojelauta, jossa apple/container-isäntä ja Docker-isäntä sekä niiden CPU, muisti ja kuormittavimmat kontit",
+      "fleet_caption": "<b>Kojelauta.</b> Jokainen isäntä, sen kuorma ja sen kuormittavimmat kontit yhdellä näytöllä."
     },
     "built": {
       "kicker": "Toisin rakennettu",
@@ -421,6 +429,47 @@
       "s3_text": "Paikallinen Docker näkyy itsestään. Apple containeria varten lisää <em>Apple Container</em> -isäntä; Gantry tarjoutuu asentamaan <code>container</code>-CLI:n. Agentit: <code>claude mcp add gantry</code>."
     },
     "footer_meta": "MIT-lisenssi · Tehty SwiftUI:lla · © 2026",
+    "latest": {
+      "kicker": "Uutta versioissa 0.28 ja 0.29",
+      "h2": "Kaikki isännät yhdessä taulukossa ja turvallisemmat levykuvat",
+      "p": "Gantry 0.28.0 ja 0.29.0 tuovat yhden toimintataulukon kaikille isännille, koontihistorian, levykuvien tarkistuksen Trivyllä tai Grypellä, Avainnipun salaisuudet kontin ympäristöön ja viennin Compose-tiedostoksi. Voit viedä lokit suodattimellasi, antaa Selitä virhe -toiminnolle kuvakaappauksen ja seurata noutoja, koonteja ja Compose-ajoja valikkorivillä.",
+      "fleet": {
+        "h3": "Resurssien käyttö kaikilla isännillä",
+        "p": "Yksi lajiteltava taulukko jokaisen yhdistetyn isännän käynnissä olevista konteista: isäntä, nimi, levykuva, CPU, muisti, verkko-I/O, levy-I/O ja käyntiaika. Suodata nimen, levykuvan tai isännän mukaan tai näytä yksi isäntä. Avaa kontti kaksoisosoittamalla riviä. Taulukko käyttää mittauksia, jotka Gantry jo ottaa 5 sekunnin välein, joten se ei avaa uusia tilastovirtoja. Avaa se sivupalkista, näppäimillä <span class=\"kbd\">⌘K</span> tai osoitteella <code>gantry://open/usage</code>."
+      },
+      "progress": {
+        "h3": "Edistyminen valikkorivillä",
+        "p": "Valikkorivin paneeli näyttää jokaisen käynnissä olevan noudon, koonnin ja Compose-toiminnon edistymispalkin, valmiit kerrokset tai palvelut, tavut, ajan ja <b>Kumoa</b>-painikkeen. Valikkorivin symboli näyttää, montako toimintoa on käynnissä. Jokainen Compose-projekti saa toiminnot <b>Nouda levykuvat</b> ja <b>Compose Down</b>; Compose Down säilyttää taltiot ja levykuvat."
+      },
+      "scan": {
+        "h3": "Tarkista levykuvat Trivyllä tai Grypellä",
+        "p": "Valitse levykuvalle <b>Tarkista haavoittuvuudet…</b>. Gantry suorittaa asentamasi Trivyn (0.50.0 tai uudempi) tai Grypen (0.74.0 tai uudempi), esimerkiksi Homebrew’lla asennetun, ja ryhmittelee löydökset luokkiin Kriittinen–Tuntematon. <b>Vie SBOM</b> kirjoittaa CycloneDX-muodon tai Trivyllä SPDX-muodon. Se toimii apple/containerilla, paikallisella Dockerilla ja Dockerilla SSH:n kautta, jolloin Gantry tarkistaa tagatun levykuvan rekisterissä olevan kopion."
+      },
+      "builds": {
+        "h3": "Koontihistoria",
+        "p": "Jokaisella isännällä on <b>Koonnit</b>-osio: koonnit vaiheineen, välimuistiosumineen ja lokeineen. Gantry säilyttää itse käynnistämänsä koonnit, ja niistä koontiargumenttien nimet mutta ei niiden arvoja. Docker-isännillä se lukee myös <code>docker buildx history</code> -historian (buildx 0.23.0 tai uudempi). apple/container ei säilytä koontihistoriaa, joten siellä näet Gantryn käynnistämät koonnit."
+      },
+      "secrets": {
+        "h3": "Avainnipun salaisuudet ympäristössä",
+        "p": "Säilytä salasanat ja tunnukset macOSin Avainnipussa (<b>Asetukset → Salaisuudet</b>) ja käytä niitä ympäristömuuttujina Uusi kontti- ja Pikasuoritus-ikkunoissa. Lomake näyttää <code>keychain:NAME</code>, ei koskaan arvoa, ja Gantry lukee arvon vasta, kun se luo kontin. Compose-vienti, reseptit ja Kopioi komentona kirjoittavat nimen, eivät arvoa."
+      },
+      "compose": {
+        "h3": "Vie Compose-tiedostona",
+        "p": "Valitse yhdelle tai useammalle kontille <b>Vie Compose-tiedostona…</b>, niin saat <code>docker-compose.yml</code>-tiedoston, jossa ovat portit, liitokset, verkot, uudelleenkäynnistyskäytäntö, kuntotarkistus, rajoitukset ja muuta. Salaisuuksilta näyttävistä arvoista tulee <code>${NAME}</code>, ellet sisällytä niitä. apple/container-isännillä Gantry varoittaa valinnoista, joita Compose ei pysty ilmaisemaan. <a href=\"docker-run-to-container/#compose\">Miten se toimii</a>"
+      },
+      "logs": {
+        "h3": "Vie lokit",
+        "p": "<b>Vie lokit…</b> (<span class=\"kbd\">⇧⌘E</span>) tallentaa näkyvät rivit tasosuodattimen, haun ja aikavälin mukaan <code>.log</code>- tai <code>.txt</code>-tiedostoon. <b>Kopioi näkyvät rivit</b> kopioi ne. Docker-isännillä voit lisätä aikaleimat ja näyttää vain viimeiset 5 minuuttia – viimeisen päivän."
+      },
+      "explain": {
+        "h3": "Kuvakaappaukset Selitä virhe -toiminnossa",
+        "p": "Pudota, sijoita tai lisää enintään 3 kuvaa Selitä virhe -toimintoon, esimerkiksi kuvakaappaus virhesivusta. Kuvat pysyvät tällä Macilla: vain laitteella toimiva malli lukee ne (macOS 27), ei koskaan Private Cloud Compute."
+      },
+      "shot_fleet_alt": "Resurssien käyttö -taulukko, jossa apple/container-isännän ja Docker-isännän käynnissä olevat kontit CPU:n mukaan lajiteltuina",
+      "shot_fleet_caption": "<b>Resurssien käyttö.</b> Kaikkien isäntien kaikki käynnissä olevat kontit CPU:n mukaan lajiteltuina.",
+      "shot_menubar_alt": "Valikkorivin paneeli, jossa kaksi käynnissä olevaa levykuvan noutoa, niiden kerrokset, tavut ja Kumoa-painikkeet",
+      "shot_menubar_caption": "<b>Toiminta valikkorivillä.</b> Kerrokset, tavut, aika ja Kumoa jokaiselle noudolle."
+    },
     "new": {
       "kicker": "Uutta versiossa 0.27.0",
       "h2": "Kubernetes, Apple Intelligence ja muu macOS",
@@ -489,12 +538,12 @@
       ],
       [
         "<code>container logs</code>",
-        "Lokit-välilehti: reaaliaikainen seuranta, regex-haku, tasosuodatin, ANSI-värit",
+        "Lokit-välilehti: reaaliaikainen seuranta, regex-haku, tasosuodatin, ANSI-värit; <strong>Vie lokit…</strong> tallentaa näkyvät rivit",
         "Mikä tahansa"
       ],
       [
         "<code>container stats</code>",
-        "Tilastot-välilehti ja kojelaudan kuvaajat",
+        "Tilastot-välilehti, kojelaudan kuvaajat ja Resurssien käyttö -taulukko",
         "Mikä tahansa"
       ],
       [
@@ -504,7 +553,7 @@
       ],
       [
         "<code>container inspect</code>",
-        "Yleiskatsaus- ja Tarkastele-välilehdet",
+        "Yleiskatsaus- ja Tarkastele-välilehdet; <strong>Vie Compose-tiedostona…</strong> muuntaa määritykset Compose-tiedostoksi",
         "Mikä tahansa"
       ],
       [
@@ -534,12 +583,12 @@
       ],
       [
         "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
-        "Levykuvat: nouto edistymisen kera, tagien lisäys, poisto, siivous, tarkastelu",
+        "Levykuvat: nouto edistymisen kera, tagien lisäys, poisto, siivous, tarkastelu; <strong>Tarkista haavoittuvuudet…</strong> Trivyllä tai Grypellä",
         "Mikä tahansa"
       ],
       [
         "<code>container build</code>",
-        "Koostaa Compose-tiedoston <code>build:</code>-palvelut",
+        "Koostaa Compose-tiedoston <code>build:</code>-palvelut; <strong>Koonnit</strong>-osio luettelee Gantryn käynnistämät koonnit",
         "Mikä tahansa"
       ],
       [
@@ -1156,7 +1205,7 @@
       ],
       [
         "Uusin versio (tarkistettu 2026-11-07)",
-        "0.27.0",
+        "0.29.0 (2026-11-15)",
         "4.98.0 (2026-11-03)",
         "2.2.5 (2026-10-23)",
         "1.30.5 (2026-10-13)",
@@ -1334,6 +1383,9 @@
           "blocks": [
             {
               "p": "<code>container</code>-CLI:ssä ei ole <code>compose</code>-komentoa. Avaa <code>docker-compose.yml</code> sen sijaan Gantryssa (Finder, <strong>Arkisto ▸ Avaa Compose-tiedosto…</strong> tai vetämällä ja pudottamalla). Gantry koostaa <code>build:</code>-palvelut, luo projektin verkon ja nimetyt taltiot ja käynnistää palvelut <code>depends_on</code>-järjestyksessä. Palvelut tavoittavat toisensa palvelunimellä verkon DNS-aliasten kautta."
+            },
+            {
+              "p": "Eikö Compose-tiedostoa ole vielä? Valitse Docker-isännällä sovelluksen kontit, valitse <strong>Vie Compose-tiedostona…</strong> ja tallenna tiedosto. Tiedosto merkitsee nimetyt taltiot ja verkot määrityksellä <code>external: true</code>, joten luo ne ensin apple/container-isännälle (katso <a href=\"#volumes\">Siirrä nimetyt taltiot</a>) ja avaa tiedosto sitten siellä. Salaisuuksilta näyttävistä arvoista tulee <code>${NAME}</code>-muuttujia, joten tiedostossa ei ole salasanojasi."
             }
           ]
         },
@@ -1742,6 +1794,34 @@
           "blocks": [
             {
               "p": "Myös toiseen suuntaan onnistuu. Napsauta konttia hiiren oikealla tai käytä Lisää-valikkoa ja valitse <strong>Kopioi komentona</strong>: Gantry kirjoittaa <code>docker run</code>- tai <code>container run</code> -rivin. Se jättää pois levykuvan oletukset, kuten sen ympäristön ja komennon, joten rivi pysyy lyhyenä. Tämä toimii myös pysäytetyille konteille."
+            }
+          ]
+        },
+        {
+          "id": "compose",
+          "h": "Vie kontti Compose-tiedostona",
+          "blocks": [
+            {
+              "p": "Jos haluat säilyttää kontin tiedostona, napsauta sitä hiiren oikealla tai käytä Lisää-valikkoa ja valitse <strong>Vie Compose-tiedostona…</strong>. Valitse useita kontteja, niin ne tulevat yhteen tiedostoon. Gantry kirjoittaa <code>docker-compose.yml</code>-tiedoston, jossa on yksi palvelu kutakin konttia kohden: portit, liitokset, verkot, uudelleenkäynnistyskäytäntö, kuntotarkistus, rajoitukset, capabilities ja lokitus. Nimetyt taltiot ja verkot merkitään määrityksellä <code>external: true</code>."
+            },
+            {
+              "ul": [
+                "Salaisuuksilta näyttävistä arvoista tulee <code>${NAME}</code>-muuttujia. Sisällytä kohdassa <strong>Salaiset arvot</strong> ne arvot, jotka haluat tiedostoon. Tiedosto, jossa on salainen arvo, tallennetaan tilalla 0600.",
+                "apple/container-isännillä kohta <strong>Varoitukset</strong> luettelee valinnat, joita Compose ei pysty ilmaisemaan, kuten <code>--kernel</code>, <code>--rosetta</code> tai <code>--ssh</code>.",
+                "Osoita <strong>Kopioi</strong> tai <strong>Tallenna…</strong>."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "secrets",
+          "h": "Pidä salaisuudet poissa komennosta",
+          "blocks": [
+            {
+              "p": "Komennossa oleva <code>-e PASSWORD=…</code> vuotaa helposti. Avaa Uusi kontti -lomakkeessa ympäristörivin avainvalikko ja valitse <strong>Tallenna arvo Avainnippuun…</strong> tai valitse salaisuus, jonka olet lisännyt kohdassa <strong>Asetukset → Salaisuudet</strong>. Rivi näyttää sen jälkeen <code>keychain:NAME</code> ja lukon, ei arvoa."
+            },
+            {
+              "p": "Gantry lukee arvon Avainnipusta vasta, kun se luo kontin. <strong>Kopioi komentona</strong>, reseptit ja Compose-vienti kirjoittavat <code>keychain:NAME</code>. Tarkastele-välilehti näyttää <code>KEY=[REDACTED]</code>. Moottori tallentaa arvon silti, joten <code>docker inspect</code> tai <code>container inspect</code> Gantryn ulkopuolella voi näyttää sen."
             }
           ]
         },

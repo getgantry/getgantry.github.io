@@ -43,6 +43,14 @@
         "Browser Kubernetes: pod-uri, deployment-uri, servicii, secrete, evenimente, jurnale, shell, redirecționare de port, scalare, aplicare YAML",
         "„Explică eșecul” cu Apple Intelligence (pe dispozitiv sau prin Private Cloud Compute, fără secrete)",
         "Paletă de comenzi (Command-K) și acțiuni în bloc pe mai multe containere, imagini, volume sau rețele",
+        "Utilizarea resurselor: un singur tabel sortabil cu containerele care rulează pe toate gazdele",
+        "Istoricul build-urilor cu pași, accesări din cache și jurnale, inclusiv docker buildx history",
+        "Scanarea vulnerabilităților imaginilor cu Trivy sau Grype și export SBOM (CycloneDX, SPDX)",
+        "Secrete din portchei ca variabile de mediu ale containerelor, niciodată afișate ca text simplu",
+        "Exportul containerelor care rulează ca fișier Compose, cu secretele ca variabile",
+        "Exportul jurnalelor cu filtrul și intervalul de timp curente",
+        "Progresul descărcărilor, build-urilor și operațiunilor Compose în bara de meniu, cu Anulează",
+        "Capturi de ecran în „Explică eșecul”, citite doar pe dispozitiv",
         "Crearea unui container dintr-o comandă docker run, podman run sau container run lipită; copierea unui container ca comandă; rețete",
         "Acțiuni în notificări, Spotlight, Siri și Scurtături, un widget de flotă, comenzi în Centrul de control și linkuri gantry://",
         "Mașini container: creare, pornire, oprire, resurse, shell, virtualizare imbricată, kerneluri personalizate",
@@ -393,9 +401,9 @@
       "overview_title": "Gazdă — Prezentare generală",
       "overview_alt": "Prezentarea generală a gazdei cu indicatoare CPU și memorie și utilizarea discului de către Docker",
       "overview_caption": "<b>Prezentarea gazdei.</b> Indicatoare, utilizarea discului, date despre daemon.",
-      "fleet_title": "Flotă — Stare de sănătate",
-      "fleet_alt": "Panoul de flotă pentru cinci gazde, cu problemele de sănătate scoase în evidență",
-      "fleet_caption": "<b>Panoul de flotă.</b> Fiecare gazdă, fiecare problemă, un singur ecran."
+      "fleet_title": "Panou de bord",
+      "fleet_alt": "Panoul de flotă cu o gazdă apple/container și o gazdă Docker, cu CPU-ul, memoria și containerele cele mai active ale acestora",
+      "fleet_caption": "<b>Panoul de flotă.</b> Fiecare gazdă, încărcarea ei și containerele cele mai active, pe un singur ecran."
     },
     "built": {
       "kicker": "Construit altfel",
@@ -421,6 +429,47 @@
       "s3_text": "Docker local apare singur. Pentru Apple container, adăugați o gazdă <em>Apple Container</em>; Gantry se oferă să configureze CLI-ul <code>container</code>. Agenți: <code>claude mcp add gantry</code>."
     },
     "footer_meta": "Licență MIT · Construit cu SwiftUI · © 2026",
+    "latest": {
+      "kicker": "Nou în 0.28 și 0.29",
+      "h2": "Toată flota într-un singur tabel și imagini mai sigure",
+      "p": "Gantry 0.28.0 și 0.29.0 adaugă un singur tabel de activitate pentru toate gazdele, un istoric al build-urilor, scanarea imaginilor cu Trivy sau Grype, secrete din portchei pentru mediul containerului și exportul în Compose. Puteți exporta jurnalele cu filtrul dvs., puteți da funcției „Explică eșecul” o captură de ecran și puteți urmări descărcările, build-urile și rulările Compose în bara de meniu.",
+      "fleet": {
+        "h3": "Utilizarea resurselor pentru toate gazdele",
+        "p": "Un singur tabel sortabil cu containerele care rulează pe fiecare gazdă conectată: gazdă, nume, imagine, CPU, memorie, I/O de rețea, I/O pe disc și timp de funcționare. Filtrați după nume, imagine sau gazdă ori afișați o singură gazdă. Faceți dublu clic pe un rând pentru a deschide containerul. Tabelul folosește mostrele pe care Gantry le preia deja la fiecare 5 secunde, deci nu deschide fluxuri noi de statistici. Deschideți-l din bara laterală, cu <span class=\"kbd\">⌘K</span> sau cu <code>gantry://open/usage</code>."
+      },
+      "progress": {
+        "h3": "Progresul în bara de meniu",
+        "p": "Panoul din bara de meniu afișează fiecare descărcare, build și operațiune Compose în curs, cu o bară de progres, straturile sau serviciile terminate, octeții, timpul și un buton <b>Anulează</b>. Pictograma din bara de meniu arată câte operațiuni rulează. Fiecare proiect Compose are <b>Descarcă imaginile</b> și <b>Compose Down</b>; Compose Down păstrează volumele și imaginile."
+      },
+      "scan": {
+        "h3": "Scanați imaginile cu Trivy sau Grype",
+        "p": "Alegeți <b>Scanează vulnerabilitățile…</b> pe o imagine. Gantry rulează Trivy (0.50.0 sau mai nou) sau Grype (0.74.0 sau mai nou), pe care l-ați instalat, de exemplu cu Homebrew, și grupează rezultatele de la critice la necunoscute. <b>Exportă SBOM</b> scrie CycloneDX sau, cu Trivy, SPDX. Funcționează pe apple/container, pe Docker local și pe Docker prin SSH, unde Gantry scanează copia din registru a unei imagini cu tag."
+      },
+      "builds": {
+        "h3": "Istoricul build-urilor",
+        "p": "Fiecare gazdă are o secțiune <b>Build-uri</b>: build-urile cu pașii lor, accesările din cache și jurnalul. Gantry păstrează build-urile pe care le pornește, cu numele argumentelor de build, dar fără valorile lor. Pe gazdele Docker citește și <code>docker buildx history</code> (buildx 0.23.0 sau mai nou). apple/container nu păstrează un istoric al build-urilor, așa că acolo vedeți build-urile pornite de Gantry."
+      },
+      "secrets": {
+        "h3": "Secrete din portchei în mediu",
+        "p": "Păstrați parolele și tokenurile în portcheiul macOS (<b>Configurări → Secrete</b>) și folosiți-le ca variabile de mediu în Container nou și Rulare rapidă. Formularul afișează <code>keychain:NAME</code>, niciodată valoarea, iar Gantry citește valoarea doar când creează containerul. Exportul Compose, rețetele și Copiază ca comandă scriu numele, nu valoarea."
+      },
+      "compose": {
+        "h3": "Exportă ca Compose",
+        "p": "Alegeți <b>Exportă ca Compose…</b> pe unul sau mai multe containere pentru a obține un <code>docker-compose.yml</code> cu porturi, montări, rețele, politica de repornire, verificarea de sănătate, limite și altele. Valorile care seamănă cu secrete devin <code>${NAME}</code>, dacă nu le includeți. Pe gazdele apple/container, Gantry avertizează despre flagurile pe care Compose nu le poate exprima. <a href=\"docker-run-to-container/#compose\">Cum funcționează</a>"
+      },
+      "logs": {
+        "h3": "Exportul jurnalelor",
+        "p": "<b>Exportă jurnalele…</b> (<span class=\"kbd\">⇧⌘E</span>) salvează liniile pe care le vedeți, cu filtrul pe nivel, căutarea și intervalul de timp, ca fișier <code>.log</code> sau <code>.txt</code>. <b>Copiază liniile vizibile</b> le copiază. Pe gazdele Docker puteți adăuga marcaje de timp și puteți afișa doar ultima perioadă, de la 5 minute până la o zi."
+      },
+      "explain": {
+        "h3": "Capturi de ecran în „Explică eșecul”",
+        "p": "Trageți, lipiți sau adăugați până la 3 imagini în „Explică eșecul”, de exemplu o captură de ecran a unei pagini de eroare. Imaginile rămân pe acest Mac: doar modelul de pe dispozitiv le citește (macOS 27), niciodată Private Cloud Compute."
+      },
+      "shot_fleet_alt": "Tabelul Utilizarea resurselor cu containerele care rulează pe o gazdă apple/container și pe o gazdă Docker, sortate după CPU",
+      "shot_fleet_caption": "<b>Utilizarea resurselor.</b> Toate containerele care rulează pe toate gazdele, sortate după CPU.",
+      "shot_menubar_alt": "Panoul din bara de meniu cu două descărcări de imagini în curs, cu straturile, octeții și butoanele Anulează ale acestora",
+      "shot_menubar_caption": "<b>Activitate în bara de meniu.</b> Straturi, octeți, timp și Anulează pentru fiecare descărcare."
+    },
     "new": {
       "kicker": "Nou în 0.27.0",
       "h2": "Kubernetes, Apple Intelligence și restul macOS",
@@ -489,12 +538,12 @@
       ],
       [
         "<code>container logs</code>",
-        "Fila Jurnale: urmărire în timp real, căutare regex, filtru pe nivel, culori ANSI",
+        "Fila Jurnale: urmărire în timp real, căutare regex, filtru pe nivel, culori ANSI; <strong>Exportă jurnalele…</strong> salvează liniile vizibile",
         "Oricare"
       ],
       [
         "<code>container stats</code>",
-        "Fila Statistici și minigraficele din panoul de flotă",
+        "Fila Statistici, minigraficele din panoul de flotă și tabelul Utilizarea resurselor",
         "Oricare"
       ],
       [
@@ -504,7 +553,7 @@
       ],
       [
         "<code>container inspect</code>",
-        "Filele Prezentare generală și Inspectează",
+        "Filele Prezentare generală și Inspectează; <strong>Exportă ca Compose…</strong> transformă configurația într-un fișier Compose",
         "Oricare"
       ],
       [
@@ -534,12 +583,12 @@
       ],
       [
         "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
-        "Imagini: descărcare cu progres, tag, eliminare, curățare, inspectare",
+        "Imagini: descărcare cu progres, tag, eliminare, curățare, inspectare; <strong>Scanează vulnerabilitățile…</strong> cu Trivy sau Grype",
         "Oricare"
       ],
       [
         "<code>container build</code>",
-        "Construiește serviciile <code>build:</code> dintr-un fișier Compose",
+        "Construiește serviciile <code>build:</code> dintr-un fișier Compose; secțiunea <strong>Build-uri</strong> listează build-urile pornite de Gantry",
         "Oricare"
       ],
       [
@@ -1156,7 +1205,7 @@
       ],
       [
         "Ultima versiune (verificat la 2026-11-07)",
-        "0.27.0",
+        "0.29.0 (2026-11-15)",
         "4.98.0 (2026-11-03)",
         "2.2.5 (2026-10-23)",
         "1.30.5 (2026-10-13)",
@@ -1334,6 +1383,9 @@
           "blocks": [
             {
               "p": "CLI-ul <code>container</code> nu are comanda <code>compose</code>. Deschideți în schimb <code>docker-compose.yml</code> în Gantry (din Finder, cu <strong>Fișier ▸ Deschide un fișier Compose…</strong> sau prin tragere și plasare). Gantry construiește serviciile <code>build:</code>, creează rețeaua proiectului și volumele cu nume și pornește serviciile în ordinea <code>depends_on</code>. Serviciile se găsesc între ele după numele serviciului, prin aliasuri DNS de rețea."
+            },
+            {
+              "p": "Nu aveți încă un fișier Compose? Pe gazda Docker, selectați containerele aplicației, alegeți <strong>Exportă ca Compose…</strong> și salvați fișierul. Fișierul marchează volumele și rețelele cu nume ca <code>external: true</code>, așa că creați-le mai întâi pe gazda apple/container (vedeți <a href=\"#volumes\">Mutați volumele cu nume</a>), apoi deschideți fișierul acolo. Valorile care seamănă cu secrete devin variabile <code>${NAME}</code>, deci fișierul nu conține parolele dvs."
             }
           ]
         },
@@ -1742,6 +1794,34 @@
           "blocks": [
             {
               "p": "Funcționează și invers. Faceți clic dreapta pe un container sau folosiți meniul Mai mult și alegeți <strong>Copiază ca comandă</strong>: Gantry scrie o linie <code>docker run</code> sau <code>container run</code>. Omite valorile implicite ale imaginii, precum mediul și comanda, ca linia să rămână scurtă. Funcționează și pentru containerele oprite."
+            }
+          ]
+        },
+        {
+          "id": "compose",
+          "h": "Exportați containerul ca Compose",
+          "blocks": [
+            {
+              "p": "Pentru a păstra un container ca fișier, faceți clic dreapta pe el sau folosiți meniul Mai multe și alegeți <strong>Exportă ca Compose…</strong>. Selectați mai multe containere pentru a le pune într-un singur fișier. Gantry scrie un <code>docker-compose.yml</code> cu câte un serviciu pentru fiecare container: porturi, montări, rețele, politica de repornire, verificarea de sănătate, limite, capabilities și jurnalizare. Volumele și rețelele cu nume sunt marcate <code>external: true</code>."
+            },
+            {
+              "ul": [
+                "Valorile care seamănă cu secrete devin variabile <code>${NAME}</code>. În <strong>Valori secrete</strong>, includeți-le pe cele pe care le vreți în fișier. Un fișier cu o valoare secretă se salvează cu modul 0600.",
+                "Pe gazdele apple/container, <strong>Avertismente</strong> listează flagurile pe care Compose nu le poate exprima, cum ar fi <code>--kernel</code>, <code>--rosetta</code> sau <code>--ssh</code>.",
+                "Faceți clic pe <strong>Copiază</strong> sau pe <strong>Salvează…</strong>."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "secrets",
+          "h": "Țineți secretele în afara comenzii",
+          "blocks": [
+            {
+              "p": "Un <code>-e PASSWORD=…</code> într-o comandă se scurge ușor. În formularul Container nou, deschideți meniul cu cheie al unui rând de mediu și alegeți <strong>Salvează valoarea în portchei…</strong> sau alegeți un secret pe care l-ați adăugat în <strong>Configurări → Secrete</strong>. Rândul afișează apoi <code>keychain:NAME</code> cu un lacăt, nu valoarea."
+            },
+            {
+              "p": "Gantry citește valoarea din portchei doar când creează containerul. <strong>Copiază ca comandă</strong>, rețetele și exportul Compose scriu <code>keychain:NAME</code>. Fila Inspectează afișează <code>KEY=[REDACTED]</code>. Motorul păstrează totuși valoarea, deci <code>docker inspect</code> sau <code>container inspect</code> din afara Gantry o pot afișa."
             }
           ]
         },

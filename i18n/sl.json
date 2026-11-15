@@ -43,6 +43,14 @@
         "Brskalnik Kubernetes: podi, deploymenti, storitve, skrivnosti, dogodki, dnevniki, lupina, posredovanje vrat, skaliranje, uporaba YAML",
         "Razloži napako z Apple Intelligence (v napravi ali prek Private Cloud Compute, brez skrivnosti)",
         "Paleta ukazov (Command-K) in skupna dejanja na več vsebnikih, slikah, nosilcih ali omrežjih",
+        "Poraba virov: ena razvrstljiva tabela vsebnikov, ki se izvajajo na vseh gostiteljih",
+        "Zgodovina gradenj s koraki, zadetki v predpomnilniku in dnevniki, vključno z docker buildx history",
+        "Pregled ranljivosti slik s Trivy ali Grype in izvoz SBOM (CycloneDX, SPDX)",
+        "Skrivnosti iz obeska za ključe kot spremenljivke okolja vsebnika, nikoli prikazane kot navadno besedilo",
+        "Izvoz vsebnikov, ki se izvajajo, kot datoteke Compose, s skrivnostmi kot spremenljivkami",
+        "Izvoz dnevnikov s trenutnim filtrom in časovnim obdobjem",
+        "Napredek vlečenja, gradnje in Compose v menijski vrstici, z gumbom Prekliči",
+        "Posnetki zaslona v „Razloži napako“, prebrani samo v napravi",
         "Ustvarjanje vsebnika iz prilepljenega ukaza docker run, podman run ali container run; kopiranje vsebnika kot ukaza; recepti",
         "Dejanja v obvestilih, Spotlight, Siri in Bližnjice, pripomoček za floto, kontrolniki v Nadzornem središču in povezave gantry://",
         "Stroji container: ustvarjanje, zagon, ustavitev, viri, lupina, ugnezdena virtualizacija, jedra po meri",
@@ -393,9 +401,9 @@
       "overview_title": "Gostitelj — Pregled",
       "overview_alt": "Pregled gostitelja z merilniki CPU in pomnilnika ter porabo diska za Docker",
       "overview_caption": "<b>Pregled gostitelja.</b> Merilniki, poraba diska, podatki o demonu.",
-      "fleet_title": "Flota — Zdravje",
-      "fleet_alt": "Nadzorna plošča flote s petimi gostitelji in izpostavljenimi težavami z zdravjem",
-      "fleet_caption": "<b>Nadzorna plošča flote.</b> Vsak gostitelj, vsaka težava, en zaslon."
+      "fleet_title": "Nadzorna plošča",
+      "fleet_alt": "Nadzorna plošča flote z gostiteljem apple/container in gostiteljem Docker, njunim CPU, pomnilnikom in najbolj obremenjenimi vsebniki",
+      "fleet_caption": "<b>Nadzorna plošča flote.</b> Vsak gostitelj, njegova obremenitev in najbolj obremenjeni vsebniki na enem zaslonu."
     },
     "built": {
       "kicker": "Zgrajen drugače",
@@ -421,6 +429,47 @@
       "s3_text": "Lokalni Docker se prikaže sam. Za Apple container dodajte gostitelja vrste <em>Apple Container</em>; Gantry ponudi namestitev CLI <code>container</code>. Agenti: <code>claude mcp add gantry</code>."
     },
     "footer_meta": "Licenca MIT · Zgrajeno s SwiftUI · © 2026",
+    "latest": {
+      "kicker": "Novo v 0.28 in 0.29",
+      "h2": "Vsa flota v eni tabeli in varnejše slike",
+      "p": "Gantry 0.28.0 in 0.29.0 dodata eno tabelo dejavnosti za vse gostitelje, zgodovino gradenj, preglede slik s Trivy ali Grype, skrivnosti iz obeska za ključe za okolje vsebnikov in izvoz v Compose. Dnevnike lahko izvozite s svojim filtrom, funkciji „Razloži napako“ daste posnetek zaslona ter v menijski vrstici spremljate vlečenja, gradnje in zagone Compose.",
+      "fleet": {
+        "h3": "Poraba virov za vse gostitelje",
+        "p": "Ena razvrstljiva tabela vsebnikov, ki se izvajajo na vsakem povezanem gostitelju: gostitelj, ime, slika, CPU, pomnilnik, omrežni V/I, diskovni V/I in čas delovanja. Filtrirajte po imenu, sliki ali gostitelju ali prikažite enega gostitelja. Dvokliknite vrstico, da odprete vsebnik. Tabela uporablja vzorce, ki jih Gantry že zajema vsakih 5 sekund, zato ne odpira novih tokov statistike. Odprite jo iz stranske vrstice, s <span class=\"kbd\">⌘K</span> ali z <code>gantry://open/usage</code>."
+      },
+      "progress": {
+        "h3": "Napredek v menijski vrstici",
+        "p": "Plošča v menijski vrstici prikaže vsako vlečenje, gradnjo in operacijo Compose v teku z vrstico napredka, dokončanimi plastmi ali storitvami, bajti, časom in gumbom <b>Prekliči</b>. Ikona v menijski vrstici pokaže, koliko operacij se izvaja. Vsak projekt Compose dobi <b>Povleci slike</b> in <b>Compose down</b>; Compose down ohrani nosilce in slike."
+      },
+      "scan": {
+        "h3": "Pregled slik s Trivy ali Grype",
+        "p": "Na sliki izberite <b>Preglej ranljivosti…</b>. Gantry zažene Trivy (0.50.0 ali novejši) ali Grype (0.74.0 ali novejši), ki ste ga namestili, na primer s Homebrew, in razvrsti ugotovitve od kritičnih do neznanih. <b>Izvozi SBOM</b> zapiše CycloneDX, s Trivy pa tudi SPDX. Deluje na apple/container, lokalnem Dockerju in Dockerju prek SSH, kjer Gantry pregleda kopijo označene slike v registru."
+      },
+      "builds": {
+        "h3": "Zgodovina gradenj",
+        "p": "Vsak gostitelj ima razdelek <b>Gradnje</b>: gradnje z njihovimi koraki, zadetki v predpomnilniku in dnevnikom. Gantry hrani gradnje, ki jih zažene, z imeni argumentov gradnje, ne pa z njihovimi vrednostmi. Na gostiteljih Docker prebere tudi <code>docker buildx history</code> (buildx 0.23.0 ali novejši). apple/container ne hrani zgodovine gradenj, zato tam vidite gradnje, ki jih je zagnal Gantry."
+      },
+      "secrets": {
+        "h3": "Skrivnosti iz obeska za ključe v okolju",
+        "p": "Gesla in žetone hranite v obesku za ključe macOS (<b>Nastavitve → Skrivnosti</b>) in jih uporabite kot spremenljivke okolja v oknih Nov vsebnik in Hitri zagon. Obrazec prikaže <code>keychain:NAME</code>, nikoli vrednosti, Gantry pa vrednost prebere šele, ko ustvari vsebnik. Izvoz v Compose, recepti in Kopiraj kot ukaz zapišejo ime, ne vrednosti."
+      },
+      "compose": {
+        "h3": "Izvoz kot Compose",
+        "p": "Na enem ali več vsebnikih izberite <b>Izvozi kot Compose…</b> in dobili boste <code>docker-compose.yml</code> z vrati, priklopi, omrežji, pravilnikom ponovnega zagona, preverjanjem zdravja, omejitvami in drugim. Vrednosti, ki so videti kot skrivnosti, postanejo <code>${NAME}</code>, razen če jih vključite. Na gostiteljih apple/container Gantry opozori na zastavice, ki jih Compose ne more izraziti. <a href=\"docker-run-to-container/#compose\">Kako deluje</a>"
+      },
+      "logs": {
+        "h3": "Izvoz dnevnikov",
+        "p": "<b>Izvozi dnevnike…</b> (<span class=\"kbd\">⇧⌘E</span>) shrani vrstice, ki jih vidite, s filtrom ravni, iskanjem in časovnim obdobjem, kot datoteko <code>.log</code> ali <code>.txt</code>. <b>Kopiraj vidne vrstice</b> jih kopira. Na gostiteljih Docker lahko dodate časovne žige in prikažete samo obdobje od zadnjih 5 minut do zadnjega dne."
+      },
+      "explain": {
+        "h3": "Posnetki zaslona v „Razloži napako“",
+        "p": "V „Razloži napako“ spustite, prilepite ali dodajte do 3 slike, na primer posnetek zaslona strani z napako. Slike ostanejo v tem Macu: prebere jih samo model v napravi (macOS 27), nikoli Private Cloud Compute."
+      },
+      "shot_fleet_alt": "Tabela Poraba virov z vsebniki, ki se izvajajo na gostitelju apple/container in gostitelju Docker, razvrščenimi po CPU",
+      "shot_fleet_caption": "<b>Poraba virov.</b> Vsi vsebniki, ki se izvajajo na vseh gostiteljih, razvrščeni po CPU.",
+      "shot_menubar_alt": "Plošča v menijski vrstici z dvema vlečenjema slik v teku, njunimi plastmi, bajti in gumboma Prekliči",
+      "shot_menubar_caption": "<b>Dejavnost v menijski vrstici.</b> Plasti, bajti, čas in Prekliči za vsako vlečenje."
+    },
     "new": {
       "kicker": "Novo v 0.27.0",
       "h2": "Kubernetes, Apple Intelligence in preostanek macOS",
@@ -489,12 +538,12 @@
       ],
       [
         "<code>container logs</code>",
-        "Zavihek Dnevniki: sledenje v živo, iskanje z regularnimi izrazi, filter ravni, barve ANSI",
+        "Zavihek Dnevniki: sledenje v živo, iskanje z regularnimi izrazi, filter ravni, barve ANSI; <strong>Izvozi dnevnike…</strong> shrani vidne vrstice",
         "Katera koli"
       ],
       [
         "<code>container stats</code>",
-        "Zavihek Statistika in mini grafi na nadzorni plošči flote",
+        "Zavihek Statistika, mini grafi na nadzorni plošči flote in tabela Poraba virov",
         "Katera koli"
       ],
       [
@@ -504,7 +553,7 @@
       ],
       [
         "<code>container inspect</code>",
-        "Zavihka Pregled in Preglej",
+        "Zavihka Pregled in Preglej; <strong>Izvozi kot Compose…</strong> pretvori konfiguracijo v datoteko Compose",
         "Katera koli"
       ],
       [
@@ -534,12 +583,12 @@
       ],
       [
         "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
-        "Slike: vlečenje z napredkom, označevanje, odstranjevanje, čiščenje, pregled",
+        "Slike: vlečenje z napredkom, označevanje, odstranjevanje, čiščenje, pregled; <strong>Preglej ranljivosti…</strong> s Trivy ali Grype",
         "Katera koli"
       ],
       [
         "<code>container build</code>",
-        "Zgradi storitve <code>build:</code> iz datoteke Compose",
+        "Zgradi storitve <code>build:</code> iz datoteke Compose; razdelek <strong>Gradnje</strong> navaja gradnje, ki jih je zagnal Gantry",
         "Katera koli"
       ],
       [
@@ -1156,7 +1205,7 @@
       ],
       [
         "Najnovejša različica (preverjeno 2026-11-07)",
-        "0.27.0",
+        "0.29.0 (2026-11-15)",
         "4.98.0 (2026-11-03)",
         "2.2.5 (2026-10-23)",
         "1.30.5 (2026-10-13)",
@@ -1334,6 +1383,9 @@
           "blocks": [
             {
               "p": "CLI <code>container</code> nima ukaza <code>compose</code>. Namesto tega odprite <code>docker-compose.yml</code> v Gantryju (Finder, <strong>Datoteka ▸ Odpri datoteko Compose…</strong> ali povlecite in spustite). Gantry zgradi storitve <code>build:</code>, ustvari omrežje projekta in poimenovane nosilce ter zažene storitve v vrstnem redu iz <code>depends_on</code>. Storitve se med seboj dosežejo po imenu storitve prek omrežnih vzdevkov DNS."
+            },
+            {
+              "p": "Še nimate datoteke compose? Na gostitelju Docker izberite vsebnike aplikacije, izberite <strong>Izvozi kot Compose…</strong> in shranite datoteko. Datoteka označi poimenovane nosilce in omrežja kot <code>external: true</code>, zato jih najprej ustvarite na gostitelju apple/container (glejte <a href=\"#volumes\">Selitev poimenovanih nosilcev</a>), nato pa tam odprite datoteko. Vrednosti, ki so videti kot skrivnosti, postanejo spremenljivke <code>${NAME}</code>, zato datoteka ne vsebuje vaših gesel."
             }
           ]
         },
@@ -1742,6 +1794,34 @@
           "blocks": [
             {
               "p": "Deluje tudi v obratni smeri. Z desno tipko kliknite vsebnik ali uporabite meni Več in izberite <strong>Kopiraj kot ukaz</strong>: Gantry zapiše vrstico <code>docker run</code> ali <code>container run</code>. Privzete vrednosti slike, na primer njeno okolje in ukaz, izpusti, da vrstica ostane kratka. To deluje tudi za ustavljene vsebnike."
+            }
+          ]
+        },
+        {
+          "id": "compose",
+          "h": "Izvoz vsebnika kot Compose",
+          "blocks": [
+            {
+              "p": "Če želite vsebnik ohraniti kot datoteko, ga kliknite z desno tipko ali uporabite meni Več in izberite <strong>Izvozi kot Compose…</strong>. Izberite več vsebnikov, da jih postavite v eno datoteko. Gantry zapiše <code>docker-compose.yml</code> z eno storitvijo za vsak vsebnik: vrata, priklopi, omrežja, pravilnik ponovnega zagona, preverjanje zdravja, omejitve, zmožnosti (capabilities) in beleženje. Poimenovani nosilci in omrežja so označeni z <code>external: true</code>."
+            },
+            {
+              "ul": [
+                "Vrednosti, ki so videti kot skrivnosti, postanejo spremenljivke <code>${NAME}</code>. Pod <strong>Skrivne vrednosti</strong> vključite tiste, ki jih želite v datoteki. Datoteka s skrivno vrednostjo se shrani z dovoljenji 0600.",
+                "Na gostiteljih apple/container <strong>Opozorila</strong> navajajo zastavice, ki jih Compose ne more izraziti, na primer <code>--kernel</code>, <code>--rosetta</code> ali <code>--ssh</code>.",
+                "Kliknite <strong>Kopiraj</strong> ali <strong>Shrani…</strong>."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "secrets",
+          "h": "Skrivnosti naj ostanejo zunaj ukaza",
+          "blocks": [
+            {
+              "p": "<code>-e PASSWORD=…</code> v ukazu hitro uide. V obrazcu Nov vsebnik odprite meni s ključem v vrstici okolja in izberite <strong>Shrani vrednost v obesek za ključe…</strong> ali izberite skrivnost, ki ste jo dodali v <strong>Nastavitve → Skrivnosti</strong>. Vrstica nato prikaže <code>keychain:NAME</code> s ključavnico, ne vrednosti."
+            },
+            {
+              "p": "Gantry prebere vrednost iz obeska za ključe šele, ko ustvari vsebnik. <strong>Kopiraj kot ukaz</strong>, recepti in izvoz v Compose zapišejo <code>keychain:NAME</code>. Zavihek Preglej prikaže <code>KEY=[REDACTED]</code>. Pogon vrednost še vedno hrani, zato jo lahko <code>docker inspect</code> ali <code>container inspect</code> zunaj Gantryja prikaže."
             }
           ]
         },

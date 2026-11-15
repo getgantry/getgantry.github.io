@@ -43,6 +43,14 @@
         "Kubernetes-böngésző: podok, deploymentek, szolgáltatások, Secretek, események, naplók, shell, porttovábbítás, skálázás, YAML alkalmazása",
         "Hiba magyarázata az Apple Intelligence-szel (az eszközön vagy a Private Cloud Compute-ban, a titkok eltávolításával)",
         "Parancspaletta (Command-K) és csoportos műveletek egyszerre több konténeren, image-en, köteten vagy hálózaton",
+        "Erőforrás-használat: egyetlen rendezhető táblázat az összes gazdagép futó konténereiről",
+        "Buildelőzmények lépésekkel, gyorsítótár-találatokkal és naplókkal, a docker buildx history adataival együtt",
+        "Image-ek sebezhetőségi vizsgálata Trivyvel vagy Grype-pal, és SBOM-export (CycloneDX, SPDX)",
+        "Kulcskarika-titkok a konténer környezeti változóiként, sosem egyszerű szövegként megjelenítve",
+        "Futó konténerek exportálása Compose-fájlba, a titkok változóként",
+        "Naplók exportálása az aktuális szűrővel és időtartománnyal",
+        "A letöltések, buildek és Compose-műveletek folyamata a menüsorban, Mégse gombbal",
+        "Képernyőképek a Hiba magyarázatában, kizárólag az eszközön feldolgozva",
         "Konténer létrehozása beillesztett docker run, podman run vagy container run parancsból; konténer másolása parancsként; receptek",
         "Értesítési műveletek, Spotlight, Siri és Parancsok, flottawidget, vezérlők a Vezérlőközpontban és gantry:// hivatkozások",
         "Konténergépek: létrehozás, indítás, leállítás, erőforrások, shell, beágyazott virtualizáció, egyéni kernelek",
@@ -393,9 +401,9 @@
       "overview_title": "Gazdagép – Áttekintés",
       "overview_alt": "Gazdagép-áttekintés CPU- és memóriamérőkkel és a Docker lemezhasználatával",
       "overview_caption": "<b>Gazdagép-áttekintés.</b> Mérők, lemezhasználat, a démon adatai.",
-      "fleet_title": "Flotta – Állapot",
-      "fleet_alt": "Flottairányítópult öt gazdagéppel, kiemelt állapotproblémákkal",
-      "fleet_caption": "<b>Flottairányítópult.</b> Minden gazdagép, minden probléma, egy képernyő."
+      "fleet_title": "Irányítópult",
+      "fleet_alt": "Flottairányítópult egy apple/container- és egy Docker-gazdagéppel, azok CPU-jával, memóriájával és legterheltebb konténereivel",
+      "fleet_caption": "<b>Flottairányítópult.</b> Minden gazdagép, a terhelése és a legterheltebb konténerei egy képernyőn."
     },
     "built": {
       "kicker": "Másképp építve",
@@ -421,6 +429,47 @@
       "s3_text": "A helyi Docker magától megjelenik. Az Apple containerhez adjon hozzá egy <em>Apple Container</em>-gazdagépet; a Gantry felajánlja a <code>container</code> CLI telepítését. Ügynökök: <code>claude mcp add gantry</code>."
     },
     "footer_meta": "MIT-licenc · SwiftUI-jal készült · © 2026",
+    "latest": {
+      "kicker": "Újdonságok a 0.28-as és a 0.29-es verzióban",
+      "h2": "A teljes flotta egy táblázatban, és biztonságosabb image-ek",
+      "p": "A Gantry 0.28.0 és 0.29.0 egyetlen tevékenységtáblázatot ad az összes gazdagéphez, valamint buildelőzményeket, image-vizsgálatot Trivyvel vagy Grype-pal, Kulcskarika-titkokat a konténer környezetéhez és Compose-exportot. A naplókat a saját szűrőjével exportálhatja, a Hiba magyarázata funkciónak képernyőképet adhat, a letöltéseket, buildeket és Compose-futtatásokat pedig a menüsorban követheti.",
+      "fleet": {
+        "h3": "Erőforrás-használat minden gazdagépen",
+        "p": "Egyetlen rendezhető táblázat minden csatlakoztatott gazdagép futó konténereiről: gazdagép, név, image, CPU, memória, hálózati I/O, lemez-I/O és futási idő. Szűrhet név, image vagy gazdagép szerint, vagy megjeleníthet egyetlen gazdagépet. Egy sorra duplán kattintva megnyílik a konténer. A táblázat azokat a mintákat használja, amelyeket a Gantry amúgy is 5 másodpercenként gyűjt, így nem nyit új statisztikai adatfolyamokat. Megnyitható az oldalsávról, a <span class=\"kbd\">⌘K</span> billentyűkkel vagy a <code>gantry://open/usage</code> hivatkozással."
+      },
+      "progress": {
+        "h3": "Folyamatjelzés a menüsorban",
+        "p": "A menüsor panelje minden futó letöltést, buildet és Compose-műveletet folyamatjelzővel mutat, a kész rétegekkel vagy szolgáltatásokkal, a bájtokkal, az idővel és egy <b>Mégse</b> gombbal. A menüsor ikonja mutatja, hány művelet fut. Minden Compose-projekthez tartozik <b>Képek letöltése</b> és <b>Compose down</b>; a Compose down megtartja a köteteket és az image-eket."
+      },
+      "scan": {
+        "h3": "Image-ek vizsgálata Trivyvel vagy Grype-pal",
+        "p": "Válassza a <b>Sebezhetőségek vizsgálata…</b> parancsot egy image-en. A Gantry az Ön által telepített Trivyt (0.50.0 vagy újabb) vagy Grype-ot (0.74.0 vagy újabb) futtatja, például a Homebrew-ból telepítettet, és a találatokat a kritikustól az ismeretlenig csoportosítja. Az <b>SBOM exportálása</b> CycloneDX vagy – Trivyvel – SPDX formátumot ír. Működik az apple/containeren, a helyi Dockeren és az SSH-n elért Dockeren, ahol a Gantry egy címkézett image registryben lévő példányát vizsgálja."
+      },
+      "builds": {
+        "h3": "Buildelőzmények",
+        "p": "Minden gazdagépnek van egy <b>Buildek</b> szakasza: a buildek a lépéseikkel, a gyorsítótár-találatokkal és a naplóval. A Gantry megőrzi az általa indított buildeket, a build-argumentumok nevével, de az értékük nélkül. Docker-gazdagépeken a <code>docker buildx history</code> adatait is beolvassa (buildx 0.23.0 vagy újabb). Az apple/container nem őriz buildelőzményeket, ezért ott a Gantry által indított buildek láthatók."
+      },
+      "secrets": {
+        "h3": "Kulcskarika-titkok a környezetben",
+        "p": "Tárolja a jelszavakat és tokeneket a macOS Kulcskarikában (<b>Beállítások → Titkok</b>), és használja őket környezeti változóként az Új konténer és a Gyorsfuttatás nézetben. Az űrlap a <code>keychain:NAME</code> alakot mutatja, sosem az értéket, és a Gantry csak a konténer létrehozásakor olvassa be az értéket. A Compose-export, a receptek és a Másolás parancsként a nevet írják ki, nem az értéket."
+      },
+      "compose": {
+        "h3": "Exportálás Compose-ként",
+        "p": "Válassza az <b>Exportálás Compose-ként…</b> parancsot egy vagy több konténeren, és kap egy <code>docker-compose.yml</code> fájlt a portokkal, csatolásokkal, hálózatokkal, újraindítási szabállyal, állapotellenőrzéssel, korlátokkal és egyebekkel. A titoknak látszó értékekből <code>${NAME}</code> lesz, hacsak nem foglalja bele őket. Az apple/container-gazdagépeken a Gantry figyelmeztet azokra a kapcsolókra, amelyeket a Compose nem tud kifejezni. <a href=\"docker-run-to-container/#compose\">Hogyan működik</a>"
+      },
+      "logs": {
+        "h3": "Naplók exportálása",
+        "p": "A <b>Naplók exportálása…</b> (<span class=\"kbd\">⇧⌘E</span>) a látható sorokat a szintszűrővel, a kereséssel és az időtartománnyal együtt <code>.log</code> vagy <code>.txt</code> fájlba menti. A <b>Látható sorok másolása</b> vágólapra másolja őket. Docker-gazdagépeken időbélyegeket adhat hozzá, és csak a legutóbbi időszakot jelenítheti meg, 5 perctől egy napig."
+      },
+      "explain": {
+        "h3": "Képernyőképek a Hiba magyarázatában",
+        "p": "Húzzon be, illesszen be vagy adjon hozzá legfeljebb 3 képet a Hiba magyarázatában, például egy hibaoldal képernyőképét. A képek ezen a Macen maradnak: csak az eszközön futó modell olvassa őket (macOS 27), a Private Cloud Compute soha."
+      },
+      "shot_fleet_alt": "Erőforrás-használat táblázat egy apple/container- és egy Docker-gazdagép futó konténereivel, CPU szerint rendezve",
+      "shot_fleet_caption": "<b>Erőforrás-használat.</b> Az összes gazdagép összes futó konténere, CPU szerint rendezve.",
+      "shot_menubar_alt": "Menüsor-panel két folyamatban lévő image-letöltéssel, azok rétegeivel, bájtjaival és Mégse gombjaival",
+      "shot_menubar_caption": "<b>Tevékenység a menüsorban.</b> Rétegek, bájtok, idő és Mégse minden letöltésnél."
+    },
     "new": {
       "kicker": "Újdonságok a 0.27.0-s verzióban",
       "h2": "Kubernetes, Apple Intelligence és a macOS többi része",
@@ -489,12 +538,12 @@
       ],
       [
         "<code>container logs</code>",
-        "Naplók lap: élő követés, regex-keresés, szintszűrő, ANSI-színek",
+        "Naplók lap: élő követés, regex-keresés, szintszűrő, ANSI-színek; a <strong>Naplók exportálása…</strong> menti a látható sorokat",
         "Bármely"
       ],
       [
         "<code>container stats</code>",
-        "Statisztika lap és a flottairányítópult minigrafikonjai",
+        "Statisztika lap, a flottairányítópult minigrafikonjai és az Erőforrás-használat táblázat",
         "Bármely"
       ],
       [
@@ -504,7 +553,7 @@
       ],
       [
         "<code>container inspect</code>",
-        "Áttekintés és Vizsgálat lapok",
+        "Áttekintés és Vizsgálat lapok; az <strong>Exportálás Compose-ként…</strong> Compose-fájllá alakítja a konfigurációt",
         "Bármely"
       ],
       [
@@ -534,12 +583,12 @@
       ],
       [
         "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
-        "Image-ek: letöltés folyamatjelzéssel, címkézés, eltávolítás, takarítás, vizsgálat",
+        "Image-ek: letöltés folyamatjelzéssel, címkézés, eltávolítás, takarítás, vizsgálat; <strong>Sebezhetőségek vizsgálata…</strong> Trivyvel vagy Grype-pal",
         "Bármely"
       ],
       [
         "<code>container build</code>",
-        "Egy Compose-fájl <code>build:</code> szolgáltatásainak buildelése",
+        "Egy Compose-fájl <code>build:</code> szolgáltatásainak buildelése; a <strong>Buildek</strong> szakasz a Gantry által indított buildeket listázza",
         "Bármely"
       ],
       [
@@ -1156,7 +1205,7 @@
       ],
       [
         "Legújabb verzió (ellenőrizve: 2026-11-07)",
-        "0.27.0",
+        "0.29.0 (2026-11-15)",
         "4.98.0 (2026-11-03)",
         "2.2.5 (2026-10-23)",
         "1.30.5 (2026-10-13)",
@@ -1334,6 +1383,9 @@
           "blocks": [
             {
               "p": "A <code>container</code> CLI-ben nincs <code>compose</code> parancs. Ehelyett nyissa meg a <code>docker-compose.yml</code> fájlt a Gantryben (a Finderből, a <strong>Fájl ▸ Compose-fájl megnyitása…</strong> menüponttal vagy húzással). A Gantry buildeli a <code>build:</code> szolgáltatásokat, létrehozza a projekt hálózatát és nevesített köteteit, majd <code>depends_on</code> sorrendben elindítja a szolgáltatásokat. A szolgáltatások szolgáltatásnév alapján érik el egymást, hálózati DNS-aliasokon keresztül."
+            },
+            {
+              "p": "Még nincs Compose-fájlja? A Docker-gazdagépen jelölje ki az alkalmazás konténereit, válassza az <strong>Exportálás Compose-ként…</strong> parancsot, majd mentse a fájlt. A fájl a nevesített köteteket és hálózatokat <code>external: true</code> jelöléssel látja el, ezért előbb hozza létre őket az apple/container-gazdagépen (lásd: <a href=\"#volumes\">Nevesített kötetek átvitele</a>), és csak utána nyissa meg ott a fájlt. A titoknak látszó értékekből <code>${NAME}</code> változók lesznek, így a fájl nem tartalmazza a jelszavait."
             }
           ]
         },
@@ -1742,6 +1794,34 @@
           "blocks": [
             {
               "p": "Visszafelé is működik. Kattintson jobb gombbal egy konténerre, vagy használja a Továbbiak menüt, és válassza a <strong>Másolás parancsként</strong> parancsot: a Gantry egy <code>docker run</code> vagy <code>container run</code> sort ír. Kihagyja az image alapértékeit, például a környezetét és a parancsát, így a sor rövid marad. Leállított konténereknél is működik."
+            }
+          ]
+        },
+        {
+          "id": "compose",
+          "h": "A konténer exportálása Compose-ként",
+          "blocks": [
+            {
+              "p": "Ha egy konténert fájlként szeretne megőrizni, kattintson rá a jobb gombbal, vagy használja a Továbbiak menüt, és válassza az <strong>Exportálás Compose-ként…</strong> parancsot. Ha több konténert jelöl ki, azok egy fájlba kerülnek. A Gantry egy <code>docker-compose.yml</code> fájlt ír, konténerenként egy szolgáltatással: portok, csatolások, hálózatok, újraindítási szabály, állapotellenőrzés, korlátok, capabilityk és naplózás. A nevesített kötetek és hálózatok <code>external: true</code> jelölést kapnak."
+            },
+            {
+              "ul": [
+                "A titoknak látszó értékekből <code>${NAME}</code> változók lesznek. A <strong>Titkos értékek</strong> alatt vegye fel azokat, amelyeket a fájlban szeretne látni. A titkos értéket tartalmazó fájl 0600-as jogosultsággal mentődik.",
+                "Az apple/container-gazdagépeken a <strong>Figyelmeztetések</strong> felsorolja azokat a kapcsolókat, amelyeket a Compose nem tud kifejezni, például: <code>--kernel</code>, <code>--rosetta</code> vagy <code>--ssh</code>.",
+                "Kattintson a <strong>Másolás</strong> vagy a <strong>Mentés…</strong> gombra."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "secrets",
+          "h": "A titkok maradjanak ki a parancsból",
+          "blocks": [
+            {
+              "p": "Egy parancsban lévő <code>-e PASSWORD=…</code> könnyen kiszivárog. Az Új konténer űrlapon nyissa meg egy környezetiváltozó-sor kulcs ikonos menüjét, és válassza az <strong>Érték mentése a Kulcskarikába…</strong> parancsot, vagy válasszon egy titkot, amelyet a <strong>Beállítások → Titkok</strong> alatt adott hozzá. A sor ezután lakattal a <code>keychain:NAME</code> alakot mutatja, nem az értéket."
+            },
+            {
+              "p": "A Gantry csak a konténer létrehozásakor olvassa be az értéket a Kulcskarikából. A <strong>Másolás parancsként</strong>, a receptek és a Compose-export a <code>keychain:NAME</code> alakot írják ki. A Vizsgálat lap <code>KEY=[REDACTED]</code> alakban mutatja. A motor továbbra is tárolja az értéket, ezért a Gantryn kívül a <code>docker inspect</code> vagy a <code>container inspect</code> megmutathatja."
             }
           ]
         },

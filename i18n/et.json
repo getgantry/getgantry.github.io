@@ -43,6 +43,14 @@
         "Kubernetese brauser: podid, Deploymentid, teenused, saladused, sündmused, logid, shell, pordisuunamine, skaleerimine, YAML-i rakendamine",
         "Selgita tõrget Apple Intelligence'i abil (seadmes või Private Cloud Compute'is, saladused eemaldatakse)",
         "Käsupalett (Command-K) ja hulgitoimingud mitme konteineri, tõmmise, köite või võrguga",
+        "Ressursikasutus: kõigi hostide töötavate konteinerite üks sorditav tabel",
+        "Koostamiste ajalugu sammude, vahemälutabamuste ja logidega, sh docker buildx history",
+        "Tõmmiste turvaaukude skannimine Trivy või Grype'iga ja SBOM-i eksport (CycloneDX, SPDX)",
+        "Võtmerõnga saladused konteineri keskkonnamuutujatena, mida kunagi lihttekstina ei näidata",
+        "Töötavate konteinerite eksport Compose'i failina, saladused muutujatena",
+        "Logide eksport praeguse filtri ja ajavahemikuga",
+        "Tõmbamise, koostamise ja Compose'i edenemine menüüribal, nupuga Tühista",
+        "Ekraanipildid funktsioonis Selgita tõrget, loetakse ainult seadmes",
         "Konteineri loomine kleebitud docker run, podman run või container run käsust; konteineri kopeerimine käsuna; retseptid",
         "Teavituste toimingud, Spotlight, Siri ja Otseteed, taristu vidin, Juhtimiskeskuse juhtelemendid ja gantry:// lingid",
         "Konteinermasinad: loomine, käivitamine, peatamine, ressursid, shell, pesastatud virtualiseerimine, kohandatud tuumad",
@@ -393,9 +401,9 @@
       "overview_title": "Host – Ülevaade",
       "overview_alt": "Hosti ülevaade CPU ja mälu näidikute ning Dockeri kettakasutusega",
       "overview_caption": "<b>Hosti ülevaade.</b> Näidikud, kettakasutus, deemoni andmed.",
-      "fleet_title": "Hostid – Seisund",
-      "fleet_alt": "Viie hosti juhtpaneel, kus seisundiprobleemid on esile toodud",
-      "fleet_caption": "<b>Hostide juhtpaneel.</b> Iga host, iga probleem, üks ekraan."
+      "fleet_title": "Töölaud",
+      "fleet_alt": "Hostide juhtpaneel apple/containeri hosti ja Dockeri hostiga, nende CPU, mälu ja enim koormavad konteinerid",
+      "fleet_caption": "<b>Hostide juhtpaneel.</b> Iga host, selle koormus ja enim koormavad konteinerid ühel ekraanil."
     },
     "built": {
       "kicker": "Teistmoodi ehitatud",
@@ -421,6 +429,47 @@
       "s3_text": "Kohalik Docker ilmub ise. Apple containeri jaoks lisage <em>Apple Containeri</em> host; Gantry pakub <code>container</code> CLI seadistamist. Agendid: <code>claude mcp add gantry</code>."
     },
     "footer_meta": "MIT-litsents · Tehtud SwiftUI-ga · © 2026",
+    "latest": {
+      "kicker": "Uut versioonides 0.28 ja 0.29",
+      "h2": "Kõik hostid ühes tabelis ja turvalisemad tõmmised",
+      "p": "Gantry 0.28.0 ja 0.29.0 lisavad kõigi hostide ühise tegevuste tabeli, koostamiste ajaloo, tõmmiste skannimise Trivy või Grype'iga, võtmerõnga saladused konteineri keskkonna jaoks ja ekspordi Compose'i. Saate eksportida logid oma filtriga, anda funktsioonile Selgita tõrget ekraanipildi ning jälgida tõmbamisi, koostamisi ja Compose'i käivitusi menüüribal.",
+      "fleet": {
+        "h3": "Kõigi hostide ressursikasutus",
+        "p": "Üks sorditav tabel iga ühendatud hosti töötavate konteineritega: host, nimi, tõmmis, CPU, mälu, võrgu I/O, ketta I/O ja tööaeg. Filtreerige nime, tõmmise või hosti järgi või näidake ühte hosti. Konteineri avamiseks topeltklõpsake rida. Tabel kasutab näidiseid, mida Gantry niikuinii iga 5 sekundi järel võtab, nii et see ei ava uusi statistikavooge. Avage see külgribalt, klahvidega <span class=\"kbd\">⌘K</span> või lingiga <code>gantry://open/usage</code>."
+      },
+      "progress": {
+        "h3": "Edenemine menüüribal",
+        "p": "Menüüriba paneel näitab iga käimasolevat tõmbamist, koostamist ja Compose'i toimingut koos edenemisriba, valmis kihtide või teenuste, baitide, aja ja nupuga <b>Tühista</b>. Menüüriba ikoon näitab, mitu toimingut käib. Igal Compose'i projektil on <b>Tõmba tõmmised</b> ja <b>Compose Down</b>; Compose Down säilitab köited ja tõmmised."
+      },
+      "scan": {
+        "h3": "Tõmmiste skannimine Trivy või Grype'iga",
+        "p": "Valige tõmmisel <b>Skanni turvaauke…</b>. Gantry käivitab teie installitud Trivy (0.50.0 või uuem) või Grype'i (0.74.0 või uuem), näiteks Homebrew' kaudu installitu, ja rühmitab leiud taseme järgi kriitilisest kuni teadmatuni. <b>Ekspordi SBOM</b> kirjutab CycloneDX-i või Trivyga SPDX-i. See töötab apple/containeris, kohalikus Dockeris ja SSH kaudu Dockeris; SSH kaudu skannib Gantry sildiga tõmmise registris olevat koopiat."
+      },
+      "builds": {
+        "h3": "Koostamiste ajalugu",
+        "p": "Igal hostil on jaotis <b>Koostamised</b>: koostamised sammude, vahemälutabamuste ja logiga. Gantry säilitab enda käivitatud koostamised koos koostamisargumentide nimedega, kuid ilma nende väärtusteta. Dockeri hostides loeb see ka käsu <code>docker buildx history</code> andmeid (buildx 0.23.0 või uuem). apple/container koostamiste ajalugu ei säilita, nii et seal näete Gantry käivitatud koostamisi."
+      },
+      "secrets": {
+        "h3": "Võtmerõnga saladused keskkonnas",
+        "p": "Hoidke paroole ja pääsutõendeid macOS-i võtmerõngas (<b>Seaded → Saladused</b>) ja kasutage neid keskkonnamuutujatena vormides Uus konteiner ja Kiirkäivitus. Vorm näitab <code>keychain:NAME</code>, mitte väärtust, ja Gantry loeb väärtuse alles konteineri loomisel. Compose'i eksport, retseptid ja Kopeeri käsuna kirjutavad nime, mitte väärtust."
+      },
+      "compose": {
+        "h3": "Eksport Compose'ina",
+        "p": "Valige ühel või mitmel konteineril <b>Ekspordi Compose'ina…</b> ja saate faili <code>docker-compose.yml</code> portide, haakepunktide, võrkude, taaskäivituspoliitika, seisukontrolli, piirangute ja muuga. Saladustena näivad väärtused muutuvad kujule <code>${NAME}</code>, kui te neid ei kaasa. apple/containeri hostides hoiatab Gantry lippude eest, mida Compose väljendada ei saa. <a href=\"docker-run-to-container/#compose\">Kuidas see töötab</a>"
+      },
+      "logs": {
+        "h3": "Logide eksport",
+        "p": "<b>Ekspordi logid…</b> (<span class=\"kbd\">⇧⌘E</span>) salvestab nähtavad read koos tasemefiltri, otsingu ja ajavahemikuga faili <code>.log</code> või <code>.txt</code>. <b>Kopeeri nähtavad read</b> kopeerib need. Dockeri hostides saate lisada ajatemplid ja näidata ainult viimaseid kirjeid: alates viimasest 5 minutist kuni viimase ööpäevani."
+      },
+      "explain": {
+        "h3": "Ekraanipildid funktsioonis Selgita tõrget",
+        "p": "Lohistage, kleepige või lisage funktsiooni Selgita tõrget kuni 3 pilti, näiteks vealehe ekraanipilt. Pildid jäävad sellesse Maci: neid loeb ainult seadmesisene mudel (macOS 27), mitte kunagi Private Cloud Compute."
+      },
+      "shot_fleet_alt": "Ressursikasutuse tabel apple/containeri hosti ja Dockeri hosti töötavate konteineritega, sorditud CPU järgi",
+      "shot_fleet_caption": "<b>Ressursikasutus.</b> Kõigi hostide kõik töötavad konteinerid, sorditud CPU järgi.",
+      "shot_menubar_alt": "Menüüriba paneel kahe käimasoleva tõmmise tõmbamisega, nende kihtide, baitide ja nuppudega Tühista",
+      "shot_menubar_caption": "<b>Tegevused menüüribal.</b> Iga tõmbamise kihid, baidid, aeg ja tühistamine."
+    },
     "new": {
       "kicker": "Uut versioonis 0.27.0",
       "h2": "Kubernetes, Apple Intelligence ja ülejäänud macOS",
@@ -489,12 +538,12 @@
       ],
       [
         "<code>container logs</code>",
-        "Vahekaart Logid: reaalajas jälgimine, regex-otsing, tasemefilter, ANSI-värvid",
+        "Vahekaart Logid: reaalajas jälgimine, regex-otsing, tasemefilter, ANSI-värvid; <strong>Ekspordi logid…</strong> salvestab nähtavad read",
         "Kõik"
       ],
       [
         "<code>container stats</code>",
-        "Vahekaart Statistika ja juhtpaneeli minigraafikud",
+        "Vahekaart Statistika, juhtpaneeli minigraafikud ja ressursikasutuse tabel",
         "Kõik"
       ],
       [
@@ -504,7 +553,7 @@
       ],
       [
         "<code>container inspect</code>",
-        "Vahekaardid Ülevaade ja Uuri",
+        "Vahekaardid Ülevaade ja Uuri; <strong>Ekspordi Compose'ina…</strong> teeb konfiguratsioonist Compose'i faili",
         "Kõik"
       ],
       [
@@ -534,12 +583,12 @@
       ],
       [
         "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
-        "Tõmmised: tõmbamine koos edenemisega, sildistamine, eemaldamine, puhastamine, uurimine",
+        "Tõmmised: tõmbamine koos edenemisega, sildistamine, eemaldamine, puhastamine, uurimine; <strong>Skanni turvaauke…</strong> Trivy või Grype'iga",
         "Kõik"
       ],
       [
         "<code>container build</code>",
-        "Koostab Compose'i faili <code>build:</code>-teenused",
+        "Koostab Compose'i faili <code>build:</code>-teenused; jaotis <strong>Koostamised</strong> loetleb Gantry käivitatud koostamised",
         "Kõik"
       ],
       [
@@ -1156,7 +1205,7 @@
       ],
       [
         "Uusim versioon (kontrollitud 2026-11-07)",
-        "0.27.0",
+        "0.29.0 (2026-11-15)",
         "4.98.0 (2026-11-03)",
         "2.2.5 (2026-10-23)",
         "1.30.5 (2026-10-13)",
@@ -1334,6 +1383,9 @@
           "blocks": [
             {
               "p": "<code>container</code> CLI-l pole käsku <code>compose</code>. Avage <code>docker-compose.yml</code> selle asemel Gantrys (Finderist, menüüst <strong>Fail ▸ Ava Compose'i fail…</strong> või lohistades). Gantry koostab <code>build:</code>-teenused, loob projekti võrgu ja nimega köited ning käivitab teenused <code>depends_on</code> järjekorras. Teenused leiavad üksteist teenuse nime järgi võrgu DNS-aliaste kaudu."
+            },
+            {
+              "p": "Compose'i faili veel pole? Valige Dockeri hostis rakenduse konteinerid, valige <strong>Ekspordi Compose'ina…</strong> ja salvestage fail. Fail märgib nimega köited ja võrgud kujul <code>external: true</code>, nii et looge need esmalt apple/containeri hostis (vt <a href=\"#volumes\">Nimega köidete teisaldamine</a>) ja avage fail seejärel seal. Saladustena näivad väärtused muutuvad muutujateks <code>${NAME}</code>, nii et fail ei sisalda teie paroole."
             }
           ]
         },
@@ -1742,6 +1794,34 @@
           "blocks": [
             {
               "p": "Ka vastupidi saab. Paremklõpsake konteinerit või kasutage menüüd Veel ja valige <strong>Kopeeri käsuna</strong>: Gantry kirjutab rea <code>docker run</code> või <code>container run</code>. See jätab välja tõmmise vaikeväärtused, nagu selle keskkonna ja käsu, nii et rida jääb lühikeseks. See töötab ka peatatud konteineritega."
+            }
+          ]
+        },
+        {
+          "id": "compose",
+          "h": "Konteineri eksport Compose'ina",
+          "blocks": [
+            {
+              "p": "Konteineri failina hoidmiseks paremklõpsake seda või kasutage menüüd Veel ja valige <strong>Ekspordi Compose'ina…</strong>. Mitme konteineri ühte faili panemiseks valige need kõik. Gantry kirjutab faili <code>docker-compose.yml</code>, kus iga konteiner on eraldi teenus: pordid, haakepunktid, võrgud, taaskäivituspoliitika, seisukontroll, piirangud, capabilities ja logimine. Nimega köited ja võrgud märgitakse kujul <code>external: true</code>."
+            },
+            {
+              "ul": [
+                "Saladustena näivad väärtused muutuvad muutujateks <code>${NAME}</code>. Jaotises <strong>Salajased väärtused</strong> kaasake need, mida soovite faili. Salajase väärtusega fail salvestatakse õigustega 0600.",
+                "apple/containeri hostides loetleb jaotis <strong>Hoiatused</strong> lipud, mida Compose väljendada ei saa, näiteks <code>--kernel</code>, <code>--rosetta</code> või <code>--ssh</code>.",
+                "Klõpsake <strong>Kopeeri</strong> või <strong>Salvesta…</strong>."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "secrets",
+          "h": "Saladused käsust välja",
+          "blocks": [
+            {
+              "p": "Käsus olev <code>-e PASSWORD=…</code> lekib kergesti. Avage vormis Uus konteiner keskkonnarea võtmemenüü ja valige <strong>Salvesta väärtus võtmerõngasse…</strong> või valige saladus, mille lisasite jaotises <strong>Seaded → Saladused</strong>. Siis näitab rida väärtuse asemel <code>keychain:NAME</code> koos lukuga."
+            },
+            {
+              "p": "Gantry loeb väärtuse võtmerõngast alles konteineri loomisel. <strong>Kopeeri käsuna</strong>, retseptid ja Compose'i eksport kirjutavad <code>keychain:NAME</code>. Vahekaart Uuri näitab <code>KEY=[REDACTED]</code>. Mootor salvestab väärtuse siiski, nii et <code>docker inspect</code> või <code>container inspect</code> väljaspool Gantryt võib selle näidata."
             }
           ]
         },

@@ -43,6 +43,14 @@
         "Kubernetes-browser: pods, deployments, services, secrets, gebeurtenissen, logs, shell, poortdoorsturing, schalen, YAML toepassen",
         "“Leg fout uit” met Apple Intelligence (op het apparaat of via Private Cloud Compute, geheimen verwijderd)",
         "Commandopalet (Command-K) en bulkacties op meerdere containers, images, volumes of netwerken",
+        "Gebruik van bronnen: één sorteerbare tabel met de actieve containers op alle hosts",
+        "Buildgeschiedenis met stappen, cachetreffers en logs, inclusief docker buildx history",
+        "Kwetsbaarheidsscan van images met Trivy of Grype, en SBOM-export (CycloneDX, SPDX)",
+        "Geheimen uit de sleutelhanger als omgevingsvariabelen van containers, nooit als leesbare tekst getoond",
+        "Actieve containers exporteren als Compose-bestand, met geheimen als variabelen",
+        "Logs exporteren met het huidige filter en tijdsbereik",
+        "Voortgang van pull, build en Compose in de menubalk, met Annuleer",
+        "Schermafbeeldingen in “Leg fout uit”, alleen op het apparaat gelezen",
         "Maak een container van een geplakt docker run-, podman run- of container run-commando; kopieer een container als commando; recepten",
         "Acties in meldingen, Spotlight, Siri en Opdrachten, een vlootwidget, regelaars in het bedieningspaneel en gantry://-links",
         "Containermachines: aanmaken, starten, stoppen, resources, shell, geneste virtualisatie, aangepaste kernels",
@@ -393,9 +401,9 @@
       "overview_title": "Host — Overzicht",
       "overview_alt": "Hostoverzicht met meters voor CPU en geheugen en het Docker-schijfgebruik",
       "overview_caption": "<b>Hostoverzicht.</b> Meters, schijfgebruik, daemongegevens.",
-      "fleet_title": "Vloot — Gezondheid",
-      "fleet_alt": "Vlootdashboard over vijf hosts met zichtbare gezondheidsproblemen",
-      "fleet_caption": "<b>Vlootdashboard.</b> Elke host, elk probleem, één scherm."
+      "fleet_title": "Dashboard",
+      "fleet_alt": "Vlootdashboard met een apple/container-host en een Docker-host, hun CPU, geheugen en topcontainers",
+      "fleet_caption": "<b>Vlootdashboard.</b> Elke host, de belasting en de topcontainers op één scherm."
     },
     "built": {
       "kicker": "Anders gebouwd",
@@ -421,6 +429,47 @@
       "s3_text": "Lokale Docker verschijnt vanzelf. Voor Apple container voeg je een <em>Apple Container</em>-host toe; Gantry biedt aan de <code>container</code>-CLI in te stellen. Agents: <code>claude mcp add gantry</code>."
     },
     "footer_meta": "MIT-licentie · Gebouwd met SwiftUI · © 2026",
+    "latest": {
+      "kicker": "Nieuw in 0.28 en 0.29",
+      "h2": "De hele vloot in één tabel, en veiligere images",
+      "p": "Gantry 0.28.0 en 0.29.0 voegen één activiteitstabel voor alle hosts toe, een buildgeschiedenis, imagescans met Trivy of Grype, geheimen uit de sleutelhanger voor de containeromgeving en een export naar Compose. Je kunt logs exporteren met je filter, “Leg fout uit” een schermafbeelding geven en pulls, builds en Compose-runs volgen in de menubalk.",
+      "fleet": {
+        "h3": "Gebruik van bronnen voor alle hosts",
+        "p": "Eén sorteerbare tabel met de actieve containers op elke verbonden host: host, naam, image, CPU, geheugen, netwerk-I/O, schijf-I/O en uptime. Filter op naam, image of host, of toon één host. Dubbelklik op een rij om de container te openen. De tabel gebruikt de meetwaarden die Gantry al elke 5 seconden neemt, dus opent hij geen nieuwe statistiekstreams. Open hem vanuit de navigatiekolom, met <span class=\"kbd\">⌘K</span> of met <code>gantry://open/usage</code>."
+      },
+      "progress": {
+        "h3": "Voortgang in de menubalk",
+        "p": "Het menubalkpaneel toont elke actieve pull-, build- en Compose-bewerking met een voortgangsbalk, de lagen of services die klaar zijn, de bytes, de tijd en een knop <b>Annuleer</b>. Het menubalksymbool toont hoeveel bewerkingen er lopen. Elk Compose-project krijgt <b>Images pullen</b> en <b>Compose Down</b>; Compose Down behoudt volumes en images."
+      },
+      "scan": {
+        "h3": "Images scannen met Trivy of Grype",
+        "p": "Kies <b>Scan op kwetsbaarheden…</b> bij een image. Gantry voert de Trivy (0.50.0 of later) of Grype (0.74.0 of later) uit die je hebt geïnstalleerd, bijvoorbeeld met Homebrew, en groepeert de bevindingen van Kritiek tot Onbekend. <b>Exporteer SBOM</b> schrijft CycloneDX, of SPDX met Trivy. Het werkt op apple/container, lokale Docker en Docker via SSH, waar Gantry de registrykopie van een getagde image scant."
+      },
+      "builds": {
+        "h3": "Buildgeschiedenis",
+        "p": "Elke host heeft een onderdeel <b>Builds</b>: de builds met hun stappen, cachetreffers en log. Gantry bewaart de builds die het zelf start, met de namen van buildargumenten maar niet hun waarden. Op Docker-hosts leest het ook <code>docker buildx history</code> (buildx 0.23.0 of later). apple/container bewaart geen buildgeschiedenis, dus daar zie je de builds die Gantry heeft gestart."
+      },
+      "secrets": {
+        "h3": "Geheimen uit de sleutelhanger in de omgeving",
+        "p": "Bewaar wachtwoorden en tokens in de macOS-sleutelhanger (<b>Instellingen → Geheimen</b>) en gebruik ze als omgevingsvariabelen in Nieuwe container en Snel uitvoeren. Het formulier toont <code>keychain:NAME</code>, nooit de waarde, en Gantry leest de waarde pas wanneer het de container aanmaakt. Compose-export, recepten en Kopieer als commando schrijven de naam, niet de waarde."
+      },
+      "compose": {
+        "h3": "Exporteren als Compose",
+        "p": "Kies <b>Exporteer als Compose…</b> bij een of meer containers om een <code>docker-compose.yml</code> te krijgen met poorten, mounts, netwerken, herstartbeleid, gezondheidscontrole, limieten en meer. Waarden die op geheimen lijken, worden <code>${NAME}</code>, tenzij je ze meeneemt. Op apple/container-hosts waarschuwt Gantry voor de flags die Compose niet kan uitdrukken. <a href=\"docker-run-to-container/#compose\">Zo werkt het</a>"
+      },
+      "logs": {
+        "h3": "Logs exporteren",
+        "p": "<b>Exporteer logs…</b> (<span class=\"kbd\">⇧⌘E</span>) bewaart de regels die je ziet, met het niveaufilter, de zoekopdracht en het tijdsbereik, als <code>.log</code>- of <code>.txt</code>-bestand. <b>Kopieer zichtbare regels</b> kopieert ze. Op Docker-hosts kun je tijdstempels toevoegen en alleen de laatste 5 minuten tot de laatste dag tonen."
+      },
+      "explain": {
+        "h3": "Schermafbeeldingen in “Leg fout uit”",
+        "p": "Zet tot 3 afbeeldingen neer in “Leg fout uit”, plak ze of voeg ze toe, bijvoorbeeld een schermafbeelding van een foutpagina. De afbeeldingen blijven op deze Mac: alleen het model op het apparaat leest ze (macOS 27), nooit Private Cloud Compute."
+      },
+      "shot_fleet_alt": "Tabel Gebruik van bronnen met de actieve containers van een apple/container-host en een Docker-host, gesorteerd op CPU",
+      "shot_fleet_caption": "<b>Gebruik van bronnen.</b> Alle actieve containers van alle hosts, gesorteerd op CPU.",
+      "shot_menubar_alt": "Menubalkpaneel met twee image-pulls in uitvoering, hun lagen, bytes en knoppen Annuleer",
+      "shot_menubar_caption": "<b>Activiteit in de menubalk.</b> Lagen, bytes, tijd en Annuleer voor elke pull."
+    },
     "new": {
       "kicker": "Nieuw in 0.27.0",
       "h2": "Kubernetes, Apple Intelligence en de rest van macOS",
@@ -489,12 +538,12 @@
       ],
       [
         "<code>container logs</code>",
-        "Tab Logs: live volgen, regex-zoeken, niveaufilter, ANSI-kleuren",
+        "Tab Logs: live volgen, regex-zoeken, niveaufilter, ANSI-kleuren; <strong>Exporteer logs…</strong> bewaart de zichtbare regels",
         "Elke"
       ],
       [
         "<code>container stats</code>",
-        "Tab Statistieken en sparklines in het vlootdashboard",
+        "Tab Statistieken, sparklines in het vlootdashboard en de tabel Gebruik van bronnen",
         "Elke"
       ],
       [
@@ -504,7 +553,7 @@
       ],
       [
         "<code>container inspect</code>",
-        "Tabs Overzicht en Inspecteren",
+        "Tabs Overzicht en Inspecteren; <strong>Exporteer als Compose…</strong> zet de configuratie om in een Compose-bestand",
         "Elke"
       ],
       [
@@ -534,12 +583,12 @@
       ],
       [
         "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
-        "Images: pullen met voortgang, taggen, verwijderen, opschonen, inspecteren",
+        "Images: pullen met voortgang, taggen, verwijderen, opschonen, inspecteren; <strong>Scan op kwetsbaarheden…</strong> met Trivy of Grype",
         "Elke"
       ],
       [
         "<code>container build</code>",
-        "Bouwt de <code>build:</code>-services van een Compose-bestand",
+        "Bouwt de <code>build:</code>-services van een Compose-bestand; het onderdeel <strong>Builds</strong> toont de builds die Gantry heeft gestart",
         "Elke"
       ],
       [
@@ -1156,7 +1205,7 @@
       ],
       [
         "Nieuwste versie (gecontroleerd op 2026-11-07)",
-        "0.27.0",
+        "0.29.0 (2026-11-15)",
         "4.98.0 (2026-11-03)",
         "2.2.5 (2026-10-23)",
         "1.30.5 (2026-10-13)",
@@ -1334,6 +1383,9 @@
           "blocks": [
             {
               "p": "De <code>container</code>-CLI heeft geen <code>compose</code>-commando. Open de <code>docker-compose.yml</code> in plaats daarvan in Gantry (Finder, <strong>Archief ▸ Open Compose-bestand…</strong> of slepen). Gantry bouwt de <code>build:</code>-services, maakt het projectnetwerk en de benoemde volumes aan en start de services in de volgorde van <code>depends_on</code>. Services bereiken elkaar op servicenaam via netwerk-DNS-aliassen."
+            },
+            {
+              "p": "Nog geen Compose-bestand? Selecteer op de Docker-host de containers van de app, kies <strong>Exporteer als Compose…</strong> en bewaar het bestand. Het bestand markeert benoemde volumes en netwerken als <code>external: true</code>, dus maak ze eerst aan op de apple/container-host (zie <a href=\"#volumes\">Benoemde volumes verhuizen</a>) en open het bestand daar. Waarden die op geheimen lijken, worden <code>${NAME}</code>-variabelen, zodat het bestand je wachtwoorden niet bevat."
             }
           ]
         },
@@ -1742,6 +1794,34 @@
           "blocks": [
             {
               "p": "Het werkt ook andersom. Klik met de rechtermuisknop op een container, of gebruik het menu Meer, en kies <strong>Kopieer als commando</strong>: Gantry schrijft een <code>docker run</code>- of <code>container run</code>-regel. Het laat de standaardwaarden van de image weg, zoals de omgeving en het commando, zodat de regel kort blijft. Dit werkt ook voor gestopte containers."
+            }
+          ]
+        },
+        {
+          "id": "compose",
+          "h": "De container exporteren als Compose",
+          "blocks": [
+            {
+              "p": "Om een container als bestand te bewaren, klik je er met de rechtermuisknop op, of gebruik je het menu Meer, en kies je <strong>Exporteer als Compose…</strong>. Selecteer meerdere containers om ze in één bestand te zetten. Gantry schrijft een <code>docker-compose.yml</code> met één service per container: poorten, mounts, netwerken, herstartbeleid, gezondheidscontrole, limieten, capabilities en logging. Benoemde volumes en netwerken worden gemarkeerd als <code>external: true</code>."
+            },
+            {
+              "ul": [
+                "Waarden die op geheimen lijken, worden <code>${NAME}</code>-variabelen. Neem onder <strong>Geheime waarden</strong> de waarden op die je in het bestand wilt. Een bestand met een geheime waarde wordt bewaard met modus 0600.",
+                "Op apple/container-hosts toont <strong>Waarschuwingen</strong> de flags die Compose niet kan uitdrukken, zoals <code>--kernel</code>, <code>--rosetta</code> of <code>--ssh</code>.",
+                "Klik op <strong>Kopieer</strong> of <strong>Bewaar…</strong>."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "secrets",
+          "h": "Geheimen buiten het commando houden",
+          "blocks": [
+            {
+              "p": "Een <code>-e PASSWORD=…</code> in een commando lekt gemakkelijk uit. Open in het formulier Nieuwe container het sleutelmenu van een omgevingsrij en kies <strong>Bewaar waarde in sleutelhanger…</strong>, of kies een geheim dat je hebt toegevoegd in <strong>Instellingen → Geheimen</strong>. De rij toont dan <code>keychain:NAME</code> met een slotje, niet de waarde."
+            },
+            {
+              "p": "Gantry leest de waarde pas uit de sleutelhanger wanneer het de container aanmaakt. <strong>Kopieer als commando</strong>, recepten en Compose-export schrijven <code>keychain:NAME</code>. De tab Inspecteren toont <code>KEY=[REDACTED]</code>. De engine bewaart de waarde nog steeds, dus <code>docker inspect</code> of <code>container inspect</code> buiten Gantry kan hem tonen."
             }
           ]
         },

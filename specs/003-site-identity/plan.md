@@ -28,13 +28,13 @@ Decisions on the open questions of `research.md` (owner: "decide yourself"):
 
 ## Stacked pull requests
 
+The first plan had five PRs, with a PR that strips the old home page before a PR that replaces it. The second step replaces the whole template, so the strip step was double work. The order is now:
+
 | # | Branch | Base | Content |
 |---|--------|------|---------|
-| 1 | `feat/rebrand` | `feat/landing-0-29` | Tokens, fonts, light mode, backdrop removed, `og:image` size. No i18n change. |
-| 2 | `refactor/rebrand-strip` | 1 | Decoration and mock UI removed, about 30 keys deleted. |
-| 3 | `feat/rebrand-home` | 2 | Command rail, areas, new copy, 26 translations. |
-| 4 | `perf/rebrand-images` | 3 | Sized WebP images, inner pages, new `og:image`. |
-| 5 | `docs/rebrand-voice` | 4 | Optional voice pass on older strings. |
+| 1 | `feat/rebrand` | `feat/landing-0-29` | Tokens, fonts, light mode, the new home page, the inner pages restyled, 35 new or changed strings in 27 languages. |
+| 2 | `perf/rebrand-images` | 1 | Sized WebP images, a 1200 x 630 `og:image`. |
+| 3 | `docs/rebrand-voice` | 2 | Optional voice pass on the older strings of the docs and the guides. |
 
 ## Constitution Check
 

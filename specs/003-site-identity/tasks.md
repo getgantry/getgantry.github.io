@@ -13,38 +13,27 @@ description: "Task list for the site identity rebrand"
 ## Phase 1: Spec and facts
 
 - [x] T001 Write spec.md, plan.md and research.md (design brief)
-- [ ] T002 Check the app source for a shipped `gantry` command. Record the result in research.md
+- [x] T002 Remove the `gantry exec` line. The new home page has no mock terminal, so the claim is gone whatever the app ships
 
-## Phase 2: PR 1, tokens, fonts and light mode (US2, US4)
+## Phase 2: PR 1, design system and new home page (US1, US2, US3, US4)
 
-- [ ] T003 [US4] Add IBM Plex Sans 400 and 600 and JetBrains Mono 400 WOFF2 subsets and `OFL.txt` to `assets/fonts/`
-- [ ] T004 [US4] Add `scripts/check_fonts.py` and run it on all 27 languages
-- [ ] T005 [US2] Replace the `:root` tokens in `styles.css` with the light and dark tokens. Add `color-scheme` and `@font-face`
-- [ ] T006 [US2] Remove the backdrop layers from `styles.css`, `templates/home.html`, `templates/page.html` and `build_docs.py`
-- [ ] T007 [US2] Replace hardcoded colours in `styles.css` and `DOCS_CSS` with tokens. Restyle the nav with the beam, the footer and the language menu
-- [ ] T008 [US2] Add two `theme-color` metas. Fix the `og:image` size
-- [ ] T009 Build, run the checks, look at 1440 px and 390 px in light and dark mode. Open PR 1
+- [x] T003 [US4] Add IBM Plex Sans 400 and 600 and JetBrains Mono 400 WOFF2 subsets and the two OFL files to `assets/fonts/`
+- [x] T004 [US4] Add `scripts/check_fonts.py`. Result: 27 languages, 0 missing letters. Six symbols use the system font
+- [x] T005 [US2] Write `styles.css` with light and dark tokens, `@font-face`, the beam, the rail, tables, figures, FAQ and footer
+- [x] T006 [US2] Remove the backdrop layers from `templates/home.html`, `templates/page.html` and `build_docs.py`
+- [x] T007 [US2] Move `DOCS_CSS` to the tokens. Remove glass, gradients and hardcoded colours
+- [x] T008 [US2] Add two `theme-color` metas. Set the `og:image` size to 3104 x 1986
+- [x] T009 [US1] Remove the crane stage, trust strip, reveal classes, icon tiles, mock UIs, CSS window frames, kickers, star count and `app.js`
+- [x] T010 [US3] Write the new home page: title block, command table from `guide.table`, areas with the command rail, releases, install, FAQ, colophon
+- [x] T011 [US3] Write the new English strings (`home.ia`) and change the hype strings. Delete the unused keys
+- [ ] T012 [US4] Translate 35 new or changed strings into 25 languages. Make Serbian Latin from Serbian Cyrillic
+- [ ] T013 Build, run the checks, look at 1440 px and 390 px in light and dark mode in en, de, ru, el, fi. Open PR 1
 
-## Phase 3: PR 2, remove the decoration and the mock UI (US1)
+## Phase 3: PR 2, images
 
-- [ ] T010 [US1] Remove the crane stage, trust strip, reveal classes, icon tiles, mini mock UIs, CSS window frames, kickers and the star pill from `templates/home.html`
-- [ ] T011 [US1] Reduce `app.js` to the copy handler. Remove the unused CSS
-- [ ] T012 [US1] Delete the unused keys from all 27 `i18n/*.json` files with a script
-- [ ] T013 Build, run the checks, open PR 2
+- [ ] T014 Add `scripts/make_images.py` and `picture` with `srcset` in `shot()`
+- [ ] T015 Make a 1200 x 630 `og:image`
 
-## Phase 4: PR 3, command rail, areas and copy (US3, US4)
+## Phase 4: PR 3, voice pass (optional)
 
-- [ ] T014 [US3] Write the new home outline in `templates/home.html` and the data in `build_pages.py`
-- [ ] T015 [US3] Write the new English strings
-- [ ] T016 [US4] Translate the new and changed strings into 25 languages. Make Serbian Latin from Serbian Cyrillic
-- [ ] T017 Build, run the checks, compare the content facts with `main`, open PR 3
-
-## Phase 5: PR 4, images and inner pages
-
-- [ ] T018 Add `scripts/make_images.py` and `picture` with `srcset` in `shot()`
-- [ ] T019 Restyle the guides, the compare page and the docs. Make a 1200 x 630 `og:image`
-- [ ] T020 Build, run the checks, open PR 4
-
-## Phase 6: PR 5, voice pass (optional)
-
-- [ ] T021 Rewrite the older feature strings in the voice of research.md and translate them
+- [ ] T016 Rewrite the older strings of the docs and the guides in the voice of research.md and translate them

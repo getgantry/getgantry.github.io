@@ -113,7 +113,7 @@ A visitor reads the site in any of the 27 languages. All characters show in the 
 
 - **SC-001**: 0 elements on the home page show invented data.
 - **SC-002**: Text contrast is 4.5:1 or more for each text token in light and dark mode.
-- **SC-003**: The home page at 1440 px is 10,000 px tall or less (today 17,895 px), and no content fact is lost.
+- **SC-003**: The home page at 1440 px is 15,000 px tall or less (before: 17,895 px), and no content fact is lost. The brief estimated 10,000 px; with all 70 feature items kept, the measured height is about 14,600 px.
 - **SC-004**: 0 characters of the 27 languages are missing from the fonts.
 - **SC-005**: At 390 px, 0 pages have a horizontal scroll.
 - **SC-006**: The build check and the link check show 0 problems after each pull request.

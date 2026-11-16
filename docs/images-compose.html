@@ -82,11 +82,16 @@
   <li><strong>Tag</strong> and <strong>remove</strong> images; <strong>prune</strong> dangling or all unused.</li>
   <li>Inspect an image's layers/history and raw JSON, and see which containers use it.</li>
   <li>A badge marks images (and their containers) built for a different CPU architecture than the host, for example amd64 on Apple silicon.</li>
+  <li><strong>Scan for Vulnerabilities…</strong> in the image menu or toolbar runs Trivy (0.50.0 or later) or Grype (0.74.0 or later). Gantry finds them in <code>PATH</code>, <code>/opt/homebrew/bin</code> or <code>/usr/local/bin</code> (or <code>GANTRY_TRIVY</code> and <code>GANTRY_GRYPE</code>) and does not install them: <code>brew install trivy</code> or <code>brew install grype</code>. Findings are grouped from Critical to Unknown and link to their advisories. <strong>Export SBOM</strong> writes CycloneDX, or SPDX with Trivy. On apple/container and local Docker, Gantry saves the image to an archive and scans it; on SSH hosts it scans the registry copy of a tagged image. Results are not stored.</li>
   <li>On apple/container hosts with CLI 1.5 or 1.6, <strong>Load into Cluster</strong> copies a local image into a Kubernetes cluster's nodes. CLI 1.7 replaces it with the shared image store of the cluster.</li>
 </ul>
 
+<h2>Build history</h2>
+<p>Each host has a <strong>Builds</strong> section after Images. It lists the builds that Gantry started (the Build Image sheet and Compose), with their state, duration, steps (Executed, Cached, Failed), cache use and log. Gantry keeps 100 builds per host and the last 512 KB of each log in <code>~/Library/Application Support/Gantry/build-history.json</code>, with build-argument names but not their values. On Docker hosts it also reads <code>docker buildx history</code> (buildx 0.23.0 or later), shown with the source BuildKit. apple/container keeps no build history of its own, so an apple/container host shows only the builds that Gantry started. <strong>Clear History…</strong> removes only Gantry's records.</p>
+
 <h2>Compose</h2>
 <p>On apple/container hosts, open a <code>docker-compose.yml</code> from <strong>Docker → Open Compose File…</strong>, Finder's <em>Open With</em>, or by dropping it on the window. Choose the host, toggle recreate / no-cache, and bring the project up with a live, colorized log stream. When it's up, Gantry jumps to the host's Containers grouped by the Compose project.</p>
+<p>The header of each Compose project in the container list has <strong>Pull Images</strong> and <strong>Compose Down</strong>. Compose Down removes the containers and keeps volumes and images. Pulls, builds and Compose runs show their progress in the <a href="menu-bar.html">menu bar</a>. To go the other way, <a href="containers.html">Export as Compose</a> turns running containers into a compose file.</p>
       </article>
       <footer class="docs-foot">
         <a href="https://github.com/getgantry/gantry/blob/main/CHANGELOG.md">Changelog</a>

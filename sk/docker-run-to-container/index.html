@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Prehľad flotily v Gantry s hostiteľmi Docker a apple/container">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kontajner z príkazu docker run na Macu (docker run na container run)">
   <meta name="twitter:description" content="Vložte príkaz docker run do Gantry a získajte vyplnený formulár kontajnera, alebo preveďte docker run na container run od Apple ručne: príznaky, ktoré zodpovedajú, tie, ktoré nie, a recepty.">
@@ -67,7 +67,7 @@
       "description": "Vložte príkaz docker run do Gantry a získajte vyplnený formulár kontajnera, alebo preveďte docker run na container run od Apple ručne: príznaky, ktoré zodpovedajú, tie, ktoré nie, a recepty.",
       "url": "https://getgantry.github.io/sk/docker-run-to-container/",
       "inLanguage": "sk",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "Export kontajnera ako Compose",
+          "text": "Ak chcete kontajner uchovať ako súbor, kliknite naň pravým tlačidlom alebo použite menu Ďalšie a zvoľte Exportovať ako Compose…. Keď vyberiete viac kontajnerov, dostanú sa do jedného súboru. Gantry zapíše docker-compose.yml s jednou službou pre každý kontajner: porty, pripojenia, siete, politika reštartu, kontrola stavu, limity, capabilities a logovanie. Pomenované zväzky a siete sú označené ako external: true.",
+          "url": "https://getgantry.github.io/sk/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Tajné údaje mimo príkazu",
+          "text": "-e PASSWORD=… v príkaze ľahko unikne. Vo formulári Nový kontajner otvorte pri riadku premennej prostredia menu s kľúčom a zvoľte Uložiť hodnotu do Kľúčenky…, alebo vyberte tajný údaj, ktorý ste pridali v Nastavenia → Tajné údaje. Riadok potom namiesto hodnoty zobrazí keychain:NAME so zámkom.",
+          "url": "https://getgantry.github.io/sk/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Uloženie ako recept",
           "text": "V hárku Nový kontajner otvorte Recepty a zvoľte Uložiť ako recept…. Nabudúce vám Vyplniť z receptu dá ten istý formulár na ľubovoľnom hostiteľovi. Recepty sú v ~/Library/Application Support/Gantry/recipes.json, takže ich môžete zálohovať alebo zdieľať.",
           "url": "https://getgantry.github.io/sk/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Obmedzenia",
           "text": "Gantry zachová cestu --env-file, ale súbor nečíta, a pri -e KEY bez hodnoty nečíta váš shell. Pripojenia tmpfs a anonymné zväzky z --mount sa vypíšu ako nepodporované. Dva porty pre ten istý port kontajnera (-p 8080:80 -p 8081:80) formulár vyplnia, ale formulár potom duplikát odmietne.",
           "url": "https://getgantry.github.io/sk/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Kliknite na <strong>Vyplniť formulár</strong>, skontrolujte hodnoty a vytvorte kontajner.</li>
 </ol>
 <p>Gantry číta <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> a <code>container run</code>. Text za <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> alebo <code>|</code> sa ignoruje, s poznámkou.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Ktoré príznaky vyplnia formulár</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Kopírovanie kontajnera ako príkazu</ul>
 <p>Funguje to aj opačne. Kliknite na kontajner pravým tlačidlom alebo použite menu Viac a zvoľte <strong>Kopírovať ako príkaz</strong>: Gantry vytvorí riadok <code>docker run</code> alebo <code>container run</code>. Vynechá predvolené hodnoty obrazu, napríklad jeho prostredie a príkaz, takže riadok zostane krátky. Funguje to aj pri zastavených kontajneroch.</p>
 
+<ul id="compose">Export kontajnera ako Compose</ul>
+<p>Ak chcete kontajner uchovať ako súbor, kliknite naň pravým tlačidlom alebo použite menu Ďalšie a zvoľte <strong>Exportovať ako Compose…</strong>. Keď vyberiete viac kontajnerov, dostanú sa do jedného súboru. Gantry zapíše <code>docker-compose.yml</code> s jednou službou pre každý kontajner: porty, pripojenia, siete, politika reštartu, kontrola stavu, limity, capabilities a logovanie. Pomenované zväzky a siete sú označené ako <code>external: true</code>.</p>
+<ul>
+  <li>Hodnoty, ktoré vyzerajú ako tajné údaje, sa zmenia na premenné <code>${NAME}</code>. V časti <strong>Tajné hodnoty</strong> zahrňte tie, ktoré chcete mať v súbore. Súbor s tajnou hodnotou sa uloží s režimom 0600.</li>
+  <li>Na hostiteľoch apple/container uvádza <strong>Upozornenia</strong> príznaky, ktoré Compose nedokáže vyjadriť, napríklad <code>--kernel</code>, <code>--rosetta</code> alebo <code>--ssh</code>.</li>
+  <li>Kliknite na <strong>Kopírovať</strong> alebo <strong>Uložiť…</strong>.</li>
+</ul>
+
+<ul id="secrets">Tajné údaje mimo príkazu</ul>
+<p><code>-e PASSWORD=…</code> v príkaze ľahko unikne. Vo formulári Nový kontajner otvorte pri riadku premennej prostredia menu s kľúčom a zvoľte <strong>Uložiť hodnotu do Kľúčenky…</strong>, alebo vyberte tajný údaj, ktorý ste pridali v <strong>Nastavenia → Tajné údaje</strong>. Riadok potom namiesto hodnoty zobrazí <code>keychain:NAME</code> so zámkom.</p>
+<p>Gantry načíta hodnotu z Kľúčenky len pri vytváraní kontajnera. <strong>Kopírovať ako príkaz</strong>, recepty a export Compose zapisujú <code>keychain:NAME</code>. Karta Preskúmať zobrazuje <code>KEY=[REDACTED]</code>. Engine hodnotu stále ukladá, takže <code>docker inspect</code> alebo <code>container inspect</code> mimo Gantry ju môže zobraziť.</p>
+
 <ul id="recipes">Uloženie ako recept</ul>
 <p>V hárku Nový kontajner otvorte <strong>Recepty</strong> a zvoľte <strong>Uložiť ako recept…</strong>. Nabudúce vám <strong>Vyplniť z receptu</strong> dá ten istý formulár na ľubovoľnom hostiteľovi. Recepty sú v <code>~/Library/Application Support/Gantry/recipes.json</code>, takže ich môžete zálohovať alebo zdieľať.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Môžem bežiaci kontajner previesť späť na príkaz docker run?</summary><p>Áno. <strong>Kopírovať ako príkaz</strong> v menu kontajnera vytvorí pre tento kontajner riadok <code>docker run</code> alebo <code>container run</code>.</p></details>
 </div>
 
-<p class="updated">Naposledy aktualizované 2026-11-07.</p>
+<p class="updated">Naposledy aktualizované 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Domov</a>

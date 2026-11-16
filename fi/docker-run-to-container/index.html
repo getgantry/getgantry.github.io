@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantryn kojelauta, jossa Docker- ja apple/container-isäntiä">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kontin luonti docker run -komennosta Macilla (docker run container runiksi)">
   <meta name="twitter:description" content="Sijoita docker run -komento Gantryyn ja saat valmiin konttilomakkeen, tai muunna docker run Applen container runiksi käsin: vastaavat ja puuttuvat valinnat sekä reseptit.">
@@ -67,7 +67,7 @@
       "description": "Sijoita docker run -komento Gantryyn ja saat valmiin konttilomakkeen, tai muunna docker run Applen container runiksi käsin: vastaavat ja puuttuvat valinnat sekä reseptit.",
       "url": "https://getgantry.github.io/fi/docker-run-to-container/",
       "inLanguage": "fi",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "Vie kontti Compose-tiedostona",
+          "text": "Jos haluat säilyttää kontin tiedostona, napsauta sitä hiiren oikealla tai käytä Lisää-valikkoa ja valitse Vie Compose-tiedostona…. Valitse useita kontteja, niin ne tulevat yhteen tiedostoon. Gantry kirjoittaa docker-compose.yml-tiedoston, jossa on yksi palvelu kutakin konttia kohden: portit, liitokset, verkot, uudelleenkäynnistyskäytäntö, kuntotarkistus, rajoitukset, capabilities ja lokitus. Nimetyt taltiot ja verkot merkitään määrityksellä external: true.",
+          "url": "https://getgantry.github.io/fi/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Pidä salaisuudet poissa komennosta",
+          "text": "Komennossa oleva -e PASSWORD=… vuotaa helposti. Avaa Uusi kontti -lomakkeessa ympäristörivin avainvalikko ja valitse Tallenna arvo Avainnippuun… tai valitse salaisuus, jonka olet lisännyt kohdassa Asetukset → Salaisuudet. Rivi näyttää sen jälkeen keychain:NAME ja lukon, ei arvoa.",
+          "url": "https://getgantry.github.io/fi/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Tallenna reseptiksi",
           "text": "Avaa Uusi kontti -ikkunassa Reseptit ja valitse Tallenna reseptiksi…. Seuraavalla kerralla Täytä reseptistä antaa saman lomakkeen millä tahansa isännällä. Reseptit ovat tiedostossa ~/Library/Application Support/Gantry/recipes.json, joten voit varmuuskopioida tai jakaa ne.",
           "url": "https://getgantry.github.io/fi/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Rajoitukset",
           "text": "Gantry säilyttää valinnan --env-file polun mutta ei lue tiedostoa, eikä se lue komentotulkkisi ympäristöä, kun -e KEY on ilman arvoa. Valinnan --mount tmpfs-liitokset ja nimettömät taltiot luetellaan tukemattomina. Kaksi porttia samalle kontin portille (-p 8080:80 -p 8081:80) täyttävät lomakkeen, mutta lomake hylkää sitten kaksoiskappaleen.",
           "url": "https://getgantry.github.io/fi/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Napsauta <strong>Täytä lomake</strong>, tarkista arvot ja luo kontti.</li>
 </ol>
 <p>Gantry lukee komennot <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> ja <code>container run</code>. Merkintöjen <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> tai <code>|</code> jälkeinen teksti ohitetaan, ja siitä näytetään huomautus.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Mitkä valinnat täyttävät lomakkeen</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Kopioi kontti komentona</ul>
 <p>Myös toiseen suuntaan onnistuu. Napsauta konttia hiiren oikealla tai käytä Lisää-valikkoa ja valitse <strong>Kopioi komentona</strong>: Gantry kirjoittaa <code>docker run</code>- tai <code>container run</code> -rivin. Se jättää pois levykuvan oletukset, kuten sen ympäristön ja komennon, joten rivi pysyy lyhyenä. Tämä toimii myös pysäytetyille konteille.</p>
 
+<ul id="compose">Vie kontti Compose-tiedostona</ul>
+<p>Jos haluat säilyttää kontin tiedostona, napsauta sitä hiiren oikealla tai käytä Lisää-valikkoa ja valitse <strong>Vie Compose-tiedostona…</strong>. Valitse useita kontteja, niin ne tulevat yhteen tiedostoon. Gantry kirjoittaa <code>docker-compose.yml</code>-tiedoston, jossa on yksi palvelu kutakin konttia kohden: portit, liitokset, verkot, uudelleenkäynnistyskäytäntö, kuntotarkistus, rajoitukset, capabilities ja lokitus. Nimetyt taltiot ja verkot merkitään määrityksellä <code>external: true</code>.</p>
+<ul>
+  <li>Salaisuuksilta näyttävistä arvoista tulee <code>${NAME}</code>-muuttujia. Sisällytä kohdassa <strong>Salaiset arvot</strong> ne arvot, jotka haluat tiedostoon. Tiedosto, jossa on salainen arvo, tallennetaan tilalla 0600.</li>
+  <li>apple/container-isännillä kohta <strong>Varoitukset</strong> luettelee valinnat, joita Compose ei pysty ilmaisemaan, kuten <code>--kernel</code>, <code>--rosetta</code> tai <code>--ssh</code>.</li>
+  <li>Osoita <strong>Kopioi</strong> tai <strong>Tallenna…</strong>.</li>
+</ul>
+
+<ul id="secrets">Pidä salaisuudet poissa komennosta</ul>
+<p>Komennossa oleva <code>-e PASSWORD=…</code> vuotaa helposti. Avaa Uusi kontti -lomakkeessa ympäristörivin avainvalikko ja valitse <strong>Tallenna arvo Avainnippuun…</strong> tai valitse salaisuus, jonka olet lisännyt kohdassa <strong>Asetukset → Salaisuudet</strong>. Rivi näyttää sen jälkeen <code>keychain:NAME</code> ja lukon, ei arvoa.</p>
+<p>Gantry lukee arvon Avainnipusta vasta, kun se luo kontin. <strong>Kopioi komentona</strong>, reseptit ja Compose-vienti kirjoittavat <code>keychain:NAME</code>. Tarkastele-välilehti näyttää <code>KEY=[REDACTED]</code>. Moottori tallentaa arvon silti, joten <code>docker inspect</code> tai <code>container inspect</code> Gantryn ulkopuolella voi näyttää sen.</p>
+
 <ul id="recipes">Tallenna reseptiksi</ul>
 <p>Avaa Uusi kontti -ikkunassa <strong>Reseptit</strong> ja valitse <strong>Tallenna reseptiksi…</strong>. Seuraavalla kerralla <strong>Täytä reseptistä</strong> antaa saman lomakkeen millä tahansa isännällä. Reseptit ovat tiedostossa <code>~/Library/Application Support/Gantry/recipes.json</code>, joten voit varmuuskopioida tai jakaa ne.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Voiko käynnissä olevan kontin muuttaa takaisin docker run -komennoksi?</summary><p>Kyllä. Konttivalikon <strong>Kopioi komentona</strong> kirjoittaa kontille <code>docker run</code>- tai <code>container run</code> -rivin.</p></details>
 </div>
 
-<p class="updated">Päivitetty viimeksi 2026-11-07.</p>
+<p class="updated">Päivitetty viimeksi 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Etusivu</a>

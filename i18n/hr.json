@@ -43,6 +43,14 @@
         "Kubernetes preglednik: podovi, deploymenti, servisi, tajne, događaji, zapisnici, ljuska, prosljeđivanje porta, skaliranje, primjena YAML-a",
         "Objašnjenje neuspjeha uz Apple Intelligence (na uređaju ili Private Cloud Compute, bez tajni)",
         "Paleta naredbi (Command-K) i skupne radnje na više kontejnera, slika, volumena ili mreža",
+        "Upotreba resursa: jedna tablica pokrenutih kontejnera na svim hostovima koja se može sortirati",
+        "Povijest izgradnji s koracima, pogocima predmemorije i zapisnicima, uključujući docker buildx history",
+        "Skeniranje ranjivosti slika uz Trivy ili Grype i izvoz SBOM-a (CycloneDX, SPDX)",
+        "Tajne iz Privjeska ključeva kao varijable okruženja kontejnera, nikad prikazane kao običan tekst",
+        "Izvoz pokrenutih kontejnera kao Compose datoteke, s tajnama kao varijablama",
+        "Izvoz zapisnika s trenutačnim filtrom i vremenskim rasponom",
+        "Napredak povlačenja, izgradnje i Compose operacija na traci s izbornicima, s gumbom Odustani",
+        "Snimke zaslona u funkciji Objasni neuspjeh, obrađene samo na uređaju",
         "Stvaranje kontejnera iz zalijepljene naredbe docker run, podman run ili container run; kopiranje kontejnera kao naredbe; recepti",
         "Radnje u obavijestima, Spotlight, Siri i Prečaci, widget stanja infrastrukture, kontrole u Kontrolnom centru i poveznice gantry://",
         "Container strojevi: stvaranje, pokretanje, zaustavljanje, resursi, ljuska, ugniježđena virtualizacija, prilagođene jezgre",
@@ -393,9 +401,9 @@
       "overview_title": "Host — Pregled",
       "overview_alt": "Pregled hosta s mjeračima CPU-a i memorije te zauzećem diska za Docker",
       "overview_caption": "<b>Pregled hosta.</b> Mjerači, zauzeće diska, podaci o daemonu.",
-      "fleet_title": "Flota — Zdravlje",
-      "fleet_alt": "Nadzorna ploča flote s pet hostova i istaknutim zdravstvenim problemima",
-      "fleet_caption": "<b>Nadzorna ploča flote.</b> Svaki host, svaki problem, jedan zaslon."
+      "fleet_title": "Nadzorna ploča",
+      "fleet_alt": "Nadzorna ploča flote s apple/container hostom i Docker hostom, njihovim CPU-om, memorijom i najopterećenijim kontejnerima",
+      "fleet_caption": "<b>Nadzorna ploča flote.</b> Svaki host, njegovo opterećenje i najopterećeniji kontejneri na jednom zaslonu."
     },
     "built": {
       "kicker": "Drukčije izrađen",
@@ -421,6 +429,47 @@
       "s3_text": "Lokalni Docker pojavljuje se sam. Za Apple container dodajte host vrste <em>Apple Container</em>; Gantry nudi da postavi CLI <code>container</code>. Agenti: <code>claude mcp add gantry</code>."
     },
     "footer_meta": "MIT licenca · Izrađeno u SwiftUI-ju · © 2026",
+    "latest": {
+      "kicker": "Novo u verzijama 0.28 i 0.29",
+      "h2": "Cijela flota u jednoj tablici i sigurnije slike",
+      "p": "Gantry 0.28.0 i 0.29.0 donose jednu tablicu aktivnosti za sve hostove, povijest izgradnji, skeniranje slika uz Trivy ili Grype, tajne iz Privjeska ključeva za okruženje kontejnera i izvoz u Compose. Možete izvesti zapisnike sa svojim filtrom, funkciji Objasni neuspjeh dati snimku zaslona i pratiti povlačenja, izgradnje i Compose pokretanja na traci s izbornicima.",
+      "fleet": {
+        "h3": "Upotreba resursa za sve hostove",
+        "p": "Jedna tablica pokrenutih kontejnera na svakom povezanom hostu koja se može sortirati: host, naziv, slika, CPU, memorija, mrežni I/O, diskovni I/O i vrijeme rada. Filtrirajte po nazivu, slici ili hostu ili prikažite jedan host. Dvaput kliknite redak da biste otvorili kontejner. Tablica koristi uzorke koje Gantry već uzima svakih 5 sekundi, pa ne otvara nove tokove statistike. Otvorite je iz bočne trake, s <span class=\"kbd\">⌘K</span> ili s <code>gantry://open/usage</code>."
+      },
+      "progress": {
+        "h3": "Napredak na traci s izbornicima",
+        "p": "Ploča na traci s izbornicima prikazuje svako aktivno povlačenje, izgradnju i Compose operaciju s trakom napretka, dovršenim slojevima ili servisima, bajtovima, vremenom i gumbom <b>Odustani</b>. Ikona na traci s izbornicima pokazuje koliko je operacija u tijeku. Svaki Compose projekt dobiva <b>Povuci slike</b> i <b>Compose Down</b>; Compose Down zadržava volumene i slike."
+      },
+      "scan": {
+        "h3": "Skeniranje slika uz Trivy ili Grype",
+        "p": "Na slici odaberite <b>Skeniraj ranjivosti…</b>. Gantry pokreće Trivy (0.50.0 ili noviji) ili Grype (0.74.0 ili noviji) koji ste instalirali, na primjer putem Homebrewa, i grupira nalaze od kritičnih do nepoznatih. <b>Izvezi SBOM</b> zapisuje CycloneDX, a uz Trivy i SPDX. Radi na apple/containeru, lokalnom Dockeru i Dockeru putem SSH-a, gdje Gantry skenira kopiju označene slike u registru."
+      },
+      "builds": {
+        "h3": "Povijest izgradnji",
+        "p": "Svaki host ima odjeljak <b>Izgradnje</b>: izgradnje s njihovim koracima, pogocima predmemorije i zapisnikom. Gantry čuva izgradnje koje pokrene, s nazivima argumenata izgradnje, ali ne i s njihovim vrijednostima. Na Docker hostovima čita i <code>docker buildx history</code> (buildx 0.23.0 ili noviji). apple/container ne čuva povijest izgradnji, pa tamo vidite izgradnje koje je pokrenuo Gantry."
+      },
+      "secrets": {
+        "h3": "Tajne iz Privjeska ključeva u okruženju",
+        "p": "Čuvajte lozinke i tokene u macOS Privjesku ključeva (<b>Postavke → Tajne</b>) i koristite ih kao varijable okruženja u prozorima Novi kontejner i Brzo pokretanje. Obrazac prikazuje <code>keychain:NAME</code>, nikad vrijednost, a Gantry čita vrijednost tek kad stvara kontejner. Izvoz u Compose, recepti i Kopiraj kao naredbu zapisuju naziv, a ne vrijednost."
+      },
+      "compose": {
+        "h3": "Izvoz kao Compose",
+        "p": "Na jednom ili više kontejnera odaberite <b>Izvezi kao Compose…</b> i dobit ćete <code>docker-compose.yml</code> s portovima, montiranjima, mrežama, pravilom ponovnog pokretanja, provjerom zdravlja, ograničenjima i drugim. Vrijednosti koje izgledaju kao tajne postaju <code>${NAME}</code>, osim ako ih ne uključite. Na apple/container hostovima Gantry upozorava na zastavice koje Compose ne može izraziti. <a href=\"docker-run-to-container/#compose\">Kako to radi</a>"
+      },
+      "logs": {
+        "h3": "Izvoz zapisnika",
+        "p": "<b>Izvezi zapisnike…</b> (<span class=\"kbd\">⇧⌘E</span>) sprema retke koje vidite, s filtrom razine, pretraživanjem i vremenskim rasponom, kao datoteku <code>.log</code> ili <code>.txt</code>. <b>Kopiraj vidljive retke</b> ih kopira. Na Docker hostovima možete dodati vremenske oznake i prikazati samo razdoblje od zadnjih 5 minuta do zadnjeg dana."
+      },
+      "explain": {
+        "h3": "Snimke zaslona u funkciji Objasni neuspjeh",
+        "p": "Ispustite, zalijepite ili dodajte do 3 slike u funkciji Objasni neuspjeh, na primjer snimku zaslona stranice s pogreškom. Slike ostaju na ovom Macu: čita ih samo model na uređaju (macOS 27), nikad Private Cloud Compute."
+      },
+      "shot_fleet_alt": "Tablica Upotreba resursa s pokrenutim kontejnerima apple/container hosta i Docker hosta, poredanima po CPU-u",
+      "shot_fleet_caption": "<b>Upotreba resursa.</b> Svi pokrenuti kontejneri svih hostova, poredani po CPU-u.",
+      "shot_menubar_alt": "Ploča na traci s izbornicima s dva povlačenja slika u tijeku, njihovim slojevima, bajtovima i gumbima Odustani",
+      "shot_menubar_caption": "<b>Aktivnost na traci s izbornicima.</b> Slojevi, bajtovi, vrijeme i Odustani za svako povlačenje."
+    },
     "new": {
       "kicker": "Novo u verziji 0.27.0",
       "h2": "Kubernetes, Apple Intelligence i ostatak macOS-a",
@@ -489,12 +538,12 @@
       ],
       [
         "<code>container logs</code>",
-        "Kartica Zapisnici: praćenje uživo, regex pretraživanje, filtar razine, ANSI boje",
+        "Kartica Zapisnici: praćenje uživo, regex pretraživanje, filtar razine, ANSI boje; <strong>Izvezi zapisnike…</strong> sprema vidljive retke",
         "Bilo koja"
       ],
       [
         "<code>container stats</code>",
-        "Kartica Statistika i minigrafikoni na nadzornoj ploči flote",
+        "Kartica Statistika, minigrafikoni na nadzornoj ploči flote i tablica Upotreba resursa",
         "Bilo koja"
       ],
       [
@@ -504,7 +553,7 @@
       ],
       [
         "<code>container inspect</code>",
-        "Kartice Pregled i Pregledaj",
+        "Kartice Pregled i Pregledaj; <strong>Izvezi kao Compose…</strong> pretvara konfiguraciju u Compose datoteku",
         "Bilo koja"
       ],
       [
@@ -534,12 +583,12 @@
       ],
       [
         "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
-        "Slike: povlačenje s napretkom, označavanje, uklanjanje, čišćenje, pregled",
+        "Slike: povlačenje s napretkom, označavanje, uklanjanje, čišćenje, pregled; <strong>Skeniraj ranjivosti…</strong> uz Trivy ili Grype",
         "Bilo koja"
       ],
       [
         "<code>container build</code>",
-        "Gradi servise s <code>build:</code> iz Compose datoteke",
+        "Gradi servise s <code>build:</code> iz Compose datoteke; odjeljak <strong>Izgradnje</strong> navodi izgradnje koje je pokrenuo Gantry",
         "Bilo koja"
       ],
       [
@@ -1156,7 +1205,7 @@
       ],
       [
         "Najnovija verzija (provjereno 2026-11-07)",
-        "0.27.0",
+        "0.29.0 (2026-11-15)",
         "4.98.0 (2026-11-03)",
         "2.2.5 (2026-10-23)",
         "1.30.5 (2026-10-13)",
@@ -1334,6 +1383,9 @@
           "blocks": [
             {
               "p": "CLI <code>container</code> nema naredbu <code>compose</code>. Umjesto toga otvorite <code>docker-compose.yml</code> u Gantryju (Finder, <strong>Datoteka ▸ Otvori Compose datoteku…</strong> ili povlačenjem i ispuštanjem). Gantry gradi servise s <code>build:</code>, stvara mrežu projekta i imenovane volumene te pokreće servise redoslijedom iz <code>depends_on</code>. Servisi se međusobno dosežu po nazivu servisa putem DNS aliasa mreže."
+            },
+            {
+              "p": "Još nemate compose datoteku? Na Docker hostu odaberite kontejnere aplikacije, odaberite <strong>Izvezi kao Compose…</strong> i spremite datoteku. Datoteka označava imenovane volumene i mreže kao <code>external: true</code>, pa ih najprije stvorite na apple/container hostu (pogledajte <a href=\"#volumes\">Premještanje imenovanih volumena</a>), a zatim tamo otvorite datoteku. Vrijednosti koje izgledaju kao tajne postaju varijable <code>${NAME}</code>, pa datoteka ne sadrži vaše lozinke."
             }
           ]
         },
@@ -1742,6 +1794,34 @@
           "blocks": [
             {
               "p": "Radi i obrnuto. Desnom tipkom kliknite kontejner ili upotrijebite izbornik Više i odaberite <strong>Kopiraj kao naredbu</strong>: Gantry zapisuje redak <code>docker run</code> ili <code>container run</code>. Izostavlja zadane vrijednosti slike, kao što su njezino okruženje i naredba, pa redak ostaje kratak. Radi i za zaustavljene kontejnere."
+            }
+          ]
+        },
+        {
+          "id": "compose",
+          "h": "Izvoz kontejnera kao Compose",
+          "blocks": [
+            {
+              "p": "Da biste kontejner sačuvali kao datoteku, kliknite ga desnom tipkom ili upotrijebite izbornik Više i odaberite <strong>Izvezi kao Compose…</strong>. Odaberite više kontejnera da biste ih stavili u jednu datoteku. Gantry zapisuje <code>docker-compose.yml</code> s jednim servisom za svaki kontejner: portovi, montiranja, mreže, pravilo ponovnog pokretanja, provjera zdravlja, ograničenja, capabilities i bilježenje zapisnika. Imenovani volumeni i mreže označeni su s <code>external: true</code>."
+            },
+            {
+              "ul": [
+                "Vrijednosti koje izgledaju kao tajne postaju varijable <code>${NAME}</code>. Pod <strong>Tajne vrijednosti</strong> uključite one koje želite u datoteci. Datoteka s tajnom vrijednošću sprema se s dozvolama 0600.",
+                "Na apple/container hostovima <strong>Upozorenja</strong> navode zastavice koje Compose ne može izraziti, kao što su <code>--kernel</code>, <code>--rosetta</code> ili <code>--ssh</code>.",
+                "Kliknite <strong>Kopiraj</strong> ili <strong>Spremi…</strong>."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "secrets",
+          "h": "Držite tajne izvan naredbe",
+          "blocks": [
+            {
+              "p": "<code>-e PASSWORD=…</code> u naredbi lako procuri. U obrascu Novi kontejner otvorite izbornik s ključem u retku okruženja i odaberite <strong>Spremi vrijednost u Privjesak ključeva…</strong> ili odaberite tajnu koju ste dodali pod <strong>Postavke → Tajne</strong>. Redak tada prikazuje <code>keychain:NAME</code> s lokotom, a ne vrijednost."
+            },
+            {
+              "p": "Gantry čita vrijednost iz Privjeska ključeva tek kad stvara kontejner. <strong>Kopiraj kao naredbu</strong>, recepti i izvoz u Compose zapisuju <code>keychain:NAME</code>. Kartica Pregledaj prikazuje <code>KEY=[REDACTED]</code>. Engine i dalje sprema vrijednost, pa je <code>docker inspect</code> ili <code>container inspect</code> izvan Gantryja može prikazati."
             }
           ]
         },

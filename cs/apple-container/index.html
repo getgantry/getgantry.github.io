@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Přehled flotily v Gantry s hostiteli Docker a apple/container">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GUI pro Apple container na Macu: kompletní průvodce apple/container">
   <meta name="twitter:description" content="Co je nástroj container od Applu, jak ho nainstalovat a jak ho Gantry spravuje: tabulka příkazů CLI container a funkcí Gantry, od Compose po Kubernetes.">
@@ -67,7 +67,7 @@
       "description": "Co je nástroj container od Applu, jak ho nainstalovat a jak ho Gantry spravuje: tabulka příkazů CLI container a funkcí Gantry, od Compose po Kubernetes.",
       "url": "https://getgantry.github.io/cs/apple-container/",
       "inLanguage": "cs",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -255,17 +255,17 @@
 <tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>List Nový kontejner a Rychlé spuštění: image, název, příkaz, porty, prostředí, svazky, doména DNS, vlastní jádro a spouštěcí argumenty; <strong>Vložit příkaz…</strong> přečte řádek <code>docker run</code> nebo <code>container run</code></td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container list --all</code></th><td>Seznam kontejnerů seskupený podle projektu Compose, s filtry stavu a hledáním</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Panel nástrojů, kontextová nabídka a panel v řádku nabídek</td><td>Libovolná</td></tr>
-<tr><th scope="row"><code>container logs</code></th><td>Karta Logy: živé sledování, hledání pomocí regexu, filtr úrovní, barvy ANSI</td><td>Libovolná</td></tr>
-<tr><th scope="row"><code>container stats</code></th><td>Karta Statistiky a grafy v přehledu flotily</td><td>Libovolná</td></tr>
+<tr><th scope="row"><code>container logs</code></th><td>Karta Logy: živé sledování, hledání pomocí regexu, filtr úrovní, barvy ANSI; <strong>Exportovat logy…</strong> uloží viditelné řádky</td><td>Libovolná</td></tr>
+<tr><th scope="row"><code>container stats</code></th><td>Karta Statistiky, grafy v přehledu flotily a tabulka Využití prostředků</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container exec</code></th><td>Karta Terminál (interaktivní shell) a karta Procesy</td><td>Libovolná</td></tr>
-<tr><th scope="row"><code>container inspect</code></th><td>Karty Přehled a Inspekce</td><td>Libovolná</td></tr>
+<tr><th scope="row"><code>container inspect</code></th><td>Karty Přehled a Inspekce; <strong>Exportovat jako Compose…</strong> převede konfiguraci na soubor Compose</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container export</code></th><td>Exportovat souborový systém (tar)</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container commit</code></th><td>Uložit jako image</td><td>1.6</td></tr>
 <tr><th scope="row"><code>container copy</code></th><td>Karta Soubory: uložení do Macu a přetažení do Finderu (kontejner musí být spuštěný)</td><td>Libovolná; testováno na 1.6.1</td></tr>
 <tr><th scope="row"><code>container exec</code> s <code>tar</code></th><td>Karta Soubory: nahrávání souborů a vkládání celých složek z Finderu</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container clean</code></th><td>Zmenšit disk u běžícího kontejneru a řádek v panelu Uvolnit místo</td><td>1.4</td></tr>
-<tr><th scope="row"><code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code></th><td>Image: stahování s průběhem, označení tagem, odstranění, pročištění, inspekce</td><td>Libovolná</td></tr>
-<tr><th scope="row"><code>container build</code></th><td>Sestaví služby <code>build:</code> ze souboru Compose</td><td>Libovolná</td></tr>
+<tr><th scope="row"><code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code></th><td>Image: stahování s průběhem, označení tagem, odstranění, pročištění, inspekce; <strong>Zkontrolovat zranitelnosti…</strong> pomocí Trivy nebo Grype</td><td>Libovolná</td></tr>
+<tr><th scope="row"><code>container build</code></th><td>Sestaví služby <code>build:</code> ze souboru Compose; sekce <strong>Sestavení</strong> vypisuje sestavení spuštěná z Gantry</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code></th><td>Svazky</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code></th><td>Sítě</td><td>Libovolná</td></tr>
 <tr><th scope="row"><code>--network &lt;name&gt;,alias=…</code></th><td>Aliasy DNS v síti, aliasy podstromu (<code>.gateway</code>) a názvy služeb Compose</td><td>Libovolná; testováno na 1.6.1</td></tr>
@@ -335,7 +335,7 @@
 <details class="faq-item"><summary>Kterou verzi CLI container nainstalovat?</summary><p>Gantry vyžaduje verzi 1.0 nebo novější a doporučuje 1.7.1. Nainstalujte ji z podepsaného instalačního balíčku ze <a href="https://github.com/apple/container/releases">stránky vydání apple/container</a>. Build z Homebrew neobsahuje backend strojů ani, ve verzi 1.7.1, služby clusteru, takže <code>container machine</code> a <code>container cluster</code> s ním nefungují.</p></details>
 </div>
 
-<p class="updated">Naposledy aktualizováno 2026-11-07.</p>
+<p class="updated">Naposledy aktualizováno 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Domů</a>

@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantry-Flotten-Dashboard mit Docker- und apple/container-Hosts">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Apple container GUI für Mac: kompletter apple/container-Leitfaden">
   <meta name="twitter:description" content="Was Apples container-Tool ist, wie du es installierst und wie Gantry es verwaltet: jeder container-CLI-Befehl mit Gantry-Funktion, von Compose bis Kubernetes.">
@@ -67,7 +67,7 @@
       "description": "Was Apples container-Tool ist, wie du es installierst und wie Gantry es verwaltet: jeder container-CLI-Befehl mit Gantry-Funktion, von Compose bis Kubernetes.",
       "url": "https://getgantry.github.io/de/apple-container/",
       "inLanguage": "de",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -255,17 +255,17 @@
 <tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Fenster „Neuer Container“ und Schnellstart: Image, Name, Befehl, Ports, Umgebung, Volumes, DNS-Domain, eigener Kernel und Boot-Argumente; <strong>Befehl einsetzen…</strong> liest eine <code>docker run</code>- oder <code>container run</code>-Zeile</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container list --all</code></th><td>Container-Liste, gruppiert nach Compose-Projekt, mit Statusfiltern und Suche</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Symbolleiste, Kontextmenü und das Menüleisten-Panel</td><td>Jede</td></tr>
-<tr><th scope="row"><code>container logs</code></th><td>Tab „Logs“: Live-Verfolgung, Regex-Suche, Level-Filter, ANSI-Farben</td><td>Jede</td></tr>
-<tr><th scope="row"><code>container stats</code></th><td>Tab „Statistiken“ und Sparklines im Flotten-Dashboard</td><td>Jede</td></tr>
+<tr><th scope="row"><code>container logs</code></th><td>Tab „Logs“: Live-Verfolgung, Regex-Suche, Level-Filter, ANSI-Farben; <strong>Logs exportieren…</strong> sichert die sichtbaren Zeilen</td><td>Jede</td></tr>
+<tr><th scope="row"><code>container stats</code></th><td>Tab „Statistiken“, Sparklines im Flotten-Dashboard und die Tabelle „Ressourcennutzung“</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container exec</code></th><td>Tab „Terminal“ (interaktive Shell) und Tab „Prozesse“</td><td>Jede</td></tr>
-<tr><th scope="row"><code>container inspect</code></th><td>Tabs „Übersicht“ und „Untersuchen“</td><td>Jede</td></tr>
+<tr><th scope="row"><code>container inspect</code></th><td>Tabs „Übersicht“ und „Untersuchen“; <strong>Als Compose exportieren…</strong> macht aus der Konfiguration eine Compose-Datei</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container export</code></th><td>Dateisystem exportieren (tar)</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container commit</code></th><td>Als Image committen</td><td>1.6</td></tr>
 <tr><th scope="row"><code>container copy</code></th><td>Tab „Dateien“: herunterladen und in den Finder ziehen (der Container muss gestartet sein)</td><td>Jede; getestet mit 1.6.1</td></tr>
 <tr><th scope="row"><code>container exec</code> mit <code>tar</code></th><td>Tab „Dateien“: Dateien hochladen und ganze Ordner aus dem Finder ablegen</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container clean</code></th><td>Festplatte trimmen bei einem laufenden Container und eine Zeile in „Speicherplatz freigeben“</td><td>1.4</td></tr>
-<tr><th scope="row"><code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code></th><td>Images: pullen mit Fortschritt, taggen, entfernen, bereinigen, untersuchen</td><td>Jede</td></tr>
-<tr><th scope="row"><code>container build</code></th><td>Baut die <code>build:</code>-Dienste einer Compose-Datei</td><td>Jede</td></tr>
+<tr><th scope="row"><code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code></th><td>Images: pullen mit Fortschritt, taggen, entfernen, bereinigen, untersuchen; <strong>Auf Schwachstellen prüfen…</strong> mit Trivy oder Grype</td><td>Jede</td></tr>
+<tr><th scope="row"><code>container build</code></th><td>Baut die <code>build:</code>-Dienste einer Compose-Datei; der Bereich <strong>Builds</strong> listet die Builds, die Gantry gestartet hat</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code></th><td>Volumes</td><td>Jede</td></tr>
 <tr><th scope="row"><code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code></th><td>Netzwerke</td><td>Jede</td></tr>
 <tr><th scope="row"><code>--network &lt;name&gt;,alias=…</code></th><td>Netzwerk-DNS-Aliasse, Subtree-Aliasse (<code>.gateway</code>) und Compose-Dienstnamen</td><td>Jede; getestet mit 1.6.1</td></tr>
@@ -335,7 +335,7 @@
 <details class="faq-item"><summary>Welche Version der container-CLI sollte ich installieren?</summary><p>Gantry braucht 1.0 oder neuer und empfiehlt 1.7.1. Installiere es mit dem signierten Installationspaket von der <a href="https://github.com/apple/container/releases">Release-Seite von apple/container</a>. Dem Homebrew-Build fehlen das Maschinen-Backend und in 1.7.1 die Cluster-Dienste, daher funktionieren <code>container machine</code> und <code>container cluster</code> damit nicht.</p></details>
 </div>
 
-<p class="updated">Zuletzt aktualisiert am 2026-11-07.</p>
+<p class="updated">Zuletzt aktualisiert am 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Start</a>

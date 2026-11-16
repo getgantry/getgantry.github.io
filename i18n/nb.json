@@ -43,6 +43,14 @@
         "Kubernetes-utforsker: pods, deployments, services, secrets, hendelser, logger, skall, portvideresending, skalering, bruk YAML",
         "Forklar feil med Apple Intelligence (på enheten eller Private Cloud Compute, hemmeligheter fjernet)",
         "Kommandopalett (Kommando-K) og massehandlinger på flere containere, images, volumer eller nettverk",
+        "Ressursbruk: én sorterbar tabell over containerne som kjører på alle verter",
+        "Bygghistorikk med trinn, buffertreff og logger, inkludert docker buildx history",
+        "Sårbarhetsskanning av images med Trivy eller Grype, og SBOM-eksport (CycloneDX, SPDX)",
+        "Hemmeligheter fra nøkkelringen som miljøvariabler i containere, aldri vist i klartekst",
+        "Eksporter containere som kjører, som en Compose-fil, med hemmeligheter som variabler",
+        "Eksporter logger med gjeldende filter og tidsrom",
+        "Fremdrift for henting, bygg og Compose i menylinjen, med Avbryt",
+        "Skjermbilder i «Forklar feil», lest bare på enheten",
         "Opprett en container fra en innlimt docker run-, podman run- eller container run-kommando; kopier en container som kommando; oppskrifter",
         "Handlinger i varslinger, Spotlight, Siri og Snarveier, en flåtewidget, kontroller i Kontrollsenter og gantry://-lenker",
         "Containermaskiner: opprett, start, stopp, ressurser, skall, nestet virtualisering, egendefinerte kjerner",
@@ -393,9 +401,9 @@
       "overview_title": "Vert – Oversikt",
       "overview_alt": "Oversikt over en vert med målere for CPU og minne og diskbruken til Docker",
       "overview_caption": "<b>Vertsoversikt.</b> Målere, diskbruk, fakta om daemonen.",
-      "fleet_title": "Flåte – Helse",
-      "fleet_alt": "Flåteoversikt over fem verter med synlige helseproblemer",
-      "fleet_caption": "<b>Flåteoversikt.</b> Hver vert, hvert problem, én skjerm."
+      "fleet_title": "Kontrollpanel",
+      "fleet_alt": "Flåteoversikt med en apple/container-vert og en Docker-vert, CPU, minne og toppcontainere for hver",
+      "fleet_caption": "<b>Flåteoversikt.</b> Hver vert, belastningen og toppcontainerne på én skjerm."
     },
     "built": {
       "kicker": "Bygd annerledes",
@@ -421,6 +429,47 @@
       "s3_text": "Lokal Docker dukker opp av seg selv. For Apple container legger du til en <em>Apple Container</em>-vert; Gantry tilbyr å installere <code>container</code>-CLI-en. Agenter: <code>claude mcp add gantry</code>."
     },
     "footer_meta": "MIT-lisens · Bygd med SwiftUI · © 2026",
+    "latest": {
+      "kicker": "Nytt i 0.28 og 0.29",
+      "h2": "Hele flåten i én tabell, og tryggere images",
+      "p": "Gantry 0.28.0 og 0.29.0 legger til én aktivitetstabell for alle verter, en bygghistorikk, skanning av images med Trivy eller Grype, hemmeligheter fra nøkkelringen for miljøet til containeren og en eksport til Compose. Du kan eksportere logger med filteret ditt, gi «Forklar feil» et skjermbilde og følge hentinger, bygg og Compose-kjøringer i menylinjen.",
+      "fleet": {
+        "h3": "Ressursbruk for alle verter",
+        "p": "Én sorterbar tabell over containerne som kjører på hver tilkoblet vert: vert, navn, image, CPU, minne, nettverks-I/O, disk-I/O og oppetid. Filtrer etter navn, image eller vert, eller vis én vert. Dobbeltklikk på en rad for å åpne containeren. Tabellen bruker målingene som Gantry allerede tar hvert 5. sekund, så den åpner ingen nye statistikkstrømmer. Åpne den fra sidepanelet, med <span class=\"kbd\">⌘K</span> eller med <code>gantry://open/usage</code>."
+      },
+      "progress": {
+        "h3": "Fremdrift i menylinjen",
+        "p": "Panelet i menylinjen viser hver henting, bygging og Compose-operasjon som pågår, med en fremdriftslinje, lagene eller tjenestene som er ferdige, bytene, tiden og en <b>Avbryt</b>-knapp. Symbolet i menylinjen viser hvor mange operasjoner som kjører. Hvert Compose-prosjekt får <b>Hent bilder</b> og <b>Compose Down</b>; Compose Down beholder volumer og images."
+      },
+      "scan": {
+        "h3": "Skann images med Trivy eller Grype",
+        "p": "Velg <b>Skann etter sårbarheter…</b> på et image. Gantry kjører Trivy (0.50.0 eller nyere) eller Grype (0.74.0 eller nyere) som du har installert, for eksempel med Homebrew, og grupperer funnene fra Kritisk til Ukjent. <b>Eksporter SBOM</b> skriver CycloneDX, eller SPDX med Trivy. Det fungerer på apple/container, lokal Docker og Docker over SSH, der Gantry skanner kopien i registeret av et image med tagg."
+      },
+      "builds": {
+        "h3": "Bygghistorikk",
+        "p": "Hver vert har en <b>Bygg</b>-del: byggene med trinn, buffertreff og logg. Gantry tar vare på byggene som den starter, med navnene på byggargumentene, men ikke verdiene. På Docker-verter leser den også <code>docker buildx history</code> (buildx 0.23.0 eller nyere). apple/container har ingen bygghistorikk, så der ser du byggene som Gantry har startet."
+      },
+      "secrets": {
+        "h3": "Hemmeligheter fra nøkkelringen i miljøet",
+        "p": "Lagre passord og tokener i nøkkelringen i macOS (<b>Innstillinger → Hemmeligheter</b>) og bruk dem som miljøvariabler i Ny container og Hurtigkjøring. Skjemaet viser <code>keychain:NAME</code>, aldri verdien, og Gantry leser verdien først når den oppretter containeren. Compose-eksport, oppskrifter og Kopier som kommando skriver navnet, ikke verdien."
+      },
+      "compose": {
+        "h3": "Eksporter som Compose",
+        "p": "Velg <b>Eksporter som Compose…</b> på én eller flere containere for å få en <code>docker-compose.yml</code> med porter, monteringer, nettverk, omstartspolicy, helsesjekk, grenser og mer. Verdier som ligner hemmeligheter, blir <code>${NAME}</code> med mindre du tar dem med. På apple/container-verter advarer Gantry om flaggene som Compose ikke kan uttrykke. <a href=\"docker-run-to-container/#compose\">Slik fungerer det</a>"
+      },
+      "logs": {
+        "h3": "Eksporter logger",
+        "p": "<b>Eksporter logger…</b> (<span class=\"kbd\">⇧⌘E</span>) lagrer linjene du ser, med nivåfilteret, søket og tidsrommet, som en <code>.log</code>- eller <code>.txt</code>-fil. <b>Kopier synlige linjer</b> kopierer dem. På Docker-verter kan du legge til tidsstempler og vise bare de siste 5 minuttene opp til det siste døgnet."
+      },
+      "explain": {
+        "h3": "Skjermbilder i «Forklar feil»",
+        "p": "Slipp, lim inn eller legg til opptil 3 bilder i «Forklar feil», for eksempel et skjermbilde av en feilside. Bildene blir på denne Macen: bare modellen på enheten leser dem (macOS 27), aldri Private Cloud Compute."
+      },
+      "shot_fleet_alt": "Ressursbruk-tabellen med containerne som kjører på en apple/container-vert og en Docker-vert, sortert etter CPU",
+      "shot_fleet_caption": "<b>Ressursbruk.</b> Alle containere som kjører på alle verter, sortert etter CPU.",
+      "shot_menubar_alt": "Panelet i menylinjen med to hentinger av images som pågår, lagene, bytene og Avbryt-knapper",
+      "shot_menubar_caption": "<b>Aktivitet i menylinjen.</b> Lag, byte, tid og Avbryt for hver henting."
+    },
     "new": {
       "kicker": "Nytt i 0.27.0",
       "h2": "Kubernetes, Apple Intelligence og resten av macOS",
@@ -489,12 +538,12 @@
       ],
       [
         "<code>container logs</code>",
-        "Fanen Logger: følg i sanntid, regex-søk, nivåfilter, ANSI-farger",
+        "Fanen Logger: følg i sanntid, regex-søk, nivåfilter, ANSI-farger; <strong>Eksporter logger…</strong> lagrer de synlige linjene",
         "Alle"
       ],
       [
         "<code>container stats</code>",
-        "Fanen Statistikk og minigrafene i flåteoversikten",
+        "Fanen Statistikk, minigrafene i flåteoversikten og Ressursbruk-tabellen",
         "Alle"
       ],
       [
@@ -504,7 +553,7 @@
       ],
       [
         "<code>container inspect</code>",
-        "Fanene Oversikt og Inspiser",
+        "Fanene Oversikt og Inspiser; <strong>Eksporter som Compose…</strong> gjør konfigurasjonen om til en Compose-fil",
         "Alle"
       ],
       [
@@ -534,12 +583,12 @@
       ],
       [
         "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
-        "Images: hent med fremdrift, tagg, fjern, rydd opp, inspiser",
+        "Images: hent med fremdrift, tagg, fjern, rydd opp, inspiser; <strong>Skann etter sårbarheter…</strong> med Trivy eller Grype",
         "Alle"
       ],
       [
         "<code>container build</code>",
-        "Bygger <code>build:</code>-tjenestene i en Compose-fil",
+        "Bygger <code>build:</code>-tjenestene i en Compose-fil; <strong>Bygg</strong>-delen viser byggene som Gantry har startet",
         "Alle"
       ],
       [
@@ -1156,7 +1205,7 @@
       ],
       [
         "Nyeste versjon (sjekket 2026-11-07)",
-        "0.27.0",
+        "0.29.0 (2026-11-15)",
         "4.98.0 (2026-11-03)",
         "2.2.5 (2026-10-23)",
         "1.30.5 (2026-10-13)",
@@ -1334,6 +1383,9 @@
           "blocks": [
             {
               "p": "<code>container</code>-CLI-en har ingen <code>compose</code>-kommando. Åpne <code>docker-compose.yml</code> i Gantry i stedet (Finder, <strong>Arkiv ▸ Åpne Compose-fil…</strong> eller dra og slipp). Gantry bygger <code>build:</code>-tjenestene, oppretter prosjektnettverket og de navngitte volumene, og starter tjenestene i <code>depends_on</code>-rekkefølge. Tjenestene når hverandre via tjenestenavnet gjennom DNS-aliaser i nettverket."
+            },
+            {
+              "p": "Ingen Compose-fil ennå? Marker containerne til appen på Docker-verten, velg <strong>Eksporter som Compose…</strong> og lagre filen. Filen merker navngitte volumer og nettverk som <code>external: true</code>, så opprett dem først på apple/container-verten (se <a href=\"#volumes\">Flytt navngitte volumer</a>), og åpne deretter filen der. Verdier som ligner hemmeligheter, blir <code>${NAME}</code>-variabler, så filen inneholder ikke passordene dine."
             }
           ]
         },
@@ -1742,6 +1794,34 @@
           "blocks": [
             {
               "p": "Det fungerer også den andre veien. Høyreklikk på en container, eller bruk Mer-menyen, og velg <strong>Kopier som kommando</strong>: Gantry skriver en <code>docker run</code>- eller <code>container run</code>-linje. Den utelater standardverdiene fra imaget, som miljøet og kommandoen, så linjen holder seg kort. Dette fungerer også for stoppede containere."
+            }
+          ]
+        },
+        {
+          "id": "compose",
+          "h": "Eksporter containeren som Compose",
+          "blocks": [
+            {
+              "p": "For å ta vare på en container som en fil høyreklikker du på den, eller bruker Mer-menyen, og velger <strong>Eksporter som Compose…</strong>. Marker flere containere for å legge dem i én fil. Gantry skriver en <code>docker-compose.yml</code> med én tjeneste for hver container: porter, monteringer, nettverk, omstartspolicy, helsesjekk, grenser, capabilities og logging. Navngitte volumer og nettverk merkes som <code>external: true</code>."
+            },
+            {
+              "ul": [
+                "Verdier som ligner hemmeligheter, blir <code>${NAME}</code>-variabler. Under <strong>Hemmelige verdier</strong> tar du med verdiene du vil ha i filen. En fil med en hemmelig verdi lagres med modus 0600.",
+                "På apple/container-verter viser <strong>Advarsler</strong> flaggene som Compose ikke kan uttrykke, for eksempel <code>--kernel</code>, <code>--rosetta</code> eller <code>--ssh</code>.",
+                "Klikk på <strong>Kopier</strong> eller <strong>Lagre…</strong>."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "secrets",
+          "h": "Hold hemmeligheter utenfor kommandoen",
+          "blocks": [
+            {
+              "p": "En <code>-e PASSWORD=…</code> i en kommando lekker lett. I skjemaet Ny container åpner du nøkkelmenyen på en miljørad og velger <strong>Lagre verdien i nøkkelringen…</strong>, eller velger en hemmelighet som du har lagt til i <strong>Innstillinger → Hemmeligheter</strong>. Raden viser da <code>keychain:NAME</code> med en lås, ikke verdien."
+            },
+            {
+              "p": "Gantry leser verdien fra nøkkelringen først når den oppretter containeren. <strong>Kopier som kommando</strong>, oppskrifter og Compose-eksport skriver <code>keychain:NAME</code>. Fanen Inspiser viser <code>KEY=[REDACTED]</code>. Motoren lagrer fortsatt verdien, så <code>docker inspect</code> eller <code>container inspect</code> utenfor Gantry kan vise den."
             }
           ]
         },

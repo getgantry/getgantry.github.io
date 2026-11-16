@@ -146,7 +146,7 @@
         "applicationSubCategory": "Управљање контејнерима",
         "operatingSystem": "macOS 26",
         "processorRequirements": "Apple silicon или Intel (apple/container хостови захтевају Apple silicon)",
-        "softwareVersion": "0.27.0",
+        "softwareVersion": "0.29.0",
         "inLanguage": [
           "en",
           "zh-Hans",
@@ -198,6 +198,14 @@
           "Kubernetes прегледач: подови, deployment-и, сервиси, тајне, догађаји, логови, љуска, прослеђивање порта, скалирање, примена YAML-а",
           "Објасни неуспех уз Apple Intelligence (на уређају или Private Cloud Compute, без тајни)",
           "Палета команди (Command-K) и групне радње над више контејнера, слика, волумена или мрежа",
+          "Употреба ресурса: једна табела покренутих контејнера на свим хостовима која може да се сортира",
+          "Историја изградњи са корацима, погоцима у кешу и логовима, укључујући docker buildx history",
+          "Скенирање рањивости слика помоћу Trivy-ја или Grype-а и извоз SBOM-а (CycloneDX, SPDX)",
+          "Тајне из привеска за кључеве као променљиве окружења контејнера, никад приказане као обичан текст",
+          "Извоз покренутих контејнера као Compose датотеке, са тајнама као променљивама",
+          "Извоз логова са тренутним филтером и временским опсегом",
+          "Напредак повлачења, изградње и Compose операција на траци менија, са дугметом Откажи",
+          "Снимци екрана у функцији Објасни неуспех, обрађени само на уређају",
           "Креирање контејнера из налепљене команде docker run, podman run или container run; копирање контејнера као команде; рецепти",
           "Радње у обавештењима, Spotlight, Siri и Пречице, виџет инфраструктуре, контроле у Контролном центру и gantry:// линкови",
           "Container машине: креирање, покретање, заустављање, ресурси, љуска, угнежђена виртуелизација, прилагођена језгра",
@@ -466,7 +474,7 @@
         <span>Gantry</span>
       </a>
       <nav class="nav-links">
-        <a href="#new">Ново</a>
+        <a href="#latest">Ново</a>
         <a href="#features">Могућности</a>
         <a href="#fleet">Флота</a>
         <a href="apple-container/">apple/container</a>
@@ -601,6 +609,61 @@
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/></svg>apple/container</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg>Kubernetes</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>Удаљени SSH</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEW IN 0.28.0 AND 0.29.0 ===================== -->
+    <section class="section" id="latest">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Ново у верзијама 0.28 и 0.29</span>
+          <h2>Цела флота у једној табели и безбедније слике</h2>
+          <p>Gantry 0.28.0 и 0.29.0 доносе једну табелу активности за све хостове, историју изградњи, скенирање слика помоћу Trivy-ја или Grype-а, тајне из привеска за кључеве за окружење контејнера и извоз у Compose. Можете да извезете логове са својим филтером, да функцији Објасни неуспех дате снимак екрана и да пратите повлачења, изградње и Compose покретања на траци менија.</p>
+        </div>
+        <figure class="guide-shot"><img src="../assets/shots/0.29.0/fleet-activity.png" alt="Табела Употреба ресурса са покренутим контејнерима apple/container хоста и Docker хоста, сортираним по CPU-у" width="1856" height="580" loading="lazy" decoding="async"><figcaption><b>Употреба ресурса.</b> Сви покренути контејнери свих хостова, сортирани по CPU-у.</figcaption></figure>
+        <div class="bento">
+          <div class="cell col-4 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 9v11"/></svg></div>
+            <h3>Употреба ресурса за све хостове</h3>
+            <p>Једна табела покренутих контејнера на сваком повезаном хосту која може да се сортира: хост, име, слика, CPU, меморија, мрежни I/O, диск I/O и време рада. Филтрирајте по имену, слици или хосту или прикажите један хост. Двапут кликните на ред да бисте отворили контејнер. Табела користи узорке које Gantry већ узима сваких 5 секунди, па не отвара нове токове статистике. Отворите је из бочне траке, са <span class="kbd">⌘K</span> или са <code>gantry://open/usage</code>.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg></div>
+            <h3>Напредак на траци менија</h3>
+            <p>Панел на траци менија приказује свако активно повлачење, изградњу и Compose операцију са траком напретка, завршеним слојевима или сервисима, бајтовима, временом и дугметом <b>Откажи</b>. Икона на траци менија показује колико операција је у току. Сваки Compose пројекат добија <b>Повуци слике</b> и <b>Compose Down</b>; Compose Down задржава волумене и слике.</p>
+            <figure class="guide-shot"><img src="../assets/shots/0.29.0/menu-bar-progress.png" alt="Панел на траци менија са два повлачења слика у току, њиховим слојевима, бајтовима и дугмадима Откажи" width="640" height="460" loading="lazy" decoding="async"><figcaption><b>Активност на траци менија.</b> Слојеви, бајтови, време и Откажи за свако повлачење.</figcaption></figure>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Скенирање слика помоћу Trivy-ја или Grype-а</h3>
+            <p>На слици изаберите <b>Скенирај рањивости…</b>. Gantry покреће Trivy (0.50.0 или новији) или Grype (0.74.0 или новији) који сте инсталирали, на пример преко Homebrew-а, и групише налазе од критичних до непознатих. <b>Извези SBOM</b> записује CycloneDX, а уз Trivy и SPDX. Ради на apple/container-у, локалном Docker-у и Docker-у преко SSH-а, где Gantry скенира копију означене слике у регистру.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 6l4 4-9 9H5v-4z"/><path d="m12 8 4 4"/><path d="M15 3l6 6"/></svg></div>
+            <h3>Историја изградњи</h3>
+            <p>Сваки хост има одељак <b>Изградње</b>: изградње са њиховим корацима, погоцима у кешу и логом. Gantry чува изградње које покрене, са именима аргумената изградње, али не и са њиховим вредностима. На Docker хостовима чита и <code>docker buildx history</code> (buildx 0.23.0 или новији). apple/container не чува историју изградњи, па тамо видите изградње које је покренуо Gantry.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></div>
+            <h3>Тајне из привеска за кључеве у окружењу</h3>
+            <p>Чувајте лозинке и токене у macOS привеску за кључеве (<b>Подешавања → Тајне</b>) и користите их као променљиве окружења у прозорима Нови контејнер и Брзо покретање. Образац приказује <code>keychain:NAME</code>, никад вредност, а Gantry чита вредност тек када креира контејнер. Извоз у Compose, рецепти и Копирај као команду записују име, а не вредност.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 13v7M13 16.5l3.5 3.5 3.5-3.5"/></svg></div>
+            <h3>Извоз као Compose</h3>
+            <p>На једном или више контејнера изаберите <b>Извези као Compose…</b> и добићете <code>docker-compose.yml</code> са портовима, монтирањима, мрежама, смерницом поновног покретања, провером исправности, ограничењима и другим. Вредности које личе на тајне постају <code>${NAME}</code>, осим ако их не укључите. На apple/container хостовима Gantry упозорава на заставице које Compose не може да изрази. <a href="docker-run-to-container/#compose">Како ради</a></p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h10l4 4v12H5z"/><path d="M8 11h8M8 15h5"/></svg></div>
+            <h3>Извоз логова</h3>
+            <p><b>Извези логове…</b> (<span class="kbd">⇧⌘E</span>) чува редове које видите, са филтером нивоа, претрагом и временским опсегом, као датотеку <code>.log</code> или <code>.txt</code>. <b>Копирај видљиве редове</b> их копира. На Docker хостовима можете да додате временске ознаке и прикажете само период од последњих 5 минута до последњег дана.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></div>
+            <h3>Снимци екрана у функцији Објасни неуспех</h3>
+            <p>Превуците, налепите или додајте до 3 слике у функцији Објасни неуспех, на пример снимак екрана странице са грешком. Слике остају на овом Mac-у: чита их само модел на уређају (macOS 27), никад Private Cloud Compute.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -743,7 +806,7 @@
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></svg></div>
             <div class="mini">
               <div class="term">
-                <div><span class="dim">~ #</span> <span class="prompt">gantry exec</span> <span class="cmd">clickhouse-server-1</span></div>
+                <div><span class="dim">~ #</span> <span class="prompt">docker exec -it</span> <span class="cmd">clickhouse-server-1</span></div>
                 <div class="out">root@clickhouse:/# <span class="acc">ps aux | head</span></div>
                 <div class="dim">807 PIDs · 6.7% cpu · 1.42 GB<span class="cursor"></span></div>
               </div>
@@ -941,10 +1004,10 @@
           <div class="shot reveal d1">
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
-                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Флота — Исправност</span></div>
-                <div class="window-body"><img src="../assets/fleet.png" alt="Контролна табла флоте са пет хостова и истакнутим проблемима са исправношћу" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Контролна табла</span></div>
+                <div class="window-body"><img src="../assets/fleet.png" alt="Контролна табла флоте са apple/container хостом и Docker хостом, њиховим CPU-ом, меморијом и најоптерећенијим контејнерима" width="1856" height="1190" loading="lazy" decoding="async"></div>
               </div>
-              <figcaption><b>Контролна табла флоте.</b> Сваки хост, сваки проблем, један екран.</figcaption>
+              <figcaption><b>Контролна табла флоте.</b> Сваки хост, његово оптерећење и најоптерећенији контејнери на једном екрану.</figcaption>
             </figure>
           </div>
         </div>

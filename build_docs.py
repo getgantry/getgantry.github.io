@@ -65,7 +65,7 @@ PAGES["index"] = ("Introduction",
 
 <h2>What you can do</h2>
 <ul>
-  <li><strong>See everything at a glance</strong> — a fleet dashboard with live CPU/memory sparklines and health issues that jump straight to the culprit, plus a <a href="menu-bar.html">menu-bar panel</a> of running containers.</li>
+  <li><strong>See everything at a glance</strong> — a fleet dashboard with live CPU/memory sparklines and health issues that jump straight to the culprit, a <a href="containers.html">Resource Usage</a> table of every running container on every host, plus a <a href="menu-bar.html">menu-bar panel</a> of running containers.</li>
   <li><strong>Manage every resource</strong> — containers, images, volumes, networks, and (on apple/container) machines, with live logs, stats, an interactive terminal, file browsing and process lists.</li>
   <li><strong>Reach services instantly</strong> — open a container in your browser or copy its <code>ip:port</code> in one click, and give containers real <a href="dns.html">DNS names</a> on apple/container.</li>
   <li><strong>Work across hosts</strong> — add remote Docker daemons over SSH with first-class key handling, an SFTP file browser and a host terminal.</li>
@@ -120,6 +120,7 @@ PAGES["menu-bar"] = ("The menu bar",
   <li><strong>Copy address</strong> — tap the <code>:port</code> chip to copy the container's <code>ip:port</code> (or <code>dns:port</code>).</li>
   <li><strong>Quick actions</strong> — stop and restart inline; right-click for Kill, Copy DNS Name, Copy ID, and <a href="mcp.html">Copy as Prompt</a>.</li>
   <li><strong>Recently exited</strong> containers with a one-tap start.</li>
+  <li><strong>Activity</strong> — each running pull, build and Compose operation with a progress bar, the layers or services that are done, the bytes, the elapsed time and a <strong>Cancel</strong> button. Up to three operations that ended in the last 10 minutes stay in the list; <strong>Show All</strong> opens the full list. The menu bar icon shows how many operations run.</li>
 </ul>
 
 <p>Clicking a container name opens the main window focused on that container's detail view. On apple/container hosts, the panel also has a strip to start or stop the background services.</p>
@@ -218,7 +219,7 @@ PAGES["containers"] = ("Containers",
 <p>Select a container to open its detail tabs:</p>
 <ul>
   <li><strong>Overview</strong> — state, address, ports, mounts, networks, config and environment.</li>
-  <li><strong>Logs</strong> — live streaming with search, follow toggle and export.</li>
+  <li><strong>Logs</strong> — live streaming with search, level filter and follow toggle. <strong>Export Logs…</strong> (<kbd>⇧⌘E</kbd>) saves exactly the lines on screen, as a <code>.log</code> or <code>.txt</code> file; <strong>Copy Visible Lines</strong> copies them. On Docker hosts the display menu adds <strong>Show Timestamps</strong> and a <strong>Time Range</strong> from the last 5 minutes to the last day. apple/container does not report log times, so that menu is off there.</li>
   <li><strong>Stats</strong> — live CPU, memory, network and I/O charts.</li>
   <li><strong>Terminal</strong> — an interactive shell into the running container.</li>
   <li><strong>Files</strong> — browse, download and upload files.</li>
@@ -228,6 +229,18 @@ PAGES["containers"] = ("Containers",
 
 <h2>Actions</h2>
 <p>Start, stop, restart and kill from the toolbar; the overflow menu adds Rename, Commit to Image, Export Filesystem, Restart Policy, Copy ID and <a href="mcp.html">Copy as Prompt</a>. On apple/container hosts, Commit to Image needs CLI 1.6, and <strong>Trim Disk</strong> (CLI 1.4) reclaims disk space of a running container. Most actions are also on the right-click menu in the list and the <a href="menu-bar.html">menu bar</a>.</p>
+
+<h2>Resource Usage</h2>
+<p><strong>Resource Usage</strong>, under Dashboard in the sidebar, is one table of the running containers on all connected hosts: host, name, image, CPU, memory, network I/O, disk I/O and uptime. It uses the samples that the dashboard already takes every 5 seconds. Click a column to sort, type in <em>Name, image or host</em> to filter, or pick one host. Double-click a row or press Return to open the container; the row menu has Show in Containers, Show Stats and Copy Name. A host that is not connected gets one line with a <strong>Retry</strong> button. The <a href="mcp.html">MCP</a> tool <code>fleet_activity</code> returns the same table.</p>
+
+<h2>Export as Compose</h2>
+<p>Right-click one or more containers, or use the More menu of a container, and choose <strong>Export as Compose…</strong>. Gantry writes a <code>docker-compose.yml</code> with one service per container: ports, binds, volumes, tmpfs, networks with aliases, restart policy, healthcheck, CPU and memory limits, capabilities, DNS, devices, ulimits and logging. Named volumes and networks are <code>external: true</code>. Values that look like secrets become <code>${{NAME}}</code>; include the ones you want under <strong>Secret Values</strong>. A file that holds a secret value is saved with mode 0600. On apple/container hosts, <strong>Warnings</strong> lists flags that Compose cannot express, such as <code>--kernel</code>, <code>--rosetta</code> and <code>--ssh</code>.</p>
+
+<h2>Keychain secrets</h2>
+<p>Add secrets in <strong>Settings → Secrets</strong>. The values go to the macOS Keychain and Gantry never shows them again; you can rename, replace or delete a secret, and turn on <strong>Require Touch ID to use secrets</strong>. In New Container and Quick Run, the key menu of an environment row offers your secrets, <strong>New Secret…</strong>, <strong>Save Value in Keychain…</strong> and <strong>Use Plain Value</strong>. A row with a secret shows <code>keychain:NAME</code>. Gantry reads the value only when it creates the container. Copy as Command, recipes and Compose export write <code>keychain:NAME</code>, and the Inspect tab shows <code>KEY=[REDACTED]</code>. The engine keeps the value in the container configuration, so <code>docker inspect</code> or <code>container inspect</code> outside Gantry can show it.</p>
+
+<h2>Explain Failure with screenshots</h2>
+<p>On macOS 27 with the on-device model, you can add up to 3 images (20 MB each) to <strong>Explain Failure</strong>: drop them, paste them with <kbd>⌘V</kbd>, or click <strong>Add Image…</strong>. Gantry reduces each image to 1024 pixels on the longer side. Images go only to the on-device model, never to Private Cloud Compute, and Copy as Prompt stays text only. Gantry does not hide secrets in images, so check what a screenshot shows.</p>
 """)
 
 PAGES["ports"] = ("Ports & browser access",
@@ -325,11 +338,16 @@ PAGES["images-compose"] = ("Images & Compose",
   <li><strong>Tag</strong> and <strong>remove</strong> images; <strong>prune</strong> dangling or all unused.</li>
   <li>Inspect an image's layers/history and raw JSON, and see which containers use it.</li>
   <li>A badge marks images (and their containers) built for a different CPU architecture than the host, for example amd64 on Apple silicon.</li>
+  <li><strong>Scan for Vulnerabilities…</strong> in the image menu or toolbar runs Trivy (0.50.0 or later) or Grype (0.74.0 or later). Gantry finds them in <code>PATH</code>, <code>/opt/homebrew/bin</code> or <code>/usr/local/bin</code> (or <code>GANTRY_TRIVY</code> and <code>GANTRY_GRYPE</code>) and does not install them: <code>brew install trivy</code> or <code>brew install grype</code>. Findings are grouped from Critical to Unknown and link to their advisories. <strong>Export SBOM</strong> writes CycloneDX, or SPDX with Trivy. On apple/container and local Docker, Gantry saves the image to an archive and scans it; on SSH hosts it scans the registry copy of a tagged image. Results are not stored.</li>
   <li>On apple/container hosts with CLI 1.5 or 1.6, <strong>Load into Cluster</strong> copies a local image into a Kubernetes cluster's nodes. CLI 1.7 replaces it with the shared image store of the cluster.</li>
 </ul>
 
+<h2>Build history</h2>
+<p>Each host has a <strong>Builds</strong> section after Images. It lists the builds that Gantry started (the Build Image sheet and Compose), with their state, duration, steps (Executed, Cached, Failed), cache use and log. Gantry keeps 100 builds per host and the last 512 KB of each log in <code>~/Library/Application Support/Gantry/build-history.json</code>, with build-argument names but not their values. On Docker hosts it also reads <code>docker buildx history</code> (buildx 0.23.0 or later), shown with the source BuildKit. apple/container keeps no build history of its own, so an apple/container host shows only the builds that Gantry started. <strong>Clear History…</strong> removes only Gantry's records.</p>
+
 <h2>Compose</h2>
 <p>On apple/container hosts, open a <code>docker-compose.yml</code> from <strong>Docker → Open Compose File…</strong>, Finder's <em>Open With</em>, or by dropping it on the window. Choose the host, toggle recreate / no-cache, and bring the project up with a live, colorized log stream. When it's up, Gantry jumps to the host's Containers grouped by the Compose project.</p>
+<p>The header of each Compose project in the container list has <strong>Pull Images</strong> and <strong>Compose Down</strong>. Compose Down removes the containers and keeps volumes and images. Pulls, builds and Compose runs show their progress in the <a href="menu-bar.html">menu bar</a>. To go the other way, <a href="containers.html">Export as Compose</a> turns running containers into a compose file.</p>
 """)
 
 PAGES["resources"] = ("Networks, volumes & machines",

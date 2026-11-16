@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantry-vlootdashboard met Docker- en apple/container-hosts">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Een container maken van een docker run-commando op de Mac (docker run naar container run)">
   <meta name="twitter:description" content="Plak een docker run-commando in Gantry en krijg een ingevuld containerformulier, of zet docker run met de hand om naar container run: welke flags overeenkomen, welke niet, en recepten.">
@@ -67,7 +67,7 @@
       "description": "Plak een docker run-commando in Gantry en krijg een ingevuld containerformulier, of zet docker run met de hand om naar container run: welke flags overeenkomen, welke niet, en recepten.",
       "url": "https://getgantry.github.io/nl/docker-run-to-container/",
       "inLanguage": "nl",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "De container exporteren als Compose",
+          "text": "Om een container als bestand te bewaren, klik je er met de rechtermuisknop op, of gebruik je het menu Meer, en kies je Exporteer als Compose…. Selecteer meerdere containers om ze in één bestand te zetten. Gantry schrijft een docker-compose.yml met één service per container: poorten, mounts, netwerken, herstartbeleid, gezondheidscontrole, limieten, capabilities en logging. Benoemde volumes en netwerken worden gemarkeerd als external: true.",
+          "url": "https://getgantry.github.io/nl/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Geheimen buiten het commando houden",
+          "text": "Een -e PASSWORD=… in een commando lekt gemakkelijk uit. Open in het formulier Nieuwe container het sleutelmenu van een omgevingsrij en kies Bewaar waarde in sleutelhanger…, of kies een geheim dat je hebt toegevoegd in Instellingen → Geheimen. De rij toont dan keychain:NAME met een slotje, niet de waarde.",
+          "url": "https://getgantry.github.io/nl/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Bewaren als recept",
           "text": "Open in het venster Nieuwe container Recepten en kies Bewaar als recept…. De volgende keer geeft Vul in vanuit recept hetzelfde formulier op elke host. Recepten staan in ~/Library/Application Support/Gantry/recipes.json, dus je kunt er een reservekopie van maken of ze delen.",
           "url": "https://getgantry.github.io/nl/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Beperkingen",
           "text": "Gantry bewaart het pad van --env-file maar leest het bestand niet, en leest je shell niet uit voor -e KEY zonder waarde. tmpfs-koppelingen en anonieme volumes uit --mount worden als niet ondersteund vermeld. Twee poorten voor dezelfde containerpoort (-p 8080:80 -p 8081:80) vullen het formulier in, maar het formulier weigert dan het duplicaat.",
           "url": "https://getgantry.github.io/nl/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Klik op <strong>Vul formulier in</strong>, controleer de waarden en maak de container.</li>
 </ol>
 <p>Gantry leest <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> en <code>container run</code>. Tekst na <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> of <code>|</code> wordt genegeerd, met een opmerking.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Welke flags het formulier invullen</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Een container kopiëren als commando</ul>
 <p>Het werkt ook andersom. Klik met de rechtermuisknop op een container, of gebruik het menu Meer, en kies <strong>Kopieer als commando</strong>: Gantry schrijft een <code>docker run</code>- of <code>container run</code>-regel. Het laat de standaardwaarden van de image weg, zoals de omgeving en het commando, zodat de regel kort blijft. Dit werkt ook voor gestopte containers.</p>
 
+<ul id="compose">De container exporteren als Compose</ul>
+<p>Om een container als bestand te bewaren, klik je er met de rechtermuisknop op, of gebruik je het menu Meer, en kies je <strong>Exporteer als Compose…</strong>. Selecteer meerdere containers om ze in één bestand te zetten. Gantry schrijft een <code>docker-compose.yml</code> met één service per container: poorten, mounts, netwerken, herstartbeleid, gezondheidscontrole, limieten, capabilities en logging. Benoemde volumes en netwerken worden gemarkeerd als <code>external: true</code>.</p>
+<ul>
+  <li>Waarden die op geheimen lijken, worden <code>${NAME}</code>-variabelen. Neem onder <strong>Geheime waarden</strong> de waarden op die je in het bestand wilt. Een bestand met een geheime waarde wordt bewaard met modus 0600.</li>
+  <li>Op apple/container-hosts toont <strong>Waarschuwingen</strong> de flags die Compose niet kan uitdrukken, zoals <code>--kernel</code>, <code>--rosetta</code> of <code>--ssh</code>.</li>
+  <li>Klik op <strong>Kopieer</strong> of <strong>Bewaar…</strong>.</li>
+</ul>
+
+<ul id="secrets">Geheimen buiten het commando houden</ul>
+<p>Een <code>-e PASSWORD=…</code> in een commando lekt gemakkelijk uit. Open in het formulier Nieuwe container het sleutelmenu van een omgevingsrij en kies <strong>Bewaar waarde in sleutelhanger…</strong>, of kies een geheim dat je hebt toegevoegd in <strong>Instellingen → Geheimen</strong>. De rij toont dan <code>keychain:NAME</code> met een slotje, niet de waarde.</p>
+<p>Gantry leest de waarde pas uit de sleutelhanger wanneer het de container aanmaakt. <strong>Kopieer als commando</strong>, recepten en Compose-export schrijven <code>keychain:NAME</code>. De tab Inspecteren toont <code>KEY=[REDACTED]</code>. De engine bewaart de waarde nog steeds, dus <code>docker inspect</code> of <code>container inspect</code> buiten Gantry kan hem tonen.</p>
+
 <ul id="recipes">Bewaren als recept</ul>
 <p>Open in het venster Nieuwe container <strong>Recepten</strong> en kies <strong>Bewaar als recept…</strong>. De volgende keer geeft <strong>Vul in vanuit recept</strong> hetzelfde formulier op elke host. Recepten staan in <code>~/Library/Application Support/Gantry/recipes.json</code>, dus je kunt er een reservekopie van maken of ze delen.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Kan ik een draaiende container weer omzetten naar een docker run-commando?</summary><p>Ja. <strong>Kopieer als commando</strong> in het containermenu schrijft een <code>docker run</code>- of <code>container run</code>-regel voor die container.</p></details>
 </div>
 
-<p class="updated">Laatst bijgewerkt op 2026-11-07.</p>
+<p class="updated">Laatst bijgewerkt op 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Home</a>

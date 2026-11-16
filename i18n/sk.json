@@ -43,6 +43,14 @@
         "Prehliadač Kubernetes: pody, deploymenty, služby, secrety, udalosti, logy, shell, presmerovanie portov, škálovanie, použitie YAML",
         "Vysvetliť zlyhanie s Apple Intelligence (v zariadení alebo v Private Cloud Compute, bez tajných údajov)",
         "Paleta príkazov (Command-K) a hromadné akcie s viacerými kontajnermi, obrazmi, zväzkami alebo sieťami",
+        "Využitie prostriedkov: jedna zoraditeľná tabuľka spustených kontajnerov na všetkých hostiteľoch",
+        "História zostavení s krokmi, zásahmi vyrovnávacej pamäte a logmi, vrátane docker buildx history",
+        "Kontrola zraniteľností obrazov pomocou Trivy alebo Grype a export SBOM (CycloneDX, SPDX)",
+        "Tajné údaje z Kľúčenky ako premenné prostredia kontajnera, nikdy nezobrazené ako obyčajný text",
+        "Export spustených kontajnerov ako súboru Compose, s tajnými údajmi ako premennými",
+        "Export logov s aktuálnym filtrom a časovým obdobím",
+        "Priebeh sťahovania, zostavenia a Compose na lište menu, s tlačidlom Zrušiť",
+        "Snímky obrazovky vo Vysvetliť zlyhanie, spracované len v zariadení",
         "Vytvorenie kontajnera z vloženého príkazu docker run, podman run alebo container run; kopírovanie kontajnera ako príkazu; recepty",
         "Akcie v hláseniach, Spotlight, Siri a Skratky, widget flotily, ovládacie prvky v Ovládacom centre a odkazy gantry://",
         "Stroje container: vytvorenie, spustenie, zastavenie, prostriedky, shell, vnorená virtualizácia, vlastné jadrá",
@@ -393,9 +401,9 @@
       "overview_title": "Hostiteľ — Prehľad",
       "overview_alt": "Prehľad hostiteľa s ukazovateľmi CPU a pamäte a využitím disku Dockerom",
       "overview_caption": "<b>Prehľad hostiteľa.</b> Ukazovatele, využitie disku, údaje o démonovi.",
-      "fleet_title": "Prehľad — Zdravie",
-      "fleet_alt": "Prehľad flotily s piatimi hostiteľmi a zobrazenými problémami so zdravím",
-      "fleet_caption": "<b>Prehľad flotily.</b> Každý hostiteľ, každý problém, jedna obrazovka."
+      "fleet_title": "Prehľad",
+      "fleet_alt": "Prehľad flotily s hostiteľom apple/container a hostiteľom Docker, ich CPU, pamäťou a najvyťaženejšími kontajnermi",
+      "fleet_caption": "<b>Prehľad flotily.</b> Každý hostiteľ, jeho záťaž a najvyťaženejšie kontajnery na jednej obrazovke."
     },
     "built": {
       "kicker": "Postavená inak",
@@ -421,6 +429,47 @@
       "s3_text": "Lokálny Docker sa zobrazí sám. Pre Apple container pridajte hostiteľa <em>Apple Container</em>; Gantry ponúkne inštaláciu CLI <code>container</code>. Agenti: <code>claude mcp add gantry</code>."
     },
     "footer_meta": "Licencia MIT · Postavené na SwiftUI · © 2026",
+    "latest": {
+      "kicker": "Novinky vo verziách 0.28 a 0.29",
+      "h2": "Celá flotila v jednej tabuľke a bezpečnejšie obrazy",
+      "p": "Gantry 0.28.0 a 0.29.0 pridávajú jednu tabuľku aktivity pre všetkých hostiteľov, históriu zostavení, kontrolu obrazov pomocou Trivy alebo Grype, tajné údaje z Kľúčenky pre prostredie kontajnera a export do Compose. Logy môžete exportovať s vlastným filtrom, funkcii Vysvetliť zlyhanie môžete odovzdať snímku obrazovky a sťahovanie, zostavenia aj behy Compose môžete sledovať na lište menu.",
+      "fleet": {
+        "h3": "Využitie prostriedkov pre všetkých hostiteľov",
+        "p": "Jedna zoraditeľná tabuľka spustených kontajnerov na každom pripojenom hostiteľovi: hostiteľ, názov, obraz, CPU, pamäť, sieťové I/O, diskové I/O a doba behu. Filtrujte podľa názvu, obrazu alebo hostiteľa, alebo zobrazte len jedného hostiteľa. Dvojitým kliknutím na riadok otvoríte kontajner. Tabuľka používa vzorky, ktoré Gantry už odoberá každých 5 sekúnd, takže neotvára žiadne nové prúdy štatistík. Otvorte ju z bočného panela, pomocou <span class=\"kbd\">⌘K</span> alebo cez <code>gantry://open/usage</code>."
+      },
+      "progress": {
+        "h3": "Priebeh na lište menu",
+        "p": "Panel na lište menu ukazuje každé prebiehajúce sťahovanie, zostavenie a operáciu Compose s indikátorom priebehu, hotovými vrstvami alebo službami, bajtmi, časom a tlačidlom <b>Zrušiť</b>. Ikona na lište menu ukazuje, koľko operácií beží. Každý projekt Compose má <b>Stiahnuť obrazy</b> a <b>Compose down</b>; Compose down ponechá zväzky a obrazy."
+      },
+      "scan": {
+        "h3": "Kontrola obrazov pomocou Trivy alebo Grype",
+        "p": "Pri obraze zvoľte <b>Skontrolovať zraniteľnosti…</b>. Gantry spustí Trivy (0.50.0 alebo novší) alebo Grype (0.74.0 alebo novší), ktorý ste nainštalovali, napríklad cez Homebrew, a zoskupí nálezy od kritických po neznáme. <b>Exportovať SBOM</b> zapíše CycloneDX, alebo s Trivy SPDX. Funguje na apple/container, lokálnom Dockeri aj Dockeri cez SSH, kde Gantry kontroluje kópiu otagovaného obrazu v registri."
+      },
+      "builds": {
+        "h3": "História zostavení",
+        "p": "Každý hostiteľ má sekciu <b>Zostavenia</b>: zostavenia s ich krokmi, zásahmi vyrovnávacej pamäte a logom. Gantry uchováva zostavenia, ktoré sama spúšťa, s názvami argumentov zostavenia, ale bez ich hodnôt. Na hostiteľoch Docker číta aj <code>docker buildx history</code> (buildx 0.23.0 alebo novší). apple/container históriu zostavení neuchováva, takže tam vidíte zostavenia, ktoré spustila Gantry."
+      },
+      "secrets": {
+        "h3": "Tajné údaje z Kľúčenky v prostredí",
+        "p": "Heslá a tokeny uložte do Kľúčenky macOS (<b>Nastavenia → Tajné údaje</b>) a používajte ich ako premenné prostredia v hárkoch Nový kontajner a Rýchle spustenie. Formulár zobrazuje <code>keychain:NAME</code>, nikdy hodnotu, a Gantry hodnotu načíta až pri vytváraní kontajnera. Export Compose, recepty a Kopírovať ako príkaz zapisujú názov, nie hodnotu."
+      },
+      "compose": {
+        "h3": "Export ako Compose",
+        "p": "Pri jednom alebo viacerých kontajneroch zvoľte <b>Exportovať ako Compose…</b> a získate <code>docker-compose.yml</code> s portami, pripojeniami, sieťami, politikou reštartu, kontrolou stavu, limitmi a ďalším. Hodnoty, ktoré vyzerajú ako tajné údaje, sa zmenia na <code>${NAME}</code>, ak ich nezahrniete. Na hostiteľoch apple/container Gantry upozorní na príznaky, ktoré Compose nedokáže vyjadriť. <a href=\"docker-run-to-container/#compose\">Ako to funguje</a>"
+      },
+      "logs": {
+        "h3": "Export logov",
+        "p": "<b>Exportovať logy…</b> (<span class=\"kbd\">⇧⌘E</span>) uloží riadky, ktoré vidíte, s filtrom úrovní, vyhľadávaním a časovým obdobím, ako súbor <code>.log</code> alebo <code>.txt</code>. <b>Kopírovať viditeľné riadky</b> ich skopíruje. Na hostiteľoch Docker môžete pridať časové pečiatky a zobraziť len posledné obdobie, od 5 minút do jedného dňa."
+      },
+      "explain": {
+        "h3": "Snímky obrazovky vo Vysvetliť zlyhanie",
+        "p": "Do Vysvetliť zlyhanie presuňte, vložte alebo pridajte až 3 obrázky, napríklad snímku obrazovky chybovej stránky. Obrázky zostanú v tomto Macu: číta ich len model v zariadení (macOS 27), nikdy Private Cloud Compute."
+      },
+      "shot_fleet_alt": "Tabuľka Využitie prostriedkov so spustenými kontajnermi hostiteľa apple/container a hostiteľa Docker, zoradená podľa CPU",
+      "shot_fleet_caption": "<b>Využitie prostriedkov.</b> Všetky spustené kontajnery všetkých hostiteľov, zoradené podľa CPU.",
+      "shot_menubar_alt": "Panel na lište menu s dvoma prebiehajúcimi sťahovaniami obrazov, ich vrstvami, bajtmi a tlačidlami Zrušiť",
+      "shot_menubar_caption": "<b>Aktivita na lište menu.</b> Vrstvy, bajty, čas a Zrušiť pri každom sťahovaní."
+    },
     "new": {
       "kicker": "Novinky vo verzii 0.27.0",
       "h2": "Kubernetes, Apple Intelligence a zvyšok macOS",
@@ -489,12 +538,12 @@
       ],
       [
         "<code>container logs</code>",
-        "Karta Logy: živé sledovanie, vyhľadávanie cez regex, filter úrovní, farby ANSI",
+        "Karta Logy: živé sledovanie, vyhľadávanie cez regex, filter úrovní, farby ANSI; <strong>Exportovať logy…</strong> uloží viditeľné riadky",
         "Ľubovoľná"
       ],
       [
         "<code>container stats</code>",
-        "Karta Štatistiky a grafy v prehľade flotily",
+        "Karta Štatistiky, grafy v prehľade flotily a tabuľka Využitie prostriedkov",
         "Ľubovoľná"
       ],
       [
@@ -504,7 +553,7 @@
       ],
       [
         "<code>container inspect</code>",
-        "Karty Prehľad a Preskúmať",
+        "Karty Prehľad a Preskúmať; <strong>Exportovať ako Compose…</strong> prevedie konfiguráciu na súbor Compose",
         "Ľubovoľná"
       ],
       [
@@ -534,12 +583,12 @@
       ],
       [
         "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
-        "Obrazy: sťahovanie s priebehom, označenie tagom, odstránenie, čistenie, preskúmanie",
+        "Obrazy: sťahovanie s priebehom, označenie tagom, odstránenie, čistenie, preskúmanie; <strong>Skontrolovať zraniteľnosti…</strong> pomocou Trivy alebo Grype",
         "Ľubovoľná"
       ],
       [
         "<code>container build</code>",
-        "Zostaví služby <code>build:</code> zo súboru Compose",
+        "Zostaví služby <code>build:</code> zo súboru Compose; sekcia <strong>Zostavenia</strong> uvádza zostavenia, ktoré spustila Gantry",
         "Ľubovoľná"
       ],
       [
@@ -1156,7 +1205,7 @@
       ],
       [
         "Najnovšia verzia (overené 2026-11-07)",
-        "0.27.0",
+        "0.29.0 (2026-11-15)",
         "4.98.0 (2026-11-03)",
         "2.2.5 (2026-10-23)",
         "1.30.5 (2026-10-13)",
@@ -1334,6 +1383,9 @@
           "blocks": [
             {
               "p": "CLI <code>container</code> nemá príkaz <code>compose</code>. Namiesto toho otvorte <code>docker-compose.yml</code> v Gantry (Finder, <strong>Súbor ▸ Otvoriť súbor Compose…</strong> alebo presunutím). Gantry zostaví služby s <code>build:</code>, vytvorí sieť projektu a pomenované zväzky a spustí služby v poradí podľa <code>depends_on</code>. Služby sa navzájom nájdu podľa názvu služby vďaka aliasom DNS v sieti."
+            },
+            {
+              "p": "Ešte nemáte súbor Compose? Na hostiteľovi Docker vyberte kontajnery aplikácie, zvoľte <strong>Exportovať ako Compose…</strong> a súbor uložte. Súbor označí pomenované zväzky a siete ako <code>external: true</code>, preto ich najprv vytvorte na hostiteľovi apple/container (pozrite <a href=\"#volumes\">Presun pomenovaných zväzkov</a>) a potom tam súbor otvorte. Hodnoty, ktoré vyzerajú ako tajné údaje, sa zmenia na premenné <code>${NAME}</code>, takže súbor vaše heslá neobsahuje."
             }
           ]
         },
@@ -1742,6 +1794,34 @@
           "blocks": [
             {
               "p": "Funguje to aj opačne. Kliknite na kontajner pravým tlačidlom alebo použite menu Viac a zvoľte <strong>Kopírovať ako príkaz</strong>: Gantry vytvorí riadok <code>docker run</code> alebo <code>container run</code>. Vynechá predvolené hodnoty obrazu, napríklad jeho prostredie a príkaz, takže riadok zostane krátky. Funguje to aj pri zastavených kontajneroch."
+            }
+          ]
+        },
+        {
+          "id": "compose",
+          "h": "Export kontajnera ako Compose",
+          "blocks": [
+            {
+              "p": "Ak chcete kontajner uchovať ako súbor, kliknite naň pravým tlačidlom alebo použite menu Ďalšie a zvoľte <strong>Exportovať ako Compose…</strong>. Keď vyberiete viac kontajnerov, dostanú sa do jedného súboru. Gantry zapíše <code>docker-compose.yml</code> s jednou službou pre každý kontajner: porty, pripojenia, siete, politika reštartu, kontrola stavu, limity, capabilities a logovanie. Pomenované zväzky a siete sú označené ako <code>external: true</code>."
+            },
+            {
+              "ul": [
+                "Hodnoty, ktoré vyzerajú ako tajné údaje, sa zmenia na premenné <code>${NAME}</code>. V časti <strong>Tajné hodnoty</strong> zahrňte tie, ktoré chcete mať v súbore. Súbor s tajnou hodnotou sa uloží s režimom 0600.",
+                "Na hostiteľoch apple/container uvádza <strong>Upozornenia</strong> príznaky, ktoré Compose nedokáže vyjadriť, napríklad <code>--kernel</code>, <code>--rosetta</code> alebo <code>--ssh</code>.",
+                "Kliknite na <strong>Kopírovať</strong> alebo <strong>Uložiť…</strong>."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "secrets",
+          "h": "Tajné údaje mimo príkazu",
+          "blocks": [
+            {
+              "p": "<code>-e PASSWORD=…</code> v príkaze ľahko unikne. Vo formulári Nový kontajner otvorte pri riadku premennej prostredia menu s kľúčom a zvoľte <strong>Uložiť hodnotu do Kľúčenky…</strong>, alebo vyberte tajný údaj, ktorý ste pridali v <strong>Nastavenia → Tajné údaje</strong>. Riadok potom namiesto hodnoty zobrazí <code>keychain:NAME</code> so zámkom."
+            },
+            {
+              "p": "Gantry načíta hodnotu z Kľúčenky len pri vytváraní kontajnera. <strong>Kopírovať ako príkaz</strong>, recepty a export Compose zapisujú <code>keychain:NAME</code>. Karta Preskúmať zobrazuje <code>KEY=[REDACTED]</code>. Engine hodnotu stále ukladá, takže <code>docker inspect</code> alebo <code>container inspect</code> mimo Gantry ju môže zobraziť."
             }
           ]
         },

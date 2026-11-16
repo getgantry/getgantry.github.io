@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Ο πίνακας ελέγχου στόλου του Gantry με host Docker και apple/container">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Κοντέινερ από εντολή docker run σε Mac (docker run σε container run)">
   <meta name="twitter:description" content="Επικολλήστε μια εντολή docker run στο Gantry και πάρτε έτοιμη φόρμα κοντέινερ ή μετατρέψτε το docker run σε container run της Apple με το χέρι: σημαίες, όρια και συνταγές.">
@@ -67,7 +67,7 @@
       "description": "Επικολλήστε μια εντολή docker run στο Gantry και πάρτε έτοιμη φόρμα κοντέινερ ή μετατρέψτε το docker run σε container run της Apple με το χέρι: σημαίες, όρια και συνταγές.",
       "url": "https://getgantry.github.io/el/docker-run-to-container/",
       "inLanguage": "el",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "Εξαγωγή του κοντέινερ ως Compose",
+          "text": "Για να κρατήσετε ένα κοντέινερ ως αρχείο, κάντε δεξί κλικ σε αυτό ή χρησιμοποιήστε το μενού «Περισσότερα» και επιλέξτε Εξαγωγή ως Compose…. Επιλέξτε πολλά κοντέινερ για να τα βάλετε σε ένα αρχείο. Το Gantry γράφει ένα docker-compose.yml με μία υπηρεσία για κάθε κοντέινερ: θύρες, προσαρτήσεις, δίκτυα, πολιτική επανεκκίνησης, έλεγχο υγείας, όρια, capabilities και καταγραφή. Οι τόμοι με όνομα και τα δίκτυα σημειώνονται ως external: true.",
+          "url": "https://getgantry.github.io/el/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Κρατήστε τα μυστικά έξω από την εντολή",
+          "text": "Ένα -e PASSWORD=… σε μια εντολή διαρρέει εύκολα. Στη φόρμα «Νέο κοντέινερ», ανοίξτε το μενού κλειδιού μιας γραμμής περιβάλλοντος και επιλέξτε Αποθήκευση τιμής στην Κλειδοθήκη… ή διαλέξτε ένα μυστικό που προσθέσατε στις Ρυθμίσεις → Μυστικά. Η γραμμή τότε εμφανίζει keychain:NAME με λουκέτο, όχι την τιμή.",
+          "url": "https://getgantry.github.io/el/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Αποθήκευση ως συνταγής",
           "text": "Στο φύλλο «Νέο κοντέινερ», ανοίξτε τις Συνταγές και επιλέξτε Αποθήκευση ως συνταγής…. Την επόμενη φορά, η Συμπλήρωση από συνταγή δίνει την ίδια φόρμα σε οποιονδήποτε host. Οι συνταγές βρίσκονται στο ~/Library/Application Support/Gantry/recipes.json, ώστε να μπορείτε να τις αντιγράψετε για ασφάλεια ή να τις μοιραστείτε.",
           "url": "https://getgantry.github.io/el/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Περιορισμοί",
           "text": "Το Gantry κρατά τη διαδρομή του --env-file, αλλά δεν διαβάζει το αρχείο, και δεν διαβάζει το shell σας για -e KEY χωρίς τιμή. Οι προσαρτήσεις tmpfs και οι ανώνυμοι τόμοι από το --mount εμφανίζονται ως μη υποστηριζόμενοι. Δύο θύρες για την ίδια θύρα κοντέινερ (-p 8080:80 -p 8081:80) συμπληρώνουν τη φόρμα, αλλά η φόρμα απορρίπτει μετά το διπλότυπο.",
           "url": "https://getgantry.github.io/el/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Κάντε κλικ στη <strong>Συμπλήρωση φόρμας</strong>, ελέγξτε τις τιμές και δημιουργήστε το κοντέινερ.</li>
 </ol>
 <p>Το Gantry διαβάζει <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> και <code>container run</code>. Το κείμενο μετά από <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> ή <code>|</code> αγνοείται, με σημείωση.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Ποιες σημαίες συμπληρώνουν τη φόρμα</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Αντιγραφή κοντέινερ ως εντολής</ul>
 <p>Λειτουργεί και αντίστροφα. Κάντε δεξί κλικ σε ένα κοντέινερ ή χρησιμοποιήστε το μενού «Περισσότερα» και επιλέξτε <strong>Αντιγραφή ως εντολής</strong>: το Gantry γράφει μια γραμμή <code>docker run</code> ή <code>container run</code>. Παραλείπει τις προεπιλογές της εικόνας, όπως το περιβάλλον και την εντολή της, ώστε η γραμμή να μένει σύντομη. Λειτουργεί και για σταματημένα κοντέινερ.</p>
 
+<ul id="compose">Εξαγωγή του κοντέινερ ως Compose</ul>
+<p>Για να κρατήσετε ένα κοντέινερ ως αρχείο, κάντε δεξί κλικ σε αυτό ή χρησιμοποιήστε το μενού «Περισσότερα» και επιλέξτε <strong>Εξαγωγή ως Compose…</strong>. Επιλέξτε πολλά κοντέινερ για να τα βάλετε σε ένα αρχείο. Το Gantry γράφει ένα <code>docker-compose.yml</code> με μία υπηρεσία για κάθε κοντέινερ: θύρες, προσαρτήσεις, δίκτυα, πολιτική επανεκκίνησης, έλεγχο υγείας, όρια, capabilities και καταγραφή. Οι τόμοι με όνομα και τα δίκτυα σημειώνονται ως <code>external: true</code>.</p>
+<ul>
+  <li>Οι τιμές που μοιάζουν με μυστικά γίνονται μεταβλητές <code>${NAME}</code>. Στις <strong>Μυστικές τιμές</strong>, συμπεριλάβετε όσες θέλετε στο αρχείο. Ένα αρχείο με μυστική τιμή αποθηκεύεται με δικαιώματα 0600.</li>
+  <li>Σε host apple/container, οι <strong>Προειδοποιήσεις</strong> παραθέτουν τις σημαίες που το Compose δεν μπορεί να εκφράσει, όπως <code>--kernel</code>, <code>--rosetta</code> ή <code>--ssh</code>.</li>
+  <li>Κάντε κλικ στην <strong>Αντιγραφή</strong> ή στην <strong>Αποθήκευση…</strong>.</li>
+</ul>
+
+<ul id="secrets">Κρατήστε τα μυστικά έξω από την εντολή</ul>
+<p>Ένα <code>-e PASSWORD=…</code> σε μια εντολή διαρρέει εύκολα. Στη φόρμα «Νέο κοντέινερ», ανοίξτε το μενού κλειδιού μιας γραμμής περιβάλλοντος και επιλέξτε <strong>Αποθήκευση τιμής στην Κλειδοθήκη…</strong> ή διαλέξτε ένα μυστικό που προσθέσατε στις <strong>Ρυθμίσεις → Μυστικά</strong>. Η γραμμή τότε εμφανίζει <code>keychain:NAME</code> με λουκέτο, όχι την τιμή.</p>
+<p>Το Gantry διαβάζει την τιμή από την Κλειδοθήκη μόνο όταν δημιουργεί το κοντέινερ. Η <strong>Αντιγραφή ως εντολής</strong>, οι συνταγές και η εξαγωγή σε Compose γράφουν <code>keychain:NAME</code>. Η καρτέλα «Επιθεώρηση» εμφανίζει <code>KEY=[REDACTED]</code>. Η μηχανή εξακολουθεί να αποθηκεύει την τιμή, οπότε το <code>docker inspect</code> ή το <code>container inspect</code> εκτός Gantry μπορεί να την εμφανίσει.</p>
+
 <ul id="recipes">Αποθήκευση ως συνταγής</ul>
 <p>Στο φύλλο «Νέο κοντέινερ», ανοίξτε τις <strong>Συνταγές</strong> και επιλέξτε <strong>Αποθήκευση ως συνταγής…</strong>. Την επόμενη φορά, η <strong>Συμπλήρωση από συνταγή</strong> δίνει την ίδια φόρμα σε οποιονδήποτε host. Οι συνταγές βρίσκονται στο <code>~/Library/Application Support/Gantry/recipes.json</code>, ώστε να μπορείτε να τις αντιγράψετε για ασφάλεια ή να τις μοιραστείτε.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Μπορώ να μετατρέψω ένα κοντέινερ σε εκτέλεση πίσω σε εντολή docker run;</summary><p>Ναι. Η <strong>Αντιγραφή ως εντολής</strong> στο μενού του κοντέινερ γράφει μια γραμμή <code>docker run</code> ή <code>container run</code> για αυτό το κοντέινερ.</p></details>
 </div>
 
-<p class="updated">Τελευταία ενημέρωση: 2026-11-07.</p>
+<p class="updated">Τελευταία ενημέρωση: 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Αρχική</a>

@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Nadzorna plošča Gantry z gostitelji Docker in apple/container">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Vsebnik iz ukaza docker run v Macu (docker run v container run)">
   <meta name="twitter:description" content="Prilepite ukaz docker run v Gantry in dobite izpolnjen obrazec vsebnika ali docker run ročno pretvorite v Applov container run: ustrezne in neustrezne zastavice ter recepti.">
@@ -67,7 +67,7 @@
       "description": "Prilepite ukaz docker run v Gantry in dobite izpolnjen obrazec vsebnika ali docker run ročno pretvorite v Applov container run: ustrezne in neustrezne zastavice ter recepti.",
       "url": "https://getgantry.github.io/sl/docker-run-to-container/",
       "inLanguage": "sl",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "Izvoz vsebnika kot Compose",
+          "text": "Če želite vsebnik ohraniti kot datoteko, ga kliknite z desno tipko ali uporabite meni Več in izberite Izvozi kot Compose…. Izberite več vsebnikov, da jih postavite v eno datoteko. Gantry zapiše docker-compose.yml z eno storitvijo za vsak vsebnik: vrata, priklopi, omrežja, pravilnik ponovnega zagona, preverjanje zdravja, omejitve, zmožnosti (capabilities) in beleženje. Poimenovani nosilci in omrežja so označeni z external: true.",
+          "url": "https://getgantry.github.io/sl/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Skrivnosti naj ostanejo zunaj ukaza",
+          "text": "-e PASSWORD=… v ukazu hitro uide. V obrazcu Nov vsebnik odprite meni s ključem v vrstici okolja in izberite Shrani vrednost v obesek za ključe… ali izberite skrivnost, ki ste jo dodali v Nastavitve → Skrivnosti. Vrstica nato prikaže keychain:NAME s ključavnico, ne vrednosti.",
+          "url": "https://getgantry.github.io/sl/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Shranjevanje kot recept",
           "text": "V oknu Nov vsebnik odprite Recepti in izberite Shrani kot recept…. Naslednjič Izpolni iz recepta da enak obrazec na katerem koli gostitelju. Recepti so v ~/Library/Application Support/Gantry/recipes.json, zato jih lahko varnostno kopirate ali delite.",
           "url": "https://getgantry.github.io/sl/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Omejitve",
           "text": "Gantry ohrani pot --env-file, vendar datoteke ne prebere, in za -e KEY brez vrednosti ne bere vaše lupine. Priklopi tmpfs in anonimni nosilci iz --mount so izpisani kot nepodprti. Dvoje vrat za ista vrata vsebnika (-p 8080:80 -p 8081:80) izpolni obrazec, vendar obrazec nato dvojnik zavrne.",
           "url": "https://getgantry.github.io/sl/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Kliknite <strong>Izpolni obrazec</strong>, preverite vrednosti in ustvarite vsebnik.</li>
 </ol>
 <p>Gantry prebere <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> in <code>container run</code>. Besedilo za <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> ali <code>|</code> prezre in to zapiše v opombo.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Katere zastavice izpolnijo obrazec</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Kopiranje vsebnika kot ukaza</ul>
 <p>Deluje tudi v obratni smeri. Z desno tipko kliknite vsebnik ali uporabite meni Več in izberite <strong>Kopiraj kot ukaz</strong>: Gantry zapiše vrstico <code>docker run</code> ali <code>container run</code>. Privzete vrednosti slike, na primer njeno okolje in ukaz, izpusti, da vrstica ostane kratka. To deluje tudi za ustavljene vsebnike.</p>
 
+<ul id="compose">Izvoz vsebnika kot Compose</ul>
+<p>Če želite vsebnik ohraniti kot datoteko, ga kliknite z desno tipko ali uporabite meni Več in izberite <strong>Izvozi kot Compose…</strong>. Izberite več vsebnikov, da jih postavite v eno datoteko. Gantry zapiše <code>docker-compose.yml</code> z eno storitvijo za vsak vsebnik: vrata, priklopi, omrežja, pravilnik ponovnega zagona, preverjanje zdravja, omejitve, zmožnosti (capabilities) in beleženje. Poimenovani nosilci in omrežja so označeni z <code>external: true</code>.</p>
+<ul>
+  <li>Vrednosti, ki so videti kot skrivnosti, postanejo spremenljivke <code>${NAME}</code>. Pod <strong>Skrivne vrednosti</strong> vključite tiste, ki jih želite v datoteki. Datoteka s skrivno vrednostjo se shrani z dovoljenji 0600.</li>
+  <li>Na gostiteljih apple/container <strong>Opozorila</strong> navajajo zastavice, ki jih Compose ne more izraziti, na primer <code>--kernel</code>, <code>--rosetta</code> ali <code>--ssh</code>.</li>
+  <li>Kliknite <strong>Kopiraj</strong> ali <strong>Shrani…</strong>.</li>
+</ul>
+
+<ul id="secrets">Skrivnosti naj ostanejo zunaj ukaza</ul>
+<p><code>-e PASSWORD=…</code> v ukazu hitro uide. V obrazcu Nov vsebnik odprite meni s ključem v vrstici okolja in izberite <strong>Shrani vrednost v obesek za ključe…</strong> ali izberite skrivnost, ki ste jo dodali v <strong>Nastavitve → Skrivnosti</strong>. Vrstica nato prikaže <code>keychain:NAME</code> s ključavnico, ne vrednosti.</p>
+<p>Gantry prebere vrednost iz obeska za ključe šele, ko ustvari vsebnik. <strong>Kopiraj kot ukaz</strong>, recepti in izvoz v Compose zapišejo <code>keychain:NAME</code>. Zavihek Preglej prikaže <code>KEY=[REDACTED]</code>. Pogon vrednost še vedno hrani, zato jo lahko <code>docker inspect</code> ali <code>container inspect</code> zunaj Gantryja prikaže.</p>
+
 <ul id="recipes">Shranjevanje kot recept</ul>
 <p>V oknu Nov vsebnik odprite <strong>Recepti</strong> in izberite <strong>Shrani kot recept…</strong>. Naslednjič <strong>Izpolni iz recepta</strong> da enak obrazec na katerem koli gostitelju. Recepti so v <code>~/Library/Application Support/Gantry/recipes.json</code>, zato jih lahko varnostno kopirate ali delite.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Ali lahko vsebnik, ki se izvaja, spremenim nazaj v ukaz docker run?</summary><p>Da. <strong>Kopiraj kot ukaz</strong> v meniju vsebnika zapiše vrstico <code>docker run</code> ali <code>container run</code> za ta vsebnik.</p></details>
 </div>
 
-<p class="updated">Zadnja posodobitev: 2026-11-07.</p>
+<p class="updated">Zadnja posodobitev: 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Domov</a>

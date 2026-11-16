@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantrys flåteoversikt med Docker- og apple/container-verter">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GUI for Apple container på Mac: hele guiden til apple/container">
   <meta name="twitter:description" content="Hva Apples container-verktøy er, hvordan du installerer det og hvordan Gantry styrer det: hver CLI-kommando og funksjonen i Gantry, fra Compose til Kubernetes.">
@@ -67,7 +67,7 @@
       "description": "Hva Apples container-verktøy er, hvordan du installerer det og hvordan Gantry styrer det: hver CLI-kommando og funksjonen i Gantry, fra Compose til Kubernetes.",
       "url": "https://getgantry.github.io/nb/apple-container/",
       "inLanguage": "nb",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -255,17 +255,17 @@
 <tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Arket Ny container og Hurtigkjøring: image, navn, kommando, porter, miljøvariabler, volumer, DNS-domene, egendefinert kjerne og oppstartsargumenter; <strong>Lim inn kommando…</strong> leser en <code>docker run</code>- eller <code>container run</code>-linje</td><td>Alle</td></tr>
 <tr><th scope="row"><code>container list --all</code></th><td>Containerlisten, gruppert etter Compose-prosjekt, med statusfiltre og søk</td><td>Alle</td></tr>
 <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Verktøylinjen, høyreklikkmenyen og panelet i menylinjen</td><td>Alle</td></tr>
-<tr><th scope="row"><code>container logs</code></th><td>Fanen Logger: følg i sanntid, regex-søk, nivåfilter, ANSI-farger</td><td>Alle</td></tr>
-<tr><th scope="row"><code>container stats</code></th><td>Fanen Statistikk og minigrafene i flåteoversikten</td><td>Alle</td></tr>
+<tr><th scope="row"><code>container logs</code></th><td>Fanen Logger: følg i sanntid, regex-søk, nivåfilter, ANSI-farger; <strong>Eksporter logger…</strong> lagrer de synlige linjene</td><td>Alle</td></tr>
+<tr><th scope="row"><code>container stats</code></th><td>Fanen Statistikk, minigrafene i flåteoversikten og Ressursbruk-tabellen</td><td>Alle</td></tr>
 <tr><th scope="row"><code>container exec</code></th><td>Fanen Terminal (interaktivt skall) og fanen Prosesser</td><td>Alle</td></tr>
-<tr><th scope="row"><code>container inspect</code></th><td>Fanene Oversikt og Inspiser</td><td>Alle</td></tr>
+<tr><th scope="row"><code>container inspect</code></th><td>Fanene Oversikt og Inspiser; <strong>Eksporter som Compose…</strong> gjør konfigurasjonen om til en Compose-fil</td><td>Alle</td></tr>
 <tr><th scope="row"><code>container export</code></th><td>Eksporter filsystem (tar)</td><td>Alle</td></tr>
 <tr><th scope="row"><code>container commit</code></th><td>Commit til image</td><td>1.6</td></tr>
 <tr><th scope="row"><code>container copy</code></th><td>Fanen Filer: last ned og dra ut til Finder (containeren må være startet)</td><td>Alle; testet med 1.6.1</td></tr>
 <tr><th scope="row"><code>container exec</code> med <code>tar</code></th><td>Fanen Filer: last opp filer og slipp hele mapper fra Finder</td><td>Alle</td></tr>
 <tr><th scope="row"><code>container clean</code></th><td>Trim disk på en container som kjører, og en rad i Frigjør plass</td><td>1.4</td></tr>
-<tr><th scope="row"><code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code></th><td>Images: hent med fremdrift, tagg, fjern, rydd opp, inspiser</td><td>Alle</td></tr>
-<tr><th scope="row"><code>container build</code></th><td>Bygger <code>build:</code>-tjenestene i en Compose-fil</td><td>Alle</td></tr>
+<tr><th scope="row"><code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code></th><td>Images: hent med fremdrift, tagg, fjern, rydd opp, inspiser; <strong>Skann etter sårbarheter…</strong> med Trivy eller Grype</td><td>Alle</td></tr>
+<tr><th scope="row"><code>container build</code></th><td>Bygger <code>build:</code>-tjenestene i en Compose-fil; <strong>Bygg</strong>-delen viser byggene som Gantry har startet</td><td>Alle</td></tr>
 <tr><th scope="row"><code>container volume create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code></th><td>Volumer</td><td>Alle</td></tr>
 <tr><th scope="row"><code>container network create</code>, <code>delete</code>, <code>inspect</code>, <code>prune</code></th><td>Nettverk</td><td>Alle</td></tr>
 <tr><th scope="row"><code>--network &lt;name&gt;,alias=…</code></th><td>DNS-aliaser i nettverket, undertrealiaser (<code>.gateway</code>) og tjenestenavn i Compose</td><td>Alle; testet med 1.6.1</td></tr>
@@ -335,7 +335,7 @@
 <details class="faq-item"><summary>Hvilken versjon av container-CLI-en bør jeg installere?</summary><p>Gantry krever 1.0 eller nyere og anbefaler 1.7.1. Installer det med den signerte installeringspakken fra <a href="https://github.com/apple/container/releases">utgivelsessiden til apple/container</a>. Homebrew-bygget har ikke maskinbackenden eller, i 1.7.1, klyngetjenestene, så <code>container machine</code> og <code>container cluster</code> fungerer ikke med det.</p></details>
 </div>
 
-<p class="updated">Sist oppdatert 2026-11-07.</p>
+<p class="updated">Sist oppdatert 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Hjem</a>

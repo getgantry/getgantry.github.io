@@ -146,7 +146,7 @@
         "applicationSubCategory": "Správa kontejnerů",
         "operatingSystem": "macOS 26",
         "processorRequirements": "Apple silicon nebo Intel (hostitelé apple/container vyžadují Apple silicon)",
-        "softwareVersion": "0.27.0",
+        "softwareVersion": "0.29.0",
         "inLanguage": [
           "en",
           "zh-Hans",
@@ -198,6 +198,14 @@
           "Prohlížeč Kubernetes: pody, deploymenty, služby, secrety, události, logy, shell, přesměrování portů, škálování, použití YAML",
           "Vysvětlit selhání s Apple Intelligence (v zařízení nebo v Private Cloud Compute, bez tajných údajů)",
           "Paleta příkazů (Command-K) a hromadné akce s více kontejnery, imagi, svazky nebo sítěmi",
+          "Využití prostředků: jedna řaditelná tabulka spuštěných kontejnerů na všech hostitelích",
+          "Historie sestavení s kroky, zásahy mezipaměti a logy, včetně docker buildx history",
+          "Kontrola zranitelností imagů pomocí Trivy nebo Grype a export SBOM (CycloneDX, SPDX)",
+          "Tajné údaje z Klíčenky jako proměnné prostředí kontejneru, nikdy nezobrazené jako prostý text",
+          "Export spuštěných kontejnerů jako souboru Compose, s tajnými údaji jako proměnnými",
+          "Export logů s aktuálním filtrem a časovým obdobím",
+          "Průběh stahování, sestavení a Compose v řádku nabídek, s tlačítkem Zrušit",
+          "Snímky obrazovky ve Vysvětlit selhání, zpracované jen v zařízení",
           "Vytvoření kontejneru z vloženého příkazu docker run, podman run nebo container run; kopírování kontejneru jako příkazu; recepty",
           "Akce v oznámeních, Spotlight, Siri a Zkratky, widget flotily, ovládací prvky v Ovládacím centru a odkazy gantry://",
           "Stroje container: vytvoření, spuštění, zastavení, prostředky, shell, vnořená virtualizace, vlastní jádra",
@@ -466,7 +474,7 @@
         <span>Gantry</span>
       </a>
       <nav class="nav-links">
-        <a href="#new">Novinky</a>
+        <a href="#latest">Novinky</a>
         <a href="#features">Funkce</a>
         <a href="#fleet">Flotila</a>
         <a href="apple-container/">apple/container</a>
@@ -601,6 +609,61 @@
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/></svg>apple/container</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg>Kubernetes</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>Vzdálené SSH</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEW IN 0.28.0 AND 0.29.0 ===================== -->
+    <section class="section" id="latest">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Novinky ve verzích 0.28 a 0.29</span>
+          <h2>Celá flotila v jedné tabulce a bezpečnější image</h2>
+          <p>Gantry 0.28.0 a 0.29.0 přidávají jednu tabulku aktivity pro všechny hostitele, historii sestavení, kontrolu imagů pomocí Trivy nebo Grype, tajné údaje z Klíčenky pro prostředí kontejneru a export do Compose. Logy můžete exportovat s vlastním filtrem, funkci Vysvětlit selhání můžete předat snímek obrazovky a stahování, sestavení i běhy Compose můžete sledovat v řádku nabídek.</p>
+        </div>
+        <figure class="guide-shot"><img src="../assets/shots/0.29.0/fleet-activity.png" alt="Tabulka Využití prostředků se spuštěnými kontejnery hostitele apple/container a hostitele Docker, seřazená podle CPU" width="1856" height="580" loading="lazy" decoding="async"><figcaption><b>Využití prostředků.</b> Všechny spuštěné kontejnery všech hostitelů, seřazené podle CPU.</figcaption></figure>
+        <div class="bento">
+          <div class="cell col-4 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 9v11"/></svg></div>
+            <h3>Využití prostředků pro všechny hostitele</h3>
+            <p>Jedna řaditelná tabulka spuštěných kontejnerů na každém připojeném hostiteli: hostitel, název, image, CPU, paměť, síťové I/O, diskové I/O a doba běhu. Filtrujte podle názvu, image nebo hostitele, nebo zobrazte jen jednoho hostitele. Dvojitým kliknutím na řádek otevřete kontejner. Tabulka používá vzorky, které Gantry už odebírá každých 5 sekund, takže neotevírá žádné nové proudy statistik. Otevřete ji z postranního panelu, pomocí <span class="kbd">⌘K</span> nebo přes <code>gantry://open/usage</code>.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg></div>
+            <h3>Průběh v řádku nabídek</h3>
+            <p>Panel v řádku nabídek ukazuje každé probíhající stahování, sestavení a operaci Compose s ukazatelem průběhu, hotovými vrstvami nebo službami, bajty, časem a tlačítkem <b>Zrušit</b>. Ikona v řádku nabídek ukazuje, kolik operací běží. Každý projekt Compose má <b>Stáhnout obrazy</b> a <b>Compose down</b>; Compose down ponechá svazky a image.</p>
+            <figure class="guide-shot"><img src="../assets/shots/0.29.0/menu-bar-progress.png" alt="Panel v řádku nabídek se dvěma probíhajícími stahováními imagů, jejich vrstvami, bajty a tlačítky Zrušit" width="640" height="460" loading="lazy" decoding="async"><figcaption><b>Aktivita v řádku nabídek.</b> Vrstvy, bajty, čas a Zrušit u každého stahování.</figcaption></figure>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Kontrola imagů pomocí Trivy nebo Grype</h3>
+            <p>U image zvolte <b>Zkontrolovat zranitelnosti…</b>. Gantry spustí Trivy (0.50.0 nebo novější) nebo Grype (0.74.0 nebo novější), který jste nainstalovali, například přes Homebrew, a seskupí nálezy od kritických po neznámé. <b>Exportovat SBOM</b> zapíše CycloneDX, nebo s Trivy SPDX. Funguje na apple/container, místním Dockeru i Dockeru přes SSH, kde Gantry kontroluje kopii otagovaného image v registru.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 6l4 4-9 9H5v-4z"/><path d="m12 8 4 4"/><path d="M15 3l6 6"/></svg></div>
+            <h3>Historie sestavení</h3>
+            <p>Každý hostitel má sekci <b>Sestavení</b>: sestavení s jejich kroky, zásahy mezipaměti a logem. Gantry uchovává sestavení, která sám spouští, s názvy argumentů sestavení, ale bez jejich hodnot. Na hostitelích Docker čte také <code>docker buildx history</code> (buildx 0.23.0 nebo novější). apple/container historii sestavení neuchovává, takže tam vidíte sestavení spuštěná z Gantry.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></div>
+            <h3>Tajné údaje z Klíčenky v prostředí</h3>
+            <p>Hesla a tokeny uložte do Klíčenky macOS (<b>Nastavení → Tajné údaje</b>) a používejte je jako proměnné prostředí v listech Nový kontejner a Rychlé spuštění. Formulář zobrazuje <code>keychain:NAME</code>, nikdy hodnotu, a Gantry hodnotu načte až při vytváření kontejneru. Export Compose, recepty a Kopírovat jako příkaz zapisují název, ne hodnotu.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 13v7M13 16.5l3.5 3.5 3.5-3.5"/></svg></div>
+            <h3>Export jako Compose</h3>
+            <p>U jednoho nebo více kontejnerů zvolte <b>Exportovat jako Compose…</b> a získáte <code>docker-compose.yml</code> s porty, připojeními, sítěmi, zásadou restartu, kontrolou stavu, limity a dalším. Hodnoty, které vypadají jako tajné údaje, se změní na <code>${NAME}</code>, pokud je nezahrnete. Na hostitelích apple/container Gantry upozorní na příznaky, které Compose nedokáže vyjádřit. <a href="docker-run-to-container/#compose">Jak to funguje</a></p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h10l4 4v12H5z"/><path d="M8 11h8M8 15h5"/></svg></div>
+            <h3>Export logů</h3>
+            <p><b>Exportovat logy…</b> (<span class="kbd">⇧⌘E</span>) uloží řádky, které vidíte, s filtrem úrovní, hledáním a časovým obdobím, jako soubor <code>.log</code> nebo <code>.txt</code>. <b>Kopírovat viditelné řádky</b> je zkopíruje. Na hostitelích Docker můžete přidat časová razítka a zobrazit jen poslední období, od 5 minut do jednoho dne.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></div>
+            <h3>Snímky obrazovky ve Vysvětlit selhání</h3>
+            <p>Do Vysvětlit selhání přetáhněte, vložte nebo přidejte až 3 obrázky, například snímek obrazovky chybové stránky. Obrázky zůstanou v tomto Macu: čte je jen model v zařízení (macOS 27), nikdy Private Cloud Compute.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -743,7 +806,7 @@
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></svg></div>
             <div class="mini">
               <div class="term">
-                <div><span class="dim">~ #</span> <span class="prompt">gantry exec</span> <span class="cmd">clickhouse-server-1</span></div>
+                <div><span class="dim">~ #</span> <span class="prompt">docker exec -it</span> <span class="cmd">clickhouse-server-1</span></div>
                 <div class="out">root@clickhouse:/# <span class="acc">ps aux | head</span></div>
                 <div class="dim">807 PIDs · 6.7% cpu · 1.42 GB<span class="cursor"></span></div>
               </div>
@@ -941,10 +1004,10 @@
           <div class="shot reveal d1">
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
-                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Přehled — Zdraví</span></div>
-                <div class="window-body"><img src="../assets/fleet.png" alt="Přehled flotily s pěti hostiteli a zobrazenými problémy se zdravím" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Přehled</span></div>
+                <div class="window-body"><img src="../assets/fleet.png" alt="Přehled flotily s hostitelem apple/container a hostitelem Docker, jejich CPU, pamětí a nejvytíženějšími kontejnery" width="1856" height="1190" loading="lazy" decoding="async"></div>
               </div>
-              <figcaption><b>Přehled flotily.</b> Každý hostitel, každý problém, jedna obrazovka.</figcaption>
+              <figcaption><b>Přehled flotily.</b> Každý hostitel, jeho zátěž a nejvytíženější kontejnery na jedné obrazovce.</figcaption>
             </figure>
           </div>
         </div>

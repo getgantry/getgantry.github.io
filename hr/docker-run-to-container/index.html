@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantry nadzorna ploča s Docker i apple/container hostovima">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kontejner iz naredbe docker run na Macu (docker run u container run)">
   <meta name="twitter:description" content="Zalijepite naredbu docker run u Gantry i dobijte ispunjen obrazac kontejnera ili ručno pretvorite docker run u Appleov container run: zastavice koje se preslikavaju, one koje ne, i recepti.">
@@ -67,7 +67,7 @@
       "description": "Zalijepite naredbu docker run u Gantry i dobijte ispunjen obrazac kontejnera ili ručno pretvorite docker run u Appleov container run: zastavice koje se preslikavaju, one koje ne, i recepti.",
       "url": "https://getgantry.github.io/hr/docker-run-to-container/",
       "inLanguage": "hr",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "Izvoz kontejnera kao Compose",
+          "text": "Da biste kontejner sačuvali kao datoteku, kliknite ga desnom tipkom ili upotrijebite izbornik Više i odaberite Izvezi kao Compose…. Odaberite više kontejnera da biste ih stavili u jednu datoteku. Gantry zapisuje docker-compose.yml s jednim servisom za svaki kontejner: portovi, montiranja, mreže, pravilo ponovnog pokretanja, provjera zdravlja, ograničenja, capabilities i bilježenje zapisnika. Imenovani volumeni i mreže označeni su s external: true.",
+          "url": "https://getgantry.github.io/hr/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Držite tajne izvan naredbe",
+          "text": "-e PASSWORD=… u naredbi lako procuri. U obrascu Novi kontejner otvorite izbornik s ključem u retku okruženja i odaberite Spremi vrijednost u Privjesak ključeva… ili odaberite tajnu koju ste dodali pod Postavke → Tajne. Redak tada prikazuje keychain:NAME s lokotom, a ne vrijednost.",
+          "url": "https://getgantry.github.io/hr/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Spremanje kao recept",
           "text": "U prozoru Novi kontejner otvorite Recepti i odaberite Spremi kao recept…. Sljedeći put Ispuni iz recepta daje isti obrazac na bilo kojem hostu. Recepti su u ~/Library/Application Support/Gantry/recipes.json, pa ih možete sigurnosno kopirati ili podijeliti.",
           "url": "https://getgantry.github.io/hr/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Ograničenja",
           "text": "Gantry zadržava putanju iz --env-file, ali ne čita datoteku, a za -e KEY bez vrijednosti ne čita vašu ljusku. tmpfs montiranja i anonimni volumeni iz --mount navode se kao nepodržani. Dva porta za isti port kontejnera (-p 8080:80 -p 8081:80) ispunjavaju obrazac, ali obrazac zatim odbija duplikat.",
           "url": "https://getgantry.github.io/hr/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Kliknite <strong>Ispuni obrazac</strong>, provjerite vrijednosti i stvorite kontejner.</li>
 </ol>
 <p>Gantry čita <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> i <code>container run</code>. Tekst iza <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> ili <code>|</code> zanemaruje se, uz napomenu.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Koje zastavice ispunjavaju obrazac</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Kopiranje kontejnera kao naredbe</ul>
 <p>Radi i obrnuto. Desnom tipkom kliknite kontejner ili upotrijebite izbornik Više i odaberite <strong>Kopiraj kao naredbu</strong>: Gantry zapisuje redak <code>docker run</code> ili <code>container run</code>. Izostavlja zadane vrijednosti slike, kao što su njezino okruženje i naredba, pa redak ostaje kratak. Radi i za zaustavljene kontejnere.</p>
 
+<ul id="compose">Izvoz kontejnera kao Compose</ul>
+<p>Da biste kontejner sačuvali kao datoteku, kliknite ga desnom tipkom ili upotrijebite izbornik Više i odaberite <strong>Izvezi kao Compose…</strong>. Odaberite više kontejnera da biste ih stavili u jednu datoteku. Gantry zapisuje <code>docker-compose.yml</code> s jednim servisom za svaki kontejner: portovi, montiranja, mreže, pravilo ponovnog pokretanja, provjera zdravlja, ograničenja, capabilities i bilježenje zapisnika. Imenovani volumeni i mreže označeni su s <code>external: true</code>.</p>
+<ul>
+  <li>Vrijednosti koje izgledaju kao tajne postaju varijable <code>${NAME}</code>. Pod <strong>Tajne vrijednosti</strong> uključite one koje želite u datoteci. Datoteka s tajnom vrijednošću sprema se s dozvolama 0600.</li>
+  <li>Na apple/container hostovima <strong>Upozorenja</strong> navode zastavice koje Compose ne može izraziti, kao što su <code>--kernel</code>, <code>--rosetta</code> ili <code>--ssh</code>.</li>
+  <li>Kliknite <strong>Kopiraj</strong> ili <strong>Spremi…</strong>.</li>
+</ul>
+
+<ul id="secrets">Držite tajne izvan naredbe</ul>
+<p><code>-e PASSWORD=…</code> u naredbi lako procuri. U obrascu Novi kontejner otvorite izbornik s ključem u retku okruženja i odaberite <strong>Spremi vrijednost u Privjesak ključeva…</strong> ili odaberite tajnu koju ste dodali pod <strong>Postavke → Tajne</strong>. Redak tada prikazuje <code>keychain:NAME</code> s lokotom, a ne vrijednost.</p>
+<p>Gantry čita vrijednost iz Privjeska ključeva tek kad stvara kontejner. <strong>Kopiraj kao naredbu</strong>, recepti i izvoz u Compose zapisuju <code>keychain:NAME</code>. Kartica Pregledaj prikazuje <code>KEY=[REDACTED]</code>. Engine i dalje sprema vrijednost, pa je <code>docker inspect</code> ili <code>container inspect</code> izvan Gantryja može prikazati.</p>
+
 <ul id="recipes">Spremanje kao recept</ul>
 <p>U prozoru Novi kontejner otvorite <strong>Recepti</strong> i odaberite <strong>Spremi kao recept…</strong>. Sljedeći put <strong>Ispuni iz recepta</strong> daje isti obrazac na bilo kojem hostu. Recepti su u <code>~/Library/Application Support/Gantry/recipes.json</code>, pa ih možete sigurnosno kopirati ili podijeliti.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Mogu li pokrenuti kontejner pretvoriti natrag u naredbu docker run?</summary><p>Da. <strong>Kopiraj kao naredbu</strong> u izborniku kontejnera zapisuje redak <code>docker run</code> ili <code>container run</code> za taj kontejner.</p></details>
 </div>
 
-<p class="updated">Zadnje ažuriranje: 2026-11-07.</p>
+<p class="updated">Zadnje ažuriranje: 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Početna</a>

@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Dashboard della flotta di Gantry con host Docker e apple/container">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Creare un container da un comando docker run su Mac (da docker run a container run)">
   <meta name="twitter:description" content="Incolla un comando docker run in Gantry e ottieni il modulo del container già compilato, o converti a mano docker run in container run di Apple: flag equivalenti, flag esclusi e ricette.">
@@ -67,7 +67,7 @@
       "description": "Incolla un comando docker run in Gantry e ottieni il modulo del container già compilato, o converti a mano docker run in container run di Apple: flag equivalenti, flag esclusi e ricette.",
       "url": "https://getgantry.github.io/it/docker-run-to-container/",
       "inLanguage": "it",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "Esporta il container come Compose",
+          "text": "Per conservare un container come file, fai clic destro su di esso, o usa il menu Altro, e scegli Esporta come Compose…. Seleziona più container per metterli in un unico file. Gantry scrive un docker-compose.yml con un servizio per ogni container: porte, montaggi, reti, criterio di riavvio, controllo di integrità, limiti, capability e logging. I volumi con nome e le reti sono contrassegnati come external: true.",
+          "url": "https://getgantry.github.io/it/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Tieni i segreti fuori dal comando",
+          "text": "Un -e PASSWORD=… in un comando può trapelare facilmente. Nel modulo “Nuovo container”, apri il menu della chiave di una riga dell'ambiente e scegli Salva valore nel portachiavi…, oppure scegli un segreto che hai aggiunto in Impostazioni → Segreti. La riga mostra allora keychain:NAME con un lucchetto, non il valore.",
+          "url": "https://getgantry.github.io/it/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Salvalo come ricetta",
           "text": "Nel pannello Nuovo container, apri Ricette e scegli Salva come ricetta…. La volta successiva, Compila da ricetta ti dà lo stesso modulo su qualsiasi host. Le ricette si trovano in ~/Library/Application Support/Gantry/recipes.json, quindi puoi farne un backup o condividerle.",
           "url": "https://getgantry.github.io/it/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Limiti",
           "text": "Gantry conserva il percorso di --env-file ma non legge il file, e non legge la tua shell per -e KEY senza valore. I montaggi tmpfs e i volumi anonimi di --mount sono elencati come non supportati. Due porte per la stessa porta del container (-p 8080:80 -p 8081:80) compilano il modulo, ma poi il modulo rifiuta il duplicato.",
           "url": "https://getgantry.github.io/it/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Fai clic su <strong>Compila modulo</strong>, controlla i valori e crea il container.</li>
 </ol>
 <p>Gantry legge <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> e <code>container run</code>. Il testo dopo <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> o <code>|</code> viene ignorato, con una nota.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Quali flag compilano il modulo</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Copia un container come comando</ul>
 <p>Funziona anche al contrario. Fai clic destro su un container, o usa il menu Altro, e scegli <strong>Copia come comando</strong>: Gantry scrive una riga <code>docker run</code> o <code>container run</code>. Omette i valori predefiniti dell'immagine, come il suo ambiente e il suo comando, così la riga resta breve. Funziona anche con i container arrestati.</p>
 
+<ul id="compose">Esporta il container come Compose</ul>
+<p>Per conservare un container come file, fai clic destro su di esso, o usa il menu Altro, e scegli <strong>Esporta come Compose…</strong>. Seleziona più container per metterli in un unico file. Gantry scrive un <code>docker-compose.yml</code> con un servizio per ogni container: porte, montaggi, reti, criterio di riavvio, controllo di integrità, limiti, capability e logging. I volumi con nome e le reti sono contrassegnati come <code>external: true</code>.</p>
+<ul>
+  <li>I valori che sembrano segreti diventano variabili <code>${NAME}</code>. In <strong>Valori segreti</strong>, includi quelli che vuoi nel file. Un file con un valore segreto viene salvato con la modalità 0600.</li>
+  <li>Sugli host apple/container, <strong>Avvisi</strong> elenca i flag che Compose non può esprimere, come <code>--kernel</code>, <code>--rosetta</code> o <code>--ssh</code>.</li>
+  <li>Fai clic su <strong>Copia</strong> o <strong>Salva…</strong>.</li>
+</ul>
+
+<ul id="secrets">Tieni i segreti fuori dal comando</ul>
+<p>Un <code>-e PASSWORD=…</code> in un comando può trapelare facilmente. Nel modulo “Nuovo container”, apri il menu della chiave di una riga dell'ambiente e scegli <strong>Salva valore nel portachiavi…</strong>, oppure scegli un segreto che hai aggiunto in <strong>Impostazioni → Segreti</strong>. La riga mostra allora <code>keychain:NAME</code> con un lucchetto, non il valore.</p>
+<p>Gantry legge il valore dal portachiavi solo quando crea il container. <strong>Copia come comando</strong>, le ricette e l'esportazione in Compose scrivono <code>keychain:NAME</code>. La scheda Ispeziona mostra <code>KEY=[REDACTED]</code>. Il motore memorizza comunque il valore, quindi <code>docker inspect</code> o <code>container inspect</code> fuori da Gantry possono mostrarlo.</p>
+
 <ul id="recipes">Salvalo come ricetta</ul>
 <p>Nel pannello Nuovo container, apri <strong>Ricette</strong> e scegli <strong>Salva come ricetta…</strong>. La volta successiva, <strong>Compila da ricetta</strong> ti dà lo stesso modulo su qualsiasi host. Le ricette si trovano in <code>~/Library/Application Support/Gantry/recipes.json</code>, quindi puoi farne un backup o condividerle.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Posso trasformare un container in esecuzione di nuovo in un comando docker run?</summary><p>Sì. <strong>Copia come comando</strong> nel menu del container scrive una riga <code>docker run</code> o <code>container run</code> per quel container.</p></details>
 </div>
 
-<p class="updated">Ultimo aggiornamento: 2026-11-07.</p>
+<p class="updated">Ultimo aggiornamento: 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Home</a>

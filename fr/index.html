@@ -146,7 +146,7 @@
         "applicationSubCategory": "Gestion de conteneurs",
         "operatingSystem": "macOS 26",
         "processorRequirements": "Puce Apple ou Intel (les hôtes apple/container nécessitent une puce Apple)",
-        "softwareVersion": "0.27.0",
+        "softwareVersion": "0.29.0",
         "inLanguage": [
           "en",
           "zh-Hans",
@@ -198,6 +198,14 @@
           "Navigateur Kubernetes : pods, Deployments, services, secrets, événements, journaux, shell, redirection de port, mise à l'échelle, application de YAML",
           "« Expliquer l'échec » avec Apple Intelligence (sur l'appareil ou Private Cloud Compute, secrets retirés)",
           "Palette de commandes (Commande-K) et actions groupées sur plusieurs conteneurs, images, volumes ou réseaux",
+          "Utilisation des ressources : un tableau triable des conteneurs en cours d'exécution sur tous les hôtes",
+          "Historique des builds avec étapes, accès au cache et journaux, y compris docker buildx history",
+          "Analyse des vulnérabilités des images avec Trivy ou Grype, et export SBOM (CycloneDX, SPDX)",
+          "Secrets du trousseau comme variables d'environnement des conteneurs, jamais affichés en clair",
+          "Export des conteneurs en cours d'exécution en fichier Compose, avec les secrets en variables",
+          "Export des journaux avec le filtre et la période en cours",
+          "Progression des téléchargements, des builds et de Compose dans la barre des menus, avec Annuler",
+          "Captures d'écran dans « Expliquer l'échec », lues uniquement sur l'appareil",
           "Création d'un conteneur à partir d'une commande docker run, podman run ou container run collée ; copie d'un conteneur sous forme de commande ; modèles",
           "Actions dans les notifications, Spotlight, Siri et Raccourcis, un widget du parc, des commandes du Centre de contrôle et des liens gantry://",
           "Machines container : création, démarrage, arrêt, ressources, shell, virtualisation imbriquée, noyaux personnalisés",
@@ -466,7 +474,7 @@
         <span>Gantry</span>
       </a>
       <nav class="nav-links">
-        <a href="#new">Nouveautés</a>
+        <a href="#latest">Nouveautés</a>
         <a href="#features">Fonctionnalités</a>
         <a href="#fleet">Flotte</a>
         <a href="apple-container/">apple/container</a>
@@ -601,6 +609,61 @@
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/></svg>apple/container</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg>Kubernetes</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>SSH distant</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEW IN 0.28.0 AND 0.29.0 ===================== -->
+    <section class="section" id="latest">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Nouveautés des 0.28 et 0.29</span>
+          <h2>Toute la flotte dans un seul tableau, et des images plus sûres</h2>
+          <p>Gantry 0.28.0 et 0.29.0 ajoutent un tableau d'activité unique pour tous les hôtes, un historique des builds, l'analyse des images avec Trivy ou Grype, les secrets du trousseau pour l'environnement des conteneurs et un export vers Compose. Vous pouvez exporter les journaux avec votre filtre, donner une capture d'écran à « Expliquer l'échec » et suivre les téléchargements, les builds et les exécutions Compose dans la barre des menus.</p>
+        </div>
+        <figure class="guide-shot"><img src="../assets/shots/0.29.0/fleet-activity.png" alt="Tableau Utilisation des ressources avec les conteneurs en cours d&#x27;exécution d&#x27;un hôte apple/container et d&#x27;un hôte Docker, triés par CPU" width="1856" height="580" loading="lazy" decoding="async"><figcaption><b>Utilisation des ressources.</b> Tous les conteneurs en cours d'exécution de tous les hôtes, triés par CPU.</figcaption></figure>
+        <div class="bento">
+          <div class="cell col-4 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 9v11"/></svg></div>
+            <h3>Utilisation des ressources pour tous les hôtes</h3>
+            <p>Un tableau triable des conteneurs en cours d'exécution sur chaque hôte connecté : hôte, nom, image, CPU, mémoire, E/S réseau, E/S disque et durée de fonctionnement. Filtrez par nom, image ou hôte, ou affichez un seul hôte. Double-cliquez sur une ligne pour ouvrir le conteneur. Le tableau utilise les mesures que Gantry prend déjà toutes les 5 secondes : il n'ouvre donc aucun nouveau flux de statistiques. Ouvrez-le depuis la barre latérale, avec <span class="kbd">⌘K</span> ou avec <code>gantry://open/usage</code>.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg></div>
+            <h3>La progression dans la barre des menus</h3>
+            <p>Le panneau de la barre des menus affiche chaque téléchargement, build et opération Compose en cours avec une barre de progression, les couches ou services terminés, les octets, la durée et un bouton <b>Annuler</b>. L'icône de la barre des menus indique le nombre d'opérations en cours. Chaque projet Compose dispose de <b>Télécharger les images</b> et de <b>Compose Down</b> ; Compose Down conserve les volumes et les images.</p>
+            <figure class="guide-shot"><img src="../assets/shots/0.29.0/menu-bar-progress.png" alt="Panneau de la barre des menus avec deux téléchargements d&#x27;images en cours, leurs couches, leurs octets et des boutons Annuler" width="640" height="460" loading="lazy" decoding="async"><figcaption><b>L'activité dans la barre des menus.</b> Couches, octets, durée et Annuler pour chaque téléchargement.</figcaption></figure>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Analyser les images avec Trivy ou Grype</h3>
+            <p>Choisissez <b>Rechercher des vulnérabilités…</b> sur une image. Gantry exécute le Trivy (0.50.0 ou ultérieur) ou le Grype (0.74.0 ou ultérieur) que vous avez installé, par exemple avec Homebrew, et regroupe les résultats de Critique à Inconnu. <b>Exporter le SBOM</b> écrit du CycloneDX, ou du SPDX avec Trivy. Cela fonctionne sur apple/container, Docker local et Docker via SSH ; dans ce dernier cas, Gantry analyse la copie d'une image taguée qui se trouve dans le registre.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 6l4 4-9 9H5v-4z"/><path d="m12 8 4 4"/><path d="M15 3l6 6"/></svg></div>
+            <h3>Historique des builds</h3>
+            <p>Chaque hôte a une section <b>Builds</b> : les builds avec leurs étapes, leurs accès au cache et leur journal. Gantry conserve les builds qu'il lance, avec les noms des arguments de build mais pas leurs valeurs. Sur les hôtes Docker, il lit aussi <code>docker buildx history</code> (buildx 0.23.0 ou ultérieur). apple/container ne conserve aucun historique des builds : vous y voyez donc les builds lancés par Gantry.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></div>
+            <h3>Les secrets du trousseau dans l'environnement</h3>
+            <p>Gardez les mots de passe et les jetons dans le trousseau de macOS (<b>Réglages → Secrets</b>) et utilisez-les comme variables d'environnement dans « Nouveau conteneur » et « Exécution rapide ». Le formulaire affiche <code>keychain:NAME</code>, jamais la valeur, et Gantry ne lit la valeur qu'au moment de créer le conteneur. L'export Compose, les modèles et « Copier comme commande » écrivent le nom, pas la valeur.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 13v7M13 16.5l3.5 3.5 3.5-3.5"/></svg></div>
+            <h3>Exporter en Compose</h3>
+            <p>Choisissez <b>Exporter en Compose…</b> sur un ou plusieurs conteneurs pour obtenir un <code>docker-compose.yml</code> avec les ports, les montages, les réseaux, la politique de redémarrage, le contrôle d'intégrité, les limites et plus encore. Les valeurs qui ressemblent à des secrets deviennent <code>${NAME}</code>, sauf si vous les incluez. Sur les hôtes apple/container, Gantry signale les options que Compose ne peut pas exprimer. <a href="docker-run-to-container/#compose">Comment ça marche</a></p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h10l4 4v12H5z"/><path d="M8 11h8M8 15h5"/></svg></div>
+            <h3>Exporter les journaux</h3>
+            <p><b>Exporter les journaux…</b> (<span class="kbd">⇧⌘E</span>) enregistre les lignes que vous voyez, avec le filtre de niveau, la recherche et la période, dans un fichier <code>.log</code> ou <code>.txt</code>. <b>Copier les lignes visibles</b> les copie. Sur les hôtes Docker, vous pouvez ajouter l'horodatage et n'afficher qu'une période allant des 5 dernières minutes au dernier jour.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></div>
+            <h3>Captures d'écran dans « Expliquer l'échec »</h3>
+            <p>Déposez, collez ou ajoutez jusqu'à 3 images dans « Expliquer l'échec », par exemple une capture d'écran d'une page d'erreur. Les images restent sur ce Mac : seul le modèle sur l'appareil les lit (macOS 27), jamais Private Cloud Compute.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -743,7 +806,7 @@
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></svg></div>
             <div class="mini">
               <div class="term">
-                <div><span class="dim">~ #</span> <span class="prompt">gantry exec</span> <span class="cmd">clickhouse-server-1</span></div>
+                <div><span class="dim">~ #</span> <span class="prompt">docker exec -it</span> <span class="cmd">clickhouse-server-1</span></div>
                 <div class="out">root@clickhouse:/# <span class="acc">ps aux | head</span></div>
                 <div class="dim">807 PIDs · 6.7% cpu · 1.42 GB<span class="cursor"></span></div>
               </div>
@@ -941,10 +1004,10 @@
           <div class="shot reveal d1">
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
-                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Flotte — État de santé</span></div>
-                <div class="window-body"><img src="../assets/fleet.png" alt="Tableau de bord de la flotte sur cinq hôtes, avec les problèmes de santé mis en évidence" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Tableau de bord</span></div>
+                <div class="window-body"><img src="../assets/fleet.png" alt="Tableau de bord de la flotte avec un hôte apple/container et un hôte Docker, leur CPU, leur mémoire et leurs principaux conteneurs" width="1856" height="1190" loading="lazy" decoding="async"></div>
               </div>
-              <figcaption><b>Tableau de bord de la flotte.</b> Chaque hôte, chaque problème, un seul écran.</figcaption>
+              <figcaption><b>Tableau de bord de la flotte.</b> Chaque hôte, sa charge et ses principaux conteneurs sur un seul écran.</figcaption>
             </figure>
           </div>
         </div>

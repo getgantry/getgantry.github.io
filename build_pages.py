@@ -16,8 +16,8 @@ from build_docs import GITHUB
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://getgantry.github.io"
-UPDATED = "2026-11-07"
-APP_VERSION = "0.27.0"
+UPDATED = "2026-11-15"
+APP_VERSION = "0.29.0"
 # Features that are built on a branch but not merged yet. The pages show the text for the shipped state only when
 # the flag is True; flip a flag when its branch merges and rebuild.
 FLAGS = {
@@ -87,16 +87,18 @@ GUIDE_CODE = {
                      "  -v redisdata:/data redis:7 redis-server --appendonly yes",
     },
 }
-# Screenshots of 0.27.0 features. Until the file exists, the page has a TODO-SCREENSHOT comment in its place.
-SHOT_DIR = "assets/shots/0.27.0"
+# Screenshots of features: key -> (section, path). Until the file exists, the page has a TODO-SCREENSHOT comment
+# in its place. Each release has its own folder under assets/shots/.
 SHOTS = {
-    "home-dashboard": ("home, section #new (new design)", "dashboard.png"),
-    "home-kube": ("home, section #new (Kubernetes browser)", "kubernetes-browser.png"),
-    "home-explain": ("home, section #new (Explain Failure)", "explain-failure.png"),
-    "k8s-browser": ("page apple-container-kubernetes, section #browser", "kubernetes-browser-dev.png"),
-    "paste-command": ("guide docker-run-to-container, section #paste", "paste-command.png"),
-    "storage-pane": ("guide containers-on-external-drive, section #gantry", "storage-pane.png"),
-    "cluster-overview": ("page apple-container-kubernetes, section #nodes", "cluster-overview.png"),
+    "home-dashboard": ("home, section #new (new design)", "assets/shots/0.27.0/dashboard.png"),
+    "home-kube": ("home, section #new (Kubernetes browser)", "assets/shots/0.27.0/kubernetes-browser.png"),
+    "home-explain": ("home, section #new (Explain Failure)", "assets/shots/0.27.0/explain-failure.png"),
+    "home-usage": ("home, section #latest (Resource Usage)", "assets/shots/0.29.0/fleet-activity.png"),
+    "home-menubar": ("home, section #latest (menu bar progress)", "assets/shots/0.29.0/menu-bar-progress.png"),
+    "k8s-browser": ("page apple-container-kubernetes, section #browser", "assets/shots/0.27.0/kubernetes-browser-dev.png"),
+    "paste-command": ("guide docker-run-to-container, section #paste", "assets/shots/0.29.0/paste-command.png"),
+    "storage-pane": ("guide containers-on-external-drive, section #gantry", "assets/shots/0.27.0/storage-pane.png"),
+    "cluster-overview": ("page apple-container-kubernetes, section #nodes", "assets/shots/0.27.0/cluster-overview.png"),
 }
 DOCS = [("index", "weekly", "0.8"), ("install", "monthly", "0.7"), ("apple-container", "monthly", "0.8"),
         ("menu-bar", "monthly", "0.5"), ("hosts", "monthly", "0.6"), ("containers", "monthly", "0.6"),
@@ -308,8 +310,7 @@ def callout_warn(body, label):
 
 
 def shot(key, alt, caption, root, indent=""):
-    section, name = SHOTS[key]
-    rel_path = f"{SHOT_DIR}/{name}"
+    section, rel_path = SHOTS[key]
     if not os.path.exists(os.path.join(ROOT, rel_path)):
         return f'{indent}<!-- TODO-SCREENSHOT section="{section}" file="{rel_path}" -->'
     with open(os.path.join(ROOT, rel_path), "rb") as f:
@@ -449,6 +450,10 @@ def render_home(langs, lang, t):
         "home_dashboard": shot("home-dashboard", n["shot_dash_alt"], n["shot_dash_caption"], root, "        "),
         "home_kube": shot("home-kube", n["shot_kube_alt"], n["shot_kube_caption"], root, "            "),
         "home_explain": shot("home-explain", n["shot_explain_alt"], n["shot_explain_caption"], root, "            "),
+        "home_usage": shot("home-usage", t["home"]["latest"]["shot_fleet_alt"], t["home"]["latest"]["shot_fleet_caption"],
+                           root, "        "),
+        "home_menubar": shot("home-menubar", t["home"]["latest"]["shot_menubar_alt"],
+                             t["home"]["latest"]["shot_menubar_caption"], root, "            "),
     }
     fleet = t["home"]["features"]["fleet"]
     ctx["hostlist_attrs"] = "" if lang["code"] == "en" else (

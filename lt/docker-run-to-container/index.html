@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantry serverių parko skydelis su Docker ir apple/container serveriais">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Konteinerio kūrimas iš docker run komandos Mac kompiuteryje (docker run į container run)">
   <meta name="twitter:description" content="Įklijuokite docker run komandą į Gantry ir gaukite užpildytą konteinerio formą arba patys konvertuokite docker run į Apple container run: tinkamos ir netinkamos vėliavėlės, receptai.">
@@ -67,7 +67,7 @@
       "description": "Įklijuokite docker run komandą į Gantry ir gaukite užpildytą konteinerio formą arba patys konvertuokite docker run į Apple container run: tinkamos ir netinkamos vėliavėlės, receptai.",
       "url": "https://getgantry.github.io/lt/docker-run-to-container/",
       "inLanguage": "lt",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "Konteinerio eksportas į Compose",
+          "text": "Kad išsaugotumėte konteinerį kaip failą, spustelėkite jį dešiniuoju pelės klavišu arba atidarykite meniu „Daugiau“ ir pasirinkite Eksportuoti kaip Compose…. Pažymėkite kelis konteinerius, kad jie būtų viename faile. Gantry įrašo docker-compose.yml su viena paslauga kiekvienam konteineriui: prievadai, prijungimai, tinklai, paleidimo iš naujo politika, būsenos patikra, apribojimai, capabilities ir žurnalų rašymas. Vardiniai tomai ir tinklai pažymimi kaip external: true.",
+          "url": "https://getgantry.github.io/lt/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Slaptosios reikšmės ne komandoje",
+          "text": "-e PASSWORD=… komandoje lengvai nuteka. Naujo konteinerio formoje atidarykite aplinkos eilutės rakto meniu ir pasirinkite Įrašyti reikšmę į raktinę… arba pasirinkite slaptąją reikšmę, kurią pridėjote skiltyje Nustatymai → Slaptosios reikšmės. Tada eilutėje rodoma keychain:NAME su spynele, o ne reikšmė.",
+          "url": "https://getgantry.github.io/lt/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Įrašymas kaip recepto",
           "text": "Naujo konteinerio lange atidarykite Receptai ir pasirinkite Įrašyti kaip receptą…. Kitą kartą Užpildyti pagal receptą bet kuriame serveryje pateiks tą pačią formą. Receptai saugomi faile ~/Library/Application Support/Gantry/recipes.json, todėl galite juos kurti atsargines kopijas ar bendrinti.",
           "url": "https://getgantry.github.io/lt/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Apribojimai",
           "text": "Gantry išsaugo --env-file kelią, bet failo neskaito, o -e KEY be reikšmės neima reikšmės iš jūsų apvalkalo. tmpfs prijungimai ir anoniminiai tomai iš --mount pažymimi kaip nepalaikomi. Du prievadai tam pačiam konteinerio prievadui (-p 8080:80 -p 8081:80) užpildo formą, bet forma tada atmeta dublikatą.",
           "url": "https://getgantry.github.io/lt/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Spustelėkite <strong>Užpildyti formą</strong>, patikrinkite reikšmes ir sukurkite konteinerį.</li>
 </ol>
 <p>Gantry supranta <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> ir <code>container run</code>. Tekstas po <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> ar <code>|</code> ignoruojamas, apie tai pateikiama pastaba.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Kurios vėliavėlės užpildo formą</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Konteinerio kopijavimas kaip komandos</ul>
 <p>Veikia ir atvirkščiai. Dešiniuoju pelės klavišu spustelėkite konteinerį arba atidarykite meniu „Daugiau“ ir pasirinkite <strong>Kopijuoti kaip komandą</strong>: Gantry parašo <code>docker run</code> arba <code>container run</code> eilutę. Atvaizdo numatytųjų reikšmių, pavyzdžiui, jo aplinkos ir komandos, ji neįtraukia, todėl eilutė lieka trumpa. Tai veikia ir su sustabdytais konteineriais.</p>
 
+<ul id="compose">Konteinerio eksportas į Compose</ul>
+<p>Kad išsaugotumėte konteinerį kaip failą, spustelėkite jį dešiniuoju pelės klavišu arba atidarykite meniu „Daugiau“ ir pasirinkite <strong>Eksportuoti kaip Compose…</strong>. Pažymėkite kelis konteinerius, kad jie būtų viename faile. Gantry įrašo <code>docker-compose.yml</code> su viena paslauga kiekvienam konteineriui: prievadai, prijungimai, tinklai, paleidimo iš naujo politika, būsenos patikra, apribojimai, capabilities ir žurnalų rašymas. Vardiniai tomai ir tinklai pažymimi kaip <code>external: true</code>.</p>
+<ul>
+  <li>Reikšmės, panašios į slaptąsias, tampa <code>${NAME}</code> kintamaisiais. Skiltyje <strong>Slaptos reikšmės</strong> įtraukite tas, kurių reikia faile. Failas su slapta reikšme įrašomas su teisėmis 0600.</li>
+  <li>apple/container serveriuose skiltyje <strong>Įspėjimai</strong> išvardytos vėliavėlės, kurių Compose negali išreikšti, pvz., <code>--kernel</code>, <code>--rosetta</code> arba <code>--ssh</code>.</li>
+  <li>Spustelėkite <strong>Kopijuoti</strong> arba <strong>Įrašyti…</strong>.</li>
+</ul>
+
+<ul id="secrets">Slaptosios reikšmės ne komandoje</ul>
+<p><code>-e PASSWORD=…</code> komandoje lengvai nuteka. Naujo konteinerio formoje atidarykite aplinkos eilutės rakto meniu ir pasirinkite <strong>Įrašyti reikšmę į raktinę…</strong> arba pasirinkite slaptąją reikšmę, kurią pridėjote skiltyje <strong>Nustatymai → Slaptosios reikšmės</strong>. Tada eilutėje rodoma <code>keychain:NAME</code> su spynele, o ne reikšmė.</p>
+<p>Gantry nuskaito reikšmę iš raktinės tik kurdamas konteinerį. <strong>Kopijuoti kaip komandą</strong>, receptai ir Compose eksportas įrašo <code>keychain:NAME</code>. Skirtuke „Tikrinti“ rodoma <code>KEY=[REDACTED]</code>. Variklis vis tiek saugo reikšmę, todėl <code>docker inspect</code> arba <code>container inspect</code> už Gantry ribų gali ją parodyti.</p>
+
 <ul id="recipes">Įrašymas kaip recepto</ul>
 <p>Naujo konteinerio lange atidarykite <strong>Receptai</strong> ir pasirinkite <strong>Įrašyti kaip receptą…</strong>. Kitą kartą <strong>Užpildyti pagal receptą</strong> bet kuriame serveryje pateiks tą pačią formą. Receptai saugomi faile <code>~/Library/Application Support/Gantry/recipes.json</code>, todėl galite juos kurti atsargines kopijas ar bendrinti.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Ar galima veikiantį konteinerį vėl paversti docker run komanda?</summary><p>Taip. Konteinerio meniu <strong>Kopijuoti kaip komandą</strong> parašo to konteinerio <code>docker run</code> arba <code>container run</code> eilutę.</p></details>
 </div>
 
-<p class="updated">Atnaujinta 2026-11-07.</p>
+<p class="updated">Atnaujinta 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Pradžia</a>

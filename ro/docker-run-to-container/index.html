@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Panoul de flotă Gantry cu gazde Docker și apple/container">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Container dintr-o comandă docker run pe Mac (docker run în container run)">
   <meta name="twitter:description" content="Lipiți o comandă docker run în Gantry și primiți formularul de container completat sau convertiți manual docker run în container run: flaguri echivalente, flaguri fără echivalent, rețete.">
@@ -67,7 +67,7 @@
       "description": "Lipiți o comandă docker run în Gantry și primiți formularul de container completat sau convertiți manual docker run în container run: flaguri echivalente, flaguri fără echivalent, rețete.",
       "url": "https://getgantry.github.io/ro/docker-run-to-container/",
       "inLanguage": "ro",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "Exportați containerul ca Compose",
+          "text": "Pentru a păstra un container ca fișier, faceți clic dreapta pe el sau folosiți meniul Mai multe și alegeți Exportă ca Compose…. Selectați mai multe containere pentru a le pune într-un singur fișier. Gantry scrie un docker-compose.yml cu câte un serviciu pentru fiecare container: porturi, montări, rețele, politica de repornire, verificarea de sănătate, limite, capabilities și jurnalizare. Volumele și rețelele cu nume sunt marcate external: true.",
+          "url": "https://getgantry.github.io/ro/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Țineți secretele în afara comenzii",
+          "text": "Un -e PASSWORD=… într-o comandă se scurge ușor. În formularul Container nou, deschideți meniul cu cheie al unui rând de mediu și alegeți Salvează valoarea în portchei… sau alegeți un secret pe care l-ați adăugat în Configurări → Secrete. Rândul afișează apoi keychain:NAME cu un lacăt, nu valoarea.",
+          "url": "https://getgantry.github.io/ro/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Salvați-l ca rețetă",
           "text": "În foaia Container nou, deschideți Rețete și alegeți Salvează ca rețetă…. Data viitoare, Completează din rețetă oferă același formular pe orice gazdă. Rețetele se află în ~/Library/Application Support/Gantry/recipes.json, deci le puteți salva ca backup sau le puteți partaja.",
           "url": "https://getgantry.github.io/ro/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Limitări",
           "text": "Gantry păstrează calea din --env-file, dar nu citește fișierul și nu citește shellul dvs. pentru -e KEY fără valoare. Montările tmpfs și volumele anonime din --mount sunt listate ca neacceptate. Două porturi pentru același port de container (-p 8080:80 -p 8081:80) completează formularul, dar formularul refuză apoi duplicatul.",
           "url": "https://getgantry.github.io/ro/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Faceți clic pe <strong>Completează formularul</strong>, verificați valorile și creați containerul.</li>
 </ol>
 <p>Gantry citește <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> și <code>container run</code>. Textul de după <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> sau <code>|</code> este ignorat, cu o notă.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Ce flaguri completează formularul</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Copiați un container ca comandă</ul>
 <p>Funcționează și invers. Faceți clic dreapta pe un container sau folosiți meniul Mai mult și alegeți <strong>Copiază ca comandă</strong>: Gantry scrie o linie <code>docker run</code> sau <code>container run</code>. Omite valorile implicite ale imaginii, precum mediul și comanda, ca linia să rămână scurtă. Funcționează și pentru containerele oprite.</p>
 
+<ul id="compose">Exportați containerul ca Compose</ul>
+<p>Pentru a păstra un container ca fișier, faceți clic dreapta pe el sau folosiți meniul Mai multe și alegeți <strong>Exportă ca Compose…</strong>. Selectați mai multe containere pentru a le pune într-un singur fișier. Gantry scrie un <code>docker-compose.yml</code> cu câte un serviciu pentru fiecare container: porturi, montări, rețele, politica de repornire, verificarea de sănătate, limite, capabilities și jurnalizare. Volumele și rețelele cu nume sunt marcate <code>external: true</code>.</p>
+<ul>
+  <li>Valorile care seamănă cu secrete devin variabile <code>${NAME}</code>. În <strong>Valori secrete</strong>, includeți-le pe cele pe care le vreți în fișier. Un fișier cu o valoare secretă se salvează cu modul 0600.</li>
+  <li>Pe gazdele apple/container, <strong>Avertismente</strong> listează flagurile pe care Compose nu le poate exprima, cum ar fi <code>--kernel</code>, <code>--rosetta</code> sau <code>--ssh</code>.</li>
+  <li>Faceți clic pe <strong>Copiază</strong> sau pe <strong>Salvează…</strong>.</li>
+</ul>
+
+<ul id="secrets">Țineți secretele în afara comenzii</ul>
+<p>Un <code>-e PASSWORD=…</code> într-o comandă se scurge ușor. În formularul Container nou, deschideți meniul cu cheie al unui rând de mediu și alegeți <strong>Salvează valoarea în portchei…</strong> sau alegeți un secret pe care l-ați adăugat în <strong>Configurări → Secrete</strong>. Rândul afișează apoi <code>keychain:NAME</code> cu un lacăt, nu valoarea.</p>
+<p>Gantry citește valoarea din portchei doar când creează containerul. <strong>Copiază ca comandă</strong>, rețetele și exportul Compose scriu <code>keychain:NAME</code>. Fila Inspectează afișează <code>KEY=[REDACTED]</code>. Motorul păstrează totuși valoarea, deci <code>docker inspect</code> sau <code>container inspect</code> din afara Gantry o pot afișa.</p>
+
 <ul id="recipes">Salvați-l ca rețetă</ul>
 <p>În foaia Container nou, deschideți <strong>Rețete</strong> și alegeți <strong>Salvează ca rețetă…</strong>. Data viitoare, <strong>Completează din rețetă</strong> oferă același formular pe orice gazdă. Rețetele se află în <code>~/Library/Application Support/Gantry/recipes.json</code>, deci le puteți salva ca backup sau le puteți partaja.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Pot transforma un container care rulează înapoi într-o comandă docker run?</summary><p>Da. <strong>Copiază ca comandă</strong> din meniul containerului scrie o linie <code>docker run</code> sau <code>container run</code> pentru acel container.</p></details>
 </div>
 
-<p class="updated">Ultima actualizare: 2026-11-07.</p>
+<p class="updated">Ultima actualizare: 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Acasă</a>

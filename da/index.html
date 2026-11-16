@@ -146,7 +146,7 @@
         "applicationSubCategory": "Containeradministration",
         "operatingSystem": "macOS 26",
         "processorRequirements": "Apple-chip eller Intel (apple/container-værter kræver Apple-chip)",
-        "softwareVersion": "0.27.0",
+        "softwareVersion": "0.29.0",
         "inLanguage": [
           "en",
           "zh-Hans",
@@ -198,6 +198,14 @@
           "Kubernetes-browser: pods, deployments, services, secrets, hændelser, logge, shell, portvideresendelse, skalering, anvend YAML",
           "Forklar fejl med Apple Intelligence (på enheden eller Private Cloud Compute, hemmeligheder fjernet)",
           "Kommandopalet (Command-K) og massehandlinger på flere containere, images, volumes eller netværk",
+          "Ressourceforbrug: én sorterbar tabel over de kørende containere på alle værter",
+          "Build-historik med trin, cachehits og logge, inklusive docker buildx history",
+          "Sårbarhedsscanning af images med Trivy eller Grype og SBOM-eksport (CycloneDX, SPDX)",
+          "Hemmeligheder fra nøgleringen som miljøvariabler i containere, aldrig vist i klartekst",
+          "Eksportér kørende containere som en Compose-fil med hemmeligheder som variabler",
+          "Eksportér logge med det aktuelle filter og tidsrum",
+          "Forløb for hentning, build og Compose i menulinjen, med Annuller",
+          "Skærmbilleder i “Forklar fejl”, læst kun på enheden",
           "Opret en container ud fra en indsat docker run-, podman run- eller container run-kommando; kopiér en container som kommando; opskrifter",
           "Handlinger i meddelelser, Spotlight, Siri og Genveje, en flådewidget, betjeningsmuligheder i Kontrolcenter og gantry://-links",
           "Containermaskiner: opret, start, stop, ressourcer, shell, indlejret virtualisering, tilpassede kerner",
@@ -466,7 +474,7 @@
         <span>Gantry</span>
       </a>
       <nav class="nav-links">
-        <a href="#new">Nyt</a>
+        <a href="#latest">Nyt</a>
         <a href="#features">Funktioner</a>
         <a href="#fleet">Flåde</a>
         <a href="apple-container/">apple/container</a>
@@ -601,6 +609,61 @@
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/></svg>apple/container</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg>Kubernetes</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>Fjern-SSH</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEW IN 0.28.0 AND 0.29.0 ===================== -->
+    <section class="section" id="latest">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Nyt i 0.28 og 0.29</span>
+          <h2>Hele flåden i én tabel og mere sikre images</h2>
+          <p>Gantry 0.28.0 og 0.29.0 tilføjer én aktivitetstabel for alle værter, en build-historik, scanning af images med Trivy eller Grype, hemmeligheder fra nøgleringen til containerens miljø og en eksport til Compose. Du kan eksportere logge med dit filter, give “Forklar fejl” et skærmbillede og følge hentninger, builds og Compose-kørsler i menulinjen.</p>
+        </div>
+        <figure class="guide-shot"><img src="../assets/shots/0.29.0/fleet-activity.png" alt="Tabellen Ressourceforbrug med de kørende containere på en apple/container-vært og en Docker-vært, sorteret efter CPU" width="1856" height="580" loading="lazy" decoding="async"><figcaption><b>Ressourceforbrug.</b> Alle kørende containere på alle værter, sorteret efter CPU.</figcaption></figure>
+        <div class="bento">
+          <div class="cell col-4 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 9v11"/></svg></div>
+            <h3>Ressourceforbrug for alle værter</h3>
+            <p>Én sorterbar tabel over de kørende containere på hver tilsluttet vært: vært, navn, image, CPU, hukommelse, netværks-I/O, disk-I/O og oppetid. Filtrér efter navn, image eller vært, eller vis én vært. Dobbeltklik på en række for at åbne containeren. Tabellen bruger de målinger, som Gantry allerede tager hvert 5. sekund, så den åbner ingen nye statistikstrømme. Åbn den fra indholdsoversigten, med <span class="kbd">⌘K</span> eller med <code>gantry://open/usage</code>.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg></div>
+            <h3>Forløb i menulinjen</h3>
+            <p>Panelet i menulinjen viser hver kørende hentning, build og Compose-handling med en forløbslinje, de lag eller tjenester, der er færdige, bytes, tiden og en <b>Annuller</b>-knap. Symbolet i menulinjen viser, hvor mange handlinger der kører. Hvert Compose-projekt får <b>Hent images</b> og <b>Compose Down</b>; Compose Down beholder volumes og images.</p>
+            <figure class="guide-shot"><img src="../assets/shots/0.29.0/menu-bar-progress.png" alt="Panelet i menulinjen med to igangværende hentninger af images, deres lag, bytes og Annuller-knapper" width="640" height="460" loading="lazy" decoding="async"><figcaption><b>Aktivitet i menulinjen.</b> Lag, bytes, tid og Annuller for hver hentning.</figcaption></figure>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Scan images med Trivy eller Grype</h3>
+            <p>Vælg <b>Scan for sårbarheder…</b> på et image. Gantry kører den Trivy (0.50.0 eller nyere) eller Grype (0.74.0 eller nyere), du har installeret, for eksempel med Homebrew, og grupperer fundene fra Kritisk til Ukendt. <b>Eksportér SBOM</b> skriver CycloneDX, eller SPDX med Trivy. Det virker på apple/container, lokal Docker og Docker over SSH, hvor Gantry scanner registryets kopi af et image med tag.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 6l4 4-9 9H5v-4z"/><path d="m12 8 4 4"/><path d="M15 3l6 6"/></svg></div>
+            <h3>Build-historik</h3>
+            <p>Hver vært har en sektion <b>Builds</b>: de builds med deres trin, cachehits og log. Gantry gemmer de builds, den selv starter, med navnene på build-argumenter, men ikke deres værdier. På Docker-værter læser den også <code>docker buildx history</code> (buildx 0.23.0 eller nyere). apple/container gemmer ingen build-historik, så der ser du de builds, som Gantry har startet.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></div>
+            <h3>Hemmeligheder fra nøgleringen i miljøet</h3>
+            <p>Gem adgangskoder og tokens i nøgleringen i macOS (<b>Indstillinger → Hemmeligheder</b>), og brug dem som miljøvariabler i Ny container og Hurtig kørsel. Formularen viser <code>keychain:NAME</code>, aldrig værdien, og Gantry læser først værdien, når den opretter containeren. Compose-eksport, opskrifter og Kopiér som kommando skriver navnet, ikke værdien.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 13v7M13 16.5l3.5 3.5 3.5-3.5"/></svg></div>
+            <h3>Eksportér som Compose</h3>
+            <p>Vælg <b>Eksportér som Compose…</b> på en eller flere containere for at få en <code>docker-compose.yml</code> med porte, mounts, netværk, genstartspolitik, sundhedstjek, grænser og mere. Værdier, der ligner hemmeligheder, bliver til <code>${NAME}</code>, medmindre du tager dem med. På apple/container-værter advarer Gantry om de flag, som Compose ikke kan udtrykke. <a href="docker-run-to-container/#compose">Sådan virker det</a></p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h10l4 4v12H5z"/><path d="M8 11h8M8 15h5"/></svg></div>
+            <h3>Eksportér logge</h3>
+            <p><b>Eksportér log…</b> (<span class="kbd">⇧⌘E</span>) gemmer de linjer, du ser, med niveaufilteret, søgningen og tidsrummet, som en <code>.log</code>- eller <code>.txt</code>-fil. <b>Kopiér synlige linjer</b> kopierer dem. På Docker-værter kan du tilføje tidsstempler og kun vise de seneste 5 minutter op til det seneste døgn.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></div>
+            <h3>Skærmbilleder i “Forklar fejl”</h3>
+            <p>Slip, indsæt eller tilføj op til 3 billeder i “Forklar fejl”, for eksempel et skærmbillede af en fejlside. Billederne bliver på denne Mac: kun modellen på enheden læser dem (macOS 27), aldrig Private Cloud Compute.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -743,7 +806,7 @@
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></svg></div>
             <div class="mini">
               <div class="term">
-                <div><span class="dim">~ #</span> <span class="prompt">gantry exec</span> <span class="cmd">clickhouse-server-1</span></div>
+                <div><span class="dim">~ #</span> <span class="prompt">docker exec -it</span> <span class="cmd">clickhouse-server-1</span></div>
                 <div class="out">root@clickhouse:/# <span class="acc">ps aux | head</span></div>
                 <div class="dim">807 PIDs · 6.7% cpu · 1.42 GB<span class="cursor"></span></div>
               </div>
@@ -941,10 +1004,10 @@
           <div class="shot reveal d1">
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
-                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Flåde – Sundhed</span></div>
-                <div class="window-body"><img src="../assets/fleet.png" alt="Flådeoversigt over fem værter med synlige sundhedsproblemer" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Oversigtspanel</span></div>
+                <div class="window-body"><img src="../assets/fleet.png" alt="Flådeoversigt med en apple/container-vært og en Docker-vært, deres CPU, hukommelse og topcontainere" width="1856" height="1190" loading="lazy" decoding="async"></div>
               </div>
-              <figcaption><b>Flådeoversigt.</b> Hver vært, hvert problem, én skærm.</figcaption>
+              <figcaption><b>Flådeoversigt.</b> Hver vært, dens belastning og dens topcontainere på én skærm.</figcaption>
             </figure>
           </div>
         </div>

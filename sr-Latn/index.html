@@ -146,7 +146,7 @@
         "applicationSubCategory": "Upravljanje kontejnerima",
         "operatingSystem": "macOS 26",
         "processorRequirements": "Apple silicon ili Intel (apple/container hostovi zahtevaju Apple silicon)",
-        "softwareVersion": "0.27.0",
+        "softwareVersion": "0.29.0",
         "inLanguage": [
           "en",
           "zh-Hans",
@@ -198,6 +198,14 @@
           "Kubernetes pregledač: podovi, deployment-i, servisi, tajne, događaji, logovi, ljuska, prosleđivanje porta, skaliranje, primena YAML-a",
           "Objasni neuspeh uz Apple Intelligence (na uređaju ili Private Cloud Compute, bez tajni)",
           "Paleta komandi (Command-K) i grupne radnje nad više kontejnera, slika, volumena ili mreža",
+          "Upotreba resursa: jedna tabela pokrenutih kontejnera na svim hostovima koja može da se sortira",
+          "Istorija izgradnji sa koracima, pogocima u kešu i logovima, uključujući docker buildx history",
+          "Skeniranje ranjivosti slika pomoću Trivy-ja ili Grype-a i izvoz SBOM-a (CycloneDX, SPDX)",
+          "Tajne iz priveska za ključeve kao promenljive okruženja kontejnera, nikad prikazane kao običan tekst",
+          "Izvoz pokrenutih kontejnera kao Compose datoteke, sa tajnama kao promenljivama",
+          "Izvoz logova sa trenutnim filterom i vremenskim opsegom",
+          "Napredak povlačenja, izgradnje i Compose operacija na traci menija, sa dugmetom Otkaži",
+          "Snimci ekrana u funkciji Objasni neuspeh, obrađeni samo na uređaju",
           "Kreiranje kontejnera iz nalepljene komande docker run, podman run ili container run; kopiranje kontejnera kao komande; recepti",
           "Radnje u obaveštenjima, Spotlight, Siri i Prečice, vidžet infrastrukture, kontrole u Kontrolnom centru i gantry:// linkovi",
           "Container mašine: kreiranje, pokretanje, zaustavljanje, resursi, ljuska, ugnežđena virtuelizacija, prilagođena jezgra",
@@ -466,7 +474,7 @@
         <span>Gantry</span>
       </a>
       <nav class="nav-links">
-        <a href="#new">Novo</a>
+        <a href="#latest">Novo</a>
         <a href="#features">Mogućnosti</a>
         <a href="#fleet">Flota</a>
         <a href="apple-container/">apple/container</a>
@@ -601,6 +609,61 @@
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/></svg>apple/container</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg>Kubernetes</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>Udaljeni SSH</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEW IN 0.28.0 AND 0.29.0 ===================== -->
+    <section class="section" id="latest">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Novo u verzijama 0.28 i 0.29</span>
+          <h2>Cela flota u jednoj tabeli i bezbednije slike</h2>
+          <p>Gantry 0.28.0 i 0.29.0 donose jednu tabelu aktivnosti za sve hostove, istoriju izgradnji, skeniranje slika pomoću Trivy-ja ili Grype-a, tajne iz priveska za ključeve za okruženje kontejnera i izvoz u Compose. Možete da izvezete logove sa svojim filterom, da funkciji Objasni neuspeh date snimak ekrana i da pratite povlačenja, izgradnje i Compose pokretanja na traci menija.</p>
+        </div>
+        <figure class="guide-shot"><img src="../assets/shots/0.29.0/fleet-activity.png" alt="Tabela Upotreba resursa sa pokrenutim kontejnerima apple/container hosta i Docker hosta, sortiranim po CPU-u" width="1856" height="580" loading="lazy" decoding="async"><figcaption><b>Upotreba resursa.</b> Svi pokrenuti kontejneri svih hostova, sortirani po CPU-u.</figcaption></figure>
+        <div class="bento">
+          <div class="cell col-4 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 9v11"/></svg></div>
+            <h3>Upotreba resursa za sve hostove</h3>
+            <p>Jedna tabela pokrenutih kontejnera na svakom povezanom hostu koja može da se sortira: host, ime, slika, CPU, memorija, mrežni I/O, disk I/O i vreme rada. Filtrirajte po imenu, slici ili hostu ili prikažite jedan host. Dvaput kliknite na red da biste otvorili kontejner. Tabela koristi uzorke koje Gantry već uzima svakih 5 sekundi, pa ne otvara nove tokove statistike. Otvorite je iz bočne trake, sa <span class="kbd">⌘K</span> ili sa <code>gantry://open/usage</code>.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg></div>
+            <h3>Napredak na traci menija</h3>
+            <p>Panel na traci menija prikazuje svako aktivno povlačenje, izgradnju i Compose operaciju sa trakom napretka, završenim slojevima ili servisima, bajtovima, vremenom i dugmetom <b>Otkaži</b>. Ikona na traci menija pokazuje koliko operacija je u toku. Svaki Compose projekat dobija <b>Povuci slike</b> i <b>Compose Down</b>; Compose Down zadržava volumene i slike.</p>
+            <figure class="guide-shot"><img src="../assets/shots/0.29.0/menu-bar-progress.png" alt="Panel na traci menija sa dva povlačenja slika u toku, njihovim slojevima, bajtovima i dugmadima Otkaži" width="640" height="460" loading="lazy" decoding="async"><figcaption><b>Aktivnost na traci menija.</b> Slojevi, bajtovi, vreme i Otkaži za svako povlačenje.</figcaption></figure>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Skeniranje slika pomoću Trivy-ja ili Grype-a</h3>
+            <p>Na slici izaberite <b>Skeniraj ranjivosti…</b>. Gantry pokreće Trivy (0.50.0 ili noviji) ili Grype (0.74.0 ili noviji) koji ste instalirali, na primer preko Homebrew-a, i grupiše nalaze od kritičnih do nepoznatih. <b>Izvezi SBOM</b> zapisuje CycloneDX, a uz Trivy i SPDX. Radi na apple/container-u, lokalnom Docker-u i Docker-u preko SSH-a, gde Gantry skenira kopiju označene slike u registru.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 6l4 4-9 9H5v-4z"/><path d="m12 8 4 4"/><path d="M15 3l6 6"/></svg></div>
+            <h3>Istorija izgradnji</h3>
+            <p>Svaki host ima odeljak <b>Izgradnje</b>: izgradnje sa njihovim koracima, pogocima u kešu i logom. Gantry čuva izgradnje koje pokrene, sa imenima argumenata izgradnje, ali ne i sa njihovim vrednostima. Na Docker hostovima čita i <code>docker buildx history</code> (buildx 0.23.0 ili noviji). apple/container ne čuva istoriju izgradnji, pa tamo vidite izgradnje koje je pokrenuo Gantry.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></div>
+            <h3>Tajne iz priveska za ključeve u okruženju</h3>
+            <p>Čuvajte lozinke i tokene u macOS privesku za ključeve (<b>Podešavanja → Tajne</b>) i koristite ih kao promenljive okruženja u prozorima Novi kontejner i Brzo pokretanje. Obrazac prikazuje <code>keychain:NAME</code>, nikad vrednost, a Gantry čita vrednost tek kada kreira kontejner. Izvoz u Compose, recepti i Kopiraj kao komandu zapisuju ime, a ne vrednost.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 13v7M13 16.5l3.5 3.5 3.5-3.5"/></svg></div>
+            <h3>Izvoz kao Compose</h3>
+            <p>Na jednom ili više kontejnera izaberite <b>Izvezi kao Compose…</b> i dobićete <code>docker-compose.yml</code> sa portovima, montiranjima, mrežama, smernicom ponovnog pokretanja, proverom ispravnosti, ograničenjima i drugim. Vrednosti koje liče na tajne postaju <code>${NAME}</code>, osim ako ih ne uključite. Na apple/container hostovima Gantry upozorava na zastavice koje Compose ne može da izrazi. <a href="docker-run-to-container/#compose">Kako radi</a></p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h10l4 4v12H5z"/><path d="M8 11h8M8 15h5"/></svg></div>
+            <h3>Izvoz logova</h3>
+            <p><b>Izvezi logove…</b> (<span class="kbd">⇧⌘E</span>) čuva redove koje vidite, sa filterom nivoa, pretragom i vremenskim opsegom, kao datoteku <code>.log</code> ili <code>.txt</code>. <b>Kopiraj vidljive redove</b> ih kopira. Na Docker hostovima možete da dodate vremenske oznake i prikažete samo period od poslednjih 5 minuta do poslednjeg dana.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></div>
+            <h3>Snimci ekrana u funkciji Objasni neuspeh</h3>
+            <p>Prevucite, nalepite ili dodajte do 3 slike u funkciji Objasni neuspeh, na primer snimak ekrana stranice sa greškom. Slike ostaju na ovom Mac-u: čita ih samo model na uređaju (macOS 27), nikad Private Cloud Compute.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -743,7 +806,7 @@
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></svg></div>
             <div class="mini">
               <div class="term">
-                <div><span class="dim">~ #</span> <span class="prompt">gantry exec</span> <span class="cmd">clickhouse-server-1</span></div>
+                <div><span class="dim">~ #</span> <span class="prompt">docker exec -it</span> <span class="cmd">clickhouse-server-1</span></div>
                 <div class="out">root@clickhouse:/# <span class="acc">ps aux | head</span></div>
                 <div class="dim">807 PIDs · 6.7% cpu · 1.42 GB<span class="cursor"></span></div>
               </div>
@@ -941,10 +1004,10 @@
           <div class="shot reveal d1">
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
-                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Flota — Ispravnost</span></div>
-                <div class="window-body"><img src="../assets/fleet.png" alt="Kontrolna tabla flote sa pet hostova i istaknutim problemima sa ispravnošću" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Kontrolna tabla</span></div>
+                <div class="window-body"><img src="../assets/fleet.png" alt="Kontrolna tabla flote sa apple/container hostom i Docker hostom, njihovim CPU-om, memorijom i najopterećenijim kontejnerima" width="1856" height="1190" loading="lazy" decoding="async"></div>
               </div>
-              <figcaption><b>Kontrolna tabla flote.</b> Svaki host, svaki problem, jedan ekran.</figcaption>
+              <figcaption><b>Kontrolna tabla flote.</b> Svaki host, njegovo opterećenje i najopterećeniji kontejneri na jednom ekranu.</figcaption>
             </figure>
           </div>
         </div>

@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="3364">
   <meta property="og:image:height" content="2116">
   <meta property="og:image:alt" content="Gantrys flåteoversikt med Docker- og apple/container-verter">
-  <meta property="article:modified_time" content="2026-11-07">
+  <meta property="article:modified_time" content="2026-11-15">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Opprett en container fra en docker run-kommando på Mac (docker run til container run)">
   <meta name="twitter:description" content="Lim inn en docker run-kommando i Gantry og få et ferdig containerskjema, eller gjør om docker run til Apples container run for hånd: flagg som passer, flagg som ikke gjør det, og oppskrifter.">
@@ -67,7 +67,7 @@
       "description": "Lim inn en docker run-kommando i Gantry og få et ferdig containerskjema, eller gjør om docker run til Apples container run for hånd: flagg som passer, flagg som ikke gjør det, og oppskrifter.",
       "url": "https://getgantry.github.io/nb/docker-run-to-container/",
       "inLanguage": "nb",
-      "dateModified": "2026-11-07",
+      "dateModified": "2026-11-15",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -194,13 +194,27 @@
         {
           "@type": "HowToStep",
           "position": 6,
+          "name": "Eksporter containeren som Compose",
+          "text": "For å ta vare på en container som en fil høyreklikker du på den, eller bruker Mer-menyen, og velger Eksporter som Compose…. Marker flere containere for å legge dem i én fil. Gantry skriver en docker-compose.yml med én tjeneste for hver container: porter, monteringer, nettverk, omstartspolicy, helsesjekk, grenser, capabilities og logging. Navngitte volumer og nettverk merkes som external: true.",
+          "url": "https://getgantry.github.io/nb/docker-run-to-container/#compose"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 7,
+          "name": "Hold hemmeligheter utenfor kommandoen",
+          "text": "En -e PASSWORD=… i en kommando lekker lett. I skjemaet Ny container åpner du nøkkelmenyen på en miljørad og velger Lagre verdien i nøkkelringen…, eller velger en hemmelighet som du har lagt til i Innstillinger → Hemmeligheter. Raden viser da keychain:NAME med en lås, ikke verdien.",
+          "url": "https://getgantry.github.io/nb/docker-run-to-container/#secrets"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 8,
           "name": "Lagre den som oppskrift",
           "text": "I arket Ny container åpner du Oppskrifter og velger Lagre som oppskrift…. Neste gang gir Fyll ut fra oppskrift det samme skjemaet på hvilken som helst vert. Oppskriftene ligger i ~/Library/Application Support/Gantry/recipes.json, så du kan sikkerhetskopiere eller dele dem.",
           "url": "https://getgantry.github.io/nb/docker-run-to-container/#recipes"
         },
         {
           "@type": "HowToStep",
-          "position": 7,
+          "position": 9,
           "name": "Begrensninger",
           "text": "Gantry beholder stien fra --env-file, men leser ikke filen, og leser ikke skallet ditt for -e KEY uten verdi. tmpfs-monteringer og anonyme volumer fra --mount listes opp som ikke støttet. To porter for den samme containerporten (-p 8080:80 -p 8081:80) fyller ut skjemaet, men skjemaet avviser da duplikatet.",
           "url": "https://getgantry.github.io/nb/docker-run-to-container/#limits"
@@ -280,7 +294,7 @@
   <li>Klikk på <strong>Fyll ut skjema</strong>, sjekk verdiene og opprett containeren.</li>
 </ol>
 <p>Gantry leser <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> og <code>container run</code>. Tekst etter <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> eller <code>|</code> ignoreres, med en merknad.</p>
-<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.27.0/paste-command.png" -->
+<!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
 <ol id="flags">Hvilke flagg som fyller ut skjemaet</ol>
 <div class="table-wrap"><table>
@@ -334,6 +348,18 @@ container run -d --name cache -p 6379:6379 \
 <ul id="copy">Kopier en container som kommando</ul>
 <p>Det fungerer også den andre veien. Høyreklikk på en container, eller bruk Mer-menyen, og velg <strong>Kopier som kommando</strong>: Gantry skriver en <code>docker run</code>- eller <code>container run</code>-linje. Den utelater standardverdiene fra imaget, som miljøet og kommandoen, så linjen holder seg kort. Dette fungerer også for stoppede containere.</p>
 
+<ul id="compose">Eksporter containeren som Compose</ul>
+<p>For å ta vare på en container som en fil høyreklikker du på den, eller bruker Mer-menyen, og velger <strong>Eksporter som Compose…</strong>. Marker flere containere for å legge dem i én fil. Gantry skriver en <code>docker-compose.yml</code> med én tjeneste for hver container: porter, monteringer, nettverk, omstartspolicy, helsesjekk, grenser, capabilities og logging. Navngitte volumer og nettverk merkes som <code>external: true</code>.</p>
+<ul>
+  <li>Verdier som ligner hemmeligheter, blir <code>${NAME}</code>-variabler. Under <strong>Hemmelige verdier</strong> tar du med verdiene du vil ha i filen. En fil med en hemmelig verdi lagres med modus 0600.</li>
+  <li>På apple/container-verter viser <strong>Advarsler</strong> flaggene som Compose ikke kan uttrykke, for eksempel <code>--kernel</code>, <code>--rosetta</code> eller <code>--ssh</code>.</li>
+  <li>Klikk på <strong>Kopier</strong> eller <strong>Lagre…</strong>.</li>
+</ul>
+
+<ul id="secrets">Hold hemmeligheter utenfor kommandoen</ul>
+<p>En <code>-e PASSWORD=…</code> i en kommando lekker lett. I skjemaet Ny container åpner du nøkkelmenyen på en miljørad og velger <strong>Lagre verdien i nøkkelringen…</strong>, eller velger en hemmelighet som du har lagt til i <strong>Innstillinger → Hemmeligheter</strong>. Raden viser da <code>keychain:NAME</code> med en lås, ikke verdien.</p>
+<p>Gantry leser verdien fra nøkkelringen først når den oppretter containeren. <strong>Kopier som kommando</strong>, oppskrifter og Compose-eksport skriver <code>keychain:NAME</code>. Fanen Inspiser viser <code>KEY=[REDACTED]</code>. Motoren lagrer fortsatt verdien, så <code>docker inspect</code> eller <code>container inspect</code> utenfor Gantry kan vise den.</p>
+
 <ul id="recipes">Lagre den som oppskrift</ul>
 <p>I arket Ny container åpner du <strong>Oppskrifter</strong> og velger <strong>Lagre som oppskrift…</strong>. Neste gang gir <strong>Fyll ut fra oppskrift</strong> det samme skjemaet på hvilken som helst vert. Oppskriftene ligger i <code>~/Library/Application Support/Gantry/recipes.json</code>, så du kan sikkerhetskopiere eller dele dem.</p>
 
@@ -362,7 +388,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Kan jeg gjøre en container som kjører, om til en docker run-kommando igjen?</summary><p>Ja. <strong>Kopier som kommando</strong> i containermenyen skriver en <code>docker run</code>- eller <code>container run</code>-linje for den containeren.</p></details>
 </div>
 
-<p class="updated">Sist oppdatert 2026-11-07.</p>
+<p class="updated">Sist oppdatert 2026-11-15.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Hjem</a>

@@ -43,6 +43,14 @@
         "Explorador Kubernetes: pods, Deployments, serviços, segredos, eventos, logs, shell, reencaminhamento de portas, escalar, aplicar YAML",
         "“Explicar falha” com o Apple Intelligence (no dispositivo ou no Private Cloud Compute, sem segredos)",
         "Paleta de comandos (Comando-K) e ações em lote sobre vários contentores, imagens, volumes ou redes",
+        "Utilização de recursos: uma tabela ordenável dos contentores em execução em todos os hosts",
+        "Histórico de compilações com passos, acertos na cache e logs, incluindo docker buildx history",
+        "Análise de vulnerabilidades das imagens com Trivy ou Grype e exportação de SBOM (CycloneDX, SPDX)",
+        "Segredos do porta-chaves como variáveis de ambiente dos contentores, nunca mostrados em texto simples",
+        "Exportação dos contentores em execução como ficheiro Compose, com os segredos como variáveis",
+        "Exportação de logs com o filtro e o intervalo de tempo atuais",
+        "Progresso dos descarregamentos, compilações e operações Compose na barra de menus, com Cancelar",
+        "Capturas de ecrã em “Explicar falha”, lidas apenas no dispositivo",
         "Criar um contentor a partir de um comando docker run, podman run ou container run colado; copiar um contentor como comando; receitas",
         "Ações nas notificações, Spotlight, Siri e Atalhos, um widget da frota, controlos no Centro de controlo e ligações gantry://",
         "Máquinas do container: criar, iniciar, parar, recursos, shell, virtualização aninhada, kernels personalizados",
@@ -393,9 +401,9 @@
       "overview_title": "Host — Vista geral",
       "overview_alt": "Vista geral do host com indicadores de CPU e memória e utilização de disco do Docker",
       "overview_caption": "<b>Vista geral do host.</b> Indicadores, utilização de disco, dados do daemon.",
-      "fleet_title": "Frota — Estado de saúde",
-      "fleet_alt": "Painel de frota com cinco hosts e os problemas de saúde em destaque",
-      "fleet_caption": "<b>Painel de frota.</b> Todos os hosts, todos os problemas, um só ecrã."
+      "fleet_title": "Painel",
+      "fleet_alt": "Painel de frota com um host apple/container e um host Docker, a CPU, a memória e os principais contentores de cada um",
+      "fleet_caption": "<b>Painel de frota.</b> Todos os hosts, a carga e os principais contentores de cada um num só ecrã."
     },
     "built": {
       "kicker": "Feito de outra forma",
@@ -421,6 +429,47 @@
       "s3_text": "O Docker local aparece sozinho. Para o Apple container, adicione um host <em>Apple Container</em>; o Gantry propõe configurar a CLI <code>container</code>. Agentes: <code>claude mcp add gantry</code>."
     },
     "footer_meta": "Licença MIT · Feito com SwiftUI · © 2026",
+    "latest": {
+      "kicker": "Novidades da 0.28 e da 0.29",
+      "h2": "Toda a frota numa tabela e imagens mais seguras",
+      "p": "As versões 0.28.0 e 0.29.0 do Gantry acrescentam uma tabela de atividade única para todos os hosts, um histórico de compilações, a análise de imagens com Trivy ou Grype, segredos do porta-chaves para o ambiente dos contentores e uma exportação para Compose. Pode exportar logs com o seu filtro, dar uma captura de ecrã a “Explicar falha” e acompanhar descarregamentos, compilações e execuções Compose na barra de menus.",
+      "fleet": {
+        "h3": "Utilização de recursos de todos os hosts",
+        "p": "Uma tabela ordenável dos contentores em execução em cada host ligado: host, nome, imagem, CPU, memória, E/S de rede, E/S de disco e tempo de atividade. Filtre por nome, imagem ou host, ou mostre um só host. Faça duplo clique numa linha para abrir o contentor. A tabela utiliza as amostras que o Gantry já recolhe a cada 5 segundos, por isso não abre novos fluxos de estatísticas. Abra-a na barra lateral, com <span class=\"kbd\">⌘K</span> ou com <code>gantry://open/usage</code>."
+      },
+      "progress": {
+        "h3": "Progresso na barra de menus",
+        "p": "O painel da barra de menus mostra cada descarregamento, compilação e operação Compose em curso com uma barra de progresso, as camadas ou os serviços concluídos, os bytes, o tempo e um botão <b>Cancelar</b>. O ícone da barra de menus mostra quantas operações estão em curso. Cada projeto Compose tem <b>Descarregar imagens</b> e <b>Compose Down</b>; o Compose Down mantém os volumes e as imagens."
+      },
+      "scan": {
+        "h3": "Analisar imagens com Trivy ou Grype",
+        "p": "Escolha <b>Analisar vulnerabilidades…</b> numa imagem. O Gantry executa o Trivy (0.50.0 ou posterior) ou o Grype (0.74.0 ou posterior) que instalou, por exemplo com o Homebrew, e agrupa os resultados de Crítico a Desconhecido. <b>Exportar SBOM</b> escreve CycloneDX, ou SPDX com o Trivy. Funciona no apple/container, no Docker local e no Docker por SSH; neste último caso, o Gantry analisa a cópia no registo de uma imagem com tag."
+      },
+      "builds": {
+        "h3": "Histórico de compilações",
+        "p": "Cada host tem uma secção <b>Compilações</b>: as compilações com os passos, os acertos na cache e o log. O Gantry guarda as compilações que inicia, com os nomes dos argumentos de compilação, mas não os valores. Nos hosts Docker, também lê <code>docker buildx history</code> (buildx 0.23.0 ou posterior). O apple/container não guarda histórico de compilações, por isso aí vê as compilações que o Gantry iniciou."
+      },
+      "secrets": {
+        "h3": "Segredos do porta-chaves no ambiente",
+        "p": "Guarde palavras-passe e tokens no porta-chaves do macOS (<b>Definições → Segredos</b>) e utilize-os como variáveis de ambiente em “Novo contentor” e “Execução rápida”. O formulário mostra <code>keychain:NAME</code>, nunca o valor, e o Gantry só lê o valor quando cria o contentor. A exportação para Compose, as receitas e “Copiar como comando” escrevem o nome, não o valor."
+      },
+      "compose": {
+        "h3": "Exportar como Compose",
+        "p": "Escolha <b>Exportar como Compose…</b> num ou mais contentores para obter um <code>docker-compose.yml</code> com portas, montagens, redes, política de reinício, verificação de estado, limites e mais. Os valores que parecem segredos passam a <code>${NAME}</code>, a menos que os inclua. Nos hosts apple/container, o Gantry avisa sobre as flags que o Compose não consegue exprimir. <a href=\"docker-run-to-container/#compose\">Como funciona</a>"
+      },
+      "logs": {
+        "h3": "Exportar logs",
+        "p": "<b>Exportar logs…</b> (<span class=\"kbd\">⇧⌘E</span>) guarda as linhas que vê, com o filtro de nível, a pesquisa e o intervalo de tempo, num ficheiro <code>.log</code> ou <code>.txt</code>. <b>Copiar linhas visíveis</b> copia-as. Nos hosts Docker, pode adicionar carimbos de data/hora e mostrar apenas um período entre os últimos 5 minutos e o último dia."
+      },
+      "explain": {
+        "h3": "Capturas de ecrã em “Explicar falha”",
+        "p": "Largue, cole ou adicione até 3 imagens em “Explicar falha”, por exemplo uma captura de ecrã de uma página de erro. As imagens ficam neste Mac: só o modelo no dispositivo as lê (macOS 27), nunca o Private Cloud Compute."
+      },
+      "shot_fleet_alt": "Tabela Utilização de recursos com os contentores em execução de um host apple/container e de um host Docker, ordenados por CPU",
+      "shot_fleet_caption": "<b>Utilização de recursos.</b> Todos os contentores em execução de todos os hosts, ordenados por CPU.",
+      "shot_menubar_alt": "Painel da barra de menus com dois descarregamentos de imagens em curso, as camadas, os bytes e os botões Cancelar",
+      "shot_menubar_caption": "<b>Atividade na barra de menus.</b> Camadas, bytes, tempo e Cancelar para cada descarregamento."
+    },
     "new": {
       "kicker": "Novidades da 0.27.0",
       "h2": "Kubernetes, Apple Intelligence e o resto do macOS",
@@ -489,12 +538,12 @@
       ],
       [
         "<code>container logs</code>",
-        "Separador Logs: acompanhamento em direto, pesquisa por regex, filtro por nível, cores ANSI",
+        "Separador Logs: acompanhamento em direto, pesquisa por regex, filtro por nível, cores ANSI; <strong>Exportar logs…</strong> guarda as linhas visíveis",
         "Qualquer"
       ],
       [
         "<code>container stats</code>",
-        "Separador Estatísticas e minigráficos do painel de frota",
+        "Separador Estatísticas, minigráficos do painel de frota e a tabela Utilização de recursos",
         "Qualquer"
       ],
       [
@@ -504,7 +553,7 @@
       ],
       [
         "<code>container inspect</code>",
-        "Separadores Vista geral e Inspecionar",
+        "Separadores Vista geral e Inspecionar; <strong>Exportar como Compose…</strong> transforma a configuração num ficheiro Compose",
         "Qualquer"
       ],
       [
@@ -534,12 +583,12 @@
       ],
       [
         "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
-        "Imagens: descarregar com progresso, tag, remover, limpar, inspecionar",
+        "Imagens: descarregar com progresso, tag, remover, limpar, inspecionar; <strong>Analisar vulnerabilidades…</strong> com Trivy ou Grype",
         "Qualquer"
       ],
       [
         "<code>container build</code>",
-        "Compila os serviços <code>build:</code> de um ficheiro Compose",
+        "Compila os serviços <code>build:</code> de um ficheiro Compose; a secção <strong>Compilações</strong> lista as compilações que o Gantry iniciou",
         "Qualquer"
       ],
       [
@@ -1156,7 +1205,7 @@
       ],
       [
         "Versão mais recente (verificado a 2026-11-07)",
-        "0.27.0",
+        "0.29.0 (2026-11-15)",
         "4.98.0 (2026-11-03)",
         "2.2.5 (2026-10-23)",
         "1.30.5 (2026-10-13)",
@@ -1334,6 +1383,9 @@
           "blocks": [
             {
               "p": "A CLI <code>container</code> não tem um comando <code>compose</code>. Em vez disso, abra o <code>docker-compose.yml</code> no Gantry (Finder, <strong>Ficheiro ▸ Abrir ficheiro Compose…</strong> ou arrastar e largar). O Gantry compila os serviços com <code>build:</code>, cria a rede do projeto e os volumes com nome, e inicia os serviços pela ordem de <code>depends_on</code>. Os serviços comunicam entre si pelo nome do serviço através de aliases DNS de rede."
+            },
+            {
+              "p": "Ainda não tem um ficheiro Compose? No host Docker, selecione os contentores da app, escolha <strong>Exportar como Compose…</strong> e guarde o ficheiro. O ficheiro marca os volumes com nome e as redes como <code>external: true</code>, por isso crie-os primeiro no host apple/container (consulte <a href=\"#volumes\">Mudar os volumes com nome</a>) e depois abra o ficheiro aí. Os valores que parecem segredos passam a variáveis <code>${NAME}</code>, por isso o ficheiro não leva as suas palavras-passe."
             }
           ]
         },
@@ -1742,6 +1794,34 @@
           "blocks": [
             {
               "p": "O sentido inverso também funciona. Clique com o botão direito num contentor, ou use o menu Mais, e escolha <strong>Copiar como comando</strong>: o Gantry escreve uma linha <code>docker run</code> ou <code>container run</code>. Deixa de fora as predefinições da imagem, como o ambiente e o comando, para que a linha fique curta. Também funciona com contentores parados."
+            }
+          ]
+        },
+        {
+          "id": "compose",
+          "h": "Exportar o contentor como Compose",
+          "blocks": [
+            {
+              "p": "Para guardar um contentor como ficheiro, clique nele com o botão direito, ou use o menu Mais, e escolha <strong>Exportar como Compose…</strong>. Selecione vários contentores para os colocar num só ficheiro. O Gantry escreve um <code>docker-compose.yml</code> com um serviço por contentor: portas, montagens, redes, política de reinício, verificação de estado, limites, capabilities e registo de logs. Os volumes com nome e as redes são marcados como <code>external: true</code>."
+            },
+            {
+              "ul": [
+                "Os valores que parecem segredos passam a variáveis <code>${NAME}</code>. Em <strong>Valores secretos</strong>, inclua os que quer no ficheiro. Um ficheiro com um valor secreto é guardado com o modo 0600.",
+                "Nos hosts apple/container, <strong>Avisos</strong> lista as flags que o Compose não consegue exprimir, como <code>--kernel</code>, <code>--rosetta</code> ou <code>--ssh</code>.",
+                "Clique em <strong>Copiar</strong> ou <strong>Guardar…</strong>."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "secrets",
+          "h": "Manter os segredos fora do comando",
+          "blocks": [
+            {
+              "p": "Um <code>-e PASSWORD=…</code> num comando é fácil de divulgar por engano. No formulário “Novo contentor”, abra o menu da chave de uma linha de ambiente e escolha <strong>Guardar valor no porta-chaves…</strong>, ou escolha um segredo que adicionou em <strong>Definições → Segredos</strong>. A linha passa a mostrar <code>keychain:NAME</code> com um cadeado, não o valor."
+            },
+            {
+              "p": "O Gantry só lê o valor do porta-chaves quando cria o contentor. <strong>Copiar como comando</strong>, as receitas e a exportação para Compose escrevem <code>keychain:NAME</code>. O separador Inspecionar mostra <code>KEY=[REDACTED]</code>. O motor continua a guardar o valor, por isso <code>docker inspect</code> ou <code>container inspect</code> fora do Gantry podem mostrá-lo."
             }
           ]
         },

@@ -146,7 +146,7 @@
         "applicationSubCategory": "Containerbeheer",
         "operatingSystem": "macOS 26",
         "processorRequirements": "Apple silicon of Intel (apple/container-hosts vereisen Apple silicon)",
-        "softwareVersion": "0.27.0",
+        "softwareVersion": "0.29.0",
         "inLanguage": [
           "en",
           "zh-Hans",
@@ -198,6 +198,14 @@
           "Kubernetes-browser: pods, deployments, services, secrets, gebeurtenissen, logs, shell, poortdoorsturing, schalen, YAML toepassen",
           "“Leg fout uit” met Apple Intelligence (op het apparaat of via Private Cloud Compute, geheimen verwijderd)",
           "Commandopalet (Command-K) en bulkacties op meerdere containers, images, volumes of netwerken",
+          "Gebruik van bronnen: één sorteerbare tabel met de actieve containers op alle hosts",
+          "Buildgeschiedenis met stappen, cachetreffers en logs, inclusief docker buildx history",
+          "Kwetsbaarheidsscan van images met Trivy of Grype, en SBOM-export (CycloneDX, SPDX)",
+          "Geheimen uit de sleutelhanger als omgevingsvariabelen van containers, nooit als leesbare tekst getoond",
+          "Actieve containers exporteren als Compose-bestand, met geheimen als variabelen",
+          "Logs exporteren met het huidige filter en tijdsbereik",
+          "Voortgang van pull, build en Compose in de menubalk, met Annuleer",
+          "Schermafbeeldingen in “Leg fout uit”, alleen op het apparaat gelezen",
           "Maak een container van een geplakt docker run-, podman run- of container run-commando; kopieer een container als commando; recepten",
           "Acties in meldingen, Spotlight, Siri en Opdrachten, een vlootwidget, regelaars in het bedieningspaneel en gantry://-links",
           "Containermachines: aanmaken, starten, stoppen, resources, shell, geneste virtualisatie, aangepaste kernels",
@@ -466,7 +474,7 @@
         <span>Gantry</span>
       </a>
       <nav class="nav-links">
-        <a href="#new">Nieuw</a>
+        <a href="#latest">Nieuw</a>
         <a href="#features">Functies</a>
         <a href="#fleet">Vloot</a>
         <a href="apple-container/">apple/container</a>
@@ -601,6 +609,61 @@
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/></svg>apple/container</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2 4 6.5v9L12 22l8-6.5v-9z"/><circle cx="12" cy="12" r="3"/></svg>Kubernetes</span>
           <span class="item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12h14"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>SSH-hosts</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== NEW IN 0.28.0 AND 0.29.0 ===================== -->
+    <section class="section" id="latest">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="kicker">Nieuw in 0.28 en 0.29</span>
+          <h2>De hele vloot in één tabel, en veiligere images</h2>
+          <p>Gantry 0.28.0 en 0.29.0 voegen één activiteitstabel voor alle hosts toe, een buildgeschiedenis, imagescans met Trivy of Grype, geheimen uit de sleutelhanger voor de containeromgeving en een export naar Compose. Je kunt logs exporteren met je filter, “Leg fout uit” een schermafbeelding geven en pulls, builds en Compose-runs volgen in de menubalk.</p>
+        </div>
+        <figure class="guide-shot"><img src="../assets/shots/0.29.0/fleet-activity.png" alt="Tabel Gebruik van bronnen met de actieve containers van een apple/container-host en een Docker-host, gesorteerd op CPU" width="1856" height="580" loading="lazy" decoding="async"><figcaption><b>Gebruik van bronnen.</b> Alle actieve containers van alle hosts, gesorteerd op CPU.</figcaption></figure>
+        <div class="bento">
+          <div class="cell col-4 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 9v11"/></svg></div>
+            <h3>Gebruik van bronnen voor alle hosts</h3>
+            <p>Eén sorteerbare tabel met de actieve containers op elke verbonden host: host, naam, image, CPU, geheugen, netwerk-I/O, schijf-I/O en uptime. Filter op naam, image of host, of toon één host. Dubbelklik op een rij om de container te openen. De tabel gebruikt de meetwaarden die Gantry al elke 5 seconden neemt, dus opent hij geen nieuwe statistiekstreams. Open hem vanuit de navigatiekolom, met <span class="kbd">⌘K</span> of met <code>gantry://open/usage</code>.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg></div>
+            <h3>Voortgang in de menubalk</h3>
+            <p>Het menubalkpaneel toont elke actieve pull-, build- en Compose-bewerking met een voortgangsbalk, de lagen of services die klaar zijn, de bytes, de tijd en een knop <b>Annuleer</b>. Het menubalksymbool toont hoeveel bewerkingen er lopen. Elk Compose-project krijgt <b>Images pullen</b> en <b>Compose Down</b>; Compose Down behoudt volumes en images.</p>
+            <figure class="guide-shot"><img src="../assets/shots/0.29.0/menu-bar-progress.png" alt="Menubalkpaneel met twee image-pulls in uitvoering, hun lagen, bytes en knoppen Annuleer" width="640" height="460" loading="lazy" decoding="async"><figcaption><b>Activiteit in de menubalk.</b> Lagen, bytes, tijd en Annuleer voor elke pull.</figcaption></figure>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+            <h3>Images scannen met Trivy of Grype</h3>
+            <p>Kies <b>Scan op kwetsbaarheden…</b> bij een image. Gantry voert de Trivy (0.50.0 of later) of Grype (0.74.0 of later) uit die je hebt geïnstalleerd, bijvoorbeeld met Homebrew, en groepeert de bevindingen van Kritiek tot Onbekend. <b>Exporteer SBOM</b> schrijft CycloneDX, of SPDX met Trivy. Het werkt op apple/container, lokale Docker en Docker via SSH, waar Gantry de registrykopie van een getagde image scant.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 6l4 4-9 9H5v-4z"/><path d="m12 8 4 4"/><path d="M15 3l6 6"/></svg></div>
+            <h3>Buildgeschiedenis</h3>
+            <p>Elke host heeft een onderdeel <b>Builds</b>: de builds met hun stappen, cachetreffers en log. Gantry bewaart de builds die het zelf start, met de namen van buildargumenten maar niet hun waarden. Op Docker-hosts leest het ook <code>docker buildx history</code> (buildx 0.23.0 of later). apple/container bewaart geen buildgeschiedenis, dus daar zie je de builds die Gantry heeft gestart.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></svg></div>
+            <h3>Geheimen uit de sleutelhanger in de omgeving</h3>
+            <p>Bewaar wachtwoorden en tokens in de macOS-sleutelhanger (<b>Instellingen → Geheimen</b>) en gebruik ze als omgevingsvariabelen in Nieuwe container en Snel uitvoeren. Het formulier toont <code>keychain:NAME</code>, nooit de waarde, en Gantry leest de waarde pas wanneer het de container aanmaakt. Compose-export, recepten en Kopieer als commando schrijven de naam, niet de waarde.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 13v7M13 16.5l3.5 3.5 3.5-3.5"/></svg></div>
+            <h3>Exporteren als Compose</h3>
+            <p>Kies <b>Exporteer als Compose…</b> bij een of meer containers om een <code>docker-compose.yml</code> te krijgen met poorten, mounts, netwerken, herstartbeleid, gezondheidscontrole, limieten en meer. Waarden die op geheimen lijken, worden <code>${NAME}</code>, tenzij je ze meeneemt. Op apple/container-hosts waarschuwt Gantry voor de flags die Compose niet kan uitdrukken. <a href="docker-run-to-container/#compose">Zo werkt het</a></p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 4h10l4 4v12H5z"/><path d="M8 11h8M8 15h5"/></svg></div>
+            <h3>Logs exporteren</h3>
+            <p><b>Exporteer logs…</b> (<span class="kbd">⇧⌘E</span>) bewaart de regels die je ziet, met het niveaufilter, de zoekopdracht en het tijdsbereik, als <code>.log</code>- of <code>.txt</code>-bestand. <b>Kopieer zichtbare regels</b> kopieert ze. Op Docker-hosts kun je tijdstempels toevoegen en alleen de laatste 5 minuten tot de laatste dag tonen.</p>
+          </div>
+          <div class="cell col-2 cell-feat reveal">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></div>
+            <h3>Schermafbeeldingen in “Leg fout uit”</h3>
+            <p>Zet tot 3 afbeeldingen neer in “Leg fout uit”, plak ze of voeg ze toe, bijvoorbeeld een schermafbeelding van een foutpagina. De afbeeldingen blijven op deze Mac: alleen het model op het apparaat leest ze (macOS 27), nooit Private Cloud Compute.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -743,7 +806,7 @@
             <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M13 15h4"/></svg></div>
             <div class="mini">
               <div class="term">
-                <div><span class="dim">~ #</span> <span class="prompt">gantry exec</span> <span class="cmd">clickhouse-server-1</span></div>
+                <div><span class="dim">~ #</span> <span class="prompt">docker exec -it</span> <span class="cmd">clickhouse-server-1</span></div>
                 <div class="out">root@clickhouse:/# <span class="acc">ps aux | head</span></div>
                 <div class="dim">807 PIDs · 6.7% cpu · 1.42 GB<span class="cursor"></span></div>
               </div>
@@ -941,10 +1004,10 @@
           <div class="shot reveal d1">
             <figure>
               <div class="window dark-chrome" data-parallax="0.06">
-                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Vloot — Gezondheid</span></div>
-                <div class="window-body"><img src="../assets/fleet.png" alt="Vlootdashboard over vijf hosts met zichtbare gezondheidsproblemen" width="3364" height="2116" loading="lazy" decoding="async"></div>
+                <div class="titlebar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="tb-title">Dashboard</span></div>
+                <div class="window-body"><img src="../assets/fleet.png" alt="Vlootdashboard met een apple/container-host en een Docker-host, hun CPU, geheugen en topcontainers" width="1856" height="1190" loading="lazy" decoding="async"></div>
               </div>
-              <figcaption><b>Vlootdashboard.</b> Elke host, elk probleem, één scherm.</figcaption>
+              <figcaption><b>Vlootdashboard.</b> Elke host, de belasting en de topcontainers op één scherm.</figcaption>
             </figure>
           </div>
         </div>

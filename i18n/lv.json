@@ -43,6 +43,14 @@
         "Kubernetes pārlūks: podi, Deployments, pakalpojumi, noslēpumi, notikumi, žurnāli, čaula, porta pārsūtīšana, mērogošana, YAML lietošana",
         "Kļūmju skaidrojums ar Apple Intelligence (ierīcē vai Private Cloud Compute, noslēpumi tiek noņemti)",
         "Komandu palete (Command-K) un vienas darbības vairākiem konteineriem, attēliem, sējumiem vai tīkliem vienlaikus",
+        "Resursu lietojums: viena kārtojama tabula ar visu resursdatoru darbojošos konteineriem",
+        "Būvējumu vēsture ar soļiem, kešatmiņas trāpījumiem un žurnāliem, arī docker buildx history",
+        "Attēlu ievainojamību skenēšana ar Trivy vai Grype un SBOM eksports (CycloneDX, SPDX)",
+        "Atslēgu piekariņa noslēpumi kā konteinera vides mainīgie, kas nekad netiek rādīti atklātā tekstā",
+        "Darbojošos konteineru eksports Compose failā, noslēpumi kā mainīgie",
+        "Žurnālu eksports ar pašreizējo filtru un laika periodu",
+        "Lejupielādes, būvēšanas un Compose norise izvēļņu joslā, ar pogu „Atcelt”",
+        "Ekrānuzņēmumi funkcijā „Izskaidrot kļūmi”, apstrāde tikai ierīcē",
         "Konteinera izveide no ielīmētas docker run, podman run vai container run komandas; konteinera kopēšana kā komandas; receptes",
         "Darbības paziņojumos, Spotlight, Siri un Īsceļi, infrastruktūras logrīks, Vadības centra vadīklas un gantry:// saites",
         "Konteineru mašīnas: izveide, startēšana, apturēšana, resursi, čaula, ligzdotā virtualizācija, pielāgoti kodoli",
@@ -393,9 +401,9 @@
       "overview_title": "Resursdators — Pārskats",
       "overview_alt": "Resursdatora pārskats ar CPU un atmiņas mērītājiem un Docker diska lietojumu",
       "overview_caption": "<b>Resursdatora pārskats.</b> Mērītāji, diska lietojums, informācija par dēmonu.",
-      "fleet_title": "Parks — Veselība",
-      "fleet_alt": "Piecu resursdatoru parka informācijas panelis ar izceltām veselības problēmām",
-      "fleet_caption": "<b>Parka informācijas panelis.</b> Visi resursdatori, visas problēmas, viens ekrāns."
+      "fleet_title": "Informācijas panelis",
+      "fleet_alt": "Parka informācijas panelis ar apple/container resursdatoru un Docker resursdatoru, to CPU, atmiņu un aktīvākajiem konteineriem",
+      "fleet_caption": "<b>Parka informācijas panelis.</b> Visi resursdatori, to slodze un aktīvākie konteineri vienā ekrānā."
     },
     "built": {
       "kicker": "Citāda pieeja",
@@ -421,6 +429,47 @@
       "s3_text": "Lokālais Docker parādās pats. Apple container gadījumā pievienojiet <em>Apple Container</em> resursdatoru; Gantry piedāvās iestatīt <code>container</code> CLI. Aģentiem: <code>claude mcp add gantry</code>."
     },
     "footer_meta": "MIT licence · Veidota ar SwiftUI · © 2026",
+    "latest": {
+      "kicker": "Jaunumi 0.28 un 0.29",
+      "h2": "Viss parks vienā tabulā un drošāki attēli",
+      "p": "Gantry 0.28.0 un 0.29.0 pievieno vienu darbību tabulu visiem resursdatoriem, būvējumu vēsturi, attēlu skenēšanu ar Trivy vai Grype, atslēgu piekariņa noslēpumus konteinera videi un eksportu uz Compose. Varat eksportēt žurnālus ar savu filtru, dot funkcijai „Izskaidrot kļūmi” ekrānuzņēmumu un sekot lejupielādēm, būvējumiem un Compose palaišanām izvēļņu joslā.",
+      "fleet": {
+        "h3": "Visu resursdatoru resursu lietojums",
+        "p": "Viena kārtojama tabula ar darbojošos konteineriem katrā savienotajā resursdatorā: resursdators, nosaukums, attēls, CPU, atmiņa, tīkla I/O, diska I/O un darbības laiks. Filtrējiet pēc nosaukuma, attēla vai resursdatora vai rādiet vienu resursdatoru. Veiciet dubultklikšķi uz rindas, lai atvērtu konteineru. Tabula izmanto paraugus, ko Gantry jau ņem ik pēc 5 sekundēm, tāpēc tā neatver jaunas statistikas plūsmas. Atveriet to no sānjoslas, ar <span class=\"kbd\">⌘K</span> vai ar <code>gantry://open/usage</code>."
+      },
+      "progress": {
+        "h3": "Norise izvēļņu joslā",
+        "p": "Izvēļņu joslas panelis rāda katru notiekošo lejupielādi, būvēšanu un Compose darbību ar norises joslu, pabeigtajiem slāņiem vai pakalpojumiem, baitiem, laiku un pogu <b>Atcelt</b>. Izvēļņu joslas ikona rāda, cik darbību notiek. Katram Compose projektam ir <b>Lejupielādēt attēlus</b> un <b>Compose Down</b>; Compose Down saglabā sējumus un attēlus."
+      },
+      "scan": {
+        "h3": "Attēlu skenēšana ar Trivy vai Grype",
+        "p": "Attēlam izvēlieties <b>Skenēt ievainojamības…</b>. Gantry palaiž jūsu instalēto Trivy (0.50.0 vai jaunāku) vai Grype (0.74.0 vai jaunāku), piemēram, no Homebrew, un grupē atradumus pēc līmeņa no kritiskā līdz nezināmajam. <b>Eksportēt SBOM</b> ieraksta CycloneDX vai, ar Trivy, SPDX. Tas darbojas ar apple/container, lokālo Docker un Docker caur SSH; Docker caur SSH gadījumā Gantry skenē tagota attēla kopiju reģistrā."
+      },
+      "builds": {
+        "h3": "Būvējumu vēsture",
+        "p": "Katram resursdatoram ir sadaļa <b>Būvējumi</b>: būvējumi ar soļiem, kešatmiņas trāpījumiem un žurnālu. Gantry glabā būvējumus, ko pati sāk, ar būvēšanas argumentu nosaukumiem, bet bez to vērtībām. Docker resursdatoros tā arī nolasa <code>docker buildx history</code> (buildx 0.23.0 vai jaunāka). apple/container neglabā būvējumu vēsturi, tāpēc tur redzami būvējumi, ko sāka Gantry."
+      },
+      "secrets": {
+        "h3": "Atslēgu piekariņa noslēpumi vidē",
+        "p": "Glabājiet paroles un marķierus macOS atslēgu piekariņā (<b>Iestatījumi → Noslēpumi</b>) un izmantojiet tos kā vides mainīgos logos „Jauns konteiners” un „Ātrā palaišana”. Veidlapā redzams <code>keychain:NAME</code>, nevis vērtība, un Gantry nolasa vērtību tikai tad, kad izveido konteineru. Compose eksports, receptes un „Kopēt kā komandu” ieraksta nosaukumu, nevis vērtību."
+      },
+      "compose": {
+        "h3": "Eksports kā Compose",
+        "p": "Vienam vai vairākiem konteineriem izvēlieties <b>Eksportēt kā Compose…</b>, lai iegūtu <code>docker-compose.yml</code> ar portiem, montējumiem, tīkliem, restartēšanas politiku, veselības pārbaudi, ierobežojumiem un citu. Vērtības, kas izskatās pēc noslēpumiem, kļūst par <code>${NAME}</code>, ja vien tās neiekļaujat. apple/container resursdatoros Gantry brīdina par karodziņiem, ko Compose nevar izteikt. <a href=\"docker-run-to-container/#compose\">Kā tas darbojas</a>"
+      },
+      "logs": {
+        "h3": "Žurnālu eksports",
+        "p": "<b>Eksportēt žurnālus…</b> (<span class=\"kbd\">⇧⌘E</span>) saglabā redzamās rindas ar līmeņa filtru, meklēšanu un laika periodu <code>.log</code> vai <code>.txt</code> failā. <b>Kopēt redzamās rindas</b> tās nokopē. Docker resursdatoros varat pievienot laikspiedolus un rādīt tikai pēdējos ierakstus: no 5 minūtēm līdz dienai."
+      },
+      "explain": {
+        "h3": "Ekrānuzņēmumi funkcijā „Izskaidrot kļūmi”",
+        "p": "Funkcijā „Izskaidrot kļūmi” ievelciet, ielīmējiet vai pievienojiet līdz 3 attēliem, piemēram, kļūdas lapas ekrānuzņēmumu. Attēli paliek šajā Mac datorā: tos lasa tikai modelis ierīcē (macOS 27), nekad Private Cloud Compute."
+      },
+      "shot_fleet_alt": "Resursu lietojuma tabula ar apple/container resursdatora un Docker resursdatora darbojošos konteineriem, sakārtota pēc CPU",
+      "shot_fleet_caption": "<b>Resursu lietojums.</b> Visi visu resursdatoru darbojošies konteineri, sakārtoti pēc CPU.",
+      "shot_menubar_alt": "Izvēļņu joslas panelis ar divām notiekošām attēlu lejupielādēm, to slāņiem, baitiem un pogām „Atcelt”",
+      "shot_menubar_caption": "<b>Darbības izvēļņu joslā.</b> Slāņi, baiti, laiks un atcelšana katrai lejupielādei."
+    },
     "new": {
       "kicker": "Jaunumi versijā 0.27.0",
       "h2": "Kubernetes, Apple Intelligence un pārējā macOS",
@@ -489,12 +538,12 @@
       ],
       [
         "<code>container logs</code>",
-        "Cilne „Žurnāli”: sekošana reāllaikā, regex meklēšana, līmeņa filtrs, ANSI krāsas",
+        "Cilne „Žurnāli”: sekošana reāllaikā, regex meklēšana, līmeņa filtrs, ANSI krāsas; <strong>Eksportēt žurnālus…</strong> saglabā redzamās rindas",
         "Jebkura"
       ],
       [
         "<code>container stats</code>",
-        "Cilne „Statistika” un parka informācijas paneļa mini diagrammas",
+        "Cilne „Statistika”, parka informācijas paneļa mini diagrammas un resursu lietojuma tabula",
         "Jebkura"
       ],
       [
@@ -504,7 +553,7 @@
       ],
       [
         "<code>container inspect</code>",
-        "Cilnes „Pārskats” un „Pārbaudīt”",
+        "Cilnes „Pārskats” un „Pārbaudīt”; <strong>Eksportēt kā Compose…</strong> pārvērš konfigurāciju Compose failā",
         "Jebkura"
       ],
       [
@@ -534,12 +583,12 @@
       ],
       [
         "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
-        "Attēli: lejupielāde ar norisi, tagi, noņemšana, iztīrīšana, pārbaude",
+        "Attēli: lejupielāde ar norisi, tagi, noņemšana, iztīrīšana, pārbaude; <strong>Skenēt ievainojamības…</strong> ar Trivy vai Grype",
         "Jebkura"
       ],
       [
         "<code>container build</code>",
-        "Būvē Compose faila <code>build:</code> pakalpojumus",
+        "Būvē Compose faila <code>build:</code> pakalpojumus; sadaļā <strong>Būvējumi</strong> ir uzskaitīti būvējumi, ko sāka Gantry",
         "Jebkura"
       ],
       [
@@ -1156,7 +1205,7 @@
       ],
       [
         "Jaunākā versija (pārbaudīts 2026-11-07)",
-        "0.27.0",
+        "0.29.0 (2026-11-15)",
         "4.98.0 (2026-11-03)",
         "2.2.5 (2026-10-23)",
         "1.30.5 (2026-10-13)",
@@ -1334,6 +1383,9 @@
           "blocks": [
             {
               "p": "<code>container</code> CLI nav komandas <code>compose</code>. Tā vietā atveriet <code>docker-compose.yml</code> lietotnē Gantry (no Finder, ar <strong>Fails ▸ Atvērt Compose failu…</strong> vai ar vilkšanu un nomešanu). Gantry būvē <code>build:</code> pakalpojumus, izveido projekta tīklu un nosauktos sējumus un startē pakalpojumus <code>depends_on</code> secībā. Pakalpojumi sasniedz cits citu pēc pakalpojuma nosaukuma caur tīkla DNS aizstājvārdiem."
+            },
+            {
+              "p": "Vēl nav Compose faila? Docker resursdatorā atlasiet lietotnes konteinerus, izvēlieties <strong>Eksportēt kā Compose…</strong> un saglabājiet failu. Failā nosauktie sējumi un tīkli ir atzīmēti kā <code>external: true</code>, tāpēc vispirms izveidojiet tos apple/container resursdatorā (skatiet <a href=\"#volumes\">Nosaukto sējumu pārcelšana</a>), tad atveriet failu tur. Vērtības, kas izskatās pēc noslēpumiem, kļūst par <code>${NAME}</code> mainīgajiem, tāpēc failā nav jūsu paroļu."
             }
           ]
         },
@@ -1742,6 +1794,34 @@
           "blocks": [
             {
               "p": "Darbojas arī otrādi. Ar peles labo pogu noklikšķiniet uz konteinera vai izmantojiet izvēlni „Vairāk” un izvēlieties <strong>Kopēt kā komandu</strong>: Gantry uzraksta <code>docker run</code> vai <code>container run</code> rindu. Tā neiekļauj attēla noklusējumus, piemēram, tā vidi un komandu, tāpēc rinda paliek īsa. Tas darbojas arī apturētiem konteineriem."
+            }
+          ]
+        },
+        {
+          "id": "compose",
+          "h": "Konteinera eksports kā Compose",
+          "blocks": [
+            {
+              "p": "Lai saglabātu konteineru kā failu, noklikšķiniet uz tā ar peles labo pogu vai izmantojiet izvēlni „Vairāk” un izvēlieties <strong>Eksportēt kā Compose…</strong>. Atlasiet vairākus konteinerus, lai tos ievietotu vienā failā. Gantry ieraksta <code>docker-compose.yml</code> ar vienu pakalpojumu katram konteineram: porti, montējumi, tīkli, restartēšanas politika, veselības pārbaude, ierobežojumi, capabilities un žurnālošana. Nosauktie sējumi un tīkli tiek atzīmēti kā <code>external: true</code>."
+            },
+            {
+              "ul": [
+                "Vērtības, kas izskatās pēc noslēpumiem, kļūst par <code>${NAME}</code> mainīgajiem. Sadaļā <strong>Slepenās vērtības</strong> iekļaujiet tās, kuras vēlaties failā. Fails ar slepenu vērtību tiek saglabāts ar režīmu 0600.",
+                "apple/container resursdatoros sadaļā <strong>Brīdinājumi</strong> ir uzskaitīti karodziņi, ko Compose nevar izteikt, piemēram, <code>--kernel</code>, <code>--rosetta</code> vai <code>--ssh</code>.",
+                "Noklikšķiniet uz <strong>Kopēt</strong> vai <strong>Saglabāt…</strong>."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "secrets",
+          "h": "Noslēpumi ārpus komandas",
+          "blocks": [
+            {
+              "p": "<code>-e PASSWORD=…</code> komandā var viegli noplūst. Jauna konteinera veidlapā atveriet vides rindas atslēgas izvēlni un izvēlieties <strong>Saglabāt vērtību atslēgu piekariņā…</strong> vai izvēlieties noslēpumu, ko pievienojāt sadaļā <strong>Iestatījumi → Noslēpumi</strong>. Tad rindā redzams <code>keychain:NAME</code> ar slēdzeni, nevis vērtība."
+            },
+            {
+              "p": "Gantry nolasa vērtību no atslēgu piekariņa tikai tad, kad izveido konteineru. <strong>Kopēt kā komandu</strong>, receptes un Compose eksports ieraksta <code>keychain:NAME</code>. Cilnē „Pārbaudīt” redzams <code>KEY=[REDACTED]</code>. Dzinējs joprojām glabā vērtību, tāpēc <code>docker inspect</code> vai <code>container inspect</code> ārpus Gantry var to parādīt."
             }
           ]
         },

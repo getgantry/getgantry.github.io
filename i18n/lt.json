@@ -43,6 +43,14 @@
         "Kubernetes naršyklė: podai, Deployment, paslaugos, slaptieji duomenys, įvykiai, žurnalai, apvalkalas, prievadų persiuntimas, masto keitimas, YAML taikymas",
         "Nesėkmių paaiškinimas su Apple Intelligence (įrenginyje arba per Private Cloud Compute, be slaptųjų reikšmių)",
         "Komandų paletė (Command-K) ir veiksmai su keliais konteineriais, atvaizdais, tomais ar tinklais vienu metu",
+        "Išteklių naudojimas: viena rūšiuojama visų serverių veikiančių konteinerių lentelė",
+        "Kūrimų istorija su žingsniais, podėlio pataikymais ir žurnalais, įskaitant docker buildx history",
+        "Atvaizdų pažeidžiamumų paieška su Trivy arba Grype ir SBOM eksportas (CycloneDX, SPDX)",
+        "Raktinės slaptosios reikšmės kaip konteinerio aplinkos kintamieji, niekada nerodomos atviru tekstu",
+        "Veikiančių konteinerių eksportas į Compose failą, slaptosios reikšmės – kaip kintamieji",
+        "Žurnalų eksportas su dabartiniu filtru ir laikotarpiu",
+        "Atsisiuntimo, kūrimo ir Compose eiga meniu juostoje, su mygtuku „Atšaukti“",
+        "Ekrano nuotraukos funkcijoje „Paaiškinti nesėkmę“, apdorojamos tik įrenginyje",
         "Konteinerio kūrimas iš įklijuotos docker run, podman run ar container run komandos; konteinerio kopijavimas kaip komandos; receptai",
         "Veiksmai pranešimuose, Spotlight, Siri ir Shortcuts, infrastruktūros valdiklis, Control Center valdikliai ir gantry:// nuorodos",
         "Konteinerių mašinos: kūrimas, paleidimas, sustabdymas, ištekliai, apvalkalas, įdėtinė virtualizacija, pasirinktiniai branduoliai",
@@ -393,9 +401,9 @@
       "overview_title": "Serveris — Apžvalga",
       "overview_alt": "Serverio apžvalga su CPU ir atminties matuokliais ir Docker disko naudojimu",
       "overview_caption": "<b>Serverio apžvalga.</b> Matuokliai, disko naudojimas, informacija apie tarnybą.",
-      "fleet_title": "Parkas — Būsena",
-      "fleet_alt": "Penkių serverių parko skydelis su iškeltomis būsenos problemomis",
-      "fleet_caption": "<b>Parko skydelis.</b> Visi serveriai ir visos problemos viename ekrane."
+      "fleet_title": "Skydelis",
+      "fleet_alt": "Parko skydelis su apple/container serveriu ir Docker serveriu, jų CPU, atmintimi ir aktyviausiais konteineriais",
+      "fleet_caption": "<b>Parko skydelis.</b> Visi serveriai, jų apkrova ir aktyviausi konteineriai viename ekrane."
     },
     "built": {
       "kicker": "Kitoks požiūris",
@@ -421,6 +429,47 @@
       "s3_text": "Vietinis Docker atsiranda savaime. Apple container atveju pridėkite <em>Apple Container</em> serverį; Gantry pasiūlys įdiegti <code>container</code> CLI. Agentams: <code>claude mcp add gantry</code>."
     },
     "footer_meta": "MIT licencija · Sukurta su SwiftUI · © 2026",
+    "latest": {
+      "kicker": "Nauja 0.28 ir 0.29 versijose",
+      "h2": "Visas parkas vienoje lentelėje ir saugesni atvaizdai",
+      "p": "Gantry 0.28.0 ir 0.29.0 prideda bendrą visų serverių veiklos lentelę, kūrimų istoriją, atvaizdų nuskaitymą su Trivy arba Grype, raktinės slaptąsias reikšmes konteinerio aplinkai ir eksportą į Compose. Galite eksportuoti žurnalus su savo filtru, pateikti funkcijai „Paaiškinti nesėkmę“ ekrano nuotrauką ir stebėti atsisiuntimus, kūrimus ir Compose paleidimus meniu juostoje.",
+      "fleet": {
+        "h3": "Visų serverių išteklių naudojimas",
+        "p": "Viena rūšiuojama visų prijungtų serverių veikiančių konteinerių lentelė: serveris, pavadinimas, atvaizdas, CPU, atmintis, tinklo I/O, disko I/O ir veikimo laikas. Filtruokite pagal pavadinimą, atvaizdą ar serverį arba rodykite vieną serverį. Dukart spustelėkite eilutę, kad atidarytumėte konteinerį. Lentelė naudoja duomenis, kuriuos Gantry jau renka kas 5 sekundes, todėl neatidaro naujų statistikos srautų. Atidarykite ją iš šoninės juostos, su <span class=\"kbd\">⌘K</span> arba per <code>gantry://open/usage</code>."
+      },
+      "progress": {
+        "h3": "Eiga meniu juostoje",
+        "p": "Meniu juostos skydelyje rodomas kiekvienas vykdomas atsisiuntimas, kūrimas ir Compose operacija su eigos juosta, baigtais sluoksniais ar paslaugomis, baitais, laiku ir mygtuku <b>Atšaukti</b>. Meniu juostos piktograma rodo, kiek operacijų vykdoma. Kiekvienas Compose projektas turi <b>Atsisiųsti atvaizdus</b> ir <b>Compose Down</b>; Compose Down palieka tomus ir atvaizdus."
+      },
+      "scan": {
+        "h3": "Atvaizdų nuskaitymas su Trivy arba Grype",
+        "p": "Atvaizdui pasirinkite <b>Ieškoti pažeidžiamumų…</b>. Gantry paleidžia jūsų įdiegtą Trivy (0.50.0 arba naujesnę versiją) ar Grype (0.74.0 arba naujesnę versiją), pavyzdžiui, per Homebrew, ir sugrupuoja radinius pagal lygį nuo kritinio iki nežinomo. <b>Eksportuoti SBOM</b> įrašo CycloneDX, o su Trivy – ir SPDX. Tai veikia su apple/container, vietiniu Docker ir Docker per SSH; per SSH Gantry nuskaito registre esančią pažymėto atvaizdo kopiją."
+      },
+      "builds": {
+        "h3": "Kūrimų istorija",
+        "p": "Kiekvienas serveris turi skiltį <b>Kūrimai</b>: kūrimai su žingsniais, podėlio pataikymais ir žurnalu. Gantry saugo savo paleistus kūrimus su kūrimo argumentų pavadinimais, bet be jų reikšmių. Docker serveriuose jis taip pat skaito <code>docker buildx history</code> (buildx 0.23.0 arba naujesnė versija). apple/container kūrimų istorijos nesaugo, todėl ten matote kūrimus, kuriuos paleido Gantry."
+      },
+      "secrets": {
+        "h3": "Raktinės slaptosios reikšmės aplinkoje",
+        "p": "Laikykite slaptažodžius ir prieigos raktus macOS raktinėje (<b>Nustatymai → Slaptosios reikšmės</b>) ir naudokite juos kaip aplinkos kintamuosius languose „Naujas konteineris“ ir „Greitas paleidimas“. Formoje rodoma <code>keychain:NAME</code>, o ne reikšmė, ir Gantry reikšmę nuskaito tik kurdamas konteinerį. Compose eksportas, receptai ir „Kopijuoti kaip komandą“ įrašo pavadinimą, o ne reikšmę."
+      },
+      "compose": {
+        "h3": "Eksportas į Compose",
+        "p": "Vienam ar keliems konteineriams pasirinkite <b>Eksportuoti kaip Compose…</b> ir gaukite <code>docker-compose.yml</code> su prievadais, prijungimais, tinklais, paleidimo iš naujo politika, būsenos patikra, apribojimais ir kt. Reikšmės, panašios į slaptąsias, tampa <code>${NAME}</code>, nebent jas įtrauksite. apple/container serveriuose Gantry įspėja apie vėliavėles, kurių Compose negali išreikšti. <a href=\"docker-run-to-container/#compose\">Kaip tai veikia</a>"
+      },
+      "logs": {
+        "h3": "Žurnalų eksportas",
+        "p": "<b>Eksportuoti žurnalus…</b> (<span class=\"kbd\">⇧⌘E</span>) įrašo matomas eilutes su lygio filtru, paieška ir laikotarpiu į <code>.log</code> arba <code>.txt</code> failą. <b>Kopijuoti matomas eilutes</b> jas nukopijuoja. Docker serveriuose galite pridėti laiko žymes ir rodyti tik paskutinius įrašus: nuo 5 minučių iki paros."
+      },
+      "explain": {
+        "h3": "Ekrano nuotraukos funkcijoje „Paaiškinti nesėkmę“",
+        "p": "Į „Paaiškinti nesėkmę“ nutempkite, įklijuokite arba pridėkite iki 3 vaizdų, pavyzdžiui, klaidos puslapio ekrano nuotrauką. Vaizdai lieka šiame Mac: juos skaito tik modelis įrenginyje (macOS 27), niekada ne Private Cloud Compute."
+      },
+      "shot_fleet_alt": "Išteklių naudojimo lentelė su apple/container serverio ir Docker serverio veikiančiais konteineriais, surūšiuota pagal CPU",
+      "shot_fleet_caption": "<b>Išteklių naudojimas.</b> Visi visų serverių veikiantys konteineriai, surūšiuoti pagal CPU.",
+      "shot_menubar_alt": "Meniu juostos skydelis su dviem vykdomais atvaizdų atsisiuntimais, jų sluoksniais, baitais ir mygtukais „Atšaukti“",
+      "shot_menubar_caption": "<b>Veikla meniu juostoje.</b> Kiekvieno atsisiuntimo sluoksniai, baitai, laikas ir atšaukimas."
+    },
     "new": {
       "kicker": "Nauja 0.27.0 versijoje",
       "h2": "Kubernetes, Apple Intelligence ir kitos macOS dalys",
@@ -489,12 +538,12 @@
       ],
       [
         "<code>container logs</code>",
-        "Skirtukas „Žurnalai“: sekimas realiuoju laiku, regex paieška, lygio filtras, ANSI spalvos",
+        "Skirtukas „Žurnalai“: sekimas realiuoju laiku, regex paieška, lygio filtras, ANSI spalvos; <strong>Eksportuoti žurnalus…</strong> įrašo matomas eilutes",
         "Bet kuri"
       ],
       [
         "<code>container stats</code>",
-        "Skirtukas „Statistika“ ir parko skydelio mini diagramos",
+        "Skirtukas „Statistika“, parko skydelio mini diagramos ir išteklių naudojimo lentelė",
         "Bet kuri"
       ],
       [
@@ -504,7 +553,7 @@
       ],
       [
         "<code>container inspect</code>",
-        "Skirtukai „Apžvalga“ ir „Tikrinti“",
+        "Skirtukai „Apžvalga“ ir „Tikrinti“; <strong>Eksportuoti kaip Compose…</strong> paverčia konfigūraciją Compose failu",
         "Bet kuri"
       ],
       [
@@ -534,12 +583,12 @@
       ],
       [
         "<code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code>",
-        "Atvaizdai: atsisiuntimas su eiga, žymėjimas, šalinimas, išvalymas, tikrinimas",
+        "Atvaizdai: atsisiuntimas su eiga, žymėjimas, šalinimas, išvalymas, tikrinimas; <strong>Ieškoti pažeidžiamumų…</strong> su Trivy arba Grype",
         "Bet kuri"
       ],
       [
         "<code>container build</code>",
-        "Sukuria Compose failo <code>build:</code> paslaugų atvaizdus",
+        "Sukuria Compose failo <code>build:</code> paslaugų atvaizdus; skiltyje <strong>Kūrimai</strong> išvardyti kūrimai, kuriuos paleido Gantry",
         "Bet kuri"
       ],
       [
@@ -1156,7 +1205,7 @@
       ],
       [
         "Naujausia versija (tikrinta 2026-11-07)",
-        "0.27.0",
+        "0.29.0 (2026-11-15)",
         "4.98.0 (2026-11-03)",
         "2.2.5 (2026-10-23)",
         "1.30.5 (2026-10-13)",
@@ -1334,6 +1383,9 @@
           "blocks": [
             {
               "p": "<code>container</code> CLI neturi komandos <code>compose</code>. Vietoj to atidarykite <code>docker-compose.yml</code> Gantry programoje (per Finder, <strong>Failas ▸ Atidaryti Compose failą…</strong> arba nuvilkę failą). Gantry sukuria <code>build:</code> paslaugų atvaizdus, projekto tinklą ir vardinius tomus ir paleidžia paslaugas <code>depends_on</code> tvarka. Paslaugos pasiekia viena kitą pagal paslaugos vardą per tinklo DNS slapyvardžius."
+            },
+            {
+              "p": "Dar neturite Compose failo? Docker serveryje pažymėkite programos konteinerius, pasirinkite <strong>Eksportuoti kaip Compose…</strong> ir įrašykite failą. Faile vardiniai tomai ir tinklai pažymėti kaip <code>external: true</code>, todėl pirmiausia sukurkite juos apple/container serveryje (žr. <a href=\"#volumes\">Vardinių tomų perkėlimas</a>), tada atidarykite failą ten. Reikšmės, panašios į slaptąsias, tampa <code>${NAME}</code> kintamaisiais, todėl faile nebus jūsų slaptažodžių."
             }
           ]
         },
@@ -1742,6 +1794,34 @@
           "blocks": [
             {
               "p": "Veikia ir atvirkščiai. Dešiniuoju pelės klavišu spustelėkite konteinerį arba atidarykite meniu „Daugiau“ ir pasirinkite <strong>Kopijuoti kaip komandą</strong>: Gantry parašo <code>docker run</code> arba <code>container run</code> eilutę. Atvaizdo numatytųjų reikšmių, pavyzdžiui, jo aplinkos ir komandos, ji neįtraukia, todėl eilutė lieka trumpa. Tai veikia ir su sustabdytais konteineriais."
+            }
+          ]
+        },
+        {
+          "id": "compose",
+          "h": "Konteinerio eksportas į Compose",
+          "blocks": [
+            {
+              "p": "Kad išsaugotumėte konteinerį kaip failą, spustelėkite jį dešiniuoju pelės klavišu arba atidarykite meniu „Daugiau“ ir pasirinkite <strong>Eksportuoti kaip Compose…</strong>. Pažymėkite kelis konteinerius, kad jie būtų viename faile. Gantry įrašo <code>docker-compose.yml</code> su viena paslauga kiekvienam konteineriui: prievadai, prijungimai, tinklai, paleidimo iš naujo politika, būsenos patikra, apribojimai, capabilities ir žurnalų rašymas. Vardiniai tomai ir tinklai pažymimi kaip <code>external: true</code>."
+            },
+            {
+              "ul": [
+                "Reikšmės, panašios į slaptąsias, tampa <code>${NAME}</code> kintamaisiais. Skiltyje <strong>Slaptos reikšmės</strong> įtraukite tas, kurių reikia faile. Failas su slapta reikšme įrašomas su teisėmis 0600.",
+                "apple/container serveriuose skiltyje <strong>Įspėjimai</strong> išvardytos vėliavėlės, kurių Compose negali išreikšti, pvz., <code>--kernel</code>, <code>--rosetta</code> arba <code>--ssh</code>.",
+                "Spustelėkite <strong>Kopijuoti</strong> arba <strong>Įrašyti…</strong>."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "secrets",
+          "h": "Slaptosios reikšmės ne komandoje",
+          "blocks": [
+            {
+              "p": "<code>-e PASSWORD=…</code> komandoje lengvai nuteka. Naujo konteinerio formoje atidarykite aplinkos eilutės rakto meniu ir pasirinkite <strong>Įrašyti reikšmę į raktinę…</strong> arba pasirinkite slaptąją reikšmę, kurią pridėjote skiltyje <strong>Nustatymai → Slaptosios reikšmės</strong>. Tada eilutėje rodoma <code>keychain:NAME</code> su spynele, o ne reikšmė."
+            },
+            {
+              "p": "Gantry nuskaito reikšmę iš raktinės tik kurdamas konteinerį. <strong>Kopijuoti kaip komandą</strong>, receptai ir Compose eksportas įrašo <code>keychain:NAME</code>. Skirtuke „Tikrinti“ rodoma <code>KEY=[REDACTED]</code>. Variklis vis tiek saugo reikšmę, todėl <code>docker inspect</code> arba <code>container inspect</code> už Gantry ribų gali ją parodyti."
             }
           ]
         },

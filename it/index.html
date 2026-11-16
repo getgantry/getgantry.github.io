@@ -290,94 +290,6 @@
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Qual è la migliore GUI per Apple container?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Gantry è una GUI nativa per macOS, gratuita e open source, pensata per lo strumento container di Apple (apple/container). Copre il ciclo di vita dei container, i log, le statistiche e un terminale exec, oltre alle parti della CLI che le altre GUI non raggiungono: cluster Kubernetes (container cluster), macchine container, builder di immagini, accessi ai registri, kernel, log dei servizi e proprietà di sistema. Supporta le CLI dalla 1.0 alla 1.7.1 e attiva ogni funzione solo se la tua CLI la supporta. Leggi la guida ad apple/container."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Cos'è Apple container (apple/container)?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "apple/container è lo strumento open source di Apple per eseguire container Linux su un Mac. Ogni container gira nella propria macchina virtuale leggera, basata sul framework Virtualization di Apple. Richiede un Mac con chip Apple ed è distribuito come strumento a riga di comando chiamato container, senza app desktop. Gantry è quell'app desktop."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Gantry supporta container cluster e Kubernetes?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sì. Su un host apple/container, Gantry crea ed elimina cluster Kubernetes con container cluster (CLI 1.6.1 e 1.7; le CLI dalla 1.5.0 alla 1.6.0 usano container k8s). Scegli il nome, i worker, le CPU e la memoria del control plane e dei worker (1.7), l'immagine dei nodi, il CNI e se i nodi usano le tue immagini locali (1.7). Gantry mostra i nodi, scrive il kubeconfig e apre il cluster nel suo browser Kubernetes. Vedi Kubernetes su apple/container."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Si può usare docker compose con Apple container?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sì. apple/container non ha un comando compose, quindi è Gantry a orchestrare tramite la CLI container: crea le immagini dei servizi build:, crea la rete del progetto e i volumi con nome, e avvia ogni servizio nell'ordine di depends_on con le etichette Compose standard. I nomi dei servizi vengono risolti tramite alias DNS di rete. Apri un docker-compose.yml dal Finder, dal menu File o trascinandolo sulla finestra."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Come si apre una macchina container in VS Code?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Avvia la macchina in Gantry e fai clic su Apri in VS Code. Gantry apre la macchina in VS Code tramite Remote-SSH, come nell'esempio container-machine-vscode di Apple. L'immagine della macchina deve eseguire sshd, e devi avere installato VS Code con l'estensione Remote-SSH."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Quali versioni di apple/container supporta Gantry?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Gantry richiede la CLI container 1.0 o successiva e consiglia la 1.7.1. Legge la versione installata e mostra solo le funzioni che quella versione supporta, per esempio le dimensioni dei worker e l'archivio immagini condiviso (1.7), il commit (1.6) e Compatta disco (1.4). Se la CLI manca o è vecchia, Gantry offre una configurazione guidata."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Gantry può esplorare un cluster Kubernetes?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sì. La sezione Kubernetes elenca pod, deployment, stateful set, daemon set, servizi, ingress, config map, secret, nodi ed eventi per ogni contesto kubeconfig, e offre log dei pod, una shell nel pod, inoltri di porta, scalabilità, riavvio del rollout, eliminazione e Applica YAML. Gantry comunica direttamente con l'API di Kubernetes, quindi kubectl non serve. Vedi Kubernetes su Mac."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Cosa invia “Spiega errore” ad Apple Intelligence?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "I log recenti e i dettagli del container, senza i valori delle variabili d'ambiente e senza il testo che somiglia a un segreto. Le richieste brevi vengono elaborate dal modello sul dispositivo. Se attivi l'impostazione per i log lunghi (macOS 27), i log lunghi vanno a Private Cloud Compute. Il pannello mostra cosa è stato inviato. Un comando suggerito si apre in Terminale, ma non viene eseguito finché non premi A capo. Senza Apple Intelligence, Gantry offre un prompt da copiare in un altro assistente IA."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Posso incollare un comando docker run in Gantry?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sì. Nel pannello Nuovo container, scegli Incolla comando…. Gantry legge docker run, docker create, podman run e container run, compila il modulo ed elenca ogni flag che non può usare, con il motivo. Vedi Creare un container da un comando docker run."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Gantry può gestire builder, registri e kernel di apple/container?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sì. La sezione Sistema di un host apple/container avvia, arresta ed elimina il builder di immagini con opzioni per CPU, memoria e DNS; elenca, aggiunge e rimuove gli accessi ai registri (la password arriva alla CLI solo tramite stdin); installa il kernel consigliato, un file del kernel o un archivio tar; trasmette i log dei servizi in tempo reale; e modifica le proprietà di sistema in config.toml."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Gantry è un'alternativa a Docker Desktop, OrbStack o Podman Desktop?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Per la GUI, sì. Gantry è un'app nativa e gratuita per macOS per gestire container, immagini, volumi, reti, log e statistiche. È un client, non un motore: usa il daemon Docker che hai già (Docker Desktop, OrbStack, Colima) o lo strumento container di Apple, e aggiunge una vista multi-host, host SSH e un server MCP. Vedi il confronto."
-            }
-          },
-          {
-            "@type": "Question",
             "name": "Gantry è gratis?",
             "acceptedAnswer": {
               "@type": "Answer",
@@ -394,50 +306,34 @@
           },
           {
             "@type": "Question",
-            "name": "Gantry funziona con OrbStack, Colima e Docker Desktop?",
+            "name": "Qual è la migliore GUI per Apple container?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Sì. Gantry comunica direttamente con l'API di Docker Engine tramite il socket Unix, quindi funziona con qualsiasi daemon che la espone, compresi OrbStack, Colima e Docker Desktop."
+              "text": "Gantry è una GUI nativa per macOS, gratuita e open source, pensata per lo strumento container di Apple (apple/container). Copre il ciclo di vita dei container, i log, le statistiche e un terminale exec, oltre alle parti della CLI che le altre GUI non raggiungono: cluster Kubernetes (container cluster), macchine container, builder di immagini, accessi ai registri, kernel, log dei servizi e proprietà di sistema. Supporta le CLI dalla 1.0 alla 1.7.1 e attiva ogni funzione solo se la tua CLI la supporta. Leggi la guida ad apple/container."
             }
           },
           {
             "@type": "Question",
-            "name": "Gantry può gestire host Docker remoti?",
+            "name": "Cos'è Apple container (apple/container)?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Sì. Gantry si connette ai daemon remoti via SSH, come docker -H ssh://, con bastion ProxyJump, autenticazione con più chiavi e riconnessione automatica. Sul server non serve installare nulla, e i segreti restano nel portachiavi di macOS."
+              "text": "apple/container è lo strumento open source di Apple per eseguire container Linux su un Mac. Ogni container gira nella propria macchina virtuale leggera, basata sul framework Virtualization di Apple. Richiede un Mac con chip Apple ed è distribuito come strumento a riga di comando chiamato container, senza app desktop. Gantry è quell'app desktop."
             }
           },
           {
             "@type": "Question",
-            "name": "Gantry mi avvisa quando un container si guasta?",
+            "name": "Si può usare docker compose con Apple container?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Sì. Gantry invia una notifica nativa di macOS quando un container va in crash, esaurisce la memoria o non supera il controllo di integrità, su qualsiasi host: locale, SSH o apple/container. Fai clic sulla notifica per andare al container. Arresti e riavvii che avvii da Gantry non generano notifiche, e puoi disattivare la funzione nelle Impostazioni."
+              "text": "Sì. apple/container non ha un comando compose, quindi è Gantry a orchestrare tramite la CLI container: crea le immagini dei servizi build:, crea la rete del progetto e i volumi con nome, e avvia ogni servizio nell'ordine di depends_on con le etichette Compose standard. I nomi dei servizi vengono risolti tramite alias DNS di rete. Apri un docker-compose.yml dal Finder, dal menu File o trascinandolo sulla finestra."
             }
           },
           {
             "@type": "Question",
-            "name": "Gantry può scaricare immagini da registri privati?",
+            "name": "Gantry è un'alternativa a Docker Desktop, OrbStack o Podman Desktop?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Sì. Sugli host Docker, Gantry legge le credenziali dal tuo ~/.docker/config.json (lo stesso docker login che hai già fatto), comprese autenticazione inline, credential helper e portachiavi di macOS. Sugli host apple/container gestisce gli accessi container registry."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Gantry può esporre un container locale su Internet?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sì. Con un clic su una porta pubblicata la condividi tramite Cloudflare Tunnel. Se serve, Gantry installa cloudflared, poi avvia un tunnel rapido (senza account Cloudflare, con un URL temporaneo trycloudflare.com) o un tunnel con nome sul tuo hostname. L'URL pubblico appare sotto la porta, con i comandi per aprirlo, copiarlo e fermarlo."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Gantry è un'app Electron?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. Gantry è un'app nativa scritta con SwiftUI e Swift 6. L'interfaccia è disponibile in 28 lingue: inglese, cinese semplificato e 26 lingue europee, ad esempio il serbo in alfabeto cirillico e latino. Segue la lingua di sistema di macOS."
+              "text": "Per la GUI, sì. Gantry è un'app nativa e gratuita per macOS per gestire container, immagini, volumi, reti, log e statistiche. È un client, non un motore: usa il daemon Docker che hai già (Docker Desktop, OrbStack, Colima) o lo strumento container di Apple, e aggiunge una vista multi-host, host SSH e un server MCP. Vedi il confronto."
             }
           },
           {
@@ -471,10 +367,10 @@
       </a>
       <nav class="nav-links">
         <a href="#commands">Dal comando al controllo</a>
-        <a href="#features">Funzioni</a>
+        <a href="features/">Funzioni</a>
         <a href="apple-container/">apple/container</a>
         <a href="compare/">Confronto</a>
-        <a href="#agents">Agenti</a>
+        <a href="features/#agents">Agenti</a>
         <a href="#faq">FAQ</a>
         <a href="../docs/index.html">Docs</a>
       </nav>
@@ -511,7 +407,7 @@
             <li><a href="../ru/" hreflang="ru" lang="ru">Русский</a></li>
           </ul>
         </details>
-        <a class="gh-link" href="https://github.com/getgantry/gantry" rel="noopener">GitHub</a>
+        <a class="gh-link" href="https://github.com/getgantry/gantry" rel="noopener">GitHub <span class="stars" id="ghStars" hidden></span></a>
         <a class="btn btn-primary" href="https://github.com/getgantry/gantry/releases/latest" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
           Scarica
@@ -550,15 +446,11 @@
               <thead><tr><th scope="col">Comando</th><th scope="col">In Gantry</th></tr></thead>
               <tbody>
                 <tr><th scope="row"><code>container run</code>, <code>container create</code></th><td>Pannello Nuovo container ed Esecuzione rapida: immagine, nome, comando, porte, ambiente, volumi, dominio DNS, kernel personalizzato e argomenti di avvio; <strong>Incolla comando…</strong> legge una riga <code>docker run</code> o <code>container run</code></td></tr>
-                <tr><th scope="row"><code>container start</code>, <code>stop</code>, <code>kill</code>, <code>delete</code>, <code>prune</code></th><td>Barra degli strumenti, menu contestuale e pannello nella barra dei menu</td></tr>
                 <tr><th scope="row"><code>container logs</code></th><td>Scheda Log: scorrimento automatico in tempo reale, ricerca regex, filtro per livello, colori ANSI; <strong>Esporta log…</strong> salva le righe visibili</td></tr>
                 <tr><th scope="row"><code>container stats</code></th><td>Scheda Statistiche, sparkline della dashboard della flotta e tabella Uso delle risorse</td></tr>
                 <tr><th scope="row"><code>container exec</code></th><td>Scheda Terminale (shell interattiva) e scheda Processi</td></tr>
-                <tr><th scope="row"><code>container inspect</code></th><td>Schede Panoramica e Ispeziona; <strong>Esporta come Compose…</strong> trasforma la configurazione in un file Compose</td></tr>
-                <tr><th scope="row"><code>container copy</code></th><td>Scheda File: download e trascinamento nel Finder (il container deve essere avviato)</td></tr>
                 <tr><th scope="row"><code>container image pull</code>, <code>tag</code>, <code>delete</code>, <code>prune</code>, <code>inspect</code></th><td>Immagini: download con avanzamento, tag, rimozione, pulizia, ispezione; <strong>Cerca vulnerabilità…</strong> con Trivy o Grype</td></tr>
                 <tr><th scope="row"><code>container build</code></th><td>Crea le immagini dei servizi <code>build:</code> di un file Compose; la sezione <strong>Build</strong> elenca le build avviate da Gantry</td></tr>
-                <tr><th scope="row"><code>container machine create</code>, <code>run</code>, <code>stop</code>, <code>delete</code>, <code>set-default</code>, <code>set</code>, <code>inspect</code></th><td>Macchine: crea, avvia, arresta, elimina, macchina predefinita, CPU e memoria, shell, ispezione, Apri in VS Code</td></tr>
                 <tr><th scope="row"><code>container cluster create</code>, <code>list</code>, <code>delete</code>, <code>write-config</code>, <code>load-image</code></th><td>Cluster: cluster Kubernetes, dimensioni dei worker e archivio immagini condiviso (1.7), nodi, kubeconfig, Sfoglia risorse, Carica nel cluster (1.5 e 1.6)</td></tr>
                 <tr><th scope="row">Nessun comando <code>compose</code></th><td>Esecuzione Compose: avvia un <code>docker-compose.yml</code> dal Finder, dal menu File o con il drag and drop</td></tr>
               </tbody>
@@ -568,201 +460,49 @@
         </div>
       </div>
     </section>
-
     <section class="sec" id="features">
       <div class="wrap">
-        <div class="sec-head"><div><h2>Container</h2></div><p>Crea, esegui, apri e modifica i container su ogni host.</p></div>
+        <div class="sec-head"><div><h2>Funzioni</h2></div><p>Ogni area dell'app, con i comandi che sostituisce.</p></div>
         <div class="sec-body">
-          <ul class="rail"><li>container run</li><li>docker exec -it</li><li>docker cp</li><li>docker port</li></ul>
+          <div></div>
           <div class="sec-main">
-            <dl class="items">
-              <div><dt>Incolla un <code>docker run</code></dt><dd>Incolla un comando <code>docker run</code>, <code>podman run</code> o <code>container run</code> e Gantry compila il modulo Nuovo container, con l'elenco dei flag che non può usare. Copia qualsiasi container come comando, o salvalo come ricetta. <a href="docker-run-to-container/">Come funziona</a></dd></div>
-              <div><dt>Terminale exec integrato</dt><dd>Emulazione di terminale completa in qualsiasi container in esecuzione, locale o remoto, con temi a colori (Sistema, Solarized, Dracula, Nord).</dd></div>
-              <div><dt>File browser con drag &amp; drop</dt><dd>Sfoglia il file system di un container, sposta file dentro e fuori e trascina intere cartelle direttamente dal Finder, sugli host Docker come su apple/container.</dd></div>
-              <div><dt>Apri nel browser &amp; inoltra</dt><dd>Un clic apre una porta pubblicata. Le porte SSH vengono inoltrate in automatico su <code>localhost</code>; se la porta è occupata, Gantry ne sceglie una libera che puoi modificare.</dd></div>
-              <div><dt>Condividi su Internet</dt><dd>Un clic espone una porta pubblicata tramite un <b>Cloudflare Tunnel</b>. Gantry installa <code>cloudflared</code> per te, poi ti dà un <b>tunnel rapido</b> (senza account, un URL <code>*.trycloudflare.com</code>) o un <b>tunnel con nome</b> sul tuo dominio: perfetto per un'anteprima di sviluppo, un webhook o per far raggiungere a un agente AI un container sul tuo Mac.</dd></div>
-              <div><dt>Segreti del portachiavi nell'ambiente</dt><dd>Conserva password e token nel portachiavi di macOS (<b>Impostazioni → Segreti</b>) e usali come variabili d'ambiente in “Nuovo container” ed “Esecuzione rapida”. Il modulo mostra <code>keychain:NAME</code>, mai il valore, e Gantry legge il valore solo quando crea il container. L'esportazione in Compose, le ricette e “Copia come comando” scrivono il nome, non il valore.</dd></div>
-              <div><dt>Agisci su più elementi insieme</dt><dd>Seleziona più container, immagini, volumi o reti e avviali, arrestali, riavviali o rimuovili in un solo passaggio, con l'avanzamento e un resoconto per ogni elemento.</dd></div>
-              <div><dt>Statistiche in tempo reale</dt><dd>CPU, memoria, rete &amp; I/O del disco in grafici in tempo reale, con campionamento ogni secondo.</dd></div>
-              <div><dt>Container su un disco esterno</dt><dd>Sposta tutti i dati di apple/container su un disco esterno, tieni i volumi su un disco a tua scelta e ricevi un avviso chiaro quando quel disco non è collegato. <a href="containers-on-external-drive/">Leggi la guida</a></dd></div>
-            </dl>
-            <figure class="guide-shot"><picture><source type="image/webp" srcset="../assets/stats-800.webp 800w, ../assets/stats-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../assets/stats.png" alt="Statistiche del container in tempo reale: grafici di CPU, memoria, rete e I/O del disco" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Fig. 2</span><b>Statistiche in tempo reale.</b> CPU, memoria, rete &amp; I/O del disco, campionati ogni secondo.</figcaption></figure>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec" id="images">
-      <div class="wrap">
-        <div class="sec-head"><div><h2>Immagini e build</h2></div><p>Scarica, crea, scansiona e rimuovi immagini.</p></div>
-        <div class="sec-body">
-          <ul class="rail"><li>docker build</li><li>docker pull</li><li>trivy image</li><li>docker system prune</li></ul>
-          <div class="sec-main">
-            <dl class="items">
-              <div><dt>Crea &amp; scarica immagini</dt><dd>Trascina un Dockerfile sulla finestra per creare l'immagine con il log in tempo reale, oppure scaricala per riferimento con l'avanzamento di ogni layer. Aggiungi tag, ripulisci e leggi la cronologia dei layer. Un badge segnala le immagini create per un'architettura di CPU diversa da quella dell'host.</dd></div>
-              <div><dt>Cronologia delle build</dt><dd>Ogni host ha una sezione <b>Build</b>: le build con i loro passaggi, i riscontri nella cache e il log. Gantry conserva le build che avvia, con i nomi degli argomenti di build ma non i loro valori. Sugli host Docker legge anche <code>docker buildx history</code> (buildx 0.23.0 o successivo). apple/container non conserva una cronologia delle build, quindi lì vedi le build avviate da Gantry.</dd></div>
-              <div><dt>Scansiona le immagini con Trivy o Grype</dt><dd>Scegli <b>Cerca vulnerabilità…</b> su un'immagine. Gantry esegue il Trivy (0.50.0 o successivo) o il Grype (0.74.0 o successivo) che hai installato, per esempio con Homebrew, e raggruppa i risultati da Critico a Sconosciuto. <b>Esporta SBOM</b> scrive CycloneDX, oppure SPDX con Trivy. Funziona su apple/container, Docker locale e Docker via SSH; in quest'ultimo caso Gantry scansiona la copia nel registro di un'immagine con tag.</dd></div>
-              <div><dt>Registri privati</dt><dd>I pull usano il <code>docker login</code> che hai già fatto: Gantry risolve le credenziali da <code>~/.docker/config.json</code>, dagli helper e dal portachiavi, sia alla creazione sia in Esecuzione rapida e in Compose.</dd></div>
-              <div><dt>Recupera spazio</dt><dd>Un pannello mostra cosa occupa spazio (immagini orfane, container arrestati, volumi inutilizzati, cache di build) con le dimensioni, e ripulisce ogni voce o tutto insieme. Su apple/container esegue anche Compatta disco.</dd></div>
-            </dl>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec" id="compose">
-      <div class="wrap">
-        <div class="sec-head"><div><h2>Compose</h2></div><p>Esegui un <code>docker-compose.yml</code> su Docker o su apple/container, e creane uno dai container in esecuzione.</p></div>
-        <div class="sec-body">
-          <ul class="rail"><li>docker compose up -d</li><li>docker compose down</li><li>docker compose logs -f</li></ul>
-          <div class="sec-main">
-            <dl class="items">
-              <div><dt>Compose su ogni host</dt><dd>I container sono raggruppati per progetto Compose. <b>Avvia un file Compose su qualsiasi host</b> (Docker locale, SSH o apple/container) con un <b>editor YAML</b> integrato; l'esecuzione si adatta a ogni motore.</dd></div>
-              <div><dt>Esporta come Compose</dt><dd>Scegli <b>Esporta come Compose…</b> su uno o più container per ottenere un <code>docker-compose.yml</code> con porte, montaggi, reti, criterio di riavvio, controllo di integrità, limiti e altro. I valori che sembrano segreti diventano <code>${NAME}</code>, a meno che tu non li includa. Sugli host apple/container, Gantry avvisa dei flag che Compose non può esprimere. <a href="docker-run-to-container/#compose">Come funziona</a></dd></div>
-            </dl>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec" id="kubernetes">
-      <div class="wrap">
-        <div class="sec-head"><div><h2>Kubernetes</h2></div><p>Esplora ogni contesto kubeconfig, oppure crea un cluster con apple/container.</p></div>
-        <div class="sec-body">
-          <ul class="rail"><li>kubectl get pods -A</li><li>kubectl logs -f</li><li>kubectl port-forward</li><li>container cluster</li></ul>
-          <div class="sec-main">
-            <dl class="items">
-              <div><dt>Browser Kubernetes</dt><dd>Esplora pod, deployment, stateful set, daemon set, servizi, ingress, config map, secret, nodi ed eventi di qualsiasi contesto kubeconfig. Segui i log dei pod, apri una shell, inoltra una porta, scala, riavvia un rollout e applica YAML. Gantry comunica direttamente con l'API di Kubernetes, quindi un cluster creato con <code>container cluster create</code> si può esplorare subito, senza installare altro: niente <code>kubectl</code>.</dd></div>
-              <div><dt>Cluster Kubernetes</dt><dd>Crea un cluster Kubernetes con <code>container cluster</code>: dimensiona separatamente il control plane e i worker, scegli il CNI e vedi i nodi, la versione di Kubernetes e il contesto kubeconfig. I nodi del cluster sono protetti contro arresti ed eliminazioni accidentali. <a href="apple-container-kubernetes/">Scopri di più</a></dd></div>
-            </dl>
+            <ul class="areas">
+              <li><a href="features/#containers"><b>Container</b></a><span>Crea, esegui, apri e modifica i container su ogni host.</span><code>container run · docker exec -it</code></li>
+              <li><a href="features/#images"><b>Immagini e build</b></a><span>Scarica, crea, scansiona e rimuovi immagini.</span><code>docker build · trivy image</code></li>
+              <li><a href="features/#compose"><b>Compose</b></a><span>Esegui un <code>docker-compose.yml</code> su Docker o su apple/container, e creane uno dai container in esecuzione.</span><code>docker compose up -d</code></li>
+              <li><a href="features/#kubernetes"><b>Kubernetes</b></a><span>Esplora ogni contesto kubeconfig, oppure crea un cluster con apple/container.</span><code>kubectl logs -f</code></li>
+              <li><a href="features/#fleet"><b>Host e flotta</b></a><span>Questo Mac, gli host Docker via SSH e apple/container in un'unica dashboard.</span><code>docker -H ssh://user@host</code></li>
+              <li><a href="features/#logs"><b>Log ed errori</b></a><span>Leggi, cerca ed esporta i log. Trova la causa quando un container va in errore.</span><code>docker logs -f</code></li>
+              <li><a href="features/#macos"><b>macOS</b></a><span>La barra dei menu, le notifiche, Spotlight, Comandi Rapidi e la tastiera.</span><code>⌘K · ⇧⌘E</code></li>
+              <li><a href="features/#agents"><b>Agenti</b></a><span>Un server MCP integrato dà a Claude e agli altri agenti gli stessi controlli.</span><code>claude mcp add gantry</code></li>
+            </ul>
+            <div class="figs three">
+            <figure class="guide-shot"><picture><source type="image/webp" srcset="../assets/fleet-800.webp 800w, ../assets/fleet-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../assets/fleet.png" alt="Dashboard della flotta con un host apple/container e un host Docker, la loro CPU, la memoria e i container principali" width="1856" height="1190" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Fig. 2</span><b>Dashboard della flotta.</b> Ogni host, il suo carico e i suoi container principali in una sola schermata.</figcaption></figure>
             <figure class="guide-shot"><picture><source type="image/webp" srcset="../assets/shots/0.27.0/kubernetes-browser-800.webp 800w, ../assets/shots/0.27.0/kubernetes-browser-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../assets/shots/0.27.0/kubernetes-browser.png" alt="Browser Kubernetes di Gantry con pod, log e inoltri di porta" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Fig. 3</span><b>Browser Kubernetes.</b> Pod, log, shell e inoltri di porta per qualsiasi contesto.</figcaption></figure>
-            <ul class="links"><li><a href="apple-container-kubernetes/">Kubernetes su apple/container</a></li><li><a href="apple-container-kubernetes/#terminal">Kubernetes su Mac</a></li></ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec" id="fleet">
-      <div class="wrap">
-        <div class="sec-head"><div><h2>Host e flotta</h2></div><p>Questo Mac, gli host Docker via SSH e apple/container in un'unica dashboard.</p></div>
-        <div class="sec-body">
-          <ul class="rail"><li>docker -H ssh://user@host</li><li>docker context use</li><li>docker stats</li></ul>
-          <div class="sec-main">
-            <dl class="items">
-              <div><dt>Un'unica dashboard per ogni host</dt><dd>Daemon locale, flotta SSH e apple/container in un'unica schermata: sparkline di CPU e memoria in tempo reale, ripartizione dei container per stato e problemi di integrità che portano dritti al colpevole.</dd></div>
-              <div><dt>Host remoti via SSH</dt><dd>Tunnel identici a <code>docker -H ssh://</code> tramite <code>dial-stdio</code>: bastion ProxyJump, autenticazione con più chiavi, riconnessione automatica. Niente da installare sul server, segreti nel portachiavi. Importazione con un clic da <code>~/.ssh/config</code> e <code>docker context ls</code>.</dd></div>
-              <div><dt>Uso delle risorse per tutti gli host</dt><dd>Un'unica tabella ordinabile dei container in esecuzione su ogni host connesso: host, nome, immagine, CPU, memoria, I/O di rete, I/O del disco e tempo di attività. Filtra per nome, immagine o host, oppure mostra un solo host. Fai doppio clic su una riga per aprire il container. La tabella usa i campioni che Gantry raccoglie già ogni 5 secondi, quindi non apre nuovi flussi di statistiche. Aprila dalla barra laterale, con <span class="kbd">⌘K</span> o con <code>gantry://open/usage</code>.</dd></div>
-            </dl>
-            <div class="figs">
-            <figure class="guide-shot"><picture><source type="image/webp" srcset="../assets/fleet-800.webp 800w, ../assets/fleet-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../assets/fleet.png" alt="Dashboard della flotta con un host apple/container e un host Docker, la loro CPU, la memoria e i container principali" width="1856" height="1190" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Fig. 4</span><b>Dashboard della flotta.</b> Ogni host, il suo carico e i suoi container principali in una sola schermata.</figcaption></figure>
-            <figure class="guide-shot"><picture><source type="image/webp" srcset="../assets/overview-800.webp 800w, ../assets/overview-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../assets/overview.png" alt="Panoramica dell&#x27;host con indicatori di CPU e memoria e uso del disco di Docker" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Fig. 5</span><b>Panoramica dell'host.</b> Indicatori, uso del disco, dati sul daemon.</figcaption></figure>
+            <figure class="guide-shot"><picture><source type="image/webp" srcset="../assets/stats-800.webp 800w, ../assets/stats-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../assets/stats.png" alt="Statistiche del container in tempo reale: grafici di CPU, memoria, rete e I/O del disco" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Fig. 4</span><b>Statistiche in tempo reale.</b> CPU, memoria, rete &amp; I/O del disco, campionati ogni secondo.</figcaption></figure>
             </div>
-            <figure class="guide-shot"><picture><source type="image/webp" srcset="../assets/shots/0.29.0/fleet-activity-800.webp 800w, ../assets/shots/0.29.0/fleet-activity-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../assets/shots/0.29.0/fleet-activity.png" alt="Tabella Uso delle risorse con i container in esecuzione di un host apple/container e di un host Docker, ordinati per CPU" width="1856" height="580" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Fig. 6</span><b>Uso delle risorse.</b> Tutti i container in esecuzione di tutti gli host, ordinati per CPU.</figcaption></figure>
+            <ul class="links"><li><a href="features/">Tutte le funzioni</a></li></ul>
           </div>
         </div>
       </div>
     </section>
-
-    <section class="sec" id="logs">
-      <div class="wrap">
-        <div class="sec-head"><div><h2>Log ed errori</h2></div><p>Leggi, cerca ed esporta i log. Trova la causa quando un container va in errore.</p></div>
-        <div class="sec-body">
-          <ul class="rail"><li>docker logs -f</li><li>container logs</li><li>docker events</li></ul>
-          <div class="sec-main">
-            <dl class="items">
-              <div><dt>Log in tempo reale</dt><dd>Scorrimento automatico in tempo reale, ricerca ⌘F <b>regex</b> o letterale, <b>filtro per livello</b> (Error→Trace), <b>colori ANSI</b>, buffer da 50.000 righe e <b>log dello stack</b> uniti per un intero progetto Compose.</dd></div>
-              <div><dt>Esporta i log</dt><dd><b>Esporta log…</b> (<span class="kbd">⇧⌘E</span>) salva le righe che vedi, con il filtro per livello, la ricerca e l'intervallo di tempo, in un file <code>.log</code> o <code>.txt</code>. <b>Copia righe visibili</b> le copia. Sugli host Docker puoi aggiungere data e ora e mostrare solo un periodo che va dagli ultimi 5 minuti fino all'ultimo giorno.</dd></div>
-              <div><dt>Notifiche di errore</dt><dd>Una notifica nativa quando un container va in crash, esaurisce la memoria o diventa non integro su qualsiasi host. Fai clic per andare dritto al container; gli arresti che avvii tu non generano notifiche.</dd></div>
-              <div><dt>“Spiega errore” con Apple Intelligence</dt><dd>Scegli <b>Spiega errore…</b> su un container andato in crash o su un'operazione non riuscita. Gantry invia i log recenti e i dettagli, senza i valori delle variabili d'ambiente e senza il testo che somiglia a un segreto, al modello sul dispositivo, e mostra la causa probabile, le evidenze e i passi successivi. I log lunghi possono andare a Private Cloud Compute (macOS 27). Il pannello mostra esattamente cosa è stato inviato.</dd></div>
-              <div><dt>Screenshot in “Spiega errore”</dt><dd>Trascina, incolla o aggiungi fino a 3 immagini in “Spiega errore”, per esempio uno screenshot di una pagina di errore. Le immagini restano su questo Mac: le legge solo il modello sul dispositivo (macOS 27), mai Private Cloud Compute.</dd></div>
-            </dl>
-            <figure class="guide-shot"><picture><source type="image/webp" srcset="../assets/shots/0.27.0/explain-failure-800.webp 800w, ../assets/shots/0.27.0/explain-failure-1600.webp 1292w" sizes="(max-width: 800px) 100vw, 760px"><img src="../assets/shots/0.27.0/explain-failure.png" alt="Pannello “Spiega errore” con la causa probabile e i passi successivi" width="1292" height="1332" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Fig. 7</span><b>Spiega errore.</b> La causa probabile, le evidenze e i passi successivi.</figcaption></figure>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec" id="macos">
-      <div class="wrap">
-        <div class="sec-head"><div><h2>macOS</h2></div><p>La barra dei menu, le notifiche, Spotlight, Comandi Rapidi e la tastiera.</p></div>
-        <div class="sec-body">
-          <ul class="rail keys"><li>⌘K</li><li>⌥⌘P</li><li>⇧⌘E</li></ul>
-          <div class="sec-main">
-            <dl class="items">
-              <div><dt>Parte di macOS</dt><dd>Notifiche con Riavvia, Mostra log e Copia come prompt. Spotlight trova container, progetti Compose e host. Azioni per Siri e Comandi Rapidi, un widget sullo stato della flotta, controlli nel Centro di Controllo per i servizi apple/container o per un container preferito, e link <code>gantry://</code> per gli script.</dd></div>
-              <div><dt>Avanzamento nella barra dei menu</dt><dd>Il pannello della barra dei menu mostra ogni download, build e operazione Compose in corso con una barra di avanzamento, i layer o i servizi completati, i byte, il tempo e un pulsante <b>Annulla</b>. L'icona nella barra dei menu indica quante operazioni sono in corso. Ogni progetto Compose ha <b>Scarica le immagini</b> e <b>Compose Down</b>; Compose Down mantiene volumi e immagini.</dd></div>
-              <div><dt>Palette dei comandi</dt><dd>Premi <span class="kbd">⌘K</span> e digita. Un'unica ricerca copre container, progetti Compose, immagini, volumi, reti, macchine, cluster e host, con azioni come Avvia, Mostra log e Apri shell.</dd></div>
-              <div><dt>Touch ID per le azioni distruttive</dt><dd>Se lo attivi, Gantry chiede Touch ID (o la password di login) prima di rimuovere un container o eliminare un host. I segreti sono già nel portachiavi.</dd></div>
-              <div><dt>Temi del terminale</dt><dd>Vesti la shell integrata con Sistema, Solarized Dark, Dracula o Nord: una palette completa per primo piano, sfondo e 16 colori ANSI, applicata in tempo reale.</dd></div>
-            </dl>
-            <figure class="guide-shot"><picture><source type="image/webp" srcset="../assets/shots/0.29.0/menu-bar-progress-1600.webp 640w" sizes="(max-width: 800px) 100vw, 760px"><img src="../assets/shots/0.29.0/menu-bar-progress.png" alt="Pannello della barra dei menu con due download di immagini in corso, i loro layer, i byte e i pulsanti Annulla" width="640" height="460" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Fig. 8</span><b>Attività nella barra dei menu.</b> Layer, byte, tempo e Annulla per ogni download.</figcaption></figure>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="sec" id="apple">
       <div class="wrap">
         <div class="sec-head"><div><h2>La GUI nativa per macOS per Apple container</h2></div><p>Lo strumento <a href="https://github.com/apple/container" target="_blank" rel="noopener">container</a> di Apple esegue container Linux come VM leggere sui chip Apple, ma è distribuito solo come strumento a riga di comando. Gantry è la sua app desktop: Gantry sta a <code>container</code> come Docker Desktop sta a Docker. Supporta ogni CLI <code>container</code> dalla 1.0 alla <b>1.7.1</b> consigliata, e attiva ogni funzione solo se la CLI installata la supporta.</p></div>
         <div class="sec-body">
-          <ul class="rail"><li>container system start</li><li>container machine</li><li>container builder start</li><li>container registry login</li></ul>
+          <ul class="rail"><li>container system start</li><li>container machine</li><li>container builder start</li></ul>
           <div class="sec-main">
-            <dl class="items three">
-              <div><dt>Container, log, statistiche ed exec</dt><dd>Crea, avvia, arresta, forza l'arresto e ripulisci; log in tempo reale, statistiche, terminale exec, <code>top</code> ed esportazione tar, nella stessa interfaccia dei tuoi host Docker.</dd></div>
-              <div><dt>Cluster Kubernetes</dt><dd>Crea un cluster Kubernetes con <code>container cluster</code>: dimensiona separatamente il control plane e i worker, scegli il CNI e vedi i nodi, la versione di Kubernetes e il contesto kubeconfig. I nodi del cluster sono protetti contro arresti ed eliminazioni accidentali. <a href="apple-container-kubernetes/">Scopri di più</a></dd></div>
-              <div><dt>Immagini locali nel cluster</dt><dd>Con la CLI 1.7, attiva <b>Usa immagini locali</b> (<code>--shared-image-store</code>) e i pod eseguono le immagini che crei o scarichi, senza registro. Con le CLI 1.5 e 1.6, fai clic destro su un'immagine e scegli <b>Carica nel cluster</b>.</dd></div>
-              <div><dt>Indicazioni chiare quando l'installazione è guasta</dt><dd>Se i servizi del cluster non rispondono, Gantry ti dice perché. Una build Homebrew senza i servizi del cluster riceve un link al programma di installazione firmato; in tutti gli altri casi compare il pulsante <b>Riavvia servizi</b>.</dd></div>
-              <div><dt>Macchine container in VS Code</dt><dd>Crea, avvia e arresta ambienti Linux <code>container machine</code>, imposta CPU e memoria, apri una shell o apri la macchina in <b>VS Code tramite Remote-SSH</b>.</dd></div>
-              <div><dt>Virtualizzazione annidata e kernel personalizzati</dt><dd>Avvia una macchina con la virtualizzazione annidata (M3 o successivo) o con un tuo kernel. Avvia i container da un kernel personalizzato con argomenti di avvio aggiuntivi.</dd></div>
-              <div><dt>Compose per Apple container</dt><dd>apple/container non ha <code>compose</code>. Gantry esegue il tuo <code>docker-compose.yml</code>: crea le immagini, la rete e i volumi, e avvia i servizi nell'ordine di <code>depends_on</code>. I nomi dei servizi vengono risolti tramite alias DNS di rete.</dd></div>
-              <div><dt>Alias DNS di rete</dt><dd>Alias dei container, alias di sottoalbero come <code>.gateway</code> e nomi brevi quando è impostato un dominio DNS predefinito. Ogni container riceve un IP instradabile e un hostname <code>name.domain</code>.</dd></div>
-              <div><dt>Gestisci il builder di immagini</dt><dd>Vedi stato, immagine, CPU, memoria e IP del builder. Avvialo con opzioni per CPU, memoria e DNS, arrestalo o eliminalo. Quando l'immagine del builder è obsoleta, Gantry propone di ricrearlo.</dd></div>
-              <div><dt>Accessi ai registri</dt><dd>Elenca, aggiungi e rimuovi gli accessi <code>container registry</code>. La password arriva alla CLI solo tramite stdin, e Gantry non ne conserva copia.</dd></div>
-              <div><dt>Installazione del kernel</dt><dd>Installa il kernel consigliato, un file del kernel o un archivio tar, con l'avanzamento in tempo reale. Gantry ti avvisa quando non è installato alcun kernel predefinito.</dd></div>
-              <div><dt>Servizi e log dei servizi</dt><dd>Avvia, arresta e riavvia i servizi di <code>container</code>, confronta le versioni di client e server e segui in tempo reale i log dei servizi, filtrati per livello, servizio e testo.</dd></div>
-              <div><dt>Editor delle proprietà di sistema</dt><dd>Modifica le proprietà di sistema di <code>container</code> in <code>config.toml</code>. Gantry segnala le modifiche che richiedono un riavvio e riavvia i servizi al posto tuo. Con la CLI 1.7 modifica anche i valori predefiniti di <code>[container.dns]</code>: server dei nomi, domini di ricerca e opzioni.</dd></div>
-              <div><dt>Salva come immagine e Compatta disco</dt><dd>Salva un container come immagine (<code>container commit</code>) e recupera spazio su disco con <b>Compatta disco</b> (<code>container clean</code>), disponibile anche nel pannello Recupera spazio.</dd></div>
-              <div><dt>File browser: caricamento e download</dt><dd>Sfoglia i file di un container, scaricali o trascinali nel Finder (<code>container copy</code>), e trascina dentro file o intere cartelle.</dd></div>
-              <div><dt>Esecuzione rapida e Finder</dt><dd>Scegli un'immagine, condividi una cartella, mappa le porte e scegli un dominio, poi avvia. Fai clic destro su un file Compose nel Finder e aprilo con Gantry.</dd></div>
-              <div><dt>Etichette che contengono <code>=</code></dt><dd>La CLI <code>container</code> rifiuta i valori delle etichette con <code>=</code>. Gantry li codifica alla creazione e li decodifica in lettura, così un valore come <code>a=b</code> resta intatto.</dd></div>
-              <div><dt>Una flotta, due runtime</dt><dd>Gli host apple/container stanno accanto ai tuoi host Docker locali e SSH in un'unica dashboard, con le stesse sparkline, lo stesso stato di integrità e le stesse notifiche di guasto.</dd></div>
-              <div><dt>Strumenti MCP per gli agenti</dt><dd>Il server MCP incluso dà agli agenti la stessa portata: container, macchine, cluster e strumenti di sistema <code>apple_*</code> per servizi, builder, registri, proprietà, log e kernel.</dd></div>
-            </dl>
             <ul class="links">
+              <li><a href="features/#apple">Tutte le funzioni</a></li>
               <li><a href="apple-container/">La guida ad apple/container: ogni comando della CLI e la relativa funzione di Gantry</a></li>
+              <li><a href="apple-container-kubernetes/">Kubernetes su apple/container</a></li>
               <li><a href="compare/">Gantry a confronto con Docker Desktop, OrbStack e Podman Desktop</a></li>
               <li><a href="docker-desktop-to-apple-container/">Da Docker Desktop</a></li>
-              <li><a href="containers-on-external-drive/">Disco esterno</a></li>
-              <li><a href="docker-run-to-container/">Da docker run</a></li>
             </ul>
           </div>
         </div>
       </div>
     </section>
-
-    <section class="sec" id="agents">
-      <div class="wrap">
-        <div class="sec-head"><div><h2>Agenti</h2></div><p>Un server MCP incluso e le App Intents espongono ogni host, compresi quelli SSH, a Claude, Comandi Rapidi, Siri e script, con la stessa portata della GUI: creare e gestire container, creare e scaricare immagini, volumi e reti, Compose Up, macchine apple/container e cluster Kubernetes, gli strumenti di sistema <code>apple_*</code> per servizi, builder, registri e kernel, e perfino esporre una porta tramite Cloudflare Tunnel.</p></div>
-        <div class="sec-body">
-          <ul class="rail"><li>claude mcp add gantry</li></ul>
-          <div class="sec-main">
-            <div class="code-card">
-              <div class="code-head"><button class="copy" data-copy="claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp">Copia</button></div>
-              <div class="code-body">
-<pre>$ claude mcp add gantry -- \
-    /Applications/Gantry.app/Contents/Resources/gantry-mcp
-<span class="ok">✓ Server MCP aggiunto</span> gantry</pre>
-              </div>
-            </div>
-            <dl class="items">
-              <div><dt>Copia come prompt</dt><dd>Premi <span class="kbd">⌥⌘P</span> su qualsiasi container e Gantry mette negli appunti un prompt di debug pronto da incollare: l'host e come raggiungerlo, l'<code>host_id</code> MCP e gli strumenti, lo stato completo del container e un compito adatto al sintomo.</dd></div>
-              <div><dt>Strumenti MCP per gli agenti</dt><dd>Il server MCP incluso dà agli agenti la stessa portata: container, macchine, cluster e strumenti di sistema <code>apple_*</code> per servizi, builder, registri, proprietà, log e kernel.</dd></div>
-            </dl>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="sec" id="releases">
       <div class="wrap">
         <div class="sec-head"><div><h2>Release</h2></div></div>
@@ -778,24 +518,6 @@
         </div>
       </div>
     </section>
-
-    <section class="sec" id="built">
-      <div class="wrap">
-        <div class="sec-head"><div><h2>Architettura</h2></div><p>Gantry comunica con l'API di Docker Engine e con la CLI <code>container</code> di Apple. Non esegue alcun servizio proprio.</p></div>
-        <div class="sec-body">
-          <div></div>
-          <div class="sec-main">
-            <dl class="items">
-              <div><dt>100% SwiftUI nativo</dt><dd>SwiftUI nativo, non Electron. L'app usa i controlli, il font e le finestre di macOS.</dd></div>
-              <div><dt>Swift 6</dt><dd>Codice moderno e sicuro per la concorrenza, sulla toolchain più recente.</dd></div>
-              <div><dt>Accesso diretto all'API Engine</dt><dd>Docker tramite il socket Unix, senza bisogno della CLI di Docker. apple/container tramite la sua CLI <code>container</code>.</dd></div>
-              <div><dt>Aggiornamenti automatici</dt><dd>Un appcast Sparkle firmato EdDSA ti tiene aggiornato senza disturbarti.</dd></div>
-            </dl>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section class="sec" id="install">
       <div class="wrap">
         <div class="sec-head"><div><h2>Installazione</h2></div><p>Scarica l'app o installala con Homebrew. Non serve un account.</p></div>
@@ -814,57 +536,12 @@
         </div>
       </div>
     </section>
-
     <section class="sec" id="faq">
       <div class="wrap">
         <div class="sec-head"><div><h2>Domande</h2></div></div>
         <div class="sec-body">
           <div></div>
           <div class="faq-list">
-            <details class="faq-item">
-              <summary>Qual è la migliore GUI per Apple container?</summary>
-              <p>Gantry è una GUI nativa per macOS, gratuita e open source, pensata per lo strumento <a href="#apple">container</a> di Apple (apple/container). Copre il ciclo di vita dei container, i log, le statistiche e un terminale exec, oltre alle parti della CLI che le altre GUI non raggiungono: cluster Kubernetes (<code>container cluster</code>), macchine container, builder di immagini, accessi ai registri, kernel, log dei servizi e proprietà di sistema. Supporta le CLI dalla 1.0 alla 1.7.1 e attiva ogni funzione solo se la tua CLI la supporta. Leggi la <a href="apple-container/">guida ad apple/container</a>.</p>
-            </details>
-            <details class="faq-item">
-              <summary>Cos'è Apple container (apple/container)?</summary>
-              <p>apple/container è lo strumento open source di Apple per eseguire container Linux su un Mac. Ogni container gira nella propria macchina virtuale leggera, basata sul framework Virtualization di Apple. Richiede un Mac con chip Apple ed è distribuito come strumento a riga di comando chiamato <code>container</code>, senza app desktop. Gantry è quell'app desktop.</p>
-            </details>
-            <details class="faq-item">
-              <summary>Gantry supporta container cluster e Kubernetes?</summary>
-              <p>Sì. Su un host apple/container, Gantry crea ed elimina cluster Kubernetes con <code>container cluster</code> (CLI 1.6.1 e 1.7; le CLI dalla 1.5.0 alla 1.6.0 usano <code>container k8s</code>). Scegli il nome, i worker, le CPU e la memoria del control plane e dei worker (1.7), l'immagine dei nodi, il CNI e se i nodi usano le tue immagini locali (1.7). Gantry mostra i nodi, scrive il kubeconfig e apre il cluster nel suo browser Kubernetes. Vedi <a href="apple-container-kubernetes/">Kubernetes su apple/container</a>.</p>
-            </details>
-            <details class="faq-item">
-              <summary>Si può usare docker compose con Apple container?</summary>
-              <p>Sì. apple/container non ha un comando <code>compose</code>, quindi è Gantry a orchestrare tramite la CLI <code>container</code>: crea le immagini dei servizi <code>build:</code>, crea la rete del progetto e i volumi con nome, e avvia ogni servizio nell'ordine di <code>depends_on</code> con le etichette Compose standard. I nomi dei servizi vengono risolti tramite alias DNS di rete. Apri un <code>docker-compose.yml</code> dal Finder, dal menu File o trascinandolo sulla finestra.</p>
-            </details>
-            <details class="faq-item">
-              <summary>Come si apre una macchina container in VS Code?</summary>
-              <p>Avvia la macchina in Gantry e fai clic su <b>Apri in VS Code</b>. Gantry apre la macchina in VS Code tramite Remote-SSH, come nell'esempio <code>container-machine-vscode</code> di Apple. L'immagine della macchina deve eseguire <code>sshd</code>, e devi avere installato VS Code con l'estensione Remote-SSH.</p>
-            </details>
-            <details class="faq-item">
-              <summary>Quali versioni di apple/container supporta Gantry?</summary>
-              <p>Gantry richiede la CLI <code>container</code> 1.0 o successiva e consiglia la 1.7.1. Legge la versione installata e mostra solo le funzioni che quella versione supporta, per esempio le dimensioni dei worker e l'archivio immagini condiviso (1.7), il commit (1.6) e Compatta disco (1.4). Se la CLI manca o è vecchia, Gantry offre una configurazione guidata.</p>
-            </details>
-            <details class="faq-item">
-              <summary>Gantry può esplorare un cluster Kubernetes?</summary>
-              <p>Sì. La sezione <b>Kubernetes</b> elenca pod, deployment, stateful set, daemon set, servizi, ingress, config map, secret, nodi ed eventi per ogni contesto kubeconfig, e offre log dei pod, una shell nel pod, inoltri di porta, scalabilità, riavvio del rollout, eliminazione e Applica YAML. Gantry comunica direttamente con l'API di Kubernetes, quindi <code>kubectl</code> non serve. Vedi <a href="apple-container-kubernetes/#terminal">Kubernetes su Mac</a>.</p>
-            </details>
-            <details class="faq-item">
-              <summary>Cosa invia “Spiega errore” ad Apple Intelligence?</summary>
-              <p>I log recenti e i dettagli del container, senza i valori delle variabili d'ambiente e senza il testo che somiglia a un segreto. Le richieste brevi vengono elaborate dal modello sul dispositivo. Se attivi l'impostazione per i log lunghi (macOS 27), i log lunghi vanno a Private Cloud Compute. Il pannello mostra cosa è stato inviato. Un comando suggerito si apre in Terminale, ma non viene eseguito finché non premi A capo. Senza Apple Intelligence, Gantry offre un prompt da copiare in un altro assistente IA.</p>
-            </details>
-            <details class="faq-item">
-              <summary>Posso incollare un comando docker run in Gantry?</summary>
-              <p>Sì. Nel pannello Nuovo container, scegli <b>Incolla comando…</b>. Gantry legge <code>docker run</code>, <code>docker create</code>, <code>podman run</code> e <code>container run</code>, compila il modulo ed elenca ogni flag che non può usare, con il motivo. Vedi <a href="docker-run-to-container/">Creare un container da un comando docker run</a>.</p>
-            </details>
-            <details class="faq-item">
-              <summary>Gantry può gestire builder, registri e kernel di apple/container?</summary>
-              <p>Sì. La sezione Sistema di un host apple/container avvia, arresta ed elimina il builder di immagini con opzioni per CPU, memoria e DNS; elenca, aggiunge e rimuove gli accessi ai registri (la password arriva alla CLI solo tramite stdin); installa il kernel consigliato, un file del kernel o un archivio tar; trasmette i log dei servizi in tempo reale; e modifica le proprietà di sistema in <code>config.toml</code>.</p>
-            </details>
-            <details class="faq-item">
-              <summary>Gantry è un'alternativa a Docker Desktop, OrbStack o Podman Desktop?</summary>
-              <p>Per la GUI, sì. Gantry è un'app nativa e gratuita per macOS per gestire container, immagini, volumi, reti, log e statistiche. È un client, non un motore: usa il daemon Docker che hai già (Docker Desktop, OrbStack, Colima) o lo strumento <a href="#apple">container</a> di Apple, e aggiunge una vista multi-host, host SSH e un server MCP. Vedi il <a href="compare/">confronto</a>.</p>
-            </details>
             <details class="faq-item">
               <summary>Gantry è gratis?</summary>
               <p>Sì. Gantry è gratuito e open source con licenza MIT. Nessun abbonamento, nessun account e nessun limite al numero di host o di container.</p>
@@ -874,28 +551,20 @@
               <p>macOS 26 o successivo su chip Apple o Intel, più un daemon Docker (Docker Desktop, OrbStack, Colima o simili) oppure lo strumento <a href="#apple">container</a> di Apple. apple/container richiede a sua volta un chip Apple, quindi su un Mac Intel Gantry gestisce solo host Docker.</p>
             </details>
             <details class="faq-item">
-              <summary>Gantry funziona con OrbStack, Colima e Docker Desktop?</summary>
-              <p>Sì. Gantry comunica direttamente con l'API di Docker Engine tramite il socket Unix, quindi funziona con qualsiasi daemon che la espone, compresi OrbStack, Colima e Docker Desktop.</p>
+              <summary>Qual è la migliore GUI per Apple container?</summary>
+              <p>Gantry è una GUI nativa per macOS, gratuita e open source, pensata per lo strumento <a href="#apple">container</a> di Apple (apple/container). Copre il ciclo di vita dei container, i log, le statistiche e un terminale exec, oltre alle parti della CLI che le altre GUI non raggiungono: cluster Kubernetes (<code>container cluster</code>), macchine container, builder di immagini, accessi ai registri, kernel, log dei servizi e proprietà di sistema. Supporta le CLI dalla 1.0 alla 1.7.1 e attiva ogni funzione solo se la tua CLI la supporta. Leggi la <a href="apple-container/">guida ad apple/container</a>.</p>
             </details>
             <details class="faq-item">
-              <summary>Gantry può gestire host Docker remoti?</summary>
-              <p>Sì. Gantry si connette ai daemon remoti via SSH, come <code>docker -H ssh://</code>, con bastion ProxyJump, autenticazione con più chiavi e riconnessione automatica. Sul server non serve installare nulla, e i segreti restano nel portachiavi di macOS.</p>
+              <summary>Cos'è Apple container (apple/container)?</summary>
+              <p>apple/container è lo strumento open source di Apple per eseguire container Linux su un Mac. Ogni container gira nella propria macchina virtuale leggera, basata sul framework Virtualization di Apple. Richiede un Mac con chip Apple ed è distribuito come strumento a riga di comando chiamato <code>container</code>, senza app desktop. Gantry è quell'app desktop.</p>
             </details>
             <details class="faq-item">
-              <summary>Gantry mi avvisa quando un container si guasta?</summary>
-              <p>Sì. Gantry invia una notifica nativa di macOS quando un container va in crash, esaurisce la memoria o non supera il controllo di integrità, su qualsiasi host: locale, SSH o apple/container. Fai clic sulla notifica per andare al container. Arresti e riavvii che avvii da Gantry non generano notifiche, e puoi disattivare la funzione nelle Impostazioni.</p>
+              <summary>Si può usare docker compose con Apple container?</summary>
+              <p>Sì. apple/container non ha un comando <code>compose</code>, quindi è Gantry a orchestrare tramite la CLI <code>container</code>: crea le immagini dei servizi <code>build:</code>, crea la rete del progetto e i volumi con nome, e avvia ogni servizio nell'ordine di <code>depends_on</code> con le etichette Compose standard. I nomi dei servizi vengono risolti tramite alias DNS di rete. Apri un <code>docker-compose.yml</code> dal Finder, dal menu File o trascinandolo sulla finestra.</p>
             </details>
             <details class="faq-item">
-              <summary>Gantry può scaricare immagini da registri privati?</summary>
-              <p>Sì. Sugli host Docker, Gantry legge le credenziali dal tuo <code>~/.docker/config.json</code> (lo stesso <code>docker login</code> che hai già fatto), comprese autenticazione inline, credential helper e portachiavi di macOS. Sugli host apple/container gestisce gli accessi <code>container registry</code>.</p>
-            </details>
-            <details class="faq-item">
-              <summary>Gantry può esporre un container locale su Internet?</summary>
-              <p>Sì. Con un clic su una porta pubblicata la condividi tramite Cloudflare Tunnel. Se serve, Gantry installa <code>cloudflared</code>, poi avvia un tunnel rapido (senza account Cloudflare, con un URL temporaneo trycloudflare.com) o un tunnel con nome sul tuo hostname. L'URL pubblico appare sotto la porta, con i comandi per aprirlo, copiarlo e fermarlo.</p>
-            </details>
-            <details class="faq-item">
-              <summary>Gantry è un'app Electron?</summary>
-              <p>No. Gantry è un'app nativa scritta con SwiftUI e Swift 6. L'interfaccia è disponibile in 28 lingue: inglese, cinese semplificato e 26 lingue europee, ad esempio il serbo in alfabeto cirillico e latino. Segue la lingua di sistema di macOS.</p>
+              <summary>Gantry è un'alternativa a Docker Desktop, OrbStack o Podman Desktop?</summary>
+              <p>Per la GUI, sì. Gantry è un'app nativa e gratuita per macOS per gestire container, immagini, volumi, reti, log e statistiche. È un client, non un motore: usa il daemon Docker che hai già (Docker Desktop, OrbStack, Colima) o lo strumento <a href="#apple">container</a> di Apple, e aggiunge una vista multi-host, host SSH e un server MCP. Vedi il <a href="compare/">confronto</a>.</p>
             </details>
             <details class="faq-item">
               <summary>Come si installa Gantry?</summary>
@@ -903,8 +572,9 @@
             </details>
             <details class="faq-item">
               <summary>Gli agenti AI possono controllare Gantry?</summary>
-              <p>Sì. Gantry include un <a href="#agents">server MCP</a> e gli App Intents di macOS, quindi Claude, Comandi Rapidi, Siri e gli script arrivano dove arriva la GUI, su ogni host, compresi gli host SSH: container, immagini, volumi, reti, Compose, macchine apple/container, cluster Kubernetes, strumenti di sistema <code>apple_*</code> (servizi, builder, registri, proprietà, log, kernel) e condivisione delle porte. Su macOS 26 e successivi, <b>Spiega errore…</b> chiede anche ad Apple Intelligence perché un container non è riuscito. Aggiungi il server MCP con <code>claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp</code>.</p>
+              <p>Sì. Gantry include un <a href="features/#agents">server MCP</a> e gli App Intents di macOS, quindi Claude, Comandi Rapidi, Siri e gli script arrivano dove arriva la GUI, su ogni host, compresi gli host SSH: container, immagini, volumi, reti, Compose, macchine apple/container, cluster Kubernetes, strumenti di sistema <code>apple_*</code> (servizi, builder, registri, proprietà, log, kernel) e condivisione delle porte. Su macOS 26 e successivi, <b>Spiega errore…</b> chiede anche ad Apple Intelligence perché un container non è riuscito. Aggiungi il server MCP con <code>claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp</code>.</p>
             </details>
+            <ul class="links"><li><a href="features/#faq">Tutte le domande</a></li></ul>
           </div>
         </div>
       </div>
@@ -972,6 +642,15 @@
         });
       });
     });
+    var stars = document.getElementById('ghStars');
+    if (stars && window.fetch) {
+      fetch('https://api.github.com/repos/getgantry/gantry').then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+        if (d && typeof d.stargazers_count === 'number') {
+          stars.textContent = '\u2605 ' + d.stargazers_count.toLocaleString(document.documentElement.lang);
+          stars.hidden = false;
+        }
+      }).catch(function () {});
+    }
   </script>
   <script src="../lang.js" defer></script>
 </body>

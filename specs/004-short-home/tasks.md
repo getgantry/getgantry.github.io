@@ -13,4 +13,4 @@ description: "Task list for the short home page"
 - [x] T008 Show the live GitHub star count next to the GitHub link. Result: "GitHub ★ 90" with JavaScript, "GitHub" without it
 - [x] T005 Translate the 8 strings into 25 languages. Each value matches its translation file
 - [x] T006 Build, run the checks, compare the strings with spec 003, measure the height in 27 languages. Result: 0 link problems, 0 strings lost, home 5,309 to 5,701 px, no horizontal scroll
-- [ ] T007 Open the PR, merge after the owner approves, send IndexNow
+- [x] T007 Open the PR, merge after the owner approves, send IndexNow. Result: PR #8 merged, 54 URLs sent (HTTP 200)

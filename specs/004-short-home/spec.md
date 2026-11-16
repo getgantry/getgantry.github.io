@@ -5,7 +5,7 @@
 
 **Created**: 2026-11-16
 
-**Status**: In Progress
+**Status**: Done
 
 **Input**: User description: "Is such a long landing page OK? What is the concept?" Answer: no. Make the home page short and move the full feature list to a new page.
 

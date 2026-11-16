@@ -5,7 +5,7 @@
 
 **Created**: 2026-11-16
 
-**Status**: In Progress
+**Status**: Done
 
 **Input**: User description: "The animation on the old site was nice. Rewrite it for the new concept and put it on the site."
 

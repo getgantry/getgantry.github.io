@@ -40,6 +40,7 @@ PAGES = {
     "apple-container": ("guide", "weekly", "0.9"),
     "apple-container-kubernetes": ("k8s", "weekly", "0.9"),
     "compare": ("compare", "monthly", "0.8"),
+    "features": ("features", "weekly", "0.9"),
 }
 # How-to guides: slug -> (sitemap changefreq, priority). Strings: guides.<slug>.
 GUIDES = {
@@ -104,7 +105,9 @@ SHOTS = {
     "cluster-overview": ("page apple-container-kubernetes, section #nodes", "assets/shots/0.27.0/cluster-overview.png"),
 }
 # Rows of guide.table that the home page shows in the section "Command to control".
-HOME_COMMANDS = [0, 2, 3, 4, 5, 6, 9, 12, 13, 26, 27, 28]
+HOME_COMMANDS = [0, 3, 4, 5, 12, 13, 27, 28]
+# Questions of home.faq.items that the home page shows. The page /features/ shows all of them.
+HOME_FAQ = [11, 12, 0, 1, 3, 10, 19, 20]
 DOCS = [("index", "weekly", "0.8"), ("install", "monthly", "0.7"), ("apple-container", "monthly", "0.8"),
         ("menu-bar", "monthly", "0.5"), ("hosts", "monthly", "0.6"), ("containers", "monthly", "0.6"),
         ("ports", "monthly", "0.5"), ("dns", "monthly", "0.6"), ("images-compose", "monthly", "0.6"),
@@ -451,30 +454,61 @@ def home_ld(langs, code, t, url):
          "inLanguage": code, "isPartOf": {"@id": f"{SITE}/#website"}, "about": {"@id": f"{SITE}/#app"}},
         app,
         howto,
-        faq_ld(url, [(f["q"], f["a"]) for f in h["faq"]["items"]]),
+        faq_ld(url, [(h["faq"]["items"][i]["q"], h["faq"]["items"][i]["a"]) for i in HOME_FAQ]),
     ]
     return ld_dump(graph, "  ")
+
+
+def figures(t, names, root):
+    h = t["home"]
+    all_figs = {
+        "home_hero": ("home-dashboard", h["new"]["shot_dash_alt"], h["ia"]["fig_dash_caption"]),
+        "home_stats": ("home-stats", h["shots"]["stats_alt"], h["shots"]["stats_caption"]),
+        "home_kube": ("home-kube", h["new"]["shot_kube_alt"], h["new"]["shot_kube_caption"]),
+        "home_fleet": ("home-fleet", h["shots"]["fleet_alt"], h["shots"]["fleet_caption"]),
+        "home_overview": ("home-overview", h["shots"]["overview_alt"], h["shots"]["overview_caption"]),
+        "home_usage": ("home-usage", h["latest"]["shot_fleet_alt"], h["latest"]["shot_fleet_caption"]),
+        "home_explain": ("home-explain", h["new"]["shot_explain_alt"], h["new"]["shot_explain_caption"]),
+        "home_menubar": ("home-menubar", h["latest"]["shot_menubar_alt"], h["latest"]["shot_menubar_caption"]),
+    }
+    return {name: shot(*all_figs[name], root, "            ", eager=(name == "home_hero"),
+                       label=f'<span class="fig-n">{h["ia"]["fig"]} {i}</span>')
+            for i, name in enumerate(names, 1)}
 
 
 def render_home(langs, lang, t):
     root = "" if lang["code"] == "en" else "../"
     ctx = base_ctx(langs, lang, t, "", root, 8)
     ctx["ld"] = home_ld(langs, lang["code"], t, ctx["url"])
-    h = t["home"]
-    figs = [("home_hero", "home-dashboard", h["new"]["shot_dash_alt"], h["ia"]["fig_dash_caption"]),
-            ("home_stats", "home-stats", h["shots"]["stats_alt"], h["shots"]["stats_caption"]),
-            ("home_kube", "home-kube", h["new"]["shot_kube_alt"], h["new"]["shot_kube_caption"]),
-            ("home_fleet", "home-fleet", h["shots"]["fleet_alt"], h["shots"]["fleet_caption"]),
-            ("home_overview", "home-overview", h["shots"]["overview_alt"], h["shots"]["overview_caption"]),
-            ("home_usage", "home-usage", h["latest"]["shot_fleet_alt"], h["latest"]["shot_fleet_caption"]),
-            ("home_explain", "home-explain", h["new"]["shot_explain_alt"], h["new"]["shot_explain_caption"]),
-            ("home_menubar", "home-menubar", h["latest"]["shot_menubar_alt"], h["latest"]["shot_menubar_caption"])]
-    ctx["shots"] = {name: shot(key, alt, cap, root, "            ", eager=(i == 1), label=
-                               f'<span class="fig-n">{h["ia"]["fig"]} {i}</span>')
-                    for i, (name, key, alt, cap) in enumerate(figs, 1)}
+    ctx["shots"] = figures(t, ["home_hero", "home_fleet", "home_kube", "home_stats"], root)
     ctx["cmd_rows"] = [t["guide"]["table"][i][:2] for i in HOME_COMMANDS]
+    ctx["home_faq"] = [t["home"]["faq"]["items"][i] for i in HOME_FAQ]
     ctx["version"] = APP_VERSION
-    return render(template("home.html"), ctx)
+    out = render(template("home.html"), ctx)
+    # Strings may link to a section that is now on /features/ only.
+    ids = set(re.findall(r'id="([^"]+)"', out))
+    return re.sub(r'href="#([^"]+)"', lambda m: m.group(0) if m.group(1) in ids else f'href="features/#{m.group(1)}"', out)
+
+
+def render_features(langs, lang, t):
+    root = "../" if lang["code"] == "en" else "../../"
+    ctx = base_ctx(langs, lang, t, "features", root, 8)
+    f, url = t["features"], ctx["url"]
+    graph = [
+        {"@type": "WebPage", "@id": f"{url}#webpage", "url": url, "name": f["title"], "description": f["desc"],
+         "inLanguage": lang["code"], "isPartOf": {"@id": f"{SITE}/#website"}, "about": {"@id": f"{SITE}/#app"}},
+        {"@type": "BreadcrumbList", "@id": f"{url}#breadcrumbs", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Gantry", "item": SITE + page_path(lang["code"], "")},
+            {"@type": "ListItem", "position": 2, "name": t["chrome"]["nav_features"], "item": url}]},
+        faq_ld(url, [(q["q"], q["a"]) for q in t["home"]["faq"]["items"]]),
+    ]
+    ctx["ld"] = ld_dump(graph, "  ")
+    ctx["shots"] = figures(t, ["home_stats", "home_kube", "home_fleet", "home_overview", "home_usage", "home_explain",
+                               "home_menubar"], root)
+    out = render(template("features.html"), ctx)
+    # The strings link to sibling pages as seen from the home page; this page is one folder deeper.
+    slugs = "|".join(re.escape(x) for x in sorted([*filter(None, PAGES), *GUIDES], key=len, reverse=True))
+    return re.sub(rf'href="(?:{slugs})/', lambda m: 'href="../' + m.group(0)[6:], out)
 
 
 # ------------------------------------------------------------------ guide, kubernetes, compare
@@ -757,7 +791,12 @@ def main():
         t = resolve(copy.deepcopy(strings[lang["code"]]))
         pages = [(slug, key) for slug, (key, _, _) in PAGES.items()] + [(slug, "guides") for slug in GUIDES]
         for slug, key in pages:
-            out = render_home(langs, lang, t) if key == "home" else render_page(langs, lang, t, slug, key)
+            if key == "home":
+                out = render_home(langs, lang, t)
+            elif key == "features":
+                out = render_features(langs, lang, t)
+            else:
+                out = render_page(langs, lang, t, slug, key)
             path = os.path.join(ROOT, page_path(lang["code"], slug).strip("/"), "index.html")
             os.makedirs(os.path.dirname(path), exist_ok=True)
             with open(path, "w") as f:

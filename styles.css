@@ -288,3 +288,53 @@ main { counter-reset: sec; }
 @media (max-width: 800px) {
   .areas, .figs.three { grid-template-columns: 1fr; }
 }
+
+/* ---------- Title block crane: a command goes in, a running container comes out ---------- */
+/* The base styles are the last frame. The animation runs only when the system allows motion. */
+.tb-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 0 40px; align-items: center; }
+.crane { display: block; width: 100%; max-width: 440px; height: auto; justify-self: end; }
+.crane .ground { stroke: var(--rule); stroke-width: 2; }
+.crane .leg, .crane .beam { fill: none; stroke: var(--beam); stroke-dasharray: 1; stroke-dashoffset: 0; }
+.crane .leg { stroke-width: 8; }
+.crane .beam { stroke-width: 10; }
+.crane .trolley { fill: var(--ink-2); }
+.crane .cable { stroke: var(--ink-2); stroke-width: 2; transform-box: fill-box; transform-origin: 50% 0; transform: scaleY(0.09); }
+.crane .box { fill: var(--crane); }
+.crane text { font: 500 16px var(--mono); fill: #0b2942; }
+.crane .cmd { text-anchor: middle; opacity: 0; }
+.crane .ctl circle { fill: #0e5f2c; }
+@media (prefers-reduced-motion: no-preference) {
+  .crane .leg { animation: crane-draw 3.4s ease-out 0.2s both; }
+  .crane .beam { animation: crane-beam 3.4s ease-out 0.2s both; }
+  .crane .trolley { animation: crane-trolley 3.4s ease-in-out 0.2s both; }
+  .crane .cable { animation: crane-cable 3.4s ease-in-out 0.2s both; }
+  .crane .cargo { animation: crane-cargo 3.4s ease-in-out 0.2s both; }
+  .crane .cmd { animation: crane-cmd 3.4s linear 0.2s both; }
+  .crane .ctl { animation: crane-ctl 3.4s linear 0.2s both; }
+}
+@keyframes crane-draw { 0% { stroke-dashoffset: 1; } 18%, 100% { stroke-dashoffset: 0; } }
+@keyframes crane-beam { 0%, 8% { stroke-dashoffset: 1; } 24%, 100% { stroke-dashoffset: 0; } }
+@keyframes crane-trolley {
+  0%, 22% { transform: translateX(-70px); opacity: 0; }
+  26% { transform: translateX(-70px); opacity: 1; }
+  48%, 100% { transform: none; opacity: 1; }
+}
+@keyframes crane-cable {
+  0%, 22% { transform: translateX(-70px) scaleY(0.09); opacity: 0; }
+  26% { transform: translateX(-70px) scaleY(0.09); opacity: 1; }
+  48% { transform: scaleY(0.09); }
+  72% { transform: scaleY(1); }
+  84%, 100% { transform: scaleY(0.09); }
+}
+@keyframes crane-cargo {
+  0%, 22% { transform: translate(-70px, -130px); opacity: 0; }
+  26% { transform: translate(-70px, -130px); opacity: 1; }
+  48% { transform: translate(0, -130px); }
+  72%, 100% { transform: none; }
+}
+@keyframes crane-cmd { 0%, 72% { opacity: 1; } 80%, 100% { opacity: 0; } }
+@keyframes crane-ctl { 0%, 74% { opacity: 0; } 84%, 100% { opacity: 1; } }
+@media (max-width: 900px) {
+  .tb-grid { grid-template-columns: 1fr; }
+  .crane { justify-self: start; max-width: 300px; margin-top: 24px; }
+}

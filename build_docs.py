@@ -470,11 +470,11 @@ def page_html(slug, title, desc, body):
   <meta property="og:title" content="{html.escape(full_title)}">
   <meta property="og:description" content="{html.escape(desc)}">
   <meta property="og:url" content="https://getgantry.github.io/docs/{slug}.html">
-  <meta property="og:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta property="og:image" content="https://getgantry.github.io/assets/og.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{html.escape(full_title)}">
   <meta name="twitter:description" content="{html.escape(desc)}">
-  <meta name="twitter:image" content="https://getgantry.github.io/assets/dashboard.png">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/og.png">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0e1318" media="(prefers-color-scheme: dark)">
   <link rel="icon" type="image/png" href="../assets/icon.png">

@@ -31,8 +31,8 @@ description: "Task list for the site identity rebrand"
 
 ## Phase 3: PR 2, images
 
-- [ ] T014 Add `scripts/make_images.py` and `picture` with `srcset` in `shot()`
-- [ ] T015 Make a 1200 x 630 `og:image`
+- [x] T014 Add `scripts/make_images.py` and `picture` with `srcset` in `shot()`. Result: 11 screenshots, 22 WebP files, about 50 kB each at 1600 px
+- [x] T015 Make a 1200 x 630 `og:image` (`assets/og.png` from `scripts/og.html`)
 
 ## Phase 4: PR 3, voice pass (optional)
 

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="el" data-copied="Αντιγράφηκε">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3JR87M6TNM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-3JR87M6TNM');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Λειτουργίες Gantry: Apple container και Docker σε Mac</title>
+  <meta name="description" content="Κάθε λειτουργία του Gantry ανά περιοχή: κοντέινερ, εικόνες, Compose, Kubernetes, host μέσω SSH, αρχεία καταγραφής, macOS και πράκτορες, με τις εντολές που αντικαθιστά κάθε στοιχείο ελέγχου.">
+  <meta name="author" content="Gantry">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <link rel="canonical" href="https://getgantry.github.io/el/features/">
+  <link rel="alternate" hreflang="en" href="https://getgantry.github.io/features/">
+  <link rel="alternate" hreflang="de" href="https://getgantry.github.io/de/features/">
+  <link rel="alternate" hreflang="fr" href="https://getgantry.github.io/fr/features/">
+  <link rel="alternate" hreflang="es" href="https://getgantry.github.io/es/features/">
+  <link rel="alternate" hreflang="it" href="https://getgantry.github.io/it/features/">
+  <link rel="alternate" hreflang="pt-PT" href="https://getgantry.github.io/pt-PT/features/">
+  <link rel="alternate" hreflang="nl" href="https://getgantry.github.io/nl/features/">
+  <link rel="alternate" hreflang="sv" href="https://getgantry.github.io/sv/features/">
+  <link rel="alternate" hreflang="da" href="https://getgantry.github.io/da/features/">
+  <link rel="alternate" hreflang="nb" href="https://getgantry.github.io/nb/features/">
+  <link rel="alternate" hreflang="fi" href="https://getgantry.github.io/fi/features/">
+  <link rel="alternate" hreflang="pl" href="https://getgantry.github.io/pl/features/">
+  <link rel="alternate" hreflang="cs" href="https://getgantry.github.io/cs/features/">
+  <link rel="alternate" hreflang="sk" href="https://getgantry.github.io/sk/features/">
+  <link rel="alternate" hreflang="hu" href="https://getgantry.github.io/hu/features/">
+  <link rel="alternate" hreflang="ro" href="https://getgantry.github.io/ro/features/">
+  <link rel="alternate" hreflang="bg" href="https://getgantry.github.io/bg/features/">
+  <link rel="alternate" hreflang="el" href="https://getgantry.github.io/el/features/">
+  <link rel="alternate" hreflang="hr" href="https://getgantry.github.io/hr/features/">
+  <link rel="alternate" hreflang="sl" href="https://getgantry.github.io/sl/features/">
+  <link rel="alternate" hreflang="sr" href="https://getgantry.github.io/sr/features/">
+  <link rel="alternate" hreflang="sr-Latn" href="https://getgantry.github.io/sr-Latn/features/">
+  <link rel="alternate" hreflang="lt" href="https://getgantry.github.io/lt/features/">
+  <link rel="alternate" hreflang="lv" href="https://getgantry.github.io/lv/features/">
+  <link rel="alternate" hreflang="et" href="https://getgantry.github.io/et/features/">
+  <link rel="alternate" hreflang="uk" href="https://getgantry.github.io/uk/features/">
+  <link rel="alternate" hreflang="ru" href="https://getgantry.github.io/ru/features/">
+  <link rel="alternate" hreflang="x-default" href="https://getgantry.github.io/features/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Gantry">
+  <meta property="og:locale" content="el_GR">
+  <meta property="og:title" content="Λειτουργίες Gantry: Apple container και Docker σε Mac">
+  <meta property="og:description" content="Κάθε λειτουργία του Gantry ανά περιοχή: κοντέινερ, εικόνες, Compose, Kubernetes, host μέσω SSH, αρχεία καταγραφής, macOS και πράκτορες, με τις εντολές που αντικαθιστά κάθε στοιχείο ελέγχου.">
+  <meta property="og:url" content="https://getgantry.github.io/el/features/">
+  <meta property="og:image" content="https://getgantry.github.io/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Ο πίνακας ελέγχου στόλου του Gantry με host Docker και apple/container και ζωντανά sparklines CPU και μνήμης">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Λειτουργίες Gantry: Apple container και Docker σε Mac">
+  <meta name="twitter:description" content="Κάθε λειτουργία του Gantry ανά περιοχή: κοντέινερ, εικόνες, Compose, Kubernetes, host μέσω SSH, αρχεία καταγραφής, macOS και πράκτορες, με τις εντολές που αντικαθιστά κάθε στοιχείο ελέγχου.">
+  <meta name="twitter:image" content="https://getgantry.github.io/assets/og.png">
+  <meta name="twitter:image:alt" content="Ο πίνακας ελέγχου στόλου του Gantry με host Docker και apple/container και ζωντανά sparklines CPU και μνήμης">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0e1318" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+  <link rel="apple-touch-icon" href="../../assets/icon.png">
+  <link rel="preload" href="../../assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../styles.css">
+
+  <!-- Structured data for search engines and AI agents -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://getgantry.github.io/el/features/#webpage",
+        "url": "https://getgantry.github.io/el/features/",
+        "name": "Λειτουργίες Gantry: Apple container και Docker σε Mac",
+        "description": "Κάθε λειτουργία του Gantry ανά περιοχή: κοντέινερ, εικόνες, Compose, Kubernetes, host μέσω SSH, αρχεία καταγραφής, macOS και πράκτορες, με τις εντολές που αντικαθιστά κάθε στοιχείο ελέγχου.",
+        "inLanguage": "el",
+        "isPartOf": {
+          "@id": "https://getgantry.github.io/#website"
+        },
+        "about": {
+          "@id": "https://getgantry.github.io/#app"
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://getgantry.github.io/el/features/#breadcrumbs",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Gantry",
+            "item": "https://getgantry.github.io/el/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Λειτουργίες",
+            "item": "https://getgantry.github.io/el/features/"
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://getgantry.github.io/el/features/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Ποιο είναι το καλύτερο GUI για το Apple container;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Το Gantry είναι ένα δωρεάν, ανοιχτού κώδικα εγγενές GUI macOS για το εργαλείο container της Apple (apple/container). Καλύπτει τον κύκλο ζωής των κοντέινερ, τα αρχεία καταγραφής, τα στατιστικά και ένα τερματικό exec, καθώς και τα μέρη του CLI που δεν φτάνουν άλλα GUI: cluster Kubernetes (container cluster), μηχανήματα container, τον builder εικόνων, συνδέσεις σε μητρώα, πυρήνες, αρχεία καταγραφής υπηρεσιών και ιδιότητες συστήματος. Υποστηρίζει CLI 1.0 έως 1.7.1 και ενεργοποιεί κάθε λειτουργία μόνο όταν την υποστηρίζει το CLI σας. Δείτε τον οδηγό apple/container."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Τι είναι το Apple container (apple/container);",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Το apple/container είναι το εργαλείο ανοιχτού κώδικα της Apple για την εκτέλεση κοντέινερ Linux σε Mac. Κάθε κοντέινερ εκτελείται στη δική του ελαφριά εικονική μηχανή, πάνω στο Virtualization framework της Apple. Απαιτεί Mac με Apple silicon και διατίθεται ως εργαλείο γραμμής εντολών με το όνομα container, χωρίς εφαρμογή γραφικού περιβάλλοντος. Το Gantry προσθέτει αυτή την εφαρμογή."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Υποστηρίζει το Gantry το container cluster και το Kubernetes;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ναι. Σε host apple/container, το Gantry δημιουργεί και διαγράφει cluster Kubernetes με το container cluster (CLI 1.6.1 και 1.7· το CLI 1.5.0 έως 1.6.0 χρησιμοποιεί container k8s). Εσείς επιλέγετε το όνομα, τα worker, τις CPU και τη μνήμη του control plane και των worker (1.7), την εικόνα κόμβου, το CNI και αν οι κόμβοι χρησιμοποιούν τις τοπικές σας εικόνες (1.7). Το Gantry εμφανίζει τους κόμβους, γράφει το kubeconfig και ανοίγει το cluster στον περιηγητή Kubernetes. Δείτε Kubernetes στο apple/container."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Μπορώ να χρησιμοποιήσω docker compose με το Apple container;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ναι. Το apple/container δεν έχει εντολή compose, οπότε το Gantry κάνει την ενορχήστρωση μέσω του CLI container: δομεί τις υπηρεσίες με build:, δημιουργεί το δίκτυο του έργου και τους ονομασμένους τόμους και ξεκινά κάθε υπηρεσία με τη σειρά του depends_on, με τις τυπικές ετικέτες του Compose. Τα ονόματα υπηρεσιών επιλύονται μέσω ψευδωνύμων DNS δικτύου. Ανοίξτε ένα docker-compose.yml από το Finder, το μενού «Αρχείο» ή σύροντάς το στο παράθυρο."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Πώς ανοίγω ένα μηχάνημα container στο VS Code;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ξεκινήστε το μηχάνημα στο Gantry και κάντε κλικ στο Άνοιγμα στο VS Code. Το Gantry ανοίγει το μηχάνημα στο VS Code μέσω Remote-SSH, όπως στο παράδειγμα container-machine-vscode της Apple. Η εικόνα του μηχανήματος πρέπει να εκτελεί sshd και πρέπει να είναι εγκατεστημένο το VS Code με την επέκταση Remote-SSH."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Ποιες εκδόσεις του apple/container υποστηρίζει το Gantry;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Το Gantry χρειάζεται CLI container 1.0 ή νεότερο και συνιστά την 1.7.1. Διαβάζει την εγκατεστημένη έκδοση και εμφανίζει μόνο τις λειτουργίες που υποστηρίζει, για παράδειγμα μεγέθη worker και κοινή αποθήκη εικόνων (1.7), commit (1.6) και Περικοπή δίσκου (1.4). Αν το CLI λείπει ή είναι παλιό, το Gantry προσφέρει καθοδηγούμενη ρύθμιση."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Μπορεί το Gantry να περιηγηθεί σε ένα cluster Kubernetes;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ναι. Η ενότητα Kubernetes εμφανίζει pod, deployment, StatefulSet, DaemonSet, υπηρεσίες, Ingress, ConfigMap, μυστικά, κόμβους και συμβάντα για κάθε context του kubeconfig, και έχει αρχεία καταγραφής pod, shell pod, προωθήσεις θυρών, κλιμάκωση, επανεκκίνηση rollout, διαγραφή και Εφαρμογή YAML. Το Gantry επικοινωνεί απευθείας με το API του Kubernetes, οπότε δεν χρειάζεστε το kubectl. Δείτε Kubernetes σε Mac."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Τι στέλνει η Επεξήγηση αποτυχίας στο Apple Intelligence;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Πρόσφατα αρχεία καταγραφής και τα στοιχεία του κοντέινερ, χωρίς τιμές περιβάλλοντος και κείμενο που μοιάζει με μυστικό. Τα μικρά αιτήματα εκτελούνται στο μοντέλο της συσκευής. Με ενεργή τη ρύθμιση για μεγάλα αρχεία καταγραφής (macOS 27), τα μεγάλα αρχεία καταγραφής πηγαίνουν στο Private Cloud Compute. Το πλαίσιο δείχνει τι στάλθηκε. Μια προτεινόμενη εντολή ανοίγει στο Τερματικό, αλλά δεν εκτελείται μέχρι να πατήσετε Return. Χωρίς Apple Intelligence, το Gantry προσφέρει ένα prompt για αντιγραφή σε άλλο βοηθό AI."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Μπορώ να επικολλήσω μια εντολή docker run στο Gantry;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ναι. Στο φύλλο «Νέο κοντέινερ», επιλέξτε Επικόλληση εντολής…. Το Gantry διαβάζει docker run, docker create, podman run και container run, συμπληρώνει τη φόρμα και εμφανίζει κάθε σημαία που δεν μπορεί να χρησιμοποιήσει, με την αιτία. Δείτε Δημιουργία κοντέινερ από εντολή docker run."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Μπορεί το Gantry να διαχειριστεί τον builder, τα μητρώα και τον πυρήνα του apple/container;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ναι. Η ενότητα «Σύστημα» ενός host apple/container ξεκινά, σταματά και διαγράφει τον builder εικόνων με επιλογές CPU, μνήμης και DNS· εμφανίζει, προσθέτει και αφαιρεί συνδέσεις σε μητρώα (ο κωδικός πρόσβασης περνά στο CLI μόνο μέσω stdin)· εγκαθιστά τον συνιστώμενο πυρήνα, ένα αρχείο πυρήνα ή ένα αρχείο tar· μεταδίδει ζωντανά τα αρχεία καταγραφής υπηρεσιών· και επεξεργάζεται τις ιδιότητες συστήματος στο config.toml."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Είναι το Gantry εναλλακτική του Docker Desktop, του OrbStack ή του Podman Desktop;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ως GUI, ναι. Το Gantry είναι μια δωρεάν, εγγενής εφαρμογή macOS για τη διαχείριση κοντέινερ, εικόνων, τόμων, δικτύων, αρχείων καταγραφής και στατιστικών. Είναι πελάτης, όχι μηχανή: χρησιμοποιεί τον daemon του Docker που ήδη τρέχετε (Docker Desktop, OrbStack, Colima) ή το εργαλείο container της Apple, και προσθέτει προβολή πολλών host, host SSH και διακομιστή MCP. Δείτε τη σύγκριση."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Είναι το Gantry δωρεάν;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ναι. Το Gantry είναι δωρεάν και ανοιχτού κώδικα, με άδεια MIT. Δεν υπάρχει συνδρομή, λογαριασμός ή όριο στον αριθμό των host ή των κοντέινερ."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Τι χρειάζομαι για να τρέξω το Gantry;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "macOS 26 ή νεότερο σε Apple silicon ή Intel, καθώς και έναν daemon του Docker (Docker Desktop, OrbStack, Colima ή παρόμοιο) ή το εργαλείο container της Apple. Το ίδιο το apple/container απαιτεί Apple silicon, οπότε σε Mac με Intel το Gantry διαχειρίζεται μόνο host Docker."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Λειτουργεί το Gantry με OrbStack, Colima και Docker Desktop;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ναι. Το Gantry επικοινωνεί απευθείας με το Docker Engine API μέσω του Unix socket, οπότε λειτουργεί με κάθε daemon που το εκθέτει, όπως το OrbStack, το Colima και το Docker Desktop."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Μπορεί το Gantry να διαχειριστεί απομακρυσμένους host Docker;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ναι. Το Gantry συνδέεται σε απομακρυσμένους daemon μέσω SSH, όπως το docker -H ssh://, με bastion ProxyJump, έλεγχο ταυτότητας με πολλά κλειδιά και αυτόματη επανασύνδεση. Δεν χρειάζεται να εγκατασταθεί τίποτα στον διακομιστή και τα μυστικά φυλάσσονται στην Κλειδοθήκη του macOS."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Με ειδοποιεί το Gantry όταν αποτύχει ένα κοντέινερ;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ναι. Το Gantry στέλνει μια εγγενή γνωστοποίηση του macOS όταν ένα κοντέινερ καταρρέει, μένει χωρίς μνήμη ή αποτυγχάνει στον έλεγχο υγείας σε οποιονδήποτε host: τοπικό, SSH ή apple/container. Κάντε κλικ σε αυτή για να μεταβείτε στο κοντέινερ. Οι διακοπές και επανεκκινήσεις που ξεκινάτε από το Gantry δεν αναφέρονται, και μπορείτε να απενεργοποιήσετε τις γνωστοποιήσεις στις Ρυθμίσεις."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Μπορεί το Gantry να κάνει λήψη εικόνων από ιδιωτικά μητρώα;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ναι. Στους host Docker, το Gantry διαβάζει τα διαπιστευτήρια από το ~/.docker/config.json σας (το ίδιο docker login που έχετε ήδη εκτελέσει), μαζί με ενσωματωμένα διαπιστευτήρια (inline auth), credential helpers και την Κλειδοθήκη του macOS. Στους host apple/container, διαχειρίζεται τις συνδέσεις container registry."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Μπορεί το Gantry να εκθέσει ένα τοπικό κοντέινερ στο διαδίκτυο;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ναι. Με ένα κλικ σε μια δημοσιευμένη θύρα, αυτή γίνεται κοινόχρηστη μέσω Cloudflare Tunnel. Το Gantry εγκαθιστά το cloudflared αν χρειάζεται και ξεκινά ένα γρήγορο tunnel (χωρίς λογαριασμό Cloudflare, με προσωρινό URL στο trycloudflare.com) ή ένα επώνυμο tunnel στο δικό σας hostname. Το δημόσιο URL εμφανίζεται κάτω από τη θύρα, με κουμπιά για άνοιγμα, αντιγραφή και διακοπή."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Είναι το Gantry εφαρμογή Electron;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Όχι. Το Gantry είναι εγγενής εφαρμογή, φτιαγμένη με SwiftUI και Swift 6. Το περιβάλλον χρήσης είναι διαθέσιμο σε 28 γλώσσες: αγγλικά, απλοποιημένα κινεζικά και 26 ευρωπαϊκές γλώσσες, για παράδειγμα σερβικά σε κυριλλική και λατινική γραφή. Ακολουθεί τη γλώσσα συστήματος του macOS."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Πώς εγκαθιστώ το Gantry;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Εκτελέστε brew install --cask getgantry/tap/gantry ή κατεβάστε την πιο πρόσφατη έκδοση από το GitHub και σύρετε το Gantry.app στον φάκελο «Εφαρμογές»."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Μπορούν πράκτορες AI να ελέγχουν το Gantry;",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Ναι. Το Gantry περιλαμβάνει διακομιστή MCP και App Intents του macOS, ώστε το Claude, οι Συντομεύσεις, η Siri και τα σενάρια να έχουν την ίδια πρόσβαση με το GUI σε κάθε host, και σε host SSH: κοντέινερ, εικόνες, τόμους, δίκτυα, Compose, μηχανήματα apple/container, cluster Kubernetes, εργαλεία συστήματος apple_* (υπηρεσίες, builder, μητρώα, ιδιότητες, αρχεία καταγραφής, πυρήνας) και κοινή χρήση θυρών. Σε macOS 26 και νεότερο, η Επεξήγηση αποτυχίας… ρωτά επίσης το Apple Intelligence γιατί απέτυχε ένα κοντέινερ. Προσθέστε τον διακομιστή MCP με claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a class="brand" href="../">
+        <img src="../../assets/icon.png" alt="Εικονίδιο του Gantry" width="28" height="28">
+        <span>Gantry</span>
+      </a>
+      <nav class="nav-links">
+        <a href="../#commands">Από την εντολή στο στοιχείο ελέγχου</a>
+        <a href="./" class="active">Λειτουργίες</a>
+        <a href="../apple-container/">apple/container</a>
+        <a href="../compare/">Σύγκριση</a>
+        <a href="#agents">Πράκτορες</a>
+        <a href="#faq">Ερωτήσεις</a>
+        <a href="../../docs/index.html">Τεκμηρίωση</a>
+      </nav>
+      <div class="nav-right">
+        <details class="lang-menu">
+          <summary aria-label="Γλώσσα: Ελληνικά" title="Γλώσσα"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span class="lang-name">Ελληνικά</span><span class="lang-code">EL</span></summary>
+          <ul>
+            <li><a href="../../features/" hreflang="en" lang="en">English</a></li>
+            <li><a href="../../de/features/" hreflang="de" lang="de">Deutsch</a></li>
+            <li><a href="../../fr/features/" hreflang="fr" lang="fr">Français</a></li>
+            <li><a href="../../es/features/" hreflang="es" lang="es">Español</a></li>
+            <li><a href="../../it/features/" hreflang="it" lang="it">Italiano</a></li>
+            <li><a href="../../pt-PT/features/" hreflang="pt-PT" lang="pt-PT">Português</a></li>
+            <li><a href="../../nl/features/" hreflang="nl" lang="nl">Nederlands</a></li>
+            <li><a href="../../sv/features/" hreflang="sv" lang="sv">Svenska</a></li>
+            <li><a href="../../da/features/" hreflang="da" lang="da">Dansk</a></li>
+            <li><a href="../../nb/features/" hreflang="nb" lang="nb">Norsk bokmål</a></li>
+            <li><a href="../../fi/features/" hreflang="fi" lang="fi">Suomi</a></li>
+            <li><a href="../../pl/features/" hreflang="pl" lang="pl">Polski</a></li>
+            <li><a href="../../cs/features/" hreflang="cs" lang="cs">Čeština</a></li>
+            <li><a href="../../sk/features/" hreflang="sk" lang="sk">Slovenčina</a></li>
+            <li><a href="../../hu/features/" hreflang="hu" lang="hu">Magyar</a></li>
+            <li><a href="../../ro/features/" hreflang="ro" lang="ro">Română</a></li>
+            <li><a href="../../bg/features/" hreflang="bg" lang="bg">Български</a></li>
+            <li><a href="./" hreflang="el" lang="el" aria-current="page">Ελληνικά</a></li>
+            <li><a href="../../hr/features/" hreflang="hr" lang="hr">Hrvatski</a></li>
+            <li><a href="../../sl/features/" hreflang="sl" lang="sl">Slovenščina</a></li>
+            <li><a href="../../sr/features/" hreflang="sr" lang="sr">Српски</a></li>
+            <li><a href="../../sr-Latn/features/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a></li>
+            <li><a href="../../lt/features/" hreflang="lt" lang="lt">Lietuvių</a></li>
+            <li><a href="../../lv/features/" hreflang="lv" lang="lv">Latviešu</a></li>
+            <li><a href="../../et/features/" hreflang="et" lang="et">Eesti</a></li>
+            <li><a href="../../uk/features/" hreflang="uk" lang="uk">Українська</a></li>
+            <li><a href="../../ru/features/" hreflang="ru" lang="ru">Русский</a></li>
+          </ul>
+        </details>
+        <a class="gh-link" href="https://github.com/getgantry/gantry" rel="noopener">GitHub <span class="stars" id="ghStars" hidden></span></a>
+        <a class="btn btn-primary" href="https://github.com/getgantry/gantry/releases/latest" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          Λήψη
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="title-block">
+      <div class="wrap">
+        <h1>Λειτουργίες</h1>
+        <p class="lead">Κάθε περιοχή του Gantry, με τη σειρά της πλευρικής στήλης της εφαρμογής. Η αριστερή στήλη δείχνει τις εντολές που αντικαθιστά η περιοχή.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://github.com/getgantry/gantry/releases/latest" rel="noopener">Λήψη για macOS</a>
+          <a class="btn" href="../">Gantry</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="containers">
+      <div class="wrap">
+        <div class="sec-head"><div><h2>Κοντέινερ</h2></div><p>Δημιουργία, εκτέλεση, άνοιγμα και αλλαγή κοντέινερ σε κάθε host.</p></div>
+        <div class="sec-body">
+          <ul class="rail"><li>container run</li><li>docker exec -it</li><li>docker cp</li><li>docker port</li></ul>
+          <div class="sec-main">
+            <dl class="items">
+              <div><dt>Επικόλληση ενός <code>docker run</code></dt><dd>Επικολλήστε μια εντολή <code>docker run</code>, <code>podman run</code> ή <code>container run</code> και το Gantry συμπληρώνει τη φόρμα «Νέο κοντέινερ», με λίστα των σημαιών που δεν μπορεί να χρησιμοποιήσει. Αντιγράψτε οποιοδήποτε κοντέινερ πίσω ως εντολή ή αποθηκεύστε το ως συνταγή. <a href="../docker-run-to-container/">Πώς λειτουργεί</a></dd></div>
+              <div><dt>Ενσωματωμένο τερματικό exec</dt><dd>Πλήρης εξομοίωση τερματικού σε κάθε κοντέινερ σε εκτέλεση, τοπικό ή απομακρυσμένο — με χρωματικά θέματα (System, Solarized, Dracula, Nord).</dd></div>
+              <div><dt>Περιήγηση αρχείων με μεταφορά και απόθεση</dt><dd>Περιηγηθείτε στο σύστημα αρχείων ενός κοντέινερ, μετακινήστε αρχεία μέσα και έξω και ρίξτε ολόκληρους φακέλους κατευθείαν από το Finder — σε host Docker και apple/container.</dd></div>
+              <div><dt>Άνοιγμα στο πρόγραμμα περιήγησης και προώθηση</dt><dd>Ένα κλικ ανοίγει μια δημοσιευμένη θύρα. Οι θύρες μέσω SSH προωθούνται αυτόματα στο <code>localhost</code> — κι αν η θύρα είναι πιασμένη, το Gantry επιλέγει μια ελεύθερη που μπορείτε να αλλάξετε.</dd></div>
+              <div><dt>Κοινή χρήση στο διαδίκτυο</dt><dd>Ένα κλικ εκθέτει μια δημοσιευμένη θύρα μέσω <b>Cloudflare Tunnel</b>. Το Gantry εγκαθιστά το <code>cloudflared</code> για εσάς και σας δίνει ένα <b>γρήγορο tunnel</b> (χωρίς λογαριασμό, με URL <code>*.trycloudflare.com</code>) ή ένα <b>επώνυμο tunnel</b> στον δικό σας τομέα — ιδανικό για προεπισκόπηση ανάπτυξης, για webhook ή για να φτάσει ένας πράκτορας AI σε ένα κοντέινερ στο Mac σας.</dd></div>
+              <div><dt>Μυστικά της Κλειδοθήκης στο περιβάλλον</dt><dd>Κρατήστε κωδικούς πρόσβασης και token στην Κλειδοθήκη του macOS (<b>Ρυθμίσεις → Μυστικά</b>) και χρησιμοποιήστε τα ως μεταβλητές περιβάλλοντος στο «Νέο κοντέινερ» και στη «Γρήγορη εκτέλεση». Η φόρμα εμφανίζει <code>keychain:NAME</code>, ποτέ την τιμή, και το Gantry διαβάζει την τιμή μόνο όταν δημιουργεί το κοντέινερ. Η εξαγωγή σε Compose, οι συνταγές και η «Αντιγραφή ως εντολής» γράφουν το όνομα, όχι την τιμή.</dd></div>
+              <div><dt>Ενέργειες σε πολλά μαζί</dt><dd>Επιλέξτε πολλά κοντέινερ, εικόνες, τόμους ή δίκτυα και ξεκινήστε, σταματήστε, επανεκκινήστε ή αφαιρέστε τα σε ένα βήμα, με πρόοδο και αναφορά για κάθε στοιχείο.</dd></div>
+              <div><dt>Στατιστικά σε πραγματικό χρόνο</dt><dd>CPU, μνήμη, δίκτυο και I/O δίσκου σε ζωντανά γραφήματα, με δειγματοληψία ανά 1 δευτερόλεπτο.</dd></div>
+              <div><dt>Κοντέινερ σε εξωτερικό δίσκο</dt><dd>Μετακινήστε όλα τα δεδομένα του apple/container σε εξωτερικό δίσκο, κρατήστε τους τόμους σε δίσκο της επιλογής σας και λάβετε σαφή προειδοποίηση όταν ο δίσκος δεν είναι συνδεδεμένος. <a href="../containers-on-external-drive/">Διαβάστε τον οδηγό</a></dd></div>
+            </dl>
+            <figure class="guide-shot"><picture><source type="image/webp" srcset="../../assets/stats-800.webp 800w, ../../assets/stats-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../../assets/stats.png" alt="Ζωντανά στατιστικά κοντέινερ: γραφήματα CPU, μνήμης, δικτύου και I/O δίσκου" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Σχ. 1</span><b>Ζωντανά στατιστικά.</b> CPU, μνήμη, δίκτυο και I/O δίσκου, με δειγματοληψία κάθε δευτερόλεπτο.</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="images">
+      <div class="wrap">
+        <div class="sec-head"><div><h2>Εικόνες και δομήσεις</h2></div><p>Λήψη, δόμηση, σάρωση και αφαίρεση εικόνων.</p></div>
+        <div class="sec-body">
+          <ul class="rail"><li>docker build</li><li>docker pull</li><li>trivy image</li><li>docker system prune</li></ul>
+          <div class="sec-main">
+            <dl class="items">
+              <div><dt>Δόμηση και λήψη εικόνων</dt><dd>Ρίξτε ένα Dockerfile στο παράθυρο για δόμηση με ζωντανό αρχείο καταγραφής ή κάντε λήψη με αναφορά και πρόοδο ανά επίπεδο. Ετικέτες, εκκαθάριση και ιστορικό επιπέδων. Ένα σήμα επισημαίνει τις εικόνες που δομήθηκαν για άλλη αρχιτεκτονική CPU από αυτή του host.</dd></div>
+              <div><dt>Ιστορικό δομήσεων</dt><dd>Κάθε host έχει μια ενότητα <b>Δομήσεις</b>: τις δομήσεις με τα βήματά τους, τις επιτυχίες cache και το αρχείο καταγραφής. Το Gantry κρατά τις δομήσεις που ξεκινά, με τα ονόματα των ορισμάτων δόμησης αλλά όχι τις τιμές τους. Σε host Docker διαβάζει επίσης το <code>docker buildx history</code> (buildx 0.23.0 ή νεότερο). Το apple/container δεν κρατά ιστορικό δομήσεων, οπότε εκεί βλέπετε τις δομήσεις που ξεκίνησε το Gantry.</dd></div>
+              <div><dt>Σάρωση εικόνων με Trivy ή Grype</dt><dd>Επιλέξτε <b>Σάρωση για ευπάθειες…</b> σε μια εικόνα. Το Gantry εκτελεί το Trivy (0.50.0 ή νεότερο) ή το Grype (0.74.0 ή νεότερο) που έχετε εγκαταστήσει, για παράδειγμα με Homebrew, και ομαδοποιεί τα ευρήματα από κρίσιμα έως άγνωστα. Η <b>Εξαγωγή SBOM</b> γράφει CycloneDX ή, με Trivy, SPDX. Λειτουργεί σε apple/container, τοπικό Docker και Docker μέσω SSH, όπου το Gantry σαρώνει το αντίγραφο του μητρώου μιας εικόνας με ετικέτα.</dd></div>
+              <div><dt>Ιδιωτικά μητρώα</dt><dd>Οι λήψεις χρησιμοποιούν το <code>docker login</code> που έχετε ήδη κάνει — το Gantry βρίσκει τα διαπιστευτήρια από το <code>~/.docker/config.json</code>, τα credential helpers και την Κλειδοθήκη, στη δημιουργία, στη Γρήγορη εκτέλεση και στο Compose.</dd></div>
+              <div><dt>Ανάκτηση χώρου</dt><dd>Ένας πίνακας δείχνει τι πιάνει χώρο — ορφανές εικόνες, σταματημένα κοντέινερ, αχρησιμοποίητοι τόμοι, cache δόμησης — με τα μεγέθη, και εκκαθαρίζει το καθένα χωριστά ή όλα μαζί. Στο apple/container εκτελεί επίσης Περικοπή δίσκου.</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="compose">
+      <div class="wrap">
+        <div class="sec-head"><div><h2>Compose</h2></div><p>Εκτελέστε ένα <code>docker-compose.yml</code> στο Docker ή στο apple/container. Δημιουργήστε ένα από κοντέινερ που εκτελούνται.</p></div>
+        <div class="sec-body">
+          <ul class="rail"><li>docker compose up -d</li><li>docker compose down</li><li>docker compose logs -f</li></ul>
+          <div class="sec-main">
+            <dl class="items">
+              <div><dt>Compose σε κάθε host</dt><dd>Τα κοντέινερ ομαδοποιούνται ανά έργο Compose. <b>Σηκώστε ένα αρχείο Compose σε οποιονδήποτε host</b> — τοπικό Docker, SSH ή apple/container — με ενσωματωμένο <b>επεξεργαστή YAML</b>· η εκτέλεση προσαρμόζεται σε κάθε μηχανή.</dd></div>
+              <div><dt>Εξαγωγή ως Compose</dt><dd>Επιλέξτε <b>Εξαγωγή ως Compose…</b> σε ένα ή περισσότερα κοντέινερ για να πάρετε ένα <code>docker-compose.yml</code> με θύρες, προσαρτήσεις, δίκτυα, πολιτική επανεκκίνησης, έλεγχο υγείας, όρια και άλλα. Οι τιμές που μοιάζουν με μυστικά γίνονται <code>${NAME}</code>, εκτός αν τις συμπεριλάβετε. Σε host apple/container, το Gantry προειδοποιεί για τις σημαίες που το Compose δεν μπορεί να εκφράσει. <a href="../docker-run-to-container/#compose">Πώς λειτουργεί</a></dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="kubernetes">
+      <div class="wrap">
+        <div class="sec-head"><div><h2>Kubernetes</h2></div><p>Περιήγηση σε κάθε context του kubeconfig ή δημιουργία cluster με το apple/container.</p></div>
+        <div class="sec-body">
+          <ul class="rail"><li>kubectl get pods -A</li><li>kubectl logs -f</li><li>kubectl port-forward</li><li>container cluster</li></ul>
+          <div class="sec-main">
+            <dl class="items">
+              <div><dt>Περιηγητής Kubernetes</dt><dd>Περιηγηθείτε σε pod, deployment, StatefulSet, DaemonSet, υπηρεσίες, Ingress, ConfigMap, μυστικά, κόμβους και συμβάντα οποιουδήποτε context του kubeconfig. Παρακολουθήστε αρχεία καταγραφής pod, ανοίξτε shell, προωθήστε θύρα, κλιμακώστε, επανεκκινήστε ένα rollout και εφαρμόστε YAML. Το Gantry επικοινωνεί απευθείας με το API του Kubernetes, οπότε ένα cluster που δημιουργήθηκε με <code>container cluster create</code> είναι έτοιμο για περιήγηση χωρίς τίποτε άλλο εγκατεστημένο: χωρίς <code>kubectl</code>.</dd></div>
+              <div><dt>Cluster Kubernetes</dt><dd>Δημιουργήστε cluster Kubernetes με το <code>container cluster</code>: ορίστε χωριστά το μέγεθος του control plane και των worker, επιλέξτε το CNI και δείτε τους κόμβους, την έκδοση του Kubernetes και το context του kubeconfig. Οι κόμβοι του cluster προστατεύονται από κατά λάθος διακοπή και διαγραφή. <a href="../apple-container-kubernetes/">Περισσότερα</a></dd></div>
+            </dl>
+            <figure class="guide-shot"><picture><source type="image/webp" srcset="../../assets/shots/0.27.0/kubernetes-browser-800.webp 800w, ../../assets/shots/0.27.0/kubernetes-browser-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../../assets/shots/0.27.0/kubernetes-browser.png" alt="Ο περιηγητής Kubernetes του Gantry με pod, αρχεία καταγραφής και προωθήσεις θυρών" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Σχ. 2</span><b>Περιηγητής Kubernetes.</b> Pod, αρχεία καταγραφής, shell και προωθήσεις θυρών για οποιοδήποτε context.</figcaption></figure>
+            <ul class="links"><li><a href="../apple-container-kubernetes/">Kubernetes στο apple/container</a></li><li><a href="../apple-container-kubernetes/#terminal">Kubernetes σε Mac</a></li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="fleet">
+      <div class="wrap">
+        <div class="sec-head"><div><h2>Host και στόλος</h2></div><p>Αυτό το Mac, οι host Docker μέσω SSH και το apple/container σε έναν πίνακα ελέγχου.</p></div>
+        <div class="sec-body">
+          <ul class="rail"><li>docker -H ssh://user@host</li><li>docker context use</li><li>docker stats</li></ul>
+          <div class="sec-main">
+            <dl class="items">
+              <div><dt>Ένας πίνακας ελέγχου για κάθε host</dt><dd>Τοπικός daemon, host SSH και apple/container σε μία οθόνη — ζωντανά sparklines CPU/μνήμης, ανάλυση κατάστασης κοντέινερ και προβλήματα υγείας που σας πάνε κατευθείαν στον υπαίτιο.</dd></div>
+              <div><dt>Απομακρυσμένοι host μέσω SSH</dt><dd>Δημιουργεί tunnel ακριβώς όπως το <code>docker -H ssh://</code> μέσω <code>dial-stdio</code> — bastion ProxyJump, έλεγχος ταυτότητας με πολλά κλειδιά, αυτόματη επανασύνδεση. Καμία εγκατάσταση στον διακομιστή, μυστικά στην Κλειδοθήκη. Εισαγωγή με ένα κλικ από <code>~/.ssh/config</code> και <code>docker context ls</code>.</dd></div>
+              <div><dt>Χρήση πόρων για όλους τους host</dt><dd>Ένας πίνακας με ταξινόμηση με τα κοντέινερ που εκτελούνται σε κάθε συνδεδεμένο host: host, όνομα, εικόνα, CPU, μνήμη, I/O δικτύου, I/O δίσκου και χρόνος λειτουργίας. Φιλτράρετε κατά όνομα, εικόνα ή host, ή εμφανίστε έναν μόνο host. Κάντε διπλό κλικ σε μια γραμμή για να ανοίξετε το κοντέινερ. Ο πίνακας χρησιμοποιεί τα δείγματα που το Gantry ήδη λαμβάνει κάθε 5 δευτερόλεπτα, οπότε δεν ανοίγει νέες ροές στατιστικών. Ανοίξτε τον από την πλαϊνή στήλη, με <span class="kbd">⌘K</span> ή με <code>gantry://open/usage</code>.</dd></div>
+            </dl>
+            <div class="figs">
+            <figure class="guide-shot"><picture><source type="image/webp" srcset="../../assets/fleet-800.webp 800w, ../../assets/fleet-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../../assets/fleet.png" alt="Πίνακας ελέγχου στόλου με έναν host apple/container και έναν host Docker, τη CPU, τη μνήμη και τα κορυφαία κοντέινερ τους" width="1856" height="1190" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Σχ. 3</span><b>Πίνακας ελέγχου στόλου.</b> Κάθε host, το φορτίο του και τα κορυφαία κοντέινερ του σε μία οθόνη.</figcaption></figure>
+            <figure class="guide-shot"><picture><source type="image/webp" srcset="../../assets/overview-800.webp 800w, ../../assets/overview-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../../assets/overview.png" alt="Επισκόπηση host με δείκτες CPU και μνήμης και χρήση δίσκου του Docker" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Σχ. 4</span><b>Επισκόπηση host.</b> Δείκτες, χρήση δίσκου, στοιχεία του daemon.</figcaption></figure>
+            </div>
+            <figure class="guide-shot"><picture><source type="image/webp" srcset="../../assets/shots/0.29.0/fleet-activity-800.webp 800w, ../../assets/shots/0.29.0/fleet-activity-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../../assets/shots/0.29.0/fleet-activity.png" alt="Πίνακας «Χρήση πόρων» με τα κοντέινερ που εκτελούνται σε έναν host apple/container και έναν host Docker, ταξινομημένα κατά CPU" width="1856" height="580" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Σχ. 5</span><b>Χρήση πόρων.</b> Όλα τα κοντέινερ που εκτελούνται σε όλους τους host, ταξινομημένα κατά CPU.</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="logs">
+      <div class="wrap">
+        <div class="sec-head"><div><h2>Αρχεία καταγραφής και αποτυχίες</h2></div><p>Ανάγνωση, αναζήτηση και εξαγωγή αρχείων καταγραφής. Εύρεση της αιτίας όταν ένα κοντέινερ αποτυγχάνει.</p></div>
+        <div class="sec-body">
+          <ul class="rail"><li>docker logs -f</li><li>container logs</li><li>docker events</li></ul>
+          <div class="sec-main">
+            <dl class="items">
+              <div><dt>Αρχεία καταγραφής σε πραγματικό χρόνο</dt><dd>Παρακολούθηση σε πραγματικό χρόνο, αναζήτηση ⌘F με <b>regex</b> ή κυριολεκτικό κείμενο, <b>φίλτρο επιπέδου</b> (Error→Trace), <b>χρώματα ANSI</b>, buffer 50.000 γραμμών — και ενοποιημένα <b>αρχεία καταγραφής stack</b> για ολόκληρο έργο Compose.</dd></div>
+              <div><dt>Εξαγωγή αρχείων καταγραφής</dt><dd>Η <b>Εξαγωγή αρχείων καταγραφής…</b> (<span class="kbd">⇧⌘E</span>) αποθηκεύει τις γραμμές που βλέπετε, με το φίλτρο επιπέδου, την αναζήτηση και το χρονικό διάστημα, ως αρχείο <code>.log</code> ή <code>.txt</code>. Η <b>Αντιγραφή ορατών γραμμών</b> τις αντιγράφει. Σε host Docker μπορείτε να προσθέσετε χρονοσφραγίδες και να εμφανίσετε μόνο ένα διάστημα από τα τελευταία 5 λεπτά έως την τελευταία ημέρα.</dd></div>
+              <div><dt>Ειδοποιήσεις αποτυχιών</dt><dd>Μια εγγενής γνωστοποίηση όταν ένα κοντέινερ καταρρέει, μένει χωρίς μνήμη ή γίνεται μη υγιές σε οποιονδήποτε host. Κάντε κλικ για να μεταβείτε κατευθείαν στο κοντέινερ — οι διακοπές που κάνετε εσείς δεν αναφέρονται.</dd></div>
+              <div><dt>Επεξήγηση αποτυχίας με Apple Intelligence</dt><dd>Επιλέξτε <b>Επεξήγηση αποτυχίας…</b> σε ένα κοντέινερ που κατέρρευσε ή σε μια λειτουργία που απέτυχε. Το Gantry στέλνει πρόσφατα αρχεία καταγραφής και στοιχεία, χωρίς τιμές περιβάλλοντος και κείμενο που μοιάζει με μυστικό, στο μοντέλο της συσκευής και εμφανίζει την πιθανή αιτία, τις ενδείξεις και τα επόμενα βήματα. Τα μεγάλα αρχεία καταγραφής μπορούν να πάνε στο Private Cloud Compute (macOS 27). Το πλαίσιο δείχνει ακριβώς τι στάλθηκε.</dd></div>
+              <div><dt>Στιγμιότυπα οθόνης στην «Επεξήγηση αποτυχίας»</dt><dd>Αποθέστε, επικολλήστε ή προσθέστε έως 3 εικόνες στην «Επεξήγηση αποτυχίας», για παράδειγμα ένα στιγμιότυπο οθόνης μιας σελίδας σφάλματος. Οι εικόνες μένουν σε αυτό το Mac: μόνο το μοντέλο στη συσκευή τις διαβάζει (macOS 27), ποτέ το Private Cloud Compute.</dd></div>
+            </dl>
+            <figure class="guide-shot"><picture><source type="image/webp" srcset="../../assets/shots/0.27.0/explain-failure-800.webp 800w, ../../assets/shots/0.27.0/explain-failure-1600.webp 1292w" sizes="(max-width: 800px) 100vw, 760px"><img src="../../assets/shots/0.27.0/explain-failure.png" alt="Το πλαίσιο «Επεξήγηση αποτυχίας» με την πιθανή αιτία και τα επόμενα βήματα" width="1292" height="1332" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Σχ. 6</span><b>Επεξήγηση αποτυχίας.</b> Η πιθανή αιτία, οι ενδείξεις και τα επόμενα βήματα.</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="macos">
+      <div class="wrap">
+        <div class="sec-head"><div><h2>macOS</h2></div><p>Η γραμμή μενού, οι ειδοποιήσεις, το Spotlight, οι Συντομεύσεις και το πληκτρολόγιο.</p></div>
+        <div class="sec-body">
+          <ul class="rail keys"><li>⌘K</li><li>⌥⌘P</li><li>⇧⌘E</li></ul>
+          <div class="sec-main">
+            <dl class="items">
+              <div><dt>Μέρος του macOS</dt><dd>Ειδοποιήσεις με Επανεκκίνηση, Προβολή αρχείων καταγραφής και Αντιγραφή ως prompt. Το Spotlight βρίσκει κοντέινερ, έργα Compose και host. Ενέργειες για Siri και Συντομεύσεις, widget υγείας στόλου, στοιχεία ελέγχου στο Κέντρο ελέγχου για τις υπηρεσίες του apple/container ή ένα αγαπημένο κοντέινερ, και σύνδεσμοι <code>gantry://</code> για σενάρια.</dd></div>
+              <div><dt>Πρόοδος στη γραμμή μενού</dt><dd>Το πλαίσιο της γραμμής μενού εμφανίζει κάθε λήψη, δόμηση και λειτουργία Compose σε εξέλιξη με γραμμή προόδου, τα επίπεδα ή τις υπηρεσίες που ολοκληρώθηκαν, τα byte, τον χρόνο και ένα κουμπί <b>Ακύρωση</b>. Το εικονίδιο της γραμμής μενού δείχνει πόσες λειτουργίες εκτελούνται. Κάθε έργο Compose αποκτά <b>Λήψη εικόνων</b> και <b>Compose Down</b>· το Compose Down διατηρεί τους τόμους και τις εικόνες.</dd></div>
+              <div><dt>Παλέτα εντολών</dt><dd>Πατήστε <span class="kbd">⌘K</span> και πληκτρολογήστε. Μία αναζήτηση καλύπτει κοντέινερ, έργα Compose, εικόνες, τόμους, δίκτυα, μηχανήματα, cluster και host, με ενέργειες όπως Έναρξη, Εμφάνιση αρχείων καταγραφής και Άνοιγμα shell.</dd></div>
+              <div><dt>Touch ID για καταστροφικές ενέργειες</dt><dd>Ενεργοποιήστε το και το Gantry ζητά Touch ID — ή τον κωδικό σύνδεσής σας — πριν αφαιρέσει ένα κοντέινερ ή διαγράψει έναν host. Τα μυστικά βρίσκονται ήδη στην Κλειδοθήκη.</dd></div>
+              <div><dt>Θέματα τερματικού</dt><dd>Δώστε στο ενσωματωμένο shell το θέμα System, Solarized Dark, Dracula ή Nord — πλήρης παλέτα κειμένου, φόντου και 16 χρωμάτων ANSI, με άμεση εφαρμογή.</dd></div>
+            </dl>
+            <figure class="guide-shot"><picture><source type="image/webp" srcset="../../assets/shots/0.29.0/menu-bar-progress-1600.webp 640w" sizes="(max-width: 800px) 100vw, 760px"><img src="../../assets/shots/0.29.0/menu-bar-progress.png" alt="Πλαίσιο της γραμμής μενού με δύο λήψεις εικόνων σε εξέλιξη, τα επίπεδα, τα byte και τα κουμπιά «Ακύρωση» τους" width="640" height="460" loading="lazy" decoding="async"></picture><figcaption><span class="fig-n">Σχ. 7</span><b>Δραστηριότητα στη γραμμή μενού.</b> Επίπεδα, byte, χρόνος και «Ακύρωση» για κάθε λήψη.</figcaption></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="apple">
+      <div class="wrap">
+        <div class="sec-head"><div><h2>Το εγγενές GUI του macOS για το Apple container</h2></div><p>Το εργαλείο <a href="https://github.com/apple/container" target="_blank" rel="noopener">container</a> της Apple εκτελεί κοντέινερ Linux ως ελαφριές VM σε Apple silicon, αλλά διατίθεται μόνο ως εργαλείο γραμμής εντολών. Το Gantry είναι η εφαρμογή γραφείου του: ό,τι είναι το Docker Desktop για το Docker, είναι το Gantry για το <code>container</code>. Υποστηρίζει κάθε CLI <code>container</code> από 1.0 έως την προτεινόμενη <b>1.7.1</b> και ενεργοποιεί κάθε λειτουργία μόνο όταν την υποστηρίζει το εγκατεστημένο CLI σας.</p></div>
+        <div class="sec-body">
+          <ul class="rail"><li>container system start</li><li>container machine</li><li>container builder start</li><li>container registry login</li></ul>
+          <div class="sec-main">
+            <dl class="items three">
+              <div><dt>Κοντέινερ, αρχεία καταγραφής, στατιστικά και exec</dt><dd>Δημιουργία, έναρξη, διακοπή, τερματισμός και εκκαθάριση· ζωντανά αρχεία καταγραφής, στατιστικά, τερματικό exec, <code>top</code> και εξαγωγή σε tar, στο ίδιο περιβάλλον με τους host Docker σας.</dd></div>
+              <div><dt>Cluster Kubernetes</dt><dd>Δημιουργήστε cluster Kubernetes με το <code>container cluster</code>: ορίστε χωριστά το μέγεθος του control plane και των worker, επιλέξτε το CNI και δείτε τους κόμβους, την έκδοση του Kubernetes και το context του kubeconfig. Οι κόμβοι του cluster προστατεύονται από κατά λάθος διακοπή και διαγραφή. <a href="../apple-container-kubernetes/">Περισσότερα</a></dd></div>
+              <div><dt>Τοπικές εικόνες στο cluster</dt><dd>Στο CLI 1.7, ενεργοποιήστε τη <b>Χρήση τοπικών εικόνων</b> (<code>--shared-image-store</code>) και τα pod εκτελούν τις εικόνες που δομείτε ή λαμβάνετε, χωρίς μητρώο. Στο CLI 1.5 και 1.6, κάντε δεξί κλικ σε μια εικόνα και επιλέξτε <b>Φόρτωση στο cluster</b>.</dd></div>
+              <div><dt>Σαφείς υποδείξεις όταν η εγκατάσταση είναι χαλασμένη</dt><dd>Αν οι υπηρεσίες cluster δεν απαντούν, το Gantry σας λέει γιατί. Μια έκδοση Homebrew χωρίς τις υπηρεσίες cluster παίρνει σύνδεσμο προς το υπογεγραμμένο πρόγραμμα εγκατάστασης· σε κάθε άλλη περίπτωση εμφανίζεται κουμπί <b>Επανεκκίνηση υπηρεσιών</b>.</dd></div>
+              <div><dt>Μηχανήματα container στο VS Code</dt><dd>Δημιουργήστε, ξεκινήστε και σταματήστε περιβάλλοντα Linux με το <code>container machine</code>, ορίστε CPU και μνήμη, ανοίξτε shell ή ανοίξτε το μηχάνημα <b>στο VS Code μέσω Remote-SSH</b>.</dd></div>
+              <div><dt>Ένθετη εικονικοποίηση και προσαρμοσμένοι πυρήνες</dt><dd>Εκκινήστε ένα μηχάνημα με ένθετη εικονικοποίηση (M3 ή νεότερο) ή με δικό σας πυρήνα. Εκκινήστε κοντέινερ από προσαρμοσμένο πυρήνα με επιπλέον ορίσματα εκκίνησης.</dd></div>
+              <div><dt>Compose για το Apple container</dt><dd>Το apple/container δεν έχει <code>compose</code>. Το Gantry εκτελεί το <code>docker-compose.yml</code> σας: δομεί, δημιουργεί το δίκτυο και τους τόμους και ξεκινά τις υπηρεσίες με τη σειρά του <code>depends_on</code>. Τα ονόματα υπηρεσιών επιλύονται μέσω ψευδωνύμων DNS δικτύου.</dd></div>
+              <div><dt>Ψευδώνυμα DNS δικτύου</dt><dd>Ψευδώνυμα κοντέινερ, ψευδώνυμα υποδέντρου όπως το <code>.gateway</code> και σύντομα ονόματα όταν έχει οριστεί προεπιλεγμένος τομέας DNS. Κάθε κοντέινερ παίρνει δρομολογήσιμη IP και hostname <code>name.domain</code>.</dd></div>
+              <div><dt>Διαχείριση του builder εικόνων</dt><dd>Δείτε την κατάσταση, την εικόνα, τις CPU, τη μνήμη και την IP του builder. Ξεκινήστε τον με επιλογές CPU, μνήμης και DNS, σταματήστε τον ή διαγράψτε τον. Όταν η εικόνα του builder είναι παλιά, το Gantry προσφέρεται να τον δημιουργήσει ξανά.</dd></div>
+              <div><dt>Συνδέσεις σε μητρώα</dt><dd>Εμφανίστε, προσθέστε και αφαιρέστε συνδέσεις <code>container registry</code>. Ο κωδικός πρόσβασης περνά στο CLI μόνο μέσω stdin και το Gantry δεν κρατά αντίγραφο.</dd></div>
+              <div><dt>Εγκατάσταση πυρήνα</dt><dd>Εγκαταστήστε τον συνιστώμενο πυρήνα, ένα αρχείο πυρήνα ή ένα αρχείο tar, με ζωντανή πρόοδο. Το Gantry σάς προειδοποιεί όταν δεν υπάρχει εγκατεστημένος προεπιλεγμένος πυρήνας.</dd></div>
+              <div><dt>Υπηρεσίες και αρχεία καταγραφής υπηρεσιών</dt><dd>Ξεκινήστε, σταματήστε και επανεκκινήστε τις υπηρεσίες του <code>container</code>, συγκρίνετε τις εκδόσεις πελάτη και διακομιστή και παρακολουθήστε ζωντανά τα αρχεία καταγραφής υπηρεσιών με φίλτρο επιπέδου, υπηρεσίας και κειμένου.</dd></div>
+              <div><dt>Επεξεργαστής ιδιοτήτων συστήματος</dt><dd>Επεξεργαστείτε τις ιδιότητες συστήματος του <code>container</code> στο <code>config.toml</code>. Το Gantry σημειώνει τις αλλαγές που χρειάζονται επανεκκίνηση και επανεκκινεί τις υπηρεσίες για εσάς. Στο CLI 1.7 επεξεργάζεται επίσης τις προεπιλογές <code>[container.dns]</code>: διακομιστές ονομάτων, τομείς αναζήτησης και επιλογές.</dd></div>
+              <div><dt>Commit και περικοπή δίσκου</dt><dd>Κάντε commit ενός κοντέινερ σε εικόνα (<code>container commit</code>) και ανακτήστε χώρο στον δίσκο με την <b>Περικοπή δίσκου</b> (<code>container clean</code>), και από τον πίνακα «Ανάκτηση χώρου».</dd></div>
+              <div><dt>Περιήγηση αρχείων: αποστολή και λήψη</dt><dd>Περιηγηθείτε στα αρχεία ενός κοντέινερ, κατεβάστε τα ή σύρετέ τα στο Finder (<code>container copy</code>) και ρίξτε μέσα αρχεία ή ολόκληρους φακέλους.</dd></div>
+              <div><dt>Γρήγορη εκτέλεση και Finder</dt><dd>Επιλέξτε εικόνα, μοιραστείτε έναν φάκελο, αντιστοιχίστε θύρες και διαλέξτε τομέα, και εκτελέστε. Κάντε δεξί κλικ σε ένα αρχείο Compose στο Finder και ανοίξτε το με το Gantry.</dd></div>
+              <div><dt>Ετικέτες που περιέχουν <code>=</code></dt><dd>Το CLI <code>container</code> απορρίπτει τιμές ετικετών με <code>=</code>. Το Gantry τις κωδικοποιεί κατά τη δημιουργία και τις αποκωδικοποιεί κατά την ανάγνωση, ώστε μια τιμή όπως <code>a=b</code> να μένει ανέπαφη.</dd></div>
+              <div><dt>Ένας στόλος, δύο runtime</dt><dd>Οι host apple/container βρίσκονται δίπλα στο τοπικό Docker και στους host SSH σας σε έναν πίνακα ελέγχου, με τα ίδια sparklines, την ίδια υγεία και τις ίδιες γνωστοποιήσεις αποτυχίας.</dd></div>
+              <div><dt>Εργαλεία MCP για πράκτορες AI</dt><dd>Ο ενσωματωμένος διακομιστής MCP δίνει στους πράκτορες τις ίδιες δυνατότητες: κοντέινερ, μηχανήματα, cluster και τα εργαλεία συστήματος <code>apple_*</code> για υπηρεσίες, builder, μητρώα, ιδιότητες, αρχεία καταγραφής και πυρήνες.</dd></div>
+            </dl>
+            <ul class="links">
+              <li><a href="../apple-container/">Ο οδηγός apple/container: κάθε εντολή του CLI και η λειτουργία της στο Gantry</a></li>
+              <li><a href="../compare/">Gantry έναντι Docker Desktop, OrbStack και Podman Desktop</a></li>
+              <li><a href="../docker-desktop-to-apple-container/">Από το Docker Desktop</a></li>
+              <li><a href="../containers-on-external-drive/">Εξωτερικός δίσκος</a></li>
+              <li><a href="../docker-run-to-container/">Από docker run</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="agents">
+      <div class="wrap">
+        <div class="sec-head"><div><h2>Πράκτορες AI</h2></div><p>Ένας ενσωματωμένος διακομιστής MCP και τα App Intents εκθέτουν κάθε host — και τους host SSH — στο Claude, στις Συντομεύσεις, στη Siri και σε scripts, με τις ίδιες δυνατότητες με το GUI: δημιουργία και διαχείριση κοντέινερ, δόμηση και λήψη εικόνων, τόμοι και δίκτυα, Compose Up, μηχανήματα και cluster Kubernetes στο apple/container, τα εργαλεία συστήματος <code>apple_*</code> για υπηρεσίες, builder, μητρώα και πυρήνες, ακόμη και έκθεση θύρας μέσω Cloudflare Tunnel.</p></div>
+        <div class="sec-body">
+          <ul class="rail"><li>claude mcp add gantry</li></ul>
+          <div class="sec-main">
+            <div class="code-card">
+              <div class="code-head"><button class="copy" data-copy="claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp">Αντιγραφή</button></div>
+              <div class="code-body">
+<pre>$ claude mcp add gantry -- \
+    /Applications/Gantry.app/Contents/Resources/gantry-mcp
+<span class="ok">✓ Ο διακομιστής MCP προστέθηκε</span> gantry</pre>
+              </div>
+            </div>
+            <dl class="items">
+              <div><dt>Αντιγραφή ως prompt</dt><dd>Πατήστε <span class="kbd">⌥⌘P</span> σε οποιοδήποτε κοντέινερ και το Gantry βάζει στο πρόχειρο ένα έτοιμο prompt αποσφαλμάτωσης — τον host και πώς να τον φτάσετε, το <code>host_id</code> και τα εργαλεία MCP, την πλήρη κατάσταση του κοντέινερ και μια εργασία ανάλογη με το σύμπτωμα.</dd></div>
+              <div><dt>Εργαλεία MCP για πράκτορες AI</dt><dd>Ο ενσωματωμένος διακομιστής MCP δίνει στους πράκτορες τις ίδιες δυνατότητες: κοντέινερ, μηχανήματα, cluster και τα εργαλεία συστήματος <code>apple_*</code> για υπηρεσίες, builder, μητρώα, ιδιότητες, αρχεία καταγραφής και πυρήνες.</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="built">
+      <div class="wrap">
+        <div class="sec-head"><div><h2>Η κατασκευή της εφαρμογής</h2></div><p>Το Gantry επικοινωνεί με το Docker Engine API και με το CLI <code>container</code> της Apple. Δεν εκτελεί δική του υπηρεσία.</p></div>
+        <div class="sec-body">
+          <div></div>
+          <div class="sec-main">
+            <dl class="items">
+              <div><dt>100% εγγενές SwiftUI</dt><dd>Εγγενές SwiftUI, όχι Electron. Η εφαρμογή χρησιμοποιεί τα στοιχεία ελέγχου, τη γραμματοσειρά και τα παράθυρα του macOS.</dd></div>
+              <div><dt>Swift 6</dt><dd>Σύγχρονος κώδικας με ασφαλή ταυτοχρονισμό, στην πιο πρόσφατη εργαλειοθήκη.</dd></div>
+              <div><dt>Απευθείας Engine API</dt><dd>Docker μέσω του Unix socket, χωρίς να χρειάζεται το Docker CLI. Το apple/container μέσω του δικού του CLI <code>container</code>.</dd></div>
+              <div><dt>Αυτόματες ενημερώσεις</dt><dd>Ένα appcast Sparkle με υπογραφή EdDSA σάς κρατά ενημερωμένους χωρίς να σας ενοχλεί.</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="faq">
+      <div class="wrap">
+        <div class="sec-head"><div><h2>Ερωτήσεις</h2></div></div>
+        <div class="sec-body">
+          <div></div>
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>Ποιο είναι το καλύτερο GUI για το Apple container;</summary>
+              <p>Το Gantry είναι ένα δωρεάν, ανοιχτού κώδικα εγγενές GUI macOS για το εργαλείο <a href="#apple">container</a> της Apple (apple/container). Καλύπτει τον κύκλο ζωής των κοντέινερ, τα αρχεία καταγραφής, τα στατιστικά και ένα τερματικό exec, καθώς και τα μέρη του CLI που δεν φτάνουν άλλα GUI: cluster Kubernetes (<code>container cluster</code>), μηχανήματα container, τον builder εικόνων, συνδέσεις σε μητρώα, πυρήνες, αρχεία καταγραφής υπηρεσιών και ιδιότητες συστήματος. Υποστηρίζει CLI 1.0 έως 1.7.1 και ενεργοποιεί κάθε λειτουργία μόνο όταν την υποστηρίζει το CLI σας. Δείτε τον <a href="../apple-container/">οδηγό apple/container</a>.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Τι είναι το Apple container (apple/container);</summary>
+              <p>Το apple/container είναι το εργαλείο ανοιχτού κώδικα της Apple για την εκτέλεση κοντέινερ Linux σε Mac. Κάθε κοντέινερ εκτελείται στη δική του ελαφριά εικονική μηχανή, πάνω στο Virtualization framework της Apple. Απαιτεί Mac με Apple silicon και διατίθεται ως εργαλείο γραμμής εντολών με το όνομα <code>container</code>, χωρίς εφαρμογή γραφικού περιβάλλοντος. Το Gantry προσθέτει αυτή την εφαρμογή.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Υποστηρίζει το Gantry το container cluster και το Kubernetes;</summary>
+              <p>Ναι. Σε host apple/container, το Gantry δημιουργεί και διαγράφει cluster Kubernetes με το <code>container cluster</code> (CLI 1.6.1 και 1.7· το CLI 1.5.0 έως 1.6.0 χρησιμοποιεί <code>container k8s</code>). Εσείς επιλέγετε το όνομα, τα worker, τις CPU και τη μνήμη του control plane και των worker (1.7), την εικόνα κόμβου, το CNI και αν οι κόμβοι χρησιμοποιούν τις τοπικές σας εικόνες (1.7). Το Gantry εμφανίζει τους κόμβους, γράφει το kubeconfig και ανοίγει το cluster στον περιηγητή Kubernetes. Δείτε <a href="../apple-container-kubernetes/">Kubernetes στο apple/container</a>.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Μπορώ να χρησιμοποιήσω docker compose με το Apple container;</summary>
+              <p>Ναι. Το apple/container δεν έχει εντολή <code>compose</code>, οπότε το Gantry κάνει την ενορχήστρωση μέσω του CLI <code>container</code>: δομεί τις υπηρεσίες με <code>build:</code>, δημιουργεί το δίκτυο του έργου και τους ονομασμένους τόμους και ξεκινά κάθε υπηρεσία με τη σειρά του <code>depends_on</code>, με τις τυπικές ετικέτες του Compose. Τα ονόματα υπηρεσιών επιλύονται μέσω ψευδωνύμων DNS δικτύου. Ανοίξτε ένα <code>docker-compose.yml</code> από το Finder, το μενού «Αρχείο» ή σύροντάς το στο παράθυρο.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Πώς ανοίγω ένα μηχάνημα container στο VS Code;</summary>
+              <p>Ξεκινήστε το μηχάνημα στο Gantry και κάντε κλικ στο <b>Άνοιγμα στο VS Code</b>. Το Gantry ανοίγει το μηχάνημα στο VS Code μέσω Remote-SSH, όπως στο παράδειγμα <code>container-machine-vscode</code> της Apple. Η εικόνα του μηχανήματος πρέπει να εκτελεί <code>sshd</code> και πρέπει να είναι εγκατεστημένο το VS Code με την επέκταση Remote-SSH.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Ποιες εκδόσεις του apple/container υποστηρίζει το Gantry;</summary>
+              <p>Το Gantry χρειάζεται CLI <code>container</code> 1.0 ή νεότερο και συνιστά την 1.7.1. Διαβάζει την εγκατεστημένη έκδοση και εμφανίζει μόνο τις λειτουργίες που υποστηρίζει, για παράδειγμα μεγέθη worker και κοινή αποθήκη εικόνων (1.7), commit (1.6) και Περικοπή δίσκου (1.4). Αν το CLI λείπει ή είναι παλιό, το Gantry προσφέρει καθοδηγούμενη ρύθμιση.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Μπορεί το Gantry να περιηγηθεί σε ένα cluster Kubernetes;</summary>
+              <p>Ναι. Η ενότητα <b>Kubernetes</b> εμφανίζει pod, deployment, StatefulSet, DaemonSet, υπηρεσίες, Ingress, ConfigMap, μυστικά, κόμβους και συμβάντα για κάθε context του kubeconfig, και έχει αρχεία καταγραφής pod, shell pod, προωθήσεις θυρών, κλιμάκωση, επανεκκίνηση rollout, διαγραφή και Εφαρμογή YAML. Το Gantry επικοινωνεί απευθείας με το API του Kubernetes, οπότε δεν χρειάζεστε το <code>kubectl</code>. Δείτε <a href="../apple-container-kubernetes/#terminal">Kubernetes σε Mac</a>.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Τι στέλνει η Επεξήγηση αποτυχίας στο Apple Intelligence;</summary>
+              <p>Πρόσφατα αρχεία καταγραφής και τα στοιχεία του κοντέινερ, χωρίς τιμές περιβάλλοντος και κείμενο που μοιάζει με μυστικό. Τα μικρά αιτήματα εκτελούνται στο μοντέλο της συσκευής. Με ενεργή τη ρύθμιση για μεγάλα αρχεία καταγραφής (macOS 27), τα μεγάλα αρχεία καταγραφής πηγαίνουν στο Private Cloud Compute. Το πλαίσιο δείχνει τι στάλθηκε. Μια προτεινόμενη εντολή ανοίγει στο Τερματικό, αλλά δεν εκτελείται μέχρι να πατήσετε Return. Χωρίς Apple Intelligence, το Gantry προσφέρει ένα prompt για αντιγραφή σε άλλο βοηθό AI.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Μπορώ να επικολλήσω μια εντολή docker run στο Gantry;</summary>
+              <p>Ναι. Στο φύλλο «Νέο κοντέινερ», επιλέξτε <b>Επικόλληση εντολής…</b>. Το Gantry διαβάζει <code>docker run</code>, <code>docker create</code>, <code>podman run</code> και <code>container run</code>, συμπληρώνει τη φόρμα και εμφανίζει κάθε σημαία που δεν μπορεί να χρησιμοποιήσει, με την αιτία. Δείτε <a href="../docker-run-to-container/">Δημιουργία κοντέινερ από εντολή docker run</a>.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Μπορεί το Gantry να διαχειριστεί τον builder, τα μητρώα και τον πυρήνα του apple/container;</summary>
+              <p>Ναι. Η ενότητα «Σύστημα» ενός host apple/container ξεκινά, σταματά και διαγράφει τον builder εικόνων με επιλογές CPU, μνήμης και DNS· εμφανίζει, προσθέτει και αφαιρεί συνδέσεις σε μητρώα (ο κωδικός πρόσβασης περνά στο CLI μόνο μέσω stdin)· εγκαθιστά τον συνιστώμενο πυρήνα, ένα αρχείο πυρήνα ή ένα αρχείο tar· μεταδίδει ζωντανά τα αρχεία καταγραφής υπηρεσιών· και επεξεργάζεται τις ιδιότητες συστήματος στο <code>config.toml</code>.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Είναι το Gantry εναλλακτική του Docker Desktop, του OrbStack ή του Podman Desktop;</summary>
+              <p>Ως GUI, ναι. Το Gantry είναι μια δωρεάν, εγγενής εφαρμογή macOS για τη διαχείριση κοντέινερ, εικόνων, τόμων, δικτύων, αρχείων καταγραφής και στατιστικών. Είναι πελάτης, όχι μηχανή: χρησιμοποιεί τον daemon του Docker που ήδη τρέχετε (Docker Desktop, OrbStack, Colima) ή το εργαλείο <a href="#apple">container</a> της Apple, και προσθέτει προβολή πολλών host, host SSH και διακομιστή MCP. Δείτε τη <a href="../compare/">σύγκριση</a>.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Είναι το Gantry δωρεάν;</summary>
+              <p>Ναι. Το Gantry είναι δωρεάν και ανοιχτού κώδικα, με άδεια MIT. Δεν υπάρχει συνδρομή, λογαριασμός ή όριο στον αριθμό των host ή των κοντέινερ.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Τι χρειάζομαι για να τρέξω το Gantry;</summary>
+              <p>macOS 26 ή νεότερο σε Apple silicon ή Intel, καθώς και έναν daemon του Docker (Docker Desktop, OrbStack, Colima ή παρόμοιο) ή το εργαλείο <a href="#apple">container</a> της Apple. Το ίδιο το apple/container απαιτεί Apple silicon, οπότε σε Mac με Intel το Gantry διαχειρίζεται μόνο host Docker.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Λειτουργεί το Gantry με OrbStack, Colima και Docker Desktop;</summary>
+              <p>Ναι. Το Gantry επικοινωνεί απευθείας με το Docker Engine API μέσω του Unix socket, οπότε λειτουργεί με κάθε daemon που το εκθέτει, όπως το OrbStack, το Colima και το Docker Desktop.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Μπορεί το Gantry να διαχειριστεί απομακρυσμένους host Docker;</summary>
+              <p>Ναι. Το Gantry συνδέεται σε απομακρυσμένους daemon μέσω SSH, όπως το <code>docker -H ssh://</code>, με bastion ProxyJump, έλεγχο ταυτότητας με πολλά κλειδιά και αυτόματη επανασύνδεση. Δεν χρειάζεται να εγκατασταθεί τίποτα στον διακομιστή και τα μυστικά φυλάσσονται στην Κλειδοθήκη του macOS.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Με ειδοποιεί το Gantry όταν αποτύχει ένα κοντέινερ;</summary>
+              <p>Ναι. Το Gantry στέλνει μια εγγενή γνωστοποίηση του macOS όταν ένα κοντέινερ καταρρέει, μένει χωρίς μνήμη ή αποτυγχάνει στον έλεγχο υγείας σε οποιονδήποτε host: τοπικό, SSH ή apple/container. Κάντε κλικ σε αυτή για να μεταβείτε στο κοντέινερ. Οι διακοπές και επανεκκινήσεις που ξεκινάτε από το Gantry δεν αναφέρονται, και μπορείτε να απενεργοποιήσετε τις γνωστοποιήσεις στις Ρυθμίσεις.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Μπορεί το Gantry να κάνει λήψη εικόνων από ιδιωτικά μητρώα;</summary>
+              <p>Ναι. Στους host Docker, το Gantry διαβάζει τα διαπιστευτήρια από το <code>~/.docker/config.json</code> σας (το ίδιο <code>docker login</code> που έχετε ήδη εκτελέσει), μαζί με ενσωματωμένα διαπιστευτήρια (inline auth), credential helpers και την Κλειδοθήκη του macOS. Στους host apple/container, διαχειρίζεται τις συνδέσεις <code>container registry</code>.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Μπορεί το Gantry να εκθέσει ένα τοπικό κοντέινερ στο διαδίκτυο;</summary>
+              <p>Ναι. Με ένα κλικ σε μια δημοσιευμένη θύρα, αυτή γίνεται κοινόχρηστη μέσω Cloudflare Tunnel. Το Gantry εγκαθιστά το <code>cloudflared</code> αν χρειάζεται και ξεκινά ένα γρήγορο tunnel (χωρίς λογαριασμό Cloudflare, με προσωρινό URL στο trycloudflare.com) ή ένα επώνυμο tunnel στο δικό σας hostname. Το δημόσιο URL εμφανίζεται κάτω από τη θύρα, με κουμπιά για άνοιγμα, αντιγραφή και διακοπή.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Είναι το Gantry εφαρμογή Electron;</summary>
+              <p>Όχι. Το Gantry είναι εγγενής εφαρμογή, φτιαγμένη με SwiftUI και Swift 6. Το περιβάλλον χρήσης είναι διαθέσιμο σε 28 γλώσσες: αγγλικά, απλοποιημένα κινεζικά και 26 ευρωπαϊκές γλώσσες, για παράδειγμα σερβικά σε κυριλλική και λατινική γραφή. Ακολουθεί τη γλώσσα συστήματος του macOS.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Πώς εγκαθιστώ το Gantry;</summary>
+              <p>Εκτελέστε <code>brew install --cask getgantry/tap/gantry</code> ή κατεβάστε την πιο πρόσφατη έκδοση από το <a href="https://github.com/getgantry/gantry/releases/latest" target="_blank" rel="noopener">GitHub</a> και σύρετε το <code>Gantry.app</code> στον φάκελο «Εφαρμογές».</p>
+            </details>
+            <details class="faq-item">
+              <summary>Μπορούν πράκτορες AI να ελέγχουν το Gantry;</summary>
+              <p>Ναι. Το Gantry περιλαμβάνει <a href="#agents">διακομιστή MCP</a> και App Intents του macOS, ώστε το Claude, οι Συντομεύσεις, η Siri και τα σενάρια να έχουν την ίδια πρόσβαση με το GUI σε κάθε host, και σε host SSH: κοντέινερ, εικόνες, τόμους, δίκτυα, Compose, μηχανήματα apple/container, cluster Kubernetes, εργαλεία συστήματος <code>apple_*</code> (υπηρεσίες, builder, μητρώα, ιδιότητες, αρχεία καταγραφής, πυρήνας) και κοινή χρήση θυρών. Σε macOS 26 και νεότερο, η <b>Επεξήγηση αποτυχίας…</b> ρωτά επίσης το Apple Intelligence γιατί απέτυχε ένα κοντέινερ. Προσθέστε τον διακομιστή MCP με <code>claude mcp add gantry -- /Applications/Gantry.app/Contents/Resources/gantry-mcp</code>.</p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <span class="footer-brand"><img src="../../assets/icon.png" alt="Εικονίδιο του Gantry" width="24" height="24">Gantry</span>
+      <div>
+        <p class="footer-meta">Άδεια MIT · Φτιαγμένο με SwiftUI · © 2026</p>
+        <p class="footer-meta">Το κείμενο είναι στοιχειοθετημένο σε IBM Plex Sans και ο κώδικας σε JetBrains Mono. Και οι δύο γραμματοσειρές χρησιμοποιούν την άδεια SIL Open Font License.</p>
+      </div>
+      <nav class="footer-links">
+        <a href="https://github.com/getgantry/gantry" rel="noopener">GitHub</a>
+        <a href="https://github.com/getgantry/gantry/releases/latest" rel="noopener">Εκδόσεις</a>
+        <a href="../../docs/index.html">Τεκμηρίωση</a>
+        <a href="../apple-container/">Οδηγός apple/container</a>
+        <a href="../apple-container-kubernetes/">Kubernetes</a>
+        <a href="../compare/">Σύγκριση</a>
+        <a href="../docker-desktop-to-apple-container/">Από το Docker Desktop</a>
+        <a href="../containers-on-external-drive/">Εξωτερικός δίσκος</a>
+        <a href="../docker-run-to-container/">Από docker run</a>
+        <a href="../../llms.txt">llms.txt</a>
+        <a href="../#install">Εγκατάσταση</a>
+      </nav>
+      <nav class="lang-foot" aria-label="Γλώσσες">
+        <a href="../../features/" hreflang="en" lang="en">English</a>
+        <a href="../../de/features/" hreflang="de" lang="de">Deutsch</a>
+        <a href="../../fr/features/" hreflang="fr" lang="fr">Français</a>
+        <a href="../../es/features/" hreflang="es" lang="es">Español</a>
+        <a href="../../it/features/" hreflang="it" lang="it">Italiano</a>
+        <a href="../../pt-PT/features/" hreflang="pt-PT" lang="pt-PT">Português</a>
+        <a href="../../nl/features/" hreflang="nl" lang="nl">Nederlands</a>
+        <a href="../../sv/features/" hreflang="sv" lang="sv">Svenska</a>
+        <a href="../../da/features/" hreflang="da" lang="da">Dansk</a>
+        <a href="../../nb/features/" hreflang="nb" lang="nb">Norsk bokmål</a>
+        <a href="../../fi/features/" hreflang="fi" lang="fi">Suomi</a>
+        <a href="../../pl/features/" hreflang="pl" lang="pl">Polski</a>
+        <a href="../../cs/features/" hreflang="cs" lang="cs">Čeština</a>
+        <a href="../../sk/features/" hreflang="sk" lang="sk">Slovenčina</a>
+        <a href="../../hu/features/" hreflang="hu" lang="hu">Magyar</a>
+        <a href="../../ro/features/" hreflang="ro" lang="ro">Română</a>
+        <a href="../../bg/features/" hreflang="bg" lang="bg">Български</a>
+        <a href="./" hreflang="el" lang="el" aria-current="page">Ελληνικά</a>
+        <a href="../../hr/features/" hreflang="hr" lang="hr">Hrvatski</a>
+        <a href="../../sl/features/" hreflang="sl" lang="sl">Slovenščina</a>
+        <a href="../../sr/features/" hreflang="sr" lang="sr">Српски</a>
+        <a href="../../sr-Latn/features/" hreflang="sr-Latn" lang="sr-Latn">Srpski</a>
+        <a href="../../lt/features/" hreflang="lt" lang="lt">Lietuvių</a>
+        <a href="../../lv/features/" hreflang="lv" lang="lv">Latviešu</a>
+        <a href="../../et/features/" hreflang="et" lang="et">Eesti</a>
+        <a href="../../uk/features/" hreflang="uk" lang="uk">Українська</a>
+        <a href="../../ru/features/" hreflang="ru" lang="ru">Русский</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function () {
+          var t = b.textContent; b.textContent = 'Αντιγράφηκε';
+          setTimeout(function () { b.textContent = t; }, 1400);
+        });
+      });
+    });
+    var stars = document.getElementById('ghStars');
+    if (stars && window.fetch) {
+      fetch('https://api.github.com/repos/getgantry/gantry').then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+        if (d && typeof d.stargazers_count === 'number') {
+          stars.textContent = '\u2605 ' + d.stargazers_count.toLocaleString(document.documentElement.lang);
+          stars.hidden = false;
+        }
+      }).catch(function () {});
+    }
+  </script>
+  <script src="../../lang.js" defer></script>
+</body>
+</html>

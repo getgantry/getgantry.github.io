@@ -1925,6 +1925,147 @@
           ]
         }
       }
+    },
+    "scan-container-images-mac": {
+      "title": "Scanați imaginile de containere pentru vulnerabilități pe Mac cu Trivy și Grype",
+      "crumb": "Scanarea imaginilor",
+      "desc": "Scanați imaginile Docker și Apple container pentru vulnerabilități cunoscute pe macOS cu Trivy sau Grype: instalare, scanarea unei imagini Apple container salvate, citirea rezultatelor, export SBOM și oprirea build-ului la rezultate grave.",
+      "h1": "Scanați imaginile de containere pentru vulnerabilități pe Mac",
+      "lead": "Trivy și Grype sunt scanere gratuite și open source care compară pachetele dintr-o imagine cu baze de date de vulnerabilități cunoscute. Ele citesc direct imaginile Docker. Instrumentul <code>container</code> de la Apple nu are o comandă de scanare și nici un socket Docker, așa că salvați mai întâi imaginea. Acest ghid arată ambele variante, cum citiți rezultatele, cum scrieți un SBOM și cum scanați din Gantry.",
+      "tldr": "<strong>Pe scurt.</strong> Rulați <code>brew install trivy grype</code>. Pe Docker, rulați <code>trivy image app:dev</code>. Pe Apple container, salvați imaginea cu <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, dezarhivați-o cu <code>tar -xf app.tar -C app-img</code> și scanați dosarul: <code>trivy image --input app-img</code> sau <code>grype oci-dir:app-img</code>. Ambele instrumente refuză fișierul tar propriu-zis.",
+      "sections": [
+        {
+          "id": "install",
+          "h": "Instalați un scaner",
+          "blocks": [
+            {
+              "p": "Instalați unul sau ambele scanere cu Homebrew. Fiecare își descarcă baza de date de vulnerabilități la prima scanare, ceea ce durează aproximativ un minut."
+            },
+            {
+              "code": "install"
+            },
+            {
+              "p": "Am verificat comenzile din acest ghid cu Trivy 0.76.2, Grype 0.121.3 și <code>container</code> 1.7.1. Gantry are nevoie de Trivy 0.50.0 sau Grype 0.74.0 ori mai nou."
+            }
+          ]
+        },
+        {
+          "id": "docker",
+          "h": "Scanați o imagine Docker",
+          "blocks": [
+            {
+              "p": "Cu un motor Docker (Docker Desktop, OrbStack sau Colima), ambele instrumente citesc o imagine locală după nume, prin socketul Docker:"
+            },
+            {
+              "code": "docker"
+            }
+          ]
+        },
+        {
+          "id": "apple",
+          "h": "Scanați o imagine Apple container",
+          "blocks": [
+            {
+              "p": "Salvați imaginea într-o arhivă OCI și dezarhivați-o într-un dosar. Transmiteți <code>--platform</code>: când depozitul de imagini are doar unele platforme ale unei imagini, <code>container image save</code> eșuează fără această opțiune."
+            },
+            {
+              "code": "save"
+            },
+            {
+              "p": "Apoi scanați dosarul. Trivy îl citește cu <code>--input</code>, Grype cu prefixul <code>oci-dir:</code>:"
+            },
+            {
+              "code": "scan"
+            },
+            {
+              "warn": "Nu transmiteți fișierul <code>.tar</code>. Arhiva produsă de <code>container image save</code> începe cu intrarea <code>./</code>: Trivy raportează „file manifest.json not found in tar”, iar Grype o respinge ca „potential path traversal attack”. Dosarul dezarhivat funcționează cu ambele."
+            }
+          ]
+        },
+        {
+          "id": "read",
+          "h": "Citiți rezultatele",
+          "blocks": [
+            {
+              "ul": [
+                "<strong>Severitate</strong>: Critical, High, Medium, Low sau Unknown. Începeți cu Critical și High. <code>--severity HIGH,CRITICAL</code> limitează ieșirea Trivy.",
+                "<strong>Versiunea instalată și versiunea cu remediere</strong>: dacă există o versiune cu remediere, actualizați imaginea de bază sau pachetul și construiți din nou. <code>trivy --ignore-unfixed</code> și <code>grype --only-fixed</code> ascund rezultatele fără remediere.",
+                "<strong>„won't fix”</strong>: distribuția a decis să nu remedieze pachetul în această versiune. Folosiți o imagine de bază mai nouă sau acceptați riscul.",
+                "<strong>Două instrumente, două baze de date</strong>: Trivy și Grype raportează adesea numere diferite. Niciunul nu greșește; folosesc surse diferite."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sbom",
+          "h": "Exportați un SBOM",
+          "blocks": [
+            {
+              "p": "O listă a componentelor software (SBOM) enumeră fiecare pachet din imagine. Trivy scrie CycloneDX și SPDX; Syft, instrumentul însoțitor al lui Grype, le scrie și el pe amândouă."
+            },
+            {
+              "code": "sbom"
+            }
+          ]
+        },
+        {
+          "id": "ci",
+          "h": "Opriți un build la rezultate grave",
+          "blocks": [
+            {
+              "p": "Într-un script, lăsați scanerul să seteze codul de ieșire. Grype iese cu un cod diferit de zero când există un rezultat cu severitatea dată sau mai mare; cu Trivy, folosiți <code>--exit-code 1 --severity HIGH,CRITICAL</code>."
+            },
+            {
+              "code": "gate"
+            }
+          ]
+        },
+        {
+          "id": "gantry",
+          "h": "Scanați din Gantry",
+          "blocks": [
+            {
+              "p": "Gantry 0.29.0 face acești pași în locul dvs. Alegeți <strong>Scanează vulnerabilitățile…</strong> din meniul imaginii sau din bara de instrumente a detaliilor imaginii."
+            },
+            {
+              "ul": [
+                "Gantry găsește Trivy sau Grype în <code>GANTRY_TRIVY</code> sau <code>GANTRY_GRYPE</code>, în <code>PATH</code> ori în <code>/opt/homebrew/bin</code> și <code>/usr/local/bin</code>. Trivy este implicit când ambele sunt instalate. Fără scaner, foaia afișează comenzile Homebrew.",
+                "Pe apple/container, Gantry salvează imaginea cu <code>--platform</code>, o dezarhivează și scanează dosarul. Pe Docker local, scanează o arhivă salvată. Pe Docker prin SSH, scanează copia din registru a tagului.",
+                "Rezultatele sunt grupate după severitate, cu un simbol și un cuvânt, nu doar cu o culoare. Fiecare rând are ID-ul cu link, pachetul, versiunea instalată și versiunea cu remediere. Un filtru găsește un pachet sau un ID.",
+                "<strong>Exportă SBOM</strong> scrie CycloneDX (ambele instrumente) sau SPDX (Trivy).",
+                "<strong>Oprește</strong> sau închiderea foii oprește scanerul și șterge fișierele temporare."
+              ]
+            },
+            {
+              "shot": "scan-sheet",
+              "alt": "Foaia Scanează vulnerabilitățile din Gantry, cu rezultatele grupate după severitate",
+              "caption": "<b>Scanează vulnerabilitățile.</b> Rezultate după severitate, cu versiunea cu remediere și Exportă SBOM."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Cum scanez o imagine Apple container pentru vulnerabilități?",
+          "a": "Salvați-o cu <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, dezarhivați-o cu <code>tar -xf app.tar -C app-img</code>, apoi rulați <code>trivy image --input app-img</code> sau <code>grype oci-dir:app-img</code>. Gantry face acești pași cu <b>Scanează vulnerabilitățile…</b>."
+        },
+        {
+          "q": "De ce eșuează Trivy sau Grype pe arhiva produsă de container image save?",
+          "a": "Arhiva începe cu intrarea <code>./</code>. Trivy nu găsește în ea <code>manifest.json</code> sau <code>index.json</code>, iar Grype tratează intrarea ca path traversal. Dezarhivați arhiva și scanați dosarul."
+        },
+        {
+          "q": "Trivy sau Grype: pe care să îl folosesc?",
+          "a": "Ambele sunt gratuite și open source. Trivy găsește și secrete și configurări greșite și scrie SPDX; Grype este mic și axat pe pachete. Folosesc baze de date diferite, așa că rularea ambelor găsește mai mult. Gantry folosește Trivy când ambele sunt instalate."
+        },
+        {
+          "q": "Instalează Gantry scanerele?",
+          "a": "Nu. Instalați-le cu <code>brew install trivy grype</code>. Gantry le caută în <code>PATH</code>, <code>/opt/homebrew/bin</code> și <code>/usr/local/bin</code> sau în <code>GANTRY_TRIVY</code> și <code>GANTRY_GRYPE</code>."
+        },
+        {
+          "q": "Am nevoie de Docker Scout sau de un cont Docker pentru a scana imagini?",
+          "a": "Nu. Trivy și Grype funcționează fără cont, pe imaginile Docker și pe imaginile Apple container."
+        }
+      ]
     }
   }
 }

@@ -1925,6 +1925,147 @@
           ]
         }
       }
+    },
+    "scan-container-images-mac": {
+      "title": "Skenovanie obrazov kontajnerov na zraniteľnosti na Macu pomocou Trivy a Grype",
+      "crumb": "Skenovanie obrazov",
+      "desc": "Skenujte obrazy Dockeru a Apple container na známe zraniteľnosti v macOS pomocou Trivy alebo Grype: inštalácia, sken uloženého obrazu Apple container, čítanie výsledkov, export SBOM a zlyhanie zostavenia pri vážnych nálezoch.",
+      "h1": "Skenovanie obrazov kontajnerov na zraniteľnosti na Macu",
+      "lead": "Trivy a Grype sú bezplatné open-source skenery, ktoré porovnávajú balíky v obraze s databázami známych zraniteľností. Obrazy Dockeru čítajú priamo. Nástroj <code>container</code> od Apple nemá príkaz na skenovanie ani socket Dockeru, takže obraz najprv uložíte. Tento návod ukazuje oba postupy, ako čítať nálezy, ako zapísať SBOM a ako skenovať z Gantry.",
+      "tldr": "<strong>V skratke.</strong> Spustite <code>brew install trivy grype</code>. Na Dockeri spustite <code>trivy image app:dev</code>. Na Apple container uložte obraz príkazom <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, rozbaľte ho príkazom <code>tar -xf app.tar -C app-img</code> a naskenujte priečinok: <code>trivy image --input app-img</code> alebo <code>grype oci-dir:app-img</code>. Samotný súbor tar oba nástroje odmietajú.",
+      "sections": [
+        {
+          "id": "install",
+          "h": "Inštalácia skenera",
+          "blocks": [
+            {
+              "p": "Nainštalujte jeden skener alebo oba cez Homebrew. Každý si pri prvom skene stiahne databázu zraniteľností, čo trvá asi minútu."
+            },
+            {
+              "code": "install"
+            },
+            {
+              "p": "Príkazy v tomto návode sme overili s Trivy 0.76.2, Grype 0.121.3 a <code>container</code> 1.7.1. Gantry vyžaduje Trivy 0.50.0 alebo Grype 0.74.0 či novší."
+            }
+          ]
+        },
+        {
+          "id": "docker",
+          "h": "Sken obrazu Dockeru",
+          "blocks": [
+            {
+              "p": "S Docker enginom (Docker Desktop, OrbStack alebo Colima) oba nástroje čítajú lokálny obraz podľa názvu cez socket Dockeru:"
+            },
+            {
+              "code": "docker"
+            }
+          ]
+        },
+        {
+          "id": "apple",
+          "h": "Sken obrazu Apple container",
+          "blocks": [
+            {
+              "p": "Uložte obraz do archívu OCI a rozbaľte ho do priečinka. Zadajte <code>--platform</code>: keď úložisko obrazov obsahuje len niektoré platformy obrazu, <code>container image save</code> bez neho zlyhá."
+            },
+            {
+              "code": "save"
+            },
+            {
+              "p": "Potom naskenujte priečinok. Trivy ho číta s <code>--input</code>, Grype s predponou <code>oci-dir:</code>:"
+            },
+            {
+              "code": "scan"
+            },
+            {
+              "warn": "Neodovzdávajte súbor <code>.tar</code>. Archív z <code>container image save</code> začína položkou <code>./</code>: Trivy hlási „file manifest.json not found in tar“ a Grype ho odmietne ako „potential path traversal attack“. Rozbalený priečinok funguje s oboma."
+            }
+          ]
+        },
+        {
+          "id": "read",
+          "h": "Čítanie výsledkov",
+          "blocks": [
+            {
+              "ul": [
+                "<strong>Závažnosť</strong>: Critical, High, Medium, Low alebo Unknown. Začnite s Critical a High. <code>--severity HIGH,CRITICAL</code> obmedzí výstup Trivy.",
+                "<strong>Nainštalovaná a opravená verzia</strong>: ak opravená verzia existuje, aktualizujte základný obraz alebo balík a zostavte znova. <code>trivy --ignore-unfixed</code> a <code>grype --only-fixed</code> skryjú nálezy bez opravy.",
+                "<strong>„won't fix“</strong>: distribúcia sa rozhodla balík v tomto vydaní neopraviť. Použite novší základný obraz, alebo riziko prijmite.",
+                "<strong>Dva nástroje, dve databázy</strong>: Trivy a Grype často hlásia rôzne počty. Ani jeden sa nemýli; používajú rôzne zdroje."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sbom",
+          "h": "Export SBOM",
+          "blocks": [
+            {
+              "p": "Súpis softvérových komponentov (SBOM) uvádza každý balík v obraze. Trivy zapisuje CycloneDX aj SPDX; sprievodný nástroj Grype, Syft, zapisuje tiež oba formáty."
+            },
+            {
+              "code": "sbom"
+            }
+          ]
+        },
+        {
+          "id": "ci",
+          "h": "Zlyhanie zostavenia pri vážnych nálezoch",
+          "blocks": [
+            {
+              "p": "V skripte nechajte návratový kód nastaviť skener. Grype skončí s nenulovým kódom, keď existuje nález zadanej alebo vyššej závažnosti; s Trivy použite <code>--exit-code 1 --severity HIGH,CRITICAL</code>."
+            },
+            {
+              "code": "gate"
+            }
+          ]
+        },
+        {
+          "id": "gantry",
+          "h": "Skenovanie z Gantry",
+          "blocks": [
+            {
+              "p": "Gantry 0.29.0 tieto kroky vykoná za vás. Zvoľte <strong>Skontrolovať zraniteľnosti…</strong> v ponuke obrazu alebo na paneli s nástrojmi detailu obrazu."
+            },
+            {
+              "ul": [
+                "Gantry nájde Trivy alebo Grype v <code>GANTRY_TRIVY</code> alebo <code>GANTRY_GRYPE</code>, v <code>PATH</code> alebo v <code>/opt/homebrew/bin</code> a <code>/usr/local/bin</code>. Keď sú nainštalované oba, predvolený je Trivy. Bez skenera hárok zobrazí príkazy Homebrew.",
+                "Na apple/container Gantry uloží obraz s <code>--platform</code>, rozbalí ho a naskenuje priečinok. Na lokálnom Dockeri skenuje uložený archív. Pri Dockeri cez SSH skenuje kópiu tagu v registri.",
+                "Nálezy sú zoskupené podľa závažnosti, so symbolom a slovom, nielen farbou. Každý riadok obsahuje ID s odkazom, balík, nainštalovanú verziu a opravenú verziu. Filter nájde balík alebo ID.",
+                "<strong>Exportovať SBOM</strong> zapíše CycloneDX (oba nástroje) alebo SPDX (Trivy).",
+                "<strong>Zastaviť</strong> alebo zatvorenie hárka zastaví skener a odstráni dočasné súbory."
+              ]
+            },
+            {
+              "shot": "scan-sheet",
+              "alt": "Hárok Skontrolovať zraniteľnosti v Gantry s nálezmi zoskupenými podľa závažnosti",
+              "caption": "<b>Skontrolovať zraniteľnosti.</b> Nálezy podľa závažnosti, s opravenou verziou a tlačidlom Exportovať SBOM."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Ako naskenovať obraz Apple container na zraniteľnosti?",
+          "a": "Uložte ho príkazom <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, rozbaľte príkazom <code>tar -xf app.tar -C app-img</code> a potom spustite <code>trivy image --input app-img</code> alebo <code>grype oci-dir:app-img</code>. Gantry tieto kroky vykoná cez <b>Skontrolovať zraniteľnosti…</b>."
+        },
+        {
+          "q": "Prečo Trivy alebo Grype zlyháva na archíve z container image save?",
+          "a": "Archív začína položkou <code>./</code>. Trivy v ňom nenájde <code>manifest.json</code> ani <code>index.json</code> a Grype túto položku považuje za path traversal. Archív rozbaľte a naskenujte priečinok."
+        },
+        {
+          "q": "Trivy, alebo Grype: ktorý použiť?",
+          "a": "Oba sú bezplatné a open source. Trivy navyše nájde tajné údaje a chybné konfigurácie a zapisuje SPDX; Grype je malý a zameraný na balíky. Používajú rôzne databázy, takže spustenie oboch nájde viac. Gantry použije Trivy, keď sú nainštalované oba."
+        },
+        {
+          "q": "Inštaluje Gantry skenery?",
+          "a": "Nie. Nainštalujte ich príkazom <code>brew install trivy grype</code>. Gantry ich hľadá v <code>PATH</code>, <code>/opt/homebrew/bin</code> a <code>/usr/local/bin</code>, alebo v <code>GANTRY_TRIVY</code> a <code>GANTRY_GRYPE</code>."
+        },
+        {
+          "q": "Potrebujem na skenovanie obrazov Docker Scout alebo účet Docker?",
+          "a": "Nie. Trivy a Grype fungujú bez účtu, na obrazoch Dockeru aj na obrazoch Apple container."
+        }
+      ]
     }
   }
 }

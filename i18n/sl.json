@@ -1925,6 +1925,147 @@
           ]
         }
       }
+    },
+    "scan-container-images-mac": {
+      "title": "Pregled ranljivosti slik vsebnikov v Macu s Trivy in Grype",
+      "crumb": "Pregled slik",
+      "desc": "Pregled slik Docker in Apple container za znane ranljivosti v macOS s Trivy ali Grype: namestitev, pregled shranjene slike Apple container, branje rezultatov, izvoz SBOM in neuspešna gradnja ob resnih ugotovitvah.",
+      "h1": "Pregled ranljivosti slik vsebnikov v Macu",
+      "lead": "Trivy in Grype sta brezplačna odprtokodna pregledovalnika, ki pakete v sliki primerjata z zbirkami znanih ranljivosti. Slike Docker bereta neposredno. Applovo orodje <code>container</code> nima ukaza za pregled in nima vtičnice Docker, zato sliko najprej shranite. Ta vodnik pokaže oba načina, kako brati ugotovitve, kako zapisati SBOM in kako pregledovati iz Gantryja.",
+      "tldr": "<strong>Na kratko.</strong> Zaženite <code>brew install trivy grype</code>. Na Dockerju zaženite <code>trivy image app:dev</code>. Na Apple container sliko shranite z <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, jo razpakirajte z <code>tar -xf app.tar -C app-img</code> in preglejte mapo: <code>trivy image --input app-img</code> ali <code>grype oci-dir:app-img</code>. Obe orodji zavrneta samo datoteko tar.",
+      "sections": [
+        {
+          "id": "install",
+          "h": "Namestite pregledovalnik",
+          "blocks": [
+            {
+              "p": "Z Homebrew namestite en pregledovalnik ali oba. Vsak ob prvem pregledu prenese svojo zbirko ranljivosti, kar traja približno minuto."
+            },
+            {
+              "code": "install"
+            },
+            {
+              "p": "Ukaze v tem vodniku smo preverili s Trivy 0.76.2, Grype 0.121.3 in <code>container</code> 1.7.1. Gantry potrebuje Trivy 0.50.0 ali Grype 0.74.0 ali novejšo različico."
+            }
+          ]
+        },
+        {
+          "id": "docker",
+          "h": "Pregled slike Docker",
+          "blocks": [
+            {
+              "p": "S pogonom Docker (Docker Desktop, OrbStack ali Colima) obe orodji prebereta lokalno sliko po imenu prek vtičnice Docker:"
+            },
+            {
+              "code": "docker"
+            }
+          ]
+        },
+        {
+          "id": "apple",
+          "h": "Pregled slike Apple container",
+          "blocks": [
+            {
+              "p": "Sliko shranite v arhiv OCI in jo razpakirajte v mapo. Podajte <code>--platform</code>: ko shramba slik vsebuje le nekatere platforme slike, <code>container image save</code> brez te zastavice ne uspe."
+            },
+            {
+              "code": "save"
+            },
+            {
+              "p": "Nato preglejte mapo. Trivy jo prebere z <code>--input</code>, Grype s predpono <code>oci-dir:</code>:"
+            },
+            {
+              "code": "scan"
+            },
+            {
+              "warn": "Ne podajte datoteke <code>.tar</code>. Arhiv iz <code>container image save</code> se začne z vnosom <code>./</code>: Trivy javi „file manifest.json not found in tar“, Grype pa ga zavrne kot „potential path traversal attack“. Razpakirana mapa deluje z obema."
+            }
+          ]
+        },
+        {
+          "id": "read",
+          "h": "Branje rezultatov",
+          "blocks": [
+            {
+              "ul": [
+                "<strong>Resnost</strong>: Kritična, Visoka, Srednja, Nizka ali Neznana. Začnite s kritičnimi in visokimi. <code>--severity HIGH,CRITICAL</code> omeji izpis Trivy.",
+                "<strong>Nameščena različica in različica s popravkom</strong>: če različica s popravkom obstaja, posodobite osnovno sliko ali paket in znova zgradite. <code>trivy --ignore-unfixed</code> in <code>grype --only-fixed</code> skrijeta ugotovitve brez popravka.",
+                "<strong>„won't fix“</strong>: distribucija se je odločila, da paketa v tej izdaji ne bo popravila. Uporabite novejšo osnovno sliko ali sprejmite tveganje.",
+                "<strong>Dve orodji, dve zbirki</strong>: Trivy in Grype pogosto javita različno število ugotovitev. Nobeno ni napačno; uporabljata različne vire."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sbom",
+          "h": "Izvoz SBOM",
+          "blocks": [
+            {
+              "p": "Seznam programske opreme (SBOM) navaja vsak paket v sliki. Trivy zapiše CycloneDX in SPDX; Grypov spremljevalec Syft prav tako zapiše oba."
+            },
+            {
+              "code": "sbom"
+            }
+          ]
+        },
+        {
+          "id": "ci",
+          "h": "Neuspešna gradnja ob resnih ugotovitvah",
+          "blocks": [
+            {
+              "p": "V skriptu naj izhodno kodo nastavi pregledovalnik. Grype konča z neničelno kodo, ko obstaja ugotovitev podane ali višje resnosti; pri Trivy uporabite <code>--exit-code 1 --severity HIGH,CRITICAL</code>."
+            },
+            {
+              "code": "gate"
+            }
+          ]
+        },
+        {
+          "id": "gantry",
+          "h": "Pregled iz Gantryja",
+          "blocks": [
+            {
+              "p": "Gantry 0.29.0 te korake opravi namesto vas. V meniju slike ali v orodni vrstici podrobnosti slike izberite <strong>Preglej ranljivosti…</strong>."
+            },
+            {
+              "ul": [
+                "Gantry najde Trivy ali Grype v <code>GANTRY_TRIVY</code> ali <code>GANTRY_GRYPE</code>, v <code>PATH</code> ali v <code>/opt/homebrew/bin</code> in <code>/usr/local/bin</code>. Ko sta nameščena oba, je privzet Trivy. Brez pregledovalnika okno prikaže ukaze Homebrew.",
+                "Na apple/container Gantry sliko shrani z <code>--platform</code>, jo razpakira in pregleda mapo. Na lokalnem Dockerju pregleda shranjen arhiv. Pri Dockerju prek SSH pregleda kopijo oznake v registru.",
+                "Ugotovitve so razvrščene po resnosti, s simbolom in besedo, ne samo z barvo. Vsaka vrstica ima ID s povezavo, paket, nameščeno različico in različico s popravkom. Filter najde paket ali ID.",
+                "<strong>Izvozi SBOM</strong> zapiše CycloneDX (obe orodji) ali SPDX (Trivy).",
+                "<strong>Ustavi</strong> ali zaprtje okna ustavi pregledovalnik in odstrani začasne datoteke."
+              ]
+            },
+            {
+              "shot": "scan-sheet",
+              "alt": "Okno Preglej ranljivosti v Gantryju z ugotovitvami, razvrščenimi po resnosti",
+              "caption": "<b>Preglej ranljivosti.</b> Ugotovitve po resnosti, z različico s popravkom in gumbom Izvozi SBOM."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Kako pregledam sliko Apple container za ranljivosti?",
+          "a": "Shranite jo z <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, jo razpakirajte z <code>tar -xf app.tar -C app-img</code> in nato zaženite <code>trivy image --input app-img</code> ali <code>grype oci-dir:app-img</code>. Gantry te korake opravi z ukazom <b>Preglej ranljivosti…</b>."
+        },
+        {
+          "q": "Zakaj Trivy ali Grype ne uspe z arhivom iz container image save?",
+          "a": "Arhiv se začne z vnosom <code>./</code>. Trivy v njem ne najde <code>manifest.json</code> ali <code>index.json</code>, Grype pa vnos obravnava kot prečkanje poti (path traversal). Razpakirajte arhiv in preglejte mapo."
+        },
+        {
+          "q": "Trivy ali Grype: katerega naj uporabim?",
+          "a": "Oba sta brezplačna in odprtokodna. Trivy najde tudi skrivnosti in napačne konfiguracije ter zapiše SPDX; Grype je majhen in osredotočen na pakete. Uporabljata različni zbirki, zato z obema najdete več. Ko sta nameščena oba, Gantry uporabi Trivy."
+        },
+        {
+          "q": "Ali Gantry namesti pregledovalnike?",
+          "a": "Ne. Namestite jih z <code>brew install trivy grype</code>. Gantry jih išče v <code>PATH</code>, <code>/opt/homebrew/bin</code> in <code>/usr/local/bin</code> ali v <code>GANTRY_TRIVY</code> in <code>GANTRY_GRYPE</code>."
+        },
+        {
+          "q": "Ali za pregled slik potrebujem Docker Scout ali račun Docker?",
+          "a": "Ne. Trivy in Grype delujeta brez računa, na slikah Docker in na slikah Apple container."
+        }
+      ]
     }
   }
 }

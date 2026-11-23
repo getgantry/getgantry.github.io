@@ -1925,6 +1925,147 @@
           ]
         }
       }
+    },
+    "scan-container-images-mac": {
+      "title": "Konteinerių atvaizdų pažeidžiamumų paieška Mac kompiuteryje su Trivy ir Grype",
+      "crumb": "Atvaizdų tikrinimas",
+      "desc": "Ieškokite žinomų pažeidžiamumų Docker ir Apple container atvaizduose macOS sistemoje su Trivy arba Grype: įdiegimas, įrašyto Apple container atvaizdo tikrinimas, rezultatų skaitymas, SBOM eksportas ir kūrimo sustabdymas dėl rimtų radinių.",
+      "h1": "Konteinerių atvaizdų pažeidžiamumų paieška Mac kompiuteryje",
+      "lead": "Trivy ir Grype – nemokami atvirojo kodo skeneriai, kurie palygina atvaizdo paketus su žinomų pažeidžiamumų duomenų bazėmis. Docker atvaizdus jie skaito tiesiogiai. Apple <code>container</code> įrankis neturi tikrinimo komandos ir Docker lizdo, todėl atvaizdą pirmiausia reikia įrašyti. Šiame vadove parodyti abu būdai, kaip skaityti radinius, kaip įrašyti SBOM ir kaip tikrinti iš Gantry.",
+      "tldr": "<strong>Trumpai.</strong> Paleiskite <code>brew install trivy grype</code>. Su Docker paleiskite <code>trivy image app:dev</code>. Su Apple container įrašykite atvaizdą komanda <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, išpakuokite jį komanda <code>tar -xf app.tar -C app-img</code> ir patikrinkite aplanką: <code>trivy image --input app-img</code> arba <code>grype oci-dir:app-img</code>. Paties tar failo abu įrankiai nepriima.",
+      "sections": [
+        {
+          "id": "install",
+          "h": "Skenerio įdiegimas",
+          "blocks": [
+            {
+              "p": "Įdiekite vieną skenerį arba abu per Homebrew. Per pirmą tikrinimą kiekvienas atsisiunčia savo pažeidžiamumų duomenų bazę, tai užtrunka apie minutę."
+            },
+            {
+              "code": "install"
+            },
+            {
+              "p": "Šio vadovo komandas patikrinome su Trivy 0.76.2, Grype 0.121.3 ir <code>container</code> 1.7.1. Gantry reikia Trivy 0.50.0 arba Grype 0.74.0 ar naujesnės versijos."
+            }
+          ]
+        },
+        {
+          "id": "docker",
+          "h": "Docker atvaizdo tikrinimas",
+          "blocks": [
+            {
+              "p": "Su Docker varikliu (Docker Desktop, OrbStack ar Colima) abu įrankiai skaito vietinį atvaizdą pagal pavadinimą per Docker lizdą:"
+            },
+            {
+              "code": "docker"
+            }
+          ]
+        },
+        {
+          "id": "apple",
+          "h": "Apple container atvaizdo tikrinimas",
+          "blocks": [
+            {
+              "p": "Įrašykite atvaizdą į OCI archyvą ir išpakuokite jį į aplanką. Nurodykite <code>--platform</code>: kai atvaizdų saugykloje yra tik dalis atvaizdo platformų, <code>container image save</code> be šios vėliavėlės nepavyksta."
+            },
+            {
+              "code": "save"
+            },
+            {
+              "p": "Tada patikrinkite aplanką. Trivy jį skaito su <code>--input</code>, Grype – su priešdėliu <code>oci-dir:</code>:"
+            },
+            {
+              "code": "scan"
+            },
+            {
+              "warn": "Neperduokite <code>.tar</code> failo. <code>container image save</code> archyvas prasideda įrašu <code>./</code>: Trivy praneša „file manifest.json not found in tar“, o Grype jį atmeta kaip „potential path traversal attack“. Išpakuotas aplankas veikia su abiem."
+            }
+          ]
+        },
+        {
+          "id": "read",
+          "h": "Rezultatų skaitymas",
+          "blocks": [
+            {
+              "ul": [
+                "<strong>Pavojingumo lygis</strong>: Critical, High, Medium, Low arba Unknown. Pradėkite nuo Critical ir High. <code>--severity HIGH,CRITICAL</code> apriboja Trivy išvestį.",
+                "<strong>Įdiegta ir pataisyta versija</strong>: jei pataisyta versija yra, atnaujinkite bazinį atvaizdą arba paketą ir sukurkite iš naujo. <code>trivy --ignore-unfixed</code> ir <code>grype --only-fixed</code> paslepia radinius be pataisos.",
+                "<strong>„won't fix“</strong>: distribucija nusprendė šiame leidime paketo netaisyti. Naudokite naujesnį bazinį atvaizdą arba prisiimkite riziką.",
+                "<strong>Du įrankiai, dvi duomenų bazės</strong>: Trivy ir Grype dažnai praneša skirtingą radinių skaičių. Nė vienas neklysta – jie naudoja skirtingus šaltinius."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sbom",
+          "h": "SBOM eksportas",
+          "blocks": [
+            {
+              "p": "Programinės įrangos komponentų sąrašas (SBOM) išvardija visus atvaizdo paketus. Trivy rašo CycloneDX ir SPDX; Grype palydovas Syft taip pat rašo abu formatus."
+            },
+            {
+              "code": "sbom"
+            }
+          ]
+        },
+        {
+          "id": "ci",
+          "h": "Kūrimo sustabdymas dėl rimtų radinių",
+          "blocks": [
+            {
+              "p": "Scenarijuje leiskite išėjimo kodą nustatyti skeneriui. Grype baigia darbą su nenuliniu kodu, kai yra nurodyto ar aukštesnio pavojingumo lygio radinys; su Trivy naudokite <code>--exit-code 1 --severity HIGH,CRITICAL</code>."
+            },
+            {
+              "code": "gate"
+            }
+          ]
+        },
+        {
+          "id": "gantry",
+          "h": "Tikrinimas iš Gantry",
+          "blocks": [
+            {
+              "p": "Gantry 0.29.0 atlieka šiuos veiksmus už jus. Atvaizdo meniu arba atvaizdo informacijos įrankių juostoje pasirinkite <strong>Ieškoti pažeidžiamumų…</strong>."
+            },
+            {
+              "ul": [
+                "Gantry randa Trivy arba Grype pagal <code>GANTRY_TRIVY</code> ar <code>GANTRY_GRYPE</code>, <code>PATH</code> arba aplankuose <code>/opt/homebrew/bin</code> ir <code>/usr/local/bin</code>. Kai įdiegti abu, numatytasis yra Trivy. Jei skenerio nėra, lange rodomos Homebrew komandos.",
+                "apple/container serveryje Gantry įrašo atvaizdą su <code>--platform</code>, išpakuoja jį ir tikrina aplanką. Vietiniame Docker ji tikrina įrašytą archyvą. Docker per SSH atveju ji tikrina žymės kopiją registre.",
+                "Radiniai sugrupuoti pagal pavojingumo lygį, su simboliu ir žodžiu, ne tik spalva. Kiekvienoje eilutėje yra ID su nuoroda, paketas, įdiegta versija ir pataisyta versija. Filtras randa paketą arba ID.",
+                "<strong>Eksportuoti SBOM</strong> įrašo CycloneDX (abu įrankiai) arba SPDX (Trivy).",
+                "Mygtukas <strong>Sustabdyti</strong> arba lango uždarymas sustabdo skenerį ir pašalina laikinuosius failus."
+              ]
+            },
+            {
+              "shot": "scan-sheet",
+              "alt": "Gantry pažeidžiamumų paieškos langas su radiniais, sugrupuotais pagal pavojingumo lygį",
+              "caption": "<b>Pažeidžiamumų paieška.</b> Radiniai pagal pavojingumo lygį, su pataisyta versija ir SBOM eksportu."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Kaip ieškoti pažeidžiamumų Apple container atvaizde?",
+          "a": "Įrašykite jį komanda <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, išpakuokite komanda <code>tar -xf app.tar -C app-img</code>, tada paleiskite <code>trivy image --input app-img</code> arba <code>grype oci-dir:app-img</code>. Gantry šiuos veiksmus atlieka per <b>Ieškoti pažeidžiamumų…</b>."
+        },
+        {
+          "q": "Kodėl Trivy ar Grype nepavyksta su container image save archyvu?",
+          "a": "Archyvas prasideda įrašu <code>./</code>. Trivy neranda jame <code>manifest.json</code> ar <code>index.json</code>, o Grype laiko šį įrašą kelio apėjimu (path traversal). Išpakuokite archyvą ir tikrinkite aplanką."
+        },
+        {
+          "q": "Trivy ar Grype: kurį naudoti?",
+          "a": "Abu nemokami ir atvirojo kodo. Trivy dar randa slaptuosius duomenis ir konfigūracijos klaidas bei rašo SPDX; Grype mažas ir sutelktas į paketus. Jie naudoja skirtingas duomenų bazes, todėl abu kartu randa daugiau. Kai įdiegti abu, Gantry naudoja Trivy."
+        },
+        {
+          "q": "Ar Gantry įdiegia skenerius?",
+          "a": "Ne. Įdiekite juos komanda <code>brew install trivy grype</code>. Gantry ieško <code>PATH</code>, <code>/opt/homebrew/bin</code> ir <code>/usr/local/bin</code> arba <code>GANTRY_TRIVY</code> ir <code>GANTRY_GRYPE</code>."
+        },
+        {
+          "q": "Ar atvaizdams tikrinti reikia Docker Scout arba Docker paskyros?",
+          "a": "Ne. Trivy ir Grype veikia be paskyros – su Docker atvaizdais ir su Apple container atvaizdais."
+        }
+      ]
     }
   }
 }

@@ -16,7 +16,7 @@ from build_docs import GITHUB
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = "https://getgantry.github.io"
-UPDATED = "2026-11-15"
+UPDATED = "2026-11-23"
 APP_VERSION = "0.29.0"
 # Features that are built on a branch but not merged yet. The pages show the text for the shipped state only when
 # the flag is True; flip a flag when its branch merges and rebuild.
@@ -47,6 +47,7 @@ GUIDES = {
     "docker-desktop-to-apple-container": ("monthly", "0.8"),
     "containers-on-external-drive": ("monthly", "0.7"),
     "docker-run-to-container": ("monthly", "0.7"),
+    "scan-container-images-mac": ("monthly", "0.7"),
 }
 # Commands in the guides and in the terminal walk-through of the Kubernetes page (key "k8s"). Not translated.
 GUIDE_CODE = {
@@ -87,6 +88,17 @@ GUIDE_CODE = {
                      "container run -d --name cache -p 6379:6379 \\\n"
                      "  -v redisdata:/data redis:7 redis-server --appendonly yes",
     },
+    "scan-container-images-mac": {
+        "install": "brew install trivy grype",
+        "docker": "trivy image app:dev\ngrype app:dev",
+        "save": "container image pull python:3.11-slim\n"
+                "container image save --platform linux/arm64 -o python.tar python:3.11-slim\n"
+                "mkdir python-img && tar -xf python.tar -C python-img",
+        "scan": "trivy image --input python-img --severity HIGH,CRITICAL\ngrype oci-dir:python-img",
+        "sbom": "trivy image --input python-img --format cyclonedx -o sbom.cdx.json\n"
+                "trivy image --input python-img --format spdx-json -o sbom.spdx.json",
+        "gate": "grype oci-dir:python-img --fail-on high\necho $?",
+    },
 }
 # Screenshots of features: key -> (section, path). Until the file exists, the page has a TODO-SCREENSHOT comment
 # in its place. Each release has its own folder under assets/shots/.
@@ -103,6 +115,7 @@ SHOTS = {
     "paste-command": ("guide docker-run-to-container, section #paste", "assets/shots/0.29.0/paste-command.png"),
     "storage-pane": ("guide containers-on-external-drive, section #gantry", "assets/shots/0.27.0/storage-pane.png"),
     "cluster-overview": ("page apple-container-kubernetes, section #nodes", "assets/shots/0.27.0/cluster-overview.png"),
+    "scan-sheet": ("guide scan-container-images-mac, section #gantry", "assets/shots/0.29.0/image-scan-sheet.png"),
 }
 # Rows of guide.table that the home page shows in the section "Command to control".
 HOME_COMMANDS = [0, 3, 4, 5, 12, 13, 27, 28]
@@ -562,8 +575,8 @@ def sections_html(code_key, sections, tables, t, root, tag="h2", id_prefix=""):
             if "p" in b:
                 out.append(f'<p>{b["p"]}</p>')
             elif "ul" in b or "ol" in b:
-                tag = "ul" if "ul" in b else "ol"
-                out.append(f"<{tag}>\n" + "\n".join(f"  <li>{li}</li>" for li in b[tag]) + f"\n</{tag}>")
+                lst = "ul" if "ul" in b else "ol"
+                out.append(f"<{lst}>\n" + "\n".join(f"  <li>{li}</li>" for li in b[lst]) + f"\n</{lst}>")
             elif "code" in b:
                 if b.get("after"):
                     out.append(f'<p>{b["after"]}</p>')

@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantrys flådeoversigt med Docker- og apple/container-værter">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kubernetes på Apple container: GUI til container cluster og en Kubernetes-browser">
   <meta name="twitter:description" content="Kør Kubernetes på Apples container-værktøj med Gantry: opret klynger med arbejdsnoder i valgfri størrelse og delt image-lager, gennemse pods og logge, åbn en shell, videresend porte, anvend YAML.">
@@ -68,7 +68,7 @@
       "description": "Kør Kubernetes på Apples container-værktøj med Gantry: opret klynger med arbejdsnoder i valgfri størrelse og delt image-lager, gennemse pods og logge, åbn en shell, videresend porte, anvend YAML.",
       "url": "https://getgantry.github.io/da/apple-container-kubernetes/",
       "inLanguage": "da",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -419,7 +419,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
   <pre><code>container system start</code></pre>
 </div>
 
-<ul id="terminal-create">Opret klyngen</ul>
+<h3 id="terminal-create">Opret klyngen</h3>
 <p>Denne kommando opretter en klynge ved navn <code>dev</code> med én kontrolplan-node og to arbejdsnoder. Hver node får 2 CPU'er og 2 GB hukommelse:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
@@ -441,7 +441,7 @@ kubectl --context dev get nodes">Kopiér</button></div>
 kubectl --context dev get nodes</code></pre>
 </div>
 
-<ul id="terminal-images">Kør et lokalt image uden registry</ul>
+<h3 id="terminal-images">Kør et lokalt image uden registry</h3>
 <p>Med <code>--shared-image-store</code> kan noderne køre ethvert image i dit lokale <code>container</code>-image-lager. Byg et image, og brug det ved navn:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
@@ -456,21 +456,21 @@ kubectl --context dev get pods</code></pre>
 <div class="callout callout-note"><span class="callout-tag">Bemærk</span><div>Når du har bygget det samme tag igen, så kør <code>kubectl rollout restart</code> med <code>imagePullPolicy: Always</code>, eller brug et nyt tag. Med <code>IfNotPresent</code> beholder en node den kopi, den allerede har. Alt, der har root på en node, kan læse alle images i dit lokale lager, også private images, så brug kun det delte lager til lokal udvikling.</div></div>
 <p>På CLI 1.5 og 1.6 er der intet delt lager. Brug <code>container cluster load-image</code> der, eller <b>Indlæs i klynge</b> i Gantry. CLI 1.7 har fjernet <code>load-image</code>.</p>
 
-<ul id="terminal-reach">Åbn appen i en browser</ul>
+<h3 id="terminal-reach">Åbn appen i en browser</h3>
 <p>Videresend en lokal port til deploymentet, og åbn derefter <code>http://localhost:8080</code>:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Kopiér</button></div>
   <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
 </div>
 
-<ul id="terminal-cleanup">Stop og slet klyngen</ul>
+<h3 id="terminal-cleanup">Stop og slet klyngen</h3>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster delete --name dev">Kopiér</button></div>
   <pre><code>container cluster delete --name dev</code></pre>
 </div>
 <p>Stopper kontrolplan-noden, for eksempel efter <code>container system stop</code>, så slet klyngen, og opret den igen. Opret en engangsklynge med <code>--rm</code>, så dens noder fjernes, når de stopper.</p>
 
-<ul id="terminal-troubleshooting">Almindelige problemer</ul>
+<h3 id="terminal-troubleshooting">Almindelige problemer</h3>
 <ul>
   <li><strong>cluster service unavailable:</strong> CLI'en er Homebrew-buildet, eller tjenesterne kører ikke. Installer den signerede pakke, eller genstart tjenesterne med <code>container system stop</code> og <code>container system start</code>. Gantry giver det samme råd under Klynger.</li>
   <li><strong>En gammel klynge mangler i listen:</strong> CLI 1.7 viser ikke klynger, der er oprettet med 1.6 eller ældre. Fjern en med <code>container cluster delete --name &lt;name&gt;</code>.</li>
@@ -478,7 +478,7 @@ kubectl --context dev get pods</code></pre>
   <li><strong>Du kan ikke stoppe en nodecontainer:</strong> det er med vilje. <code>container stop</code> og <code>delete</code> afviser klyngens noder; brug <code>container cluster delete</code>.</li>
 </ul>
 
-<ul id="terminal-compare">Sådan klarer det sig mod Docker Desktop og OrbStack</ul>
+<h3 id="terminal-compare">Sådan klarer det sig mod Docker Desktop og OrbStack</h3>
 <p>Docker Desktop har indbygget Kubernetes med kubeadm (én node) eller kind (flere noder), og OrbStack har en indbygget klynge med én node. <code>container cluster</code> kører kubeadm på <code>kindest/node</code>-images, hver node i sin egen VM, med klynger med flere noder og det delte image-lager. Se den <a href="../compare/">fulde sammenligning</a>.</p>
 
 <h2 id="agents">Klynger fra AI-agenter</h2>
@@ -506,7 +506,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Hvilken Kubernetes-version bruger container cluster?</summary><p>CLI 1.7.1 bruger som standard node-imaget <code>kindest/node:v1.35.5</code>. Vælg en anden version med <code>--node-image</code>, for eksempel <code>docker.io/kindest/node:v1.34.11</code>. Gantry viser versionen i klyngeoversigten.</p></details>
 </div>
 
-<p class="updated">Sidst opdateret 2026-11-15.</p>
+<p class="updated">Sidst opdateret 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Forside</a>

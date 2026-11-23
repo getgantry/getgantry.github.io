@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantryn kojelauta, jossa Docker- ja apple/container-isäntiä">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Siirtyminen Docker Desktopista Apple containeriin: komennot, Compose, taltiot ja puutteet">
   <meta name="twitter:description" content="Vaihda Docker Desktopista Applen container-työkaluun Macilla: mikä docker-komento vastaa mitäkin container-komentoa, miten levykuvat, taltiot ja Compose-tiedostot siirretään ja mitä vielä puuttuu.">
@@ -68,7 +68,7 @@
       "description": "Vaihda Docker Desktopista Applen container-työkaluun Macilla: mikä docker-komento vastaa mitäkin container-komentoa, miten levykuvat, taltiot ja Compose-tiedostot siirretään ja mitä vielä puuttuu.",
       "url": "https://getgantry.github.io/fi/docker-desktop-to-apple-container/",
       "inLanguage": "fi",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -292,7 +292,7 @@
   <li><strong>Vain Apple-siru ja macOS 26.</strong> Intel-Maceilla pysy Docker-moottorissa.</li>
 </ul>
 
-<ul id="commands">Docker-komennot ja niiden container-vastineet</ul>
+<h2 id="commands">Docker-komennot ja niiden container-vastineet</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Docker</th><th scope="col">apple/container</th><th scope="col">Huomiot</th></tr></thead>
 <tbody>
@@ -317,7 +317,7 @@
 </table></div>
 <p>Useimmat <code>run</code>-komennon valinnat ovat samat: <code>-d</code>, <code>-p</code>, <code>-e</code>, <code>-v</code>, <code>--name</code>, <code>--rm</code>, <code>-it</code>, <code>-w</code>, <code>--entrypoint</code>, <code>--cpus</code> ja <code>-m</code>. Pitkän komennon voi muuntaa sijoittamalla sen Gantryyn: katso <a href="../docker-run-to-container/">Kontin luonti docker run -komennosta</a>.</p>
 
-<ul id="images">Tuo levykuvasi</ul>
+<h2 id="images">Tuo levykuvasi</h2>
 <p>Rekisterissä olevat levykuvat: nouda ne uudelleen komennolla <code>container image pull</code>. Vain Dockerissa olevat paikalliset levykuvat: tallenna ne arkistoon ja lataa se. <code>container image load</code> lukee OCI-arkistoja, ja uudet Docker-versiot kirjoittavat komennolla <code>docker save</code> OCI-asettelun. Jos lataus epäonnistuu, lähetä levykuva rekisteriin ja nouda se sieltä.</p>
 <div class="code-block">
   <div class="code-head"><span>Pääte</span><button class="copy" data-copy="docker save -o app.tar app:dev
@@ -328,7 +328,7 @@ container image load -i app.tar
 container image pull nginx:alpine</code></pre>
 </div>
 
-<ul id="volumes">Siirrä nimetyt taltiot</ul>
+<h2 id="volumes">Siirrä nimetyt taltiot</h2>
 <p>Docker säilyttää taltioiden tiedot virtuaalikoneessaan. Kopioi jokainen taltio tar-tiedostoon lyhytikäisellä kontilla ja pura se sitten uuteen apple/container-taltioon:</p>
 <div class="code-block">
   <div class="code-head"><span>Pääte</span><button class="copy" data-copy="docker run --rm -v data:/from -v &quot;$PWD&quot;:/to alpine tar -C /from -cf /to/data.tar .
@@ -340,11 +340,11 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
 </div>
 <p>Nimetty taltio on apple/containerissa harva ext4-levykuva, oletuksena enintään 512 Gt. Aseta toinen koko valinnalla <code>--opt size=20g</code>. Macisi kansioiden sidosliitokset toimivat kuten Dockerissa: <code>-v ~/project:/app</code>.</p>
 
-<ul id="compose">Compose-tiedostot</ul>
+<h2 id="compose">Compose-tiedostot</h2>
 <p><code>container</code>-CLI:ssä ei ole <code>compose</code>-komentoa. Avaa <code>docker-compose.yml</code> sen sijaan Gantryssa (Finder, <strong>Arkisto ▸ Avaa Compose-tiedosto…</strong> tai vetämällä ja pudottamalla). Gantry koostaa <code>build:</code>-palvelut, luo projektin verkon ja nimetyt taltiot ja käynnistää palvelut <code>depends_on</code>-järjestyksessä. Palvelut tavoittavat toisensa palvelunimellä verkon DNS-aliasten kautta.</p>
 <p>Eikö Compose-tiedostoa ole vielä? Valitse Docker-isännällä sovelluksen kontit, valitse <strong>Vie Compose-tiedostona…</strong> ja tallenna tiedosto. Tiedosto merkitsee nimetyt taltiot ja verkot määrityksellä <code>external: true</code>, joten luo ne ensin apple/container-isännälle (katso <a href="#volumes">Siirrä nimetyt taltiot</a>) ja avaa tiedosto sitten siellä. Salaisuuksilta näyttävistä arvoista tulee <code>${NAME}</code>-muuttujia, joten tiedostossa ei ole salasanojasi.</p>
 
-<ul id="networks">Verkot ja portit</ul>
+<h2 id="networks">Verkot ja portit</h2>
 <ul>
   <li><code>-p 8080:80</code> julkaisee portin osoitteessa <code>localhost</code>, kuten Dockerissa.</li>
   <li>Jokaisella kontilla on myös oma IP-osoite. Luo paikallinen DNS-verkkotunnus komennolla <code>sudo container system dns create test</code> ja aja kontit valinnalla <code>--dns-domain test</code>: ne saavat nimiä kuten <code>web.test</code>.</li>
@@ -352,7 +352,7 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
   <li>Tiloja <code>--network host</code>, <code>none</code> ja <code>container:</code> ei ole.</li>
 </ul>
 
-<ul id="missing">Mitä puuttuu</ul>
+<h2 id="missing">Mitä puuttuu</h2>
 <ul>
   <li><strong>Ei Docker Engine API:a.</strong> Työkalut, jotka käyttävät socketia <code>/var/run/docker.sock</code>, kuten Testcontainers, Docker SDK:t tai Dev Containers, eivät näe apple/containeria.</li>
   <li><strong>Ei uudelleenkäynnistyskäytäntöjä.</strong> <code>--restart</code> ei ole käytettävissä; kontti ei käynnisty uudelleen itsestään.</li>
@@ -362,13 +362,14 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
   <li><strong>Kubernetes toimii toisin:</strong> käytä komentoa <code>container cluster</code>, katso <a href="../apple-container-kubernetes/#terminal">Kubernetes Macilla</a>.</li>
 </ul>
 
-<ul id="both">Pidä molemmat vaihdon ajan</ul>
+<h2 id="both">Pidä molemmat vaihdon ajan</h2>
 <p>Gantry hallitsee apple/containeria ja mitä tahansa Docker-moottoria (Docker Desktop, OrbStack, Colima tai Docker SSH:n kautta) yhdessä sivupalkissa. Siirrä yksi projekti kerrallaan ja pidä Docker työkaluille, jotka tarvitsevat sen API:a. Kun et enää tarvitse sitä, voit poistaa Docker Desktopin.</p>
 
 <h2 id="related">Aiheeseen liittyvät oppaat</h2>
 <ul>
   <li><a href="../containers-on-external-drive/">Kontit ja taltiot ulkoisella levyllä Macissa</a></li>
   <li><a href="../docker-run-to-container/">Kontin luonti docker run -komennosta Macilla (docker run container runiksi)</a></li>
+  <li><a href="../scan-container-images-mac/">Konttien levykuvien haavoittuvuusskannaus Macilla Trivyllä ja Grypellä</a></li>
   <li><a href="../apple-container/">Apple container -GUI Macille: kattava apple/container-opas</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes Apple containerilla: GUI container clusterille ja Kubernetes-selain</a></li>
   <li><a href="../compare/">Gantry vs. Docker Desktop vs. OrbStack vs. Podman Desktop Macilla (2026)</a></li>
@@ -383,7 +384,7 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
 <details class="faq-item"><summary>Onko Apple container ilmainen kaupalliseen käyttöön?</summary><p>On. apple/container on avointa lähdekoodia Apache 2.0 -lisenssillä, ja Gantryllä on MIT-lisenssi. Molemmat ovat ilmaisia kaikenkokoisille yrityksille.</p></details>
 </div>
 
-<p class="updated">Päivitetty viimeksi 2026-11-15.</p>
+<p class="updated">Päivitetty viimeksi 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Etusivu</a>

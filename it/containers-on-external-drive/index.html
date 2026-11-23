@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Dashboard della flotta di Gantry con host Docker e apple/container">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Container e volumi su un disco esterno con il Mac">
   <meta name="twitter:description" content="Tieni immagini, container e volumi di Apple container su un SSD esterno: trova la radice dei dati, spostala con container system start --app-root, usa i bind mount e scollega il disco in sicurezza.">
@@ -68,7 +68,7 @@
       "description": "Tieni immagini, container e volumi di Apple container su un SSD esterno: trova la radice dei dati, spostala con container system start --app-root, usa i bind mount e scollega il disco in sicurezza.",
       "url": "https://getgantry.github.io/it/containers-on-external-drive/",
       "inLanguage": "it",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -301,7 +301,7 @@ container system df</code></pre>
   <li>Dai al disco un nome breve e senza spazi, per esempio <code>Fast</code>. Il percorso sarà <code>/Volumes/Fast</code>.</li>
 </ul>
 
-<ul id="bind">Opzione 1: dati del progetto sul disco con i bind mount</ul>
+<h2 id="bind">Opzione 1: dati del progetto sul disco con i bind mount</h2>
 <p>Un bind mount condivide una cartella del Mac con il container, e la cartella può trovarsi su qualsiasi disco. È il modo più semplice per tenere dati voluminosi, come un database o i file di un modello, fuori dal disco interno:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminale</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/site
@@ -313,7 +313,7 @@ container run -d --name web -p 8080:80 \
 </div>
 <p>Il disco deve essere collegato prima che il container si avvii. Le immagini e il container stesso restano sul disco interno.</p>
 
-<ul id="move">Opzione 2: sposta tutti i dati di apple/container sul disco</ul>
+<h2 id="move">Opzione 2: sposta tutti i dati di apple/container sul disco</h2>
 <p>Così sposti immagini, container, snapshot e volumi. Prima arresta i servizi, così nessun file cambia durante la copia:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminale</span><button class="copy" data-copy="container system stop
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 <div class="callout callout-warn"><span class="callout-tag">Attenzione</span><div>La CLI non ricorda <code>--app-root</code>. Ogni <code>container system start</code> senza il flag usa di nuovo la cartella interna. Usa il flag ogni volta, per esempio in un alias della shell, e controlla <code>paths.appRoot</code> in <code>container system status</code>.</div></div>
 <p>Gantry può fare questo spostamento per te: vedi <a href="#gantry">sotto</a>.</p>
 
-<ul id="images">Archivia le immagini sul disco</ul>
+<h2 id="images">Archivia le immagini sul disco</h2>
 <p>Per liberare spazio senza perdere un'immagine, salvala sul disco esterno ed eliminala. Caricala di nuovo quando ti serve:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminale</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/images
@@ -344,7 +344,7 @@ container image delete myapp:dev
 container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </div>
 
-<ul id="unplug">Scollega il disco in sicurezza</ul>
+<h2 id="unplug">Scollega il disco in sicurezza</h2>
 <ol>
   <li>Arresta i container che usano il disco: <code>container stop &lt;name&gt;</code>.</li>
   <li>Se la radice dell'app è sul disco, arresta i servizi: <code>container system stop</code>.</li>
@@ -352,17 +352,18 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </ol>
 <p>Se il disco scompare mentre ci sono container in esecuzione da lì, questi non funzionano più, e le scritture in corso possono andare perse. Dopo aver ricollegato il disco, avvia i servizi con <code>--app-root</code>, poi avvia i container.</p>
 
-<ol id="gantry">Dischi esterni in Gantry</ol>
+<h2 id="gantry">Dischi esterni in Gantry</h2>
 <p>Su un host apple/container, il pannello <strong>Spazio</strong> nella sezione Sistema mostra dove si trova la radice dei dati, su quale disco e quanto spazio occupano immagini, container, snapshot, volumi e kernel. <strong>Sposta su un altro disco…</strong> arresta i servizi, copia i dati, li verifica, cambia la radice e riavvia i servizi; elimina la vecchia copia solo dopo una conferma separata. Gantry ricorda la radice per tutti gli avvii successivi. I nuovi volumi possono stare in una cartella su qualsiasi disco, e quando quel disco non è collegato Gantry ti dice quale disco manca e non avvia i container che ne hanno bisogno.</p>
 <figure class="guide-shot"><picture><source type="image/webp" srcset="../../assets/shots/0.27.0/storage-pane-800.webp 800w, ../../assets/shots/0.27.0/storage-pane-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Pannello Spazio di Gantry: la radice dei dati, il suo disco e lo spazio usato" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><b>Archiviazione.</b> La radice dei dati, il suo disco e lo spazio occupato.</figcaption></figure>
 
-<ol id="docker">Docker Desktop e OrbStack</ol>
+<h2 id="docker">Docker Desktop e OrbStack</h2>
 <p>Docker Desktop sposta la sua immagine disco in <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack ha aggiunto un'impostazione per la posizione dei dati nella versione 0.13.0. Vedi il <a href="../compare/">confronto</a>.</p>
 
 <h2 id="related">Guide correlate</h2>
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Da Docker Desktop ad Apple container: comandi, Compose, volumi e limiti</a></li>
   <li><a href="../docker-run-to-container/">Creare un container da un comando docker run su Mac (da docker run a container run)</a></li>
+  <li><a href="../scan-container-images-mac/">Analizzare le immagini dei container alla ricerca di vulnerabilità su un Mac con Trivy e Grype</a></li>
   <li><a href="../apple-container/">GUI per Apple container su Mac: guida completa ad apple/container</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes su Apple container: GUI per container cluster e browser Kubernetes</a></li>
   <li><a href="../compare/">Gantry vs Docker Desktop vs OrbStack vs Podman Desktop su Mac (2026)</a></li>
@@ -377,7 +378,7 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <details class="faq-item"><summary>La CLI container ricorda la nuova posizione?</summary><p>No. Passa <code>--app-root</code> a ogni <code>container system start</code>. <code>container system status</code> mostra la radice in uso come <code>paths.appRoot</code>.</p></details>
 </div>
 
-<p class="updated">Ultimo aggiornamento: 2026-11-15.</p>
+<p class="updated">Ultimo aggiornamento: 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Home</a>

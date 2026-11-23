@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantrys översikt över flottan med Docker- och apple/container-värdar">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Skapa en container från ett docker run-kommando på Mac (docker run till container run)">
   <meta name="twitter:description" content="Klistra in ett docker run-kommando i Gantry och få ett ifyllt containerformulär, eller konvertera docker run till container run för hand: vilka flaggor som motsvaras, vilka som saknas, recept.">
@@ -68,7 +68,7 @@
       "description": "Klistra in ett docker run-kommando i Gantry och få ett ifyllt containerformulär, eller konvertera docker run till container run för hand: vilka flaggor som motsvaras, vilka som saknas, recept.",
       "url": "https://getgantry.github.io/sv/docker-run-to-container/",
       "inLanguage": "sv",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -294,7 +294,7 @@
 <p>Gantry läser <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> och <code>container run</code>. Text efter <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> eller <code>|</code> ignoreras, med en kommentar.</p>
 <!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
-<ol id="flags">Vilka flaggor som fyller i formuläret</ol>
+<h2 id="flags">Vilka flaggor som fyller i formuläret</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Flagga</th><th scope="col">Formulärfält</th><th scope="col">Kommentar</th></tr></thead>
 <tbody>
@@ -314,7 +314,7 @@
 </table></div>
 <p>Ungefär 80 andra Docker-flaggor är kända: Gantry hoppar korrekt över deras värden och listar dem som oanvända, så att inget försvinner utan en kommentar.</p>
 
-<ol id="apple">Varningar för apple/container-värdar</ol>
+<h2 id="apple">Varningar för apple/container-värdar</h2>
 <p>Vissa Docker-alternativ finns inte i apple/container. Gantry varnar för dem och utelämnar dem ur begäran om att skapa containern:</p>
 <ul>
   <li>omstartspolicyer (<code>--restart</code>);</li>
@@ -324,7 +324,7 @@
 </ul>
 <p>På en Docker-värd varnar Gantry för alternativen för apple/container: DNS-domänen och kärnalternativen.</p>
 
-<ul id="by-hand">Konvertera docker run till container run för hand</ul>
+<h2 id="by-hand">Konvertera docker run till container run för hand</h2>
 <p>För CLI:et är de flesta flaggor desamma. Ett exempel med Redis:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="docker run -d --name cache --restart unless-stopped -p 6379:6379 \
@@ -343,10 +343,10 @@ container run -d --name cache -p 6379:6379 \
 </div>
 <p>Skapa den namngivna volymen först med <code>container volume create</code>. Ta bort <code>--restart</code> och avrunda <code>--cpus</code> till ett heltal. <code>--platform</code> fungerar som i Docker.</p>
 
-<ul id="copy">Kopiera en container som kommando</ul>
+<h2 id="copy">Kopiera en container som kommando</h2>
 <p>Det fungerar även åt andra hållet. Högerklicka på en container, eller använd menyn Mer, och välj <strong>Kopiera som kommando</strong>: Gantry skriver en <code>docker run</code>- eller <code>container run</code>-rad. Den utelämnar imagens standardvärden, till exempel dess miljö och kommando, så att raden blir kort. Det fungerar även för stoppade containrar.</p>
 
-<ul id="compose">Exportera containern som Compose</ul>
+<h2 id="compose">Exportera containern som Compose</h2>
 <p>Om du vill spara en container som en fil högerklickar du på den, eller använder menyn Mer, och väljer <strong>Exportera som Compose…</strong>. Markera flera containrar för att lägga dem i en fil. Gantry skriver en <code>docker-compose.yml</code> med en tjänst för varje container: portar, monteringar, nätverk, omstartspolicy, hälsokontroll, gränser, capabilities och loggning. Namngivna volymer och nätverk märks som <code>external: true</code>.</p>
 <ul>
   <li>Värden som liknar hemligheter blir <code>${NAME}</code>-variabler. Under <strong>Hemliga värden</strong> tar du med de värden som du vill ha i filen. En fil med ett hemligt värde sparas med läget 0600.</li>
@@ -354,14 +354,14 @@ container run -d --name cache -p 6379:6379 \
   <li>Klicka på <strong>Kopiera</strong> eller <strong>Spara…</strong>.</li>
 </ul>
 
-<ul id="secrets">Håll hemligheter utanför kommandot</ul>
+<h2 id="secrets">Håll hemligheter utanför kommandot</h2>
 <p>En <code>-e PASSWORD=…</code> i ett kommando läcker lätt. Öppna nyckelmenyn för en miljörad i formuläret Ny container och välj <strong>Spara värdet i nyckelringen…</strong>, eller välj en hemlighet som du har lagt till i <strong>Inställningar → Hemligheter</strong>. Raden visar då <code>keychain:NAME</code> med ett lås, inte värdet.</p>
 <p>Gantry läser värdet från nyckelringen först när den skapar containern. <strong>Kopiera som kommando</strong>, recept och Compose-export skriver <code>keychain:NAME</code>. Fliken Granska visar <code>KEY=[REDACTED]</code>. Motorn sparar fortfarande värdet, så <code>docker inspect</code> eller <code>container inspect</code> utanför Gantry kan visa det.</p>
 
-<ul id="recipes">Spara som recept</ul>
+<h2 id="recipes">Spara som recept</h2>
 <p>Öppna <strong>Recept</strong> i arket Ny container och välj <strong>Spara som recept…</strong>. Nästa gång ger <strong>Fyll i från recept</strong> samma formulär på valfri värd. Recepten finns i <code>~/Library/Application Support/Gantry/recipes.json</code>, så du kan säkerhetskopiera eller dela dem.</p>
 
-<ul id="limits">Begränsningar</ul>
+<h2 id="limits">Begränsningar</h2>
 <ul>
   <li>Gantry behåller sökvägen för <code>--env-file</code> men läser inte filen, och läser inte ditt skal för <code>-e KEY</code> utan värde.</li>
   <li>tmpfs-monteringar och anonyma volymer från <code>--mount</code> listas som inte stödda.</li>
@@ -373,6 +373,7 @@ container run -d --name cache -p 6379:6379 \
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Byt från Docker Desktop till Apple container: kommandon, Compose, volymer och luckor</a></li>
   <li><a href="../containers-on-external-drive/">Lagra containrar och volymer på en extern disk på en Mac</a></li>
+  <li><a href="../scan-container-images-mac/">Skanna container-images efter sårbarheter på Mac med Trivy och Grype</a></li>
   <li><a href="../apple-container/">GUI för Apple container på Mac: hela guiden till apple/container</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes på Apple container: ett GUI för container cluster och en Kubernetes-utforskare</a></li>
   <li><a href="../compare/">Gantry vs Docker Desktop vs OrbStack vs Podman Desktop på Mac (2026)</a></li>
@@ -386,7 +387,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Kan jag göra om en container som körs till ett docker run-kommando?</summary><p>Ja. <strong>Kopiera som kommando</strong> i containermenyn skriver en <code>docker run</code>- eller <code>container run</code>-rad för den containern.</p></details>
 </div>
 
-<p class="updated">Senast uppdaterad 2026-11-15.</p>
+<p class="updated">Senast uppdaterad 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Start</a>

@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Přehled flotily v Gantry s hostiteli Docker a apple/container">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Z Docker Desktop na Apple container: příkazy, Compose, svazky a mezery">
   <meta name="twitter:description" content="Přechod z Docker Desktop na nástroj container od Applu na Macu: který příkaz docker odpovídá kterému příkazu container, jak přenést image, svazky a soubory Compose a co zatím chybí.">
@@ -68,7 +68,7 @@
       "description": "Přechod z Docker Desktop na nástroj container od Applu na Macu: který příkaz docker odpovídá kterému příkazu container, jak přenést image, svazky a soubory Compose a co zatím chybí.",
       "url": "https://getgantry.github.io/cs/docker-desktop-to-apple-container/",
       "inLanguage": "cs",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -292,7 +292,7 @@
   <li><strong>Jen Apple silicon a macOS 26.</strong> Na Macích s procesorem Intel zůstaňte u enginu Docker.</li>
 </ul>
 
-<ul id="commands">Příkazy Dockeru a jejich ekvivalenty v container</ul>
+<h2 id="commands">Příkazy Dockeru a jejich ekvivalenty v container</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Docker</th><th scope="col">apple/container</th><th scope="col">Poznámky</th></tr></thead>
 <tbody>
@@ -317,7 +317,7 @@
 </table></div>
 <p>Většina příznaků <code>run</code> je stejná: <code>-d</code>, <code>-p</code>, <code>-e</code>, <code>-v</code>, <code>--name</code>, <code>--rm</code>, <code>-it</code>, <code>-w</code>, <code>--entrypoint</code>, <code>--cpus</code> a <code>-m</code>. Dlouhý příkaz převedete tak, že ho vložíte do Gantry: viz <a href="../docker-run-to-container/">Kontejner z příkazu docker run</a>.</p>
 
-<ul id="images">Přenos imagů</ul>
+<h2 id="images">Přenos imagů</h2>
 <p>Image z registru: stáhněte je znovu příkazem <code>container image pull</code>. Místní image, které existují jen v Dockeru: uložte je do archivu a ten načtěte. <code>container image load</code> čte archivy OCI a novější verze Dockeru zapisují příkazem <code>docker save</code> layout OCI. Pokud načtení selže, odešlete image do registru a stáhněte ho.</p>
 <div class="code-block">
   <div class="code-head"><span>Terminál</span><button class="copy" data-copy="docker save -o app.tar app:dev
@@ -328,7 +328,7 @@ container image load -i app.tar
 container image pull nginx:alpine</code></pre>
 </div>
 
-<ul id="volumes">Přesun pojmenovaných svazků</ul>
+<h2 id="volumes">Přesun pojmenovaných svazků</h2>
 <p>Docker drží data svazků uvnitř svého virtuálního stroje. Každý svazek zkopírujte do souboru tar pomocí krátce běžícího kontejneru a pak ho rozbalte do nového svazku apple/container:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminál</span><button class="copy" data-copy="docker run --rm -v data:/from -v &quot;$PWD&quot;:/to alpine tar -C /from -cf /to/data.tar .
@@ -340,11 +340,11 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
 </div>
 <p>Pojmenovaný svazek v apple/container je řídký (sparse) obraz disku ext4, ve výchozím stavu nejvýše 512 GB. Jinou velikost nastavíte pomocí <code>--opt size=20g</code>. Bind mounty složek z vašeho Macu fungují jako v Dockeru: <code>-v ~/project:/app</code>.</p>
 
-<ul id="compose">Soubory Compose</ul>
+<h2 id="compose">Soubory Compose</h2>
 <p>CLI <code>container</code> nemá příkaz <code>compose</code>. Místo toho otevřete <code>docker-compose.yml</code> v Gantry (Finder, <strong>Soubor ▸ Otevřít soubor Compose…</strong> nebo přetažením). Gantry sestaví služby s <code>build:</code>, vytvoří síť projektu a pojmenované svazky a spustí služby v pořadí podle <code>depends_on</code>. Služby se navzájem najdou podle názvu služby díky aliasům DNS v síti.</p>
 <p>Ještě nemáte soubor Compose? Na hostiteli Docker vyberte kontejnery aplikace, zvolte <strong>Exportovat jako Compose…</strong> a soubor uložte. Soubor označí pojmenované svazky a sítě jako <code>external: true</code>, proto je nejdřív vytvořte na hostiteli apple/container (viz <a href="#volumes">Přesun pojmenovaných svazků</a>) a pak tam soubor otevřete. Hodnoty, které vypadají jako tajné údaje, se změní na proměnné <code>${NAME}</code>, takže soubor vaše hesla neobsahuje.</p>
 
-<ul id="networks">Sítě a porty</ul>
+<h2 id="networks">Sítě a porty</h2>
 <ul>
   <li><code>-p 8080:80</code> publikuje port na <code>localhost</code>, stejně jako v Dockeru.</li>
   <li>Každý kontejner má také vlastní IP adresu. Vytvořte místní doménu DNS příkazem <code>sudo container system dns create test</code> a spouštějte kontejnery s <code>--dns-domain test</code>: dostanou názvy jako <code>web.test</code>.</li>
@@ -352,7 +352,7 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
   <li>Režim <code>--network host</code>, <code>none</code> ani <code>container:</code> neexistuje.</li>
 </ul>
 
-<ul id="missing">Co chybí</ul>
+<h2 id="missing">Co chybí</h2>
 <ul>
   <li><strong>Žádné Docker Engine API.</strong> Nástroje, které komunikují s <code>/var/run/docker.sock</code>, například Testcontainers, Docker SDK nebo Dev Containers, apple/container nevidí.</li>
   <li><strong>Žádné zásady restartu.</strong> <code>--restart</code> není k dispozici; kontejner se sám znovu nespustí.</li>
@@ -362,13 +362,14 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
   <li><strong>Kubernetes funguje jinak:</strong> použijte <code>container cluster</code>, viz <a href="../apple-container-kubernetes/#terminal">Kubernetes na Macu</a>.</li>
 </ul>
 
-<ul id="both">Během přechodu mějte obojí</ul>
+<h2 id="both">Během přechodu mějte obojí</h2>
 <p>Gantry spravuje apple/container i libovolný engine Docker (Docker Desktop, OrbStack, Colima nebo Docker přes SSH) v jednom postranním panelu. Přenášejte jeden projekt po druhém a Docker si nechte pro nástroje, které potřebují jeho API. Až ho přestanete potřebovat, můžete Docker Desktop odinstalovat.</p>
 
 <h2 id="related">Související průvodci</h2>
 <ul>
   <li><a href="../containers-on-external-drive/">Kontejnery a svazky na externím disku na Macu</a></li>
   <li><a href="../docker-run-to-container/">Kontejner z příkazu docker run na Macu (docker run na container run)</a></li>
+  <li><a href="../scan-container-images-mac/">Skenování imagů kontejnerů na zranitelnosti na Macu pomocí Trivy a Grype</a></li>
   <li><a href="../apple-container/">GUI pro Apple container na Macu: kompletní průvodce apple/container</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes na Apple container: GUI pro container cluster a prohlížeč Kubernetes</a></li>
   <li><a href="../compare/">Gantry vs. Docker Desktop vs. OrbStack vs. Podman Desktop na Macu (2026)</a></li>
@@ -383,7 +384,7 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
 <details class="faq-item"><summary>Je Apple container zdarma pro komerční použití?</summary><p>Ano. apple/container je open source pod licencí Apache 2.0 a Gantry je pod licencí MIT. Obojí je zdarma pro firmy jakékoli velikosti.</p></details>
 </div>
 
-<p class="updated">Naposledy aktualizováno 2026-11-15.</p>
+<p class="updated">Naposledy aktualizováno 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Domů</a>

@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Painel de frota do Gantry com hosts Docker e apple/container">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kubernetes no Apple container: GUI para container cluster e explorador Kubernetes">
   <meta name="twitter:description" content="Execute Kubernetes na ferramenta container da Apple com o Gantry: crie clusters com workers dimensionados e armazenamento de imagens partilhado, explore pods e logs, abra uma shell, reencaminhe portas e aplique YAML.">
@@ -68,7 +68,7 @@
       "description": "Execute Kubernetes na ferramenta container da Apple com o Gantry: crie clusters com workers dimensionados e armazenamento de imagens partilhado, explore pods e logs, abra uma shell, reencaminhe portas e aplique YAML.",
       "url": "https://getgantry.github.io/pt-PT/apple-container-kubernetes/",
       "inLanguage": "pt-PT",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -419,7 +419,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
   <pre><code>container system start</code></pre>
 </div>
 
-<ul id="terminal-create">Criar o cluster</ul>
+<h3 id="terminal-create">Criar o cluster</h3>
 <p>Este comando cria um cluster chamado <code>dev</code> com um nó de plano de controlo e dois workers. Cada nó recebe 2 CPU e 2 GB de memória:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
@@ -441,7 +441,7 @@ kubectl --context dev get nodes">Copiar</button></div>
 kubectl --context dev get nodes</code></pre>
 </div>
 
-<ul id="terminal-images">Executar uma imagem local sem registo</ul>
+<h3 id="terminal-images">Executar uma imagem local sem registo</h3>
 <p>Com <code>--shared-image-store</code>, os nós podem executar qualquer imagem do seu armazenamento de imagens local do <code>container</code>. Compile uma imagem e use-a pelo nome:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
@@ -456,21 +456,21 @@ kubectl --context dev get pods</code></pre>
 <div class="callout callout-note"><span class="callout-tag">Nota</span><div>Depois de recompilar a mesma tag, execute <code>kubectl rollout restart</code> com <code>imagePullPolicy: Always</code> ou use uma nova tag. Com <code>IfNotPresent</code>, um nó mantém a cópia que já tem. Qualquer processo com root num nó pode ler todas as imagens do seu armazenamento local, incluindo imagens privadas, por isso use o armazenamento partilhado apenas para desenvolvimento local.</div></div>
 <p>Nas CLI 1.5 e 1.6 não existe armazenamento partilhado. Use aí <code>container cluster load-image</code> ou <b>Carregar no cluster</b> no Gantry. A CLI 1.7 removeu o <code>load-image</code>.</p>
 
-<ul id="terminal-reach">Abrir a app num browser</ul>
+<h3 id="terminal-reach">Abrir a app num browser</h3>
 <p>Reencaminhe uma porta local para o Deployment e abra <code>http://localhost:8080</code>:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Copiar</button></div>
   <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
 </div>
 
-<ul id="terminal-cleanup">Parar e eliminar o cluster</ul>
+<h3 id="terminal-cleanup">Parar e eliminar o cluster</h3>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster delete --name dev">Copiar</button></div>
   <pre><code>container cluster delete --name dev</code></pre>
 </div>
 <p>Se o nó do plano de controlo parar, por exemplo depois de <code>container system stop</code>, elimine o cluster e crie-o novamente. Crie um cluster descartável com <code>--rm</code> para remover os nós quando pararem.</p>
 
-<ul id="terminal-troubleshooting">Problemas comuns</ul>
+<h3 id="terminal-troubleshooting">Problemas comuns</h3>
 <ul>
   <li><strong>cluster service unavailable:</strong> a CLI é a compilação do Homebrew ou os serviços não estão em execução. Instale o pacote assinado ou reinicie os serviços com <code>container system stop</code> e <code>container system start</code>. O Gantry mostra o mesmo conselho em Clusters.</li>
   <li><strong>Um cluster antigo não aparece na lista:</strong> a CLI 1.7 não lista os clusters criados com a 1.6 ou anterior. Remova-os com <code>container cluster delete --name &lt;name&gt;</code>.</li>
@@ -478,7 +478,7 @@ kubectl --context dev get pods</code></pre>
   <li><strong>Não é possível parar um contentor de nó:</strong> é intencional. <code>container stop</code> e <code>delete</code> recusam os nós do cluster; utilize <code>container cluster delete</code>.</li>
 </ul>
 
-<ul id="terminal-compare">Comparação com o Docker Desktop e o OrbStack</ul>
+<h3 id="terminal-compare">Comparação com o Docker Desktop e o OrbStack</h3>
 <p>O Docker Desktop tem Kubernetes integrado com kubeadm (um nó) ou kind (vários nós), e o OrbStack tem um cluster integrado com um só nó. O <code>container cluster</code> executa o kubeadm em imagens <code>kindest/node</code>, cada nó na sua própria VM, com clusters de vários nós e o armazenamento de imagens partilhado. Consulte a <a href="../compare/">comparação completa</a>.</p>
 
 <h2 id="agents">Clusters a partir de agentes de IA</h2>
@@ -506,7 +506,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Que versão do Kubernetes utiliza o container cluster?</summary><p>A CLI 1.7.1 utiliza por predefinição a imagem de nó <code>kindest/node:v1.35.5</code>. Escolha outra versão com <code>--node-image</code>, por exemplo <code>docker.io/kindest/node:v1.34.11</code>. O Gantry mostra a versão na vista geral do cluster.</p></details>
 </div>
 
-<p class="updated">Última atualização: 2026-11-15.</p>
+<p class="updated">Última atualização: 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Início</a>

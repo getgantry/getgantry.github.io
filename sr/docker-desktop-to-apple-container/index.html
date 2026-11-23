@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantry контролна табла са Docker и apple/container хостовима">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Прелазак са Docker Desktop-а на Apple container: команде, Compose, волумени и недостаци">
   <meta name="twitter:description" content="Прелазак са Docker Desktop-а на Apple-ов алат container на Mac-у: која docker команда одговара којој container команди, пренос слика, волумена и Compose датотека и шта још недостаје.">
@@ -68,7 +68,7 @@
       "description": "Прелазак са Docker Desktop-а на Apple-ов алат container на Mac-у: која docker команда одговара којој container команди, пренос слика, волумена и Compose датотека и шта још недостаје.",
       "url": "https://getgantry.github.io/sr/docker-desktop-to-apple-container/",
       "inLanguage": "sr",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -292,7 +292,7 @@
   <li><strong>Само Apple silicon и macOS 26.</strong> На Intel Mac рачунарима останите на Docker механизму.</li>
 </ul>
 
-<ul id="commands">Docker команде и њихови container еквиваленти</ul>
+<h2 id="commands">Docker команде и њихови container еквиваленти</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Docker</th><th scope="col">apple/container</th><th scope="col">Напомене</th></tr></thead>
 <tbody>
@@ -317,7 +317,7 @@
 </table></div>
 <p>Већина заставица за <code>run</code> је иста: <code>-d</code>, <code>-p</code>, <code>-e</code>, <code>-v</code>, <code>--name</code>, <code>--rm</code>, <code>-it</code>, <code>-w</code>, <code>--entrypoint</code>, <code>--cpus</code> и <code>-m</code>. Да бисте претворили дугу команду, налепите је у Gantry: погледајте <a href="../docker-run-to-container/">Креирање контејнера из docker run команде</a>.</p>
 
-<ul id="images">Пренос слика</ul>
+<h2 id="images">Пренос слика</h2>
 <p>Слике из регистра: поново их повуците командом <code>container image pull</code>. Локалне слике које постоје само у Docker-у: сачувајте их у архиву и учитајте је. <code>container image load</code> чита OCI архиве, а новије верзије Docker-а командом <code>docker save</code> записују OCI распоред. Ако учитавање не успе, пошаљите слику у регистар и повуците је.</p>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="docker save -o app.tar app:dev
@@ -328,7 +328,7 @@ container image load -i app.tar
 container image pull nginx:alpine</code></pre>
 </div>
 
-<ul id="volumes">Пренос именованих волумена</ul>
+<h2 id="volumes">Пренос именованих волумена</h2>
 <p>Docker чува податке волумена унутар своје VM. Копирајте сваки волумен у tar датотеку помоћу краткотрајног контејнера, а затим га распакујте у нови apple/container волумен:</p>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="docker run --rm -v data:/from -v &quot;$PWD&quot;:/to alpine tar -C /from -cf /to/data.tar .
@@ -340,11 +340,11 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
 </div>
 <p>Именовани волумен у apple/container-у је ретка (sparse) ext4 слика диска, подразумевано највише 512 GB. Другу величину подесите опцијом <code>--opt size=20g</code>. Монтиране фасцикле са вашег Mac-а раде као у Docker-у: <code>-v ~/project:/app</code>.</p>
 
-<ul id="compose">Compose датотеке</ul>
+<h2 id="compose">Compose датотеке</h2>
 <p><code>container</code> CLI нема команду <code>compose</code>. Уместо тога отворите <code>docker-compose.yml</code> у Gantry-ју (из Finder-а, преко <strong>Датотека ▸ Отвори Compose датотеку…</strong> или превлачењем). Gantry гради сервисе са <code>build:</code>, креира мрежу пројекта и именоване волумене и покреће сервисе редоследом из <code>depends_on</code>. Сервиси се међусобно досежу по имену сервиса преко DNS алијаса мреже.</p>
 <p>Још немате compose датотеку? На Docker хосту изаберите контејнере апликације, изаберите <strong>Извези као Compose…</strong> и сачувајте датотеку. Датотека означава именоване волумене и мреже као <code>external: true</code>, па их прво направите на apple/container хосту (погледајте <a href="#volumes">Пренос именованих волумена</a>), а затим тамо отворите датотеку. Вредности које личе на тајне постају променљиве <code>${NAME}</code>, па датотека не садржи ваше лозинке.</p>
 
-<ul id="networks">Мреже и портови</ul>
+<h2 id="networks">Мреже и портови</h2>
 <ul>
   <li><code>-p 8080:80</code> објављује порт на <code>localhost</code>, као у Docker-у.</li>
   <li>Сваки контејнер има и сопствену IP адресу. Креирајте локални DNS домен командом <code>sudo container system dns create test</code> и покрећите контејнере уз <code>--dns-domain test</code>: добијају имена као што је <code>web.test</code>.</li>
@@ -352,7 +352,7 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
   <li>Не постоји режим <code>--network host</code>, <code>none</code> ни <code>container:</code>.</li>
 </ul>
 
-<ul id="missing">Шта недостаје</ul>
+<h2 id="missing">Шта недостаје</h2>
 <ul>
   <li><strong>Нема Docker Engine API-ја.</strong> Алати који комуницирају са <code>/var/run/docker.sock</code>, као што су Testcontainers, Docker SDK-ови или Dev Containers, не виде apple/container.</li>
   <li><strong>Нема смерница поновног покретања.</strong> <code>--restart</code> није доступан; контејнер се не покреће поново сам од себе.</li>
@@ -362,13 +362,14 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
   <li><strong>Kubernetes ради другачије:</strong> користите <code>container cluster</code>, погледајте <a href="../apple-container-kubernetes/#terminal">Kubernetes на Mac-у</a>.</li>
 </ul>
 
-<ul id="both">Задржите оба током преласка</ul>
+<h2 id="both">Задржите оба током преласка</h2>
 <p>Gantry управља apple/container-ом и било којим Docker механизмом (Docker Desktop, OrbStack, Colima или Docker преко SSH-а) у једној бочној траци. Преносите један по један пројекат, а Docker задржите за алате којима је потребан његов API. Када вам више не треба, можете да уклоните Docker Desktop.</p>
 
 <h2 id="related">Сродна упутства</h2>
 <ul>
   <li><a href="../containers-on-external-drive/">Контејнери и волумени на спољном диску на Mac-у</a></li>
   <li><a href="../docker-run-to-container/">Контејнер из docker run команде на Mac-у (docker run у container run)</a></li>
+  <li><a href="../scan-container-images-mac/">Скенирање слика контејнера на рањивости на Mac-у помоћу Trivy-ја и Grype-а</a></li>
   <li><a href="../apple-container/">Apple container GUI за Mac: комплетан водич за apple/container</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes на Apple container-у: GUI за container cluster и Kubernetes прегледач</a></li>
   <li><a href="../compare/">Gantry, Docker Desktop, OrbStack и Podman Desktop на Mac-у: поређење (2026)</a></li>
@@ -383,7 +384,7 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
 <details class="faq-item"><summary>Да ли је Apple container бесплатан за комерцијалну употребу?</summary><p>Да. apple/container је отвореног кода под лиценцом Apache 2.0, а Gantry је под лиценцом MIT. Оба су бесплатна за предузећа било које величине.</p></details>
 </div>
 
-<p class="updated">Последње ажурирање: 2026-11-15.</p>
+<p class="updated">Последње ажурирање: 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Почетна</a>

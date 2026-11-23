@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantryn kojelauta, jossa Docker- ja apple/container-isäntiä">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kubernetes Apple containerilla: GUI container clusterille ja Kubernetes-selain">
   <meta name="twitter:description" content="Kubernetes Applen container-työkalulla Gantryn avulla: luo klustereita mitoitetuin työsolmuin ja jaetulla levykuvavarastolla, selaa podeja ja lokeja, välitä portteja, käytä YAML.">
@@ -68,7 +68,7 @@
       "description": "Kubernetes Applen container-työkalulla Gantryn avulla: luo klustereita mitoitetuin työsolmuin ja jaetulla levykuvavarastolla, selaa podeja ja lokeja, välitä portteja, käytä YAML.",
       "url": "https://getgantry.github.io/fi/apple-container-kubernetes/",
       "inLanguage": "fi",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -419,7 +419,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
   <pre><code>container system start</code></pre>
 </div>
 
-<ul id="terminal-create">Luo klusteri</ul>
+<h3 id="terminal-create">Luo klusteri</h3>
 <p>Tämä komento luo klusterin nimeltä <code>dev</code>, jossa on yksi ohjaustason solmu ja kaksi työsolmua. Jokainen solmu saa 2 CPU:ta ja 2 Gt muistia:</p>
 <div class="code-block">
   <div class="code-head"><span>Pääte</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
@@ -441,7 +441,7 @@ kubectl --context dev get nodes">Kopioi</button></div>
 kubectl --context dev get nodes</code></pre>
 </div>
 
-<ul id="terminal-images">Aja paikallinen levykuva ilman rekisteriä</ul>
+<h3 id="terminal-images">Aja paikallinen levykuva ilman rekisteriä</h3>
 <p>Valinnalla <code>--shared-image-store</code> solmut voivat ajaa mitä tahansa levykuvaa paikallisesta <code>container</code>-levykuvavarastostasi. Koosta levykuva ja käytä sitä nimellä:</p>
 <div class="code-block">
   <div class="code-head"><span>Pääte</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
@@ -456,21 +456,21 @@ kubectl --context dev get pods</code></pre>
 <div class="callout callout-note"><span class="callout-tag">Huomautus</span><div>Kun koostat saman tagin uudelleen, suorita <code>kubectl rollout restart</code> asetuksella <code>imagePullPolicy: Always</code> tai käytä uutta tagia. Asetuksella <code>IfNotPresent</code> solmu säilyttää kopion, joka sillä jo on. Mikä tahansa, jolla on root-oikeudet solmussa, voi lukea jokaisen paikallisen varastosi levykuvan, myös yksityiset levykuvat, joten käytä jaettua varastoa vain paikallisessa kehityksessä.</div></div>
 <p>CLI 1.5:ssä ja 1.6:ssa jaettua varastoa ei ole. Käytä niissä komentoa <code>container cluster load-image</code> tai Gantryssa toimintoa <b>Siirrä klusteriin</b>. CLI 1.7 poisti komennon <code>load-image</code>.</p>
 
-<ul id="terminal-reach">Avaa sovellus selaimessa</ul>
+<h3 id="terminal-reach">Avaa sovellus selaimessa</h3>
 <p>Välitä paikallinen portti deploymenttiin ja avaa sitten <code>http://localhost:8080</code>:</p>
 <div class="code-block">
   <div class="code-head"><span>Pääte</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Kopioi</button></div>
   <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
 </div>
 
-<ul id="terminal-cleanup">Pysäytä ja poista klusteri</ul>
+<h3 id="terminal-cleanup">Pysäytä ja poista klusteri</h3>
 <div class="code-block">
   <div class="code-head"><span>Pääte</span><button class="copy" data-copy="container cluster delete --name dev">Kopioi</button></div>
   <pre><code>container cluster delete --name dev</code></pre>
 </div>
 <p>Jos ohjaustason solmu pysähtyy, esimerkiksi komennon <code>container system stop</code> jälkeen, poista klusteri ja luo se uudelleen. Luo kertakäyttöinen klusteri valinnalla <code>--rm</code>, niin sen solmut poistetaan, kun ne pysähtyvät.</p>
 
-<ul id="terminal-troubleshooting">Yleisiä ongelmia</ul>
+<h3 id="terminal-troubleshooting">Yleisiä ongelmia</h3>
 <ul>
   <li><strong>cluster service unavailable:</strong> CLI on Homebrew-koonti, tai palvelut eivät ole käynnissä. Asenna allekirjoitettu paketti tai käynnistä palvelut uudelleen komennoilla <code>container system stop</code> ja <code>container system start</code>. Gantry antaa saman neuvon Klusterit-osiossa.</li>
   <li><strong>Vanha klusteri puuttuu luettelosta:</strong> CLI 1.7 ei luettele klustereita, jotka on luotu versiolla 1.6 tai vanhemmalla. Poista sellainen komennolla <code>container cluster delete --name &lt;name&gt;</code>.</li>
@@ -478,7 +478,7 @@ kubectl --context dev get pods</code></pre>
   <li><strong>Solmukonttia ei voi pysäyttää:</strong> tämä on tarkoituksellista. <code>container stop</code> ja <code>delete</code> eivät käsittele klusterin solmuja; käytä komentoa <code>container cluster delete</code>.</li>
 </ul>
 
-<ul id="terminal-compare">Vertailu Docker Desktopiin ja OrbStackiin</ul>
+<h3 id="terminal-compare">Vertailu Docker Desktopiin ja OrbStackiin</h3>
 <p>Docker Desktopissa on sisäänrakennettu Kubernetes kubeadmilla (yksi solmu) tai kindillä (useita solmuja), ja OrbStackissa on sisäänrakennettu yhden solmun klusteri. <code>container cluster</code> ajaa kubeadmia <code>kindest/node</code>-levykuvilla, jokainen solmu omassa virtuaalikoneessaan, ja tukee usean solmun klustereita ja jaettua levykuvavarastoa. Katso <a href="../compare/">koko vertailu</a>.</p>
 
 <h2 id="agents">Klusterit AI-agenttien avulla</h2>
@@ -506,7 +506,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Mitä Kubernetes-versiota container cluster käyttää?</summary><p>CLI 1.7.1 käyttää oletuksena solmun levykuvaa <code>kindest/node:v1.35.5</code>. Valitse toinen versio valinnalla <code>--node-image</code>, esimerkiksi <code>docker.io/kindest/node:v1.34.11</code>. Gantry näyttää version klusterin yleiskatsauksessa.</p></details>
 </div>
 
-<p class="updated">Päivitetty viimeksi 2026-11-15.</p>
+<p class="updated">Päivitetty viimeksi 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Etusivu</a>

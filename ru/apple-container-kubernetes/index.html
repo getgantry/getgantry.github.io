@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Сводка Gantry с хостами Docker и apple/container">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kubernetes на Apple container: GUI для container cluster и браузер Kubernetes">
   <meta name="twitter:description" content="Kubernetes на container от Apple с Gantry: кластеры с рабочими узлами нужного размера и общим хранилищем образов, поды и логи, оболочка, проброс портов, применение YAML.">
@@ -68,7 +68,7 @@
       "description": "Kubernetes на container от Apple с Gantry: кластеры с рабочими узлами нужного размера и общим хранилищем образов, поды и логи, оболочка, проброс портов, применение YAML.",
       "url": "https://getgantry.github.io/ru/apple-container-kubernetes/",
       "inLanguage": "ru",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -419,7 +419,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
   <pre><code>container system start</code></pre>
 </div>
 
-<ul id="terminal-create">Создание кластера</ul>
+<h3 id="terminal-create">Создание кластера</h3>
 <p>Эта команда создаёт кластер <code>dev</code> с одним управляющим узлом и двумя рабочими. Каждый узел получает 2 CPU и 2 ГБ памяти:</p>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
@@ -441,7 +441,7 @@ kubectl --context dev get nodes">Скопировать</button></div>
 kubectl --context dev get nodes</code></pre>
 </div>
 
-<ul id="terminal-images">Локальный образ без реестра</ul>
+<h3 id="terminal-images">Локальный образ без реестра</h3>
 <p>С <code>--shared-image-store</code> узлы могут запускать любой образ из вашего локального хранилища образов <code>container</code>. Соберите образ и используйте его по имени:</p>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
@@ -456,21 +456,21 @@ kubectl --context dev get pods</code></pre>
 <div class="callout callout-note"><span class="callout-tag">Примечание</span><div>После пересборки того же тега выполните <code>kubectl rollout restart</code> с <code>imagePullPolicy: Always</code> или используйте новый тег. С <code>IfNotPresent</code> узел оставляет уже имеющуюся копию. Всё, что имеет root-доступ на узле, может читать все образы вашего локального хранилища, включая приватные, поэтому используйте общее хранилище только для локальной разработки.</div></div>
 <p>В CLI 1.5 и 1.6 общего хранилища нет. Там используйте <code>container cluster load-image</code> или <b>Загрузить в кластер</b> в Gantry. В CLI 1.7 команды <code>load-image</code> больше нет.</p>
 
-<ul id="terminal-reach">Откройте приложение в браузере</ul>
+<h3 id="terminal-reach">Откройте приложение в браузере</h3>
 <p>Пробросьте локальный порт на Deployment, затем откройте <code>http://localhost:8080</code>:</p>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Скопировать</button></div>
   <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
 </div>
 
-<ul id="terminal-cleanup">Остановка и удаление кластера</ul>
+<h3 id="terminal-cleanup">Остановка и удаление кластера</h3>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="container cluster delete --name dev">Скопировать</button></div>
   <pre><code>container cluster delete --name dev</code></pre>
 </div>
 <p>Если управляющий узел остановился, например после <code>container system stop</code>, удалите кластер и создайте его заново. Временный кластер создавайте с <code>--rm</code>: его узлы удалятся, когда остановятся.</p>
 
-<ul id="terminal-troubleshooting">Частые проблемы</ul>
+<h3 id="terminal-troubleshooting">Частые проблемы</h3>
 <ul>
   <li><strong>cluster service unavailable:</strong> CLI установлен из Homebrew или службы не запущены. Установите подписанный пакет или перезапустите службы командами <code>container system stop</code> и <code>container system start</code>. Gantry даёт тот же совет в разделе «Кластеры».</li>
   <li><strong>Старого кластера нет в списке:</strong> CLI 1.7 не показывает кластеры, созданные в 1.6 или раньше. Удалите такой кластер командой <code>container cluster delete --name &lt;name&gt;</code>.</li>
@@ -478,7 +478,7 @@ kubectl --context dev get pods</code></pre>
   <li><strong>Контейнер узла не останавливается:</strong> так задумано. <code>container stop</code> и <code>delete</code> отказываются работать с узлами кластера; используйте <code>container cluster delete</code>.</li>
 </ul>
 
-<ul id="terminal-compare">Сравнение с Docker Desktop и OrbStack</ul>
+<h3 id="terminal-compare">Сравнение с Docker Desktop и OrbStack</h3>
 <p>В Docker Desktop есть встроенный Kubernetes на kubeadm (один узел) или kind (несколько узлов), а в OrbStack — встроенный кластер из одного узла. <code>container cluster</code> запускает kubeadm на образах <code>kindest/node</code>, каждый узел в своей ВМ, с кластерами из нескольких узлов и общим хранилищем образов. См. <a href="../compare/">полное сравнение</a>.</p>
 
 <h2 id="agents">Управление кластерами через ИИ-агентов</h2>
@@ -506,7 +506,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Какую версию Kubernetes использует container cluster?</summary><p>CLI 1.7.1 по умолчанию использует образ узла <code>kindest/node:v1.35.5</code>. Другую версию выберите флагом <code>--node-image</code>, например <code>docker.io/kindest/node:v1.34.11</code>. Gantry показывает версию в обзоре кластера.</p></details>
 </div>
 
-<p class="updated">Обновлено 2026-11-15.</p>
+<p class="updated">Обновлено 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Главная</a>

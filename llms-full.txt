@@ -49,7 +49,7 @@ New in 0.27.0 (also):
 - macOS integration: notification actions (Restart, View Logs, Copy as Prompt), a fleet health widget, two Control Center controls (apple/container services, a favorite container), Siri phrases, and `gantry://open/<place>` links for scripts.
 - New design that follows Apple's Human Interface Guidelines: live charts on the dashboard and host overview, icon toolbars, Liquid Glass only on floating controls.
 
-Last updated: 2026-11-15
+Last updated: 2026-11-23
 
 ## container CLI command to Gantry feature
 
@@ -94,7 +94,7 @@ Last updated: 2026-11-15
 - Node image (--node-image): Empty keeps the CLI default
 - CNI (--cni): Default (bundled kindnet), None (NONE, CLI 1.6.0+) or a custom manifest path
 
-## Comparison (facts as of 2026-11-15; Unknown means not found in vendor docs)
+## Comparison (facts as of 2026-11-23; Unknown means not found in vendor docs)
 
 - What it is: Gantry: Native GUI client. Uses the engine you already have; Docker Desktop: Docker engine in a Linux VM, plus a GUI; OrbStack: Docker and Linux engine, plus a GUI; Podman Desktop: GUI for Podman (and other engines); container CLI: Apple's CLI and runtime
 - License and price: Gantry: MIT, free for all use; Docker Desktop: Proprietary. Free for personal use, education, non-commercial open source and organizations with fewer than 250 employees and less than $10M annual revenue; otherwise a paid plan (Pro $11, Team $16, Business $24 per user per month); OrbStack: Proprietary. Free for personal, non-commercial use; Pro for commercial use is $8 per user per month; Podman Desktop: Apache 2.0, free; container CLI: Apache 2.0, free
@@ -423,6 +423,75 @@ In the New Container sheet, open Recipes and choose Save as Recipe…. Next time
 - Two ports for the same container port (-p 8080:80 -p 8081:80) fill the form, but the form then refuses the duplicate.
 Moving a whole setup? Read Move from Docker Desktop to Apple container.
 
+## Guide: Scan container images for vulnerabilities on a Mac
+
+URL: https://getgantry.github.io/scan-container-images-mac/
+
+In short. Run brew install trivy grype. On Docker, run trivy image app:dev. On Apple container, save the image with container image save --platform linux/arm64 -o app.tar app:dev, unpack it with tar -xf app.tar -C app-img, and scan the folder: trivy image --input app-img or grype oci-dir:app-img. Both tools refuse the tar file itself.
+
+### Install a scanner
+
+Install one scanner or both with Homebrew. Each one downloads its vulnerability database on the first scan, which takes a minute.
+```sh
+brew install trivy grype
+```
+We checked the commands in this guide with Trivy 0.76.2, Grype 0.121.3 and container 1.7.1. Gantry needs Trivy 0.50.0 or Grype 0.74.0 or later.
+
+### Scan a Docker image
+
+With a Docker engine (Docker Desktop, OrbStack or Colima), both tools read a local image by its name through the Docker socket:
+```sh
+trivy image app:dev
+grype app:dev
+```
+
+### Scan an Apple container image
+
+Save the image to an OCI archive and unpack it into a folder. Pass --platform: when the image store has only some platforms of an image, container image save fails without it.
+```sh
+container image pull python:3.11-slim
+container image save --platform linux/arm64 -o python.tar python:3.11-slim
+mkdir python-img && tar -xf python.tar -C python-img
+```
+Then scan the folder. Trivy reads it with --input, Grype with the oci-dir: prefix:
+```sh
+trivy image --input python-img --severity HIGH,CRITICAL
+grype oci-dir:python-img
+```
+Do not pass the .tar file. The archive of container image save starts with the entry ./: Trivy reports “file manifest.json not found in tar”, and Grype rejects it as a “potential path traversal attack”. The unpacked folder works with both.
+
+### Read the results
+
+- Severity: Critical, High, Medium, Low or Unknown. Start with Critical and High. --severity HIGH,CRITICAL limits the Trivy output.
+- Installed and fixed version: if a fixed version exists, update the base image or the package and build again. trivy --ignore-unfixed and grype --only-fixed hide findings without a fix.
+- “won't fix”: the distribution decided not to fix the package in this release. Use a newer base image, or accept the risk.
+- Two tools, two databases: Trivy and Grype often report different counts. Neither is wrong; they use different sources.
+
+### Export an SBOM
+
+A software bill of materials lists every package in the image. Trivy writes CycloneDX and SPDX; Grype's companion Syft writes both too.
+```sh
+trivy image --input python-img --format cyclonedx -o sbom.cdx.json
+trivy image --input python-img --format spdx-json -o sbom.spdx.json
+```
+
+### Fail a build on high findings
+
+In a script, let the scanner set the exit code. Grype exits with a non-zero code when a finding of the given severity or higher exists; with Trivy, use --exit-code 1 --severity HIGH,CRITICAL.
+```sh
+grype oci-dir:python-img --fail-on high
+echo $?
+```
+
+### Scan from Gantry
+
+Gantry 0.29.0 does these steps for you. Choose Scan for Vulnerabilities… in the image menu or the image detail toolbar.
+- Gantry finds Trivy or Grype in GANTRY_TRIVY or GANTRY_GRYPE, in PATH, or in /opt/homebrew/bin and /usr/local/bin. Trivy is the default when both are installed. Without a scanner, the sheet shows the Homebrew commands.
+- On apple/container, Gantry saves the image with --platform, unpacks it and scans the folder. On local Docker, it scans a saved archive. On Docker over SSH, it scans the registry copy of the tag.
+- The findings are grouped by severity, with a symbol and a word, not only a color. Each row has the ID with a link, the package, the installed version and the fixed version. A filter finds a package or an ID.
+- Export SBOM writes CycloneDX (both tools) or SPDX (Trivy).
+- Stop or closing the sheet stops the scanner and removes the temporary files.
+
 ## Questions and answers
 
 Q: What is the best GUI for Apple container?
@@ -593,6 +662,21 @@ A: They are listed in the preview with the reason, and they stay in the form in 
 Q: Can I turn a running container back into a docker run command?
 A: Yes. Copy as Command in the container menu writes a docker run or container run line for that container.
 
+Q: How do I scan an Apple container image for vulnerabilities?
+A: Save it with container image save --platform linux/arm64 -o app.tar app:dev, unpack it with tar -xf app.tar -C app-img, then run trivy image --input app-img or grype oci-dir:app-img. Gantry does these steps with Scan for Vulnerabilities….
+
+Q: Why does Trivy or Grype fail on the archive from container image save?
+A: The archive starts with the entry ./. Trivy does not find manifest.json or index.json in it, and Grype treats the entry as a path traversal. Unpack the archive and scan the folder.
+
+Q: Trivy or Grype: which one should I use?
+A: Both are free and open source. Trivy also finds secrets and misconfigurations and writes SPDX; Grype is small and focused on packages. They use different databases, so running both finds more. Gantry uses Trivy when both are installed.
+
+Q: Does Gantry install the scanners?
+A: No. Install them with brew install trivy grype. Gantry looks in PATH, /opt/homebrew/bin and /usr/local/bin, or in GANTRY_TRIVY and GANTRY_GRYPE.
+
+Q: Do I need Docker Scout or a Docker account to scan images?
+A: No. Trivy and Grype work without an account, on Docker images and on Apple container images.
+
 ## Pages
 
 - https://getgantry.github.io/apple-container/ : Apple container GUI for Mac: the complete apple/container guide
@@ -602,6 +686,7 @@ A: Yes. Copy as Command in the container menu writes a docker run or container r
 - https://getgantry.github.io/docker-desktop-to-apple-container/ : Move from Docker Desktop to Apple container: commands, Compose, volumes and gaps
 - https://getgantry.github.io/containers-on-external-drive/ : Store containers and volumes on an external drive on a Mac
 - https://getgantry.github.io/docker-run-to-container/ : Create a container from a docker run command on Mac (docker run to container run)
+- https://getgantry.github.io/scan-container-images-mac/ : Scan container images for vulnerabilities on a Mac with Trivy and Grype
 - https://getgantry.github.io/ : Home
 - https://getgantry.github.io/docs/index.html : Documentation
 - https://github.com/getgantry/gantry : Source code

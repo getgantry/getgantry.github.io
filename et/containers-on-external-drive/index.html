@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantry juhtpaneel Dockeri ja apple/containeri hostidega">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Konteinerid ja köited Maci välisel kettal">
   <meta name="twitter:description" content="Apple containeri tõmmised, konteinerid ja köited välisel SSD-l: andmekaust, container system start --app-root, bind mount&#x27;id ja ketta ohutu lahtiühendamine.">
@@ -68,7 +68,7 @@
       "description": "Apple containeri tõmmised, konteinerid ja köited välisel SSD-l: andmekaust, container system start --app-root, bind mount'id ja ketta ohutu lahtiühendamine.",
       "url": "https://getgantry.github.io/et/containers-on-external-drive/",
       "inLanguage": "et",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -301,7 +301,7 @@ container system df</code></pre>
   <li>Andke kettale lühike nimi ilma tühikuteta, näiteks <code>Fast</code>. Siis on tee <code>/Volumes/Fast</code>.</li>
 </ul>
 
-<ul id="bind">Variant 1: hoidke projekti andmeid kettal bind mount'idega</ul>
+<h2 id="bind">Variant 1: hoidke projekti andmeid kettal bind mount'idega</h2>
 <p>Bind mount jagab teie Maci kausta konteineriga ja see kaust võib olla mis tahes kettal. Nii on lihtne hoida suuri andmeid, näiteks andmebaasi või mudelifaile, sisemiselt kettalt eemal:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/site
@@ -313,7 +313,7 @@ container run -d --name web -p 8080:80 \
 </div>
 <p>Ketas peab olema ühendatud enne konteineri käivitumist. Tõmmised ja konteiner ise jäävad sisemisele kettale.</p>
 
-<ul id="move">Variant 2: teisaldage kõik apple/containeri andmed kettale</ul>
+<h2 id="move">Variant 2: teisaldage kõik apple/containeri andmed kettale</h2>
 <p>See teisaldab tõmmised, konteinerid, hetktõmmised ja köited. Peatage kõigepealt teenused, et kopeerimise ajal ükski fail ei muutuks:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system stop
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 <div class="callout callout-warn"><span class="callout-tag">Tähelepanu</span><div>CLI ei jäta lippu <code>--app-root</code> meelde. Iga <code>container system start</code> ilma selleta kasutab jälle sisemist kausta. Kasutage lippu iga kord, näiteks shelli aliases, ja kontrollige väärtust <code>paths.appRoot</code> käsu <code>container system status</code> väljundis.</div></div>
 <p>Gantry saab selle teisaldamise teie eest teha: vaadake <a href="#gantry">allpool</a>.</p>
 
-<ul id="images">Tõmmiste arhiveerimine kettale</ul>
+<h2 id="images">Tõmmiste arhiveerimine kettale</h2>
 <p>Ruumi vabastamiseks tõmmist kaotamata salvestage see välisele kettale ja kustutage. Kui seda vajate, laadige see uuesti:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/images
@@ -344,7 +344,7 @@ container image delete myapp:dev
 container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </div>
 
-<ul id="unplug">Ketta ohutu lahtiühendamine</ul>
+<h2 id="unplug">Ketta ohutu lahtiühendamine</h2>
 <ol>
   <li>Peatage konteinerid, mis ketast kasutavad: <code>container stop &lt;name&gt;</code>.</li>
   <li>Kui rakenduse juurkaust on kettal, peatage teenused: <code>container system stop</code>.</li>
@@ -352,17 +352,18 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </ol>
 <p>Kui ketas kaob ajal, mil sellelt töötavad konteinerid, siis need nurjuvad ja pooleli olevad kirjutused võivad kaduda. Kui olete ketta uuesti ühendanud, käivitage teenused lipuga <code>--app-root</code> ja seejärel konteinerid.</p>
 
-<ol id="gantry">Välised kettad Gantrys</ol>
+<h2 id="gantry">Välised kettad Gantrys</h2>
 <p>apple/containeri hostis näitab jaotise Süsteem paan <strong>Salvestusruum</strong>, kus on andmete juurkaust, millisel kettal see asub ja kui palju ruumi kasutavad tõmmised, konteinerid, hetktõmmised, köited ja tuumad. <strong>Teisalda teisele kettale…</strong> peatab teenused, kopeerib andmed, kontrollib neid, vahetab juurkausta ja käivitab teenused uuesti; vana koopia kustutatakse alles pärast eraldi kinnitust. Gantry jätab juurkausta kõigi hilisemate käivitamiste jaoks meelde. Uued köited võivad asuda kaustas mis tahes kettal ja kui see ketas pole ühendatud, ütleb Gantry, milline ketas puudub, ega käivita konteinereid, mis seda vajavad.</p>
 <figure class="guide-shot"><picture><source type="image/webp" srcset="../../assets/shots/0.27.0/storage-pane-800.webp 800w, ../../assets/shots/0.27.0/storage-pane-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Gantry paan Salvestusruum: andmete juurkaust, selle ketas ja kasutatud ruum" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><b>Salvestusruum.</b> Andmete juurkaust, selle ketas ja kasutatud ruum.</figcaption></figure>
 
-<ol id="docker">Docker Desktop ja OrbStack</ol>
+<h2 id="docker">Docker Desktop ja OrbStack</h2>
 <p>Docker Desktop teisaldab oma kettatõmmise seadega <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack lisas andmete asukoha seade versioonis 0.13.0. Vaadake <a href="../compare/">võrdlust</a>.</p>
 
 <h2 id="related">Seotud juhendid</h2>
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Docker Desktopilt Apple containerile: käsud, Compose, köited ja puudujäägid</a></li>
   <li><a href="../docker-run-to-container/">Konteineri loomine docker run käsust Macis (docker run → container run)</a></li>
+  <li><a href="../scan-container-images-mac/">Konteineritõmmiste turvaaukude skannimine Macis Trivy ja Grype'iga</a></li>
   <li><a href="../apple-container/">Apple containeri GUI Macile: täielik apple/containeri juhend</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes Apple containeris: GUI container clusterile ja Kubernetese brauser</a></li>
   <li><a href="../compare/">Gantry vs Docker Desktop vs OrbStack vs Podman Desktop Macis (2026)</a></li>
@@ -377,7 +378,7 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <details class="faq-item"><summary>Kas container CLI jätab uue asukoha meelde?</summary><p>Ei. Andke lipp <code>--app-root</code> igale käsule <code>container system start</code>. <code>container system status</code> näitab kasutusel olevat juurkausta väärtusena <code>paths.appRoot</code>.</p></details>
 </div>
 
-<p class="updated">Viimati uuendatud 2026-11-15.</p>
+<p class="updated">Viimati uuendatud 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Avaleht</a>

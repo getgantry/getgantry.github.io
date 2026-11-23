@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Панель Gantry з хостами Docker і apple/container">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kubernetes на Apple container: GUI для container cluster і браузер Kubernetes">
   <meta name="twitter:description" content="Kubernetes на container від Apple з Gantry: кластери з робочими вузлами потрібного розміру й спільним сховищем образів, поди й журнали, оболонка, переадресація портів, YAML.">
@@ -68,7 +68,7 @@
       "description": "Kubernetes на container від Apple з Gantry: кластери з робочими вузлами потрібного розміру й спільним сховищем образів, поди й журнали, оболонка, переадресація портів, YAML.",
       "url": "https://getgantry.github.io/uk/apple-container-kubernetes/",
       "inLanguage": "uk",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -419,7 +419,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
   <pre><code>container system start</code></pre>
 </div>
 
-<ul id="terminal-create">Створення кластера</ul>
+<h3 id="terminal-create">Створення кластера</h3>
 <p>Ця команда створює кластер <code>dev</code> з одним вузлом керування й двома робочими вузлами. Кожен вузол отримує 2 CPU і 2 ГБ пам’яті:</p>
 <div class="code-block">
   <div class="code-head"><span>Термінал</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
@@ -441,7 +441,7 @@ kubectl --context dev get nodes">Скопіювати</button></div>
 kubectl --context dev get nodes</code></pre>
 </div>
 
-<ul id="terminal-images">Локальний образ без реєстру</ul>
+<h3 id="terminal-images">Локальний образ без реєстру</h3>
 <p>З <code>--shared-image-store</code> вузли можуть запускати будь-який образ із вашого локального сховища образів <code>container</code>. Зберіть образ і використовуйте його за назвою:</p>
 <div class="code-block">
   <div class="code-head"><span>Термінал</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
@@ -456,21 +456,21 @@ kubectl --context dev get pods</code></pre>
 <div class="callout callout-note"><span class="callout-tag">Примітка</span><div>Після перезбирання того самого тегу виконайте <code>kubectl rollout restart</code> з <code>imagePullPolicy: Always</code> або використайте новий тег. З <code>IfNotPresent</code> вузол залишає копію, яку вже має. Будь-що з правами root на вузлі може читати всі образи вашого локального сховища, зокрема приватні, тому використовуйте спільне сховище лише для локальної розробки.</div></div>
 <p>У CLI 1.5 і 1.6 спільного сховища немає. Там використовуйте <code>container cluster load-image</code> або <b>Імпортувати в кластер</b> у Gantry. У CLI 1.7 команди <code>load-image</code> більше немає.</p>
 
-<ul id="terminal-reach">Відкрийте застосунок у браузері</ul>
+<h3 id="terminal-reach">Відкрийте застосунок у браузері</h3>
 <p>Переадресуйте локальний порт на Deployment, потім відкрийте <code>http://localhost:8080</code>:</p>
 <div class="code-block">
   <div class="code-head"><span>Термінал</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Скопіювати</button></div>
   <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
 </div>
 
-<ul id="terminal-cleanup">Зупинення й видалення кластера</ul>
+<h3 id="terminal-cleanup">Зупинення й видалення кластера</h3>
 <div class="code-block">
   <div class="code-head"><span>Термінал</span><button class="copy" data-copy="container cluster delete --name dev">Скопіювати</button></div>
   <pre><code>container cluster delete --name dev</code></pre>
 </div>
 <p>Якщо вузол керування зупинився, наприклад після <code>container system stop</code>, видаліть кластер і створіть його знову. Тимчасовий кластер створюйте з <code>--rm</code>: його вузли видаляться, коли зупиняться.</p>
 
-<ul id="terminal-troubleshooting">Поширені проблеми</ul>
+<h3 id="terminal-troubleshooting">Поширені проблеми</h3>
 <ul>
   <li><strong>cluster service unavailable:</strong> CLI інстальовано з Homebrew або служби не запущено. Інсталюйте підписаний пакет або перезапустіть служби командами <code>container system stop</code> і <code>container system start</code>. Gantry дає ту саму пораду в розділі «Кластери».</li>
   <li><strong>Старого кластера немає в списку:</strong> CLI 1.7 не показує кластери, створені в 1.6 або раніше. Видаліть такий кластер командою <code>container cluster delete --name &lt;name&gt;</code>.</li>
@@ -478,7 +478,7 @@ kubectl --context dev get pods</code></pre>
   <li><strong>Контейнер вузла не зупиняється:</strong> так задумано. <code>container stop</code> і <code>delete</code> відмовляються працювати з вузлами кластера; використовуйте <code>container cluster delete</code>.</li>
 </ul>
 
-<ul id="terminal-compare">Порівняння з Docker Desktop і OrbStack</ul>
+<h3 id="terminal-compare">Порівняння з Docker Desktop і OrbStack</h3>
 <p>У Docker Desktop є вбудований Kubernetes на kubeadm (один вузол) або kind (кілька вузлів), а в OrbStack — вбудований кластер з одного вузла. <code>container cluster</code> запускає kubeadm на образах <code>kindest/node</code>, кожен вузол у власній ВМ, з кластерами з кількох вузлів і спільним сховищем образів. Див. <a href="../compare/">повне порівняння</a>.</p>
 
 <h2 id="agents">Керування кластерами через ШІ-агентів</h2>
@@ -506,7 +506,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Яку версію Kubernetes використовує container cluster?</summary><p>CLI 1.7.1 типово використовує образ вузла <code>kindest/node:v1.35.5</code>. Іншу версію виберіть прапорцем <code>--node-image</code>, наприклад <code>docker.io/kindest/node:v1.34.11</code>. Gantry показує версію в огляді кластера.</p></details>
 </div>
 
-<p class="updated">Оновлено 2026-11-15.</p>
+<p class="updated">Оновлено 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Головна</a>

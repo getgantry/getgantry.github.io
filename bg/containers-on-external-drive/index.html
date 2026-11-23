@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Таблото на Gantry с хостове на Docker и apple/container">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Контейнери и томове на външен диск на Mac">
   <meta name="twitter:description" content="Образи, контейнери и томове на Apple container на външен SSD: къде са данните, преместване с container system start --app-root, bind монтиране и безопасно изключване.">
@@ -68,7 +68,7 @@
       "description": "Образи, контейнери и томове на Apple container на външен SSD: къде са данните, преместване с container system start --app-root, bind монтиране и безопасно изключване.",
       "url": "https://getgantry.github.io/bg/containers-on-external-drive/",
       "inLanguage": "bg",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -301,7 +301,7 @@ container system df</code></pre>
   <li>Дайте на диска кратко име без интервали, например <code>Fast</code>. Тогава пътят е <code>/Volumes/Fast</code>.</li>
 </ul>
 
-<ul id="bind">Вариант 1: данните на проекта на диска чрез bind монтиране</ul>
+<h2 id="bind">Вариант 1: данните на проекта на диска чрез bind монтиране</h2>
 <p>Bind монтирането споделя папка от вашия Mac с контейнера, а папката може да е на всеки диск. Това е лесният начин да държите големи данни, като база данни или файлове на модели, извън вътрешния диск:</p>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/site
@@ -313,7 +313,7 @@ container run -d --name web -p 8080:80 \
 </div>
 <p>Дискът трябва да е свързан, преди контейнерът да стартира. Образите и самият контейнер остават на вътрешния диск.</p>
 
-<ul id="move">Вариант 2: преместване на всички данни на apple/container на диска</ul>
+<h2 id="move">Вариант 2: преместване на всички данни на apple/container на диска</h2>
 <p>Така се преместват образи, контейнери, моментни снимки и томове. Първо спрете услугите, за да не се променя нито един файл по време на копирането:</p>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="container system stop
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 <div class="callout callout-warn"><span class="callout-tag">Внимание</span><div>CLI не запомня <code>--app-root</code>. Всяко <code>container system start</code> без него отново използва вътрешната папка. Използвайте флага всеки път, например в псевдоним на обвивката, и проверете <code>paths.appRoot</code> в <code>container system status</code>.</div></div>
 <p>Gantry може да направи това преместване вместо вас: вижте <a href="#gantry">по-долу</a>.</p>
 
-<ul id="images">Архивиране на образи на диска</ul>
+<h2 id="images">Архивиране на образи на диска</h2>
 <p>За да освободите място, без да загубите образ, запишете го на външния диск и го изтрийте. Заредете го отново, когато ви потрябва:</p>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/images
@@ -344,7 +344,7 @@ container image delete myapp:dev
 container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </div>
 
-<ul id="unplug">Безопасно изключване на диска</ul>
+<h2 id="unplug">Безопасно изключване на диска</h2>
 <ol>
   <li>Спрете контейнерите, които използват диска: <code>container stop &lt;name&gt;</code>.</li>
   <li>Ако основната папка на приложението е на диска, спрете услугите: <code>container system stop</code>.</li>
@@ -352,17 +352,18 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </ol>
 <p>Ако дискът изчезне, докато контейнери работят от него, те се сриват, а записите в ход може да се загубят. След като свържете диска отново, стартирайте услугите с <code>--app-root</code>, след това стартирайте контейнерите.</p>
 
-<ol id="gantry">Външни дискове в Gantry</ol>
+<h2 id="gantry">Външни дискове в Gantry</h2>
 <p>На хост с apple/container панелът <strong>Съхранение</strong> в раздела „Система“ показва къде е основната папка с данни, на кой диск и колко място заемат образите, контейнерите, моментните снимки, томовете и ядрата. <strong>Премести на друг диск…</strong> спира услугите, копира данните, проверява ги, сменя основната папка и стартира услугите отново; изтрива старото копие само след отделно потвърждение. Gantry запомня основната папка за всяко следващо стартиране. Новите томове могат да са в папка на всеки диск, а когато този диск не е свързан, Gantry ви казва кой диск липсва и не стартира контейнерите, които се нуждаят от него.</p>
 <figure class="guide-shot"><picture><source type="image/webp" srcset="../../assets/shots/0.27.0/storage-pane-800.webp 800w, ../../assets/shots/0.27.0/storage-pane-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Панелът „Съхранение“ в Gantry: основната папка с данни, нейният диск и заетото място" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><b>Използвано място.</b> Основната папка с данни, нейният диск и заетото място.</figcaption></figure>
 
-<ol id="docker">Docker Desktop и OrbStack</ol>
+<h2 id="docker">Docker Desktop и OrbStack</h2>
 <p>Docker Desktop премества своя дисков образ в <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack добави настройка за местоположение на данните във версия 0.13.0. Вижте <a href="../compare/">сравнението</a>.</p>
 
 <h2 id="related">Свързани ръководства</h2>
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Преминаване от Docker Desktop към Apple container: команди, Compose, томове и пропуски</a></li>
   <li><a href="../docker-run-to-container/">Създаване на контейнер от команда docker run на Mac (docker run към container run)</a></li>
+  <li><a href="../scan-container-images-mac/">Сканиране на образи на контейнери за уязвимости на Mac с Trivy и Grype</a></li>
   <li><a href="../apple-container/">GUI за Apple container на Mac: пълно ръководство за apple/container</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes в Apple container: GUI за container cluster и браузър за Kubernetes</a></li>
   <li><a href="../compare/">Gantry срещу Docker Desktop, OrbStack и Podman Desktop на Mac (2026)</a></li>
@@ -377,7 +378,7 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <details class="faq-item"><summary>Запомня ли CLI container новото местоположение?</summary><p>Не. Подавайте <code>--app-root</code> на всяко <code>container system start</code>. <code>container system status</code> показва използваната основна папка като <code>paths.appRoot</code>.</p></details>
 </div>
 
-<p class="updated">Последна актуализация: 2026-11-15.</p>
+<p class="updated">Последна актуализация: 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Начало</a>

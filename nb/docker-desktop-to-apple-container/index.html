@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantrys flåteoversikt med Docker- og apple/container-verter">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Bytt fra Docker Desktop til Apple container: kommandoer, Compose, volumer og mangler">
   <meta name="twitter:description" content="Bytt fra Docker Desktop til Apples container-verktøy på Mac: hvilken docker-kommando svarer til hvilken container-kommando, flytting av images, volumer og Compose, og hva som mangler.">
@@ -68,7 +68,7 @@
       "description": "Bytt fra Docker Desktop til Apples container-verktøy på Mac: hvilken docker-kommando svarer til hvilken container-kommando, flytting av images, volumer og Compose, og hva som mangler.",
       "url": "https://getgantry.github.io/nb/docker-desktop-to-apple-container/",
       "inLanguage": "nb",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -292,7 +292,7 @@
   <li><strong>Bare Apple-chip og macOS 26.</strong> På Intel-Macer bør du bli værende ved en Docker-motor.</li>
 </ul>
 
-<ul id="commands">Docker-kommandoer og tilsvarende container-kommandoer</ul>
+<h2 id="commands">Docker-kommandoer og tilsvarende container-kommandoer</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Docker</th><th scope="col">apple/container</th><th scope="col">Merknader</th></tr></thead>
 <tbody>
@@ -317,7 +317,7 @@
 </table></div>
 <p>De fleste flaggene til <code>run</code> er de samme: <code>-d</code>, <code>-p</code>, <code>-e</code>, <code>-v</code>, <code>--name</code>, <code>--rm</code>, <code>-it</code>, <code>-w</code>, <code>--entrypoint</code>, <code>--cpus</code> og <code>-m</code>. Vil du konvertere en lang kommando, limer du den inn i Gantry: se <a href="../docker-run-to-container/">Opprett en container fra en docker run-kommando</a>.</p>
 
-<ul id="images">Ta med imagene dine</ul>
+<h2 id="images">Ta med imagene dine</h2>
 <p>Images fra et register: hent dem på nytt med <code>container image pull</code>. Lokale images som bare finnes i Docker: lagre dem i et arkiv og last det inn. <code>container image load</code> leser OCI-arkiver, og nyere Docker-versjoner skriver en OCI-layout med <code>docker save</code>. Feiler innlastingen, sender du imaget til et register og henter det derfra.</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="docker save -o app.tar app:dev
@@ -328,7 +328,7 @@ container image load -i app.tar
 container image pull nginx:alpine</code></pre>
 </div>
 
-<ul id="volumes">Flytt navngitte volumer</ul>
+<h2 id="volumes">Flytt navngitte volumer</h2>
 <p>Docker lagrer volumdata inne i sin VM. Kopier hvert volum til en tar-fil med en kortlevd container, og pakk den deretter ut i et nytt apple/container-volum:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="docker run --rm -v data:/from -v &quot;$PWD&quot;:/to alpine tar -C /from -cf /to/data.tar .
@@ -340,11 +340,11 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
 </div>
 <p>Et navngitt volum i apple/container er et glissent ext4-diskbilde, som standard på høyst 512 GB. Angi en annen størrelse med <code>--opt size=20g</code>. Bind-monteringer av mapper på Macen fungerer som i Docker: <code>-v ~/project:/app</code>.</p>
 
-<ul id="compose">Compose-filer</ul>
+<h2 id="compose">Compose-filer</h2>
 <p><code>container</code>-CLI-en har ingen <code>compose</code>-kommando. Åpne <code>docker-compose.yml</code> i Gantry i stedet (Finder, <strong>Arkiv ▸ Åpne Compose-fil…</strong> eller dra og slipp). Gantry bygger <code>build:</code>-tjenestene, oppretter prosjektnettverket og de navngitte volumene, og starter tjenestene i <code>depends_on</code>-rekkefølge. Tjenestene når hverandre via tjenestenavnet gjennom DNS-aliaser i nettverket.</p>
 <p>Ingen Compose-fil ennå? Marker containerne til appen på Docker-verten, velg <strong>Eksporter som Compose…</strong> og lagre filen. Filen merker navngitte volumer og nettverk som <code>external: true</code>, så opprett dem først på apple/container-verten (se <a href="#volumes">Flytt navngitte volumer</a>), og åpne deretter filen der. Verdier som ligner hemmeligheter, blir <code>${NAME}</code>-variabler, så filen inneholder ikke passordene dine.</p>
 
-<ul id="networks">Nettverk og porter</ul>
+<h2 id="networks">Nettverk og porter</h2>
 <ul>
   <li><code>-p 8080:80</code> publiserer en port på <code>localhost</code>, som i Docker.</li>
   <li>Hver container har også sin egen IP-adresse. Opprett et lokalt DNS-domene med <code>sudo container system dns create test</code> og kjør containere med <code>--dns-domain test</code>: de får navn som <code>web.test</code>.</li>
@@ -352,7 +352,7 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
   <li>Det finnes ingen <code>--network host</code>-, <code>none</code>- eller <code>container:</code>-modus.</li>
 </ul>
 
-<ul id="missing">Dette mangler</ul>
+<h2 id="missing">Dette mangler</h2>
 <ul>
   <li><strong>Ingen Docker Engine API.</strong> Verktøy som snakker med <code>/var/run/docker.sock</code>, som Testcontainers, Docker-SDK-ene eller Dev Containers, ser ikke apple/container.</li>
   <li><strong>Ingen omstartsregler.</strong> <code>--restart</code> finnes ikke; en container starter ikke på nytt av seg selv.</li>
@@ -362,13 +362,14 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
   <li><strong>Kubernetes fungerer annerledes:</strong> bruk <code>container cluster</code>, se <a href="../apple-container-kubernetes/#terminal">Kjør Kubernetes på en Mac</a>.</li>
 </ul>
 
-<ul id="both">Behold begge mens du bytter</ul>
+<h2 id="both">Behold begge mens du bytter</h2>
 <p>Gantry administrerer apple/container og alle Docker-motorer (Docker Desktop, OrbStack, Colima eller Docker over SSH) i ett sidepanel. Flytt ett prosjekt om gangen, og behold Docker for verktøyene som trenger API-et. Når du ikke lenger trenger det, kan du fjerne Docker Desktop.</p>
 
 <h2 id="related">Relaterte guider</h2>
 <ul>
   <li><a href="../containers-on-external-drive/">Lagre containere og volumer på en ekstern disk på Mac</a></li>
   <li><a href="../docker-run-to-container/">Opprett en container fra en docker run-kommando på Mac (docker run til container run)</a></li>
+  <li><a href="../scan-container-images-mac/">Skann container-images etter sårbarheter på en Mac med Trivy og Grype</a></li>
   <li><a href="../apple-container/">GUI for Apple container på Mac: hele guiden til apple/container</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes på Apple container: GUI for container cluster og Kubernetes-utforsker</a></li>
   <li><a href="../compare/">Gantry vs Docker Desktop vs OrbStack vs Podman Desktop på Mac (2026)</a></li>
@@ -383,7 +384,7 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
 <details class="faq-item"><summary>Er Apple container gratis til kommersiell bruk?</summary><p>Ja. apple/container har åpen kildekode under Apache 2.0-lisensen, og Gantry har MIT-lisens. Begge er gratis for bedrifter av alle størrelser.</p></details>
 </div>
 
-<p class="updated">Sist oppdatert 2026-11-15.</p>
+<p class="updated">Sist oppdatert 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Hjem</a>

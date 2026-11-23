@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Pulpit floty w Gantry z hostami Docker i apple/container">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kubernetes na Apple container: GUI dla container cluster i przeglądarka Kubernetes">
   <meta name="twitter:description" content="Kubernetes na narzędziu container od Apple z Gantry: klastry z węzłami roboczymi o wybranym rozmiarze i współdzielonym magazynem obrazów, pody, logi, powłoka, porty i YAML.">
@@ -68,7 +68,7 @@
       "description": "Kubernetes na narzędziu container od Apple z Gantry: klastry z węzłami roboczymi o wybranym rozmiarze i współdzielonym magazynem obrazów, pody, logi, powłoka, porty i YAML.",
       "url": "https://getgantry.github.io/pl/apple-container-kubernetes/",
       "inLanguage": "pl",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -419,7 +419,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
   <pre><code>container system start</code></pre>
 </div>
 
-<ul id="terminal-create">Tworzenie klastra</ul>
+<h3 id="terminal-create">Tworzenie klastra</h3>
 <p>To polecenie tworzy klaster o nazwie <code>dev</code> z jednym węzłem warstwy sterowania i dwoma węzłami roboczymi. Każdy węzeł dostaje 2 procesory i 2 GB pamięci:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
@@ -441,7 +441,7 @@ kubectl --context dev get nodes">Kopiuj</button></div>
 kubectl --context dev get nodes</code></pre>
 </div>
 
-<ul id="terminal-images">Lokalny obraz bez rejestru</ul>
+<h3 id="terminal-images">Lokalny obraz bez rejestru</h3>
 <p>Z <code>--shared-image-store</code> węzły mogą uruchomić każdy obraz z Twojego lokalnego magazynu obrazów <code>container</code>. Zbuduj obraz i użyj go po nazwie:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
@@ -456,21 +456,21 @@ kubectl --context dev get pods</code></pre>
 <div class="callout callout-note"><span class="callout-tag">Uwaga</span><div>Po ponownym zbudowaniu tego samego tagu uruchom <code>kubectl rollout restart</code> z <code>imagePullPolicy: Always</code> albo użyj nowego tagu. Z <code>IfNotPresent</code> węzeł zachowuje kopię, którą już ma. Wszystko, co ma uprawnienia root na węźle, może odczytać każdy obraz z Twojego lokalnego magazynu, także obrazy prywatne, więc używaj współdzielonego magazynu tylko do pracy lokalnej.</div></div>
 <p>W CLI 1.5 i 1.6 nie ma współdzielonego magazynu. Użyj tam <code>container cluster load-image</code> albo <b>Wczytaj do klastra</b> w Gantry. CLI 1.7 usunęło <code>load-image</code>.</p>
 
-<ul id="terminal-reach">Otwórz aplikację w przeglądarce</ul>
+<h3 id="terminal-reach">Otwórz aplikację w przeglądarce</h3>
 <p>Przekieruj lokalny port do deploymentu, a potem otwórz <code>http://localhost:8080</code>:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Kopiuj</button></div>
   <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
 </div>
 
-<ul id="terminal-cleanup">Zatrzymanie i usunięcie klastra</ul>
+<h3 id="terminal-cleanup">Zatrzymanie i usunięcie klastra</h3>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster delete --name dev">Kopiuj</button></div>
   <pre><code>container cluster delete --name dev</code></pre>
 </div>
 <p>Jeśli węzeł warstwy sterowania się zatrzyma, na przykład po <code>container system stop</code>, usuń klaster i utwórz go ponownie. Klaster tymczasowy utwórz z <code>--rm</code>, aby jego węzły były usuwane po zatrzymaniu.</p>
 
-<ul id="terminal-troubleshooting">Typowe problemy</ul>
+<h3 id="terminal-troubleshooting">Typowe problemy</h3>
 <ul>
   <li><strong>cluster service unavailable:</strong> CLI pochodzi z Homebrew albo usługi nie działają. Zainstaluj podpisany pakiet lub uruchom ponownie usługi poleceniami <code>container system stop</code> i <code>container system start</code>. Gantry pokazuje tę samą radę w sekcji Klastry.</li>
   <li><strong>Na liście brakuje starego klastra:</strong> CLI 1.7 nie wyświetla klastrów utworzonych w 1.6 lub starszym. Usuń taki klaster poleceniem <code>container cluster delete --name &lt;name&gt;</code>.</li>
@@ -478,7 +478,7 @@ kubectl --context dev get pods</code></pre>
   <li><strong>Nie można zatrzymać kontenera węzła:</strong> to celowe. <code>container stop</code> i <code>delete</code> odmawiają działania na węzłach klastra; użyj <code>container cluster delete</code>.</li>
 </ul>
 
-<ul id="terminal-compare">Porównanie z Docker Desktop i OrbStack</ul>
+<h3 id="terminal-compare">Porównanie z Docker Desktop i OrbStack</h3>
 <p>Docker Desktop ma wbudowany Kubernetes z kubeadm (jeden węzeł) lub kind (kilka węzłów), a OrbStack ma wbudowany klaster z jednym węzłem. <code>container cluster</code> uruchamia kubeadm na obrazach <code>kindest/node</code>, każdy węzeł we własnej maszynie wirtualnej, z klastrami wielowęzłowymi i współdzielonym magazynem obrazów. Zobacz <a href="../compare/">pełne porównanie</a>.</p>
 
 <h2 id="agents">Klastry z poziomu agentów AI</h2>
@@ -506,7 +506,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Której wersji Kubernetes używa container cluster?</summary><p>CLI 1.7.1 domyślnie używa obrazu węzła <code>kindest/node:v1.35.5</code>. Inną wersję wybierzesz flagą <code>--node-image</code>, na przykład <code>docker.io/kindest/node:v1.34.11</code>. Gantry pokazuje wersję w przeglądzie klastra.</p></details>
 </div>
 
-<p class="updated">Ostatnia aktualizacja: 2026-11-15.</p>
+<p class="updated">Ostatnia aktualizacja: 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Start</a>

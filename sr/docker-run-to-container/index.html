@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantry контролна табла са Docker и apple/container хостовима">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Контејнер из docker run команде на Mac-у (docker run у container run)">
   <meta name="twitter:description" content="Налепите docker run команду у Gantry и добијте попуњен образац контејнера или ручно претворите docker run у Apple-ов container run: које заставице одговарају, које не, и рецепти.">
@@ -68,7 +68,7 @@
       "description": "Налепите docker run команду у Gantry и добијте попуњен образац контејнера или ручно претворите docker run у Apple-ов container run: које заставице одговарају, које не, и рецепти.",
       "url": "https://getgantry.github.io/sr/docker-run-to-container/",
       "inLanguage": "sr",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -294,7 +294,7 @@
 <p>Gantry чита <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> и <code>container run</code>. Текст после <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> или <code>|</code> се занемарује, уз напомену.</p>
 <!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
-<ol id="flags">Које заставице попуњавају образац</ol>
+<h2 id="flags">Које заставице попуњавају образац</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Заставица</th><th scope="col">Поље обрасца</th><th scope="col">Напомене</th></tr></thead>
 <tbody>
@@ -314,7 +314,7 @@
 </table></div>
 <p>Око 80 других Docker заставица је познато: Gantry исправно прескаче њихове вредности и наводи их као неискоришћене, па се ништа не губи без напомене.</p>
 
-<ol id="apple">Упозорења за apple/container хостове</ol>
+<h2 id="apple">Упозорења за apple/container хостове</h2>
 <p>Неке Docker опције не постоје на apple/container-у. Gantry упозорава на њих и изоставља их из захтева за креирање:</p>
 <ul>
   <li>смернице поновног покретања (<code>--restart</code>);</li>
@@ -324,7 +324,7 @@
 </ul>
 <p>На Docker хосту Gantry упозорава на опције apple/container-а: DNS домен и опције језгра.</p>
 
-<ul id="by-hand">Ручно претварање docker run у container run</ul>
+<h2 id="by-hand">Ручно претварање docker run у container run</h2>
 <p>За CLI већина заставица остаје иста. Пример за Redis:</p>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="docker run -d --name cache --restart unless-stopped -p 6379:6379 \
@@ -343,10 +343,10 @@ container run -d --name cache -p 6379:6379 \
 </div>
 <p>Прво креирајте именовани волумен командом <code>container volume create</code>. Уклоните <code>--restart</code> и заокружите <code>--cpus</code> на цео број. <code>--platform</code> ради као у Docker-у.</p>
 
-<ul id="copy">Копирање контејнера као команде</ul>
+<h2 id="copy">Копирање контејнера као команде</h2>
 <p>Ради и у супротном смеру. Кликните десним тастером на контејнер или користите мени Још и изаберите <strong>Копирај као команду</strong>: Gantry пише ред <code>docker run</code> или <code>container run</code>. Изоставља подразумеване вредности слике, као што су њено окружење и команда, па ред остаје кратак. Ово ради и за заустављене контејнере.</p>
 
-<ul id="compose">Извоз контејнера као Compose</ul>
+<h2 id="compose">Извоз контејнера као Compose</h2>
 <p>Да бисте контејнер сачували као датотеку, кликните десним тастером на њега или користите мени Још и изаберите <strong>Извези као Compose…</strong>. Изаберите више контејнера да бисте их ставили у једну датотеку. Gantry пише <code>docker-compose.yml</code> са једним сервисом за сваки контејнер: портови, монтирања, мреже, смерница поновног покретања, провера исправности, ограничења, capabilities и логовање. Именовани волумени и мреже су означени са <code>external: true</code>.</p>
 <ul>
   <li>Вредности које личе на тајне постају променљиве <code>${NAME}</code>. Под <strong>Тајне вредности</strong> укључите оне које желите у датотеци. Датотека са тајном вредношћу чува се са дозволама 0600.</li>
@@ -354,14 +354,14 @@ container run -d --name cache -p 6379:6379 \
   <li>Кликните <strong>Копирај</strong> или <strong>Сачувај…</strong>.</li>
 </ul>
 
-<ul id="secrets">Држите тајне ван команде</ul>
+<h2 id="secrets">Држите тајне ван команде</h2>
 <p><code>-e PASSWORD=…</code> у команди лако процури. У обрасцу Нови контејнер отворите мени са кључем у реду окружења и изаберите <strong>Сачувај вредност у привеску за кључеве…</strong> или изаберите тајну коју сте додали под <strong>Подешавања → Тајне</strong>. Ред тада приказује <code>keychain:NAME</code> са катанцем, а не вредност.</p>
 <p>Gantry чита вредност из привеска за кључеве тек када креира контејнер. <strong>Копирај као команду</strong>, рецепти и извоз у Compose записују <code>keychain:NAME</code>. Картица Инспекција приказује <code>KEY=[REDACTED]</code>. Механизам и даље чува вредност, па <code>docker inspect</code> или <code>container inspect</code> ван Gantry-ја може да је прикаже.</p>
 
-<ul id="recipes">Чување као рецепт</ul>
+<h2 id="recipes">Чување као рецепт</h2>
 <p>У прозору Нови контејнер отворите <strong>Рецепти</strong> и изаберите <strong>Сачувај као рецепт…</strong>. Следећи пут <strong>Попуни из рецепта</strong> даје исти образац на било ком хосту. Рецепти се чувају у <code>~/Library/Application Support/Gantry/recipes.json</code>, па можете да их архивирате или поделите.</p>
 
-<ul id="limits">Ограничења</ul>
+<h2 id="limits">Ограничења</h2>
 <ul>
   <li>Gantry задржава путању из <code>--env-file</code>, али не чита датотеку и не чита вашу љуску за <code>-e KEY</code> без вредности.</li>
   <li>tmpfs монтирања и анонимни волумени из <code>--mount</code> наводе се као неподржани.</li>
@@ -373,6 +373,7 @@ container run -d --name cache -p 6379:6379 \
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Прелазак са Docker Desktop-а на Apple container: команде, Compose, волумени и недостаци</a></li>
   <li><a href="../containers-on-external-drive/">Контејнери и волумени на спољном диску на Mac-у</a></li>
+  <li><a href="../scan-container-images-mac/">Скенирање слика контејнера на рањивости на Mac-у помоћу Trivy-ја и Grype-а</a></li>
   <li><a href="../apple-container/">Apple container GUI за Mac: комплетан водич за apple/container</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes на Apple container-у: GUI за container cluster и Kubernetes прегледач</a></li>
   <li><a href="../compare/">Gantry, Docker Desktop, OrbStack и Podman Desktop на Mac-у: поређење (2026)</a></li>
@@ -386,7 +387,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Могу ли да покренути контејнер претворим назад у docker run команду?</summary><p>Да. <strong>Копирај као команду</strong> у менију контејнера пише ред <code>docker run</code> или <code>container run</code> за тај контејнер.</p></details>
 </div>
 
-<p class="updated">Последње ажурирање: 2026-11-15.</p>
+<p class="updated">Последње ажурирање: 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Почетна</a>

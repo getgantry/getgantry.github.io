@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantry serverių parko skydelis su Docker ir apple/container serveriais">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Konteinerių ir tomų laikymas išoriniame diske Mac kompiuteryje">
   <meta name="twitter:description" content="Laikykite Apple container atvaizdus, konteinerius ir tomus išoriniame SSD: duomenų katalogas, perkėlimas su container system start --app-root, bind prijungimai, saugus atjungimas.">
@@ -68,7 +68,7 @@
       "description": "Laikykite Apple container atvaizdus, konteinerius ir tomus išoriniame SSD: duomenų katalogas, perkėlimas su container system start --app-root, bind prijungimai, saugus atjungimas.",
       "url": "https://getgantry.github.io/lt/containers-on-external-drive/",
       "inLanguage": "lt",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -301,7 +301,7 @@ container system df</code></pre>
   <li>Duokite diskui trumpą pavadinimą be tarpų, pavyzdžiui, <code>Fast</code>. Tada kelias bus <code>/Volumes/Fast</code>.</li>
 </ul>
 
-<ul id="bind">1 būdas: projekto duomenys diske per bind prijungimus</ul>
+<h2 id="bind">1 būdas: projekto duomenys diske per bind prijungimus</h2>
 <p>Bind prijungimas bendrina jūsų Mac aplanką su konteineriu, o aplankas gali būti bet kuriame diske. Tai paprastas būdas didelius duomenis, pavyzdžiui, duomenų bazę ar modelių failus, laikyti ne vidiniame diske:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminalas</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/site
@@ -313,7 +313,7 @@ container run -d --name web -p 8080:80 \
 </div>
 <p>Diskas turi būti prijungtas prieš paleidžiant konteinerį. Atvaizdai ir pats konteineris lieka vidiniame diske.</p>
 
-<ul id="move">2 būdas: visų apple/container duomenų perkėlimas į diską</ul>
+<h2 id="move">2 būdas: visų apple/container duomenų perkėlimas į diską</h2>
 <p>Taip perkeliami atvaizdai, konteineriai, momentinės kopijos ir tomai. Pirmiausia sustabdykite paslaugas, kad kopijuojant nepasikeistų nė vienas failas:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminalas</span><button class="copy" data-copy="container system stop
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 <div class="callout callout-warn"><span class="callout-tag">Dėmesio</span><div>CLI neįsimena <code>--app-root</code>. Kiekviena <code>container system start</code> be šios vėliavėlės vėl naudoja vidinį aplanką. Naudokite vėliavėlę kiekvieną kartą, pavyzdžiui, apvalkalo slapyvardyje, ir tikrinkite <code>paths.appRoot</code> komandos <code>container system status</code> išvestyje.</div></div>
 <p>Gantry gali šį perkėlimą atlikti už jus: žr. <a href="#gantry">toliau</a>.</p>
 
-<ul id="images">Atvaizdų archyvavimas diske</ul>
+<h2 id="images">Atvaizdų archyvavimas diske</h2>
 <p>Norėdami atlaisvinti vietos neprarasdami atvaizdo, įrašykite jį į išorinį diską ir ištrinkite. Kai prireiks, įkelkite jį vėl:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminalas</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/images
@@ -344,7 +344,7 @@ container image delete myapp:dev
 container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </div>
 
-<ul id="unplug">Saugus disko atjungimas</ul>
+<h2 id="unplug">Saugus disko atjungimas</h2>
 <ol>
   <li>Sustabdykite konteinerius, kurie naudoja diską: <code>container stop &lt;name&gt;</code>.</li>
   <li>Jei programos šakninis katalogas yra diske, sustabdykite paslaugas: <code>container system stop</code>.</li>
@@ -352,17 +352,18 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </ol>
 <p>Jei diskas dingsta, kol iš jo veikia konteineriai, jie nulūžta, o vykdomi įrašymai gali būti prarasti. Vėl prijungę diską, paleiskite paslaugas su <code>--app-root</code>, tada paleiskite konteinerius.</p>
 
-<ol id="gantry">Išoriniai diskai Gantry programoje</ol>
+<h2 id="gantry">Išoriniai diskai Gantry programoje</h2>
 <p>apple/container serveryje skyriaus „Sistema“ sritis <strong>Disko vieta</strong> rodo, kur yra duomenų šakninis katalogas, kuriame diske ir kiek vietos užima atvaizdai, konteineriai, momentinės kopijos, tomai ir branduoliai. <strong>Perkelti į kitą diską…</strong> sustabdo paslaugas, nukopijuoja duomenis, juos patikrina, pakeičia šakninį katalogą ir vėl paleidžia paslaugas; senąją kopiją ištrina tik po atskiro patvirtinimo. Gantry įsimena šakninį katalogą visiems vėlesniems paleidimams. Nauji tomai gali būti aplanke bet kuriame diske, o kai tas diskas neprijungtas, Gantry praneša, kurio disko trūksta, ir nepaleidžia konteinerių, kuriems jo reikia.</p>
 <figure class="guide-shot"><picture><source type="image/webp" srcset="../../assets/shots/0.27.0/storage-pane-800.webp 800w, ../../assets/shots/0.27.0/storage-pane-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Gantry sritis „Disko vieta“: duomenų šakninis katalogas, jo diskas ir užimta vieta" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><b>Disko vieta.</b> Duomenų šakninis katalogas, jo diskas ir užimta vieta.</figcaption></figure>
 
-<ol id="docker">Docker Desktop ir OrbStack</ol>
+<h2 id="docker">Docker Desktop ir OrbStack</h2>
 <p>Docker Desktop savo disko atvaizdą perkelia nustatyme <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack 0.13.0 versijoje pridėjo duomenų vietos nustatymą. Žr. <a href="../compare/">palyginimą</a>.</p>
 
 <h2 id="related">Susiję vadovai</h2>
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Perėjimas nuo Docker Desktop prie Apple container: komandos, Compose, tomai ir trūkumai</a></li>
   <li><a href="../docker-run-to-container/">Konteinerio kūrimas iš docker run komandos Mac kompiuteryje (docker run į container run)</a></li>
+  <li><a href="../scan-container-images-mac/">Konteinerių atvaizdų pažeidžiamumų paieška Mac kompiuteryje su Trivy ir Grype</a></li>
   <li><a href="../apple-container/">Apple container GUI, skirta Mac: išsamus apple/container vadovas</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes su Apple container: container cluster GUI ir Kubernetes naršyklė</a></li>
   <li><a href="../compare/">Gantry, Docker Desktop, OrbStack ir Podman Desktop palyginimas Mac kompiuteryje (2026)</a></li>
@@ -377,7 +378,7 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <details class="faq-item"><summary>Ar container CLI įsimena naują vietą?</summary><p>Ne. Perduokite <code>--app-root</code> kiekvienai <code>container system start</code> komandai. <code>container system status</code> naudojamą šakninį katalogą rodo kaip <code>paths.appRoot</code>.</p></details>
 </div>
 
-<p class="updated">Atnaujinta 2026-11-15.</p>
+<p class="updated">Atnaujinta 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Pradžia</a>

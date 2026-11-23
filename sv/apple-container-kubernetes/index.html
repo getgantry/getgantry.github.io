@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantrys översikt över flottan med Docker- och apple/container-värdar">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kubernetes på Apple container: ett GUI för container cluster och en Kubernetes-utforskare">
   <meta name="twitter:description" content="Kör Kubernetes på Apples container-verktyg med Gantry: skapa kluster med worker-storlekar och delat image-lager, bläddra bland poddar och loggar, öppna skal, vidarebefordra portar, verkställ YAML.">
@@ -68,7 +68,7 @@
       "description": "Kör Kubernetes på Apples container-verktyg med Gantry: skapa kluster med worker-storlekar och delat image-lager, bläddra bland poddar och loggar, öppna skal, vidarebefordra portar, verkställ YAML.",
       "url": "https://getgantry.github.io/sv/apple-container-kubernetes/",
       "inLanguage": "sv",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -419,7 +419,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
   <pre><code>container system start</code></pre>
 </div>
 
-<ul id="terminal-create">Skapa klustret</ul>
+<h3 id="terminal-create">Skapa klustret</h3>
 <p>Det här kommandot skapar ett kluster med namnet <code>dev</code> med en kontrollplansnod och två workers. Varje nod får 2 CPU:er och 2 GB minne:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
@@ -441,7 +441,7 @@ kubectl --context dev get nodes">Kopiera</button></div>
 kubectl --context dev get nodes</code></pre>
 </div>
 
-<ul id="terminal-images">Kör en lokal image utan register</ul>
+<h3 id="terminal-images">Kör en lokal image utan register</h3>
 <p>Med <code>--shared-image-store</code> kan noderna köra vilken image som helst i ditt lokala image-lager för <code>container</code>. Bygg en image och använd den via namn:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
@@ -456,21 +456,21 @@ kubectl --context dev get pods</code></pre>
 <div class="callout callout-note"><span class="callout-tag">Anmärkning</span><div>När du har byggt om samma tagg kör du <code>kubectl rollout restart</code> med <code>imagePullPolicy: Always</code>, eller använder en ny tagg. Med <code>IfNotPresent</code> behåller en nod den kopia den redan har. Allt med root på en nod kan läsa varje image i ditt lokala lager, även privata images, så använd det delade lagret bara för lokal utveckling.</div></div>
 <p>På CLI 1.5 och 1.6 finns inget delat lager. Använd <code>container cluster load-image</code> där, eller <b>Läs in i kluster</b> i Gantry. CLI 1.7 tog bort <code>load-image</code>.</p>
 
-<ul id="terminal-reach">Öppna appen i en webbläsare</ul>
+<h3 id="terminal-reach">Öppna appen i en webbläsare</h3>
 <p>Vidarebefordra en lokal port till din deployment och öppna sedan <code>http://localhost:8080</code>:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Kopiera</button></div>
   <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
 </div>
 
-<ul id="terminal-cleanup">Stoppa och radera klustret</ul>
+<h3 id="terminal-cleanup">Stoppa och radera klustret</h3>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster delete --name dev">Kopiera</button></div>
   <pre><code>container cluster delete --name dev</code></pre>
 </div>
 <p>Om kontrollplansnoden stoppas, till exempel efter <code>container system stop</code>, raderar du klustret och skapar det igen. Skapa ett tillfälligt kluster med <code>--rm</code> så tas noderna bort när de stoppas.</p>
 
-<ul id="terminal-troubleshooting">Vanliga problem</ul>
+<h3 id="terminal-troubleshooting">Vanliga problem</h3>
 <ul>
   <li><strong>cluster service unavailable:</strong> CLI:et är Homebrew-bygget, eller tjänsterna körs inte. Installera det signerade paketet, eller starta om tjänsterna med <code>container system stop</code> och <code>container system start</code>. Gantry visar samma råd i Kluster.</li>
   <li><strong>Ett gammalt kluster saknas i listan:</strong> CLI 1.7 listar inte kluster som skapats med 1.6 eller tidigare. Ta bort ett sådant med <code>container cluster delete --name &lt;name&gt;</code>.</li>
@@ -478,7 +478,7 @@ kubectl --context dev get pods</code></pre>
   <li><strong>Du kan inte stoppa en nodcontainer:</strong> det är avsiktligt. <code>container stop</code> och <code>delete</code> vägrar för klusternoder; använd <code>container cluster delete</code>.</li>
 </ul>
 
-<ul id="terminal-compare">Så här står det sig mot Docker Desktop och OrbStack</ul>
+<h3 id="terminal-compare">Så här står det sig mot Docker Desktop och OrbStack</h3>
 <p>Docker Desktop har inbyggd Kubernetes med kubeadm (en nod) eller kind (flera noder), och OrbStack har ett inbyggt kluster med en nod. <code>container cluster</code> kör kubeadm på <code>kindest/node</code>-images, varje nod i en egen VM, med kluster med flera noder och det delade image-lagret. Se den <a href="../compare/">fullständiga jämförelsen</a>.</p>
 
 <h2 id="agents">Kluster från AI-agenter</h2>
@@ -506,7 +506,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Vilken Kubernetes-version använder container cluster?</summary><p>CLI 1.7.1 använder nodimagen <code>kindest/node:v1.35.5</code> som standard. Välj en annan version med <code>--node-image</code>, till exempel <code>docker.io/kindest/node:v1.34.11</code>. Gantry visar versionen i klusteröversikten.</p></details>
 </div>
 
-<p class="updated">Senast uppdaterad 2026-11-15.</p>
+<p class="updated">Senast uppdaterad 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Start</a>

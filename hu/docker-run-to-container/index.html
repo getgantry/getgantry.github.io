@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="A Gantry flottairányítópultja Docker- és apple/container-gazdagépekkel">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Konténer létrehozása docker run parancsból Macen (docker run → container run)">
   <meta name="twitter:description" content="Illesszen be egy docker run parancsot a Gantrybe, és kész konténerűrlapot kap, vagy alakítsa át kézzel container run paranccsá: megfelelő és hiányzó kapcsolók, újrahasználható receptek.">
@@ -68,7 +68,7 @@
       "description": "Illesszen be egy docker run parancsot a Gantrybe, és kész konténerűrlapot kap, vagy alakítsa át kézzel container run paranccsá: megfelelő és hiányzó kapcsolók, újrahasználható receptek.",
       "url": "https://getgantry.github.io/hu/docker-run-to-container/",
       "inLanguage": "hu",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -294,7 +294,7 @@
 <p>A Gantry beolvassa a <code>docker run</code>, a <code>docker container run</code>, a <code>docker create</code>, a <code>podman run</code> és a <code>container run</code> parancsot. Az <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> vagy <code>|</code> utáni szöveget megjegyzéssel figyelmen kívül hagyja.</p>
 <!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
-<ol id="flags">Mely kapcsolók töltik ki az űrlapot</ol>
+<h2 id="flags">Mely kapcsolók töltik ki az űrlapot</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Kapcsoló</th><th scope="col">Űrlapmező</th><th scope="col">Megjegyzés</th></tr></thead>
 <tbody>
@@ -314,7 +314,7 @@
 </table></div>
 <p>További mintegy 80 Docker-kapcsolót ismer a Gantry: helyesen átugorja az értékeiket, és nem használtként listázza őket, így semmi sem vész el megjegyzés nélkül.</p>
 
-<ol id="apple">Figyelmeztetések apple/container-gazdagépekhez</ol>
+<h2 id="apple">Figyelmeztetések apple/container-gazdagépekhez</h2>
 <p>Néhány Docker-beállítás nem létezik az apple/containerben. A Gantry figyelmeztet rájuk, és kihagyja őket a létrehozási kérésből:</p>
 <ul>
   <li>újraindítási szabályok (<code>--restart</code>);</li>
@@ -324,7 +324,7 @@
 </ul>
 <p>Docker-gazdagépen a Gantry az apple/container-beállításokra figyelmeztet: a DNS-tartományra és a kernelbeállításokra.</p>
 
-<ul id="by-hand">A docker run átalakítása container run paranccsá kézzel</ul>
+<h2 id="by-hand">A docker run átalakítása container run paranccsá kézzel</h2>
 <p>A CLI-ben a legtöbb kapcsoló ugyanaz marad. Egy Redis-példa:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminál</span><button class="copy" data-copy="docker run -d --name cache --restart unless-stopped -p 6379:6379 \
@@ -343,10 +343,10 @@ container run -d --name cache -p 6379:6379 \
 </div>
 <p>Először hozza létre a nevesített kötetet a <code>container volume create</code> paranccsal. Törölje a <code>--restart</code> kapcsolót, és kerekítse a <code>--cpus</code> értékét egész számra. A <code>--platform</code> ugyanúgy működik, mint a Dockerben.</p>
 
-<ul id="copy">Konténer másolása parancsként</ul>
+<h2 id="copy">Konténer másolása parancsként</h2>
 <p>Visszafelé is működik. Kattintson jobb gombbal egy konténerre, vagy használja a Továbbiak menüt, és válassza a <strong>Másolás parancsként</strong> parancsot: a Gantry egy <code>docker run</code> vagy <code>container run</code> sort ír. Kihagyja az image alapértékeit, például a környezetét és a parancsát, így a sor rövid marad. Leállított konténereknél is működik.</p>
 
-<ul id="compose">A konténer exportálása Compose-ként</ul>
+<h2 id="compose">A konténer exportálása Compose-ként</h2>
 <p>Ha egy konténert fájlként szeretne megőrizni, kattintson rá a jobb gombbal, vagy használja a Továbbiak menüt, és válassza az <strong>Exportálás Compose-ként…</strong> parancsot. Ha több konténert jelöl ki, azok egy fájlba kerülnek. A Gantry egy <code>docker-compose.yml</code> fájlt ír, konténerenként egy szolgáltatással: portok, csatolások, hálózatok, újraindítási szabály, állapotellenőrzés, korlátok, capabilityk és naplózás. A nevesített kötetek és hálózatok <code>external: true</code> jelölést kapnak.</p>
 <ul>
   <li>A titoknak látszó értékekből <code>${NAME}</code> változók lesznek. A <strong>Titkos értékek</strong> alatt vegye fel azokat, amelyeket a fájlban szeretne látni. A titkos értéket tartalmazó fájl 0600-as jogosultsággal mentődik.</li>
@@ -354,14 +354,14 @@ container run -d --name cache -p 6379:6379 \
   <li>Kattintson a <strong>Másolás</strong> vagy a <strong>Mentés…</strong> gombra.</li>
 </ul>
 
-<ul id="secrets">A titkok maradjanak ki a parancsból</ul>
+<h2 id="secrets">A titkok maradjanak ki a parancsból</h2>
 <p>Egy parancsban lévő <code>-e PASSWORD=…</code> könnyen kiszivárog. Az Új konténer űrlapon nyissa meg egy környezetiváltozó-sor kulcs ikonos menüjét, és válassza az <strong>Érték mentése a Kulcskarikába…</strong> parancsot, vagy válasszon egy titkot, amelyet a <strong>Beállítások → Titkok</strong> alatt adott hozzá. A sor ezután lakattal a <code>keychain:NAME</code> alakot mutatja, nem az értéket.</p>
 <p>A Gantry csak a konténer létrehozásakor olvassa be az értéket a Kulcskarikából. A <strong>Másolás parancsként</strong>, a receptek és a Compose-export a <code>keychain:NAME</code> alakot írják ki. A Vizsgálat lap <code>KEY=[REDACTED]</code> alakban mutatja. A motor továbbra is tárolja az értéket, ezért a Gantryn kívül a <code>docker inspect</code> vagy a <code>container inspect</code> megmutathatja.</p>
 
-<ul id="recipes">Mentés receptként</ul>
+<h2 id="recipes">Mentés receptként</h2>
 <p>Az Új konténer lapon nyissa meg a <strong>Receptek</strong> menüt, és válassza a <strong>Mentés receptként…</strong> lehetőséget. Legközelebb a <strong>Kitöltés receptből</strong> bármely gazdagépen ugyanazt az űrlapot adja. A receptek a <code>~/Library/Application Support/Gantry/recipes.json</code> fájlban vannak, így biztonsági másolatot készíthet róluk, vagy megoszthatja őket.</p>
 
-<ul id="limits">Korlátok</ul>
+<h2 id="limits">Korlátok</h2>
 <ul>
   <li>A Gantry megtartja a <code>--env-file</code> útvonalát, de nem olvassa be a fájlt, és érték nélküli <code>-e KEY</code> esetén nem olvassa ki a shellből az értéket.</li>
   <li>A <code>--mount</code> tmpfs-csatolásai és névtelen kötetei nem támogatottként jelennek meg.</li>
@@ -373,6 +373,7 @@ container run -d --name cache -p 6379:6379 \
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Átállás a Docker Desktopról az Apple containerre: parancsok, Compose, kötetek és hiányok</a></li>
   <li><a href="../containers-on-external-drive/">Konténerek és kötetek tárolása külső meghajtón Macen</a></li>
+  <li><a href="../scan-container-images-mac/">Konténer-image-ek sebezhetőségvizsgálata Macen Trivyvel és Grype-pal</a></li>
   <li><a href="../apple-container/">Apple container GUI Macre: a teljes apple/container-útmutató</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes az Apple containeren: GUI a container clusterhez és Kubernetes-böngésző</a></li>
   <li><a href="../compare/">Gantry vs. Docker Desktop vs. OrbStack vs. Podman Desktop Macen (2026)</a></li>
@@ -386,7 +387,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Visszaalakítható egy futó konténer docker run paranccsá?</summary><p>Igen. A konténer menüjében a <strong>Másolás parancsként</strong> egy <code>docker run</code> vagy <code>container run</code> sort ír az adott konténerhez.</p></details>
 </div>
 
-<p class="updated">Utoljára frissítve: 2026-11-15.</p>
+<p class="updated">Utoljára frissítve: 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Kezdőlap</a>

@@ -1925,6 +1925,147 @@
           ]
         }
       }
+    },
+    "scan-container-images-mac": {
+      "title": "Konténer-image-ek sebezhetőségvizsgálata Macen Trivyvel és Grype-pal",
+      "crumb": "Image-vizsgálat",
+      "desc": "Docker- és Apple container-image-ek vizsgálata ismert sebezhetőségekre macOS-en Trivyvel vagy Grype-pal: telepítés, mentett Apple container-image vizsgálata, az eredmények értelmezése, SBOM-export és a build leállítása súlyos találatok esetén.",
+      "h1": "Konténer-image-ek sebezhetőségvizsgálata Macen",
+      "lead": "A Trivy és a Grype ingyenes, nyílt forráskódú szkennerek, amelyek az image csomagjait ismert sebezhetőségek adatbázisaival vetik össze. A Docker-image-eket közvetlenül olvassák. Az Apple <code>container</code> eszközében nincs vizsgálati parancs és Docker-socket, ezért előbb menteni kell az image-et. Ez az útmutató mindkét módszert bemutatja, valamint azt, hogyan értelmezze a találatokat, hogyan írjon SBOM-ot, és hogyan vizsgáljon a Gantryből.",
+      "tldr": "<strong>Röviden.</strong> Futtassa a <code>brew install trivy grype</code> parancsot. Dockeren futtassa a <code>trivy image app:dev</code> parancsot. Apple containeren mentse az image-et a <code>container image save --platform linux/arm64 -o app.tar app:dev</code> paranccsal, csomagolja ki a <code>tar -xf app.tar -C app-img</code> paranccsal, majd vizsgálja meg a mappát: <code>trivy image --input app-img</code> vagy <code>grype oci-dir:app-img</code>. Magát a tar fájlt mindkét eszköz elutasítja.",
+      "sections": [
+        {
+          "id": "install",
+          "h": "Szkenner telepítése",
+          "blocks": [
+            {
+              "p": "Telepítsen egy vagy mindkét szkennert Homebrew-val. Mindegyik az első vizsgálatkor tölti le a sebezhetőségi adatbázisát, ami körülbelül egy percig tart."
+            },
+            {
+              "code": "install"
+            },
+            {
+              "p": "Az útmutató parancsait a Trivy 0.76.2, a Grype 0.121.3 és a <code>container</code> 1.7.1 verziójával ellenőriztük. A Gantryhez Trivy 0.50.0 vagy Grype 0.74.0, illetve újabb kell."
+            }
+          ]
+        },
+        {
+          "id": "docker",
+          "h": "Docker-image vizsgálata",
+          "blocks": [
+            {
+              "p": "Docker-motorral (Docker Desktop, OrbStack vagy Colima) mindkét eszköz név alapján, a Docker-socketen keresztül olvassa a helyi image-et:"
+            },
+            {
+              "code": "docker"
+            }
+          ]
+        },
+        {
+          "id": "apple",
+          "h": "Apple container-image vizsgálata",
+          "blocks": [
+            {
+              "p": "Mentse az image-et OCI-archívumba, és csomagolja ki egy mappába. Adja meg a <code>--platform</code> kapcsolót: ha az image-tárban az image-nek csak néhány platformja van meg, a <code>container image save</code> nélküle hibával leáll."
+            },
+            {
+              "code": "save"
+            },
+            {
+              "p": "Ezután vizsgálja meg a mappát. A Trivy a <code>--input</code> kapcsolóval, a Grype az <code>oci-dir:</code> előtaggal olvassa:"
+            },
+            {
+              "code": "scan"
+            },
+            {
+              "warn": "Ne a <code>.tar</code> fájlt adja meg. A <code>container image save</code> archívuma a <code>./</code> bejegyzéssel kezdődik: a Trivy azt jelzi, hogy „file manifest.json not found in tar”, a Grype pedig „potential path traversal attack” üzenettel elutasítja. A kicsomagolt mappa mindkettővel működik."
+            }
+          ]
+        },
+        {
+          "id": "read",
+          "h": "Az eredmények értelmezése",
+          "blocks": [
+            {
+              "ul": [
+                "<strong>Súlyosság</strong>: Critical, High, Medium, Low vagy Unknown. Kezdje a Critical és a High szinttel. A <code>--severity HIGH,CRITICAL</code> szűkíti a Trivy kimenetét.",
+                "<strong>Telepített és javított verzió</strong>: ha van javított verzió, frissítse az alap-image-et vagy a csomagot, és buildeljen újra. A <code>trivy --ignore-unfixed</code> és a <code>grype --only-fixed</code> elrejti a javítás nélküli találatokat.",
+                "<strong>„won't fix”</strong>: a disztribúció úgy döntött, hogy ebben a kiadásban nem javítja a csomagot. Használjon újabb alap-image-et, vagy fogadja el a kockázatot.",
+                "<strong>Két eszköz, két adatbázis</strong>: a Trivy és a Grype gyakran eltérő számokat jelez. Egyik sem téved; más forrásokat használnak."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sbom",
+          "h": "SBOM exportálása",
+          "blocks": [
+            {
+              "p": "A szoftverösszetevő-jegyzék (SBOM) az image minden csomagját felsorolja. A Trivy CycloneDX-et és SPDX-et ír; a Grype társeszköze, a Syft szintén mindkettőt."
+            },
+            {
+              "code": "sbom"
+            }
+          ]
+        },
+        {
+          "id": "ci",
+          "h": "A build leállítása súlyos találatok esetén",
+          "blocks": [
+            {
+              "p": "Szkriptben hagyja, hogy a szkenner állítsa be a kilépési kódot. A Grype nem nulla kóddal lép ki, ha van a megadott vagy annál súlyosabb találat; a Trivynél használja a <code>--exit-code 1 --severity HIGH,CRITICAL</code> kapcsolókat."
+            },
+            {
+              "code": "gate"
+            }
+          ]
+        },
+        {
+          "id": "gantry",
+          "h": "Vizsgálat a Gantryből",
+          "blocks": [
+            {
+              "p": "A Gantry 0.29.0 elvégzi Ön helyett ezeket a lépéseket. Válassza a <strong>Sebezhetőségek vizsgálata…</strong> parancsot az image menüjében vagy az image részletnézetének eszközsorán."
+            },
+            {
+              "ul": [
+                "A Gantry a <code>GANTRY_TRIVY</code> vagy <code>GANTRY_GRYPE</code> változóban, a <code>PATH</code>-ban, illetve a <code>/opt/homebrew/bin</code> és a <code>/usr/local/bin</code> mappában keresi a Trivyt vagy a Grype-ot. Ha mindkettő telepítve van, a Trivy az alapértelmezett. Szkenner nélkül a lap a Homebrew-parancsokat mutatja.",
+                "Az apple/containeren a Gantry a <code>--platform</code> kapcsolóval menti az image-et, kicsomagolja, és a mappát vizsgálja. Helyi Dockeren egy mentett archívumot vizsgál. SSH-n elért Dockeren a címke registryben lévő példányát vizsgálja.",
+                "A találatok súlyosság szerint vannak csoportosítva, szimbólummal és szóval, nem csak színnel. Minden sorban ott van a hivatkozott azonosító, a csomag, a telepített és a javított verzió. Egy szűrővel csomagra vagy azonosítóra kereshet.",
+                "Az <strong>SBOM exportálása</strong> CycloneDX-et (mindkét eszköz) vagy SPDX-et (Trivy) ír.",
+                "A <strong>Leállítás</strong> vagy a lap bezárása leállítja a szkennert, és törli az ideiglenes fájlokat."
+              ]
+            },
+            {
+              "shot": "scan-sheet",
+              "alt": "A Gantry Sebezhetőségek vizsgálata lapja súlyosság szerint csoportosított találatokkal",
+              "caption": "<b>Sebezhetőségek vizsgálata.</b> Találatok súlyosság szerint, a javított verzióval és SBOM-exporttal."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Hogyan vizsgálhatom meg egy Apple container-image sebezhetőségeit?",
+          "a": "Mentse a <code>container image save --platform linux/arm64 -o app.tar app:dev</code> paranccsal, csomagolja ki a <code>tar -xf app.tar -C app-img</code> paranccsal, majd futtassa a <code>trivy image --input app-img</code> vagy a <code>grype oci-dir:app-img</code> parancsot. A Gantry a <b>Sebezhetőségek vizsgálata…</b> paranccsal elvégzi ezeket a lépéseket."
+        },
+        {
+          "q": "Miért hibázik a Trivy vagy a Grype a container image save archívumán?",
+          "a": "Az archívum a <code>./</code> bejegyzéssel kezdődik. A Trivy nem találja benne a <code>manifest.json</code> és az <code>index.json</code> fájlt, a Grype pedig path traversalnak tekinti a bejegyzést. Csomagolja ki az archívumot, és a mappát vizsgálja."
+        },
+        {
+          "q": "Trivy vagy Grype: melyiket használjam?",
+          "a": "Mindkettő ingyenes és nyílt forráskódú. A Trivy titkokat és hibás konfigurációkat is talál, és SPDX-et ír; a Grype kicsi, és a csomagokra összpontosít. Más adatbázisokat használnak, így mindkettő futtatása többet talál. A Gantry a Trivyt használja, ha mindkettő telepítve van."
+        },
+        {
+          "q": "Telepíti a Gantry a szkennereket?",
+          "a": "Nem. Telepítse őket a <code>brew install trivy grype</code> paranccsal. A Gantry a <code>PATH</code>-ban, a <code>/opt/homebrew/bin</code> és a <code>/usr/local/bin</code> mappában, illetve a <code>GANTRY_TRIVY</code> és a <code>GANTRY_GRYPE</code> változóban keresi őket."
+        },
+        {
+          "q": "Kell Docker Scout vagy Docker-fiók az image-ek vizsgálatához?",
+          "a": "Nem. A Trivy és a Grype fiók nélkül működik, Docker-image-eken és Apple container-image-eken egyaránt."
+        }
+      ]
     }
   }
 }

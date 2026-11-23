@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantryn kojelauta, jossa Docker- ja apple/container-isäntiä">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kontin luonti docker run -komennosta Macilla (docker run container runiksi)">
   <meta name="twitter:description" content="Sijoita docker run -komento Gantryyn ja saat valmiin konttilomakkeen, tai muunna docker run Applen container runiksi käsin: vastaavat ja puuttuvat valinnat sekä reseptit.">
@@ -68,7 +68,7 @@
       "description": "Sijoita docker run -komento Gantryyn ja saat valmiin konttilomakkeen, tai muunna docker run Applen container runiksi käsin: vastaavat ja puuttuvat valinnat sekä reseptit.",
       "url": "https://getgantry.github.io/fi/docker-run-to-container/",
       "inLanguage": "fi",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -294,7 +294,7 @@
 <p>Gantry lukee komennot <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> ja <code>container run</code>. Merkintöjen <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> tai <code>|</code> jälkeinen teksti ohitetaan, ja siitä näytetään huomautus.</p>
 <!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
-<ol id="flags">Mitkä valinnat täyttävät lomakkeen</ol>
+<h2 id="flags">Mitkä valinnat täyttävät lomakkeen</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Valinta</th><th scope="col">Lomakkeen kenttä</th><th scope="col">Huomiot</th></tr></thead>
 <tbody>
@@ -314,7 +314,7 @@
 </table></div>
 <p>Noin 80 muuta Dockerin valintaa tunnetaan: Gantry ohittaa niiden arvot oikein ja luettelee ne käyttämättöminä, joten mitään ei katoa ilman huomautusta.</p>
 
-<ol id="apple">Varoitukset apple/container-isännille</ol>
+<h2 id="apple">Varoitukset apple/container-isännille</h2>
 <p>Joitakin Dockerin valintoja ei ole apple/containerissa. Gantry varoittaa niistä ja jättää ne pois luontipyynnöstä:</p>
 <ul>
   <li>uudelleenkäynnistyskäytännöt (<code>--restart</code>);</li>
@@ -324,7 +324,7 @@
 </ul>
 <p>Docker-isännällä Gantry varoittaa apple/containerin valinnoista: DNS-verkkotunnuksesta ja ytimen valinnoista.</p>
 
-<ul id="by-hand">Muunna docker run container runiksi käsin</ul>
+<h2 id="by-hand">Muunna docker run container runiksi käsin</h2>
 <p>CLI:ssä useimmat valinnat pysyvät samoina. Esimerkki Redisillä:</p>
 <div class="code-block">
   <div class="code-head"><span>Pääte</span><button class="copy" data-copy="docker run -d --name cache --restart unless-stopped -p 6379:6379 \
@@ -343,10 +343,10 @@ container run -d --name cache -p 6379:6379 \
 </div>
 <p>Luo nimetty taltio ensin komennolla <code>container volume create</code>. Poista <code>--restart</code> ja pyöristä <code>--cpus</code> kokonaisluvuksi. <code>--platform</code> toimii kuten Dockerissa.</p>
 
-<ul id="copy">Kopioi kontti komentona</ul>
+<h2 id="copy">Kopioi kontti komentona</h2>
 <p>Myös toiseen suuntaan onnistuu. Napsauta konttia hiiren oikealla tai käytä Lisää-valikkoa ja valitse <strong>Kopioi komentona</strong>: Gantry kirjoittaa <code>docker run</code>- tai <code>container run</code> -rivin. Se jättää pois levykuvan oletukset, kuten sen ympäristön ja komennon, joten rivi pysyy lyhyenä. Tämä toimii myös pysäytetyille konteille.</p>
 
-<ul id="compose">Vie kontti Compose-tiedostona</ul>
+<h2 id="compose">Vie kontti Compose-tiedostona</h2>
 <p>Jos haluat säilyttää kontin tiedostona, napsauta sitä hiiren oikealla tai käytä Lisää-valikkoa ja valitse <strong>Vie Compose-tiedostona…</strong>. Valitse useita kontteja, niin ne tulevat yhteen tiedostoon. Gantry kirjoittaa <code>docker-compose.yml</code>-tiedoston, jossa on yksi palvelu kutakin konttia kohden: portit, liitokset, verkot, uudelleenkäynnistyskäytäntö, kuntotarkistus, rajoitukset, capabilities ja lokitus. Nimetyt taltiot ja verkot merkitään määrityksellä <code>external: true</code>.</p>
 <ul>
   <li>Salaisuuksilta näyttävistä arvoista tulee <code>${NAME}</code>-muuttujia. Sisällytä kohdassa <strong>Salaiset arvot</strong> ne arvot, jotka haluat tiedostoon. Tiedosto, jossa on salainen arvo, tallennetaan tilalla 0600.</li>
@@ -354,14 +354,14 @@ container run -d --name cache -p 6379:6379 \
   <li>Osoita <strong>Kopioi</strong> tai <strong>Tallenna…</strong>.</li>
 </ul>
 
-<ul id="secrets">Pidä salaisuudet poissa komennosta</ul>
+<h2 id="secrets">Pidä salaisuudet poissa komennosta</h2>
 <p>Komennossa oleva <code>-e PASSWORD=…</code> vuotaa helposti. Avaa Uusi kontti -lomakkeessa ympäristörivin avainvalikko ja valitse <strong>Tallenna arvo Avainnippuun…</strong> tai valitse salaisuus, jonka olet lisännyt kohdassa <strong>Asetukset → Salaisuudet</strong>. Rivi näyttää sen jälkeen <code>keychain:NAME</code> ja lukon, ei arvoa.</p>
 <p>Gantry lukee arvon Avainnipusta vasta, kun se luo kontin. <strong>Kopioi komentona</strong>, reseptit ja Compose-vienti kirjoittavat <code>keychain:NAME</code>. Tarkastele-välilehti näyttää <code>KEY=[REDACTED]</code>. Moottori tallentaa arvon silti, joten <code>docker inspect</code> tai <code>container inspect</code> Gantryn ulkopuolella voi näyttää sen.</p>
 
-<ul id="recipes">Tallenna reseptiksi</ul>
+<h2 id="recipes">Tallenna reseptiksi</h2>
 <p>Avaa Uusi kontti -ikkunassa <strong>Reseptit</strong> ja valitse <strong>Tallenna reseptiksi…</strong>. Seuraavalla kerralla <strong>Täytä reseptistä</strong> antaa saman lomakkeen millä tahansa isännällä. Reseptit ovat tiedostossa <code>~/Library/Application Support/Gantry/recipes.json</code>, joten voit varmuuskopioida tai jakaa ne.</p>
 
-<ul id="limits">Rajoitukset</ul>
+<h2 id="limits">Rajoitukset</h2>
 <ul>
   <li>Gantry säilyttää valinnan <code>--env-file</code> polun mutta ei lue tiedostoa, eikä se lue komentotulkkisi ympäristöä, kun <code>-e KEY</code> on ilman arvoa.</li>
   <li>Valinnan <code>--mount</code> tmpfs-liitokset ja nimettömät taltiot luetellaan tukemattomina.</li>
@@ -373,6 +373,7 @@ container run -d --name cache -p 6379:6379 \
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Siirtyminen Docker Desktopista Apple containeriin: komennot, Compose, taltiot ja puutteet</a></li>
   <li><a href="../containers-on-external-drive/">Kontit ja taltiot ulkoisella levyllä Macissa</a></li>
+  <li><a href="../scan-container-images-mac/">Konttien levykuvien haavoittuvuusskannaus Macilla Trivyllä ja Grypellä</a></li>
   <li><a href="../apple-container/">Apple container -GUI Macille: kattava apple/container-opas</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes Apple containerilla: GUI container clusterille ja Kubernetes-selain</a></li>
   <li><a href="../compare/">Gantry vs. Docker Desktop vs. OrbStack vs. Podman Desktop Macilla (2026)</a></li>
@@ -386,7 +387,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Voiko käynnissä olevan kontin muuttaa takaisin docker run -komennoksi?</summary><p>Kyllä. Konttivalikon <strong>Kopioi komentona</strong> kirjoittaa kontille <code>docker run</code>- tai <code>container run</code> -rivin.</p></details>
 </div>
 
-<p class="updated">Päivitetty viimeksi 2026-11-15.</p>
+<p class="updated">Päivitetty viimeksi 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Etusivu</a>

@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantrys flådeoversigt med Docker- og apple/container-værter">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Gem containere og volumes på et eksternt drev på en Mac">
   <meta name="twitter:description" content="Gem images, containere og volumes fra Apple container på en ekstern SSD: find datarodden, flyt den med container system start --app-root, brug bind-mounts, og fjern disken sikkert.">
@@ -68,7 +68,7 @@
       "description": "Gem images, containere og volumes fra Apple container på en ekstern SSD: find datarodden, flyt den med container system start --app-root, brug bind-mounts, og fjern disken sikkert.",
       "url": "https://getgantry.github.io/da/containers-on-external-drive/",
       "inLanguage": "da",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -301,7 +301,7 @@ container system df</code></pre>
   <li>Giv disken et kort navn uden mellemrum, for eksempel <code>Fast</code>. Stien er så <code>/Volumes/Fast</code>.</li>
 </ul>
 
-<ul id="bind">Mulighed 1: gem projektdata på disken med bind-mounts</ul>
+<h2 id="bind">Mulighed 1: gem projektdata på disken med bind-mounts</h2>
 <p>Et bind-mount deler en mappe på din Mac med containeren, og mappen kan ligge på enhver disk. Det er den nemme måde at holde store data, som en database eller modelfiler, væk fra den interne disk:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/site
@@ -313,7 +313,7 @@ container run -d --name web -p 8080:80 \
 </div>
 <p>Disken skal være tilsluttet, før containeren starter. Images og selve containeren bliver på den interne disk.</p>
 
-<ul id="move">Mulighed 2: flyt alle apple/container-data til disken</ul>
+<h2 id="move">Mulighed 2: flyt alle apple/container-data til disken</h2>
 <p>Det flytter images, containere, snapshots og volumes. Stop først tjenesterne, så ingen filer ændres under kopieringen:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system stop
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 <div class="callout callout-warn"><span class="callout-tag">Bemærk</span><div>CLI'en husker ikke <code>--app-root</code>. Hver <code>container system start</code> uden flaget bruger igen den interne mappe. Brug flaget hver gang, for eksempel i et shell-alias, og tjek <code>paths.appRoot</code> i <code>container system status</code>.</div></div>
 <p>Gantry kan foretage flytningen for dig: se <a href="#gantry">nedenfor</a>.</p>
 
-<ul id="images">Arkivér images på disken</ul>
+<h2 id="images">Arkivér images på disken</h2>
 <p>Vil du frigøre plads uden at miste et image, så gem det på den eksterne disk, og slet det. Indlæs det igen, når du har brug for det:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/images
@@ -344,7 +344,7 @@ container image delete myapp:dev
 container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </div>
 
-<ul id="unplug">Fjern disken sikkert</ul>
+<h2 id="unplug">Fjern disken sikkert</h2>
 <ol>
   <li>Stop de containere, der bruger disken: <code>container stop &lt;name&gt;</code>.</li>
   <li>Ligger app-roden på disken, så stop tjenesterne: <code>container system stop</code>.</li>
@@ -352,17 +352,18 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </ol>
 <p>Forsvinder disken, mens containere kører fra den, fejler de, og skrivninger, der er i gang, kan gå tabt. Når du har tilsluttet disken igen, så start tjenesterne med <code>--app-root</code>, og start derefter containerne.</p>
 
-<ol id="gantry">Eksterne drev i Gantry</ol>
+<h2 id="gantry">Eksterne drev i Gantry</h2>
 <p>På en apple/container-vært viser panelet <strong>Lagring</strong> i sektionen System, hvor datarodden ligger, på hvilken disk, og hvor meget plads images, containere, snapshots, volumes og kerner bruger. <strong>Flyt til en anden disk…</strong> stopper tjenesterne, kopierer dataene, tjekker dem, skifter roden og starter tjenesterne igen; den gamle kopi slettes først efter en separat bekræftelse. Gantry husker roden ved alle senere starter. Nye volumes kan ligge i en mappe på enhver disk, og når den disk ikke er tilsluttet, fortæller Gantry dig, hvilken disk der mangler, og starter ikke de containere, der har brug for den.</p>
 <figure class="guide-shot"><picture><source type="image/webp" srcset="../../assets/shots/0.27.0/storage-pane-800.webp 800w, ../../assets/shots/0.27.0/storage-pane-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Gantrys panel Lagring: datarodden, dens disk og den brugte plads" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><b>Lagring.</b> Datarodden, dens disk og den brugte plads.</figcaption></figure>
 
-<ol id="docker">Docker Desktop og OrbStack</ol>
+<h2 id="docker">Docker Desktop og OrbStack</h2>
 <p>Docker Desktop flytter sit diskimage under <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack fik en indstilling for dataplacering i version 0.13.0. Se <a href="../compare/">sammenligningen</a>.</p>
 
 <h2 id="related">Relaterede guides</h2>
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Skift fra Docker Desktop til Apple container: kommandoer, Compose, volumes og mangler</a></li>
   <li><a href="../docker-run-to-container/">Opret en container ud fra en docker run-kommando på Mac (docker run til container run)</a></li>
+  <li><a href="../scan-container-images-mac/">Scan container-images for sårbarheder på en Mac med Trivy og Grype</a></li>
   <li><a href="../apple-container/">GUI til Apple container på Mac: hele guiden til apple/container</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes på Apple container: GUI til container cluster og en Kubernetes-browser</a></li>
   <li><a href="../compare/">Gantry vs. Docker Desktop vs. OrbStack vs. Podman Desktop på Mac (2026)</a></li>
@@ -377,7 +378,7 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <details class="faq-item"><summary>Husker container-CLI&#x27;en den nye placering?</summary><p>Nej. Angiv <code>--app-root</code> ved hver <code>container system start</code>. <code>container system status</code> viser den rod, der bruges, som <code>paths.appRoot</code>.</p></details>
 </div>
 
-<p class="updated">Sidst opdateret 2026-11-15.</p>
+<p class="updated">Sidst opdateret 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Forside</a>

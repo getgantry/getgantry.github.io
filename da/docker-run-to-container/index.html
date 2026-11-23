@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantrys flådeoversigt med Docker- og apple/container-værter">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Opret en container ud fra en docker run-kommando på Mac (docker run til container run)">
   <meta name="twitter:description" content="Indsæt en docker run-kommando i Gantry, og få en udfyldt containerformular, eller konvertér docker run til Apples container run i hånden: flag, der passer, flag, der ikke gør, og opskrifter.">
@@ -68,7 +68,7 @@
       "description": "Indsæt en docker run-kommando i Gantry, og få en udfyldt containerformular, eller konvertér docker run til Apples container run i hånden: flag, der passer, flag, der ikke gør, og opskrifter.",
       "url": "https://getgantry.github.io/da/docker-run-to-container/",
       "inLanguage": "da",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -294,7 +294,7 @@
 <p>Gantry læser <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> og <code>container run</code>. Tekst efter <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> eller <code>|</code> ignoreres, med en bemærkning.</p>
 <!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
-<ol id="flags">Hvilke flag udfylder formularen</ol>
+<h2 id="flags">Hvilke flag udfylder formularen</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Flag</th><th scope="col">Formularfelt</th><th scope="col">Bemærkninger</th></tr></thead>
 <tbody>
@@ -314,7 +314,7 @@
 </table></div>
 <p>Omkring 80 andre Docker-flag er kendt: Gantry springer deres værdier korrekt over og viser dem som ikke brugt, så intet går tabt uden en bemærkning.</p>
 
-<ol id="apple">Advarsler for apple/container-værter</ol>
+<h2 id="apple">Advarsler for apple/container-værter</h2>
 <p>Nogle Docker-indstillinger findes ikke på apple/container. Gantry advarer om dem og udelader dem fra oprettelsen:</p>
 <ul>
   <li>genstartspolitikker (<code>--restart</code>);</li>
@@ -324,7 +324,7 @@
 </ul>
 <p>På en Docker-vært advarer Gantry om apple/container-indstillingerne: DNS-domænet og kerneindstillingerne.</p>
 
-<ul id="by-hand">Konvertér docker run til container run i hånden</ul>
+<h2 id="by-hand">Konvertér docker run til container run i hånden</h2>
 <p>I CLI'en forbliver de fleste flag de samme. Et eksempel med Redis:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="docker run -d --name cache --restart unless-stopped -p 6379:6379 \
@@ -343,10 +343,10 @@ container run -d --name cache -p 6379:6379 \
 </div>
 <p>Opret først det navngivne volume med <code>container volume create</code>. Fjern <code>--restart</code>, og rund <code>--cpus</code> af til et helt tal. <code>--platform</code> virker som i Docker.</p>
 
-<ul id="copy">Kopiér en container som kommando</ul>
+<h2 id="copy">Kopiér en container som kommando</h2>
 <p>Det virker også den anden vej. Højreklik på en container, eller brug menuen Mere, og vælg <strong>Kopiér som kommando</strong>: Gantry skriver en <code>docker run</code>- eller <code>container run</code>-linje. Den udelader imagets standardværdier, som dets miljø og kommando, så linjen forbliver kort. Det virker også for stoppede containere.</p>
 
-<ul id="compose">Eksportér containeren som Compose</ul>
+<h2 id="compose">Eksportér containeren som Compose</h2>
 <p>Hvis du vil gemme en container som en fil, skal du højreklikke på den, eller bruge menuen Mere, og vælge <strong>Eksportér som Compose…</strong>. Vælg flere containere for at samle dem i én fil. Gantry skriver en <code>docker-compose.yml</code> med én tjeneste for hver container: porte, mounts, netværk, genstartspolitik, sundhedstjek, grænser, capabilities og logning. Navngivne volumes og netværk markeres som <code>external: true</code>.</p>
 <ul>
   <li>Værdier, der ligner hemmeligheder, bliver til <code>${NAME}</code>-variabler. Under <strong>Hemmelige værdier</strong> tager du de værdier med, som du vil have i filen. En fil med en hemmelig værdi gemmes med tilstanden 0600.</li>
@@ -354,14 +354,14 @@ container run -d --name cache -p 6379:6379 \
   <li>Klik på <strong>Kopiér</strong> eller <strong>Gem…</strong>.</li>
 </ul>
 
-<ul id="secrets">Hold hemmeligheder ude af kommandoen</ul>
+<h2 id="secrets">Hold hemmeligheder ude af kommandoen</h2>
 <p>En <code>-e PASSWORD=…</code> i en kommando lækker let. Åbn nøglemenuen for en miljørække i formularen Ny container, og vælg <strong>Gem værdi i nøglering…</strong>, eller vælg en hemmelighed, som du har tilføjet i <strong>Indstillinger → Hemmeligheder</strong>. Rækken viser så <code>keychain:NAME</code> med en lås, ikke værdien.</p>
 <p>Gantry læser først værdien fra nøgleringen, når den opretter containeren. <strong>Kopiér som kommando</strong>, opskrifter og Compose-eksport skriver <code>keychain:NAME</code>. Fanen Inspicer viser <code>KEY=[REDACTED]</code>. Motoren gemmer stadig værdien, så <code>docker inspect</code> eller <code>container inspect</code> uden for Gantry kan vise den.</p>
 
-<ul id="recipes">Gem den som opskrift</ul>
+<h2 id="recipes">Gem den som opskrift</h2>
 <p>I arket Ny container åbner du <strong>Opskrifter</strong> og vælger <strong>Gem som opskrift…</strong>. Næste gang giver <strong>Udfyld fra opskrift</strong> den samme formular på enhver vært. Opskrifterne ligger i <code>~/Library/Application Support/Gantry/recipes.json</code>, så du kan sikkerhedskopiere eller dele dem.</p>
 
-<ul id="limits">Begrænsninger</ul>
+<h2 id="limits">Begrænsninger</h2>
 <ul>
   <li>Gantry beholder stien fra <code>--env-file</code>, men læser ikke filen og læser ikke din shell for <code>-e KEY</code> uden værdi.</li>
   <li>tmpfs-mounts og anonyme volumes fra <code>--mount</code> vises som ikke understøttet.</li>
@@ -373,6 +373,7 @@ container run -d --name cache -p 6379:6379 \
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Skift fra Docker Desktop til Apple container: kommandoer, Compose, volumes og mangler</a></li>
   <li><a href="../containers-on-external-drive/">Gem containere og volumes på et eksternt drev på en Mac</a></li>
+  <li><a href="../scan-container-images-mac/">Scan container-images for sårbarheder på en Mac med Trivy og Grype</a></li>
   <li><a href="../apple-container/">GUI til Apple container på Mac: hele guiden til apple/container</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes på Apple container: GUI til container cluster og en Kubernetes-browser</a></li>
   <li><a href="../compare/">Gantry vs. Docker Desktop vs. OrbStack vs. Podman Desktop på Mac (2026)</a></li>
@@ -386,7 +387,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Kan jeg gøre en kørende container til en docker run-kommando igen?</summary><p>Ja. <strong>Kopiér som kommando</strong> i containermenuen skriver en <code>docker run</code>- eller <code>container run</code>-linje for den container.</p></details>
 </div>
 
-<p class="updated">Sidst opdateret 2026-11-15.</p>
+<p class="updated">Sidst opdateret 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Forside</a>

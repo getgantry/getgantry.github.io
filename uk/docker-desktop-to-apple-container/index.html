@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Панель Gantry з хостами Docker і apple/container">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Перехід із Docker Desktop на Apple container: команди, Compose, томи й обмеження">
   <meta name="twitter:description" content="Як перейти з Docker Desktop на container від Apple на Mac: яка команда docker відповідає якій команді container, як перенести образи, томи й файли Compose і чого поки немає.">
@@ -68,7 +68,7 @@
       "description": "Як перейти з Docker Desktop на container від Apple на Mac: яка команда docker відповідає якій команді container, як перенести образи, томи й файли Compose і чого поки немає.",
       "url": "https://getgantry.github.io/uk/docker-desktop-to-apple-container/",
       "inLanguage": "uk",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -292,7 +292,7 @@
   <li><strong>Лише Apple silicon і macOS 26.</strong> На Mac з Intel залишайтеся на рушії Docker.</li>
 </ul>
 
-<ul id="commands">Команди Docker і їхні відповідники в container</ul>
+<h2 id="commands">Команди Docker і їхні відповідники в container</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Docker</th><th scope="col">apple/container</th><th scope="col">Примітки</th></tr></thead>
 <tbody>
@@ -317,7 +317,7 @@
 </table></div>
 <p>Більшість прапорців <code>run</code> збігаються: <code>-d</code>, <code>-p</code>, <code>-e</code>, <code>-v</code>, <code>--name</code>, <code>--rm</code>, <code>-it</code>, <code>-w</code>, <code>--entrypoint</code>, <code>--cpus</code> і <code>-m</code>. Щоб перетворити довгу команду, вставте її в Gantry: див. <a href="../docker-run-to-container/">Створення контейнера з команди docker run</a>.</p>
 
-<ul id="images">Перенесення образів</ul>
+<h2 id="images">Перенесення образів</h2>
 <p>Образи з реєстру отримайте знову командою <code>container image pull</code>. Локальні образи, які є лише в Docker, збережіть в архів і завантажте його. <code>container image load</code> читає архіви OCI, а нові версії Docker записують через <code>docker save</code> макет OCI. Якщо завантаження не вдалося, надішліть образ у реєстр і отримайте його звідти.</p>
 <div class="code-block">
   <div class="code-head"><span>Термінал</span><button class="copy" data-copy="docker save -o app.tar app:dev
@@ -328,7 +328,7 @@ container image load -i app.tar
 container image pull nginx:alpine</code></pre>
 </div>
 
-<ul id="volumes">Перенесення іменованих томів</ul>
+<h2 id="volumes">Перенесення іменованих томів</h2>
 <p>Docker зберігає дані томів усередині своєї ВМ. Скопіюйте кожен том у tar-файл за допомогою тимчасового контейнера, потім розпакуйте його в новий том apple/container:</p>
 <div class="code-block">
   <div class="code-head"><span>Термінал</span><button class="copy" data-copy="docker run --rm -v data:/from -v &quot;$PWD&quot;:/to alpine tar -C /from -cf /to/data.tar .
@@ -340,11 +340,11 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
 </div>
 <p>Іменований том в apple/container — це розріджений образ диска ext4, типово не більше ніж 512 ГБ. Інший розмір задайте через <code>--opt size=20g</code>. Bind-монтування папок вашого Mac працює так само, як у Docker: <code>-v ~/project:/app</code>.</p>
 
-<ul id="compose">Файли Compose</ul>
+<h2 id="compose">Файли Compose</h2>
 <p>У CLI <code>container</code> немає команди <code>compose</code>. Натомість відкрийте <code>docker-compose.yml</code> у Gantry (із Finder, через <strong>Файл ▸ Відкрити файл Compose…</strong> або перетягуванням). Gantry збирає служби з <code>build:</code>, створює мережу проєкту й іменовані томи та запускає служби в порядку <code>depends_on</code>. Служби звертаються одна до одної за назвою служби через мережеві DNS-псевдоніми.</p>
 <p>Ще немає файлу Compose? На хості Docker виберіть контейнери програми, виберіть <strong>Експортувати як Compose…</strong> і збережіть файл. Файл позначає іменовані томи й мережі як <code>external: true</code>, тож спочатку створіть їх на хості apple/container (див. <a href="#volumes">Перенесення іменованих томів</a>), а потім відкрийте файл там. Значення, схожі на секрети, стають змінними <code>${NAME}</code>, тож файл не містить ваших паролів.</p>
 
-<ul id="networks">Мережі й порти</ul>
+<h2 id="networks">Мережі й порти</h2>
 <ul>
   <li><code>-p 8080:80</code> публікує порт на <code>localhost</code>, як у Docker.</li>
   <li>Кожен контейнер має й власну IP-адресу. Створіть локальний DNS-домен командою <code>sudo container system dns create test</code> і запускайте контейнери з <code>--dns-domain test</code>: вони отримають назви на кшталт <code>web.test</code>.</li>
@@ -352,7 +352,7 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
   <li>Режимів <code>--network host</code>, <code>none</code> і <code>container:</code> немає.</li>
 </ul>
 
-<ul id="missing">Чого немає</ul>
+<h2 id="missing">Чого немає</h2>
 <ul>
   <li><strong>Немає Docker Engine API.</strong> Інструменти, які звертаються до <code>/var/run/docker.sock</code>, наприклад Testcontainers, Docker SDK або Dev Containers, не бачать apple/container.</li>
   <li><strong>Немає політик перезапуску.</strong> <code>--restart</code> недоступний; контейнер сам не запускається знову.</li>
@@ -362,13 +362,14 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
   <li><strong>Kubernetes влаштовано інакше:</strong> використовуйте <code>container cluster</code>, див. <a href="../apple-container-kubernetes/#terminal">Kubernetes на Mac</a>.</li>
 </ul>
 
-<ul id="both">Залиште обидва на час переходу</ul>
+<h2 id="both">Залиште обидва на час переходу</h2>
 <p>Gantry керує apple/container і будь-яким рушієм Docker (Docker Desktop, OrbStack, Colima або Docker через SSH) на одній боковій панелі. Переносьте по одному проєкту й залиште Docker для інструментів, яким потрібен його API. Коли Docker Desktop стане непотрібним, його можна видалити.</p>
 
 <h2 id="related">Пов’язані посібники</h2>
 <ul>
   <li><a href="../containers-on-external-drive/">Контейнери й томи на зовнішньому диску Mac: як перенести дані</a></li>
   <li><a href="../docker-run-to-container/">Створення контейнера з команди docker run на Mac (docker run у container run)</a></li>
+  <li><a href="../scan-container-images-mac/">Перевірка образів контейнерів на вразливості на Mac за допомогою Trivy і Grype</a></li>
   <li><a href="../apple-container/">GUI для Apple container на Mac: повний посібник з apple/container</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes на Apple container: GUI для container cluster і браузер Kubernetes</a></li>
   <li><a href="../compare/">Gantry, Docker Desktop, OrbStack і Podman Desktop на Mac: порівняння (2026)</a></li>
@@ -383,7 +384,7 @@ container run --rm -v data:/to -v &quot;$PWD&quot;:/from alpine tar -C /to -xf /
 <details class="faq-item"><summary>Чи безплатний Apple container для комерційного використання?</summary><p>Так. apple/container — відкритий код за ліцензією Apache 2.0, а Gantry поширюється за ліцензією MIT. Обидва безплатні для компаній будь-якого розміру.</p></details>
 </div>
 
-<p class="updated">Оновлено 2026-11-15.</p>
+<p class="updated">Оновлено 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Головна</a>

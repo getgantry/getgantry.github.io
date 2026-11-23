@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantry контролна табла са Docker и apple/container хостовима">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kubernetes на Apple container-у: GUI за container cluster и Kubernetes прегледач">
   <meta name="twitter:description" content="Kubernetes на Apple-овом алату container уз Gantry: кластери са радним чворовима по мери и заједничким складиштем слика, подови и логови, љуска, портови и YAML.">
@@ -68,7 +68,7 @@
       "description": "Kubernetes на Apple-овом алату container уз Gantry: кластери са радним чворовима по мери и заједничким складиштем слика, подови и логови, љуска, портови и YAML.",
       "url": "https://getgantry.github.io/sr/apple-container-kubernetes/",
       "inLanguage": "sr",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -419,7 +419,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
   <pre><code>container system start</code></pre>
 </div>
 
-<ul id="terminal-create">Креирање кластера</ul>
+<h3 id="terminal-create">Креирање кластера</h3>
 <p>Ова команда прави кластер под именом <code>dev</code> са једним чвором контролне равни и два радна чвора. Сваки чвор добија 2 CPU-а и 2 GB меморије:</p>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
@@ -441,7 +441,7 @@ kubectl --context dev get nodes">Копирај</button></div>
 kubectl --context dev get nodes</code></pre>
 </div>
 
-<ul id="terminal-images">Покретање локалне слике без регистра</ul>
+<h3 id="terminal-images">Покретање локалне слике без регистра</h3>
 <p>Уз <code>--shared-image-store</code> чворови могу да покрену било коју слику из вашег локалног <code>container</code> складишта слика. Изградите слику и користите је по имену:</p>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
@@ -456,21 +456,21 @@ kubectl --context dev get pods</code></pre>
 <div class="callout callout-note"><span class="callout-tag">Напомена</span><div>Када поново изградите исту ознаку, покрените <code>kubectl rollout restart</code> уз <code>imagePullPolicy: Always</code> или користите нову ознаку. Уз <code>IfNotPresent</code> чвор задржава копију коју већ има. Све што има root приступ на чвору може да чита сваку слику у вашем локалном складишту, укључујући приватне слике, па заједничко складиште користите само за локални развој.</div></div>
 <p>На CLI-ју 1.5 и 1.6 нема заједничког складишта. Тамо користите <code>container cluster load-image</code> или <b>Учитај у кластер</b> у Gantry-ју. CLI 1.7 је уклонио <code>load-image</code>.</p>
 
-<ul id="terminal-reach">Отварање апликације у прегледачу</ul>
+<h3 id="terminal-reach">Отварање апликације у прегледачу</h3>
 <p>Проследите локални порт ка deployment-у, а затим отворите <code>http://localhost:8080</code>:</p>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Копирај</button></div>
   <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
 </div>
 
-<ul id="terminal-cleanup">Заустављање и брисање кластера</ul>
+<h3 id="terminal-cleanup">Заустављање и брисање кластера</h3>
 <div class="code-block">
   <div class="code-head"><span>Терминал</span><button class="copy" data-copy="container cluster delete --name dev">Копирај</button></div>
   <pre><code>container cluster delete --name dev</code></pre>
 </div>
 <p>Ако се чвор контролне равни заустави, на пример након <code>container system stop</code>, обришите кластер и креирајте га поново. Привремени кластер креирајте уз <code>--rm</code>, да би се његови чворови уклонили када се зауставе.</p>
 
-<ul id="terminal-troubleshooting">Чести проблеми</ul>
+<h3 id="terminal-troubleshooting">Чести проблеми</h3>
 <ul>
   <li><strong>cluster service unavailable:</strong> CLI је Homebrew верзија или сервиси нису покренути. Инсталирајте потписани пакет или поново покрените сервисе командама <code>container system stop</code> и <code>container system start</code>. Gantry исти савет приказује у одељку Кластери.</li>
   <li><strong>Стари кластер недостаје на листи:</strong> CLI 1.7 не приказује кластере креиране у 1.6 или старијем. Уклоните такав кластер командом <code>container cluster delete --name &lt;name&gt;</code>.</li>
@@ -478,7 +478,7 @@ kubectl --context dev get pods</code></pre>
   <li><strong>Не можете да зауставите контејнер чвора:</strong> то је намерно. <code>container stop</code> и <code>delete</code> одбијају чворове кластера; користите <code>container cluster delete</code>.</li>
 </ul>
 
-<ul id="terminal-compare">Поређење са Docker Desktop-ом и OrbStack-ом</ul>
+<h3 id="terminal-compare">Поређење са Docker Desktop-ом и OrbStack-ом</h3>
 <p>Docker Desktop има уграђени Kubernetes са kubeadm-ом (један чвор) или kind-ом (више чворова), а OrbStack има уграђени кластер са једним чвором. <code>container cluster</code> покреће kubeadm на сликама <code>kindest/node</code>, сваки чвор у сопственој VM, са кластерима од више чворова и заједничким складиштем слика. Погледајте <a href="../compare/">потпуно поређење</a>.</p>
 
 <h2 id="agents">Кластери преко AI агената</h2>
@@ -506,7 +506,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Коју верзију Kubernetes-а користи container cluster?</summary><p>CLI 1.7.1 подразумевано користи слику чвора <code>kindest/node:v1.35.5</code>. Другу верзију изаберите опцијом <code>--node-image</code>, на пример <code>docker.io/kindest/node:v1.34.11</code>. Gantry приказује верзију у прегледу кластера.</p></details>
 </div>
 
-<p class="updated">Последње ажурирање: 2026-11-15.</p>
+<p class="updated">Последње ажурирање: 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Почетна</a>

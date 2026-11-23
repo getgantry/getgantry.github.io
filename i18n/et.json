@@ -1925,6 +1925,147 @@
           ]
         }
       }
+    },
+    "scan-container-images-mac": {
+      "title": "Konteineritõmmiste turvaaukude skannimine Macis Trivy ja Grype'iga",
+      "crumb": "Tõmmiste skannimine",
+      "desc": "Skannige Dockeri ja Apple containeri tõmmiseid macOS-is teadaolevate turvaaukude suhtes Trivy või Grype'iga: installimine, salvestatud Apple containeri tõmmise skannimine, tulemuste lugemine, SBOM-i eksport ja koostamise nurjamine tõsiste leidude korral.",
+      "h1": "Konteineritõmmiste turvaaukude skannimine Macis",
+      "lead": "Trivy ja Grype on tasuta avatud lähtekoodiga skannerid, mis võrdlevad tõmmise pakette teadaolevate turvaaukude andmebaasidega. Dockeri tõmmiseid loevad nad otse. Apple'i <code>container</code>-tööriistal pole skannimiskäsku ega Dockeri soklit, seega tuleb tõmmis kõigepealt salvestada. See juhend näitab mõlemat viisi, kuidas leide lugeda, kuidas SBOM-i kirjutada ja kuidas Gantryst skannida.",
+      "tldr": "<strong>Lühidalt.</strong> Käivitage <code>brew install trivy grype</code>. Dockeris käivitage <code>trivy image app:dev</code>. Apple containeris salvestage tõmmis käsuga <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, pakkige see lahti käsuga <code>tar -xf app.tar -C app-img</code> ja skannige kausta: <code>trivy image --input app-img</code> või <code>grype oci-dir:app-img</code>. Tar-faili ennast kumbki tööriist vastu ei võta.",
+      "sections": [
+        {
+          "id": "install",
+          "h": "Skanneri installimine",
+          "blocks": [
+            {
+              "p": "Installige Homebrew'ga üks skanner või mõlemad. Kumbki laadib esimesel skannimisel alla oma turvaaukude andmebaasi, mis võtab umbes minuti."
+            },
+            {
+              "code": "install"
+            },
+            {
+              "p": "Kontrollisime selle juhendi käske versioonidega Trivy 0.76.2, Grype 0.121.3 ja <code>container</code> 1.7.1. Gantry vajab Trivy 0.50.0 või Grype 0.74.0 või uuemat versiooni."
+            }
+          ]
+        },
+        {
+          "id": "docker",
+          "h": "Dockeri tõmmise skannimine",
+          "blocks": [
+            {
+              "p": "Dockeri mootoriga (Docker Desktop, OrbStack või Colima) loevad mõlemad tööriistad kohalikku tõmmist nime järgi Dockeri sokli kaudu:"
+            },
+            {
+              "code": "docker"
+            }
+          ]
+        },
+        {
+          "id": "apple",
+          "h": "Apple containeri tõmmise skannimine",
+          "blocks": [
+            {
+              "p": "Salvestage tõmmis OCI-arhiivi ja pakkige see kausta lahti. Andke lipp <code>--platform</code>: kui tõmmisehoidlas on tõmmisest ainult mõned platvormid, nurjub <code>container image save</code> ilma selleta."
+            },
+            {
+              "code": "save"
+            },
+            {
+              "p": "Seejärel skannige kausta. Trivy loeb seda lipuga <code>--input</code>, Grype eesliitega <code>oci-dir:</code>:"
+            },
+            {
+              "code": "scan"
+            },
+            {
+              "warn": "Ärge andke <code>.tar</code>-faili. Käsu <code>container image save</code> arhiiv algab kirjega <code>./</code>: Trivy teatab „file manifest.json not found in tar“ ja Grype lükkab selle tagasi kui „potential path traversal attack“. Lahtipakitud kaust töötab mõlemaga."
+            }
+          ]
+        },
+        {
+          "id": "read",
+          "h": "Tulemuste lugemine",
+          "blocks": [
+            {
+              "ul": [
+                "<strong>Raskusaste</strong>: Critical, High, Medium, Low või Unknown. Alustage Critical- ja High-leidudest. <code>--severity HIGH,CRITICAL</code> piirab Trivy väljundit.",
+                "<strong>Installitud ja parandatud versioon</strong>: kui parandatud versioon on olemas, uuendage baastõmmist või paketti ja koostage uuesti. <code>trivy --ignore-unfixed</code> ja <code>grype --only-fixed</code> peidavad leiud, millel parandust pole.",
+                "<strong>„won't fix“</strong>: distributsioon otsustas paketti selles väljalaskes mitte parandada. Kasutage uuemat baastõmmist või aktsepteerige riski.",
+                "<strong>Kaks tööriista, kaks andmebaasi</strong>: Trivy ja Grype annavad sageli erineva arvu leide. Kumbki ei eksi – nad kasutavad eri allikaid."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sbom",
+          "h": "SBOM-i eksport",
+          "blocks": [
+            {
+              "p": "Tarkvara koostisosade loend (SBOM) loetleb kõik tõmmise paketid. Trivy kirjutab CycloneDX-i ja SPDX-i; Grype'i kaaslane Syft kirjutab samuti mõlemat."
+            },
+            {
+              "code": "sbom"
+            }
+          ]
+        },
+        {
+          "id": "ci",
+          "h": "Koostamise nurjamine tõsiste leidude korral",
+          "blocks": [
+            {
+              "p": "Laske skriptis väljumiskood määrata skanneril. Grype väljub nullist erineva koodiga, kui leidub antud või kõrgema raskusastmega leid; Trivyga kasutage <code>--exit-code 1 --severity HIGH,CRITICAL</code>."
+            },
+            {
+              "code": "gate"
+            }
+          ]
+        },
+        {
+          "id": "gantry",
+          "h": "Skannimine Gantryst",
+          "blocks": [
+            {
+              "p": "Gantry 0.29.0 teeb need sammud teie eest. Valige tõmmise menüüs või tõmmise üksikasjade tööriistaribal <strong>Skanni turvaauke…</strong>."
+            },
+            {
+              "ul": [
+                "Gantry leiab Trivy või Grype'i muutujast <code>GANTRY_TRIVY</code> või <code>GANTRY_GRYPE</code>, <code>PATH</code>-ist või kaustadest <code>/opt/homebrew/bin</code> ja <code>/usr/local/bin</code>. Kui mõlemad on installitud, on vaikimisi Trivy. Kui skannerit pole, näitab aken Homebrew käske.",
+                "apple/containeris salvestab Gantry tõmmise lipuga <code>--platform</code>, pakib selle lahti ja skannib kausta. Kohalikus Dockeris skannib see salvestatud arhiivi. SSH kaudu ühendatud Dockeris skannib see sildi registris olevat koopiat.",
+                "Leiud on rühmitatud raskusastme järgi, sümboli ja sõnaga, mitte ainult värviga. Igal real on lingiga ID, pakett, installitud versioon ja parandatud versioon. Filter leiab paketi või ID.",
+                "<strong>Ekspordi SBOM</strong> kirjutab CycloneDX-i (mõlemad tööriistad) või SPDX-i (Trivy).",
+                "Nupp <strong>Peata</strong> või akna sulgemine peatab skanneri ja eemaldab ajutised failid."
+              ]
+            },
+            {
+              "shot": "scan-sheet",
+              "alt": "Gantry aken Turvaaukude skannimine, leiud rühmitatud raskusastme järgi",
+              "caption": "<b>Turvaaukude skannimine.</b> Leiud raskusastme järgi, parandatud versioon ja Ekspordi SBOM."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Kuidas skannida Apple containeri tõmmist turvaaukude suhtes?",
+          "a": "Salvestage see käsuga <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, pakkige lahti käsuga <code>tar -xf app.tar -C app-img</code> ja käivitage siis <code>trivy image --input app-img</code> või <code>grype oci-dir:app-img</code>. Gantry teeb need sammud käsuga <b>Skanni turvaauke…</b>."
+        },
+        {
+          "q": "Miks Trivy või Grype nurjub container image save'i arhiiviga?",
+          "a": "Arhiiv algab kirjega <code>./</code>. Trivy ei leia sealt faili <code>manifest.json</code> ega <code>index.json</code> ning Grype peab seda kirjet teekonna läbimise rünnakuks (path traversal). Pakkige arhiiv lahti ja skannige kausta."
+        },
+        {
+          "q": "Trivy või Grype: kumba kasutada?",
+          "a": "Mõlemad on tasuta ja avatud lähtekoodiga. Trivy leiab ka saladusi ja väärkonfiguratsioone ning kirjutab SPDX-i; Grype on väike ja keskendub pakettidele. Nad kasutavad eri andmebaase, seega leiab mõlema käivitamine rohkem. Kui mõlemad on installitud, kasutab Gantry Trivyt."
+        },
+        {
+          "q": "Kas Gantry installib skannerid?",
+          "a": "Ei. Installige need käsuga <code>brew install trivy grype</code>. Gantry otsib neid <code>PATH</code>-ist, kaustadest <code>/opt/homebrew/bin</code> ja <code>/usr/local/bin</code> või muutujatest <code>GANTRY_TRIVY</code> ja <code>GANTRY_GRYPE</code>."
+        },
+        {
+          "q": "Kas tõmmiste skannimiseks on vaja Docker Scouti või Dockeri kontot?",
+          "a": "Ei. Trivy ja Grype töötavad ilma kontota nii Dockeri kui ka Apple containeri tõmmistega."
+        }
+      ]
     }
   }
 }

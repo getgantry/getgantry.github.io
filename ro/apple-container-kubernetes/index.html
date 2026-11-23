@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Panoul de flotă Gantry cu gazde Docker și apple/container">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kubernetes pe Apple container: GUI pentru container cluster și browser Kubernetes">
   <meta name="twitter:description" content="Kubernetes pe instrumentul container de la Apple, cu Gantry: clustere cu workeri dimensionați și depozit de imagini partajat, pod-uri, jurnale, shell, porturi, YAML.">
@@ -68,7 +68,7 @@
       "description": "Kubernetes pe instrumentul container de la Apple, cu Gantry: clustere cu workeri dimensionați și depozit de imagini partajat, pod-uri, jurnale, shell, porturi, YAML.",
       "url": "https://getgantry.github.io/ro/apple-container-kubernetes/",
       "inLanguage": "ro",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -419,7 +419,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
   <pre><code>container system start</code></pre>
 </div>
 
-<ul id="terminal-create">Creați clusterul</ul>
+<h3 id="terminal-create">Creați clusterul</h3>
 <p>Această comandă creează un cluster numit <code>dev</code> cu un nod de plan de control și doi workeri. Fiecare nod primește 2 CPU-uri și 2 GB de memorie:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
@@ -441,7 +441,7 @@ kubectl --context dev get nodes">Copiază</button></div>
 kubectl --context dev get nodes</code></pre>
 </div>
 
-<ul id="terminal-images">Rulați o imagine locală fără registru</ul>
+<h3 id="terminal-images">Rulați o imagine locală fără registru</h3>
 <p>Cu <code>--shared-image-store</code>, nodurile pot rula orice imagine din depozitul local de imagini <code>container</code>. Construiți o imagine și folosiți-o după nume:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
@@ -456,21 +456,21 @@ kubectl --context dev get pods</code></pre>
 <div class="callout callout-note"><span class="callout-tag">Notă</span><div>După ce reconstruiți același tag, rulați <code>kubectl rollout restart</code> cu <code>imagePullPolicy: Always</code> sau folosiți un tag nou. Cu <code>IfNotPresent</code>, un nod păstrează copia pe care o are deja. Orice rulează ca root pe un nod poate citi orice imagine din depozitul dvs. local, inclusiv imaginile private, deci folosiți depozitul partajat doar pentru dezvoltare locală.</div></div>
 <p>Pe CLI 1.5 și 1.6 nu există depozit partajat. Acolo folosiți <code>container cluster load-image</code> sau <b>Încarcă în cluster</b> în Gantry. CLI 1.7 a eliminat <code>load-image</code>.</p>
 
-<ul id="terminal-reach">Deschideți aplicația într-un browser</ul>
+<h3 id="terminal-reach">Deschideți aplicația într-un browser</h3>
 <p>Redirecționați un port local către deployment, apoi deschideți <code>http://localhost:8080</code>:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Copiază</button></div>
   <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
 </div>
 
-<ul id="terminal-cleanup">Opriți și ștergeți clusterul</ul>
+<h3 id="terminal-cleanup">Opriți și ștergeți clusterul</h3>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster delete --name dev">Copiază</button></div>
   <pre><code>container cluster delete --name dev</code></pre>
 </div>
 <p>Dacă nodul de plan de control se oprește, de exemplu după <code>container system stop</code>, ștergeți clusterul și creați-l din nou. Creați un cluster temporar cu <code>--rm</code>, ca nodurile să fie eliminate când se opresc.</p>
 
-<ul id="terminal-troubleshooting">Probleme frecvente</ul>
+<h3 id="terminal-troubleshooting">Probleme frecvente</h3>
 <ul>
   <li><strong>cluster service unavailable:</strong> CLI-ul este versiunea Homebrew sau serviciile nu rulează. Instalați pachetul semnat sau reporniți serviciile cu <code>container system stop</code> și <code>container system start</code>. Gantry afișează același sfat în Clustere.</li>
   <li><strong>Un cluster vechi lipsește din listă:</strong> CLI 1.7 nu listează clusterele create cu 1.6 sau cu o versiune anterioară. Eliminați unul cu <code>container cluster delete --name &lt;name&gt;</code>.</li>
@@ -478,7 +478,7 @@ kubectl --context dev get pods</code></pre>
   <li><strong>Nu puteți opri containerul unui nod:</strong> este intenționat. <code>container stop</code> și <code>delete</code> refuză nodurile de cluster; folosiți <code>container cluster delete</code>.</li>
 </ul>
 
-<ul id="terminal-compare">Comparație cu Docker Desktop și OrbStack</ul>
+<h3 id="terminal-compare">Comparație cu Docker Desktop și OrbStack</h3>
 <p>Docker Desktop are Kubernetes integrat cu kubeadm (un nod) sau kind (mai multe noduri), iar OrbStack are un cluster integrat cu un singur nod. <code>container cluster</code> rulează kubeadm pe imagini <code>kindest/node</code>, fiecare nod în propria VM, cu clustere cu mai multe noduri și depozitul de imagini partajat. Vedeți <a href="../compare/">comparația completă</a>.</p>
 
 <h2 id="agents">Clustere din agenți AI</h2>
@@ -506,7 +506,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Ce versiune Kubernetes folosește container cluster?</summary><p>CLI 1.7.1 folosește implicit imaginea de nod <code>kindest/node:v1.35.5</code>. Alegeți altă versiune cu <code>--node-image</code>, de exemplu <code>docker.io/kindest/node:v1.34.11</code>. Gantry afișează versiunea în prezentarea generală a clusterului.</p></details>
 </div>
 
-<p class="updated">Ultima actualizare: 2026-11-15.</p>
+<p class="updated">Ultima actualizare: 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Acasă</a>

@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantry resursdatoru parka informācijas panelis ar Docker un apple/container resursdatoriem">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Konteineru un sējumu glabāšana ārējā diskā Mac datorā">
   <meta name="twitter:description" content="Glabājiet Apple container attēlus, konteinerus un sējumus ārējā SSD: datu sakne, pārvietošana ar container system start --app-root, bind montējumi un droša diska atvienošana.">
@@ -68,7 +68,7 @@
       "description": "Glabājiet Apple container attēlus, konteinerus un sējumus ārējā SSD: datu sakne, pārvietošana ar container system start --app-root, bind montējumi un droša diska atvienošana.",
       "url": "https://getgantry.github.io/lv/containers-on-external-drive/",
       "inLanguage": "lv",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -301,7 +301,7 @@ container system df</code></pre>
   <li>Piešķiriet diskam īsu nosaukumu bez atstarpēm, piemēram, <code>Fast</code>. Tad ceļš ir <code>/Volumes/Fast</code>.</li>
 </ul>
 
-<ul id="bind">1. iespēja: projekta datu glabāšana diskā ar bind montējumiem</ul>
+<h2 id="bind">1. iespēja: projekta datu glabāšana diskā ar bind montējumiem</h2>
 <p>Bind montējums kopīgo jūsu Mac datora mapi ar konteineru, un šī mape var atrasties jebkurā diskā. Tas ir vienkāršs veids, kā lielus datus, piemēram, datubāzi vai modeļu failus, glabāt ārpus iekšējā diska:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminālis</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/site
@@ -313,7 +313,7 @@ container run -d --name web -p 8080:80 \
 </div>
 <p>Diskam jābūt pievienotam, pirms konteiners startē. Attēli un pats konteiners paliek iekšējā diskā.</p>
 
-<ul id="move">2. iespēja: visu apple/container datu pārvietošana uz disku</ul>
+<h2 id="move">2. iespēja: visu apple/container datu pārvietošana uz disku</h2>
 <p>Tādējādi tiek pārvietoti attēli, konteineri, momentuzņēmumi un sējumi. Vispirms apturiet pakalpojumus, lai kopēšanas laikā neviens fails nemainītos:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminālis</span><button class="copy" data-copy="container system stop
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 <div class="callout callout-warn"><span class="callout-tag">Uzmanību</span><div>CLI neatceras <code>--app-root</code>. Katra <code>container system start</code> komanda bez tā atkal izmanto iekšējo mapi. Izmantojiet karodziņu katru reizi, piemēram, čaulas aizstājvārdā, un pārbaudiet <code>paths.appRoot</code> izvadē <code>container system status</code>.</div></div>
 <p>Gantry šo pārvietošanu var paveikt jūsu vietā: skatiet <a href="#gantry">tālāk</a>.</p>
 
-<ul id="images">Attēlu arhivēšana diskā</ul>
+<h2 id="images">Attēlu arhivēšana diskā</h2>
 <p>Lai atbrīvotu vietu, nezaudējot attēlu, saglabājiet to ārējā diskā un dzēsiet. Kad tas vajadzīgs, ielādējiet to atkal:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminālis</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/images
@@ -344,7 +344,7 @@ container image delete myapp:dev
 container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </div>
 
-<ul id="unplug">Droša diska atvienošana</ul>
+<h2 id="unplug">Droša diska atvienošana</h2>
 <ol>
   <li>Apturiet konteinerus, kas izmanto disku: <code>container stop &lt;name&gt;</code>.</li>
   <li>Ja lietotnes sakne ir diskā, apturiet pakalpojumus: <code>container system stop</code>.</li>
@@ -352,17 +352,18 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </ol>
 <p>Ja disks pazūd, kamēr no tā darbojas konteineri, tie cieš kļūmi, un notiekošie ieraksti var tikt zaudēti. Pēc diska atkārtotas pievienošanas startējiet pakalpojumus ar <code>--app-root</code> un pēc tam startējiet konteinerus.</p>
 
-<ol id="gantry">Ārējie diski lietotnē Gantry</ol>
+<h2 id="gantry">Ārējie diski lietotnē Gantry</h2>
 <p>apple/container resursdatorā sadaļas „Sistēma” panelis <strong>Krātuve</strong> rāda, kur ir datu sakne, kurā diskā un cik vietas aizņem attēli, konteineri, momentuzņēmumi, sējumi un kodoli. <strong>Pārvietot uz citu disku…</strong> aptur pakalpojumus, nokopē datus, pārbauda tos, pārslēdz sakni un atkal startē pakalpojumus; veco kopiju tā dzēš tikai pēc atsevišķa apstiprinājuma. Gantry atceras sakni visām turpmākajām startēšanām. Jaunus sējumus var glabāt mapē jebkurā diskā, un, ja šis disks nav pievienots, Gantry pasaka, kura diska trūkst, un nestartē konteinerus, kam tas vajadzīgs.</p>
 <figure class="guide-shot"><picture><source type="image/webp" srcset="../../assets/shots/0.27.0/storage-pane-800.webp 800w, ../../assets/shots/0.27.0/storage-pane-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../../assets/shots/0.27.0/storage-pane.png" alt="Gantry panelis „Krātuve”: datu sakne, tās disks un aizņemtā vieta" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><b>Krātuve.</b> Datu sakne, tās disks un aizņemtā vieta.</figcaption></figure>
 
-<ol id="docker">Docker Desktop un OrbStack</ol>
+<h2 id="docker">Docker Desktop un OrbStack</h2>
 <p>Docker Desktop savu diska attēlu pārvieto ar <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack datu atrašanās vietas iestatījumu pievienoja versijā 0.13.0. Skatiet <a href="../compare/">salīdzinājumu</a>.</p>
 
 <h2 id="related">Saistītie ceļveži</h2>
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Pāreja no Docker Desktop uz Apple container: komandas, Compose, sējumi un trūkumi</a></li>
   <li><a href="../docker-run-to-container/">Konteinera izveide no docker run komandas Mac datorā (docker run uz container run)</a></li>
+  <li><a href="../scan-container-images-mac/">Konteineru attēlu ievainojamību skenēšana Mac datorā ar Trivy un Grype</a></li>
   <li><a href="../apple-container/">Apple container GUI Mac datoram: pilns apple/container ceļvedis</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes ar Apple container: container cluster GUI un Kubernetes pārlūks</a></li>
   <li><a href="../compare/">Gantry, Docker Desktop, OrbStack un Podman Desktop salīdzinājums Mac datorā (2026)</a></li>
@@ -377,7 +378,7 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <details class="faq-item"><summary>Vai container CLI atceras jauno atrašanās vietu?</summary><p>Nē. Norādiet <code>--app-root</code> katrai <code>container system start</code> komandai. <code>container system status</code> rāda izmantoto sakni kā <code>paths.appRoot</code>.</p></details>
 </div>
 
-<p class="updated">Atjaunināts 2026-11-15.</p>
+<p class="updated">Atjaunināts 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Sākums</a>

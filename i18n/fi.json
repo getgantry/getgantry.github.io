@@ -1925,6 +1925,147 @@
           ]
         }
       }
+    },
+    "scan-container-images-mac": {
+      "title": "Konttien levykuvien haavoittuvuusskannaus Macilla Trivyllä ja Grypellä",
+      "crumb": "Levykuvien skannaus",
+      "desc": "Skannaa Dockerin ja Apple containerin levykuvat tunnettujen haavoittuvuuksien varalta macOS:llä Trivyllä tai Grypellä: asennus, tallennetun Apple container -levykuvan skannaus, tulosten lukeminen, SBOM:n vienti ja koonnin hylkääminen vakavien löydösten vuoksi.",
+      "h1": "Konttien levykuvien haavoittuvuusskannaus Macilla",
+      "lead": "Trivy ja Grype ovat ilmaisia avoimen lähdekoodin skannereita, jotka vertaavat levykuvan paketteja tunnettujen haavoittuvuuksien tietokantoihin. Ne lukevat Dockerin levykuvat suoraan. Applen <code>container</code>-työkalussa ei ole skannauskomentoa eikä Docker-sokettia, joten levykuva tallennetaan ensin. Tämä opas näyttää molemmat tavat, miten löydökset luetaan, miten SBOM kirjoitetaan ja miten skannataan Gantrysta.",
+      "tldr": "<strong>Lyhyesti.</strong> Aja <code>brew install trivy grype</code>. Dockerissa aja <code>trivy image app:dev</code>. Apple containerissa tallenna levykuva komennolla <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, pura se komennolla <code>tar -xf app.tar -C app-img</code> ja skannaa kansio: <code>trivy image --input app-img</code> tai <code>grype oci-dir:app-img</code>. Kumpikaan työkalu ei hyväksy itse tar-tiedostoa.",
+      "sections": [
+        {
+          "id": "install",
+          "h": "Asenna skanneri",
+          "blocks": [
+            {
+              "p": "Asenna toinen skanneri tai molemmat Homebrew'lla. Kumpikin lataa haavoittuvuustietokantansa ensimmäisellä skannauskerralla, mikä vie minuutin."
+            },
+            {
+              "code": "install"
+            },
+            {
+              "p": "Tarkistimme tämän oppaan komennot versioilla Trivy 0.76.2, Grype 0.121.3 ja <code>container</code> 1.7.1. Gantry vaatii Trivyn 0.50.0 tai Grypen 0.74.0 tai uudemman."
+            }
+          ]
+        },
+        {
+          "id": "docker",
+          "h": "Skannaa Dockerin levykuva",
+          "blocks": [
+            {
+              "p": "Docker-moottorin kanssa (Docker Desktop, OrbStack tai Colima) molemmat työkalut lukevat paikallisen levykuvan nimen perusteella Docker-soketin kautta:"
+            },
+            {
+              "code": "docker"
+            }
+          ]
+        },
+        {
+          "id": "apple",
+          "h": "Skannaa Apple container -levykuva",
+          "blocks": [
+            {
+              "p": "Tallenna levykuva OCI-arkistoon ja pura se kansioon. Anna valinta <code>--platform</code>: kun levykuvavarastossa on vain osa levykuvan alustoista, <code>container image save</code> epäonnistuu ilman sitä."
+            },
+            {
+              "code": "save"
+            },
+            {
+              "p": "Skannaa sitten kansio. Trivy lukee sen valinnalla <code>--input</code>, Grype etuliitteellä <code>oci-dir:</code>:"
+            },
+            {
+              "code": "scan"
+            },
+            {
+              "warn": "Älä anna <code>.tar</code>-tiedostoa. Komennon <code>container image save</code> arkisto alkaa merkinnällä <code>./</code>: Trivy ilmoittaa ”file manifest.json not found in tar”, ja Grype hylkää sen ”potential path traversal attack” -virheellä. Purettu kansio toimii molemmilla."
+            }
+          ]
+        },
+        {
+          "id": "read",
+          "h": "Lue tulokset",
+          "blocks": [
+            {
+              "ul": [
+                "<strong>Vakavuus</strong>: Kriittinen, Korkea, Keskitaso, Matala tai Tuntematon. Aloita kriittisistä ja korkeista. <code>--severity HIGH,CRITICAL</code> rajaa Trivyn tulosteen.",
+                "<strong>Asennettu ja korjattu versio</strong>: jos korjattu versio on olemassa, päivitä pohjalevykuva tai paketti ja koosta uudelleen. <code>trivy --ignore-unfixed</code> ja <code>grype --only-fixed</code> piilottavat löydökset, joihin ei ole korjausta.",
+                "<strong>”won't fix”</strong>: jakelu on päättänyt olla korjaamatta pakettia tässä julkaisussa. Käytä uudempaa pohjalevykuvaa tai hyväksy riski.",
+                "<strong>Kaksi työkalua, kaksi tietokantaa</strong>: Trivy ja Grype ilmoittavat usein eri määriä. Kumpikaan ei ole väärässä; ne käyttävät eri lähteitä."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sbom",
+          "h": "Vie SBOM",
+          "blocks": [
+            {
+              "p": "Ohjelmiston osaluettelo (SBOM) luettelee levykuvan jokaisen paketin. Trivy kirjoittaa CycloneDX:n ja SPDX:n; Grypen sisartyökalu Syft kirjoittaa myös molemmat."
+            },
+            {
+              "code": "sbom"
+            }
+          ]
+        },
+        {
+          "id": "ci",
+          "h": "Hylkää koonti vakavien löydösten vuoksi",
+          "blocks": [
+            {
+              "p": "Anna skriptissä skannerin asettaa paluuarvo. Grype päättyy nollasta poikkeavaan paluuarvoon, kun löytyy annetun vakavuuden tai sitä vakavampi löydös; Trivyn kanssa käytä valintoja <code>--exit-code 1 --severity HIGH,CRITICAL</code>."
+            },
+            {
+              "code": "gate"
+            }
+          ]
+        },
+        {
+          "id": "gantry",
+          "h": "Skannaa Gantrysta",
+          "blocks": [
+            {
+              "p": "Gantry 0.29.0 tekee nämä vaiheet puolestasi. Valitse <strong>Tarkista haavoittuvuudet…</strong> levykuvan valikosta tai levykuvan tietojen työkalupalkista."
+            },
+            {
+              "ul": [
+                "Gantry löytää Trivyn tai Grypen muuttujista <code>GANTRY_TRIVY</code> tai <code>GANTRY_GRYPE</code>, polusta <code>PATH</code> tai kansioista <code>/opt/homebrew/bin</code> ja <code>/usr/local/bin</code>. Trivy on oletus, kun molemmat on asennettu. Ilman skanneria ikkuna näyttää Homebrew-komennot.",
+                "apple/containerissa Gantry tallentaa levykuvan valinnalla <code>--platform</code>, purkaa sen ja skannaa kansion. Paikallisessa Dockerissa se skannaa tallennetun arkiston. SSH:n kautta käytetyssä Dockerissa se skannaa tagin rekisterikopion.",
+                "Löydökset ryhmitellään vakavuuden mukaan symbolin ja sanan avulla, ei pelkällä värillä. Jokaisella rivillä on tunniste linkkeineen, paketti, asennettu versio ja korjattu versio. Suodatin löytää paketin tai tunnisteen.",
+                "<strong>Vie SBOM</strong> kirjoittaa CycloneDX:n (molemmat työkalut) tai SPDX:n (Trivy).",
+                "<strong>Pysäytä</strong> tai ikkunan sulkeminen pysäyttää skannerin ja poistaa väliaikaiset tiedostot."
+              ]
+            },
+            {
+              "shot": "scan-sheet",
+              "alt": "Gantryn Tarkista haavoittuvuudet -ikkuna, jossa löydökset on ryhmitelty vakavuuden mukaan",
+              "caption": "<b>Tarkista haavoittuvuudet.</b> Löydökset vakavuuden mukaan, korjattu versio ja Vie SBOM."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Miten skannaan Apple container -levykuvan haavoittuvuuksien varalta?",
+          "a": "Tallenna se komennolla <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, pura se komennolla <code>tar -xf app.tar -C app-img</code> ja aja sitten <code>trivy image --input app-img</code> tai <code>grype oci-dir:app-img</code>. Gantry tekee nämä vaiheet toiminnolla <b>Tarkista haavoittuvuudet…</b>."
+        },
+        {
+          "q": "Miksi Trivy tai Grype epäonnistuu container image save -komennon arkistolla?",
+          "a": "Arkisto alkaa merkinnällä <code>./</code>. Trivy ei löydä siitä tiedostoa <code>manifest.json</code> tai <code>index.json</code>, ja Grype tulkitsee merkinnän polun läpikäynniksi (path traversal). Pura arkisto ja skannaa kansio."
+        },
+        {
+          "q": "Trivy vai Grype: kumpaa kannattaa käyttää?",
+          "a": "Molemmat ovat ilmaisia ja avointa lähdekoodia. Trivy löytää myös salaisuuksia ja virheellisiä määrityksiä ja kirjoittaa SPDX:n; Grype on pieni ja keskittyy paketteihin. Ne käyttävät eri tietokantoja, joten molempia ajamalla löytyy enemmän. Gantry käyttää Trivyä, kun molemmat on asennettu."
+        },
+        {
+          "q": "Asentaako Gantry skannerit?",
+          "a": "Ei. Asenna ne komennolla <code>brew install trivy grype</code>. Gantry etsii polusta <code>PATH</code>, kansioista <code>/opt/homebrew/bin</code> ja <code>/usr/local/bin</code> tai muuttujista <code>GANTRY_TRIVY</code> ja <code>GANTRY_GRYPE</code>."
+        },
+        {
+          "q": "Tarvitsenko Docker Scoutin tai Docker-tilin levykuvien skannaukseen?",
+          "a": "Et. Trivy ja Grype toimivat ilman tiliä sekä Dockerin että Apple containerin levykuvilla."
+        }
+      ]
     }
   }
 }

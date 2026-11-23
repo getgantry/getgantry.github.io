@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantry fleet dashboard with Docker and apple/container hosts">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Store containers and volumes on an external drive on a Mac">
   <meta name="twitter:description" content="Keep Apple container images, containers and volumes on an external SSD: find the data root, move it with container system start --app-root, use bind mounts, and unplug the disk safely.">
@@ -68,7 +68,7 @@
       "description": "Keep Apple container images, containers and volumes on an external SSD: find the data root, move it with container system start --app-root, use bind mounts, and unplug the disk safely.",
       "url": "https://getgantry.github.io/containers-on-external-drive/",
       "inLanguage": "en",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -301,7 +301,7 @@ container system df</code></pre>
   <li>Give the disk a short name without spaces, for example <code>Fast</code>. The path is then <code>/Volumes/Fast</code>.</li>
 </ul>
 
-<ul id="bind">Option 1: keep project data on the disk with bind mounts</ul>
+<h2 id="bind">Option 1: keep project data on the disk with bind mounts</h2>
 <p>A bind mount shares a folder of your Mac with the container, and the folder can be on any disk. This is the easy way to keep large data, such as a database or model files, off the internal disk:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/site
@@ -313,7 +313,7 @@ container run -d --name web -p 8080:80 \
 </div>
 <p>The disk must be connected before the container starts. Images and the container itself stay on the internal disk.</p>
 
-<ul id="move">Option 2: move all apple/container data to the disk</ul>
+<h2 id="move">Option 2: move all apple/container data to the disk</h2>
 <p>This moves images, containers, snapshots and volumes. Stop the services first, so no file changes during the copy:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container system stop
@@ -331,7 +331,7 @@ container ls -a &amp;&amp; container image ls &amp;&amp; container volume ls</co
 <div class="callout callout-warn"><span class="callout-tag">Heads up</span><div>The CLI does not remember <code>--app-root</code>. Each <code>container system start</code> without it uses the internal folder again. Use the flag every time, for example in a shell alias, and check <code>paths.appRoot</code> in <code>container system status</code>.</div></div>
 <p>Gantry can do this move for you: see <a href="#gantry">below</a>.</p>
 
-<ul id="images">Archive images on the disk</ul>
+<h2 id="images">Archive images on the disk</h2>
 <p>To free space without losing an image, save it to the external disk and delete it. Load it again when you need it:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="mkdir -p /Volumes/Fast/images
@@ -344,7 +344,7 @@ container image delete myapp:dev
 container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </div>
 
-<ul id="unplug">Unplug the disk safely</ul>
+<h2 id="unplug">Unplug the disk safely</h2>
 <ol>
   <li>Stop the containers that use the disk: <code>container stop &lt;name&gt;</code>.</li>
   <li>If the app root is on the disk, stop the services: <code>container system stop</code>.</li>
@@ -352,17 +352,18 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 </ol>
 <p>If the disk goes away while containers run from it, they fail, and writes in progress can be lost. After you connect the disk again, start the services with <code>--app-root</code>, then start the containers.</p>
 
-<ol id="gantry">External drives in Gantry</ol>
+<h2 id="gantry">External drives in Gantry</h2>
 <p>On an apple/container host, the <strong>Storage</strong> pane in the System section shows where the data root is, on which disk, and how much space images, containers, snapshots, volumes and kernels use. <strong>Move to Another Disk…</strong> stops the services, copies the data, checks it, switches the root and starts the services again; it deletes the old copy only after a separate confirmation. Gantry remembers the root for every later start. New volumes can live in a folder on any disk, and when that disk is not connected, Gantry tells you which disk is missing and does not start the containers that need it.</p>
 <figure class="guide-shot"><picture><source type="image/webp" srcset="../assets/shots/0.27.0/storage-pane-800.webp 800w, ../assets/shots/0.27.0/storage-pane-1600.webp 1600w" sizes="(max-width: 800px) 100vw, 760px"><img src="../assets/shots/0.27.0/storage-pane.png" alt="Gantry Storage pane: the data root, its disk and the space in use" width="3104" height="1986" loading="lazy" decoding="async"></picture><figcaption><b>Storage.</b> The data root, its disk and the space in use.</figcaption></figure>
 
-<ol id="docker">Docker Desktop and OrbStack</ol>
+<h2 id="docker">Docker Desktop and OrbStack</h2>
 <p>Docker Desktop moves its disk image in <strong>Settings ▸ Resources ▸ Advanced ▸ Disk image location</strong>. OrbStack added a data location setting in version 0.13.0. See the <a href="../compare/">comparison</a>.</p>
 
 <h2 id="related">Related guides</h2>
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Move from Docker Desktop to Apple container: commands, Compose, volumes and gaps</a></li>
   <li><a href="../docker-run-to-container/">Create a container from a docker run command on Mac (docker run to container run)</a></li>
+  <li><a href="../scan-container-images-mac/">Scan container images for vulnerabilities on a Mac with Trivy and Grype</a></li>
   <li><a href="../apple-container/">Apple container GUI for Mac: the complete apple/container guide</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes on Apple container: a GUI for container cluster and a Kubernetes browser</a></li>
   <li><a href="../compare/">Gantry vs Docker Desktop vs OrbStack vs Podman Desktop on Mac (2026)</a></li>
@@ -377,7 +378,7 @@ container image load -i /Volumes/Fast/images/myapp.tar</code></pre>
 <details class="faq-item"><summary>Does the container CLI remember the new location?</summary><p>No. Pass <code>--app-root</code> to every <code>container system start</code>. <code>container system status</code> shows the root in use as <code>paths.appRoot</code>.</p></details>
 </div>
 
-<p class="updated">Last updated 2026-11-15.</p>
+<p class="updated">Last updated 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Home</a>

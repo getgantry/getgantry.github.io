@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Panoul de flotă Gantry cu gazde Docker și apple/container">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Container dintr-o comandă docker run pe Mac (docker run în container run)">
   <meta name="twitter:description" content="Lipiți o comandă docker run în Gantry și primiți formularul de container completat sau convertiți manual docker run în container run: flaguri echivalente, flaguri fără echivalent, rețete.">
@@ -68,7 +68,7 @@
       "description": "Lipiți o comandă docker run în Gantry și primiți formularul de container completat sau convertiți manual docker run în container run: flaguri echivalente, flaguri fără echivalent, rețete.",
       "url": "https://getgantry.github.io/ro/docker-run-to-container/",
       "inLanguage": "ro",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -294,7 +294,7 @@
 <p>Gantry citește <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> și <code>container run</code>. Textul de după <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> sau <code>|</code> este ignorat, cu o notă.</p>
 <!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
-<ol id="flags">Ce flaguri completează formularul</ol>
+<h2 id="flags">Ce flaguri completează formularul</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Flag</th><th scope="col">Câmp din formular</th><th scope="col">Note</th></tr></thead>
 <tbody>
@@ -314,7 +314,7 @@
 </table></div>
 <p>Încă aproximativ 80 de flaguri Docker sunt cunoscute: Gantry le omite corect valorile și le listează ca nefolosite, astfel încât nimic nu se pierde fără o notă.</p>
 
-<ol id="apple">Avertismente pentru gazdele apple/container</ol>
+<h2 id="apple">Avertismente pentru gazdele apple/container</h2>
 <p>Unele opțiuni Docker nu există în apple/container. Gantry vă avertizează și le lasă în afara cererii de creare:</p>
 <ul>
   <li>politicile de repornire (<code>--restart</code>);</li>
@@ -324,7 +324,7 @@
 </ul>
 <p>Pe o gazdă Docker, Gantry avertizează despre opțiunile apple/container: domeniul DNS și opțiunile de kernel.</p>
 
-<ul id="by-hand">Convertiți manual docker run în container run</ul>
+<h2 id="by-hand">Convertiți manual docker run în container run</h2>
 <p>Pentru CLI, majoritatea flagurilor rămân aceleași. Un exemplu cu Redis:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="docker run -d --name cache --restart unless-stopped -p 6379:6379 \
@@ -343,10 +343,10 @@ container run -d --name cache -p 6379:6379 \
 </div>
 <p>Creați mai întâi volumul cu nume cu <code>container volume create</code>. Eliminați <code>--restart</code> și rotunjiți <code>--cpus</code> la un număr întreg. <code>--platform</code> funcționează ca în Docker.</p>
 
-<ul id="copy">Copiați un container ca comandă</ul>
+<h2 id="copy">Copiați un container ca comandă</h2>
 <p>Funcționează și invers. Faceți clic dreapta pe un container sau folosiți meniul Mai mult și alegeți <strong>Copiază ca comandă</strong>: Gantry scrie o linie <code>docker run</code> sau <code>container run</code>. Omite valorile implicite ale imaginii, precum mediul și comanda, ca linia să rămână scurtă. Funcționează și pentru containerele oprite.</p>
 
-<ul id="compose">Exportați containerul ca Compose</ul>
+<h2 id="compose">Exportați containerul ca Compose</h2>
 <p>Pentru a păstra un container ca fișier, faceți clic dreapta pe el sau folosiți meniul Mai multe și alegeți <strong>Exportă ca Compose…</strong>. Selectați mai multe containere pentru a le pune într-un singur fișier. Gantry scrie un <code>docker-compose.yml</code> cu câte un serviciu pentru fiecare container: porturi, montări, rețele, politica de repornire, verificarea de sănătate, limite, capabilities și jurnalizare. Volumele și rețelele cu nume sunt marcate <code>external: true</code>.</p>
 <ul>
   <li>Valorile care seamănă cu secrete devin variabile <code>${NAME}</code>. În <strong>Valori secrete</strong>, includeți-le pe cele pe care le vreți în fișier. Un fișier cu o valoare secretă se salvează cu modul 0600.</li>
@@ -354,14 +354,14 @@ container run -d --name cache -p 6379:6379 \
   <li>Faceți clic pe <strong>Copiază</strong> sau pe <strong>Salvează…</strong>.</li>
 </ul>
 
-<ul id="secrets">Țineți secretele în afara comenzii</ul>
+<h2 id="secrets">Țineți secretele în afara comenzii</h2>
 <p>Un <code>-e PASSWORD=…</code> într-o comandă se scurge ușor. În formularul Container nou, deschideți meniul cu cheie al unui rând de mediu și alegeți <strong>Salvează valoarea în portchei…</strong> sau alegeți un secret pe care l-ați adăugat în <strong>Configurări → Secrete</strong>. Rândul afișează apoi <code>keychain:NAME</code> cu un lacăt, nu valoarea.</p>
 <p>Gantry citește valoarea din portchei doar când creează containerul. <strong>Copiază ca comandă</strong>, rețetele și exportul Compose scriu <code>keychain:NAME</code>. Fila Inspectează afișează <code>KEY=[REDACTED]</code>. Motorul păstrează totuși valoarea, deci <code>docker inspect</code> sau <code>container inspect</code> din afara Gantry o pot afișa.</p>
 
-<ul id="recipes">Salvați-l ca rețetă</ul>
+<h2 id="recipes">Salvați-l ca rețetă</h2>
 <p>În foaia Container nou, deschideți <strong>Rețete</strong> și alegeți <strong>Salvează ca rețetă…</strong>. Data viitoare, <strong>Completează din rețetă</strong> oferă același formular pe orice gazdă. Rețetele se află în <code>~/Library/Application Support/Gantry/recipes.json</code>, deci le puteți salva ca backup sau le puteți partaja.</p>
 
-<ul id="limits">Limitări</ul>
+<h2 id="limits">Limitări</h2>
 <ul>
   <li>Gantry păstrează calea din <code>--env-file</code>, dar nu citește fișierul și nu citește shellul dvs. pentru <code>-e KEY</code> fără valoare.</li>
   <li>Montările tmpfs și volumele anonime din <code>--mount</code> sunt listate ca neacceptate.</li>
@@ -373,6 +373,7 @@ container run -d --name cache -p 6379:6379 \
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Treceți de la Docker Desktop la Apple container: comenzi, Compose, volume și lipsuri</a></li>
   <li><a href="../containers-on-external-drive/">Containere și volume pe un disc extern pe Mac</a></li>
+  <li><a href="../scan-container-images-mac/">Scanați imaginile de containere pentru vulnerabilități pe Mac cu Trivy și Grype</a></li>
   <li><a href="../apple-container/">GUI Apple container pentru Mac: ghidul complet apple/container</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes pe Apple container: GUI pentru container cluster și browser Kubernetes</a></li>
   <li><a href="../compare/">Gantry vs Docker Desktop vs OrbStack vs Podman Desktop pe Mac (2026)</a></li>
@@ -386,7 +387,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Pot transforma un container care rulează înapoi într-o comandă docker run?</summary><p>Da. <strong>Copiază ca comandă</strong> din meniul containerului scrie o linie <code>docker run</code> sau <code>container run</code> pentru acel container.</p></details>
 </div>
 
-<p class="updated">Ultima actualizare: 2026-11-15.</p>
+<p class="updated">Ultima actualizare: 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Acasă</a>

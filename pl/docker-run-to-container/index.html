@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Pulpit floty w Gantry z hostami Docker i apple/container">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kontener z polecenia docker run na Macu (docker run na container run)">
   <meta name="twitter:description" content="Wklej polecenie docker run do Gantry, a dostaniesz gotowy formularz kontenera albo przekształć docker run na container run od Apple ręcznie: flagi, które pasują i które nie, oraz przepisy.">
@@ -68,7 +68,7 @@
       "description": "Wklej polecenie docker run do Gantry, a dostaniesz gotowy formularz kontenera albo przekształć docker run na container run od Apple ręcznie: flagi, które pasują i które nie, oraz przepisy.",
       "url": "https://getgantry.github.io/pl/docker-run-to-container/",
       "inLanguage": "pl",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -294,7 +294,7 @@
 <p>Gantry odczytuje <code>docker run</code>, <code>docker container run</code>, <code>docker create</code>, <code>podman run</code> i <code>container run</code>. Tekst po <code>&amp;&amp;</code>, <code>||</code>, <code>;</code> lub <code>|</code> jest pomijany, z uwagą.</p>
 <!-- TODO-SCREENSHOT section="guide docker-run-to-container, section #paste" file="assets/shots/0.29.0/paste-command.png" -->
 
-<ol id="flags">Które flagi wypełniają formularz</ol>
+<h2 id="flags">Które flagi wypełniają formularz</h2>
 <div class="table-wrap"><table>
 <thead><tr><th scope="col">Flaga</th><th scope="col">Pole formularza</th><th scope="col">Uwagi</th></tr></thead>
 <tbody>
@@ -314,7 +314,7 @@
 </table></div>
 <p>Gantry zna około 80 innych flag Dockera: poprawnie pomija ich wartości i wymienia je jako nieużyte, więc nic nie ginie bez uwagi.</p>
 
-<ol id="apple">Ostrzeżenia dla hostów apple/container</ol>
+<h2 id="apple">Ostrzeżenia dla hostów apple/container</h2>
 <p>Niektóre opcje Dockera nie istnieją w apple/container. Gantry ostrzega o nich i pomija je w żądaniu utworzenia:</p>
 <ul>
   <li>zasady ponownego uruchamiania (<code>--restart</code>);</li>
@@ -324,7 +324,7 @@
 </ul>
 <p>Na hoście Docker Gantry ostrzega o opcjach apple/container: domenie DNS i opcjach jądra.</p>
 
-<ul id="by-hand">Ręczne przekształcenie docker run na container run</ul>
+<h2 id="by-hand">Ręczne przekształcenie docker run na container run</h2>
 <p>W CLI większość flag pozostaje taka sama. Przykład z Redis:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="docker run -d --name cache --restart unless-stopped -p 6379:6379 \
@@ -343,10 +343,10 @@ container run -d --name cache -p 6379:6379 \
 </div>
 <p>Najpierw utwórz nazwany wolumin poleceniem <code>container volume create</code>. Usuń <code>--restart</code> i zaokrąglij <code>--cpus</code> do liczby całkowitej. <code>--platform</code> działa jak w Dockerze.</p>
 
-<ul id="copy">Kopiowanie kontenera jako polecenia</ul>
+<h2 id="copy">Kopiowanie kontenera jako polecenia</h2>
 <p>Działa to też w drugą stronę. Kliknij kontener prawym przyciskiem lub użyj menu Więcej i wybierz <strong>Kopiuj jako polecenie</strong>: Gantry zapisze wiersz <code>docker run</code> lub <code>container run</code>. Pomija wartości domyślne obrazu, takie jak jego środowisko i polecenie, więc wiersz pozostaje krótki. Działa to także dla zatrzymanych kontenerów.</p>
 
-<ul id="compose">Eksport kontenera jako Compose</ul>
+<h2 id="compose">Eksport kontenera jako Compose</h2>
 <p>Aby zachować kontener jako plik, kliknij go prawym przyciskiem albo użyj menu Więcej i wybierz <strong>Eksportuj jako Compose…</strong>. Zaznacz kilka kontenerów, aby umieścić je w jednym pliku. Gantry zapisuje <code>docker-compose.yml</code> z jedną usługą dla każdego kontenera: porty, montowania, sieci, polityka ponownego uruchamiania, test stanu zdrowia, limity, capabilities i logowanie. Nazwane woluminy i sieci są oznaczone jako <code>external: true</code>.</p>
 <ul>
   <li>Wartości, które wyglądają na sekrety, stają się zmiennymi <code>${NAME}</code>. W sekcji <strong>Wartości poufne</strong> dołącz te, które chcesz mieć w pliku. Plik z wartością sekretu jest zapisywany z uprawnieniami 0600.</li>
@@ -354,14 +354,14 @@ container run -d --name cache -p 6379:6379 \
   <li>Kliknij <strong>Kopiuj</strong> lub <strong>Zachowaj…</strong>.</li>
 </ul>
 
-<ul id="secrets">Sekrety poza poleceniem</ul>
+<h2 id="secrets">Sekrety poza poleceniem</h2>
 <p><code>-e PASSWORD=…</code> w poleceniu łatwo ujawnić. W formularzu Nowy kontener otwórz menu z kluczem w wierszu zmiennej środowiskowej i wybierz <strong>Zapisz wartość w pęku kluczy…</strong> albo wybierz sekret dodany w <strong>Ustawienia → Sekrety</strong>. Wiersz pokazuje wtedy <code>keychain:NAME</code> z kłódką, a nie wartość.</p>
 <p>Gantry odczytuje wartość z pęku kluczy tylko podczas tworzenia kontenera. <strong>Kopiuj jako polecenie</strong>, przepisy i eksport Compose zapisują <code>keychain:NAME</code>. Karta Inspekcja pokazuje <code>KEY=[REDACTED]</code>. Silnik nadal przechowuje wartość, więc <code>docker inspect</code> lub <code>container inspect</code> poza Gantry może ją pokazać.</p>
 
-<ul id="recipes">Zapisywanie jako przepis</ul>
+<h2 id="recipes">Zapisywanie jako przepis</h2>
 <p>W arkuszu Nowy kontener otwórz <strong>Przepisy</strong> i wybierz <strong>Zapisz jako przepis…</strong>. Następnym razem <strong>Wypełnij z przepisu</strong> da ten sam formularz na dowolnym hoście. Przepisy są w <code>~/Library/Application Support/Gantry/recipes.json</code>, więc możesz zrobić ich kopię zapasową lub je udostępnić.</p>
 
-<ul id="limits">Ograniczenia</ul>
+<h2 id="limits">Ograniczenia</h2>
 <ul>
   <li>Gantry zachowuje ścieżkę <code>--env-file</code>, ale nie odczytuje pliku, i nie odczytuje Twojej powłoki dla <code>-e KEY</code> bez wartości.</li>
   <li>Montowania tmpfs i anonimowe woluminy z <code>--mount</code> są oznaczane jako nieobsługiwane.</li>
@@ -373,6 +373,7 @@ container run -d --name cache -p 6379:6379 \
 <ul>
   <li><a href="../docker-desktop-to-apple-container/">Z Docker Desktop na Apple container: polecenia, Compose, woluminy i braki</a></li>
   <li><a href="../containers-on-external-drive/">Kontenery i woluminy na dysku zewnętrznym na Macu</a></li>
+  <li><a href="../scan-container-images-mac/">Skanowanie obrazów kontenerów pod kątem luk na Macu narzędziami Trivy i Grype</a></li>
   <li><a href="../apple-container/">GUI dla Apple container na Maca: pełny przewodnik po apple/container</a></li>
   <li><a href="../apple-container-kubernetes/">Kubernetes na Apple container: GUI dla container cluster i przeglądarka Kubernetes</a></li>
   <li><a href="../compare/">Gantry vs Docker Desktop vs OrbStack vs Podman Desktop na Macu (2026)</a></li>
@@ -386,7 +387,7 @@ container run -d --name cache -p 6379:6379 \
 <details class="faq-item"><summary>Czy mogę zamienić działający kontener z powrotem na polecenie docker run?</summary><p>Tak. <strong>Kopiuj jako polecenie</strong> w menu kontenera zapisuje wiersz <code>docker run</code> lub <code>container run</code> dla tego kontenera.</p></details>
 </div>
 
-<p class="updated">Ostatnia aktualizacja: 2026-11-15.</p>
+<p class="updated">Ostatnia aktualizacja: 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Start</a>

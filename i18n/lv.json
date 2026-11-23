@@ -1925,6 +1925,147 @@
           ]
         }
       }
+    },
+    "scan-container-images-mac": {
+      "title": "Konteineru attēlu ievainojamību skenēšana Mac datorā ar Trivy un Grype",
+      "crumb": "Attēlu skenēšana",
+      "desc": "Skenējiet Docker un Apple container attēlus, meklējot zināmas ievainojamības macOS ar Trivy vai Grype: instalēšana, saglabāta Apple container attēla skenēšana, rezultātu lasīšana, SBOM eksports un būvējuma apturēšana nopietnu atradumu gadījumā.",
+      "h1": "Konteineru attēlu ievainojamību skenēšana Mac datorā",
+      "lead": "Trivy un Grype ir bezmaksas atvērtā koda skeneri, kas salīdzina attēla pakotnes ar zināmu ievainojamību datubāzēm. Docker attēlus tie lasa tieši. Apple rīkam <code>container</code> nav skenēšanas komandas un Docker soketa, tāpēc attēls vispirms jāsaglabā. Šajā ceļvedī parādīti abi veidi, kā lasīt atradumus, kā ierakstīt SBOM un kā skenēt no Gantry.",
+      "tldr": "<strong>Īsumā.</strong> Palaidiet <code>brew install trivy grype</code>. Ar Docker palaidiet <code>trivy image app:dev</code>. Ar Apple container saglabājiet attēlu ar <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, izpakojiet to ar <code>tar -xf app.tar -C app-img</code> un skenējiet mapi: <code>trivy image --input app-img</code> vai <code>grype oci-dir:app-img</code>. Pašu tar failu abi rīki nepieņem.",
+      "sections": [
+        {
+          "id": "install",
+          "h": "Skenera instalēšana",
+          "blocks": [
+            {
+              "p": "Instalējiet vienu skeneri vai abus ar Homebrew. Pirmajā skenēšanā katrs lejupielādē savu ievainojamību datubāzi, tas aizņem apmēram minūti."
+            },
+            {
+              "code": "install"
+            },
+            {
+              "p": "Šī ceļveža komandas pārbaudījām ar Trivy 0.76.2, Grype 0.121.3 un <code>container</code> 1.7.1. Gantry vajadzīgs Trivy 0.50.0 vai Grype 0.74.0 vai jaunāka versija."
+            }
+          ]
+        },
+        {
+          "id": "docker",
+          "h": "Docker attēla skenēšana",
+          "blocks": [
+            {
+              "p": "Ar Docker dzinēju (Docker Desktop, OrbStack vai Colima) abi rīki lasa lokālu attēlu pēc nosaukuma caur Docker soketu:"
+            },
+            {
+              "code": "docker"
+            }
+          ]
+        },
+        {
+          "id": "apple",
+          "h": "Apple container attēla skenēšana",
+          "blocks": [
+            {
+              "p": "Saglabājiet attēlu OCI arhīvā un izpakojiet to mapē. Norādiet <code>--platform</code>: ja attēlu krātuvē ir tikai dažas attēla platformas, <code>container image save</code> bez tā neizdodas."
+            },
+            {
+              "code": "save"
+            },
+            {
+              "p": "Pēc tam skenējiet mapi. Trivy to lasa ar <code>--input</code>, Grype – ar prefiksu <code>oci-dir:</code>:"
+            },
+            {
+              "code": "scan"
+            },
+            {
+              "warn": "Nenorādiet <code>.tar</code> failu. <code>container image save</code> arhīvs sākas ar ierakstu <code>./</code>: Trivy ziņo „file manifest.json not found in tar”, un Grype to noraida kā „potential path traversal attack”. Izpakotā mape darbojas ar abiem."
+            }
+          ]
+        },
+        {
+          "id": "read",
+          "h": "Rezultātu lasīšana",
+          "blocks": [
+            {
+              "ul": [
+                "<strong>Nopietnība</strong>: Critical, High, Medium, Low vai Unknown. Sāciet ar Critical un High. <code>--severity HIGH,CRITICAL</code> ierobežo Trivy izvadi.",
+                "<strong>Instalētā un labotā versija</strong>: ja labotā versija pastāv, atjauniniet bāzes attēlu vai pakotni un būvējiet vēlreiz. <code>trivy --ignore-unfixed</code> un <code>grype --only-fixed</code> paslēpj atradumus bez labojuma.",
+                "<strong>„won't fix”</strong>: distributīvs nolēma šajā laidienā pakotni nelabot. Izmantojiet jaunāku bāzes attēlu vai pieņemiet risku.",
+                "<strong>Divi rīki, divas datubāzes</strong>: Trivy un Grype bieži ziņo atšķirīgu skaitu. Neviens nekļūdās – tie izmanto dažādus avotus."
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sbom",
+          "h": "SBOM eksports",
+          "blocks": [
+            {
+              "p": "Programmatūras materiālu saraksts (SBOM) uzskaita visas attēla pakotnes. Trivy raksta CycloneDX un SPDX; Grype pavadonis Syft arī raksta abus."
+            },
+            {
+              "code": "sbom"
+            }
+          ]
+        },
+        {
+          "id": "ci",
+          "h": "Būvējuma apturēšana nopietnu atradumu gadījumā",
+          "blocks": [
+            {
+              "p": "Skriptā ļaujiet izejas kodu noteikt skenerim. Grype beidz darbu ar nenulles kodu, ja ir norādītās vai augstākas nopietnības atradums; ar Trivy izmantojiet <code>--exit-code 1 --severity HIGH,CRITICAL</code>."
+            },
+            {
+              "code": "gate"
+            }
+          ]
+        },
+        {
+          "id": "gantry",
+          "h": "Skenēšana no Gantry",
+          "blocks": [
+            {
+              "p": "Gantry 0.29.0 izpilda šos soļus jūsu vietā. Attēla izvēlnē vai attēla detaļu rīkjoslā izvēlieties <strong>Skenēt ievainojamības…</strong>."
+            },
+            {
+              "ul": [
+                "Gantry atrod Trivy vai Grype pēc <code>GANTRY_TRIVY</code> vai <code>GANTRY_GRYPE</code>, <code>PATH</code> vai mapēs <code>/opt/homebrew/bin</code> un <code>/usr/local/bin</code>. Ja instalēti abi, noklusējums ir Trivy. Ja skenera nav, logā redzamas Homebrew komandas.",
+                "apple/container resursdatorā Gantry saglabā attēlu ar <code>--platform</code>, izpako to un skenē mapi. Lokālajā Docker tā skenē saglabātu arhīvu. Docker caur SSH gadījumā tā skenē taga kopiju reģistrā.",
+                "Atradumi ir sagrupēti pēc nopietnības, ar simbolu un vārdu, ne tikai krāsu. Katrā rindā ir ID ar saiti, pakotne, instalētā versija un labotā versija. Filtrs atrod pakotni vai ID.",
+                "<strong>Eksportēt SBOM</strong> ieraksta CycloneDX (abi rīki) vai SPDX (Trivy).",
+                "Poga <strong>Apturēt</strong> vai loga aizvēršana aptur skeneri un noņem pagaidu failus."
+              ]
+            },
+            {
+              "shot": "scan-sheet",
+              "alt": "Gantry ievainojamību skenēšanas logs ar atradumiem, kas sagrupēti pēc nopietnības",
+              "caption": "<b>Ievainojamību skenēšana.</b> Atradumi pēc nopietnības, ar laboto versiju un SBOM eksportu."
+            }
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Kā skenēt Apple container attēlu, meklējot ievainojamības?",
+          "a": "Saglabājiet to ar <code>container image save --platform linux/arm64 -o app.tar app:dev</code>, izpakojiet ar <code>tar -xf app.tar -C app-img</code>, pēc tam palaidiet <code>trivy image --input app-img</code> vai <code>grype oci-dir:app-img</code>. Gantry šos soļus izpilda ar <b>Skenēt ievainojamības…</b>."
+        },
+        {
+          "q": "Kāpēc Trivy vai Grype neizdodas ar container image save arhīvu?",
+          "a": "Arhīvs sākas ar ierakstu <code>./</code>. Trivy tajā neatrod <code>manifest.json</code> vai <code>index.json</code>, un Grype uzskata šo ierakstu par ceļa šķērsošanu (path traversal). Izpakojiet arhīvu un skenējiet mapi."
+        },
+        {
+          "q": "Trivy vai Grype: kuru izmantot?",
+          "a": "Abi ir bezmaksas un atvērtā koda. Trivy atrod arī noslēpumus un konfigurācijas kļūdas un raksta SPDX; Grype ir neliels un vērsts uz pakotnēm. Tie izmanto dažādas datubāzes, tāpēc abi kopā atrod vairāk. Ja instalēti abi, Gantry izmanto Trivy."
+        },
+        {
+          "q": "Vai Gantry instalē skenerus?",
+          "a": "Nē. Instalējiet tos ar <code>brew install trivy grype</code>. Gantry meklē <code>PATH</code>, <code>/opt/homebrew/bin</code> un <code>/usr/local/bin</code> vai <code>GANTRY_TRIVY</code> un <code>GANTRY_GRYPE</code>."
+        },
+        {
+          "q": "Vai attēlu skenēšanai vajag Docker Scout vai Docker kontu?",
+          "a": "Nē. Trivy un Grype darbojas bez konta – gan ar Docker attēliem, gan ar Apple container attēliem."
+        }
+      ]
     }
   }
 }

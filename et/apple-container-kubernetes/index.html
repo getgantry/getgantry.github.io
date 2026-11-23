@@ -47,7 +47,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Gantry juhtpaneel Dockeri ja apple/containeri hostidega">
-  <meta property="article:modified_time" content="2026-11-15">
+  <meta property="article:modified_time" content="2026-11-23">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Kubernetes Apple containeris: GUI container clusterile ja Kubernetese brauser">
   <meta name="twitter:description" content="Kubernetes Apple&#x27;i container-tööriistas Gantryga: klastrid töösõlmede suuruste ja jagatud tõmmisehoidlaga, podid ja logid, shell, pordisuunamine ja YAML.">
@@ -68,7 +68,7 @@
       "description": "Kubernetes Apple'i container-tööriistas Gantryga: klastrid töösõlmede suuruste ja jagatud tõmmisehoidlaga, podid ja logid, shell, pordisuunamine ja YAML.",
       "url": "https://getgantry.github.io/et/apple-container-kubernetes/",
       "inLanguage": "et",
-      "dateModified": "2026-11-15",
+      "dateModified": "2026-11-23",
       "image": "https://getgantry.github.io/assets/dashboard.png",
       "author": {
         "@type": "Organization",
@@ -419,7 +419,7 @@ kubectl --context dev create deployment myapp --image=myapp:dev</code></pre>
   <pre><code>container system start</code></pre>
 </div>
 
-<ul id="terminal-create">Klastri loomine</ul>
+<h3 id="terminal-create">Klastri loomine</h3>
 <p>See käsk loob klastri nimega <code>dev</code>, millel on üks juhttasandi sõlm ja kaks töösõlme. Iga sõlm saab 2 CPU-d ja 2 GB mälu:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster create --name dev --cpus 2 --memory 2g \
@@ -441,7 +441,7 @@ kubectl --context dev get nodes">Kopeeri</button></div>
 kubectl --context dev get nodes</code></pre>
 </div>
 
-<ul id="terminal-images">Kohaliku tõmmise käitamine ilma registrita</ul>
+<h3 id="terminal-images">Kohaliku tõmmise käitamine ilma registrita</h3>
 <p>Lipuga <code>--shared-image-store</code> saavad sõlmed käitada mis tahes tõmmist teie kohalikust <code>container</code> tõmmisehoidlast. Koostage tõmmis ja kasutage seda nime järgi:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="printf &#x27;FROM nginx:alpine\n&#x27; &gt; Dockerfile
@@ -456,21 +456,21 @@ kubectl --context dev get pods</code></pre>
 <div class="callout callout-note"><span class="callout-tag">Märkus</span><div>Kui koostate sama sildi uuesti, käivitage <code>kubectl rollout restart</code> koos <code>imagePullPolicy: Always</code>-iga või kasutage uut silti. Väärtusega <code>IfNotPresent</code> jätab sõlm alles koopia, mis tal juba on. Kõik, millel on sõlmes root-õigused, saab lugeda kõiki teie kohaliku hoidla tõmmiseid, ka privaatseid, seega kasutage jagatud hoidlat ainult kohalikuks arenduseks.</div></div>
 <p>CLI 1.5-s ja 1.6-s jagatud hoidlat pole. Kasutage seal käsku <code>container cluster load-image</code> või Gantrys toimingut <b>Laadi klastrisse</b>. CLI 1.7 eemaldas käsu <code>load-image</code>.</p>
 
-<ul id="terminal-reach">Rakenduse avamine brauseris</ul>
+<h3 id="terminal-reach">Rakenduse avamine brauseris</h3>
 <p>Suunake kohalik port Deploymendile, seejärel avage <code>http://localhost:8080</code>:</p>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="kubectl --context dev port-forward deployment/hello 8080:80">Kopeeri</button></div>
   <pre><code>kubectl --context dev port-forward deployment/hello 8080:80</code></pre>
 </div>
 
-<ul id="terminal-cleanup">Klastri peatamine ja kustutamine</ul>
+<h3 id="terminal-cleanup">Klastri peatamine ja kustutamine</h3>
 <div class="code-block">
   <div class="code-head"><span>Terminal</span><button class="copy" data-copy="container cluster delete --name dev">Kopeeri</button></div>
   <pre><code>container cluster delete --name dev</code></pre>
 </div>
 <p>Kui juhttasandi sõlm peatub, näiteks pärast käsku <code>container system stop</code>, kustutage klaster ja looge see uuesti. Ajutise klastri loomiseks kasutage lippu <code>--rm</code>, mis eemaldab sõlmed, kui need peatuvad.</p>
 
-<ul id="terminal-troubleshooting">Levinud probleemid</ul>
+<h3 id="terminal-troubleshooting">Levinud probleemid</h3>
 <ul>
   <li><strong>cluster service unavailable:</strong> CLI on Homebrew-versioon või teenused ei tööta. Installige allkirjastatud pakett või taaskäivitage teenused käskudega <code>container system stop</code> ja <code>container system start</code>. Gantry annab jaotises Klastrid sama nõuande.</li>
   <li><strong>Vana klaster puudub loendist:</strong> CLI 1.7 ei loetle klastreid, mis on loodud versiooniga 1.6 või varasemaga. Eemaldage see käsuga <code>container cluster delete --name &lt;name&gt;</code>.</li>
@@ -478,7 +478,7 @@ kubectl --context dev get pods</code></pre>
   <li><strong>Sõlme konteinerit ei saa peatada:</strong> see on tahtlik. <code>container stop</code> ja <code>delete</code> keelduvad klastri sõlmedega töötamast; kasutage käsku <code>container cluster delete</code>.</li>
 </ul>
 
-<ul id="terminal-compare">Võrdlus Docker Desktopi ja OrbStackiga</ul>
+<h3 id="terminal-compare">Võrdlus Docker Desktopi ja OrbStackiga</h3>
 <p>Docker Desktopil on sisseehitatud Kubernetes kubeadmiga (üks sõlm) või kindiga (mitu sõlme) ja OrbStackil on sisseehitatud ühe sõlmega klaster. <code>container cluster</code> käitab kubeadmi <code>kindest/node</code> tõmmistel, iga sõlm oma virtuaalmasinas, mitme sõlmega klastrite ja jagatud tõmmisehoidlaga. Vaadake <a href="../compare/">täielikku võrdlust</a>.</p>
 
 <h2 id="agents">Klastrid AI-agentide abil</h2>
@@ -506,7 +506,7 @@ kubectl --context dev get pods</code></pre>
 <details class="faq-item"><summary>Millist Kubernetese versiooni container cluster kasutab?</summary><p>CLI 1.7.1 kasutab vaikimisi sõlme tõmmist <code>kindest/node:v1.35.5</code>. Teise versiooni valimiseks kasutage lippu <code>--node-image</code>, näiteks <code>docker.io/kindest/node:v1.34.11</code>. Gantry näitab versiooni klastri ülevaates.</p></details>
 </div>
 
-<p class="updated">Viimati uuendatud 2026-11-15.</p>
+<p class="updated">Viimati uuendatud 2026-11-23.</p>
     </article>
     <footer class="docs-foot">
       <a href="../">Avaleht</a>

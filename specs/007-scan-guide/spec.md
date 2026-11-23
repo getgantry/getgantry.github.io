@@ -5,7 +5,7 @@
 
 **Created**: 2026-11-23
 
-**Status**: In Progress
+**Status**: Done
 
 **Input**: User description: "Update the site for Gantry 0.29.0." Spec 002 put the 0.29.0 features on the site. A local branch made the same update and also had two items that the site does not have. This feature adds only these two items.
 
